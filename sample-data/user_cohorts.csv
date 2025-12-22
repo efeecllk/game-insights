@@ -1,0 +1,13 @@
+player_id,install_date,country,platform,device_model,total_sessions,total_playtime_min,iap_revenue_usd,last_seen,retention_d1,retention_d7
+P10001,2024-01-10,US,ios,iPhone14Pro,45,892,24.99,2024-01-20,1,1
+P10002,2024-01-10,UK,android,SamsungS23,12,156,0,2024-01-12,1,0
+P10003,2024-01-11,DE,ios,iPhone13,28,445,4.99,2024-01-18,1,1
+P10004,2024-01-11,JP,android,Pixel7,5,42,0,2024-01-11,0,0
+P10005,2024-01-12,BR,android,XiaomiRedmi,67,1205,49.99,2024-01-22,1,1
+P10006,2024-01-12,US,ios,iPhone15,33,678,9.99,2024-01-19,1,1
+P10007,2024-01-13,KR,android,SamsungS24,8,98,0,2024-01-14,1,0
+P10008,2024-01-13,FR,ios,iPhone14,41,756,14.99,2024-01-21,1,1
+P10009,2024-01-14,CA,android,OnePlus11,2,15,0,2024-01-14,0,0
+P10010,2024-01-14,MX,ios,iPhoneSE,19,312,0,2024-01-17,1,0
+P10011,2024-01-15,US,android,Pixel8,55,1102,99.99,2024-01-23,1,1
+P10012,2024-01-15,AU,ios,iPhone15Pro,15,234,0,2024-01-16,1,0

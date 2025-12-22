@@ -18,6 +18,11 @@ import { FunnelChart } from './components/charts/FunnelChart';
 import { RevenueChart } from './components/charts/RevenueChart';
 import { SegmentChart } from './components/charts/SegmentChart';
 
+// Pages
+import { UploadPage } from './pages/Upload';
+import { SettingsPage } from './pages/Settings';
+// Note: OverviewPage from ./pages/Overview is available for GameAnalytics-style view if needed
+
 // Data & Types
 import { GameCategory } from './types';
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -227,17 +232,22 @@ function InsightCard({
 /**
  * Placeholder page for other routes
  */
-function PlaceholderPage({ title, description }: { title: string; description?: string }) {
+function PlaceholderPage({ title, description, badge }: { title: string; description?: string; badge?: string }) {
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-white">{title}</h1>
-                <p className="text-zinc-500 mt-1">{description ?? 'This section is under development'}</p>
+            <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+                {badge && (
+                    <span className="text-xs font-semibold text-violet-600 bg-violet-100 px-2 py-1 rounded">
+                        {badge}
+                    </span>
+                )}
             </div>
-            <div className="bg-bg-card rounded-card p-12 border border-white/[0.06] flex flex-col items-center justify-center text-center">
+            <p className="text-gray-500">{description ?? 'This section is under development'}</p>
+            <div className="bg-white rounded-xl p-12 border border-gray-200 flex flex-col items-center justify-center text-center shadow-sm">
                 <span className="text-4xl mb-4">🚧</span>
-                <p className="text-zinc-400">Coming soon...</p>
-                <p className="text-zinc-600 text-sm mt-2">Check back for updates</p>
+                <p className="text-gray-600 font-medium">Coming soon...</p>
+                <p className="text-gray-400 text-sm mt-2">Check back for updates</p>
             </div>
         </div>
     );
@@ -248,42 +258,28 @@ function PlaceholderPage({ title, description }: { title: string; description?: 
  */
 function App() {
     return (
-        <div className="min-h-screen bg-bg-darkest flex">
+        <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar Navigation */}
             <Sidebar />
 
             {/* Main Content Area */}
-            <main className="flex-1 ml-[240px] p-8 transition-all duration-200">
+            <main className="flex-1 ml-[200px] p-6">
                 <Routes>
                     <Route path="/" element={<OverviewPage />} />
-                    <Route
-                        path="/behavior"
-                        element={<PlaceholderPage title="User Behavior" description="Deep dive into player actions and patterns" />}
-                    />
-                    <Route
-                        path="/retention"
-                        element={<PlaceholderPage title="Retention Analytics" description="Cohort analysis and return rates" />}
-                    />
-                    <Route
-                        path="/monetization"
-                        element={<PlaceholderPage title="Monetization" description="Revenue, ARPU, and purchase analytics" />}
-                    />
-                    <Route
-                        path="/insights"
-                        element={<PlaceholderPage title="AI Insights" description="AI-powered recommendations and analysis" />}
-                    />
-                    <Route
-                        path="/reports"
-                        element={<PlaceholderPage title="Reports" description="Custom reports and data exports" />}
-                    />
-                    <Route
-                        path="/settings"
-                        element={<PlaceholderPage title="Settings" description="API keys and configuration" />}
-                    />
-                    <Route
-                        path="/help"
-                        element={<PlaceholderPage title="Help Center" description="Documentation and support" />}
-                    />
+                    <Route path="/realtime" element={<PlaceholderPage title="Realtime" description="Live events and SDK status" />} />
+                    <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />
+                    <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
+                    <Route path="/funnels" element={<PlaceholderPage title="Funnels" description="Conversion funnel analysis" />} />
+                    <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
+                    <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
+                    <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
+                    <Route path="/monetization" element={<PlaceholderPage title="Monetization" description="Revenue and transaction analytics" />} />
+                    <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                    <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
+                    <Route path="/ab-testing" element={<PlaceholderPage title="A/B Testing" description="Experiment dashboard" />} />
+                    <Route path="/datasuite" element={<PlaceholderPage title="DataSuite" description="Data export and custom queries" />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/upload" element={<UploadPage />} />
                 </Routes>
             </main>
         </div>

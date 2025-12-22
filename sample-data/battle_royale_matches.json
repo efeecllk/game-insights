@@ -1,0 +1,112 @@
+[
+    {
+        "matchId": "M001",
+        "playerId": "BR_5521",
+        "timestamp": "2024-01-15T15:23:00Z",
+        "mode": "squad",
+        "placement": 3,
+        "kills": 5,
+        "damage": 892,
+        "survivalTime": 1245,
+        "weaponUsed": "AR_Scar"
+    },
+    {
+        "matchId": "M001",
+        "playerId": "BR_8834",
+        "timestamp": "2024-01-15T15:23:00Z",
+        "mode": "squad",
+        "placement": 3,
+        "kills": 2,
+        "damage": 445,
+        "survivalTime": 1245,
+        "weaponUsed": "SMG_Vector"
+    },
+    {
+        "matchId": "M002",
+        "playerId": "BR_5521",
+        "timestamp": "2024-01-15T16:45:00Z",
+        "mode": "solo",
+        "placement": 1,
+        "kills": 8,
+        "damage": 1456,
+        "survivalTime": 1520,
+        "weaponUsed": "Sniper_AWM"
+    },
+    {
+        "matchId": "M003",
+        "playerId": "BR_1123",
+        "timestamp": "2024-01-15T17:10:00Z",
+        "mode": "duo",
+        "placement": 45,
+        "kills": 0,
+        "damage": 112,
+        "survivalTime": 180,
+        "weaponUsed": "Pistol_Glock"
+    },
+    {
+        "matchId": "M004",
+        "playerId": "BR_9912",
+        "timestamp": "2024-01-15T18:00:00Z",
+        "mode": "squad",
+        "placement": 1,
+        "kills": 12,
+        "damage": 2100,
+        "survivalTime": 1480,
+        "weaponUsed": "AR_AK47"
+    },
+    {
+        "matchId": "M005",
+        "playerId": "BR_3344",
+        "timestamp": "2024-01-15T18:30:00Z",
+        "mode": "solo",
+        "placement": 78,
+        "kills": 0,
+        "damage": 0,
+        "survivalTime": 45,
+        "weaponUsed": "none"
+    },
+    {
+        "matchId": "M006",
+        "playerId": "BR_5521",
+        "timestamp": "2024-01-15T19:15:00Z",
+        "mode": "ranked",
+        "placement": 5,
+        "kills": 6,
+        "damage": 1120,
+        "survivalTime": 1380,
+        "weaponUsed": "AR_M4"
+    },
+    {
+        "matchId": "M007",
+        "playerId": "BR_7788",
+        "timestamp": "2024-01-15T20:00:00Z",
+        "mode": "squad",
+        "placement": 12,
+        "kills": 3,
+        "damage": 678,
+        "survivalTime": 890,
+        "weaponUsed": "Shotgun_S12K"
+    },
+    {
+        "matchId": "M008",
+        "playerId": "BR_2211",
+        "timestamp": "2024-01-15T20:45:00Z",
+        "mode": "duo",
+        "placement": 2,
+        "kills": 7,
+        "damage": 1345,
+        "survivalTime": 1510,
+        "weaponUsed": "Sniper_Kar98"
+    },
+    {
+        "matchId": "M009",
+        "playerId": "BR_4455",
+        "timestamp": "2024-01-15T21:30:00Z",
+        "mode": "solo",
+        "placement": 25,
+        "kills": 2,
+        "damage": 445,
+        "survivalTime": 720,
+        "weaponUsed": "AR_Scar"
+    }
+]

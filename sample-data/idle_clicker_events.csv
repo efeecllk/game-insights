@@ -1,0 +1,14 @@
+userId,eventTime,eventName,goldEarned,gemsSpent,prestige,offlineMinutes,upgradeType,upgradeLevel
+IDLE001,2024-01-15T08:00:00Z,session_start,0,0,3,480,null,null
+IDLE001,2024-01-15T08:00:05Z,offline_reward,245000,0,3,480,null,null
+IDLE001,2024-01-15T08:01:22Z,upgrade,0,0,3,0,generator,45
+IDLE001,2024-01-15T08:03:45Z,upgrade,0,50,3,0,multiplier,12
+IDLE001,2024-01-15T08:15:00Z,prestige,0,0,4,0,null,null
+IDLE002,2024-01-15T09:30:00Z,session_start,0,0,1,120,null,null
+IDLE002,2024-01-15T09:30:05Z,offline_reward,8500,0,1,120,null,null
+IDLE002,2024-01-15T09:32:12Z,ad_watched,500,0,1,0,null,null
+IDLE002,2024-01-15T09:35:00Z,upgrade,0,0,1,0,generator,8
+IDLE003,2024-01-15T12:00:00Z,session_start,0,0,15,60,null,null
+IDLE003,2024-01-15T12:00:05Z,offline_reward,12500000,0,15,60,null,null
+IDLE003,2024-01-15T12:02:00Z,purchase,0,500,15,0,premium_pack,1
+IDLE003,2024-01-15T12:05:00Z,prestige,0,0,16,0,null,null

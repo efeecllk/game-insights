@@ -1,137 +1,115 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+/**
+ * GameAnalytics-style Sidebar
+ * Cloned from GameAnalytics dashboard screenshots
+ */
+
+import { NavLink } from 'react-router-dom';
 import {
-    LayoutDashboard,
-    Users,
+    Home,
+    BarChart2,
+    LayoutGrid,
+    Compass,
+    Filter,
     TrendingUp,
-    Wallet,
-    Lightbulb,
-    FileText,
+    BarChart,
+    Heart,
+    DollarSign,
+    Users,
+    Wrench,
+    Zap,
+    Database,
     Settings,
-    HelpCircle,
-    ChevronLeft,
-    ChevronRight,
+    ExternalLink,
     Gamepad2,
-} from 'lucide-react'
+} from 'lucide-react';
 
 interface NavItem {
-    icon: React.ElementType
-    label: string
-    path: string
+    icon: React.ElementType;
+    label: string;
+    path: string;
+    badge?: string;
+    external?: boolean;
 }
 
-const mainNavItems: NavItem[] = [
-    { icon: LayoutDashboard, label: 'Overview', path: '/' },
-    { icon: Users, label: 'User Behavior', path: '/behavior' },
-    { icon: TrendingUp, label: 'Retention', path: '/retention' },
-    { icon: Wallet, label: 'Monetization', path: '/monetization' },
-    { icon: Lightbulb, label: 'Insights', path: '/insights' },
-    { icon: FileText, label: 'Reports', path: '/reports' },
-]
-
-const bottomNavItems: NavItem[] = [
-    { icon: Settings, label: 'Settings', path: '/settings' },
-    { icon: HelpCircle, label: 'Help', path: '/help' },
-]
+const navItems: NavItem[] = [
+    { icon: Home, label: 'Overview', path: '/' },
+    { icon: BarChart2, label: 'Realtime', path: '/realtime' },
+    { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },
+    { icon: Compass, label: 'Explore', path: '/explore' },
+    { icon: Filter, label: 'Funnels', path: '/funnels' },
+    { icon: TrendingUp, label: 'Engagement', path: '/engagement' },
+    { icon: BarChart, label: 'Distributions', path: '/distributions', badge: 'β' },
+    { icon: Heart, label: 'Health', path: '/health' },
+    { icon: DollarSign, label: 'Monetization', path: '/monetization' },
+    { icon: Users, label: 'User Analysis', path: '/user-analysis', external: true },
+    { icon: Wrench, label: 'Remote Configs', path: '/remote-configs' },
+    { icon: Zap, label: 'A/B Testing', path: '/ab-testing' },
+    { icon: Database, label: 'DataSuite', path: '/datasuite' },
+    { icon: Settings, label: 'Game Settings', path: '/settings' },
+];
 
 export function Sidebar() {
-    const [isExpanded, setIsExpanded] = useState(true)
-
     return (
-        <motion.aside
-            initial={false}
-            animate={{ width: isExpanded ? 240 : 72 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-            className="h-screen bg-bg-dark border-r border-white/[0.06] flex flex-col fixed left-0 top-0 z-50"
-        >
+        <aside className="w-[200px] h-screen bg-white border-r border-gray-200 flex flex-col fixed left-0 top-0 z-50">
             {/* Logo Section */}
-            <div className="h-16 flex items-center px-4 border-b border-white/[0.06]">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center">
-                        <Gamepad2 className="w-5 h-5 text-white" />
+            <div className="h-14 flex items-center px-4 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+                        <Gamepad2 className="w-4 h-4 text-white" />
                     </div>
-                    <AnimatePresence>
-                        {isExpanded && (
-                            <motion.span
-                                initial={{ opacity: 0, width: 0 }}
-                                animate={{ opacity: 1, width: 'auto' }}
-                                exit={{ opacity: 0, width: 0 }}
-                                className="font-semibold text-lg whitespace-nowrap overflow-hidden"
-                            >
-                                Game Insights
-                            </motion.span>
-                        )}
-                    </AnimatePresence>
+                    <span className="font-semibold text-gray-900 text-sm">
+                        Game Insights
+                    </span>
                 </div>
             </div>
 
-            {/* Main Navigation */}
-            <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
-                {mainNavItems.map((item) => (
-                    <NavItem key={item.path} item={item} isExpanded={isExpanded} />
+            {/* Navigation */}
+            <nav className="flex-1 py-2 px-2 overflow-y-auto">
+                {navItems.map((item) => (
+                    <NavItem key={item.path} item={item} />
                 ))}
             </nav>
-
-            {/* Bottom Navigation */}
-            <div className="py-4 px-3 border-t border-white/[0.06] space-y-1">
-                {bottomNavItems.map((item) => (
-                    <NavItem key={item.path} item={item} isExpanded={isExpanded} />
-                ))}
-            </div>
-
-            {/* Toggle Button */}
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="absolute -right-3 top-20 w-6 h-6 rounded-full bg-bg-elevated border border-white/[0.1] flex items-center justify-center hover:bg-accent-primary/20 hover:border-accent-primary/50 transition-colors"
-            >
-                {isExpanded ? (
-                    <ChevronLeft className="w-3 h-3 text-zinc-400" />
-                ) : (
-                    <ChevronRight className="w-3 h-3 text-zinc-400" />
-                )}
-            </button>
-        </motion.aside>
-    )
+        </aside>
+    );
 }
 
-function NavItem({ item, isExpanded }: { item: NavItem; isExpanded: boolean }) {
-    const Icon = item.icon
+function NavItem({ item }: { item: NavItem }) {
+    const Icon = item.icon;
 
     return (
         <NavLink
             to={item.path}
             className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${isActive
-                    ? 'bg-accent-primary/15 text-accent-primary'
-                    : 'text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200'
+                `flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 group mb-0.5
+        ${isActive
+                    ? 'bg-violet-50 text-violet-600'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                 }`
             }
         >
             {({ isActive }) => (
                 <>
-                    <div
-                        className={`w-6 h-6 flex items-center justify-center ${isActive ? 'text-accent-primary' : 'text-zinc-400 group-hover:text-zinc-200'
+                    <Icon
+                        className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-violet-600' : 'text-gray-400 group-hover:text-gray-600'
                             }`}
-                    >
-                        <Icon className="w-5 h-5" />
-                    </div>
-                    <AnimatePresence>
-                        {isExpanded && (
-                            <motion.span
-                                initial={{ opacity: 0, width: 0 }}
-                                animate={{ opacity: 1, width: 'auto' }}
-                                exit={{ opacity: 0, width: 0 }}
-                                className="text-sm font-medium whitespace-nowrap overflow-hidden"
-                            >
-                                {item.label}
-                            </motion.span>
-                        )}
-                    </AnimatePresence>
+                    />
+                    <span className="flex-1">{item.label}</span>
+
+                    {/* Beta badge */}
+                    {item.badge && (
+                        <span className="text-[10px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">
+                            {item.badge}
+                        </span>
+                    )}
+
+                    {/* External link icon */}
+                    {item.external && (
+                        <ExternalLink className="w-3 h-3 text-gray-400" />
+                    )}
                 </>
             )}
         </NavLink>
-    )
+    );
 }
 
-export default Sidebar
+export default Sidebar;

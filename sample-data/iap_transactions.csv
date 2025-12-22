@@ -1,0 +1,11 @@
+transaction_id,user_id,timestamp,product_id,product_name,price_usd,currency_type,platform,country
+TXN001,USR_5521,2024-01-15T10:00:00Z,coin_pack_1,500 Coins,0.99,real,ios,US
+TXN002,USR_8834,2024-01-15T10:15:00Z,starter_pack,Starter Bundle,4.99,real,android,UK
+TXN003,USR_5521,2024-01-15T11:30:00Z,gem_pack_2,150 Gems,9.99,real,ios,US
+TXN004,USR_1123,2024-01-15T12:00:00Z,vip_monthly,VIP Pass (Monthly),14.99,real,android,DE
+TXN005,USR_9912,2024-01-15T13:45:00Z,special_offer,Limited Offer x5,49.99,real,ios,JP
+TXN006,USR_3344,2024-01-15T14:00:00Z,coin_pack_3,5000 Coins,4.99,real,android,BR
+TXN007,USR_5521,2024-01-15T15:30:00Z,energy_refill,Full Energy,1.99,real,ios,US
+TXN008,USR_7788,2024-01-15T16:00:00Z,battle_pass,Season Pass,9.99,real,android,KR
+TXN009,USR_2211,2024-01-15T17:15:00Z,gem_pack_mega,1000 Gems,99.99,real,ios,US
+TXN010,USR_4455,2024-01-15T18:00:00Z,skin_legendary,Dragon Skin,24.99,real,android,CA

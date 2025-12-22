@@ -3,7 +3,7 @@
  * Allows switching between different game demo scenarios
  */
 
-import { GameCategory, GameProfile } from '../../types';
+import { GameCategory } from '../../types';
 import { gameCategories } from '../../lib/dataProviders';
 
 interface GameSelectorProps {

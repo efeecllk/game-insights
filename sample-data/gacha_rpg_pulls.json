@@ -1,0 +1,142 @@
+[
+    {
+        "pullId": "PULL001",
+        "userId": "GACHA_8821",
+        "bannerName": "Limited - Dragon Festival",
+        "pullType": "10x",
+        "gemsSpent": 2800,
+        "timestamp": "2024-01-15T10:00:00Z",
+        "results": [
+            {
+                "rarity": "SSR",
+                "charName": "Dragon Emperor"
+            },
+            {
+                "rarity": "SR",
+                "charName": "Fire Mage"
+            },
+            {
+                "rarity": "R",
+                "charName": "Soldier"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL002",
+        "userId": "GACHA_3344",
+        "bannerName": "Standard",
+        "pullType": "1x",
+        "gemsSpent": 300,
+        "timestamp": "2024-01-15T10:15:00Z",
+        "results": [
+            {
+                "rarity": "R",
+                "charName": "Archer"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL003",
+        "userId": "GACHA_8821",
+        "bannerName": "Limited - Dragon Festival",
+        "pullType": "10x",
+        "gemsSpent": 2800,
+        "timestamp": "2024-01-15T10:30:00Z",
+        "results": [
+            {
+                "rarity": "SR",
+                "charName": "Ice Knight"
+            },
+            {
+                "rarity": "R",
+                "charName": "Healer"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL004",
+        "userId": "GACHA_5567",
+        "bannerName": "Standard",
+        "pullType": "10x",
+        "gemsSpent": 2800,
+        "timestamp": "2024-01-15T11:00:00Z",
+        "results": [
+            {
+                "rarity": "SR",
+                "charName": "Dark Assassin"
+            },
+            {
+                "rarity": "SR",
+                "charName": "Holy Paladin"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL005",
+        "userId": "GACHA_1199",
+        "bannerName": "Limited - Dragon Festival",
+        "pullType": "1x",
+        "gemsSpent": 300,
+        "timestamp": "2024-01-15T11:45:00Z",
+        "results": [
+            {
+                "rarity": "SSR",
+                "charName": "Phoenix Queen"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL006",
+        "userId": "GACHA_8821",
+        "bannerName": "Equipment",
+        "pullType": "10x",
+        "gemsSpent": 2000,
+        "timestamp": "2024-01-15T12:00:00Z",
+        "results": [
+            {
+                "rarity": "Legendary",
+                "itemName": "Flame Sword"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL007",
+        "userId": "GACHA_7722",
+        "bannerName": "Standard",
+        "pullType": "10x",
+        "gemsSpent": 2800,
+        "timestamp": "2024-01-15T13:00:00Z",
+        "results": [
+            {
+                "rarity": "R",
+                "charName": "Mage"
+            },
+            {
+                "rarity": "R",
+                "charName": "Warrior"
+            }
+        ]
+    },
+    {
+        "pullId": "PULL008",
+        "userId": "GACHA_4411",
+        "bannerName": "Limited - Dragon Festival",
+        "pullType": "100x",
+        "gemsSpent": 25000,
+        "timestamp": "2024-01-15T14:00:00Z",
+        "results": [
+            {
+                "rarity": "SSR",
+                "charName": "Dragon Emperor"
+            },
+            {
+                "rarity": "SSR",
+                "charName": "Phoenix Queen"
+            },
+            {
+                "rarity": "SR",
+                "charName": "Fire Mage"
+            }
+        ]
+    }
+]
