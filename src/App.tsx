@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2 } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
+import { DataProvider } from './context/DataContext';
 
 // Components
 import { Sidebar } from './components/Sidebar';
@@ -22,7 +23,9 @@ import { SegmentChart } from './components/charts/SegmentChart';
 // Pages
 import { UploadPage } from './pages/Upload';
 import { SettingsPage } from './pages/Settings';
-// Note: OverviewPage from ./pages/Overview is available for GameAnalytics-style view if needed
+import { RealtimePage } from './pages/Realtime';
+import { FunnelsPage } from './pages/Funnels';
+import { MonetizationPage } from './pages/Monetization';
 
 // Data & Types
 import { GameCategory } from './types';
@@ -259,33 +262,35 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
  */
 function App() {
     return (
-        <GameProvider>
-            <div className="min-h-screen bg-gray-50 flex">
-                {/* Sidebar Navigation */}
-                <Sidebar />
+        <DataProvider>
+            <GameProvider>
+                <div className="min-h-screen bg-gray-50 flex">
+                    {/* Sidebar Navigation */}
+                    <Sidebar />
 
-                {/* Main Content Area */}
-                <main className="flex-1 ml-[200px] p-6">
-                    <Routes>
-                        <Route path="/" element={<OverviewPage />} />
-                        <Route path="/realtime" element={<PlaceholderPage title="Realtime" description="Live events and SDK status" />} />
-                        <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />
-                        <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
-                        <Route path="/funnels" element={<PlaceholderPage title="Funnels" description="Conversion funnel analysis" />} />
-                        <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
-                        <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
-                        <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
-                        <Route path="/monetization" element={<PlaceholderPage title="Monetization" description="Revenue and transaction analytics" />} />
-                        <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
-                        <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
-                        <Route path="/ab-testing" element={<PlaceholderPage title="A/B Testing" description="Experiment dashboard" />} />
-                        <Route path="/datasuite" element={<PlaceholderPage title="DataSuite" description="Data export and custom queries" />} />
-                        <Route path="/settings" element={<SettingsPage />} />
-                        <Route path="/upload" element={<UploadPage />} />
-                    </Routes>
-                </main>
-            </div>
-        </GameProvider>
+                    {/* Main Content Area */}
+                    <main className="flex-1 ml-[200px] p-6">
+                        <Routes>
+                            <Route path="/" element={<OverviewPage />} />
+                            <Route path="/realtime" element={<RealtimePage />} />
+                            <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />
+                            <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
+                            <Route path="/funnels" element={<FunnelsPage />} />
+                            <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
+                            <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
+                            <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
+                            <Route path="/monetization" element={<MonetizationPage />} />
+                            <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                            <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
+                            <Route path="/ab-testing" element={<PlaceholderPage title="A/B Testing" description="Experiment dashboard" />} />
+                            <Route path="/datasuite" element={<PlaceholderPage title="DataSuite" description="Data export and custom queries" />} />
+                            <Route path="/settings" element={<SettingsPage />} />
+                            <Route path="/upload" element={<UploadPage />} />
+                        </Routes>
+                    </main>
+                </div>
+            </GameProvider>
+        </DataProvider>
     );
 }
 
