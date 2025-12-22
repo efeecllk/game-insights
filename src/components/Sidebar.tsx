@@ -1,6 +1,6 @@
 /**
- * GameAnalytics-style Sidebar
- * Cloned from GameAnalytics dashboard screenshots
+ * GameAnalytics-style Sidebar with Dynamic Prioritization
+ * Menu items reorder based on selected game type
  */
 
 import { NavLink } from 'react-router-dom';
@@ -21,17 +21,20 @@ import {
     Settings,
     ExternalLink,
     Gamepad2,
+    LucideIcon,
 } from 'lucide-react';
+import { useGame } from '../context/GameContext';
+import { sidebarPriorities } from '../lib/gamePriorities';
 
 interface NavItem {
-    icon: React.ElementType;
+    icon: LucideIcon;
     label: string;
     path: string;
     badge?: string;
     external?: boolean;
 }
 
-const navItems: NavItem[] = [
+const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
     { icon: BarChart2, label: 'Realtime', path: '/realtime' },
     { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },
@@ -49,6 +52,16 @@ const navItems: NavItem[] = [
 ];
 
 export function Sidebar() {
+    const { selectedGame } = useGame();
+
+    // Sort nav items based on game type priority
+    const priorities = sidebarPriorities[selectedGame];
+    const sortedNavItems = [...allNavItems].sort((a, b) => {
+        const priorityA = priorities[a.label] ?? 99;
+        const priorityB = priorities[b.label] ?? 99;
+        return priorityA - priorityB;
+    });
+
     return (
         <aside className="w-[200px] h-screen bg-white border-r border-gray-200 flex flex-col fixed left-0 top-0 z-50">
             {/* Logo Section */}
@@ -63,17 +76,29 @@ export function Sidebar() {
                 </div>
             </div>
 
-            {/* Navigation */}
+            {/* Navigation - dynamically sorted */}
             <nav className="flex-1 py-2 px-2 overflow-y-auto">
-                {navItems.map((item) => (
-                    <NavItem key={item.path} item={item} />
+                {sortedNavItems.map((item, index) => (
+                    <NavItem
+                        key={item.path}
+                        item={item}
+                        isTop={index < 5}  // Highlight top 5 as important
+                    />
                 ))}
             </nav>
+
+            {/* Game type indicator */}
+            <div className="p-3 border-t border-gray-100">
+                <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Active Game</div>
+                <div className="text-sm font-medium text-gray-700 capitalize">
+                    {selectedGame.replace('_', ' ')}
+                </div>
+            </div>
         </aside>
     );
 }
 
-function NavItem({ item }: { item: NavItem }) {
+function NavItem({ item, isTop }: { item: NavItem; isTop: boolean }) {
     const Icon = item.icon;
 
     return (
@@ -81,16 +106,22 @@ function NavItem({ item }: { item: NavItem }) {
             to={item.path}
             className={({ isActive }) =>
                 `flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 group mb-0.5
-        ${isActive
+                ${isActive
                     ? 'bg-violet-50 text-violet-600'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    : isTop
+                        ? 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                        : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
                 }`
             }
         >
             {({ isActive }) => (
                 <>
                     <Icon
-                        className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-violet-600' : 'text-gray-400 group-hover:text-gray-600'
+                        className={`w-4 h-4 flex-shrink-0 ${isActive
+                            ? 'text-violet-600'
+                            : isTop
+                                ? 'text-gray-500 group-hover:text-gray-600'
+                                : 'text-gray-400 group-hover:text-gray-500'
                             }`}
                     />
                     <span className="flex-1">{item.label}</span>
