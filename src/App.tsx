@@ -26,6 +26,7 @@ import { SettingsPage } from './pages/Settings';
 import { RealtimePage } from './pages/Realtime';
 import { FunnelsPage } from './pages/Funnels';
 import { MonetizationPage } from './pages/Monetization';
+import { AnalyticsPage } from './pages/Analytics';
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -271,6 +272,7 @@ function App() {
                     <main className="flex-1 ml-[200px] p-6">
                         <Routes>
                             <Route path="/" element={<OverviewPage />} />
+                            <Route path="/analytics" element={<AnalyticsPage />} />
                             <Route path="/realtime" element={<RealtimePage />} />
                             <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />
                             <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />

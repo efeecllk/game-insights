@@ -54,7 +54,7 @@ export class DataAnalyst {
         const dashboardLayout = chartSelector.getDashboardLayout(chartRecommendations);
 
         // 4. Generate insights
-        const insights = insightGenerator.generate(data, columnMeanings, detection.gameType);
+        const insights = await insightGenerator.generate(data, columnMeanings, detection.gameType);
 
         return {
             schema,

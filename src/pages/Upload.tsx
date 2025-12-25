@@ -3,6 +3,7 @@
  */
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles, AlertTriangle, CheckCircle } from 'lucide-react';
 import { UploadZone } from '../components/upload/UploadZone';
 import { ColumnMapper } from '../components/upload/ColumnMapper';
@@ -11,10 +12,14 @@ import type { ImportResult } from '../lib/importers';
 import { analyzeSchema, ColumnMapping, SchemaAnalysisResult } from '../lib/columnAnalyzer';
 import { detectTemplate } from '../lib/templates';
 import { getStoredApiKey } from './Settings';
+import { useData } from '../context/DataContext';
+import { GameCategory } from '../types';
 
 type Step = 'upload' | 'preview' | 'analyzing' | 'review' | 'complete';
 
 export function UploadPage() {
+    const navigate = useNavigate();
+    const { addGameData } = useData();
     const [step, setStep] = useState<Step>('upload');
     const [fileInfo, setFileInfo] = useState<{ name: string; rows: number } | null>(null);
     const [importResult, setImportResult] = useState<ImportResult | null>(null);
@@ -68,9 +73,44 @@ export function UploadPage() {
         }
     };
 
-    const handleConfirm = () => {
-        setStep('complete');
-        // In future: save to DataContext and navigate to dashboard
+    const handleConfirm = async () => {
+        if (!importResult || !analysisResult || !fileInfo) return;
+
+        setError(null);
+
+        try {
+            // Map column type to expected format
+            const mapDataType = (type: string): 'string' | 'number' | 'boolean' | 'date' => {
+                switch (type) {
+                    case 'number': return 'number';
+                    case 'boolean': return 'boolean';
+                    case 'date': return 'date';
+                    default: return 'string';
+                }
+            };
+
+            // Save to DataContext
+            await addGameData({
+                name: fileInfo.name.replace(/\.[^/.]+$/, ''), // Remove file extension
+                type: (analysisResult.gameType as GameCategory) || 'custom',
+                uploadedAt: new Date().toISOString(),
+                fileName: fileInfo.name,
+                columnMappings: analysisResult.columns.map(col => ({
+                    originalName: col.original,
+                    canonicalName: col.canonical || col.original,
+                    role: col.role,
+                    dataType: mapDataType(col.type),
+                })),
+                rawData: importResult.data,
+                rowCount: importResult.rowCount,
+            });
+
+            // Navigate to analytics page
+            navigate('/analytics');
+        } catch (err) {
+            console.error('Failed to save data:', err);
+            setError('Failed to save data. Please try again.');
+        }
     };
 
     const handleStartOver = () => {
@@ -232,7 +272,7 @@ export function UploadPage() {
                     </div>
                     <h3 className="text-lg font-semibold text-white">Data Ready!</h3>
                     <p className="text-zinc-500 mt-2">
-                        Your data has been processed. Charts will appear on the dashboard.
+                        Your data has been processed and is ready for AI analysis.
                     </p>
                     <div className="flex items-center gap-4 mt-6">
                         <button
@@ -241,12 +281,13 @@ export function UploadPage() {
                         >
                             Upload Another
                         </button>
-                        <a
-                            href="/"
-                            className="px-6 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors"
+                        <button
+                            onClick={() => navigate('/analytics')}
+                            className="px-6 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors flex items-center gap-2"
                         >
-                            Go to Dashboard
-                        </a>
+                            <Sparkles className="w-4 h-4" />
+                            View Analytics
+                        </button>
                     </div>
                 </div>
             )}

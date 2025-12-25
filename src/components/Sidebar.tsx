@@ -21,6 +21,7 @@ import {
     Settings,
     ExternalLink,
     Gamepad2,
+    Sparkles,
     LucideIcon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -36,6 +37,7 @@ interface NavItem {
 
 const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
+    { icon: Sparkles, label: 'AI Analytics', path: '/analytics', badge: 'New' },
     { icon: BarChart2, label: 'Realtime', path: '/realtime' },
     { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },
     { icon: Compass, label: 'Explore', path: '/explore' },
