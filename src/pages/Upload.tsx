@@ -1,35 +1,56 @@
 /**
- * Upload Page - Data upload with AI analysis
+ * Upload Page - Enhanced data upload with multi-format support
  */
 
 import { useState } from 'react';
-import { ArrowRight, Sparkles, AlertTriangle } from 'lucide-react';
+import { ArrowRight, Sparkles, AlertTriangle, CheckCircle } from 'lucide-react';
 import { UploadZone } from '../components/upload/UploadZone';
 import { ColumnMapper } from '../components/upload/ColumnMapper';
-import { ParseResult } from '../lib/fileParser';
+import { DataPreview } from '../components/upload/DataPreview';
+import type { ImportResult } from '../lib/importers';
 import { analyzeSchema, ColumnMapping, SchemaAnalysisResult } from '../lib/columnAnalyzer';
+import { detectTemplate } from '../lib/templates';
 import { getStoredApiKey } from './Settings';
 
-type Step = 'upload' | 'analyzing' | 'review' | 'complete';
+type Step = 'upload' | 'preview' | 'analyzing' | 'review' | 'complete';
 
 export function UploadPage() {
     const [step, setStep] = useState<Step>('upload');
     const [fileInfo, setFileInfo] = useState<{ name: string; rows: number } | null>(null);
-    const [_parseResult, setParseResult] = useState<ParseResult | null>(null);
+    const [importResult, setImportResult] = useState<ImportResult | null>(null);
     const [analysisResult, setAnalysisResult] = useState<SchemaAnalysisResult | null>(null);
+    const [detectedTemplate, setDetectedTemplate] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const apiKey = getStoredApiKey();
 
-    const handleFileLoaded = async (result: ParseResult, file: File) => {
-        setParseResult(result);
-        setFileInfo({ name: file.name, rows: result.rowCount });
+    const handleFileLoaded = async (result: ImportResult, file?: File) => {
+        setImportResult(result);
+        setFileInfo({
+            name: file?.name || result.metadata.fileName || 'Imported data',
+            rows: result.rowCount
+        });
+        setError(null);
+
+        // Check for template match
+        const template = detectTemplate(result.columns);
+        if (template) {
+            setDetectedTemplate(template.name);
+        }
+
+        // Go to preview step
+        setStep('preview');
+    };
+
+    const handleContinueToAnalysis = async () => {
+        if (!importResult) return;
+
         setStep('analyzing');
         setError(null);
 
         try {
             const analysis = await analyzeSchema(
-                result.data,
+                importResult.data,
                 apiKey ? { apiKey } : undefined
             );
             setAnalysisResult(analysis);
@@ -37,7 +58,7 @@ export function UploadPage() {
         } catch (err) {
             console.error('Analysis failed:', err);
             setError('Failed to analyze data. Please try again.');
-            setStep('upload');
+            setStep('preview');
         }
     };
 
@@ -49,11 +70,20 @@ export function UploadPage() {
 
     const handleConfirm = () => {
         setStep('complete');
-        // In future: navigate to dashboard with processed data
+        // In future: save to DataContext and navigate to dashboard
+    };
+
+    const handleStartOver = () => {
+        setStep('upload');
+        setImportResult(null);
+        setAnalysisResult(null);
+        setFileInfo(null);
+        setDetectedTemplate(null);
+        setError(null);
     };
 
     return (
-        <div className="space-y-6 max-w-3xl">
+        <div className="space-y-6 max-w-4xl">
             {/* Page Header */}
             <div>
                 <h1 className="text-2xl font-bold text-white">Upload Data</h1>
@@ -63,7 +93,7 @@ export function UploadPage() {
             </div>
 
             {/* API Key Warning */}
-            {!apiKey && (
+            {!apiKey && step !== 'complete' && (
                 <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-card p-4 flex items-start gap-3">
                     <AlertTriangle className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
                     <div>
@@ -81,14 +111,55 @@ export function UploadPage() {
             <div className="flex items-center gap-4">
                 <StepIndicator number={1} label="Upload" active={step === 'upload'} complete={step !== 'upload'} />
                 <ArrowRight className="w-4 h-4 text-zinc-600" />
-                <StepIndicator number={2} label="Analyze" active={step === 'analyzing'} complete={step === 'review' || step === 'complete'} />
+                <StepIndicator number={2} label="Preview" active={step === 'preview'} complete={['analyzing', 'review', 'complete'].includes(step)} />
                 <ArrowRight className="w-4 h-4 text-zinc-600" />
-                <StepIndicator number={3} label="Review" active={step === 'review'} complete={step === 'complete'} />
+                <StepIndicator number={3} label="Analyze" active={step === 'analyzing'} complete={step === 'review' || step === 'complete'} />
+                <ArrowRight className="w-4 h-4 text-zinc-600" />
+                <StepIndicator number={4} label="Review" active={step === 'review'} complete={step === 'complete'} />
             </div>
 
             {/* Content based on step */}
             {step === 'upload' && (
                 <UploadZone onFileLoaded={handleFileLoaded} />
+            )}
+
+            {step === 'preview' && importResult && (
+                <div className="space-y-6">
+                    {/* Template Detection */}
+                    {detectedTemplate && (
+                        <div className="bg-accent-primary/10 border border-accent-primary/20 rounded-card p-4 flex items-start gap-3">
+                            <Sparkles className="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" />
+                            <div>
+                                <p className="text-accent-primary font-medium">
+                                    Detected: {detectedTemplate}
+                                </p>
+                                <p className="text-sm text-zinc-400 mt-1">
+                                    We recognized this format and will apply optimized column mappings.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Data Preview */}
+                    <DataPreview result={importResult} />
+
+                    {/* Actions */}
+                    <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
+                        <button
+                            onClick={handleStartOver}
+                            className="px-4 py-2 text-zinc-400 hover:text-white transition-colors"
+                        >
+                            Start Over
+                        </button>
+                        <button
+                            onClick={handleContinueToAnalysis}
+                            className="px-6 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors flex items-center gap-2"
+                        >
+                            Continue to Analysis
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    </div>
+                </div>
             )}
 
             {step === 'analyzing' && (
@@ -141,24 +212,42 @@ export function UploadPage() {
                         onUpdate={handleColumnsUpdate}
                         onConfirm={handleConfirm}
                     />
+
+                    {/* Back button */}
+                    <div className="flex">
+                        <button
+                            onClick={() => setStep('preview')}
+                            className="px-4 py-2 text-zinc-400 hover:text-white transition-colors"
+                        >
+                            ← Back to Preview
+                        </button>
+                    </div>
                 </div>
             )}
 
             {step === 'complete' && (
                 <div className="bg-bg-card rounded-card p-12 border border-green-500/20 flex flex-col items-center justify-center text-center">
                     <div className="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center mb-4">
-                        <Sparkles className="w-8 h-8 text-green-500" />
+                        <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
                     <h3 className="text-lg font-semibold text-white">Data Ready!</h3>
                     <p className="text-zinc-500 mt-2">
                         Your data has been processed. Charts will appear on the dashboard.
                     </p>
-                    <a
-                        href="/"
-                        className="mt-6 px-6 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors"
-                    >
-                        Go to Dashboard
-                    </a>
+                    <div className="flex items-center gap-4 mt-6">
+                        <button
+                            onClick={handleStartOver}
+                            className="px-4 py-2 text-zinc-400 hover:text-white transition-colors"
+                        >
+                            Upload Another
+                        </button>
+                        <a
+                            href="/"
+                            className="px-6 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors"
+                        >
+                            Go to Dashboard
+                        </a>
+                    </div>
                 </div>
             )}
 
@@ -186,11 +275,11 @@ function StepIndicator({
     return (
         <div className="flex items-center gap-2">
             <div className={`
-        w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
-        ${active ? 'bg-accent-primary text-white' :
+                w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
+                ${active ? 'bg-accent-primary text-white' :
                     complete ? 'bg-green-500 text-white' :
                         'bg-bg-elevated text-zinc-500'}
-      `}>
+            `}>
                 {complete && !active ? '✓' : number}
             </div>
             <span className={`text-sm ${active ? 'text-white' : 'text-zinc-500'}`}>

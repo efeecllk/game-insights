@@ -6,7 +6,7 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { SegmentData, ChartConfig } from '../../types';
-import { ChartRegistry } from '../../lib/chartRegistry';
+import { ChartRegistry, BaseChartProps } from '../../lib/chartRegistry';
 
 interface SegmentChartProps {
     data: SegmentData[];
@@ -102,7 +102,7 @@ export function SegmentChart({ data, config, className }: SegmentChartProps) {
 }
 
 // Register chart
-ChartRegistry.register('spender_segments', SegmentChart as React.ComponentType<unknown>, {
+ChartRegistry.register('spender_segments', SegmentChart as React.ComponentType<BaseChartProps<unknown>>, {
     name: 'Spender Segments',
     description: 'Shows distribution of player segments',
     category: 'monetization',

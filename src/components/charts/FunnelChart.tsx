@@ -6,7 +6,7 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { FunnelStep, ChartConfig } from '../../types';
-import { ChartRegistry } from '../../lib/chartRegistry';
+import { ChartRegistry, BaseChartProps } from '../../lib/chartRegistry';
 
 interface FunnelChartProps {
     data: FunnelStep[];
@@ -126,7 +126,7 @@ export function FunnelChart({ data, config, className }: FunnelChartProps) {
 }
 
 // Register chart
-ChartRegistry.register('level_funnel', FunnelChart as React.ComponentType<unknown>, {
+ChartRegistry.register('level_funnel', FunnelChart as React.ComponentType<BaseChartProps<unknown>>, {
     name: 'Level Funnel',
     description: 'Shows progression through levels with drop-off rates',
     category: 'progression',

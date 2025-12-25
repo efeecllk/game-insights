@@ -6,7 +6,7 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { TimeSeriesData, ChartConfig } from '../../types';
-import { ChartRegistry } from '../../lib/chartRegistry';
+import { ChartRegistry, BaseChartProps } from '../../lib/chartRegistry';
 
 interface RevenueChartProps {
     data: TimeSeriesData[];
@@ -127,7 +127,7 @@ export function RevenueChart({ data, config, className }: RevenueChartProps) {
 }
 
 // Register chart
-ChartRegistry.register('revenue_timeline', RevenueChart as React.ComponentType<unknown>, {
+ChartRegistry.register('revenue_timeline', RevenueChart as React.ComponentType<BaseChartProps<unknown>>, {
     name: 'Revenue Timeline',
     description: 'Shows revenue over time with totals',
     category: 'monetization',

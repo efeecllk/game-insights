@@ -77,7 +77,7 @@ const revenueData = {
 
 export function MonetizationPage() {
     const { selectedGame } = useGame();
-    const [dateRange] = useState('last14days');
+    const [_dateRange] = useState('last14days');
 
     const data = revenueData[selectedGame as keyof typeof revenueData] || revenueData.puzzle;
     const dates = Array.from({ length: 14 }, (_, i) => {

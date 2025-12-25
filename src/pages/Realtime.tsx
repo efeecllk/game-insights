@@ -152,7 +152,7 @@ interface LiveChartProps {
     isLive: boolean;
 }
 
-function LiveChart({ title, icon: Icon, color, data, timestamps, prefix = '', isLive }: LiveChartProps) {
+function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefix = '', isLive }: LiveChartProps) {
     const currentValue = data[data.length - 1] || 0;
     const uniqueUsers = Math.floor(currentValue * 12.5);
 

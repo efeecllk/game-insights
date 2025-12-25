@@ -161,7 +161,7 @@ export class DataSampler {
     private smartSample(
         rows: Record<string, unknown>[],
         n: number,
-        priorityColumns?: string[]
+        _priorityColumns?: string[]
     ): Record<string, unknown>[] {
         // Take 20% from head (recent data usually important)
         const headCount = Math.floor(n * 0.2);

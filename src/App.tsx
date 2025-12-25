@@ -28,7 +28,6 @@ import { FunnelsPage } from './pages/Funnels';
 import { MonetizationPage } from './pages/Monetization';
 
 // Data & Types
-import { GameCategory } from './types';
 import { createDataProvider, gameCategories } from './lib/dataProviders';
 
 // Icon mapping for KPIs

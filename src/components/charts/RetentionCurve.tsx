@@ -6,7 +6,7 @@
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { RetentionData, ChartConfig } from '../../types';
-import { ChartRegistry } from '../../lib/chartRegistry';
+import { ChartRegistry, BaseChartProps } from '../../lib/chartRegistry';
 
 interface RetentionCurveProps {
     data: RetentionData;
@@ -144,7 +144,7 @@ export function RetentionCurve({ data, config, className }: RetentionCurveProps)
 }
 
 // Register chart in registry
-ChartRegistry.register('retention_curve', RetentionCurve as React.ComponentType<unknown>, {
+ChartRegistry.register('retention_curve', RetentionCurve as React.ComponentType<BaseChartProps<unknown>>, {
     name: 'Retention Curve',
     description: 'Shows player retention over days since install',
     category: 'engagement',
