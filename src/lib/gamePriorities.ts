@@ -12,99 +12,111 @@ import { GameCategory } from '../types';
 export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
     puzzle: {
         'Overview': 1,
-        'Funnels': 2,       // Level progression is critical
-        'Engagement': 3,
-        'Monetization': 4,
-        'Health': 5,
-        'Realtime': 6,
-        'Distributions': 7,
-        'Explore': 8,
-        'User Analysis': 9,
-        'Dashboards': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
-    },
-    idle: {
-        'Overview': 1,
-        'Engagement': 2,    // Session time is critical
-        'Monetization': 3,  // Ads + IAP balance
-        'Distributions': 4, // Prestige distribution
-        'Funnels': 5,
-        'Health': 6,
-        'Realtime': 7,
-        'Explore': 8,
-        'User Analysis': 9,
-        'Dashboards': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
-    },
-    battle_royale: {
-        'Overview': 1,
-        'Realtime': 2,      // Live matches critical
-        'Distributions': 3, // Rank distribution
-        'Engagement': 4,
-        'Health': 5,        // Server health
-        'Monetization': 6,
-        'Funnels': 7,
-        'Explore': 8,
-        'User Analysis': 9,
-        'Dashboards': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
-    },
-    match3_meta: {
-        'Overview': 1,
-        'Funnels': 2,       // Chapter/story progression
-        'Engagement': 3,    // Decoration engagement
-        'Monetization': 4,
-        'User Analysis': 5, // Player segments
-        'Health': 6,
-        'Realtime': 7,
-        'Distributions': 8,
-        'Explore': 9,
-        'Dashboards': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
-    },
-    gacha_rpg: {
-        'Overview': 1,
-        'Monetization': 2,  // Revenue is king
-        'Distributions': 3, // Pull/pity distribution
-        'User Analysis': 4, // Whale identification
-        'Realtime': 5,      // Limited banner tracking
+        'Data Sources': 2,  // Phase 3: Integration Hub
+        'Templates': 3,     // Phase 4: Community Templates
+        'AI Analytics': 4,
+        'Funnels': 5,       // Level progression is critical
         'Engagement': 6,
-        'Funnels': 7,
-        'Health': 8,
-        'Explore': 9,
-        'Dashboards': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
-    },
-    custom: {
-        'Overview': 1,
-        'Explore': 2,
-        'Dashboards': 3,
-        'Funnels': 4,
-        'Engagement': 5,
-        'Distributions': 6,
         'Monetization': 7,
         'Health': 8,
         'Realtime': 9,
-        'User Analysis': 10,
-        'A/B Testing': 11,
-        'Remote Configs': 12,
-        'DataSuite': 13,
-        'Game Settings': 14,
+        'Distributions': 10,
+        'Explore': 11,
+        'User Analysis': 12,
+        'Dashboards': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
+    },
+    idle: {
+        'Overview': 1,
+        'Data Sources': 2,
+        'Templates': 3,
+        'AI Analytics': 4,
+        'Engagement': 5,    // Session time is critical
+        'Monetization': 6,  // Ads + IAP balance
+        'Distributions': 7, // Prestige distribution
+        'Funnels': 8,
+        'Health': 9,
+        'Realtime': 10,
+        'Explore': 11,
+        'User Analysis': 12,
+        'Dashboards': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
+    },
+    battle_royale: {
+        'Overview': 1,
+        'Data Sources': 2,
+        'Templates': 3,
+        'AI Analytics': 4,
+        'Realtime': 5,      // Live matches critical
+        'Distributions': 6, // Rank distribution
+        'Engagement': 7,
+        'Health': 8,        // Server health
+        'Monetization': 9,
+        'Funnels': 10,
+        'Explore': 11,
+        'User Analysis': 12,
+        'Dashboards': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
+    },
+    match3_meta: {
+        'Overview': 1,
+        'Data Sources': 2,
+        'Templates': 3,
+        'AI Analytics': 4,
+        'Funnels': 5,       // Chapter/story progression
+        'Engagement': 6,    // Decoration engagement
+        'Monetization': 7,
+        'User Analysis': 8, // Player segments
+        'Health': 9,
+        'Realtime': 10,
+        'Distributions': 11,
+        'Explore': 12,
+        'Dashboards': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
+    },
+    gacha_rpg: {
+        'Overview': 1,
+        'Data Sources': 2,
+        'Templates': 3,
+        'AI Analytics': 4,
+        'Monetization': 5,  // Revenue is king
+        'Distributions': 6, // Pull/pity distribution
+        'User Analysis': 7, // Whale identification
+        'Realtime': 8,      // Limited banner tracking
+        'Engagement': 9,
+        'Funnels': 10,
+        'Health': 11,
+        'Explore': 12,
+        'Dashboards': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
+    },
+    custom: {
+        'Overview': 1,
+        'Data Sources': 2,
+        'Templates': 3,
+        'AI Analytics': 4,
+        'Explore': 5,
+        'Dashboards': 6,
+        'Funnels': 7,
+        'Engagement': 8,
+        'Distributions': 9,
+        'Monetization': 10,
+        'Health': 11,
+        'Realtime': 12,
+        'User Analysis': 13,
+        'A/B Testing': 14,
+        'Remote Configs': 15,
+        'Game Settings': 16,
     },
 };
 

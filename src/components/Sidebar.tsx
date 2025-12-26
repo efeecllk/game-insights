@@ -22,6 +22,7 @@ import {
     ExternalLink,
     Gamepad2,
     Sparkles,
+    Package,
     LucideIcon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -37,7 +38,9 @@ interface NavItem {
 
 const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
-    { icon: Sparkles, label: 'AI Analytics', path: '/analytics', badge: 'New' },
+    { icon: Database, label: 'Data Sources', path: '/integrations' },
+    { icon: Package, label: 'Templates', path: '/templates', badge: 'New' },
+    { icon: Sparkles, label: 'AI Analytics', path: '/analytics' },
     { icon: BarChart2, label: 'Realtime', path: '/realtime' },
     { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },
     { icon: Compass, label: 'Explore', path: '/explore' },
@@ -49,7 +52,6 @@ const allNavItems: NavItem[] = [
     { icon: Users, label: 'User Analysis', path: '/user-analysis', external: true },
     { icon: Wrench, label: 'Remote Configs', path: '/remote-configs' },
     { icon: Zap, label: 'A/B Testing', path: '/ab-testing' },
-    { icon: Database, label: 'DataSuite', path: '/datasuite' },
     { icon: Settings, label: 'Game Settings', path: '/settings' },
 ];
 

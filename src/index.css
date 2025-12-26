@@ -54,3 +54,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-primary);
 }
+
+/* Form input styles */
+.form-input {
+  @apply w-full px-4 py-3 bg-[var(--bg-elevated)] border border-white/10 rounded-xl text-white placeholder-zinc-600;
+  @apply focus:outline-none focus:border-[var(--accent-primary)] transition-colors;
+}
+
+.form-input:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}
