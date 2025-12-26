@@ -1,0 +1,134 @@
+/**
+ * LoadingState Component Tests
+ * Phase 7: Testing & Quality Assurance
+ */
+
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { LoadingState } from '../../../src/components/analytics/LoadingState';
+
+describe('LoadingState', () => {
+    describe('rendering', () => {
+        it('should render title', () => {
+            render(<LoadingState />);
+
+            expect(screen.getByText('Analyzing Your Data')).toBeInTheDocument();
+        });
+
+        it('should render description', () => {
+            render(<LoadingState />);
+
+            expect(screen.getByText('AI is processing your data to generate insights')).toBeInTheDocument();
+        });
+
+        it('should render all stages', () => {
+            render(<LoadingState />);
+
+            expect(screen.getByText('Sampling data...')).toBeInTheDocument();
+            expect(screen.getByText('Analyzing patterns...')).toBeInTheDocument();
+            expect(screen.getByText('Detecting anomalies...')).toBeInTheDocument();
+            expect(screen.getByText('Generating insights...')).toBeInTheDocument();
+        });
+    });
+
+    describe('stage highlighting', () => {
+        it('should highlight sampling stage by default', () => {
+            render(<LoadingState />);
+
+            const samplingStage = screen.getByText('Sampling data...');
+            expect(samplingStage).toHaveClass('text-violet-700');
+        });
+
+        it('should highlight analyzing stage when specified', () => {
+            render(<LoadingState stage="analyzing" />);
+
+            // Sampling should be complete
+            const samplingStage = screen.getByText('Sampling data...');
+            expect(samplingStage).toHaveClass('text-green-700');
+
+            // Analyzing should be current
+            const analyzingStage = screen.getByText('Analyzing patterns...');
+            expect(analyzingStage).toHaveClass('text-violet-700');
+        });
+
+        it('should highlight detecting stage when specified', () => {
+            render(<LoadingState stage="detecting" />);
+
+            // Previous stages should be complete
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-700');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-700');
+
+            // Detecting should be current
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-violet-700');
+        });
+
+        it('should highlight generating stage when specified', () => {
+            render(<LoadingState stage="generating" />);
+
+            // All previous stages should be complete
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-700');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-700');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-green-700');
+
+            // Generating should be current
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-violet-700');
+        });
+
+        it('should show pending stages in gray', () => {
+            render(<LoadingState stage="sampling" />);
+
+            // Stages after sampling should be gray
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-gray-400');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-gray-400');
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-gray-400');
+        });
+    });
+
+    describe('progress bar', () => {
+        it('should not show progress bar when progress is 0', () => {
+            render(<LoadingState progress={0} />);
+
+            expect(screen.queryByText('Progress')).not.toBeInTheDocument();
+        });
+
+        it('should show progress bar when progress is greater than 0', () => {
+            render(<LoadingState progress={50} />);
+
+            expect(screen.getByText('Progress')).toBeInTheDocument();
+            expect(screen.getByText('50%')).toBeInTheDocument();
+        });
+
+        it('should show correct progress percentage', () => {
+            render(<LoadingState progress={75} />);
+
+            expect(screen.getByText('75%')).toBeInTheDocument();
+        });
+
+        it('should round progress percentage', () => {
+            render(<LoadingState progress={33.7} />);
+
+            expect(screen.getByText('34%')).toBeInTheDocument();
+        });
+
+        it('should show 100% progress', () => {
+            render(<LoadingState progress={100} />);
+
+            expect(screen.getByText('100%')).toBeInTheDocument();
+        });
+    });
+
+    describe('defaults', () => {
+        it('should default to sampling stage', () => {
+            render(<LoadingState />);
+
+            const samplingStage = screen.getByText('Sampling data...');
+            expect(samplingStage).toHaveClass('text-violet-700');
+        });
+
+        it('should default to 0 progress (no progress bar)', () => {
+            render(<LoadingState />);
+
+            expect(screen.queryByText('Progress')).not.toBeInTheDocument();
+        });
+    });
+});
