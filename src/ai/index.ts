@@ -91,3 +91,18 @@ export type {
     Answer,
     QuestionResult
 } from './QuestionAnswering';
+
+// ============ NEW PHASE 7 MODULES ============
+
+// Monetization Analyzer
+export { monetizationAnalyzer, MonetizationAnalyzer } from './MonetizationAnalyzer';
+export type {
+    AdPlacementMetrics,
+    AdTimingRecommendation,
+    OfferRecommendation,
+    ProgressionWall,
+    EconomyHealth,
+    ARPDAUMetrics,
+    UserMonetizationFeatures,
+    SpendingSegment
+} from './MonetizationAnalyzer';

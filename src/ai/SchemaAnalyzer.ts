@@ -27,9 +27,19 @@ export type SemanticType =
     // Idle specific
     | 'prestige' | 'offline_reward' | 'upgrade'
     // Gacha specific
-    | 'rarity' | 'banner' | 'pull_type'
+    | 'rarity' | 'banner' | 'pull_type' | 'pity_count'
     // Battle Royale specific
     | 'kills' | 'placement' | 'damage' | 'survival_time'
+    // Ad Monetization
+    | 'ad_impression' | 'ad_revenue' | 'ad_network' | 'ad_type' | 'ecpm' | 'ad_watched'
+    // IAP/Purchase tracking
+    | 'iap_revenue' | 'purchase_amount' | 'product_id' | 'offer_id' | 'offer_shown'
+    // Engagement metrics
+    | 'session_duration' | 'session_count' | 'rounds_played' | 'days_since_install'
+    // Premium features
+    | 'vip_level' | 'battle_pass_level' | 'premium_currency'
+    // Hyper-casual specific
+    | 'high_score' | 'is_organic' | 'acquisition_source'
     | 'unknown';
 
 // Known patterns for column detection
@@ -103,6 +113,40 @@ const COLUMN_PATTERNS: Record<SemanticType, RegExp[]> = {
     damage: [/damage/i, /dmg/i],
     survival_time: [/survival/i, /alive/i, /survivalTime/i],
 
+    // AD MONETIZATION
+    ad_impression: [/ad.*impression/i, /impression.*count/i, /ads.*shown/i],
+    ad_revenue: [/ad.*revenue/i, /ad.*earnings/i, /ad_revenue_usd/i],
+    ad_network: [/ad.*network/i, /network.*name/i, /admob/i, /unity.*ads/i, /applovin/i],
+    ad_type: [/ad.*type/i, /ad.*format/i, /interstitial/i, /rewarded/i, /banner/i],
+    ecpm: [/ecpm/i, /cpm/i, /ad_ecpm/i],
+    ad_watched: [/ad.*watched/i, /watched.*full/i, /ad.*completed/i],
+
+    // IAP/PURCHASE TRACKING
+    iap_revenue: [/iap.*revenue/i, /purchase.*revenue/i, /iap_revenue_usd/i],
+    purchase_amount: [/purchase.*amount/i, /transaction.*amount/i, /spend/i],
+    product_id: [/product.*id/i, /bundle.*id/i, /pack.*id/i, /offer.*id/i],
+    offer_id: [/offer.*id/i, /promo.*id/i, /deal.*id/i],
+    offer_shown: [/offer.*shown/i, /promo.*shown/i, /offer.*displayed/i],
+
+    // ENGAGEMENT METRICS
+    session_duration: [/session.*duration/i, /session.*length/i, /time.*spent/i, /play.*time/i],
+    session_count: [/session.*count/i, /session.*number/i, /sessions.*total/i],
+    rounds_played: [/rounds.*played/i, /games.*played/i, /matches.*played/i, /rounds.*this.*session/i],
+    days_since_install: [/days.*since.*install/i, /install.*day/i, /player.*age/i, /account.*age/i],
+
+    // PREMIUM FEATURES
+    vip_level: [/vip.*level/i, /vip.*tier/i, /premium.*level/i],
+    battle_pass_level: [/battle.*pass/i, /pass.*level/i, /season.*pass/i],
+    premium_currency: [/premium.*currency/i, /premium.*gems/i, /paid.*currency/i],
+
+    // GACHA EXTENDED
+    pity_count: [/pity/i, /pity.*count/i, /guaranteed/i],
+
+    // HYPER-CASUAL SPECIFIC
+    high_score: [/high.*score/i, /best.*score/i, /top.*score/i],
+    is_organic: [/is.*organic/i, /organic.*user/i, /acquisition.*type/i],
+    acquisition_source: [/acquisition.*source/i, /utm.*source/i, /install.*source/i, /campaign/i],
+
     unknown: [],
 };
 
@@ -121,13 +165,53 @@ export class SchemaAnalyzer {
         const metrics: string[] = [];
         const types = new Set(meanings.map(m => m.semanticType));
 
-        if (types.has('revenue')) metrics.push('Total Revenue', 'ARPU', 'ARPPU');
+        // Core monetization
+        if (types.has('revenue') || types.has('iap_revenue')) {
+            metrics.push('Total Revenue', 'ARPU', 'ARPPU', 'Daily Revenue');
+        }
         if (types.has('user_id')) metrics.push('DAU', 'MAU', 'New Users');
         if (types.has('session_id')) metrics.push('Sessions', 'Avg Session Length');
         if (types.has('retention_day')) metrics.push('Day 1 Retention', 'Day 7 Retention');
         if (types.has('level')) metrics.push('Level Distribution', 'Progression Speed');
         if (types.has('funnel_step')) metrics.push('Funnel Conversion', 'Drop-off Rate');
         if (types.has('error_type')) metrics.push('Error Rate', 'Crash-Free Users');
+
+        // Ad monetization metrics
+        if (types.has('ad_impression') || types.has('ad_revenue') || types.has('ad_type')) {
+            metrics.push('Ad Revenue', 'eCPM by Network', 'Ads per Session', 'Ad Fill Rate');
+        }
+
+        // IAP metrics
+        if (types.has('iap_revenue') || types.has('purchase_amount')) {
+            metrics.push('Conversion Rate', 'Paying Users %', 'Avg Purchase Value');
+        }
+        if (types.has('offer_id') || types.has('offer_shown')) {
+            metrics.push('Offer Conversion', 'Best Performing Offers');
+        }
+
+        // Engagement metrics
+        if (types.has('session_duration') || types.has('rounds_played')) {
+            metrics.push('Avg Session Duration', 'Sessions per User', 'Engagement Score');
+        }
+        if (types.has('days_since_install')) {
+            metrics.push('Day N Retention', 'Cohort LTV', 'Time to First Purchase');
+        }
+
+        // Premium metrics
+        if (types.has('vip_level')) metrics.push('VIP Distribution', 'VIP Revenue Share');
+        if (types.has('battle_pass_level')) metrics.push('Pass Progression', 'Pass Completion Rate');
+
+        // Game-specific metrics
+        if (types.has('pity_count') || types.has('banner')) {
+            metrics.push('Banner Performance', 'Pull Distribution', 'SSR Rate');
+        }
+        if (types.has('kills') || types.has('placement')) {
+            metrics.push('K/D Ratio', 'Win Rate', 'Avg Placement');
+        }
+        if (types.has('high_score')) metrics.push('Score Distribution', 'High Score Trend');
+        if (types.has('is_organic') || types.has('acquisition_source')) {
+            metrics.push('Organic vs Paid', 'Source ROAS', 'CAC by Channel');
+        }
 
         return metrics.length > 0 ? metrics : ['Row Count', 'Unique Values'];
     }
