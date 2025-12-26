@@ -23,6 +23,7 @@ import {
     Gamepad2,
     Sparkles,
     Package,
+    Brain,
     LucideIcon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -40,6 +41,7 @@ const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
     { icon: Database, label: 'Data Sources', path: '/integrations' },
     { icon: Package, label: 'Templates', path: '/templates', badge: 'New' },
+    { icon: Brain, label: 'Predictions', path: '/predictions', badge: 'New' },
     { icon: Sparkles, label: 'AI Analytics', path: '/analytics' },
     { icon: BarChart2, label: 'Realtime', path: '/realtime' },
     { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },

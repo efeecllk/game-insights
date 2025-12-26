@@ -30,6 +30,7 @@ import { MonetizationPage } from './pages/Monetization';
 import { AnalyticsPage } from './pages/Analytics';
 import { IntegrationsPage } from './pages/Integrations';
 import { TemplatesPage } from './pages/Templates';
+import { PredictionsPage } from './pages/Predictions';
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -278,6 +279,7 @@ function App() {
                                 <Route path="/" element={<OverviewPage />} />
                                 <Route path="/integrations" element={<IntegrationsPage />} />
                                 <Route path="/templates" element={<TemplatesPage />} />
+                                <Route path="/predictions" element={<PredictionsPage />} />
                                 <Route path="/analytics" element={<AnalyticsPage />} />
                                 <Route path="/realtime" element={<RealtimePage />} />
                                 <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />

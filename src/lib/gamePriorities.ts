@@ -14,109 +14,115 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Overview': 1,
         'Data Sources': 2,  // Phase 3: Integration Hub
         'Templates': 3,     // Phase 4: Community Templates
-        'AI Analytics': 4,
-        'Funnels': 5,       // Level progression is critical
-        'Engagement': 6,
-        'Monetization': 7,
-        'Health': 8,
-        'Realtime': 9,
-        'Distributions': 10,
-        'Explore': 11,
-        'User Analysis': 12,
-        'Dashboards': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,   // Phase 5: AI Predictions
+        'AI Analytics': 5,
+        'Funnels': 6,       // Level progression is critical
+        'Engagement': 7,
+        'Monetization': 8,
+        'Health': 9,
+        'Realtime': 10,
+        'Distributions': 11,
+        'Explore': 12,
+        'User Analysis': 13,
+        'Dashboards': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
     idle: {
         'Overview': 1,
         'Data Sources': 2,
         'Templates': 3,
-        'AI Analytics': 4,
-        'Engagement': 5,    // Session time is critical
-        'Monetization': 6,  // Ads + IAP balance
-        'Distributions': 7, // Prestige distribution
-        'Funnels': 8,
-        'Health': 9,
-        'Realtime': 10,
-        'Explore': 11,
-        'User Analysis': 12,
-        'Dashboards': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,
+        'AI Analytics': 5,
+        'Engagement': 6,    // Session time is critical
+        'Monetization': 7,  // Ads + IAP balance
+        'Distributions': 8, // Prestige distribution
+        'Funnels': 9,
+        'Health': 10,
+        'Realtime': 11,
+        'Explore': 12,
+        'User Analysis': 13,
+        'Dashboards': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
     battle_royale: {
         'Overview': 1,
         'Data Sources': 2,
         'Templates': 3,
-        'AI Analytics': 4,
-        'Realtime': 5,      // Live matches critical
-        'Distributions': 6, // Rank distribution
-        'Engagement': 7,
-        'Health': 8,        // Server health
-        'Monetization': 9,
-        'Funnels': 10,
-        'Explore': 11,
-        'User Analysis': 12,
-        'Dashboards': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,
+        'AI Analytics': 5,
+        'Realtime': 6,      // Live matches critical
+        'Distributions': 7, // Rank distribution
+        'Engagement': 8,
+        'Health': 9,        // Server health
+        'Monetization': 10,
+        'Funnels': 11,
+        'Explore': 12,
+        'User Analysis': 13,
+        'Dashboards': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
     match3_meta: {
         'Overview': 1,
         'Data Sources': 2,
         'Templates': 3,
-        'AI Analytics': 4,
-        'Funnels': 5,       // Chapter/story progression
-        'Engagement': 6,    // Decoration engagement
-        'Monetization': 7,
-        'User Analysis': 8, // Player segments
-        'Health': 9,
-        'Realtime': 10,
-        'Distributions': 11,
-        'Explore': 12,
-        'Dashboards': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,
+        'AI Analytics': 5,
+        'Funnels': 6,       // Chapter/story progression
+        'Engagement': 7,    // Decoration engagement
+        'Monetization': 8,
+        'User Analysis': 9, // Player segments
+        'Health': 10,
+        'Realtime': 11,
+        'Distributions': 12,
+        'Explore': 13,
+        'Dashboards': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
     gacha_rpg: {
         'Overview': 1,
         'Data Sources': 2,
         'Templates': 3,
-        'AI Analytics': 4,
-        'Monetization': 5,  // Revenue is king
-        'Distributions': 6, // Pull/pity distribution
-        'User Analysis': 7, // Whale identification
-        'Realtime': 8,      // Limited banner tracking
-        'Engagement': 9,
-        'Funnels': 10,
-        'Health': 11,
-        'Explore': 12,
-        'Dashboards': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,
+        'AI Analytics': 5,
+        'Monetization': 6,  // Revenue is king
+        'Distributions': 7, // Pull/pity distribution
+        'User Analysis': 8, // Whale identification
+        'Realtime': 9,      // Limited banner tracking
+        'Engagement': 10,
+        'Funnels': 11,
+        'Health': 12,
+        'Explore': 13,
+        'Dashboards': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
     custom: {
         'Overview': 1,
         'Data Sources': 2,
         'Templates': 3,
-        'AI Analytics': 4,
-        'Explore': 5,
-        'Dashboards': 6,
-        'Funnels': 7,
-        'Engagement': 8,
-        'Distributions': 9,
-        'Monetization': 10,
-        'Health': 11,
-        'Realtime': 12,
-        'User Analysis': 13,
-        'A/B Testing': 14,
-        'Remote Configs': 15,
-        'Game Settings': 16,
+        'Predictions': 4,
+        'AI Analytics': 5,
+        'Explore': 6,
+        'Dashboards': 7,
+        'Funnels': 8,
+        'Engagement': 9,
+        'Distributions': 10,
+        'Monetization': 11,
+        'Health': 12,
+        'Realtime': 13,
+        'User Analysis': 14,
+        'A/B Testing': 15,
+        'Remote Configs': 16,
+        'Game Settings': 17,
     },
 };
 

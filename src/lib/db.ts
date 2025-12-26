@@ -1,11 +1,11 @@
 /**
  * Unified IndexedDB Module
  * Single source of truth for database initialization
- * Phase 3: One-Click Integrations
+ * Phase 5: Advanced AI & Automation
  */
 
 export const DB_NAME = 'game-insights-db';
-export const DB_VERSION = 4;
+export const DB_VERSION = 5;
 
 let db: IDBDatabase | null = null;
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -110,6 +110,21 @@ export async function getDatabase(): Promise<IDBDatabase> {
                 const recipeStore = database.createObjectStore('recipes', { keyPath: 'id' });
                 recipeStore.createIndex('integrationType', 'integrationType', { unique: false });
                 recipeStore.createIndex('difficulty', 'difficulty', { unique: false });
+            }
+
+            // Version 5: Alert system (Phase 5)
+            if (!database.objectStoreNames.contains('alerts')) {
+                const alertStore = database.createObjectStore('alerts', { keyPath: 'id' });
+                alertStore.createIndex('type', 'type', { unique: false });
+                alertStore.createIndex('severity', 'severity', { unique: false });
+                alertStore.createIndex('status', 'status', { unique: false });
+                alertStore.createIndex('createdAt', 'createdAt', { unique: false });
+            }
+
+            if (!database.objectStoreNames.contains('alertRules')) {
+                const ruleStore = database.createObjectStore('alertRules', { keyPath: 'id' });
+                ruleStore.createIndex('metric', 'metric', { unique: false });
+                ruleStore.createIndex('enabled', 'enabled', { unique: false });
             }
         };
     });
