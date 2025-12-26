@@ -5,7 +5,7 @@
  */
 
 export const DB_NAME = 'game-insights-db';
-export const DB_VERSION = 5;
+export const DB_VERSION = 6;
 
 let db: IDBDatabase | null = null;
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -125,6 +125,41 @@ export async function getDatabase(): Promise<IDBDatabase> {
                 const ruleStore = database.createObjectStore('alertRules', { keyPath: 'id' });
                 ruleStore.createIndex('metric', 'metric', { unique: false });
                 ruleStore.createIndex('enabled', 'enabled', { unique: false });
+            }
+
+            // Version 6: Experiments store (Phase 6)
+            if (!database.objectStoreNames.contains('experiments')) {
+                const experimentStore = database.createObjectStore('experiments', { keyPath: 'id' });
+                experimentStore.createIndex('status', 'status', { unique: false });
+                experimentStore.createIndex('type', 'type', { unique: false });
+                experimentStore.createIndex('createdAt', 'createdAt', { unique: false });
+            }
+
+            // Custom dashboards (Phase 6)
+            if (!database.objectStoreNames.contains('dashboards')) {
+                const dashboardStore = database.createObjectStore('dashboards', { keyPath: 'id' });
+                dashboardStore.createIndex('name', 'name', { unique: false });
+                dashboardStore.createIndex('createdAt', 'createdAt', { unique: false });
+            }
+
+            // Custom funnels (Phase 6)
+            if (!database.objectStoreNames.contains('funnels')) {
+                const funnelStore = database.createObjectStore('funnels', { keyPath: 'id' });
+                funnelStore.createIndex('name', 'name', { unique: false });
+                funnelStore.createIndex('createdAt', 'createdAt', { unique: false });
+            }
+
+            // Multi-game management (Phase 6)
+            if (!database.objectStoreNames.contains('games')) {
+                const gamesStore = database.createObjectStore('games', { keyPath: 'id' });
+                gamesStore.createIndex('name', 'name', { unique: false });
+                gamesStore.createIndex('genre', 'genre', { unique: false });
+                gamesStore.createIndex('isActive', 'isActive', { unique: false });
+                gamesStore.createIndex('isPinned', 'isPinned', { unique: false });
+            }
+
+            if (!database.objectStoreNames.contains('gameSettings')) {
+                database.createObjectStore('gameSettings', { keyPath: 'gameId' });
             }
         };
     });

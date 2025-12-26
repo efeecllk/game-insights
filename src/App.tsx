@@ -31,6 +31,10 @@ import { AnalyticsPage } from './pages/Analytics';
 import { IntegrationsPage } from './pages/Integrations';
 import { TemplatesPage } from './pages/Templates';
 import { PredictionsPage } from './pages/Predictions';
+import { ABTestingPage } from './pages/ABTesting';
+import { DashboardBuilderPage } from './pages/DashboardBuilder';
+import { GamesPage } from './pages/Games';
+import { FunnelBuilderPage } from './pages/FunnelBuilder';
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -282,16 +286,18 @@ function App() {
                                 <Route path="/predictions" element={<PredictionsPage />} />
                                 <Route path="/analytics" element={<AnalyticsPage />} />
                                 <Route path="/realtime" element={<RealtimePage />} />
-                                <Route path="/dashboards" element={<PlaceholderPage title="Dashboards" description="Custom dashboard builder" />} />
+                                <Route path="/dashboards" element={<DashboardBuilderPage />} />
                                 <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
                                 <Route path="/funnels" element={<FunnelsPage />} />
+                                <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
                                 <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
                                 <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
                                 <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
                                 <Route path="/monetization" element={<MonetizationPage />} />
                                 <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
                                 <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
-                                <Route path="/ab-testing" element={<PlaceholderPage title="A/B Testing" description="Experiment dashboard" />} />
+                                <Route path="/ab-testing" element={<ABTestingPage />} />
+                                <Route path="/games" element={<GamesPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 <Route path="/upload" element={<UploadPage />} />
                             </Routes>

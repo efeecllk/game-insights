@@ -24,6 +24,7 @@ import {
     Sparkles,
     Package,
     Brain,
+    Plus,
     LucideIcon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
@@ -39,6 +40,7 @@ interface NavItem {
 
 const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
+    { icon: Gamepad2, label: 'Games', path: '/games' },
     { icon: Database, label: 'Data Sources', path: '/integrations' },
     { icon: Package, label: 'Templates', path: '/templates', badge: 'New' },
     { icon: Brain, label: 'Predictions', path: '/predictions', badge: 'New' },
@@ -47,6 +49,7 @@ const allNavItems: NavItem[] = [
     { icon: LayoutGrid, label: 'Dashboards', path: '/dashboards' },
     { icon: Compass, label: 'Explore', path: '/explore' },
     { icon: Filter, label: 'Funnels', path: '/funnels' },
+    { icon: Plus, label: 'Funnel Builder', path: '/funnel-builder' },
     { icon: TrendingUp, label: 'Engagement', path: '/engagement' },
     { icon: BarChart, label: 'Distributions', path: '/distributions', badge: 'β' },
     { icon: Heart, label: 'Health', path: '/health' },
