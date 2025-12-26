@@ -21,16 +21,35 @@ Indie developers are at a massive disadvantage:
 
 ---
 
-## The 6 Phases
+## The 9 Phases
 
 ```
-Phase 1          Phase 2          Phase 3          Phase 4          Phase 5          Phase 6
-Universal   →    Zero-Config  →   One-Click    →   Community   →   Advanced    →   Polish &
-Data Import      Analytics        Integrations     & Ecosystem      AI              Production
-   │                 │                 │                │              │               │
-   ▼                 ▼                 ▼                ▼              ▼               ▼
-"Any format"    "Instant        "Connect         "Share &        "Predict        "Ready for
- just works"    insights"       everything"      learn"          the future"     your team"
+Phase 1-3: Foundation
+┌─────────────────────────────────────────────────────────────────────┐
+│  Phase 1          Phase 2          Phase 3                          │
+│  Universal   →    Zero-Config  →   One-Click                        │
+│  Data Import      Analytics        Integrations                     │
+│  "Any format"     "Instant         "Connect                         │
+│   just works"      insights"        everything"                     │
+└─────────────────────────────────────────────────────────────────────┘
+                              ↓
+Phase 4-6: Growth
+┌─────────────────────────────────────────────────────────────────────┐
+│  Phase 4          Phase 5          Phase 6                          │
+│  Community   →    Advanced    →    Polish &                         │
+│  & Ecosystem      AI               Production                       │
+│  "Share &         "Predict         "Ready for                       │
+│   learn"          the future"       your team"                      │
+└─────────────────────────────────────────────────────────────────────┘
+                              ↓
+Phase 7-9: Excellence
+┌─────────────────────────────────────────────────────────────────────┐
+│  Phase 7          Phase 8          Phase 9                          │
+│  Testing &   →    Usability &  →   Advanced                         │
+│  Quality          Accessibility    Features                         │
+│  "Ship with       "Analytics       "Beyond                          │
+│   confidence"      for all"         analytics"                      │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -152,6 +171,64 @@ Data Import      Analytics        Integrations     & Ecosystem      AI          
 
 ---
 
+## Phase 7: Testing & Quality Assurance
+**"Ship with confidence."**
+
+| Feature | Status |
+|---------|--------|
+| Unit Testing | 📋 Planned |
+| Component Testing | 📋 Planned |
+| Integration Testing | 📋 Planned |
+| E2E Testing | 📋 Planned |
+| Visual Regression | 📋 Planned |
+| Performance Testing | 📋 Planned |
+| CI/CD Pipeline | 📋 Planned |
+
+**Goal:** 80%+ test coverage, < 10 min CI pipeline, zero flaky tests.
+
+[Full Details →](./7-phase.md)
+
+---
+
+## Phase 8: Usability & Accessibility
+**"Analytics for all."**
+
+| Feature | Status |
+|---------|--------|
+| Guided Onboarding | 📋 Planned |
+| Contextual Help | 📋 Planned |
+| Keyboard Navigation | 📋 Planned |
+| Screen Reader Support | 📋 Planned |
+| Color & Contrast (WCAG) | 📋 Planned |
+| Internationalization | 📋 Planned |
+| Command Palette | 📋 Planned |
+
+**Goal:** < 2 min to first insight, 100/100 Lighthouse accessibility.
+
+[Full Details →](./8-phase.md)
+
+---
+
+## Phase 9: Advanced Features & Future Vision
+**"Beyond analytics."**
+
+| Feature | Status |
+|---------|--------|
+| Real-Time Analytics | 📋 Planned |
+| Natural Language Queries | 📋 Planned |
+| Custom Metrics Builder | 📋 Planned |
+| Attribution Modeling | 📋 Planned |
+| ML Studio | 📋 Planned |
+| Embedded Analytics SDK | 📋 Planned |
+| Cross-Platform Analytics | 📋 Planned |
+| Public API | 📋 Planned |
+
+**Goal:** Full game intelligence platform with AI-powered automation.
+
+[Full Details →](./9-phase.md)
+
+---
+
 ## Timeline Overview
 
 | Phase | Duration | Dependencies |
@@ -162,8 +239,14 @@ Data Import      Analytics        Integrations     & Ecosystem      AI          
 | Phase 4 | 6-10 weeks | Phase 1-3 stable |
 | Phase 5 | 10-16 weeks | Phase 1-3, data volume |
 | Phase 6 | 12-18 weeks | Phase 1-5 complete |
+| Phase 7 | 8-12 weeks | Phase 1-6 features |
+| Phase 8 | 6-10 weeks | Phase 1-6 complete |
+| Phase 9 | 16-24 weeks | Phase 1-8 complete |
 
-**Note:** Phases 2 and 3 can run in parallel after Phase 1 completion.
+**Notes:**
+- Phases 2 and 3 can run in parallel after Phase 1 completion
+- Phase 7 (Testing) can start alongside Phase 6
+- Phase 8 (Usability) can overlap with Phase 7
 
 ---
 
@@ -219,6 +302,9 @@ We welcome contributions at every phase:
 - **Phase 4:** Templates, documentation, community building
 - **Phase 5:** ML models, prediction algorithms
 - **Phase 6:** Dashboard widgets, SDK development, mobile UX
+- **Phase 7:** Test suites, CI/CD pipelines, quality tools
+- **Phase 8:** Accessibility improvements, i18n translations, UX enhancements
+- **Phase 9:** Advanced features, API development, integrations
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
