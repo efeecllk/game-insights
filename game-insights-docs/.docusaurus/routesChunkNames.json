@@ -1,289 +1,246 @@
 {
-  "/__docusaurus/debug-5ff": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
+  "/docs-5ce": {
+    "__comp": "5e95c892",
     "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
+      "plugin": "aba21aa0"
     }
   },
-  "/__docusaurus/debug/config-5ba": {
-    "__comp": "__comp---theme-debug-config-23-a-2ff",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/content-a2b": {
-    "__comp": "__comp---theme-debug-contentba-8-ce7",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    },
-    "__props": "__props---docusaurus-debug-content-3-c-0-be2"
-  },
-  "/__docusaurus/debug/globalData-c3c": {
-    "__comp": "__comp---theme-debug-global-dataede-0fa",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/metadata-156": {
-    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/registry-88c": {
-    "__comp": "__comp---theme-debug-registry-679-501",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/__docusaurus/debug/routes-000": {
-    "__comp": "__comp---theme-debug-routes-946-699",
-    "__context": {
-      "plugin": "plugin---docusaurus-debugb-38-ad3"
-    }
-  },
-  "/docs-14c": {
-    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
-    "__context": {
-      "plugin": "plugin---docsaba-d7c"
-    }
-  },
-  "/docs-533": {
-    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
-    "__props": "__props---docs-005-788"
-  },
-  "/docs-ed6": {
-    "__comp": "__comp---theme-doc-roota-94-67a"
-  },
-  "/docs/-06f": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-c-37-4d0"
-  },
-  "/docs/ai-analytics/ai-pipeline-1a0": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-ai-pipeline-822-c44"
-  },
-  "/docs/ai-analytics/anomaly-detection-797": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-anomaly-detection-5-ba-a5e"
-  },
-  "/docs/ai-analytics/game-type-detection-a57": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-game-type-detection-905-8a9"
-  },
-  "/docs/ai-analytics/overview-761": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-overview-497-c8a"
-  },
-  "/docs/ai-analytics/predictions/-7f7": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-predictions-e-4-b-68b"
-  },
-  "/docs/ai-analytics/predictions/churn-a5c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-predictions-churne-3-d-e6d"
-  },
-  "/docs/ai-analytics/predictions/ltv-bd4": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-predictions-ltv-739-7ab"
-  },
-  "/docs/ai-analytics/predictions/retention-de0": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-predictions-retention-622-c5a"
-  },
-  "/docs/ai-analytics/predictions/revenue-d28": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-predictions-revenue-1-b-1-244"
-  },
-  "/docs/ai-analytics/recommendations-131": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-recommendations-475-0b6"
-  },
-  "/docs/ai-analytics/schema-analysis-a22": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-ai-analytics-schema-analysis-342-f1b"
-  },
-  "/docs/api-reference/-f3c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-reference-f-2-d-245"
-  },
-  "/docs/api-reference/adapters-cf6": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-reference-adapters-750-5e2"
-  },
-  "/docs/api-reference/ai-pipeline-f74": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-reference-ai-pipeline-253-840"
-  },
-  "/docs/api-reference/data-providers-dca": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-reference-data-providers-4-db-7d2"
-  },
-  "/docs/api-reference/stores-190": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-api-reference-stores-140-c40"
-  },
-  "/docs/cookbook/-6ab": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-891-db3"
-  },
-  "/docs/cookbook/analyze-monetization-4e5": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-analyze-monetizationbc-0-186"
-  },
-  "/docs/cookbook/connect-live-data-b89": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-connect-live-data-3-c-6-9bc"
-  },
-  "/docs/cookbook/custom-dashboard-e9c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-custom-dashboard-8-a-5-c9f"
-  },
-  "/docs/cookbook/first-upload-eea": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-first-uploadd-35-7eb"
-  },
-  "/docs/cookbook/run-ab-test-5fe": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-run-ab-testc-98-1fa"
-  },
-  "/docs/cookbook/setup-alerts-ba1": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-cookbook-setup-alerts-5-b-4-079"
-  },
-  "/docs/dashboards/builder-5eb": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-dashboards-builder-5-ee-50f"
-  },
-  "/docs/dashboards/charts-6ca": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-dashboards-chartsa-2-c-b68"
-  },
-  "/docs/dashboards/exporting-616": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-dashboards-exporting-945-83f"
-  },
-  "/docs/dashboards/overview-dashboard-8cc": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-dashboards-overview-dashboard-3-a-5-02e"
-  },
-  "/docs/dashboards/widgets-2fa": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-dashboards-widgets-63-a-f94"
-  },
-  "/docs/data-management/data-quality-2e6": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-data-quality-7-e-3-126"
-  },
-  "/docs/data-management/overview-f95": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-overview-37-e-74e"
-  },
-  "/docs/data-management/sources/api-b54": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-apiac-6-d69"
-  },
-  "/docs/data-management/sources/file-adapter-7e5": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-file-adapter-13-e-068"
-  },
-  "/docs/data-management/sources/google-sheets-c66": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-google-sheetsc-4-c-4f7"
-  },
-  "/docs/data-management/sources/postgresql-04d": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-postgresql-18-c-85d"
-  },
-  "/docs/data-management/sources/supabase-c06": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-supabasee-08-cc8"
-  },
-  "/docs/data-management/sources/webhooks-1fe": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-sources-webhooks-99-b-d15"
-  },
-  "/docs/data-management/supported-formats-b38": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-supported-formats-37-c-1d7"
-  },
-  "/docs/data-management/uploading-data-d62": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-data-management-uploading-datac-1-e-7e5"
-  },
-  "/docs/features/ab-testing-012": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-ab-testing-9-ae-c4e"
-  },
-  "/docs/features/alerts-c34": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-alerts-768-065"
-  },
-  "/docs/features/funnel-builder-783": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-funnel-builderad-9-88d"
-  },
-  "/docs/features/funnels-d3e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-funnels-4-b-4-db1"
-  },
-  "/docs/features/monetization-89a": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-monetization-052-9ee"
-  },
-  "/docs/features/real-time-c61": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-real-time-94-e-888"
-  },
-  "/docs/features/templates-a8f": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-features-templatese-4-b-a89"
-  },
-  "/docs/game-guides/battle-royale-c19": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-battle-royale-3-ff-59c"
-  },
-  "/docs/game-guides/gacha-rpg-540": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-gacha-rpg-209-588"
-  },
-  "/docs/game-guides/idle-280": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-idledc-4-e75"
-  },
-  "/docs/game-guides/match3-meta-3ac": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-match-3-metacc-9-693"
-  },
-  "/docs/game-guides/overview-da9": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-overviewa-67-db7"
-  },
-  "/docs/game-guides/puzzle-356": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-game-guides-puzzleb-08-2d7"
-  },
-  "/docs/getting-started/architecture-d91": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-getting-started-architecture-24-b-e45"
-  },
-  "/docs/getting-started/core-concepts-f5c": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-getting-started-core-concepts-8-b-9-c96"
-  },
-  "/docs/getting-started/installation-c6e": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-getting-started-installation-54-f-18d"
-  },
-  "/docs/getting-started/quickstart-e3d": {
-    "__comp": "__comp---theme-doc-item-178-a40",
-    "content": "content---docs-getting-started-quickstartfbd-5fc"
+  "/docs-b9f": {
+    "__comp": "a7bd4aaa",
+    "__props": "0058b4c6"
+  },
+  "/docs-196": {
+    "__comp": "a94703ab"
+  },
+  "/docs/-6e3": {
+    "__comp": "17896441",
+    "content": "c377a04b"
+  },
+  "/docs/ai-analytics/ai-pipeline-dc5": {
+    "__comp": "17896441",
+    "content": "8225da5b"
+  },
+  "/docs/ai-analytics/anomaly-detection-40c": {
+    "__comp": "17896441",
+    "content": "5bab1953"
+  },
+  "/docs/ai-analytics/game-type-detection-5eb": {
+    "__comp": "17896441",
+    "content": "9057bc7d"
+  },
+  "/docs/ai-analytics/overview-49c": {
+    "__comp": "17896441",
+    "content": "497d51f1"
+  },
+  "/docs/ai-analytics/predictions/-910": {
+    "__comp": "17896441",
+    "content": "e4b36769"
+  },
+  "/docs/ai-analytics/predictions/churn-8dc": {
+    "__comp": "17896441",
+    "content": "e3dc0ad8"
+  },
+  "/docs/ai-analytics/predictions/ltv-004": {
+    "__comp": "17896441",
+    "content": "73968a23"
+  },
+  "/docs/ai-analytics/predictions/retention-148": {
+    "__comp": "17896441",
+    "content": "622d0f92"
+  },
+  "/docs/ai-analytics/predictions/revenue-5e3": {
+    "__comp": "17896441",
+    "content": "1b18cb42"
+  },
+  "/docs/ai-analytics/recommendations-694": {
+    "__comp": "17896441",
+    "content": "4757c313"
+  },
+  "/docs/ai-analytics/schema-analysis-eec": {
+    "__comp": "17896441",
+    "content": "34240773"
+  },
+  "/docs/api-reference/-f43": {
+    "__comp": "17896441",
+    "content": "f2da1fd8"
+  },
+  "/docs/api-reference/adapters-e2d": {
+    "__comp": "17896441",
+    "content": "7502b521"
+  },
+  "/docs/api-reference/ai-pipeline-fb1": {
+    "__comp": "17896441",
+    "content": "2536cd86"
+  },
+  "/docs/api-reference/data-providers-349": {
+    "__comp": "17896441",
+    "content": "4db665ec"
+  },
+  "/docs/api-reference/stores-016": {
+    "__comp": "17896441",
+    "content": "140957f0"
+  },
+  "/docs/cookbook/-5d1": {
+    "__comp": "17896441",
+    "content": "891152ad"
+  },
+  "/docs/cookbook/analyze-monetization-e62": {
+    "__comp": "17896441",
+    "content": "bc0ca9f4"
+  },
+  "/docs/cookbook/connect-live-data-656": {
+    "__comp": "17896441",
+    "content": "3c6f7695"
+  },
+  "/docs/cookbook/custom-dashboard-91a": {
+    "__comp": "17896441",
+    "content": "8a5e4ded"
+  },
+  "/docs/cookbook/first-upload-26d": {
+    "__comp": "17896441",
+    "content": "d35728b2"
+  },
+  "/docs/cookbook/run-ab-test-faf": {
+    "__comp": "17896441",
+    "content": "c98a0f55"
+  },
+  "/docs/cookbook/setup-alerts-612": {
+    "__comp": "17896441",
+    "content": "5b49d003"
+  },
+  "/docs/dashboards/builder-94e": {
+    "__comp": "17896441",
+    "content": "5ee91361"
+  },
+  "/docs/dashboards/charts-fc3": {
+    "__comp": "17896441",
+    "content": "a2c49c8d"
+  },
+  "/docs/dashboards/exporting-d09": {
+    "__comp": "17896441",
+    "content": "94530884"
+  },
+  "/docs/dashboards/overview-dashboard-a95": {
+    "__comp": "17896441",
+    "content": "3a51231d"
+  },
+  "/docs/dashboards/widgets-2d9": {
+    "__comp": "17896441",
+    "content": "63a6855f"
+  },
+  "/docs/data-management/data-quality-48f": {
+    "__comp": "17896441",
+    "content": "7e375f56"
+  },
+  "/docs/data-management/overview-b76": {
+    "__comp": "17896441",
+    "content": "37e87e27"
+  },
+  "/docs/data-management/sources/api-434": {
+    "__comp": "17896441",
+    "content": "ac6433b6"
+  },
+  "/docs/data-management/sources/file-adapter-1c2": {
+    "__comp": "17896441",
+    "content": "13ecfcd3"
+  },
+  "/docs/data-management/sources/google-sheets-7b3": {
+    "__comp": "17896441",
+    "content": "c4c37f40"
+  },
+  "/docs/data-management/sources/postgresql-53e": {
+    "__comp": "17896441",
+    "content": "18c1cac9"
+  },
+  "/docs/data-management/sources/supabase-457": {
+    "__comp": "17896441",
+    "content": "e081b707"
+  },
+  "/docs/data-management/sources/webhooks-e8c": {
+    "__comp": "17896441",
+    "content": "99b8a977"
+  },
+  "/docs/data-management/supported-formats-3ed": {
+    "__comp": "17896441",
+    "content": "37c37a77"
+  },
+  "/docs/data-management/uploading-data-7f1": {
+    "__comp": "17896441",
+    "content": "c1ee6768"
+  },
+  "/docs/features/ab-testing-b51": {
+    "__comp": "17896441",
+    "content": "9ae88f3b"
+  },
+  "/docs/features/alerts-00c": {
+    "__comp": "17896441",
+    "content": "76858dba"
+  },
+  "/docs/features/funnel-builder-072": {
+    "__comp": "17896441",
+    "content": "ad945605"
+  },
+  "/docs/features/funnels-35b": {
+    "__comp": "17896441",
+    "content": "4b48ac92"
+  },
+  "/docs/features/monetization-aa5": {
+    "__comp": "17896441",
+    "content": "052b1931"
+  },
+  "/docs/features/real-time-5a1": {
+    "__comp": "17896441",
+    "content": "94e78677"
+  },
+  "/docs/features/templates-ecc": {
+    "__comp": "17896441",
+    "content": "e4b2539d"
+  },
+  "/docs/game-guides/battle-royale-071": {
+    "__comp": "17896441",
+    "content": "3ff60cdd"
+  },
+  "/docs/game-guides/gacha-rpg-b51": {
+    "__comp": "17896441",
+    "content": "209c1be1"
+  },
+  "/docs/game-guides/idle-4ad": {
+    "__comp": "17896441",
+    "content": "dc458efb"
+  },
+  "/docs/game-guides/match3-meta-811": {
+    "__comp": "17896441",
+    "content": "cc9f11a0"
+  },
+  "/docs/game-guides/overview-fc5": {
+    "__comp": "17896441",
+    "content": "a6752f5b"
+  },
+  "/docs/game-guides/puzzle-d47": {
+    "__comp": "17896441",
+    "content": "b08d0c40"
+  },
+  "/docs/getting-started/architecture-fad": {
+    "__comp": "17896441",
+    "content": "24b82002"
+  },
+  "/docs/getting-started/core-concepts-745": {
+    "__comp": "17896441",
+    "content": "8b9c740d"
+  },
+  "/docs/getting-started/installation-022": {
+    "__comp": "17896441",
+    "content": "54f44165"
+  },
+  "/docs/getting-started/quickstart-a27": {
+    "__comp": "17896441",
+    "content": "fbd7a87c"
   },
   "/-e5f": {
-    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
+    "__comp": "1df93b7f",
     "__context": {
-      "plugin": "plugin---a-74-9d6"
+      "plugin": "a7456010"
     },
-    "config": "config---5-e-9-4f3"
+    "config": "5e9f5e1a"
   }
 }

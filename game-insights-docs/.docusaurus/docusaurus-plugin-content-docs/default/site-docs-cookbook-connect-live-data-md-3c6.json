@@ -1,7 +1,7 @@
 {
   "id": "cookbook/connect-live-data",
   "title": "Connect Live Data",
-  "description": "Tutorial for connecting live data sources to Game Insights",
+  "description": "Set up real-time data sync in minutes",
   "source": "@site/docs/cookbook/connect-live-data.md",
   "sourceDirName": "cookbook",
   "slug": "/cookbook/connect-live-data",
@@ -11,13 +11,13 @@
   "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/cookbook/connect-live-data.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Author",
-  "lastUpdatedAt": 1539502055000,
+  "lastUpdatedBy": "Your Name",
+  "lastUpdatedAt": 1766952328000,
   "sidebarPosition": 5,
   "frontMatter": {
     "sidebar_position": 5,
     "title": "Connect Live Data",
-    "description": "Tutorial for connecting live data sources to Game Insights"
+    "description": "Set up real-time data sync in minutes"
   },
   "sidebar": "docs",
   "previous": {

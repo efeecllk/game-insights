@@ -1,357 +1,241 @@
 ---
 sidebar_position: 6
 title: Run an A/B Test
-description: Step-by-step guide to setting up and analyzing A/B tests
+description: Create, monitor, and analyze experiments without writing code
 ---
 
 # Run an A/B Test
 
-This tutorial guides you through setting up, running, and analyzing an A/B test in Game Insights.
+Test changes in your game and measure their impact. Game Insights handles the statistics—you make the decisions.
 
-## What You'll Learn
+**Time:** 10 minutes to set up, then wait for results
 
-- Create an A/B test experiment
-- Define control and variant groups
-- Track experiment metrics
-- Analyze results for statistical significance
+## What You'll Achieve
 
-## Prerequisites
+- Create a controlled experiment
+- Monitor results in real-time
+- Get a clear winner recommendation
+- Make data-driven decisions
 
-- Data with user identifiers
-- Event tracking for the metric you want to test
-- Understanding of your baseline metrics
+## Before You Start
 
-## Scenario: Testing Onboarding Flow
+- Your game should be tracking events (sessions, purchases, level completions, etc.)
+- Know what you want to test (e.g., new tutorial vs. old tutorial)
+- Have a goal metric in mind (e.g., improve Day 1 retention)
 
-Let's test whether a new tutorial improves Day 1 retention.
+---
 
-**Hypothesis:** A simplified tutorial will increase D1 retention by 10%.
+## Step 1: Create New Experiment
 
-## Step 1: Design Your Experiment
+1. Click **A/B Testing** in the left sidebar
+2. Click **+ New Experiment**
 
-### Define the Test
+**What you'll see:** The experiment creation wizard opens
 
-| Element | Value |
-|---------|-------|
-| **Name** | Simplified Tutorial Test |
-| **Primary Metric** | D1 Retention |
-| **Secondary Metrics** | Tutorial completion, Session length |
-| **Traffic Split** | 50/50 |
-| **Duration** | 14 days |
-| **Minimum Sample** | 5,000 users per variant |
+---
 
-### Calculate Sample Size
+## Step 2: Name Your Experiment
 
-For 80% power to detect a 10% lift (e.g., 40% → 44%):
+1. Enter a clear name (e.g., "Simplified Tutorial Test")
+2. Add a description of what you're testing
+3. Click **Next**
 
-```typescript
-// Game Insights calculates this automatically
-const sampleSize = calculateSampleSize({
-  baselineRate: 0.40,
-  minimumDetectableEffect: 0.10,
-  power: 0.80,
-  significanceLevel: 0.05
-});
-// Result: ~4,800 per variant
-```
+> **Tip:** Use descriptive names like "Faster Level 1 - March 2024" so you can find it later.
 
-## Step 2: Create the Experiment
+---
 
-### Using the UI
+## Step 3: Choose Your Metric
 
-1. Navigate to **A/B Testing** in the sidebar
-2. Click **Create Experiment**
-3. Fill in the experiment details:
+1. Select your **Primary Metric** from the dropdown:
+   - **D1 Retention** - Do users come back tomorrow?
+   - **D7 Retention** - Do users come back next week?
+   - **Conversion Rate** - Do users make a purchase?
+   - **Session Length** - How long do users play?
+   - **Level Completion** - Do users finish more levels?
 
-```
-Name: Simplified Tutorial Test
-Description: Testing if a shorter tutorial improves retention
+2. Optionally add **Secondary Metrics** to track additional effects
 
-Primary Metric: d1_retention
-Secondary Metrics: tutorial_complete, avg_session_length
+3. Click **Next**
 
-Variants:
-- Control (50%): Original tutorial
-- Treatment (50%): Simplified tutorial
+**What you'll see:** A preview of how results will be displayed
 
-Start Date: [Today]
-End Date: [+14 days]
-```
+---
 
-4. Click **Create**
+## Step 4: Define Your Variants
 
-### Using Code
+### Control Group
+1. Name it (default: "Control")
+2. Describe current behavior: "Original 10-step tutorial"
 
-```typescript
-import { abTestingStore } from '@/stores/abTestingStore';
+### Treatment Group
+1. Click **+ Add Variant**
+2. Name it (e.g., "Simplified")
+3. Describe the change: "New 5-step tutorial"
 
-const experiment = await abTestingStore.createExperiment({
-  name: 'Simplified Tutorial Test',
-  description: 'Testing if a shorter tutorial improves retention',
-  status: 'draft',
-  startDate: new Date().toISOString(),
-  endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-  primaryMetric: 'd1_retention',
-  secondaryMetrics: ['tutorial_complete', 'avg_session_length'],
-  variants: [
-    { id: 'control', name: 'Control', description: 'Original tutorial', traffic: 50 },
-    { id: 'treatment', name: 'Treatment', description: 'Simplified tutorial', traffic: 50 }
-  ],
-  targetSampleSize: 10000
-});
-```
+### Traffic Split
+1. Use the slider to set traffic allocation
+2. Default: 50% Control / 50% Treatment
+3. Adjust if needed (e.g., 80/20 for risky changes)
 
-## Step 3: Implement Assignment
+4. Click **Next**
 
-Assign users to variants in your game code:
+---
 
-```typescript
-// Client-side assignment (simple hash-based)
-function getVariant(userId: string, experimentId: string): string {
-  const hash = hashCode(`${userId}-${experimentId}`);
-  const bucket = Math.abs(hash) % 100;
+## Step 5: Set Duration
 
-  // 50/50 split
-  return bucket < 50 ? 'control' : 'treatment';
-}
+1. Choose experiment length:
+   - **1 week** - Quick tests, large user base
+   - **2 weeks** - Standard recommendation
+   - **4 weeks** - Small user base or small expected effect
 
-// Track assignment
-function trackExperimentAssignment(userId: string, experimentId: string, variant: string) {
-  trackEvent({
-    event_type: 'experiment_assignment',
-    user_id: userId,
-    properties: {
-      experiment_id: experimentId,
-      variant: variant
-    }
-  });
-}
-```
+2. The system shows **estimated sample size** needed
 
-### Server-side Assignment (Recommended)
+3. Click **Create Experiment**
 
-```typescript
-// More reliable for critical experiments
-app.get('/api/experiment/variant', async (req, res) => {
-  const { userId, experimentId } = req.query;
+**What you'll see:**
+- Required users per variant (auto-calculated)
+- Expected end date
+- Statistical power indicator
 
-  // Check if user already assigned
-  let assignment = await db.experimentAssignments.findOne({
-    userId, experimentId
-  });
+> **Tip:** The system automatically calculates how many users you need for reliable results. Trust these numbers!
 
-  if (!assignment) {
-    const variant = assignVariant(userId, experimentId);
-    assignment = await db.experimentAssignments.create({
-      userId,
-      experimentId,
-      variant,
-      assignedAt: new Date()
-    });
-  }
+---
 
-  res.json({ variant: assignment.variant });
-});
-```
+## Step 6: Start the Experiment
 
-## Step 4: Track Experiment Events
+1. Review your experiment summary
+2. Click **Start Experiment**
+3. Confirm when prompted
 
-Log events with experiment context:
+**What you'll see:** Status changes to "Running" with a green indicator
 
-```typescript
-// When user completes tutorial
-function onTutorialComplete(userId: string) {
-  const variant = getVariant(userId, 'simplified_tutorial_test');
+---
 
-  trackEvent({
-    event_type: 'tutorial_complete',
-    user_id: userId,
-    timestamp: new Date().toISOString(),
-    properties: {
-      experiment_id: 'simplified_tutorial_test',
-      variant: variant,
-      completion_time_seconds: tutorialDuration
-    }
-  });
-}
+## Step 7: Monitor Progress
 
-// Track retention (typically done server-side)
-function checkDayOneRetention(userId: string, installDate: Date) {
-  const variant = getVariant(userId, 'simplified_tutorial_test');
-  const daysSinceInstall = daysBetween(installDate, new Date());
+While the experiment runs, check the dashboard to see:
 
-  if (daysSinceInstall === 1) {
-    const hadSession = await checkUserSession(userId, new Date());
+### Progress Bar
+- Shows percentage of required sample size reached
+- Example: "2,600 / 5,000 users (52%)"
 
-    trackEvent({
-      event_type: 'd1_retention_check',
-      user_id: userId,
-      properties: {
-        experiment_id: 'simplified_tutorial_test',
-        variant: variant,
-        retained: hadSession
-      }
-    });
-  }
-}
-```
+### Preliminary Results
+- Current metrics for each variant
+- Trend indicators (↑ or ↓)
+- **Note:** These are preliminary—wait for completion!
 
-## Step 5: Monitor the Experiment
+### Confidence Indicator
+- Shows current statistical confidence
+- Needs to reach 95%+ for reliable results
 
-### Dashboard View
+> **Important:** Don't stop early just because one variant looks better! Early results often change. Let the experiment run its full duration.
 
-Game Insights provides a real-time experiment dashboard:
+---
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ Simplified Tutorial Test                              Status: Running       │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ Progress: ████████████████░░░░░░░░░░░░░░ 52% (5,200 / 10,000 users)        │
-│ Days: 7 / 14                                                                │
-│                                                                             │
-│ Primary Metric: D1 Retention                                                │
-│ ┌───────────────────────────────────────────────────────────────────────┐  │
-│ │ Control:     40.2% (n=2,600)                                          │  │
-│ │ Treatment:   43.8% (n=2,600)     +9.0% ↑                              │  │
-│ │                                                                       │  │
-│ │ Statistical Significance: 78% (not yet significant at 95%)           │  │
-│ │ Estimated days to significance: 3-5 days                              │  │
-│ └───────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│ Secondary Metrics:                                                          │
-│ • Tutorial Completion: Control 82%, Treatment 91% (+11%) ✓ Significant     │
-│ • Avg Session Length: Control 8.2m, Treatment 7.8m (-5%)                   │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+## Step 8: Review Final Results
 
-### Check for Issues
+When the experiment completes, you'll see:
 
-Look for these warning signs:
+### Winner Banner
+- Clear indication: "Treatment wins" or "No significant difference"
+- Confidence level (e.g., 95% confident)
 
-| Issue | Indicator | Action |
-|-------|-----------|--------|
-| Sample Ratio Mismatch | Traffic not 50/50 | Check assignment logic |
-| Selection Bias | Pre-treatment metrics differ | Review assignment timing |
-| Novelty Effect | Effect decreasing over time | Extend experiment |
-| Contamination | Users in both variants | Fix assignment consistency |
+### Results Summary
+| Metric | Control | Treatment | Difference |
+|--------|---------|-----------|------------|
+| D1 Retention | 40.2% | 43.8% | +9.0% ↑ |
 
-## Step 6: Analyze Results
+### Recommendation
+The system provides a plain-language recommendation:
+> "The simplified tutorial increased Day 1 retention by 9%. We recommend rolling out this change to all users."
 
-### Wait for Significance
+---
 
-Don't stop early! Let the experiment run to planned duration or sample size.
+## Step 9: Make Your Decision
 
-```typescript
-// Game Insights tracks this automatically
-interface ExperimentResults {
-  primaryMetric: {
-    control: { value: 0.402, sampleSize: 2600 },
-    treatment: { value: 0.438, sampleSize: 2600 },
-    lift: 0.090,  // 9% relative lift
-    pValue: 0.023,
-    isSignificant: true,  // p < 0.05
-    confidenceInterval: [0.02, 0.16]
-  };
-}
-```
+1. Click **Complete Experiment**
+2. Choose an outcome:
+   - **Roll out Treatment** - Apply the winning change to everyone
+   - **Keep Control** - Stay with the original
+   - **Run Follow-up** - Test further variations
 
-### Interpret Results
+3. Add notes about your decision (for future reference)
+4. Click **Confirm**
 
-After the experiment completes:
+---
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ EXPERIMENT COMPLETE: Simplified Tutorial Test                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│ WINNER: Treatment (Simplified Tutorial)                                     │
-│                                                                             │
-│ D1 Retention:                                                               │
-│   Control:     40.2% ± 1.9%                                                │
-│   Treatment:   43.8% ± 1.8%                                                │
-│   Relative Lift: +9.0% [95% CI: 2.1% to 15.9%]                            │
-│   p-value: 0.011 (Significant at α=0.05)                                   │
-│                                                                             │
-│ RECOMMENDATION: Roll out simplified tutorial to all users                  │
-│                                                                             │
-│ Expected Impact:                                                            │
-│   • D1 retention: +3.6 percentage points                                   │
-│   • Additional retained users per 10K installs: ~360                       │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+## You're Done!
 
-## Step 7: Make a Decision
+Your experiment is complete and documented. The decision is recorded for future reference.
 
-### If Significant Winner
+---
 
-```typescript
-// Archive experiment and record decision
-await abTestingStore.completeExperiment(experimentId, {
-  winner: 'treatment',
-  decision: 'Roll out to 100% of users',
-  notes: 'Simplified tutorial shows significant improvement in D1 retention',
-  implementationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
-});
-```
+## Understanding Results
 
-### If No Significant Difference
+### What "Significant" Means
 
-Consider:
-1. **Extend** the experiment for more power
-2. **Iterate** on the variant design
-3. **Accept** that the change has no meaningful impact
-4. **Segment** analysis to find sub-populations that respond
+- **Significant result:** The difference is real, not random chance
+- **95% confidence:** Only 5% chance this is a false positive
+- **Not significant:** Can't tell if there's a real difference
+
+### Sample Sizes
+
+The system needs enough users to detect real differences:
+- **Large effect** (20%+ change): ~500 users per variant
+- **Medium effect** (10% change): ~2,000 users per variant
+- **Small effect** (5% change): ~8,000 users per variant
+
+### Common Outcomes
+
+| Result | What It Means | What To Do |
+|--------|---------------|------------|
+| Treatment wins significantly | Change works! | Roll it out |
+| No significant difference | Change doesn't matter | Keep original (simpler) |
+| Control wins | Change hurt metrics | Don't ship it |
+| Inconclusive | Need more data | Extend or restart |
+
+---
+
+## Troubleshooting
+
+### Experiment running too slow
+
+- Check if users are being assigned to both variants
+- Verify your game is sending events correctly
+- Consider increasing traffic to the experiment
+
+### Results keep fluctuating
+
+- This is normal early on—let it run longer
+- Daily and weekly patterns cause variation
+- Wait for full duration before deciding
+
+### Unexpected results
+
+- Check if both variants are implemented correctly
+- Look for bugs affecting one variant
+- Consider external factors (marketing campaigns, holidays)
+
+---
 
 ## Best Practices
 
-### Do
+**Do:**
+- Define your goal before starting
+- Let experiments run their full duration
+- Document why you made each decision
+- Run one major test at a time per user group
 
-- Define metrics before starting
-- Calculate required sample size
-- Run for the full planned duration
-- Document your hypothesis
-- Consider secondary metrics
-- Check for sample ratio mismatch
+**Don't:**
+- Stop early when you see a "winner"
+- Change the experiment while it's running
+- Test too many things at once
+- Ignore secondary metrics
 
-### Don't
-
-- Stop early when you see significance (peeking problem)
-- Change experiment parameters mid-flight
-- Run too many tests on the same users
-- Ignore practical significance (is a 0.5% lift worth it?)
-- Forget to track variant assignment
-
-## Common Pitfalls
-
-### 1. Peeking Problem
-
-Looking at results daily and stopping when significant leads to false positives.
-
-**Solution:** Use sequential testing or commit to a fixed sample size.
-
-### 2. Multiple Comparisons
-
-Testing 10 metrics increases false positive rate.
-
-**Solution:** Pre-register primary metric; apply Bonferroni correction for secondary.
-
-### 3. Selection Bias
-
-If users can opt-in, results won't generalize.
-
-**Solution:** Random assignment before any user action.
+---
 
 ## Next Steps
 
-- [Analyze Monetization](/docs/cookbook/analyze-monetization) for your variants
-- [Set Up Alerts](/docs/cookbook/setup-alerts) for experiment anomalies
-- Learn about [A/B Testing Features](/docs/features/ab-testing)
-
-## Related
-
-- [A/B Testing Feature Guide](/docs/features/ab-testing)
-- [AI Recommendations](/docs/ai-analytics/recommendations)
-- [Funnel Analysis](/docs/features/funnels)
+- [Set Up Alerts](/docs/cookbook/setup-alerts) to get notified when experiments complete
+- [Analyze Monetization](/docs/cookbook/analyze-monetization) to test pricing changes
+- Read about [A/B Testing Best Practices](/docs/features/ab-testing)

@@ -1,22 +1,25 @@
 ---
 sidebar_position: 6
-title: Gacha RPG Games
-description: Analytics guide for gacha, hero collector, and turn-based RPG games
+title: Gacha RPG Patterns
+description: Analytics for gacha, hero collector, and character collection games
 ---
 
-# Gacha RPG Games
+# Gacha RPG Patterns
 
-This guide covers analytics strategies for gacha games, hero collectors, turn-based RPGs, and similar character collection games.
+Does your game have character pulls, banners, and rarity-based collection? This guide shows what analytics Game Insights generates when it recognizes gacha mechanics in your data.
 
-## Game Type Characteristics
+**Also works for:** Hero collectors, card collectors, turn-based RPGs with summons, any game with randomized character acquisition.
 
-Gacha RPGs typically feature:
+## What Triggers This Pattern
 
-- **Character collection** via random pulls
-- **Banner/summon systems** with rate-ups
-- **Pity mechanics** guaranteeing drops
-- **Multiple currencies** (free and premium)
-- **Limited-time events** driving urgency
+Game Insights recognizes gacha patterns when your data contains:
+- Pull/summon events with rarity
+- Banner or rate-up tracking
+- Pity counter or guarantee systems
+- Character/unit collection metrics
+- Multiple premium currencies
+
+**Examples:** Genshin Impact, AFK Arena, Raid Shadow Legends, Summoners War, Epic Seven
 
 ## Key Metrics
 

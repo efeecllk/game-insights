@@ -1,7 +1,7 @@
 {
   "id": "game-guides/gacha-rpg",
-  "title": "Gacha RPG Games",
-  "description": "Analytics guide for gacha, hero collector, and turn-based RPG games",
+  "title": "Gacha RPG Patterns",
+  "description": "Analytics for gacha, hero collector, and character collection games",
   "source": "@site/docs/game-guides/gacha-rpg.md",
   "sourceDirName": "game-guides",
   "slug": "/game-guides/gacha-rpg",
@@ -11,17 +11,17 @@
   "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/gacha-rpg.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Author",
-  "lastUpdatedAt": 1539502055000,
+  "lastUpdatedBy": "Your Name",
+  "lastUpdatedAt": 1766952328000,
   "sidebarPosition": 6,
   "frontMatter": {
     "sidebar_position": 6,
-    "title": "Gacha RPG Games",
-    "description": "Analytics guide for gacha, hero collector, and turn-based RPG games"
+    "title": "Gacha RPG Patterns",
+    "description": "Analytics for gacha, hero collector, and character collection games"
   },
   "sidebar": "docs",
   "previous": {
-    "title": "Match-3 Meta Games Guide",
+    "title": "Match-3 + Meta Patterns",
     "permalink": "/docs/game-guides/match3-meta"
   },
   "next": {

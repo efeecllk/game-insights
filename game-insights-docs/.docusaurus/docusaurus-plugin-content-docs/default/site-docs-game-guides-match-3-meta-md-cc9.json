@@ -1,7 +1,7 @@
 {
   "id": "game-guides/match3-meta",
-  "title": "Match-3 Meta Games Guide",
-  "description": "Analytics best practices for match-3 games with story and decoration meta layers",
+  "title": "Match-3 + Meta Patterns",
+  "description": "Analytics for match-3 games with story, decoration, or collection meta layers",
   "source": "@site/docs/game-guides/match3-meta.md",
   "sourceDirName": "game-guides",
   "slug": "/game-guides/match3-meta",
@@ -11,21 +11,21 @@
   "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/match3-meta.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Author",
-  "lastUpdatedAt": 1539502055000,
+  "lastUpdatedBy": "Your Name",
+  "lastUpdatedAt": 1766952328000,
   "sidebarPosition": 5,
   "frontMatter": {
     "sidebar_position": 5,
-    "title": "Match-3 Meta Games Guide",
-    "description": "Analytics best practices for match-3 games with story and decoration meta layers"
+    "title": "Match-3 + Meta Patterns",
+    "description": "Analytics for match-3 games with story, decoration, or collection meta layers"
   },
   "sidebar": "docs",
   "previous": {
-    "title": "Battle Royale Guide",
+    "title": "Battle Royale Patterns",
     "permalink": "/docs/game-guides/battle-royale"
   },
   "next": {
-    "title": "Gacha RPG Games",
+    "title": "Gacha RPG Patterns",
     "permalink": "/docs/game-guides/gacha-rpg"
   }
 }

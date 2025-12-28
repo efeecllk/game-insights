@@ -1,25 +1,25 @@
 ---
 sidebar_position: 4
-title: Battle Royale Guide
-description: Analytics best practices for battle royale, competitive shooters, and survival games
+title: Battle Royale Patterns
+description: Analytics for battle royale, competitive shooters, and PvP games
 ---
 
-# Battle Royale Guide
+# Battle Royale Patterns
 
-Battle Royale games feature intense competitive gameplay where skill-based matchmaking, weapon balance, and match performance are critical to player satisfaction. This guide covers analytics strategies for BR games, competitive shooters, and similar PvP experiences.
+Does your game have match-based gameplay with kills, placement, and survival mechanics? This guide shows what analytics Game Insights generates when it recognizes these patterns.
 
-## Overview
+**Also works for:** Competitive shooters, survival games, arena PvP, team-based shooters, and any game with match-based competitive mechanics.
 
-**Game Type ID:** `battle_royale`
+## What Triggers This Pattern
 
-**Examples:** PUBG Mobile, Fortnite, Call of Duty Mobile, Free Fire, Apex Legends Mobile
+Game Insights recognizes battle royale patterns when your data contains:
+- Match/round identifiers
+- Kill and death tracking
+- Placement or ranking
+- Survival time metrics
+- Weapon or loadout data
 
-**Core Mechanics:**
-- Last-player/team-standing gameplay
-- Looting and inventory management
-- Skill-based matchmaking (SBMM)
-- Ranked/competitive seasons
-- Battle passes and cosmetic monetization
+**Examples:** PUBG Mobile, Fortnite, Call of Duty Mobile, Free Fire, Apex Legends
 
 ## Typical Data Schema
 

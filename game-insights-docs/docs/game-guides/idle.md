@@ -1,25 +1,24 @@
 ---
 sidebar_position: 3
-title: Idle Games Guide
-description: Analytics best practices for idle, incremental, and clicker mobile games
+title: Idle Game Patterns
+description: Analytics for idle, incremental, and clicker mobile games
 ---
 
-# Idle Games Guide
+# Idle Game Patterns
 
-Idle games (also called incremental or clicker games) are unique in mobile gaming because they generate value even when the player is not actively engaged. This guide covers analytics strategies for idle games, focusing on prestige systems, offline progression, and engagement optimization.
+Does your game feature prestige/rebirth mechanics, offline rewards, or passive progression? This guide shows what analytics Game Insights generates when it recognizes these patterns.
 
-## Overview
+**Also works for:** Clicker games, incremental games, merge games with offline progress, tycoon games, and any game with passive earning mechanics.
 
-**Game Type ID:** `idle`
+## What Triggers This Pattern
 
-**Examples:** Adventure Capitalist, Idle Heroes, Cookie Clicker, Egg Inc., AFK Arena (idle elements)
-
-**Core Mechanics:**
+Game Insights recognizes idle patterns when your data contains:
+- Prestige or rebirth tracking
+- Offline duration and rewards
 - Passive resource generation
-- Prestige/rebirth systems
-- Upgrade trees
-- Offline progression rewards
-- Multiple currency economies
+- Upgrade or multiplier progression
+
+**Examples:** Adventure Capitalist, Cookie Clicker, Idle Heroes, Egg Inc., AFK Arena
 
 ## Typical Data Schema
 

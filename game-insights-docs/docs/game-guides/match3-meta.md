@@ -1,26 +1,24 @@
 ---
 sidebar_position: 5
-title: Match-3 Meta Games Guide
-description: Analytics best practices for match-3 games with story and decoration meta layers
+title: Match-3 + Meta Patterns
+description: Analytics for match-3 games with story, decoration, or collection meta layers
 ---
 
-# Match-3 Meta Games Guide
+# Match-3 + Meta Patterns
 
-Match-3 Meta games combine classic puzzle mechanics with engaging meta layers like home decoration, story progression, or character collection. These hybrid games require tracking both puzzle performance and meta engagement. This guide covers analytics strategies for this popular genre.
+Does your game combine puzzle mechanics with decoration, story progression, or collection systems? This guide shows what analytics Game Insights generates when it recognizes this dual-loop pattern.
 
-## Overview
+**Also works for:** Merge games with decoration, puzzle + narrative games, casual games with customization, and any game combining core gameplay with progression meta layers.
 
-**Game Type ID:** `match3_meta`
+## What Triggers This Pattern
+
+Game Insights recognizes match-3 meta patterns when your data contains:
+- Level/puzzle progression AND decoration/story events
+- Multiple progression systems (puzzle + meta)
+- Customization or collection tracking
+- Chapter or area completion
 
 **Examples:** Homescapes, Gardenscapes, Lily's Garden, Matchington Mansion, Project Makeover
-
-**Core Mechanics:**
-- Match-3 puzzle gameplay
-- Story/narrative progression
-- Decoration/customization systems
-- Multiple choice story elements
-- Power-up economy
-- Lives/energy system
 
 ## Typical Data Schema
 

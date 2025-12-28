@@ -1,25 +1,25 @@
 ---
 sidebar_position: 2
-title: Puzzle Games Guide
-description: Analytics best practices for puzzle, match-3, and level-based mobile games
+title: Puzzle Game Patterns
+description: Analytics for puzzle, match-3, and level-based mobile games
 ---
 
-# Puzzle Games Guide
+# Puzzle Game Patterns
 
-Puzzle games represent one of the most popular mobile game genres, characterized by level-based progression, limited moves or time, and power-up economies. This guide covers analytics best practices for puzzle, match-3, and similar level-based games.
+Does your game have level-based progression, limited moves, and power-ups? This guide shows what analytics Game Insights generates when it recognizes these patterns in your data.
 
-## Overview
+**Also works for:** Match-3 games, word puzzles, brain teasers, physics puzzlers, and any game with level-based progression.
 
-**Game Type ID:** `puzzle`
+## What Triggers This Pattern
 
-**Examples:** Candy Crush, Homescapes (puzzle layers), Gardenscapes (puzzle layers), Toon Blast, Lily's Garden
+Game Insights recognizes puzzle patterns when your data contains:
+- Level/stage progression columns
+- Move or time tracking
+- Booster/power-up usage
+- Lives or energy systems
+- Score or star ratings
 
-**Core Mechanics:**
-- Level-based progression
-- Move or time limitations
-- Power-ups and boosters
-- Lives/energy system
-- Star ratings per level
+**Examples:** Candy Crush, Toon Blast, Gardenscapes, Lily's Garden, Wordscapes
 
 ## Typical Data Schema
 

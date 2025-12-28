@@ -11,8 +11,8 @@
   "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/features/templates.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Author",
-  "lastUpdatedAt": 1539502055000,
+  "lastUpdatedBy": "Your Name",
+  "lastUpdatedAt": 1766952328000,
   "sidebarPosition": 7,
   "frontMatter": {
     "sidebar_position": 7,
@@ -25,7 +25,7 @@
     "permalink": "/docs/features/alerts"
   },
   "next": {
-    "title": "Game Types Overview",
+    "title": "Game Analytics Overview",
     "permalink": "/docs/game-guides/overview"
   }
 }

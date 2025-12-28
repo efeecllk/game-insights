@@ -1,7 +1,7 @@
 {
   "id": "cookbook/run-ab-test",
   "title": "Run an A/B Test",
-  "description": "Step-by-step guide to setting up and analyzing A/B tests",
+  "description": "Create, monitor, and analyze experiments without writing code",
   "source": "@site/docs/cookbook/run-ab-test.md",
   "sourceDirName": "cookbook",
   "slug": "/cookbook/run-ab-test",
@@ -11,13 +11,13 @@
   "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/cookbook/run-ab-test.md",
   "tags": [],
   "version": "current",
-  "lastUpdatedBy": "Author",
-  "lastUpdatedAt": 1539502055000,
+  "lastUpdatedBy": "Your Name",
+  "lastUpdatedAt": 1766952328000,
   "sidebarPosition": 6,
   "frontMatter": {
     "sidebar_position": 6,
     "title": "Run an A/B Test",
-    "description": "Step-by-step guide to setting up and analyzing A/B tests"
+    "description": "Create, monitor, and analyze experiments without writing code"
   },
   "sidebar": "docs",
   "previous": {

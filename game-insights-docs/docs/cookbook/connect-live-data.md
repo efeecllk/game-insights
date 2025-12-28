@@ -1,303 +1,184 @@
 ---
 sidebar_position: 5
 title: Connect Live Data
-description: Tutorial for connecting live data sources to Game Insights
+description: Set up real-time data sync in minutes
 ---
 
 # Connect Live Data
 
-This tutorial walks through connecting real-time data sources to Game Insights for live dashboards.
+Connect your game's live data source to see metrics update in real-time. No coding required.
 
-## What You'll Learn
+**Time:** 5-10 minutes
 
-- Connect to a live data source
-- Set up real-time synchronization
-- Handle connection errors gracefully
-- Monitor data freshness
+## What You'll Achieve
 
-## Prerequisites
+- Real-time dashboard updates as players interact with your game
+- Automatic data sync without manual uploads
+- Live alerts when metrics change
 
-- Game Insights installed locally
-- Access to one of: Supabase, PostgreSQL, or webhook endpoint
-- Basic TypeScript knowledge
+## Before You Start
 
-## Step 1: Choose Your Data Source
+You'll need access credentials from one of these providers:
+- **Supabase** - Project URL and API key (free tier available)
+- **PostgreSQL** - Host, database name, username, password
+- **Google Sheets** - Google account with a spreadsheet
+- **Custom API** - Your API endpoint URL
 
-Game Insights supports several live data options:
+---
 
-| Source | Best For | Setup Complexity |
-|--------|----------|------------------|
-| **Supabase** | Real-time dashboards | Easy |
-| **PostgreSQL** | Production databases | Medium |
-| **Webhooks** | Server-sent events | Medium |
-| **Custom API** | Third-party services | Varies |
+## Step 1: Open Data Sources
 
-For this tutorial, we'll use Supabase as it offers true real-time capabilities.
+1. Click **Data Sources** in the left sidebar
+2. Click the **+ Add Source** button
 
-## Step 2: Set Up Supabase
+**What you'll see:** A list of available data source types with icons
 
-### Create Project
+---
 
-1. Go to [supabase.com](https://supabase.com) and create a project
-2. Wait for the database to provision
+## Step 2: Choose Your Provider
 
-### Create Events Table
+1. Click your provider's card (e.g., **Supabase**, **PostgreSQL**, **Google Sheets**)
+2. The connection form opens
 
-```sql
-CREATE TABLE player_events (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id TEXT NOT NULL,
-  event_type TEXT NOT NULL,
-  properties JSONB DEFAULT '{}',
-  timestamp TIMESTAMPTZ DEFAULT NOW()
-);
+**What you'll see:** A form with fields specific to your provider
 
--- Enable real-time
-ALTER PUBLICATION supabase_realtime ADD TABLE player_events;
-```
+---
 
-### Get Credentials
+## Step 3: Enter Your Credentials
 
-1. Go to **Settings** > **API**
-2. Copy the Project URL and anon key
+### For Supabase
 
-## Step 3: Configure Game Insights
+1. Open your Supabase project dashboard
+2. Go to **Settings** → **API**
+3. Copy the **Project URL** → Paste into Game Insights
+4. Copy the **anon/public key** → Paste into Game Insights
+5. Select your events table from the dropdown
 
-Add credentials to your environment:
+### For PostgreSQL
 
-```bash
-# .env.local
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
-```
+1. Enter your database **Host** (e.g., `db.example.com`)
+2. Enter **Port** (usually `5432`)
+3. Enter **Database name**
+4. Enter **Username** and **Password**
+5. Toggle **SSL** on if required
 
-## Step 4: Connect to Data Source
+### For Google Sheets
 
-Navigate to **Data Sources** in Game Insights and click **Add Source**.
+1. Click **Sign in with Google**
+2. Authorize Game Insights to read your sheets
+3. Select the spreadsheet from the list
+4. Choose the sheet/tab with your data
 
-### Using the UI
+### For Custom API
 
-1. Select **Supabase** as the source type
-2. Enter your Project URL and API key
-3. Select the `player_events` table
-4. Enable **Real-time sync**
-5. Click **Connect**
+1. Enter your **API endpoint URL**
+2. Select authentication type (API Key, Bearer Token, or None)
+3. Enter credentials if required
 
-### Using Code
+---
 
-```typescript
-import { SupabaseAdapter } from '@/adapters/SupabaseAdapter';
-import { useData } from '@/context/DataContext';
+## Step 4: Test the Connection
 
-function LiveDataConnector() {
-  const { setData } = useData();
-  const [status, setStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
+1. Click **Test Connection**
+2. Wait a few seconds
 
-  const connect = async () => {
-    setStatus('connecting');
+**What you'll see:**
+- ✅ Green checkmark = Connected successfully
+- ❌ Red error = Check your credentials and try again
 
-    try {
-      const adapter = new SupabaseAdapter({
-        url: import.meta.env.VITE_SUPABASE_URL,
-        anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY
-      });
+> **Tip:** If connection fails, double-check that your credentials are copied correctly with no extra spaces.
 
-      // Connect with real-time enabled
-      await adapter.connect({
-        table: 'player_events',
-        syncMode: 'realtime',
-        order: { column: 'timestamp', ascending: false },
-        limit: 10000
-      });
+---
 
-      // Load initial data
-      const initialData = await adapter.fetchData();
-      setData(initialData);
+## Step 5: Enable Real-Time Sync
 
-      // Subscribe to changes
-      adapter.on('insert', (newRow) => {
-        setData(prev => [newRow, ...prev.slice(0, 9999)]);
-      });
+1. Toggle **Real-time sync** to ON
+2. Set refresh interval (for non-streaming sources):
+   - **Every 1 minute** - Most current data
+   - **Every 5 minutes** - Balanced (recommended)
+   - **Every 15 minutes** - Lower resource usage
 
-      await adapter.startRealtime();
-      setStatus('connected');
-    } catch (error) {
-      console.error('Connection failed:', error);
-      setStatus('disconnected');
-    }
-  };
+**What you'll see:** A "Live" indicator appears next to your data source
 
-  return (
-    <div>
-      <p>Status: {status}</p>
-      <button onClick={connect} disabled={status === 'connecting'}>
-        {status === 'connected' ? 'Connected' : 'Connect'}
-      </button>
-    </div>
-  );
-}
-```
+---
 
-## Step 5: Handle Real-time Events
+## Step 6: Save and Verify
 
-Set up event handlers for different scenarios:
+1. Click **Save Connection**
+2. Return to your dashboard
+3. Look for the **Live** badge in the header
 
-```typescript
-// New data inserted
-adapter.on('insert', (newRow) => {
-  console.log('New event:', newRow);
-  addToDataset(newRow);
-  refreshCharts();
-});
+**What you'll see:** Your dashboard now shows real-time data with a pulsing "Live" indicator
 
-// Data updated
-adapter.on('update', (newRow, oldRow) => {
-  console.log('Updated:', oldRow.id, '->', newRow);
-  updateInDataset(newRow);
-});
+---
 
-// Data deleted
-adapter.on('delete', (deletedRow) => {
-  console.log('Deleted:', deletedRow.id);
-  removeFromDataset(deletedRow.id);
-});
+## You're Done!
 
-// Connection status
-adapter.on('subscribed', () => {
-  console.log('Real-time connected');
-  showNotification('Live data active');
-});
+Your live data connection is active. As new events come in from your game, dashboards update automatically.
 
-adapter.on('error', (error) => {
-  console.error('Connection error:', error);
-  showNotification('Connection lost, retrying...');
-});
-```
+### What Happens Now
 
-## Step 6: Implement Reconnection
+- **New data appears** within seconds (streaming) or at your refresh interval
+- **Alerts trigger** based on your configured rules
+- **AI insights update** as patterns emerge in new data
 
-Handle connection drops gracefully:
-
-```typescript
-function useLiveData() {
-  const [adapter, setAdapter] = useState<SupabaseAdapter | null>(null);
-  const [connected, setConnected] = useState(false);
-  const reconnectAttempts = useRef(0);
-  const maxAttempts = 5;
-
-  const connect = async () => {
-    const newAdapter = new SupabaseAdapter({ /* config */ });
-
-    newAdapter.on('error', async (error) => {
-      setConnected(false);
-
-      if (reconnectAttempts.current < maxAttempts) {
-        reconnectAttempts.current++;
-        const delay = Math.pow(2, reconnectAttempts.current) * 1000;
-
-        console.log(`Reconnecting in ${delay}ms (attempt ${reconnectAttempts.current})`);
-
-        await new Promise(r => setTimeout(r, delay));
-        await connect();
-      }
-    });
-
-    newAdapter.on('subscribed', () => {
-      setConnected(true);
-      reconnectAttempts.current = 0;
-    });
-
-    await newAdapter.connect({ table: 'player_events', syncMode: 'realtime' });
-    await newAdapter.startRealtime();
-
-    setAdapter(newAdapter);
-  };
-
-  return { connect, connected, adapter };
-}
-```
-
-## Step 7: Monitor Data Freshness
-
-Track when data was last updated:
-
-```typescript
-function DataFreshnessIndicator() {
-  const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [isStale, setIsStale] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (lastUpdate) {
-        const ageMs = Date.now() - lastUpdate.getTime();
-        setIsStale(ageMs > 60000); // Stale if > 1 minute old
-      }
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [lastUpdate]);
-
-  return (
-    <div className={isStale ? 'text-yellow-500' : 'text-green-500'}>
-      {isStale ? '⚠️ Data may be stale' : '● Live'}
-      {lastUpdate && (
-        <span className="text-gray-500 ml-2">
-          Last update: {lastUpdate.toLocaleTimeString()}
-        </span>
-      )}
-    </div>
-  );
-}
-```
-
-## Step 8: Test with Sample Data
-
-Insert test events to verify the connection:
-
-```sql
--- In Supabase SQL Editor
-INSERT INTO player_events (user_id, event_type, properties)
-VALUES
-  ('user_001', 'session_start', '{"platform": "ios"}'),
-  ('user_001', 'level_complete', '{"level": 1, "score": 1500}'),
-  ('user_002', 'purchase', '{"item": "gems_100", "amount": 4.99}');
-```
-
-You should see the events appear instantly in your dashboard.
+---
 
 ## Troubleshooting
 
-### No Real-time Updates
+### Connection keeps failing
 
-1. Verify table has replication enabled:
-   ```sql
-   SELECT * FROM pg_publication_tables;
-   ```
+- Verify your credentials are correct
+- Check if your database allows external connections
+- For PostgreSQL, ensure your IP is whitelisted
 
-2. Check WebSocket connection in browser DevTools
+### Data not updating
 
-3. Ensure RLS policies allow SELECT
+- Check the refresh interval setting
+- Verify new data is being written to your source
+- Look at the "Last sync" timestamp in Data Sources
 
-### Connection Drops Frequently
+### Wrong data showing
 
-1. Check network stability
-2. Increase connection timeout
-3. Implement exponential backoff reconnection
+- Confirm you selected the correct table/sheet
+- Check that column names match expected formats
+- Try re-running the schema detection
 
-### High Latency
-
-1. Reduce data payload size with column selection
-2. Use server-side filtering
-3. Consider batching updates client-side
+---
 
 ## Next Steps
 
-- [Set Up Alerts](/docs/cookbook/setup-alerts) for your live data
-- [Build Custom Dashboard](/docs/cookbook/custom-dashboard) with live widgets
-- [Configure Real-Time Features](/docs/features/real-time)
+- [Set Up Alerts](/docs/cookbook/setup-alerts) to get notified of important changes
+- [Build a Custom Dashboard](/docs/cookbook/custom-dashboard) for your live data
+- [Analyze Monetization](/docs/cookbook/analyze-monetization) with real-time revenue tracking
 
-## Related
+---
 
-- [Supabase Adapter](/docs/data-management/sources/supabase)
-- [PostgreSQL Connection](/docs/data-management/sources/postgresql)
-- [Webhook Streaming](/docs/data-management/sources/webhooks)
+<details>
+<summary><strong>Advanced: Custom Integration (for developers)</strong></summary>
+
+If you need programmatic control over the connection, you can use the adapter API:
+
+```typescript
+import { SupabaseAdapter } from '@/adapters/SupabaseAdapter';
+
+const adapter = new SupabaseAdapter({
+  url: process.env.SUPABASE_URL,
+  anonKey: process.env.SUPABASE_ANON_KEY
+});
+
+await adapter.connect({
+  table: 'player_events',
+  syncMode: 'realtime'
+});
+
+adapter.on('insert', (newRow) => {
+  console.log('New event:', newRow);
+});
+
+await adapter.startRealtime();
+```
+
+See the [Adapters API Reference](/docs/api-reference/adapters) for full documentation.
+
+</details>

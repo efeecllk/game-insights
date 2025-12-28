@@ -180,7 +180,9 @@ For advanced integrations:
 2. Add the URL to **Custom Webhook**
 3. Alerts will POST JSON payloads to your endpoint
 
-Webhook payload format:
+<details>
+<summary><strong>View webhook payload format</strong></summary>
+
 ```json
 {
   "id": "alert_123",
@@ -197,6 +199,8 @@ Webhook payload format:
   ]
 }
 ```
+
+</details>
 
 ## Step 6: Test Your Alerts
 
