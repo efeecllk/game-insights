@@ -1,0 +1,146 @@
+name: Performance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.13.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-results
+          path: .lighthouseci/
+          retention-days: 14
+
+  bundle-analysis:
+    name: Bundle Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with bundle analysis
+        run: npm run build:analyze || npm run build
+        env:
+          ANALYZE: true
+
+      - name: Check bundle size
+        run: |
+          # Get the JS bundle size
+          JS_SIZE=$(du -sh dist/assets/*.js | head -1 | cut -f1)
+          echo "## Bundle Size Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Asset | Size |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|------|" >> $GITHUB_STEP_SUMMARY
+          for file in dist/assets/*.js dist/assets/*.css; do
+            if [ -f "$file" ]; then
+              SIZE=$(du -h "$file" | cut -f1)
+              NAME=$(basename "$file")
+              echo "| $NAME | $SIZE |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+          # Check for size limits
+          TOTAL_SIZE=$(du -s dist/assets | cut -f1)
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Total assets size:** $(du -sh dist/assets | cut -f1)" >> $GITHUB_STEP_SUMMARY
+
+          # Warn if bundle is too large (3MB)
+          if [ "$TOTAL_SIZE" -gt 3072 ]; then
+            echo "::warning::Bundle size exceeds 3MB! Consider code splitting."
+          fi
+
+      - name: Upload bundle stats
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-stats
+          path: dist/stats.html
+          retention-days: 14
+          if-no-files-found: ignore
+
+  performance-budget:
+    name: Performance Budget Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check JS bundle sizes
+        run: |
+          MAX_JS_SIZE=2500000  # 2.5MB in bytes (accounting for large deps like echarts)
+
+          for file in dist/assets/*.js; do
+            SIZE=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file")
+            NAME=$(basename "$file")
+
+            if [ "$SIZE" -gt "$MAX_JS_SIZE" ]; then
+              echo "::warning file=$NAME::JS bundle $NAME ($SIZE bytes) exceeds budget of $MAX_JS_SIZE bytes"
+            else
+              echo "✓ $NAME: $SIZE bytes (under budget)"
+            fi
+          done
+
+      - name: Check CSS bundle sizes
+        run: |
+          MAX_CSS_SIZE=100000  # 100KB in bytes
+
+          for file in dist/assets/*.css; do
+            SIZE=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file")
+            NAME=$(basename "$file")
+
+            if [ "$SIZE" -gt "$MAX_CSS_SIZE" ]; then
+              echo "::warning file=$NAME::CSS bundle $NAME ($SIZE bytes) exceeds budget of $MAX_CSS_SIZE bytes"
+            else
+              echo "✓ $NAME: $SIZE bytes (under budget)"
+            fi
+          done
