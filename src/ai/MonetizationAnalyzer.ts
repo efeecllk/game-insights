@@ -4,7 +4,11 @@
  * Provides ad placement optimization, IAP timing, and economy analysis
  */
 
-import { NormalizedData } from '../types';
+// NormalizedData represents a dataset with events for analysis
+export interface NormalizedData {
+  events?: Array<Record<string, unknown>>;
+  [key: string]: unknown;
+}
 
 // Types
 export interface AdPlacementMetrics {
@@ -98,8 +102,8 @@ export interface SpendingSegment {
   purchaseFrequency: number;
 }
 
-// Ad placement benchmarks by geo
-const AD_BENCHMARKS = {
+// Ad placement benchmarks by geo (exported for future use)
+export const AD_BENCHMARKS = {
   interstitial: {
     minCompletionRate: 0.85,
     maxRetentionDrop: 0.05,
@@ -460,14 +464,15 @@ export class MonetizationAnalyzer {
    * Analyze ad placements from data
    */
   analyzeAdPlacements(data: NormalizedData): AdPlacementMetrics[] {
-    const adEvents = data.events?.filter(e =>
-      e.eventType?.toLowerCase().includes('ad') ||
-      e.eventName?.toLowerCase().includes('ad')
+    type EventRecord = Record<string, unknown>;
+    const adEvents = data.events?.filter((e: EventRecord) =>
+      (e.eventType as string)?.toLowerCase().includes('ad') ||
+      (e.eventName as string)?.toLowerCase().includes('ad')
     ) || [];
 
     // Group by placement
-    const byPlacement: Record<string, typeof adEvents> = {};
-    adEvents.forEach(event => {
+    const byPlacement: Record<string, EventRecord[]> = {};
+    adEvents.forEach((event: EventRecord) => {
       const placementId = String(event.adPlacement || event.adType || 'unknown');
       if (!byPlacement[placementId]) byPlacement[placementId] = [];
       byPlacement[placementId].push(event);
@@ -475,8 +480,8 @@ export class MonetizationAnalyzer {
 
     return Object.entries(byPlacement).map(([placementId, events]) => {
       const impressions = events.length;
-      const completions = events.filter(e => e.adCompleted === true).length;
-      const revenue = events.reduce((sum, e) => sum + (Number(e.adRevenue) || 0), 0);
+      const completions = events.filter((e: EventRecord) => e.adCompleted === true).length;
+      const revenue = events.reduce((sum: number, e: EventRecord) => sum + (Number(e.adRevenue) || 0), 0);
 
       return {
         placementId,

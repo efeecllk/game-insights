@@ -37,3 +37,6 @@ Thumbs.db
 # Misc
 .cache/
 .turbo/
+
+# Coverage reports
+coverage/

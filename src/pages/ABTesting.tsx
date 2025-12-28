@@ -56,10 +56,6 @@ export function ABTestingPage() {
     const [loading, setLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState<ExperimentStatus | 'all'>('all');
 
-    useEffect(() => {
-        loadExperiments();
-    }, []);
-
     async function loadExperiments() {
         setLoading(true);
         await initializeSampleExperiments();
@@ -67,6 +63,11 @@ export function ABTestingPage() {
         setExperiments(exps);
         setLoading(false);
     }
+
+    useEffect(() => {
+        loadExperiments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const filteredExperiments = useMemo(() => {
         if (statusFilter === 'all') return experiments;

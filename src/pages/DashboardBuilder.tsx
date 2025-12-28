@@ -52,10 +52,6 @@ export function DashboardBuilderPage() {
     const [selectedWidget, setSelectedWidget] = useState<DashboardWidget | null>(null);
     const [showExportModal, setShowExportModal] = useState(false);
 
-    useEffect(() => {
-        loadDashboards();
-    }, []);
-
     async function loadDashboards() {
         setLoading(true);
         await initializeDefaultDashboards();
@@ -66,6 +62,11 @@ export function DashboardBuilderPage() {
         }
         setLoading(false);
     }
+
+    useEffect(() => {
+        loadDashboards();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     async function handleSaveDashboard() {
         if (!selectedDashboard) return;
