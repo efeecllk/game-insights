@@ -73,16 +73,16 @@ export function RealtimePage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <Activity className="w-6 h-6 text-violet-600" />
+                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                        <Activity className="w-6 h-6 text-th-accent-primary" />
                         Realtime
                     </h1>
                 </div>
                 <button
                     onClick={() => setIsLive(!isLive)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isLive
-                            ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            ? 'bg-th-success-muted text-th-success hover:bg-th-success-muted'
+                            : 'bg-th-bg-elevated text-th-text-secondary hover:bg-th-bg-surface-hover'
                         }`}
                 >
                     <RefreshCw className={`w-4 h-4 ${isLive ? 'animate-spin' : ''}`} />
@@ -91,23 +91,23 @@ export function RealtimePage() {
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200">
+            <div className="border-b border-th-border">
                 <div className="flex gap-6">
                     <button
                         onClick={() => setActiveTab('live')}
                         className={`pb-3 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'live'
-                                ? 'border-violet-600 text-violet-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                ? 'border-th-accent-primary text-th-accent-primary'
+                                : 'border-transparent text-th-text-muted hover:text-th-text-primary'
                             }`}
                     >
-                        <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+                        <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-th-text-muted'}`} />
                         Live Events
                     </button>
                     <button
                         onClick={() => setActiveTab('sdk')}
                         className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'sdk'
-                                ? 'border-violet-600 text-violet-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
+                                ? 'border-th-accent-primary text-th-accent-primary'
+                                : 'border-transparent text-th-text-muted hover:text-th-text-primary'
                             }`}
                     >
                         SDK Status
@@ -157,21 +157,21 @@ function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefi
     const uniqueUsers = Math.floor(currentValue * 12.5);
 
     const option = {
-        tooltip: { trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', textStyle: { color: '#374151' } },
+        tooltip: { trigger: 'axis', backgroundColor: 'var(--color-bg-surface)', borderColor: 'var(--color-border-subtle)', textStyle: { color: 'var(--color-text-primary)' } },
         grid: { left: 10, right: 10, top: 10, bottom: 20, containLabel: true },
         xAxis: {
             type: 'category',
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: '#9ca3af', interval: 4 }
+            axisLabel: { fontSize: 10, color: 'var(--color-text-muted)', interval: 4 }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
             axisTick: { show: false },
             axisLabel: { show: false },
-            splitLine: { lineStyle: { color: '#f3f4f6' } }
+            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } }
         },
         series: [{
             type: 'line',
@@ -195,19 +195,19 @@ function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefi
     };
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-gray-900">{title}</h3>
-                    <span className="text-xs text-gray-400">ⓘ</span>
+                    <h3 className="font-medium text-th-text-primary">{title}</h3>
+                    <span className="text-xs text-th-text-muted">i</span>
                     {isLive && (
-                        <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
+                        <span className="text-[10px] bg-th-success-muted text-th-success px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                             Live
                         </span>
                     )}
                 </div>
-                <span className="text-sm text-gray-500">Unique users {uniqueUsers.toLocaleString()}</span>
+                <span className="text-sm text-th-text-muted">Unique users {uniqueUsers.toLocaleString()}</span>
             </div>
             <ReactECharts option={option} style={{ height: 160 }} />
         </div>
@@ -255,38 +255,38 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: '#9ca3af', interval: 4 }
+            axisLabel: { fontSize: 10, color: 'var(--color-text-muted)', interval: 4 }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } },
             axisLabel: { show: false }
         },
         series: [
             { name: 'info', type: 'line', stack: 'errors', data: errorData.info, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#3b82f6' } },
             { name: 'warning', type: 'line', stack: 'errors', data: errorData.warning, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#f59e0b' } },
             { name: 'error', type: 'line', stack: 'errors', data: errorData.error, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#ef4444' } },
-            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#6b7280' } },
+            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: 'var(--color-text-secondary)' } },
         ],
     };
 
     const totalErrors = errorData.error.reduce((a, b) => a + b, 0);
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 md:col-span-2">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 md:col-span-2">
             <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-orange-500" />
-                    <h3 className="font-medium text-gray-900">Error Events</h3>
+                    <h3 className="font-medium text-th-text-primary">Error Events</h3>
                     {isLive && (
-                        <span className="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
+                        <span className="text-[10px] bg-th-success-muted text-th-success px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                             Live
                         </span>
                     )}
                 </div>
-                <span className="text-sm text-gray-500">Count {totalErrors.toLocaleString()}</span>
+                <span className="text-sm text-th-text-muted">Count {totalErrors.toLocaleString()}</span>
             </div>
             <ReactECharts option={option} style={{ height: 200 }} />
         </div>
@@ -296,29 +296,29 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
 function SDKStatusTab() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-3 h-3 rounded-full bg-green-500" />
-                    <h3 className="font-medium text-gray-900">SDK Health</h3>
+                    <h3 className="font-medium text-th-text-primary">SDK Health</h3>
                 </div>
-                <div className="text-3xl font-bold text-green-600">99.9%</div>
-                <p className="text-sm text-gray-500 mt-1">Uptime last 24h</p>
+                <div className="text-3xl font-bold text-th-success">99.9%</div>
+                <p className="text-sm text-th-text-muted mt-1">Uptime last 24h</p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-3 h-3 rounded-full bg-blue-500" />
-                    <h3 className="font-medium text-gray-900">Events/min</h3>
+                    <h3 className="font-medium text-th-text-primary">Events/min</h3>
                 </div>
                 <div className="text-3xl font-bold text-blue-600">12.4K</div>
-                <p className="text-sm text-gray-500 mt-1">Average throughput</p>
+                <p className="text-sm text-th-text-muted mt-1">Average throughput</p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-3 h-3 rounded-full bg-violet-500" />
-                    <h3 className="font-medium text-gray-900">Latency</h3>
+                    <h3 className="font-medium text-th-text-primary">Latency</h3>
                 </div>
-                <div className="text-3xl font-bold text-violet-600">23ms</div>
-                <p className="text-sm text-gray-500 mt-1">P95 response time</p>
+                <div className="text-3xl font-bold text-th-accent-primary">23ms</div>
+                <p className="text-sm text-th-text-muted mt-1">P95 response time</p>
             </div>
         </div>
     );

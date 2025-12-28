@@ -56,16 +56,16 @@ export function AnalyticsPage() {
         return (
             <div className="min-h-[80vh] flex flex-col items-center justify-center">
                 <div className="text-center max-w-md">
-                    <div className="w-16 h-16 bg-violet-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <BarChart3 className="w-8 h-8 text-violet-600" />
+                    <div className="w-16 h-16 bg-th-accent-primary-muted rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <BarChart3 className="w-8 h-8 text-th-accent-primary" />
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">No Data Available</h2>
-                    <p className="text-gray-500 mb-6">
+                    <h2 className="text-2xl font-bold text-th-text-primary mb-2">No Data Available</h2>
+                    <p className="text-th-text-muted mb-6">
                         Upload your game analytics data to get AI-powered insights and visualizations.
                     </p>
                     <Link
                         to="/upload"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 transition-colors"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-th-accent-primary text-white rounded-lg font-medium hover:bg-th-accent-primary-hover transition-colors"
                     >
                         <Upload className="w-5 h-5" />
                         Upload Data
@@ -84,18 +84,18 @@ export function AnalyticsPage() {
     if (analytics.error) {
         return (
             <div className="min-h-[60vh] flex flex-col items-center justify-center">
-                <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md text-center">
-                    <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <AlertCircle className="w-6 h-6 text-red-600" />
+                <div className="bg-th-error-muted border border-th-error/20 rounded-card p-8 max-w-md text-center">
+                    <div className="w-12 h-12 bg-th-error-muted rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <AlertCircle className="w-6 h-6 text-th-error" />
                     </div>
-                    <h3 className="text-lg font-semibold text-red-900 mb-2">Analysis Failed</h3>
-                    <p className="text-red-700 mb-4">{analytics.error}</p>
+                    <h3 className="text-lg font-semibold text-th-error mb-2">Analysis Failed</h3>
+                    <p className="text-th-error mb-4">{analytics.error}</p>
                     <button
                         onClick={() => {
                             analytics.clearError();
                             analytics.runAnalysis();
                         }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-th-error text-white rounded-lg hover:bg-th-error/90 transition-colors"
                     >
                         <RefreshCw className="w-4 h-4" />
                         Retry Analysis
@@ -115,7 +115,7 @@ export function AnalyticsPage() {
     return (
         <div className="space-y-6">
             {/* Header */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center">
@@ -123,12 +123,12 @@ export function AnalyticsPage() {
                         </div>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="text-xl font-bold text-gray-900">{analytics.dataName}</h1>
-                                <span className="px-2 py-0.5 text-xs bg-violet-100 text-violet-700 rounded-full capitalize">
+                                <h1 className="text-xl font-bold text-th-text-primary">{analytics.dataName}</h1>
+                                <span className="px-2 py-0.5 text-xs bg-th-accent-primary-muted text-th-accent-primary rounded-full capitalize">
                                     {result.gameType.replace(/_/g, ' ')}
                                 </span>
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
+                            <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
                                 <span>{result.pipelineStats.sampledRows.toLocaleString()} rows analyzed</span>
                                 <span>Quality: {(result.qualityBefore * 100).toFixed(0)}%</span>
                                 <span>{result.pipelineStats.processingTimeMs}ms</span>
@@ -142,13 +142,13 @@ export function AnalyticsPage() {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDataSelector(!showDataSelector)}
-                                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary border border-th-border rounded-lg hover:bg-th-interactive-hover transition-colors"
                                 >
                                     Switch Data
                                     <ChevronDown className="w-4 h-4" />
                                 </button>
                                 {showDataSelector && (
-                                    <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                                    <div className="absolute right-0 mt-2 w-64 bg-th-bg-surface border border-th-border rounded-lg shadow-lg z-10">
                                         {gameDataList.map(data => (
                                             <button
                                                 key={data.id}
@@ -156,12 +156,12 @@ export function AnalyticsPage() {
                                                     setActiveGameData(data);
                                                     setShowDataSelector(false);
                                                 }}
-                                                className={`w-full text-left px-4 py-3 hover:bg-gray-50 first:rounded-t-lg last:rounded-b-lg ${
-                                                    data.id === activeGameData?.id ? 'bg-violet-50' : ''
+                                                className={`w-full text-left px-4 py-3 hover:bg-th-interactive-hover first:rounded-t-lg last:rounded-b-lg ${
+                                                    data.id === activeGameData?.id ? 'bg-th-accent-primary-muted' : ''
                                                 }`}
                                             >
-                                                <div className="font-medium text-gray-900">{data.name}</div>
-                                                <div className="text-xs text-gray-500">
+                                                <div className="font-medium text-th-text-primary">{data.name}</div>
+                                                <div className="text-xs text-th-text-muted">
                                                     {data.rowCount.toLocaleString()} rows
                                                 </div>
                                             </button>
@@ -174,7 +174,7 @@ export function AnalyticsPage() {
                         {/* Refresh */}
                         <button
                             onClick={() => analytics.runAnalysis()}
-                            className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
                             title="Re-run analysis"
                         >
                             <RefreshCw className="w-5 h-5" />
@@ -183,7 +183,7 @@ export function AnalyticsPage() {
                         {/* Settings */}
                         <Link
                             to="/settings"
-                            className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
                             title="Analytics settings"
                         >
                             <Settings className="w-5 h-5" />
@@ -209,37 +209,37 @@ export function AnalyticsPage() {
             )}
 
             {/* Stats Footer */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
                     <div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-th-text-primary">
                             {result.chartRecommendations.length}
                         </div>
-                        <div className="text-xs text-gray-500">Charts Generated</div>
+                        <div className="text-xs text-th-text-muted">Charts Generated</div>
                     </div>
                     <div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-th-text-primary">
                             {result.insights.length}
                         </div>
-                        <div className="text-xs text-gray-500">Insights Found</div>
+                        <div className="text-xs text-th-text-muted">Insights Found</div>
                     </div>
                     <div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-th-text-primary">
                             {result.anomalyStats?.total || 0}
                         </div>
-                        <div className="text-xs text-gray-500">Anomalies Detected</div>
+                        <div className="text-xs text-th-text-muted">Anomalies Detected</div>
                     </div>
                     <div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-th-text-primary">
                             {result.funnelStats?.detected || 0}
                         </div>
-                        <div className="text-xs text-gray-500">Funnels Identified</div>
+                        <div className="text-xs text-th-text-muted">Funnels Identified</div>
                     </div>
                     <div>
-                        <div className="text-2xl font-bold text-gray-900">
+                        <div className="text-2xl font-bold text-th-text-primary">
                             {result.columnMeanings.length}
                         </div>
-                        <div className="text-xs text-gray-500">Columns Analyzed</div>
+                        <div className="text-xs text-th-text-muted">Columns Analyzed</div>
                     </div>
                 </div>
             </div>

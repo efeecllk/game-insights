@@ -25,14 +25,14 @@ function KPICard({ label, value, change, icon, tooltip, color = 'violet' }: KPIC
     const hasChange = change !== undefined && !isNaN(change);
 
     const colorClasses = {
-        violet: 'bg-violet-50 text-violet-600',
-        green: 'bg-green-50 text-green-600',
-        blue: 'bg-blue-50 text-blue-600',
-        orange: 'bg-orange-50 text-orange-600',
+        violet: 'bg-violet-500/10 text-violet-400',
+        green: 'bg-green-500/10 text-green-400',
+        blue: 'bg-blue-500/10 text-blue-400',
+        orange: 'bg-orange-500/10 text-orange-400',
     };
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow" title={tooltip}>
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 hover:shadow-md transition-shadow" title={tooltip}>
             <div className="flex items-start justify-between mb-3">
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${colorClasses[color]}`}>
                     {icon}
@@ -44,8 +44,8 @@ function KPICard({ label, value, change, icon, tooltip, color = 'violet' }: KPIC
                     </div>
                 )}
             </div>
-            <div className="text-2xl font-bold text-gray-900 mb-1">{value}</div>
-            <div className="text-sm text-gray-500">{label}</div>
+            <div className="text-2xl font-bold text-th-text-primary mb-1">{value}</div>
+            <div className="text-sm text-th-text-muted">{label}</div>
         </div>
     );
 }
@@ -189,11 +189,11 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         return (
             <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 ${className ?? ''}`}>
                 {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="bg-white rounded-xl border border-gray-200 p-4">
+                    <div key={i} className="bg-th-bg-surface rounded-card border border-th-border p-4">
                         <div className="animate-pulse">
-                            <div className="w-10 h-10 bg-gray-100 rounded-lg mb-3" />
-                            <div className="h-8 bg-gray-100 rounded mb-2 w-20" />
-                            <div className="h-4 bg-gray-100 rounded w-24" />
+                            <div className="w-10 h-10 bg-th-bg-elevated rounded-lg mb-3" />
+                            <div className="h-8 bg-th-bg-elevated rounded mb-2 w-20" />
+                            <div className="h-4 bg-th-bg-elevated rounded w-24" />
                         </div>
                     </div>
                 ))}

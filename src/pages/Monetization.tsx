@@ -17,7 +17,7 @@ const revenueData = {
         conversionRate: 5.3,
         whales: 42,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 85000, color: '#e5e7eb' },
+            { tier: '$0 (F2P)', users: 85000, color: 'var(--color-border-subtle)' },
             { tier: '$1-10', users: 4200, color: '#86efac' },
             { tier: '$10-50', users: 850, color: '#fbbf24' },
             { tier: '$50-100', users: 180, color: '#f97316' },
@@ -38,7 +38,7 @@ const revenueData = {
         conversionRate: 6.2,
         whales: 180,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 120000, color: '#e5e7eb' },
+            { tier: '$0 (F2P)', users: 120000, color: 'var(--color-border-subtle)' },
             { tier: '$1-50', users: 8500, color: '#86efac' },
             { tier: '$50-200', users: 2100, color: '#fbbf24' },
             { tier: '$200-500', users: 650, color: '#f97316' },
@@ -59,7 +59,7 @@ const revenueData = {
         conversionRate: 5.7,
         whales: 95,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 180000, color: '#e5e7eb' },
+            { tier: '$0 (F2P)', users: 180000, color: 'var(--color-border-subtle)' },
             { tier: '$1-20', users: 12000, color: '#86efac' },
             { tier: '$20-50', users: 3500, color: '#fbbf24' },
             { tier: '$50-100', users: 850, color: '#f97316' },
@@ -94,13 +94,13 @@ export function MonetizationPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <DollarSign className="w-6 h-6 text-green-600" />
+                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                        <DollarSign className="w-6 h-6 text-th-success" />
                         Monetization
                     </h1>
-                    <p className="text-gray-500 mt-1">Revenue and transaction analytics</p>
+                    <p className="text-th-text-muted mt-1">Revenue and transaction analytics</p>
                 </div>
-                <button className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 flex items-center gap-2">
+                <button className="px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated rounded-lg hover:bg-th-interactive-hover flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     Last 14 days
                 </button>
@@ -113,7 +113,7 @@ export function MonetizationPage() {
                     value={`$${totalRevenue.toLocaleString()}`}
                     subtitle="Last 14 days"
                     icon={DollarSign}
-                    color="text-green-600"
+                    color="text-th-success"
                 />
                 <KPICard
                     title="Avg Daily"
@@ -127,7 +127,7 @@ export function MonetizationPage() {
                     value={`$${data.arpu}`}
                     subtitle="All users"
                     icon={Users}
-                    color="text-violet-600"
+                    color="text-th-accent-primary"
                 />
                 <KPICard
                     title="ARPPU"
@@ -146,32 +146,32 @@ export function MonetizationPage() {
             </div>
 
             {/* Revenue Chart */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h3 className="font-medium text-gray-900 mb-4">Daily Revenue</h3>
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
+                <h3 className="font-medium text-th-text-primary mb-4">Daily Revenue</h3>
                 <RevenueChart dates={dates} values={data.daily} />
             </div>
 
             {/* Bottom Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Spender Tiers */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                    <h3 className="font-medium text-gray-900 mb-4">Spender Tiers</h3>
+                <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
+                    <h3 className="font-medium text-th-text-primary mb-4">Spender Tiers</h3>
                     <SpenderTiersChart data={data.spenderTiers} />
                 </div>
 
                 {/* Top Products */}
-                <div className="bg-white rounded-xl border border-gray-200 p-6">
-                    <h3 className="font-medium text-gray-900 mb-4">Top Products</h3>
+                <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
+                    <h3 className="font-medium text-th-text-primary mb-4">Top Products</h3>
                     <div className="space-y-3">
                         {data.topProducts.map((product, index) => (
                             <div key={index} className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <span className="text-sm font-medium text-gray-400 w-5">{index + 1}</span>
-                                    <span className="text-sm text-gray-900">{product.name}</span>
+                                    <span className="text-sm font-medium text-th-text-muted w-5">{index + 1}</span>
+                                    <span className="text-sm text-th-text-primary">{product.name}</span>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-sm font-medium text-gray-900">${product.revenue.toLocaleString()}</div>
-                                    <div className="text-xs text-gray-500">{product.sales.toLocaleString()} sales</div>
+                                    <div className="text-sm font-medium text-th-text-primary">${product.revenue.toLocaleString()}</div>
+                                    <div className="text-xs text-th-text-muted">{product.sales.toLocaleString()} sales</div>
                                 </div>
                             </div>
                         ))}
@@ -180,13 +180,13 @@ export function MonetizationPage() {
             </div>
 
             {/* Whale Alert */}
-            <div className="bg-gradient-to-r from-red-50 to-orange-50 rounded-xl border border-red-200 p-6">
+            <div className="bg-th-error-muted rounded-card border border-th-error/20 p-6">
                 <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">🐋</span>
-                    <h3 className="font-medium text-gray-900">Whale Watch</h3>
+                    <h3 className="font-medium text-th-text-primary">Whale Watch</h3>
                 </div>
-                <p className="text-gray-600">
-                    You have <span className="font-bold text-red-600">{data.whales}</span> whale users ($100+ spent).
+                <p className="text-th-text-secondary">
+                    You have <span className="font-bold text-th-error">{data.whales}</span> whale users ($100+ spent).
                     They contribute approximately <span className="font-bold">{((data.whales * 150) / totalRevenue * 100).toFixed(0)}%</span> of total revenue.
                 </p>
             </div>
@@ -202,13 +202,13 @@ function KPICard({ title, value, subtitle, icon: Icon, color }: {
     color: string;
 }) {
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
             <div className="flex items-center gap-2 mb-2">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-sm text-gray-500">{title}</span>
+                <span className="text-sm text-th-text-muted">{title}</span>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{value}</div>
-            <div className="text-xs text-gray-400 mt-1">{subtitle}</div>
+            <div className="text-2xl font-bold text-th-text-primary">{value}</div>
+            <div className="text-xs text-th-text-muted mt-1">{subtitle}</div>
         </div>
     );
 }
@@ -224,15 +224,15 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
         xAxis: {
             type: 'category',
             data: dates,
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
-            axisLabel: { color: '#6b7280', fontSize: 11, rotate: 45 },
+            axisLine: { lineStyle: { color: 'var(--color-border-subtle)' } },
+            axisLabel: { color: 'var(--color-text-muted)', fontSize: 11, rotate: 45 },
             axisTick: { show: false }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#6b7280', formatter: (val: number) => `$${val / 1000}k` },
-            splitLine: { lineStyle: { color: '#f3f4f6' } }
+            axisLabel: { color: 'var(--color-text-muted)', formatter: (val: number) => `$${val / 1000}k` },
+            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } }
         },
         series: [{
             type: 'bar',

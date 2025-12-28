@@ -9,6 +9,7 @@ import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2 } from 'lucide-r
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
 import { IntegrationProvider } from './context/IntegrationContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Components
 import { Sidebar } from './components/Sidebar';
@@ -122,11 +123,11 @@ function OverviewPage() {
             {/* Page Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
                         <span>{gameInfo?.icon}</span>
                         {gameInfo?.name} Analytics
                     </h1>
-                    <p className="text-zinc-500 mt-1">{gameInfo?.description}</p>
+                    <p className="text-th-text-muted mt-1">{gameInfo?.description}</p>
                 </div>
             </div>
 
@@ -160,14 +161,14 @@ function OverviewPage() {
             </div>
 
             {/* AI Insights Placeholder */}
-            <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
+            <div className="bg-th-bg-surface rounded-card p-6 border border-th-border-subtle">
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted flex items-center justify-center">
                         <span className="text-xl">🧠</span>
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold text-white">AI Insights</h3>
-                        <p className="text-sm text-zinc-500">Auto-generated recommendations</p>
+                        <h3 className="text-lg font-semibold text-th-text-primary">AI Insights</h3>
+                        <p className="text-sm text-th-text-muted">Auto-generated recommendations</p>
                     </div>
                 </div>
                 <div className="space-y-3">
@@ -218,10 +219,10 @@ function InsightCard({
     message: string;
 }) {
     const styles = {
-        warning: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-500',
-        opportunity: 'bg-green-500/10 border-green-500/20 text-green-500',
-        info: 'bg-blue-500/10 border-blue-500/20 text-blue-500',
-        critical: 'bg-red-500/10 border-red-500/20 text-red-500',
+        warning: 'bg-th-warning-muted border-th-warning/20 text-th-warning',
+        opportunity: 'bg-th-success-muted border-th-success/20 text-th-success',
+        info: 'bg-th-info-muted border-th-info/20 text-th-info',
+        critical: 'bg-th-error-muted border-th-error/20 text-th-error',
     };
 
     const icons = {
@@ -235,7 +236,7 @@ function InsightCard({
         <div className={`p-4 rounded-xl border ${styles[type]}`}>
             <div className="flex items-start gap-3">
                 <span className="text-lg">{icons[type]}</span>
-                <p className="text-sm text-zinc-300">{message}</p>
+                <p className="text-sm text-th-text-secondary">{message}</p>
             </div>
         </div>
     );
@@ -248,18 +249,18 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
     return (
         <div className="space-y-6">
             <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+                <h1 className="text-2xl font-bold text-th-text-primary">{title}</h1>
                 {badge && (
-                    <span className="text-xs font-semibold text-violet-600 bg-violet-100 px-2 py-1 rounded">
+                    <span className="text-xs font-semibold text-th-accent-primary bg-th-accent-primary-muted px-2 py-1 rounded">
                         {badge}
                     </span>
                 )}
             </div>
-            <p className="text-gray-500">{description ?? 'This section is under development'}</p>
-            <div className="bg-white rounded-xl p-12 border border-gray-200 flex flex-col items-center justify-center text-center shadow-sm">
+            <p className="text-th-text-muted">{description ?? 'This section is under development'}</p>
+            <div className="bg-th-bg-surface rounded-xl p-12 border border-th-border-subtle flex flex-col items-center justify-center text-center">
                 <span className="text-4xl mb-4">🚧</span>
-                <p className="text-gray-600 font-medium">Coming soon...</p>
-                <p className="text-gray-400 text-sm mt-2">Check back for updates</p>
+                <p className="text-th-text-secondary font-medium">Coming soon...</p>
+                <p className="text-th-text-muted text-sm mt-2">Check back for updates</p>
             </div>
         </div>
     );
@@ -270,42 +271,44 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
  */
 function App() {
     return (
-        <DataProvider>
-            <IntegrationProvider>
-                <GameProvider>
-                    <div className="min-h-screen bg-gray-50 flex">
-                        {/* Sidebar Navigation */}
-                        <Sidebar />
+        <ThemeProvider>
+            <DataProvider>
+                <IntegrationProvider>
+                    <GameProvider>
+                        <div className="min-h-screen bg-th-bg-base flex">
+                            {/* Sidebar Navigation */}
+                            <Sidebar />
 
-                        {/* Main Content Area */}
-                        <main className="flex-1 ml-[200px] p-6">
-                            <Routes>
-                                <Route path="/" element={<OverviewPage />} />
-                                <Route path="/integrations" element={<IntegrationsPage />} />
-                                <Route path="/templates" element={<TemplatesPage />} />
-                                <Route path="/predictions" element={<PredictionsPage />} />
-                                <Route path="/analytics" element={<AnalyticsPage />} />
-                                <Route path="/realtime" element={<RealtimePage />} />
-                                <Route path="/dashboards" element={<DashboardBuilderPage />} />
-                                <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
-                                <Route path="/funnels" element={<FunnelsPage />} />
-                                <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
-                                <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
-                                <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
-                                <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
-                                <Route path="/monetization" element={<MonetizationPage />} />
-                                <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
-                                <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
-                                <Route path="/ab-testing" element={<ABTestingPage />} />
-                                <Route path="/games" element={<GamesPage />} />
-                                <Route path="/settings" element={<SettingsPage />} />
-                                <Route path="/upload" element={<UploadPage />} />
-                            </Routes>
-                        </main>
-                    </div>
-                </GameProvider>
-            </IntegrationProvider>
-        </DataProvider>
+                            {/* Main Content Area */}
+                            <main className="flex-1 ml-[200px] p-6">
+                                <Routes>
+                                    <Route path="/" element={<OverviewPage />} />
+                                    <Route path="/integrations" element={<IntegrationsPage />} />
+                                    <Route path="/templates" element={<TemplatesPage />} />
+                                    <Route path="/predictions" element={<PredictionsPage />} />
+                                    <Route path="/analytics" element={<AnalyticsPage />} />
+                                    <Route path="/realtime" element={<RealtimePage />} />
+                                    <Route path="/dashboards" element={<DashboardBuilderPage />} />
+                                    <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
+                                    <Route path="/funnels" element={<FunnelsPage />} />
+                                    <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
+                                    <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
+                                    <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
+                                    <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
+                                    <Route path="/monetization" element={<MonetizationPage />} />
+                                    <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                                    <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
+                                    <Route path="/ab-testing" element={<ABTestingPage />} />
+                                    <Route path="/games" element={<GamesPage />} />
+                                    <Route path="/settings" element={<SettingsPage />} />
+                                    <Route path="/upload" element={<UploadPage />} />
+                                </Routes>
+                            </main>
+                        </div>
+                    </GameProvider>
+                </IntegrationProvider>
+            </DataProvider>
+        </ThemeProvider>
     );
 }
 

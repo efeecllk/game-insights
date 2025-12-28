@@ -26,8 +26,11 @@ import {
     Brain,
     Plus,
     LucideIcon,
+    Sun,
+    Moon,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
+import { useTheme } from '../context/ThemeContext';
 import { sidebarPriorities } from '../lib/gamePriorities';
 
 interface NavItem {
@@ -51,7 +54,7 @@ const allNavItems: NavItem[] = [
     { icon: Filter, label: 'Funnels', path: '/funnels' },
     { icon: Plus, label: 'Funnel Builder', path: '/funnel-builder' },
     { icon: TrendingUp, label: 'Engagement', path: '/engagement' },
-    { icon: BarChart, label: 'Distributions', path: '/distributions', badge: 'β' },
+    { icon: BarChart, label: 'Distributions', path: '/distributions', badge: 'B' },
     { icon: Heart, label: 'Health', path: '/health' },
     { icon: DollarSign, label: 'Monetization', path: '/monetization' },
     { icon: Users, label: 'User Analysis', path: '/user-analysis', external: true },
@@ -62,6 +65,7 @@ const allNavItems: NavItem[] = [
 
 export function Sidebar() {
     const { selectedGame } = useGame();
+    const { resolvedTheme, toggleTheme } = useTheme();
 
     // Sort nav items based on game type priority
     const priorities = sidebarPriorities[selectedGame];
@@ -72,14 +76,14 @@ export function Sidebar() {
     });
 
     return (
-        <aside className="w-[200px] h-screen bg-white border-r border-gray-200 flex flex-col fixed left-0 top-0 z-50">
+        <aside className="w-[200px] h-screen bg-th-bg-subtle border-r border-th-border flex flex-col fixed left-0 top-0 z-50">
             {/* Logo Section */}
-            <div className="h-14 flex items-center px-4 border-b border-gray-100">
+            <div className="h-14 flex items-center px-4 border-b border-th-border-subtle">
                 <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
                         <Gamepad2 className="w-4 h-4 text-white" />
                     </div>
-                    <span className="font-semibold text-gray-900 text-sm">
+                    <span className="font-semibold text-th-text-primary text-sm">
                         Game Insights
                     </span>
                 </div>
@@ -91,15 +95,29 @@ export function Sidebar() {
                     <NavItem
                         key={item.path}
                         item={item}
-                        isTop={index < 5}  // Highlight top 5 as important
+                        isTop={index < 5}
                     />
                 ))}
             </nav>
 
-            {/* Game type indicator */}
-            <div className="p-3 border-t border-gray-100">
-                <div className="text-xs text-gray-400 uppercase tracking-wider mb-1">Active Game</div>
-                <div className="text-sm font-medium text-gray-700 capitalize">
+            {/* Theme toggle and game type indicator */}
+            <div className="p-3 border-t border-th-border-subtle">
+                <div className="flex items-center justify-between mb-2">
+                    <div className="text-xs text-th-text-muted uppercase tracking-wider">Theme</div>
+                    <button
+                        onClick={toggleTheme}
+                        className="p-1.5 rounded-lg bg-th-bg-surface hover:bg-th-bg-surface-hover transition-colors"
+                        aria-label="Toggle theme"
+                    >
+                        {resolvedTheme === 'dark' ? (
+                            <Sun className="w-4 h-4 text-th-text-secondary" />
+                        ) : (
+                            <Moon className="w-4 h-4 text-th-text-secondary" />
+                        )}
+                    </button>
+                </div>
+                <div className="text-xs text-th-text-muted uppercase tracking-wider mb-1">Active Game</div>
+                <div className="text-sm font-medium text-th-text-secondary capitalize">
                     {selectedGame.replace('_', ' ')}
                 </div>
             </div>
@@ -116,10 +134,10 @@ function NavItem({ item, isTop }: { item: NavItem; isTop: boolean }) {
             className={({ isActive }) =>
                 `flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-150 group mb-0.5
                 ${isActive
-                    ? 'bg-violet-50 text-violet-600'
+                    ? 'bg-th-accent-primary-muted text-th-accent-primary'
                     : isTop
-                        ? 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                        : 'text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                        ? 'text-th-text-secondary hover:bg-th-interactive-hover hover:text-th-text-primary'
+                        : 'text-th-text-muted hover:bg-th-interactive-hover hover:text-th-text-secondary'
                 }`
             }
         >
@@ -127,24 +145,24 @@ function NavItem({ item, isTop }: { item: NavItem; isTop: boolean }) {
                 <>
                     <Icon
                         className={`w-4 h-4 flex-shrink-0 ${isActive
-                            ? 'text-violet-600'
+                            ? 'text-th-accent-primary'
                             : isTop
-                                ? 'text-gray-500 group-hover:text-gray-600'
-                                : 'text-gray-400 group-hover:text-gray-500'
+                                ? 'text-th-text-muted group-hover:text-th-text-secondary'
+                                : 'text-th-text-disabled group-hover:text-th-text-muted'
                             }`}
                     />
                     <span className="flex-1">{item.label}</span>
 
-                    {/* Beta badge */}
+                    {/* Badge */}
                     {item.badge && (
-                        <span className="text-[10px] font-semibold text-violet-600 bg-violet-100 px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] font-semibold text-th-accent-primary bg-th-accent-primary-muted px-1.5 py-0.5 rounded">
                             {item.badge}
                         </span>
                     )}
 
                     {/* External link icon */}
                     {item.external && (
-                        <ExternalLink className="w-3 h-3 text-gray-400" />
+                        <ExternalLink className="w-3 h-3 text-th-text-disabled" />
                     )}
                 </>
             )}

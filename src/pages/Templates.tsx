@@ -198,7 +198,7 @@ export function TemplatesPage() {
     if (loading) {
         return (
             <div className="p-6 flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500" />
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-th-accent-primary" />
             </div>
         );
     }
@@ -208,21 +208,21 @@ export function TemplatesPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Template Marketplace</h1>
-                    <p className="text-gray-500 mt-1">
+                    <h1 className="text-2xl font-bold text-th-text-primary">Template Marketplace</h1>
+                    <p className="text-th-text-muted mt-1">
                         Discover and use community dashboard templates
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <button
                         onClick={() => setShowImportModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover transition-colors"
                     >
                         <Upload className="w-4 h-4" />
                         Import
                     </button>
                     <button
-                        className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover transition-colors"
                     >
                         <Plus className="w-4 h-4" />
                         Create Template
@@ -242,13 +242,13 @@ export function TemplatesPage() {
             <div className="flex flex-wrap items-center gap-4">
                 {/* Search */}
                 <div className="relative flex-1 min-w-[200px] max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted" />
                     <input
                         type="text"
                         placeholder="Search templates..."
                         value={filters.search}
                         onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary focus:border-transparent bg-th-bg-surface text-th-text-primary"
                     />
                 </div>
 
@@ -257,7 +257,7 @@ export function TemplatesPage() {
                     <select
                         value={filters.category}
                         onChange={e => setFilters(prev => ({ ...prev, category: e.target.value as TemplateCategory | 'all' }))}
-                        className="appearance-none pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 bg-white"
+                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
                     >
                         <option value="all">All Categories</option>
                         <option value="retention">Retention</option>
@@ -266,7 +266,7 @@ export function TemplatesPage() {
                         <option value="progression">Progression</option>
                         <option value="acquisition">Acquisition</option>
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
                 </div>
 
                 {/* Game Type Filter */}
@@ -274,7 +274,7 @@ export function TemplatesPage() {
                     <select
                         value={filters.gameType}
                         onChange={e => setFilters(prev => ({ ...prev, gameType: e.target.value as GameCategory | 'all' }))}
-                        className="appearance-none pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 bg-white"
+                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
                     >
                         <option value="all">All Game Types</option>
                         <option value="puzzle">Puzzle</option>
@@ -283,7 +283,7 @@ export function TemplatesPage() {
                         <option value="match3_meta">Match-3 Meta</option>
                         <option value="gacha_rpg">Gacha RPG</option>
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
                 </div>
 
                 {/* Verified Filter */}
@@ -292,9 +292,9 @@ export function TemplatesPage() {
                         type="checkbox"
                         checked={filters.verified}
                         onChange={e => setFilters(prev => ({ ...prev, verified: e.target.checked }))}
-                        className="w-4 h-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                        className="w-4 h-4 rounded border-th-border text-th-accent-primary focus:ring-th-accent-primary"
                     />
-                    <span className="text-sm text-gray-600">Verified only</span>
+                    <span className="text-sm text-th-text-secondary">Verified only</span>
                 </label>
 
                 {/* Sort */}
@@ -302,27 +302,27 @@ export function TemplatesPage() {
                     <select
                         value={sortBy}
                         onChange={e => setSortBy(e.target.value as SortOption)}
-                        className="appearance-none pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 bg-white"
+                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
                     >
                         <option value="popular">Most Popular</option>
                         <option value="recent">Most Recent</option>
                         <option value="stars">Most Stars</option>
                         <option value="name">Name A-Z</option>
                     </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
                 </div>
 
                 {/* View Mode */}
-                <div className="flex items-center gap-1 border border-gray-300 rounded-lg p-1">
+                <div className="flex items-center gap-1 border border-th-border rounded-lg p-1">
                     <button
                         onClick={() => setViewMode('grid')}
-                        className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-violet-100 text-violet-600' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-th-accent-primary-muted text-th-accent-primary' : 'text-th-text-muted hover:text-th-text-secondary'}`}
                     >
                         <Layout className="w-4 h-4" />
                     </button>
                     <button
                         onClick={() => setViewMode('list')}
-                        className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-violet-100 text-violet-600' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-th-accent-primary-muted text-th-accent-primary' : 'text-th-text-muted hover:text-th-text-secondary'}`}
                     >
                         <Filter className="w-4 h-4" />
                     </button>
@@ -331,10 +331,10 @@ export function TemplatesPage() {
 
             {/* Templates Grid/List */}
             {filteredTemplates.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-                    <Package className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900">No templates found</h3>
-                    <p className="text-gray-500 mt-1">Try adjusting your filters or search query</p>
+                <div className="text-center py-12 bg-th-bg-surface rounded-card border border-th-border">
+                    <Package className="w-12 h-12 text-th-text-muted mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-th-text-primary">No templates found</h3>
+                    <p className="text-th-text-muted mt-1">Try adjusting your filters or search query</p>
                 </div>
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -399,20 +399,20 @@ function StatCard({ icon: Icon, label, value, color }: {
     color: 'violet' | 'yellow' | 'green' | 'blue';
 }) {
     const colorClasses = {
-        violet: 'bg-violet-100 text-violet-600',
-        yellow: 'bg-yellow-100 text-yellow-600',
-        green: 'bg-green-100 text-green-600',
-        blue: 'bg-blue-100 text-blue-600',
+        violet: 'bg-th-accent-primary-muted text-th-accent-primary',
+        yellow: 'bg-yellow-500/10 text-yellow-400',
+        green: 'bg-th-success-muted text-th-success',
+        blue: 'bg-th-info-muted text-th-info',
     };
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 flex items-center gap-4">
             <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
                 <Icon className="w-5 h-5" />
             </div>
             <div>
-                <p className="text-2xl font-bold text-gray-900">{value}</p>
-                <p className="text-sm text-gray-500">{label}</p>
+                <p className="text-2xl font-bold text-th-text-primary">{value}</p>
+                <p className="text-sm text-th-text-muted">{label}</p>
             </div>
         </div>
     );
@@ -439,7 +439,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
     const CategoryIcon = categoryIcon;
 
     return (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+        <div className="bg-th-bg-surface rounded-card border border-th-border overflow-hidden hover:shadow-theme-lg transition-shadow">
             {/* Preview Header */}
             <div className="h-32 bg-gradient-to-br from-violet-500 to-indigo-600 p-4 relative">
                 <div className="flex items-start justify-between">
@@ -474,51 +474,51 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
             {/* Content */}
             <div className="p-4">
                 <div className="flex items-start gap-3">
-                    <div className="p-2 bg-violet-100 text-violet-600 rounded-lg">
+                    <div className="p-2 bg-th-accent-primary-muted text-th-accent-primary rounded-lg">
                         <CategoryIcon className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-gray-900 truncate">{template.name}</h3>
-                        <p className="text-sm text-gray-500 line-clamp-2 mt-0.5">{template.description}</p>
+                        <h3 className="font-semibold text-th-text-primary truncate">{template.name}</h3>
+                        <p className="text-sm text-th-text-muted line-clamp-2 mt-0.5">{template.description}</p>
                     </div>
                 </div>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1 mt-3">
                     {template.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+                        <span key={tag} className="px-2 py-0.5 bg-th-bg-elevated text-th-text-secondary text-xs rounded-full">
                             {tag}
                         </span>
                     ))}
                     {template.tags.length > 3 && (
-                        <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+                        <span className="px-2 py-0.5 bg-th-bg-elevated text-th-text-secondary text-xs rounded-full">
                             +{template.tags.length - 3}
                         </span>
                     )}
                 </div>
 
                 {/* Stats */}
-                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100 text-sm text-gray-500">
+                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-th-border-subtle text-sm text-th-text-muted">
                     <span className="flex items-center gap-1">
                         <Download className="w-4 h-4" /> {formatNumber(template.downloads)}
                     </span>
                     <span className="flex items-center gap-1">
                         <Star className="w-4 h-4" /> {template.stars}
                     </span>
-                    <span className="text-gray-400">by {template.author}</span>
+                    <span className="text-th-text-muted">by {template.author}</span>
                 </div>
 
                 {/* Actions */}
                 <div className="flex gap-2 mt-4">
                     <button
                         onClick={onView}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover text-sm font-medium"
                     >
                         <Eye className="w-4 h-4" /> Preview
                     </button>
                     <button
                         onClick={onUse}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 text-sm font-medium"
+                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover text-sm font-medium"
                     >
                         <Download className="w-4 h-4" /> Use
                     </button>
@@ -536,25 +536,25 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse }: {
     onUse: () => void;
 }): React.ReactElement {
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4 flex items-center gap-4 hover:shadow-md transition-shadow">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 flex items-center gap-4 hover:shadow-theme-sm transition-shadow">
             <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-lg flex items-center justify-center text-white">
                 <Layout className="w-6 h-6" />
             </div>
 
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900">{template.name}</h3>
+                    <h3 className="font-semibold text-th-text-primary">{template.name}</h3>
                     {template.verified && (
-                        <CheckCircle className="w-4 h-4 text-green-500" />
+                        <CheckCircle className="w-4 h-4 text-th-success" />
                     )}
                     {template.featured && (
-                        <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-medium rounded-full">
+                        <span className="px-2 py-0.5 bg-yellow-500/10 text-yellow-400 text-xs font-medium rounded-full">
                             Featured
                         </span>
                     )}
                 </div>
-                <p className="text-sm text-gray-500 line-clamp-1">{template.description}</p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                <p className="text-sm text-th-text-muted line-clamp-1">{template.description}</p>
+                <div className="flex items-center gap-3 mt-1 text-xs text-th-text-muted">
                     <span>by {template.author}</span>
                     <span>{formatNumber(template.downloads)} downloads</span>
                     <span>{template.stars} stars</span>
@@ -564,19 +564,19 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse }: {
             <div className="flex items-center gap-2">
                 <button
                     onClick={onStar}
-                    className={`p-2 rounded-lg ${isStarred ? 'bg-yellow-100 text-yellow-600' : 'hover:bg-gray-100 text-gray-400'}`}
+                    className={`p-2 rounded-lg ${isStarred ? 'bg-yellow-500/10 text-yellow-400' : 'hover:bg-th-interactive-hover text-th-text-muted'}`}
                 >
                     <Star className="w-5 h-5" fill={isStarred ? 'currentColor' : 'none'} />
                 </button>
                 <button
                     onClick={onView}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium"
+                    className="px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover text-sm font-medium"
                 >
                     Preview
                 </button>
                 <button
                     onClick={onUse}
-                    className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 text-sm font-medium"
+                    className="px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover text-sm font-medium"
                 >
                     Use Template
                 </button>
@@ -595,7 +595,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 }) {
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-th-bg-surface rounded-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 {/* Header */}
                 <div className="h-40 bg-gradient-to-br from-violet-500 to-indigo-600 p-6 relative">
                     <button
@@ -627,30 +627,30 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 {/* Content */}
                 <div className="p-6 space-y-6">
                     {/* Description */}
-                    <p className="text-gray-600">{template.description}</p>
+                    <p className="text-th-text-secondary">{template.description}</p>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-6 py-4 border-y border-gray-100">
+                    <div className="flex items-center gap-6 py-4 border-y border-th-border-subtle">
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-gray-900">{formatNumber(template.downloads)}</p>
-                            <p className="text-sm text-gray-500">Downloads</p>
+                            <p className="text-2xl font-bold text-th-text-primary">{formatNumber(template.downloads)}</p>
+                            <p className="text-sm text-th-text-muted">Downloads</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-gray-900">{template.stars}</p>
-                            <p className="text-sm text-gray-500">Stars</p>
+                            <p className="text-2xl font-bold text-th-text-primary">{template.stars}</p>
+                            <p className="text-sm text-th-text-muted">Stars</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-gray-900">v{template.version}</p>
-                            <p className="text-sm text-gray-500">Version</p>
+                            <p className="text-2xl font-bold text-th-text-primary">v{template.version}</p>
+                            <p className="text-sm text-th-text-muted">Version</p>
                         </div>
                     </div>
 
                     {/* Game Types */}
                     <div>
-                        <h3 className="text-sm font-medium text-gray-900 mb-2">Compatible Game Types</h3>
+                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Compatible Game Types</h3>
                         <div className="flex flex-wrap gap-2">
                             {template.gameTypes.map(type => (
-                                <span key={type} className="px-3 py-1 bg-violet-100 text-violet-700 rounded-full text-sm">
+                                <span key={type} className="px-3 py-1 bg-th-accent-primary-muted text-th-accent-primary rounded-full text-sm">
                                     {formatGameType(type)}
                                 </span>
                             ))}
@@ -659,14 +659,14 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 
                     {/* Required Columns */}
                     <div>
-                        <h3 className="text-sm font-medium text-gray-900 mb-2">Required Data Columns</h3>
+                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Required Data Columns</h3>
                         <div className="space-y-2">
                             {template.requiredColumns.map(col => (
                                 <div key={col.semantic} className="flex items-center gap-2 text-sm">
-                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-gray-400' : 'bg-violet-500'}`} />
-                                    <span className="font-mono text-gray-700">{col.semantic}</span>
-                                    {col.optional && <span className="text-gray-400">(optional)</span>}
-                                    {col.description && <span className="text-gray-500">- {col.description}</span>}
+                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-th-text-muted' : 'bg-th-accent-primary'}`} />
+                                    <span className="font-mono text-th-text-secondary">{col.semantic}</span>
+                                    {col.optional && <span className="text-th-text-muted">(optional)</span>}
+                                    {col.description && <span className="text-th-text-muted">- {col.description}</span>}
                                 </div>
                             ))}
                         </div>
@@ -674,18 +674,18 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 
                     {/* Layout Preview */}
                     <div>
-                        <h3 className="text-sm font-medium text-gray-900 mb-2">Dashboard Layout</h3>
-                        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                            <div className="text-xs text-gray-500">
+                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Dashboard Layout</h3>
+                        <div className="bg-th-bg-base rounded-lg p-4 space-y-3">
+                            <div className="text-xs text-th-text-muted">
                                 <strong>{template.layout.kpis.length}</strong> KPIs,{' '}
                                 <strong>{template.layout.mainCharts.length}</strong> main charts,{' '}
                                 <strong>{template.layout.sideCharts.length}</strong> side charts
                             </div>
                             <div className="grid grid-cols-4 gap-2">
                                 {template.layout.kpis.map(kpi => (
-                                    <div key={kpi.id} className="bg-white rounded p-2 text-center text-xs">
-                                        <div className="font-medium text-gray-900">{kpi.name}</div>
-                                        <div className="text-gray-400">{kpi.format}</div>
+                                    <div key={kpi.id} className="bg-th-bg-surface rounded p-2 text-center text-xs">
+                                        <div className="font-medium text-th-text-primary">{kpi.name}</div>
+                                        <div className="text-th-text-muted">{kpi.format}</div>
                                     </div>
                                 ))}
                             </div>
@@ -695,7 +695,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
                         {template.tags.map(tag => (
-                            <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
+                            <span key={tag} className="px-3 py-1 bg-th-bg-elevated text-th-text-secondary rounded-full text-sm">
                                 {tag}
                             </span>
                         ))}
@@ -703,13 +703,13 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-gray-100 flex items-center gap-3">
+                <div className="p-6 border-t border-th-border-subtle flex items-center gap-3">
                     <button
                         onClick={onStar}
                         className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
                             isStarred
-                                ? 'bg-yellow-50 border-yellow-200 text-yellow-700'
-                                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                                ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
+                                : 'border-th-border text-th-text-secondary hover:bg-th-interactive-hover'
                         }`}
                     >
                         <Star className="w-4 h-4" fill={isStarred ? 'currentColor' : 'none'} />
@@ -717,14 +717,14 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     </button>
                     <button
                         onClick={onExport}
-                        className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                        className="flex items-center gap-2 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover"
                     >
                         <Download className="w-4 h-4" />
                         Export JSON
                     </button>
                     <button
                         onClick={onUse}
-                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 font-medium"
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover font-medium"
                     >
                         <Download className="w-4 h-4" />
                         Use This Template
@@ -748,22 +748,22 @@ function ImportModal({ onClose, onImport }: {
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6">
+            <div className="bg-th-bg-surface rounded-card max-w-md w-full p-6">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-bold text-gray-900">Import Template</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg">
+                    <h2 className="text-xl font-bold text-th-text-primary">Import Template</h2>
+                    <button onClick={onClose} className="p-2 hover:bg-th-interactive-hover rounded-lg">
                         <X className="w-5 h-5" />
                     </button>
                 </div>
 
-                <p className="text-gray-600 mb-6">
+                <p className="text-th-text-secondary mb-6">
                     Import a template from a JSON file exported from Game Insights.
                 </p>
 
-                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 rounded-xl hover:border-violet-400 cursor-pointer transition-colors">
-                    <Upload className="w-10 h-10 text-gray-400 mb-3" />
-                    <span className="text-gray-600 font-medium">Click to select file</span>
-                    <span className="text-gray-400 text-sm mt-1">or drag and drop</span>
+                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-th-border rounded-xl hover:border-th-accent-primary cursor-pointer transition-colors">
+                    <Upload className="w-10 h-10 text-th-text-muted mb-3" />
+                    <span className="text-th-text-secondary font-medium">Click to select file</span>
+                    <span className="text-th-text-muted text-sm mt-1">or drag and drop</span>
                     <input
                         type="file"
                         accept=".json"
@@ -775,7 +775,7 @@ function ImportModal({ onClose, onImport }: {
                 <div className="flex gap-3 mt-6">
                     <button
                         onClick={onClose}
-                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                        className="flex-1 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover"
                     >
                         Cancel
                     </button>

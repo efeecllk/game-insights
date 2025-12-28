@@ -89,22 +89,22 @@ export function FunnelsPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                        <Filter className="w-6 h-6 text-violet-600" />
+                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                        <Filter className="w-6 h-6 text-th-accent-primary" />
                         Funnels
                     </h1>
-                    <p className="text-gray-500 mt-1">Conversion funnel analysis</p>
+                    <p className="text-th-text-muted mt-1">Conversion funnel analysis</p>
                 </div>
                 <div className="flex gap-2">
                     <button
                         onClick={handleResetToTemplate}
-                        className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200"
+                        className="px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated rounded-lg hover:bg-th-interactive-hover"
                     >
                         Reset to Default
                     </button>
                     <button
                         onClick={() => setShowBuilder(!showBuilder)}
-                        className="px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-lg hover:bg-violet-700 flex items-center gap-2"
+                        className="px-4 py-2 text-sm font-medium text-white bg-th-accent-primary rounded-lg hover:bg-th-accent-primary-hover flex items-center gap-2"
                     >
                         <Plus className="w-4 h-4" />
                         Edit Funnel
@@ -114,12 +114,12 @@ export function FunnelsPage() {
 
             {/* Funnel Builder */}
             {showBuilder && (
-                <div className="bg-white rounded-xl border border-gray-200 p-4">
-                    <h3 className="font-medium text-gray-900 mb-4">Funnel Steps</h3>
+                <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
+                    <h3 className="font-medium text-th-text-primary mb-4">Funnel Steps</h3>
                     <div className="space-y-2">
                         {steps.map((step, index) => (
                             <div key={index} className="flex items-center gap-3">
-                                <span className="text-sm text-gray-400 w-6">{index + 1}</span>
+                                <span className="text-sm text-th-text-muted w-6">{index + 1}</span>
                                 <input
                                     type="text"
                                     value={step.step}
@@ -128,7 +128,7 @@ export function FunnelsPage() {
                                         newSteps[index].step = e.target.value;
                                         setSteps(newSteps);
                                     }}
-                                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                    className="flex-1 px-3 py-2 border border-th-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                                 />
                                 <input
                                     type="number"
@@ -138,11 +138,11 @@ export function FunnelsPage() {
                                         newSteps[index].users = parseInt(e.target.value) || 0;
                                         setSteps(newSteps);
                                     }}
-                                    className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                                    className="w-24 px-3 py-2 border border-th-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                                 />
                                 <button
                                     onClick={() => handleRemoveStep(index)}
-                                    className="p-2 text-gray-400 hover:text-red-500"
+                                    className="p-2 text-th-text-muted hover:text-th-error"
                                     disabled={steps.length <= 2}
                                 >
                                     <Trash2 className="w-4 h-4" />
@@ -152,7 +152,7 @@ export function FunnelsPage() {
                     </div>
                     <button
                         onClick={handleAddStep}
-                        className="mt-3 text-sm text-violet-600 hover:text-violet-700 flex items-center gap-1"
+                        className="mt-3 text-sm text-th-accent-primary hover:text-th-accent-primary-hover flex items-center gap-1"
                     >
                         <Plus className="w-4 h-4" /> Add Step
                     </button>
@@ -160,7 +160,7 @@ export function FunnelsPage() {
             )}
 
             {/* Funnel Visualization */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
                 <FunnelVisualization steps={steps} />
             </div>
 
@@ -182,19 +182,19 @@ export function FunnelsPage() {
                     title="Biggest Drop"
                     value={getBiggestDrop(steps)}
                     icon={ArrowRight}
-                    color="text-red-600"
+                    color="text-th-error"
                 />
                 <StatsCard
                     title="Steps"
                     value={steps.length.toString()}
                     icon={Filter}
-                    color="text-violet-600"
+                    color="text-th-accent-primary"
                 />
             </div>
 
             {/* Drop-off Analysis */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h3 className="font-medium text-gray-900 mb-4">Drop-off Analysis</h3>
+            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
+                <h3 className="font-medium text-th-text-primary mb-4">Drop-off Analysis</h3>
                 <div className="space-y-3">
                     {steps.slice(0, -1).map((step, index) => {
                         const nextStep = steps[index + 1];
@@ -205,14 +205,14 @@ export function FunnelsPage() {
                             <div key={index} className="flex items-center gap-4">
                                 <div className="flex-1">
                                     <div className="flex items-center justify-between mb-1">
-                                        <span className="text-sm text-gray-600">
+                                        <span className="text-sm text-th-text-secondary">
                                             {step.step} → {nextStep.step}
                                         </span>
-                                        <span className="text-sm font-medium text-red-600">
+                                        <span className="text-sm font-medium text-th-error">
                                             -{dropOff.toLocaleString()} ({dropOffPercent.toFixed(1)}%)
                                         </span>
                                     </div>
-                                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                    <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
                                         <div
                                             className="h-full bg-red-400 rounded-full"
                                             style={{ width: `${dropOffPercent}%` }}
@@ -280,12 +280,12 @@ function FunnelVisualization({ steps }: { steps: FunnelStep[] }) {
 
 function StatsCard({ title, value, icon: Icon, color }: { title: string; value: string; icon: typeof Users; color: string }) {
     return (
-        <div className="bg-white rounded-xl border border-gray-200 p-4">
+        <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
             <div className="flex items-center gap-2 mb-2">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-sm text-gray-500">{title}</span>
+                <span className="text-sm text-th-text-muted">{title}</span>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{value}</div>
+            <div className="text-2xl font-bold text-th-text-primary">{value}</div>
         </div>
     );
 }
