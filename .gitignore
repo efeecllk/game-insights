@@ -40,3 +40,9 @@ Thumbs.db
 
 # Coverage reports
 coverage/
+
+*storybook.log
+storybook-static
+
+# Storybook
+storybook-static/
