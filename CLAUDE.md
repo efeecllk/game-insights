@@ -79,3 +79,7 @@ Existing plans are in `docs/plans/` (01-14). Roadmap phases in `docs/phases/`.
 1. **Zero-Config First** - Works for 90% of users without configuration
 2. **Progressive Disclosure** - Simple by default, power features available
 3. **Local-First** - Data stays on user's machine unless explicitly shared
+
+## Workflow Preferences
+
+- **Commit after each step**: When implementing features or fixing bugs, create a git commit after completing each logical step. This keeps the history granular and makes it easier to review/revert changes.
