@@ -1,0 +1,26 @@
+{
+  "id": "ai-analytics/schema-analysis",
+  "title": "Schema Analysis",
+  "description": "The Schema Analyzer automatically detects the semantic meaning of columns in your data. This enables Game Insights to understand what your data represents and provide relevant analysis.",
+  "source": "@site/docs/ai-analytics/schema-analysis.md",
+  "sourceDirName": "ai-analytics",
+  "slug": "/ai-analytics/schema-analysis",
+  "permalink": "/docs/ai-analytics/schema-analysis",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/ai-analytics/schema-analysis.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "AI Pipeline Deep Dive",
+    "permalink": "/docs/ai-analytics/ai-pipeline"
+  },
+  "next": {
+    "title": "Game Type Detection",
+    "permalink": "/docs/ai-analytics/game-type-detection"
+  }
+}

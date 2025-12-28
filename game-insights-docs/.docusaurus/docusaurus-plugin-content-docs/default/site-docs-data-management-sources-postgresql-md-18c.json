@@ -1,0 +1,31 @@
+{
+  "id": "data-management/sources/postgresql",
+  "title": "PostgreSQL Connection",
+  "description": "Connect to PostgreSQL databases for production-grade analytics",
+  "source": "@site/docs/data-management/sources/postgresql.md",
+  "sourceDirName": "data-management/sources",
+  "slug": "/data-management/sources/postgresql",
+  "permalink": "/docs/data-management/sources/postgresql",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/data-management/sources/postgresql.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3,
+    "title": "PostgreSQL Connection",
+    "description": "Connect to PostgreSQL databases for production-grade analytics"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Google Sheets Integration",
+    "permalink": "/docs/data-management/sources/google-sheets"
+  },
+  "next": {
+    "title": "Supabase Real-time",
+    "permalink": "/docs/data-management/sources/supabase"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "cookbook/run-ab-test",
+  "title": "Run an A/B Test",
+  "description": "Step-by-step guide to setting up and analyzing A/B tests",
+  "source": "@site/docs/cookbook/run-ab-test.md",
+  "sourceDirName": "cookbook",
+  "slug": "/cookbook/run-ab-test",
+  "permalink": "/docs/cookbook/run-ab-test",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/cookbook/run-ab-test.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6,
+    "title": "Run an A/B Test",
+    "description": "Step-by-step guide to setting up and analyzing A/B tests"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Connect Live Data",
+    "permalink": "/docs/cookbook/connect-live-data"
+  },
+  "next": {
+    "title": "Analyze Monetization",
+    "permalink": "/docs/cookbook/analyze-monetization"
+  }
+}

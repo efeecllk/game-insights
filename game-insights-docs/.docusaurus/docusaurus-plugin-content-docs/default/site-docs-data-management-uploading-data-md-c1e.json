@@ -1,0 +1,31 @@
+{
+  "id": "data-management/uploading-data",
+  "title": "Uploading Data",
+  "description": "Step-by-step guide to uploading game analytics data to Game Insights",
+  "source": "@site/docs/data-management/uploading-data.md",
+  "sourceDirName": "data-management",
+  "slug": "/data-management/uploading-data",
+  "permalink": "/docs/data-management/uploading-data",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/data-management/uploading-data.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2,
+    "title": "Uploading Data",
+    "description": "Step-by-step guide to uploading game analytics data to Game Insights"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Data Management Overview",
+    "permalink": "/docs/data-management/overview"
+  },
+  "next": {
+    "title": "Supported Formats",
+    "permalink": "/docs/data-management/supported-formats"
+  }
+}

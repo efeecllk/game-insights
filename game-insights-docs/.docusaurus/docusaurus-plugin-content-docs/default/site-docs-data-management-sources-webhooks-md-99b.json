@@ -1,0 +1,31 @@
+{
+  "id": "data-management/sources/webhooks",
+  "title": "Webhook Streaming",
+  "description": "Stream real-time data to Game Insights using webhooks",
+  "source": "@site/docs/data-management/sources/webhooks.md",
+  "sourceDirName": "data-management/sources",
+  "slug": "/data-management/sources/webhooks",
+  "permalink": "/docs/data-management/sources/webhooks",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/data-management/sources/webhooks.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5,
+    "title": "Webhook Streaming",
+    "description": "Stream real-time data to Game Insights using webhooks"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Supabase Real-time",
+    "permalink": "/docs/data-management/sources/supabase"
+  },
+  "next": {
+    "title": "Custom API Endpoints",
+    "permalink": "/docs/data-management/sources/api"
+  }
+}

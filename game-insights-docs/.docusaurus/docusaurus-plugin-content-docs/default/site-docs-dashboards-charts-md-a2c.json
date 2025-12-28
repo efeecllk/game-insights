@@ -1,0 +1,31 @@
+{
+  "id": "dashboards/charts",
+  "title": "Charts",
+  "description": "Complete guide to chart configuration, the chart registry system, and ECharts integration in Game Insights",
+  "source": "@site/docs/dashboards/charts.md",
+  "sourceDirName": "dashboards",
+  "slug": "/dashboards/charts",
+  "permalink": "/docs/dashboards/charts",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/dashboards/charts.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4,
+    "title": "Charts",
+    "description": "Complete guide to chart configuration, the chart registry system, and ECharts integration in Game Insights"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Widgets",
+    "permalink": "/docs/dashboards/widgets"
+  },
+  "next": {
+    "title": "Export Capabilities",
+    "permalink": "/docs/dashboards/exporting"
+  }
+}

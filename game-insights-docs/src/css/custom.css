@@ -1,0 +1,309 @@
+/**
+ * Game Insights Documentation Theme
+ * Custom CSS for Docusaurus
+ */
+
+/* Color palette matching Game Insights app */
+:root {
+  --ifm-color-primary: #8b5cf6;
+  --ifm-color-primary-dark: #7c3aed;
+  --ifm-color-primary-darker: #6d28d9;
+  --ifm-color-primary-darkest: #5b21b6;
+  --ifm-color-primary-light: #a78bfa;
+  --ifm-color-primary-lighter: #c4b5fd;
+  --ifm-color-primary-lightest: #ddd6fe;
+
+  --ifm-color-secondary: #6366f1;
+  --ifm-color-success: #10b981;
+  --ifm-color-warning: #f59e0b;
+  --ifm-color-danger: #ef4444;
+
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(139, 92, 246, 0.1);
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-footer-background-color: #1e1b4b;
+}
+
+/* Dark mode colors */
+[data-theme='dark'] {
+  --ifm-color-primary: #a78bfa;
+  --ifm-color-primary-dark: #8b5cf6;
+  --ifm-color-primary-darker: #7c3aed;
+  --ifm-color-primary-darkest: #6d28d9;
+  --ifm-color-primary-light: #c4b5fd;
+  --ifm-color-primary-lighter: #ddd6fe;
+  --ifm-color-primary-lightest: #ede9fe;
+
+  --ifm-background-color: #0f0d1a;
+  --ifm-background-surface-color: #1a1625;
+  --ifm-navbar-background-color: #1a1625;
+  --ifm-footer-background-color: #0f0d1a;
+
+  --docusaurus-highlighted-code-line-bg: rgba(167, 139, 250, 0.15);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Navbar styling */
+.navbar {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.navbar__title {
+  font-weight: 700;
+}
+
+[data-theme='dark'] .navbar {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar styling */
+.menu__link {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.menu__link:hover {
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+.menu__link--active {
+  background-color: rgba(139, 92, 246, 0.15);
+  font-weight: 600;
+}
+
+/* Code blocks */
+.prism-code {
+  border-radius: 12px;
+}
+
+/* Admonitions */
+.alert {
+  border-radius: 12px;
+  border-left-width: 4px;
+}
+
+/* Tables */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th {
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+[data-theme='dark'] th {
+  background-color: rgba(139, 92, 246, 0.2);
+}
+
+/* Custom feature cards */
+.feature-card {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
+}
+
+[data-theme='dark'] .feature-card {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* Game type badges */
+.game-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.game-badge--puzzle {
+  background-color: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+}
+
+.game-badge--idle {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.game-badge--battle-royale {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.game-badge--match3 {
+  background-color: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
+}
+
+.game-badge--gacha {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+/* Step guide styling */
+.step-guide {
+  counter-reset: step;
+}
+
+.step-guide__item {
+  position: relative;
+  padding-left: 3rem;
+  padding-bottom: 1.5rem;
+  border-left: 2px solid rgba(139, 92, 246, 0.3);
+  margin-left: 1rem;
+}
+
+.step-guide__item::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: -1.25rem;
+  top: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+}
+
+.step-guide__item:last-child {
+  border-left-color: transparent;
+}
+
+/* KPI card styling for docs */
+.kpi-example {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.kpi-item {
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.kpi-item__label {
+  font-size: 0.875rem;
+  color: var(--ifm-color-secondary-contrast-foreground);
+  opacity: 0.7;
+}
+
+.kpi-item__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+/* Quick links grid */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.quick-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+.quick-link:hover {
+  border-color: var(--ifm-color-primary);
+  background: rgba(139, 92, 246, 0.05);
+  text-decoration: none;
+}
+
+.quick-link__icon {
+  font-size: 1.5rem;
+  color: var(--ifm-color-primary);
+}
+
+.quick-link__content h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+.quick-link__content p {
+  margin: 0;
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+/* TOC styling */
+.table-of-contents__link {
+  font-size: 0.875rem;
+}
+
+.table-of-contents__link--active {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+/* Search styling */
+.DocSearch-Button {
+  border-radius: 8px !important;
+}
+
+/* Homepage hero */
+.hero {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+[data-theme='dark'] .hero {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+}
+
+.hero__title {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .quick-links {
+    grid-template-columns: 1fr;
+  }
+}

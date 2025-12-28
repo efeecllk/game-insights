@@ -1,0 +1,31 @@
+{
+  "id": "game-guides/gacha-rpg",
+  "title": "Gacha RPG Games",
+  "description": "Analytics guide for gacha, hero collector, and turn-based RPG games",
+  "source": "@site/docs/game-guides/gacha-rpg.md",
+  "sourceDirName": "game-guides",
+  "slug": "/game-guides/gacha-rpg",
+  "permalink": "/docs/game-guides/gacha-rpg",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/gacha-rpg.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6,
+    "title": "Gacha RPG Games",
+    "description": "Analytics guide for gacha, hero collector, and turn-based RPG games"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Match-3 Meta Games Guide",
+    "permalink": "/docs/game-guides/match3-meta"
+  },
+  "next": {
+    "title": "Cookbook",
+    "permalink": "/docs/cookbook/"
+  }
+}

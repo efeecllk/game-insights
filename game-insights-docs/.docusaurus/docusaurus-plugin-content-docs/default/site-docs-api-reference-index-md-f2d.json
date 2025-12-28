@@ -1,0 +1,26 @@
+{
+  "id": "api-reference/index",
+  "title": "API Reference",
+  "description": "This section provides comprehensive documentation for developers who want to extend, customize, or integrate with Game Insights. All APIs are written in TypeScript and follow consistent patterns for ease of use.",
+  "source": "@site/docs/api-reference/index.md",
+  "sourceDirName": "api-reference",
+  "slug": "/api-reference/",
+  "permalink": "/docs/api-reference/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/api-reference/index.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Analyze Monetization",
+    "permalink": "/docs/cookbook/analyze-monetization"
+  },
+  "next": {
+    "title": "Data Adapters API",
+    "permalink": "/docs/api-reference/adapters"
+  }
+}

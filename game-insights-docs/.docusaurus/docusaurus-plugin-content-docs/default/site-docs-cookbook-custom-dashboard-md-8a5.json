@@ -1,0 +1,26 @@
+{
+  "id": "cookbook/custom-dashboard",
+  "title": "Create a Custom Dashboard",
+  "description": "This tutorial guides you through building a personalized dashboard with drag-and-drop widgets, customized KPIs, and charts tailored to your needs.",
+  "source": "@site/docs/cookbook/custom-dashboard.md",
+  "sourceDirName": "cookbook",
+  "slug": "/cookbook/custom-dashboard",
+  "permalink": "/docs/cookbook/custom-dashboard",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/cookbook/custom-dashboard.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "docs",
+  "previous": {
+    "title": "Your First Data Upload",
+    "permalink": "/docs/cookbook/first-upload"
+  },
+  "next": {
+    "title": "Setting Up Alerts",
+    "permalink": "/docs/cookbook/setup-alerts"
+  }
+}

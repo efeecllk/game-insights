@@ -1,0 +1,31 @@
+{
+  "id": "game-guides/battle-royale",
+  "title": "Battle Royale Guide",
+  "description": "Analytics best practices for battle royale, competitive shooters, and survival games",
+  "source": "@site/docs/game-guides/battle-royale.md",
+  "sourceDirName": "game-guides",
+  "slug": "/game-guides/battle-royale",
+  "permalink": "/docs/game-guides/battle-royale",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/battle-royale.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4,
+    "title": "Battle Royale Guide",
+    "description": "Analytics best practices for battle royale, competitive shooters, and survival games"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Idle Games Guide",
+    "permalink": "/docs/game-guides/idle"
+  },
+  "next": {
+    "title": "Match-3 Meta Games Guide",
+    "permalink": "/docs/game-guides/match3-meta"
+  }
+}

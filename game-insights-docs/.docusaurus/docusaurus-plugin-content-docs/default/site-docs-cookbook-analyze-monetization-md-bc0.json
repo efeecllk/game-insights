@@ -1,0 +1,31 @@
+{
+  "id": "cookbook/analyze-monetization",
+  "title": "Analyze Monetization",
+  "description": "Tutorial for deep diving into monetization metrics and optimizing revenue",
+  "source": "@site/docs/cookbook/analyze-monetization.md",
+  "sourceDirName": "cookbook",
+  "slug": "/cookbook/analyze-monetization",
+  "permalink": "/docs/cookbook/analyze-monetization",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/cookbook/analyze-monetization.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7,
+    "title": "Analyze Monetization",
+    "description": "Tutorial for deep diving into monetization metrics and optimizing revenue"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Run an A/B Test",
+    "permalink": "/docs/cookbook/run-ab-test"
+  },
+  "next": {
+    "title": "API Reference",
+    "permalink": "/docs/api-reference/"
+  }
+}

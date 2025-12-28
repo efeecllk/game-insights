@@ -1,0 +1,31 @@
+{
+  "id": "game-guides/overview",
+  "title": "Game Types Overview",
+  "description": "Understanding how Game Insights detects and customizes analytics for different game types",
+  "source": "@site/docs/game-guides/overview.md",
+  "sourceDirName": "game-guides",
+  "slug": "/game-guides/overview",
+  "permalink": "/docs/game-guides/overview",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/overview.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1,
+    "title": "Game Types Overview",
+    "description": "Understanding how Game Insights detects and customizes analytics for different game types"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Template Marketplace",
+    "permalink": "/docs/features/templates"
+  },
+  "next": {
+    "title": "Puzzle Games Guide",
+    "permalink": "/docs/game-guides/puzzle"
+  }
+}

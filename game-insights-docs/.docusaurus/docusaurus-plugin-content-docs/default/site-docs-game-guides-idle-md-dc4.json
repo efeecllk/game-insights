@@ -1,0 +1,31 @@
+{
+  "id": "game-guides/idle",
+  "title": "Idle Games Guide",
+  "description": "Analytics best practices for idle, incremental, and clicker mobile games",
+  "source": "@site/docs/game-guides/idle.md",
+  "sourceDirName": "game-guides",
+  "slug": "/game-guides/idle",
+  "permalink": "/docs/game-guides/idle",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/game-guides/idle.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3,
+    "title": "Idle Games Guide",
+    "description": "Analytics best practices for idle, incremental, and clicker mobile games"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Puzzle Games Guide",
+    "permalink": "/docs/game-guides/puzzle"
+  },
+  "next": {
+    "title": "Battle Royale Guide",
+    "permalink": "/docs/game-guides/battle-royale"
+  }
+}

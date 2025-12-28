@@ -1,0 +1,31 @@
+{
+  "id": "data-management/sources/api",
+  "title": "Custom API Endpoints",
+  "description": "Connect to REST APIs and custom data endpoints",
+  "source": "@site/docs/data-management/sources/api.md",
+  "sourceDirName": "data-management/sources",
+  "slug": "/data-management/sources/api",
+  "permalink": "/docs/data-management/sources/api",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/game-insights/game-insights-docs/tree/main/docs/data-management/sources/api.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6,
+    "title": "Custom API Endpoints",
+    "description": "Connect to REST APIs and custom data endpoints"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Webhook Streaming",
+    "permalink": "/docs/data-management/sources/webhooks"
+  },
+  "next": {
+    "title": "AI & Analytics Overview",
+    "permalink": "/docs/ai-analytics/overview"
+  }
+}
