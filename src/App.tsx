@@ -39,6 +39,7 @@ import { ABTestingPage } from './pages/ABTesting';
 import { DashboardBuilderPage } from './pages/DashboardBuilder';
 import { GamesPage } from './pages/Games';
 import { FunnelBuilderPage } from './pages/FunnelBuilder';
+import { AttributionPage } from './pages/Attribution';
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -320,6 +321,7 @@ function AppContent() {
                         <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
                         <Route path="/monetization" element={<MonetizationPage />} />
                         <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                        <Route path="/attribution" element={<AttributionPage />} />
                         <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
                         <Route path="/ab-testing" element={<ABTestingPage />} />
                         <Route path="/games" element={<GamesPage />} />

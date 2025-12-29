@@ -25,6 +25,7 @@ import {
     Package,
     Brain,
     Plus,
+    Target,
     LucideIcon,
     Sun,
     Moon,
@@ -60,6 +61,7 @@ const allNavItems: NavItem[] = [
     { icon: Users, label: 'User Analysis', path: '/user-analysis', external: true },
     { icon: Wrench, label: 'Remote Configs', path: '/remote-configs' },
     { icon: Zap, label: 'A/B Testing', path: '/ab-testing' },
+    { icon: Target, label: 'Attribution', path: '/attribution', badge: 'New' },
     { icon: Settings, label: 'Game Settings', path: '/settings' },
 ];
 

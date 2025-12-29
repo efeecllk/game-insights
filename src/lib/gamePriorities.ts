@@ -21,15 +21,16 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Funnel Builder': 8,
         'Engagement': 9,
         'Monetization': 10,
-        'Health': 11,
-        'Realtime': 12,
-        'Distributions': 13,
-        'Explore': 14,
-        'User Analysis': 15,
-        'Dashboards': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 11,  // Phase 9: Attribution Analytics
+        'Health': 12,
+        'Realtime': 13,
+        'Distributions': 14,
+        'Explore': 15,
+        'User Analysis': 16,
+        'Dashboards': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
     idle: {
         'Overview': 1,
@@ -43,14 +44,15 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Distributions': 9, // Prestige distribution
         'Funnels': 10,
         'Funnel Builder': 11,
-        'Health': 12,
-        'Realtime': 13,
-        'Explore': 14,
-        'User Analysis': 15,
-        'Dashboards': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 12,  // Phase 9: Attribution Analytics
+        'Health': 13,
+        'Realtime': 14,
+        'Explore': 15,
+        'User Analysis': 16,
+        'Dashboards': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
     battle_royale: {
         'Overview': 1,
@@ -64,14 +66,15 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Engagement': 9,
         'Health': 10,       // Server health
         'Monetization': 11,
-        'Funnels': 12,
-        'Funnel Builder': 13,
-        'Explore': 14,
-        'User Analysis': 15,
-        'Dashboards': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 12,  // Phase 9: Attribution Analytics
+        'Funnels': 13,
+        'Funnel Builder': 14,
+        'Explore': 15,
+        'User Analysis': 16,
+        'Dashboards': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
     match3_meta: {
         'Overview': 1,
@@ -84,15 +87,16 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Funnel Builder': 8,
         'Engagement': 9,    // Decoration engagement
         'Monetization': 10,
-        'User Analysis': 11, // Player segments
-        'Health': 12,
-        'Realtime': 13,
-        'Distributions': 14,
-        'Explore': 15,
-        'Dashboards': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 11,  // Phase 9: Attribution Analytics
+        'User Analysis': 12, // Player segments
+        'Health': 13,
+        'Realtime': 14,
+        'Distributions': 15,
+        'Explore': 16,
+        'Dashboards': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
     gacha_rpg: {
         'Overview': 1,
@@ -102,18 +106,19 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Predictions': 5,
         'AI Analytics': 6,
         'Monetization': 7,  // Revenue is king
-        'Distributions': 8, // Pull/pity distribution
-        'User Analysis': 9, // Whale identification
-        'Realtime': 10,     // Limited banner tracking
-        'Engagement': 11,
-        'Funnels': 12,
-        'Funnel Builder': 13,
-        'Health': 14,
-        'Explore': 15,
-        'Dashboards': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 8,   // Phase 9: Attribution Analytics (critical for UA)
+        'Distributions': 9, // Pull/pity distribution
+        'User Analysis': 10, // Whale identification
+        'Realtime': 11,     // Limited banner tracking
+        'Engagement': 12,
+        'Funnels': 13,
+        'Funnel Builder': 14,
+        'Health': 15,
+        'Explore': 16,
+        'Dashboards': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
     custom: {
         'Overview': 1,
@@ -129,12 +134,13 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Engagement': 11,
         'Distributions': 12,
         'Monetization': 13,
-        'Health': 14,
-        'Realtime': 15,
-        'User Analysis': 16,
-        'A/B Testing': 17,
-        'Remote Configs': 18,
-        'Game Settings': 19,
+        'Attribution': 14,  // Phase 9: Attribution Analytics
+        'Health': 15,
+        'Realtime': 16,
+        'User Analysis': 17,
+        'A/B Testing': 18,
+        'Remote Configs': 19,
+        'Game Settings': 20,
     },
 };
 
