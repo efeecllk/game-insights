@@ -1,5 +1,6 @@
 /**
  * Upload Page - Enhanced data upload with multi-format support
+ * Phase 8: Enhanced error handling with user-friendly messages
  */
 
 import { useState } from 'react';
@@ -13,6 +14,8 @@ import { analyzeSchema, ColumnMapping, SchemaAnalysisResult } from '../lib/colum
 import { detectTemplate } from '../lib/templates';
 import { getStoredApiKey } from './Settings';
 import { useData } from '../context/DataContext';
+import { useToast } from '../context/ToastContext';
+import { parseError } from '../lib/errorHandler';
 import { GameCategory } from '../types';
 
 type Step = 'upload' | 'preview' | 'analyzing' | 'review' | 'complete';
@@ -20,6 +23,7 @@ type Step = 'upload' | 'preview' | 'analyzing' | 'review' | 'complete';
 export function UploadPage() {
     const navigate = useNavigate();
     const { addGameData } = useData();
+    const { showError, success } = useToast();
     const [step, setStep] = useState<Step>('upload');
     const [fileInfo, setFileInfo] = useState<{ name: string; rows: number } | null>(null);
     const [importResult, setImportResult] = useState<ImportResult | null>(null);
@@ -62,7 +66,9 @@ export function UploadPage() {
             setStep('review');
         } catch (err) {
             console.error('Analysis failed:', err);
-            setError('Failed to analyze data. Please try again.');
+            const parsed = parseError(err);
+            setError(parsed.message);
+            showError(err, () => handleContinueToAnalysis());
             setStep('preview');
         }
     };
@@ -105,11 +111,14 @@ export function UploadPage() {
                 rowCount: importResult.rowCount,
             });
 
-            // Navigate to analytics page
+            // Show success toast and navigate to analytics page
+            success('Data imported successfully', `${importResult.rowCount.toLocaleString()} rows loaded`);
             navigate('/analytics');
         } catch (err) {
             console.error('Failed to save data:', err);
-            setError('Failed to save data. Please try again.');
+            const parsed = parseError(err);
+            setError(parsed.message);
+            showError(err, handleConfirm);
         }
     };
 

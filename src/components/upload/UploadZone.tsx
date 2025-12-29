@@ -1,5 +1,6 @@
 /**
  * Upload Zone Component - Enhanced multi-format support
+ * Phase 8: Enhanced error handling with user-friendly messages
  */
 
 import { useState, useCallback, DragEvent, ChangeEvent } from 'react';
@@ -7,6 +8,7 @@ import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, D
 import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult } from '../../lib/importers';
 import { urlImporter } from '../../lib/importers/urlImporter';
 import { clipboardImporter } from '../../lib/importers/clipboardImporter';
+import { parseError, ErrorCode, AppError } from '../../lib/errorHandler';
 
 interface UploadZoneProps {
     onFileLoaded: (result: ImportResult, file?: File) => void;
@@ -33,15 +35,16 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
 
         // Validate file format
         if (!isFormatSupported(file)) {
-            const supported = getSupportedExtensions().join(', ');
-            setError(`Unsupported format. Supported: ${supported}`);
+            const parsed = parseError(new AppError(ErrorCode.FILE_UNSUPPORTED));
+            setError(parsed.message);
             setLocalLoading(false);
             return;
         }
 
         // Validate file size (max 100MB)
         if (file.size > 100 * 1024 * 1024) {
-            setError('File size must be less than 100MB');
+            const parsed = parseError(new AppError(ErrorCode.FILE_TOO_LARGE));
+            setError(parsed.message);
             setLocalLoading(false);
             return;
         }
@@ -50,14 +53,23 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
             const result = await importFile(file);
 
             if (!result.success) {
-                setError(result.errors[0]?.message || 'Failed to parse file');
+                const parsed = parseError(new AppError(ErrorCode.FILE_PARSE_ERROR, result.errors[0]?.message));
+                setError(parsed.message);
+                setLocalLoading(false);
+                return;
+            }
+
+            if (result.rowCount === 0) {
+                const parsed = parseError(new AppError(ErrorCode.FILE_EMPTY));
+                setError(parsed.message);
                 setLocalLoading(false);
                 return;
             }
 
             onFileLoaded(result, file);
         } catch (err) {
-            setError('Failed to parse file');
+            const parsed = parseError(err);
+            setError(parsed.message);
         } finally {
             setLocalLoading(false);
         }
@@ -77,14 +89,16 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
             const result = await urlImporter.import(urlInput.trim());
 
             if (!result.success) {
-                setError(result.errors[0]?.message || 'Failed to fetch URL');
+                const parsed = parseError(new AppError(ErrorCode.NETWORK_ERROR, result.errors[0]?.message));
+                setError(parsed.message);
                 setLocalLoading(false);
                 return;
             }
 
             onFileLoaded(result);
         } catch (err) {
-            setError('Failed to import from URL');
+            const parsed = parseError(err);
+            setError(parsed.message);
         } finally {
             setLocalLoading(false);
         }
@@ -105,14 +119,23 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
             const result = await clipboardImporter.importFromText(content);
 
             if (!result.success) {
-                setError(result.errors[0]?.message || 'Failed to parse pasted data');
+                const parsed = parseError(new AppError(ErrorCode.FILE_PARSE_ERROR, result.errors[0]?.message));
+                setError(parsed.message);
+                setLocalLoading(false);
+                return;
+            }
+
+            if (result.rowCount === 0) {
+                const parsed = parseError(new AppError(ErrorCode.DATA_MISSING));
+                setError(parsed.message);
                 setLocalLoading(false);
                 return;
             }
 
             onFileLoaded(result);
         } catch (err) {
-            setError('Failed to parse pasted data');
+            const parsed = parseError(err);
+            setError(parsed.message);
         } finally {
             setLocalLoading(false);
         }

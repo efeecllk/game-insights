@@ -2,6 +2,7 @@
  * Integrations Page - Integration Hub UI
  * Manage all data source connections
  * Phase 3: One-Click Integrations
+ * Phase 8: Enhanced error handling with user-friendly messages
  */
 
 import { useState } from 'react';
@@ -23,6 +24,7 @@ import {
     X,
 } from 'lucide-react';
 import { useIntegrations } from '../context/IntegrationContext';
+import { useToast } from '../context/ToastContext';
 import {
     Integration,
     IntegrationType,
@@ -49,6 +51,7 @@ export function IntegrationsPage() {
         pauseIntegration,
         resumeIntegration,
     } = useIntegrations();
+    const { showError, success, warning } = useToast();
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [selectedType, setSelectedType] = useState<IntegrationType | null>(null);
@@ -127,10 +130,38 @@ export function IntegrationsPage() {
                         <IntegrationCard
                             key={integration.id}
                             integration={integration}
-                            onRefresh={() => refreshIntegration(integration.id)}
-                            onPause={() => pauseIntegration(integration.id)}
-                            onResume={() => resumeIntegration(integration.id)}
-                            onRemove={() => removeIntegration(integration.id)}
+                            onRefresh={async () => {
+                                try {
+                                    await refreshIntegration(integration.id);
+                                    success('Sync complete', `${integration.config.name} refreshed`);
+                                } catch (err) {
+                                    showError(err, () => refreshIntegration(integration.id));
+                                }
+                            }}
+                            onPause={async () => {
+                                try {
+                                    await pauseIntegration(integration.id);
+                                    warning('Sync paused', `${integration.config.name} will not auto-sync`);
+                                } catch (err) {
+                                    showError(err);
+                                }
+                            }}
+                            onResume={async () => {
+                                try {
+                                    await resumeIntegration(integration.id);
+                                    success('Sync resumed', `${integration.config.name} will auto-sync`);
+                                } catch (err) {
+                                    showError(err);
+                                }
+                            }}
+                            onRemove={async () => {
+                                try {
+                                    await removeIntegration(integration.id);
+                                    success('Connection removed', `${integration.config.name} disconnected`);
+                                } catch (err) {
+                                    showError(err);
+                                }
+                            }}
                         />
                     ))}
                 </div>
@@ -148,9 +179,14 @@ export function IntegrationsPage() {
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
                     onAdd={async (config) => {
-                        await addIntegration(config);
-                        setShowAddModal(false);
-                        setSelectedType(null);
+                        try {
+                            await addIntegration(config);
+                            success('Connection added', `${config.name} connected successfully`);
+                            setShowAddModal(false);
+                            setSelectedType(null);
+                        } catch (err) {
+                            showError(err);
+                        }
                     }}
                 />
             )}

@@ -2,6 +2,7 @@
  * Data Hub Page
  * Unified data connection hub - the single entry point for all data import methods
  * Phase 3: Data Sources - Streamlined Data Connection & Management
+ * Phase 8: Enhanced error handling with user-friendly messages
  */
 
 import { useState } from 'react';
@@ -30,6 +31,7 @@ import {
 } from 'lucide-react';
 import { useIntegrations } from '../context/IntegrationContext';
 import { useData } from '../context/DataContext';
+import { useToast } from '../context/ToastContext';
 import {
     Integration,
     IntegrationType,
@@ -56,6 +58,7 @@ export function DataHubPage() {
     } = useIntegrations();
 
     const { gameDataList } = useData();
+    const { showError, success, warning } = useToast();
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [showWizard, setShowWizard] = useState(false);
@@ -158,10 +161,38 @@ export function DataHubPage() {
                             <IntegrationCard
                                 key={integration.id}
                                 integration={integration}
-                                onRefresh={() => refreshIntegration(integration.id)}
-                                onPause={() => pauseIntegration(integration.id)}
-                                onResume={() => resumeIntegration(integration.id)}
-                                onRemove={() => removeIntegration(integration.id)}
+                                onRefresh={async () => {
+                                    try {
+                                        await refreshIntegration(integration.id);
+                                        success('Sync complete', `${integration.config.name} refreshed`);
+                                    } catch (err) {
+                                        showError(err, () => refreshIntegration(integration.id));
+                                    }
+                                }}
+                                onPause={async () => {
+                                    try {
+                                        await pauseIntegration(integration.id);
+                                        warning('Sync paused', `${integration.config.name} will not auto-sync`);
+                                    } catch (err) {
+                                        showError(err);
+                                    }
+                                }}
+                                onResume={async () => {
+                                    try {
+                                        await resumeIntegration(integration.id);
+                                        success('Sync resumed', `${integration.config.name} will auto-sync`);
+                                    } catch (err) {
+                                        showError(err);
+                                    }
+                                }}
+                                onRemove={async () => {
+                                    try {
+                                        await removeIntegration(integration.id);
+                                        success('Connection removed', `${integration.config.name} disconnected`);
+                                    } catch (err) {
+                                        showError(err);
+                                    }
+                                }}
                             />
                         ))}
                     </div>

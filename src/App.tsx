@@ -6,15 +6,27 @@
  * - Code splitting with React.lazy() for heavy pages
  * - Suspense boundaries for loading states
  * - Manual chunks in vite.config.ts for vendor splitting
+ *
+ * Accessibility Features (Phase 8):
+ * - Skip link to main content
+ * - Proper landmark regions (main, nav)
+ * - Semantic heading hierarchy
+ * - Screen reader announcements
+ *
+ * Error Handling (Phase 8):
+ * - ErrorBoundary for catching React errors
+ * - ToastProvider for user-friendly notifications
  */
 
 import { useMemo, useState, lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2 } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
 import { IntegrationProvider } from './context/IntegrationContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Components (always loaded - core UI)
 import { Sidebar } from './components/Sidebar';
@@ -59,6 +71,24 @@ const TemplatesPage = lazy(() => import('./pages/Templates'));
 import { createDataProvider, gameCategories } from './lib/dataProviders';
 
 // ============================================================================
+// Skip Link Component (Accessibility)
+// ============================================================================
+
+/**
+ * Skip link for keyboard navigation - allows users to skip to main content
+ */
+function SkipLink() {
+    return (
+        <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-th-accent-primary focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-th-bg-base"
+        >
+            Skip to main content
+        </a>
+    );
+}
+
+// ============================================================================
 // Loading Components
 // ============================================================================
 
@@ -67,9 +97,9 @@ import { createDataProvider, gameCategories } from './lib/dataProviders';
  */
 function PageLoader() {
     return (
-        <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex items-center justify-center min-h-[400px]" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-3">
-                <Loader2 className="w-8 h-8 text-accent-primary animate-spin" />
+                <Loader2 className="w-8 h-8 text-accent-primary animate-spin" aria-hidden="true" />
                 <p className="text-sm text-th-text-muted">Loading...</p>
             </div>
         </div>
@@ -157,57 +187,69 @@ function OverviewPage() {
     return (
         <div className="space-y-6">
             {/* Page Header */}
-            <div className="flex items-center justify-between">
+            <header className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
-                        <span>{gameInfo?.icon}</span>
+                        <span aria-hidden="true">{gameInfo?.icon}</span>
                         {gameInfo?.name} Analytics
                     </h1>
                     <p className="text-th-text-muted mt-1">{gameInfo?.description}</p>
                 </div>
-            </div>
+            </header>
 
             {/* Game Type Selector */}
             <GameSelector selected={selectedGame} onChange={setSelectedGame} />
 
             {/* KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {kpiData.map((kpi) => (
-                    <KPICard
-                        key={kpi.label}
-                        icon={iconMap[kpi.label] ?? Users}
-                        label={kpi.label}
-                        value={kpi.value}
-                        change={kpi.change}
-                        changeType={kpi.changeType}
-                    />
-                ))}
-            </div>
+            <section aria-labelledby="kpi-heading">
+                <h2 id="kpi-heading" className="sr-only">Key Performance Indicators</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {kpiData.map((kpi) => (
+                        <KPICard
+                            key={kpi.label}
+                            icon={iconMap[kpi.label] ?? Users}
+                            label={kpi.label}
+                            value={kpi.value}
+                            change={kpi.change}
+                            changeType={kpi.changeType}
+                        />
+                    ))}
+                </div>
+            </section>
 
             {/* Charts Row 1 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <RetentionCurve data={retentionData} />
-                <FunnelChart data={funnelData} config={chartConfigs.funnel} />
-            </div>
+            <section aria-labelledby="charts-heading-1">
+                <h2 id="charts-heading-1" className="sr-only">Retention and Funnel Charts</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <RetentionCurve data={retentionData} />
+                    <FunnelChart data={funnelData} config={chartConfigs.funnel} />
+                </div>
+            </section>
 
             {/* Charts Row 2 */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <RevenueChart data={revenueData} />
-                <SegmentChart data={segmentData} config={chartConfigs.segment} />
-            </div>
+            <section aria-labelledby="charts-heading-2">
+                <h2 id="charts-heading-2" className="sr-only">Revenue and Segment Charts</h2>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <RevenueChart data={revenueData} />
+                    <SegmentChart data={segmentData} config={chartConfigs.segment} />
+                </div>
+            </section>
 
-            {/* AI Insights Placeholder */}
-            <div className="bg-th-bg-surface rounded-card p-6 border border-th-border-subtle">
+            {/* AI Insights */}
+            <section 
+                aria-labelledby="insights-heading"
+                className="bg-th-bg-surface rounded-card p-6 border border-th-border-subtle"
+            >
                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted flex items-center justify-center" aria-hidden="true">
                         <span className="text-xl">🧠</span>
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold text-th-text-primary">AI Insights</h3>
+                        <h2 id="insights-heading" className="text-lg font-semibold text-th-text-primary">AI Insights</h2>
                         <p className="text-sm text-th-text-muted">Auto-generated recommendations</p>
                     </div>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-3" role="list" aria-label="AI-generated insights">
                     {selectedGame === 'puzzle' && (
                         <>
                             <InsightCard type="warning" message="Level 15 has 72% failure rate. Consider adding hints or reducing difficulty." />
@@ -239,7 +281,7 @@ function OverviewPage() {
                         </>
                     )}
                 </div>
-            </div>
+            </section>
         </div>
     );
 }
@@ -268,11 +310,21 @@ function InsightCard({
         critical: '🚨',
     };
 
+    const labels = {
+        warning: 'Warning',
+        opportunity: 'Opportunity',
+        info: 'Information',
+        critical: 'Critical alert',
+    };
+
     return (
-        <div className={`p-4 rounded-xl border ${styles[type]}`}>
+        <div className={`p-4 rounded-xl border ${styles[type]}`} role="listitem">
             <div className="flex items-start gap-3">
-                <span className="text-lg">{icons[type]}</span>
-                <p className="text-sm text-th-text-secondary">{message}</p>
+                <span className="text-lg" aria-hidden="true">{icons[type]}</span>
+                <div>
+                    <span className="sr-only">{labels[type]}: </span>
+                    <p className="text-sm text-th-text-secondary">{message}</p>
+                </div>
             </div>
         </div>
     );
@@ -284,22 +336,45 @@ function InsightCard({
 function PlaceholderPage({ title, description, badge }: { title: string; description?: string; badge?: string }) {
     return (
         <div className="space-y-6">
-            <div className="flex items-center gap-3">
+            <header className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold text-th-text-primary">{title}</h1>
                 {badge && (
                     <span className="text-xs font-semibold text-th-accent-primary bg-th-accent-primary-muted px-2 py-1 rounded">
                         {badge}
                     </span>
                 )}
-            </div>
+            </header>
             <p className="text-th-text-muted">{description ?? 'This section is under development'}</p>
             <div className="bg-th-bg-surface rounded-xl p-12 border border-th-border-subtle flex flex-col items-center justify-center text-center">
-                <span className="text-4xl mb-4">🚧</span>
+                <span className="text-4xl mb-4" aria-hidden="true">🚧</span>
                 <p className="text-th-text-secondary font-medium">Coming soon...</p>
                 <p className="text-th-text-muted text-sm mt-2">Check back for updates</p>
             </div>
         </div>
     );
+}
+
+/**
+ * Get page title based on current route
+ */
+function getPageTitle(pathname: string): string {
+    const titles: Record<string, string> = {
+        '/': 'Overview',
+        '/games': 'Games',
+        '/settings': 'Settings',
+        '/upload': 'Upload Data',
+        '/data-sources': 'Data Sources',
+        '/templates': 'Templates',
+        '/predictions': 'Predictions',
+        '/analytics': 'Analytics',
+        '/realtime': 'Realtime',
+        '/dashboards': 'Dashboards',
+        '/funnels': 'Funnels',
+        '/monetization': 'Monetization',
+        '/ab-testing': 'A/B Testing',
+        '/attribution': 'Attribution',
+    };
+    return titles[pathname] || 'Page';
 }
 
 /**
@@ -310,6 +385,7 @@ function AppContent() {
     const [showShortcuts, setShowShortcuts] = useState(false);
     const { hasCompleted: hasOnboarded } = useOnboarding();
     const [showOnboarding, setShowOnboarding] = useState(!hasOnboarded);
+    const location = useLocation();
 
     // Initialize keyboard shortcuts
     useKeyboardShortcuts({
@@ -317,8 +393,13 @@ function AppContent() {
         onOpenShortcuts: () => setShowShortcuts(true),
     });
 
+    const pageTitle = getPageTitle(location.pathname);
+
     return (
         <>
+            {/* Skip Link for Keyboard Navigation */}
+            <SkipLink />
+
             {/* Onboarding Flow */}
             {showOnboarding && (
                 <WelcomeFlow
@@ -335,7 +416,12 @@ function AppContent() {
                 <Sidebar />
 
                 {/* Main Content Area */}
-                <main className="flex-1 ml-[200px] p-6">
+                <main 
+                    id="main-content" 
+                    className="flex-1 ml-[200px] p-6"
+                    tabIndex={-1}
+                    aria-label={pageTitle + ' - Main content'}
+                >
                     <Routes>
                         {/* Core routes - not lazy loaded */}
                         <Route path="/" element={<OverviewPage />} />
@@ -425,18 +511,23 @@ function AppContent() {
 
 /**
  * Main App Component
+ * Wrapped with ErrorBoundary and ToastProvider for enhanced error handling
  */
 function App() {
     return (
-        <ThemeProvider>
-            <DataProvider>
-                <IntegrationProvider>
-                    <GameProvider>
-                        <AppContent />
-                    </GameProvider>
-                </IntegrationProvider>
-            </DataProvider>
-        </ThemeProvider>
+        <ErrorBoundary>
+            <ThemeProvider>
+                <ToastProvider position="bottom-right" maxToasts={5}>
+                    <DataProvider>
+                        <IntegrationProvider>
+                            <GameProvider>
+                                <AppContent />
+                            </GameProvider>
+                        </IntegrationProvider>
+                    </DataProvider>
+                </ToastProvider>
+            </ThemeProvider>
+        </ErrorBoundary>
     );
 }
 
