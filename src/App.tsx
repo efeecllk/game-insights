@@ -29,7 +29,7 @@ import { RealtimePage } from './pages/Realtime';
 import { FunnelsPage } from './pages/Funnels';
 import { MonetizationPage } from './pages/Monetization';
 import { AnalyticsPage } from './pages/Analytics';
-import { IntegrationsPage } from './pages/Integrations';
+import { DataHubPage } from './pages/DataHub';
 import { TemplatesPage } from './pages/Templates';
 import { PredictionsPage } from './pages/Predictions';
 import { ABTestingPage } from './pages/ABTesting';
@@ -283,7 +283,8 @@ function App() {
                             <main className="flex-1 ml-[200px] p-6">
                                 <Routes>
                                     <Route path="/" element={<OverviewPage />} />
-                                    <Route path="/integrations" element={<IntegrationsPage />} />
+                                    <Route path="/data-sources" element={<DataHubPage />} />
+                                    <Route path="/integrations" element={<DataHubPage />} />
                                     <Route path="/templates" element={<TemplatesPage />} />
                                     <Route path="/predictions" element={<PredictionsPage />} />
                                     <Route path="/analytics" element={<AnalyticsPage />} />

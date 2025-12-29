@@ -44,7 +44,7 @@ interface NavItem {
 const allNavItems: NavItem[] = [
     { icon: Home, label: 'Overview', path: '/' },
     { icon: Gamepad2, label: 'Games', path: '/games' },
-    { icon: Database, label: 'Data Sources', path: '/integrations' },
+    { icon: Database, label: 'Data Sources', path: '/data-sources' },
     { icon: Package, label: 'Templates', path: '/templates', badge: 'New' },
     { icon: Brain, label: 'Predictions', path: '/predictions', badge: 'New' },
     { icon: Sparkles, label: 'AI Analytics', path: '/analytics' },
