@@ -10,5 +10,6 @@ export { ErrorResolutionGuide } from './ErrorResolutionGuide';
 export { DataPreview } from './DataPreview';
 export { SyncScheduleManager } from './SyncScheduleManager';
 export { QuickPaste } from './QuickPaste';
+export { IntegrationRecipes } from './IntegrationRecipes';
 export type { ErrorInfo } from './ErrorResolutionGuide';
 export type { ColumnStats, ValidationIssue, DataPreviewProps } from './DataPreview';
