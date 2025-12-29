@@ -33,19 +33,13 @@ import { useData } from '../context/DataContext';
 import {
     Integration,
     IntegrationType,
-    IntegrationConfig,
     INTEGRATION_CATALOG,
     IntegrationCatalogItem,
     formatLastSync,
     getStatusIcon,
     getIntegrationIcon,
 } from '../lib/integrationStore';
-
-// ============================================================================
-// Types
-// ============================================================================
-
-type ImportMethod = 'upload' | 'connect' | 'paste';
+import { ConnectionWizard, ConnectionHealth } from '../components/data';
 
 // ============================================================================
 // Main Page Component
@@ -55,7 +49,6 @@ export function DataHubPage() {
     const {
         integrations,
         isLoading,
-        addIntegration,
         removeIntegration,
         refreshIntegration,
         pauseIntegration,
@@ -65,9 +58,9 @@ export function DataHubPage() {
     const { gameDataList } = useData();
 
     const [showAddModal, setShowAddModal] = useState(false);
-    const [selectedType, setSelectedType] = useState<IntegrationType | null>(null);
+    const [showWizard, setShowWizard] = useState(false);
+    const [wizardType, setWizardType] = useState<IntegrationType | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [, setActiveMethod] = useState<ImportMethod | null>(null);
 
     const connectedCount = integrations.filter(i => i.status === 'connected').length;
     const errorCount = integrations.filter(i => i.status === 'error').length;
@@ -84,10 +77,14 @@ export function DataHubPage() {
 
     const hasData = integrations.length > 0 || gameDataList.length > 0;
 
+    const handleBrowseSources = () => {
+        setShowAddModal(true);
+    };
+
     return (
         <div className="space-y-8">
             {/* Hero Section */}
-            <HeroSection onSelectMethod={setActiveMethod} />
+            <HeroSection onBrowseSources={handleBrowseSources} />
 
             {/* Quick Stats */}
             {hasData && (
@@ -139,8 +136,13 @@ export function DataHubPage() {
                 </div>
             )}
 
-            {/* Connected Integrations Section */}
+            {/* Connection Health Dashboard */}
             {integrations.length > 0 && (
+                <ConnectionHealth />
+            )}
+
+            {/* Connected Integrations Section (legacy list view) */}
+            {integrations.length > 0 && integrations.length <= 3 && (
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-semibold text-th-text-primary">Connected Sources</h2>
@@ -168,24 +170,36 @@ export function DataHubPage() {
 
             {/* Empty State (when nothing connected yet) */}
             {!hasData && (
-                <EmptyStateGuide onSelectMethod={setActiveMethod} />
+                <EmptyStateGuide onConnectSource={handleBrowseSources} />
             )}
 
-            {/* Add Integration Modal */}
+            {/* Add Integration Modal (catalog browser) */}
             {showAddModal && (
                 <AddIntegrationModal
                     onClose={() => {
                         setShowAddModal(false);
-                        setSelectedType(null);
                     }}
-                    selectedType={selectedType}
-                    onSelectType={setSelectedType}
                     searchQuery={searchQuery}
                     onSearchChange={setSearchQuery}
-                    onAdd={async (config) => {
-                        await addIntegration(config);
+                    onSelectType={(type) => {
                         setShowAddModal(false);
-                        setSelectedType(null);
+                        setWizardType(type);
+                        setShowWizard(true);
+                    }}
+                />
+            )}
+
+            {/* Connection Wizard (full wizard flow) */}
+            {showWizard && (
+                <ConnectionWizard
+                    initialType={wizardType || undefined}
+                    onComplete={() => {
+                        setShowWizard(false);
+                        setWizardType(null);
+                    }}
+                    onCancel={() => {
+                        setShowWizard(false);
+                        setWizardType(null);
                     }}
                 />
             )}
@@ -198,9 +212,9 @@ export function DataHubPage() {
 // ============================================================================
 
 function HeroSection({
-    onSelectMethod,
+    onBrowseSources,
 }: {
-    onSelectMethod: (method: ImportMethod) => void;
+    onBrowseSources: () => void;
 }) {
     return (
         <div className="bg-gradient-to-br from-th-bg-surface to-th-bg-elevated rounded-2xl border border-th-border p-8">
@@ -237,7 +251,7 @@ function HeroSection({
                     description="Google Sheets, Firebase, databases"
                     benefits={['Auto updates', 'Real-time sync', 'Always fresh']}
                     buttonLabel="Browse Sources"
-                    onClick={() => onSelectMethod('connect')}
+                    onClick={onBrowseSources}
                     gradientFrom="from-purple-500"
                     gradientTo="to-indigo-500"
                     featured
@@ -248,8 +262,7 @@ function HeroSection({
                     title="Paste Data"
                     description="Copy from spreadsheet"
                     benefits={['Quick test', 'Small data', 'No file needed']}
-                    buttonLabel="Paste Data"
-                    onClick={() => onSelectMethod('paste')}
+                    buttonLabel="Coming Soon"
                     gradientFrom="from-emerald-500"
                     gradientTo="to-teal-500"
                 />
@@ -567,9 +580,9 @@ function IntegrationCard({
 // ============================================================================
 
 function EmptyStateGuide({
-    onSelectMethod,
+    onConnectSource,
 }: {
-    onSelectMethod: (method: ImportMethod) => void;
+    onConnectSource: () => void;
 }) {
     return (
         <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
@@ -591,7 +604,7 @@ function EmptyStateGuide({
                     Upload Your First File
                 </Link>
                 <button
-                    onClick={() => onSelectMethod('connect')}
+                    onClick={onConnectSource}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-th-bg-elevated text-th-text-primary rounded-xl font-medium border border-th-border hover:bg-th-interactive-hover transition-colors"
                 >
                     <Plug className="w-5 h-5" />
@@ -608,18 +621,14 @@ function EmptyStateGuide({
 
 function AddIntegrationModal({
     onClose,
-    selectedType,
-    onSelectType,
     searchQuery,
     onSearchChange,
-    onAdd,
+    onSelectType,
 }: {
     onClose: () => void;
-    selectedType: IntegrationType | null;
-    onSelectType: (type: IntegrationType | null) => void;
     searchQuery: string;
     onSearchChange: (query: string) => void;
-    onAdd: (config: IntegrationConfig) => Promise<void>;
+    onSelectType: (type: IntegrationType) => void;
 }) {
     const filteredCatalog = INTEGRATION_CATALOG.filter(
         item =>
@@ -630,7 +639,7 @@ function AddIntegrationModal({
     const groupedByTier = {
         1: filteredCatalog.filter(i => i.tier === 1),
         2: filteredCatalog.filter(i => i.tier === 2),
-        3: filteredCatalog.filter(i => i.tier === 3),
+        3: filteredCatalog.filter(i => i.tier >= 3),
     };
 
     return (
@@ -639,13 +648,9 @@ function AddIntegrationModal({
                 {/* Header */}
                 <div className="p-6 border-b border-th-border flex items-center justify-between">
                     <div>
-                        <h2 className="text-xl font-bold text-th-text-primary">
-                            {selectedType ? 'Configure Integration' : 'Add Data Source'}
-                        </h2>
+                        <h2 className="text-xl font-bold text-th-text-primary">Add Data Source</h2>
                         <p className="text-sm text-th-text-muted mt-1">
-                            {selectedType
-                                ? 'Enter your connection details'
-                                : 'Choose a data source to connect'}
+                            Choose a data source to connect
                         </p>
                     </div>
                     <button
@@ -658,56 +663,46 @@ function AddIntegrationModal({
 
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-6">
-                    {selectedType ? (
-                        <ConfigurationForm
-                            type={selectedType}
-                            onBack={() => onSelectType(null)}
-                            onSubmit={onAdd}
+                    {/* Search */}
+                    <div className="relative mb-6">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-th-text-muted" />
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={e => onSearchChange(e.target.value)}
+                            placeholder="Search integrations..."
+                            className="w-full pl-10 pr-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
                         />
-                    ) : (
-                        <>
-                            {/* Search */}
-                            <div className="relative mb-6">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-th-text-muted" />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={e => onSearchChange(e.target.value)}
-                                    placeholder="Search integrations..."
-                                    className="w-full pl-10 pr-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                                />
-                            </div>
+                    </div>
 
-                            {/* Tier 1 - Most Used */}
-                            {groupedByTier[1].length > 0 && (
-                                <IntegrationGroup
-                                    title="Most Used"
-                                    subtitle="80% of indie devs use these"
-                                    items={groupedByTier[1]}
-                                    onSelect={onSelectType}
-                                />
-                            )}
+                    {/* Tier 1 - Most Used */}
+                    {groupedByTier[1].length > 0 && (
+                        <IntegrationGroup
+                            title="Most Used"
+                            subtitle="80% of indie devs use these"
+                            items={groupedByTier[1]}
+                            onSelect={onSelectType}
+                        />
+                    )}
 
-                            {/* Tier 2 - Common Backends */}
-                            {groupedByTier[2].length > 0 && (
-                                <IntegrationGroup
-                                    title="Databases"
-                                    subtitle="Connect to your backend"
-                                    items={groupedByTier[2]}
-                                    onSelect={onSelectType}
-                                />
-                            )}
+                    {/* Tier 2 - Common Backends */}
+                    {groupedByTier[2].length > 0 && (
+                        <IntegrationGroup
+                            title="Databases"
+                            subtitle="Connect to your backend"
+                            items={groupedByTier[2]}
+                            onSelect={onSelectType}
+                        />
+                    )}
 
-                            {/* Tier 3 - Game Platforms */}
-                            {groupedByTier[3].length > 0 && (
-                                <IntegrationGroup
-                                    title="Game Platforms"
-                                    subtitle="Gaming-specific services"
-                                    items={groupedByTier[3]}
-                                    onSelect={onSelectType}
-                                />
-                            )}
-                        </>
+                    {/* Tier 3 - Game Platforms */}
+                    {groupedByTier[3].length > 0 && (
+                        <IntegrationGroup
+                            title="Game Platforms"
+                            subtitle="Gaming-specific services"
+                            items={groupedByTier[3]}
+                            onSelect={onSelectType}
+                        />
                     )}
                 </div>
             </div>
@@ -754,301 +749,6 @@ function IntegrationGroup({
                     </button>
                 ))}
             </div>
-        </div>
-    );
-}
-
-// ============================================================================
-// Configuration Form
-// ============================================================================
-
-function ConfigurationForm({
-    type,
-    onBack,
-    onSubmit,
-}: {
-    type: IntegrationType;
-    onBack: () => void;
-    onSubmit: (config: IntegrationConfig) => Promise<void>;
-}) {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const catalogItem = INTEGRATION_CATALOG.find(c => c.type === type);
-
-    // Form state
-    const [name, setName] = useState(catalogItem?.name || '');
-    const [apiKey, setApiKey] = useState('');
-    const [projectUrl, setProjectUrl] = useState('');
-    const [tableName, setTableName] = useState('');
-    const [spreadsheetId, setSpreadsheetId] = useState('');
-    // PostgreSQL fields (for future implementation)
-    const [host] = useState('');
-    const [port] = useState('5432');
-    const [database] = useState('');
-    const [username] = useState('');
-    const [password] = useState('');
-    const [syncType, setSyncType] = useState<'manual' | 'scheduled'>('manual');
-    const [syncInterval, setSyncInterval] = useState('60');
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-        setIsSubmitting(true);
-
-        try {
-            const syncStrategy = syncType === 'scheduled'
-                ? { type: 'scheduled' as const, intervalMinutes: parseInt(syncInterval) }
-                : { type: 'manual' as const };
-
-            let config: IntegrationConfig;
-
-            switch (type) {
-                case 'supabase':
-                    config = {
-                        name,
-                        type,
-                        auth: { type: 'apikey', key: apiKey },
-                        syncStrategy,
-                        supabase: { projectUrl, tableName },
-                    };
-                    break;
-
-                case 'google_sheets':
-                    config = {
-                        name,
-                        type,
-                        auth: { type: 'oauth', provider: 'google' },
-                        syncStrategy,
-                        googleSheets: { spreadsheetId, hasHeaderRow: true },
-                    };
-                    break;
-
-                case 'postgresql':
-                    config = {
-                        name,
-                        type,
-                        auth: { type: 'basic', username, password },
-                        syncStrategy,
-                        postgresql: { host, port: parseInt(port), database, ssl: true, tableName },
-                    };
-                    break;
-
-                case 'webhook':
-                    config = {
-                        name,
-                        type,
-                        auth: apiKey ? { type: 'apikey', key: apiKey } : { type: 'none' },
-                        syncStrategy: { type: 'webhook' },
-                        webhook: { endpointPath: `/webhook/${Date.now()}`, secretKey: apiKey || undefined },
-                    };
-                    break;
-
-                default:
-                    config = { name, type, auth: { type: 'none' }, syncStrategy };
-            }
-
-            await onSubmit(config);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Failed to add integration');
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
-
-    return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Back button */}
-            <button
-                type="button"
-                onClick={onBack}
-                className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-primary transition-colors"
-            >
-                <ChevronRight className="w-4 h-4 rotate-180" />
-                Back to integrations
-            </button>
-
-            {/* Integration header */}
-            <div className="flex items-center gap-4 p-4 bg-th-bg-elevated rounded-xl">
-                <div className="w-12 h-12 rounded-xl bg-th-bg-surface flex items-center justify-center text-2xl">
-                    {catalogItem?.icon}
-                </div>
-                <div>
-                    <div className="font-semibold text-th-text-primary">{catalogItem?.name}</div>
-                    <div className="text-sm text-th-text-muted">{catalogItem?.description}</div>
-                </div>
-            </div>
-
-            {/* Common: Name */}
-            <FormField label="Connection Name" required>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
-                    placeholder="My Data Source"
-                    className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                    required
-                />
-            </FormField>
-
-            {/* Type-specific fields - simplified for now */}
-            {type === 'supabase' && (
-                <>
-                    <FormField label="Project URL" required hint="Found in your Supabase project settings">
-                        <input
-                            type="url"
-                            value={projectUrl}
-                            onChange={e => setProjectUrl(e.target.value)}
-                            placeholder="https://xxx.supabase.co"
-                            className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                            required
-                        />
-                    </FormField>
-                    <FormField label="API Key (anon or service role)" required>
-                        <input
-                            type="password"
-                            value={apiKey}
-                            onChange={e => setApiKey(e.target.value)}
-                            placeholder="eyJ..."
-                            className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                            required
-                        />
-                    </FormField>
-                    <FormField label="Table Name" required>
-                        <input
-                            type="text"
-                            value={tableName}
-                            onChange={e => setTableName(e.target.value)}
-                            placeholder="game_events"
-                            className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                            required
-                        />
-                    </FormField>
-                </>
-            )}
-
-            {type === 'google_sheets' && (
-                <FormField
-                    label="Spreadsheet ID"
-                    required
-                    hint="The ID from the spreadsheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit"
-                >
-                    <input
-                        type="text"
-                        value={spreadsheetId}
-                        onChange={e => setSpreadsheetId(e.target.value)}
-                        placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
-                        className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
-                        required
-                    />
-                </FormField>
-            )}
-
-            {/* Sync settings */}
-            {type !== 'webhook' && (
-                <FormField label="Sync Settings">
-                    <div className="space-y-3">
-                        <label className="flex items-center gap-3 p-3 bg-th-bg-elevated rounded-lg cursor-pointer hover:bg-th-interactive-hover transition-colors">
-                            <input
-                                type="radio"
-                                name="syncType"
-                                value="manual"
-                                checked={syncType === 'manual'}
-                                onChange={() => setSyncType('manual')}
-                                className="text-th-accent-primary"
-                            />
-                            <div>
-                                <div className="text-th-text-primary">Manual</div>
-                                <div className="text-sm text-th-text-muted">Refresh data on demand</div>
-                            </div>
-                        </label>
-                        <label className="flex items-center gap-3 p-3 bg-th-bg-elevated rounded-lg cursor-pointer hover:bg-th-interactive-hover transition-colors">
-                            <input
-                                type="radio"
-                                name="syncType"
-                                value="scheduled"
-                                checked={syncType === 'scheduled'}
-                                onChange={() => setSyncType('scheduled')}
-                                className="text-th-accent-primary"
-                            />
-                            <div className="flex-1">
-                                <div className="text-th-text-primary">Scheduled</div>
-                                <div className="text-sm text-th-text-muted">Auto-refresh at intervals</div>
-                            </div>
-                            {syncType === 'scheduled' && (
-                                <select
-                                    value={syncInterval}
-                                    onChange={e => setSyncInterval(e.target.value)}
-                                    className="px-3 py-1.5 bg-th-bg-surface border border-th-border rounded-lg text-th-text-primary text-sm"
-                                >
-                                    <option value="5">Every 5 min</option>
-                                    <option value="15">Every 15 min</option>
-                                    <option value="60">Every hour</option>
-                                    <option value="1440">Daily</option>
-                                </select>
-                            )}
-                        </label>
-                    </div>
-                </FormField>
-            )}
-
-            {/* Error */}
-            {error && (
-                <div className="flex items-start gap-2 p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
-                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-red-400">{error}</div>
-                </div>
-            )}
-
-            {/* Submit */}
-            <div className="flex justify-end gap-3 pt-4 border-t border-th-border">
-                <button
-                    type="button"
-                    onClick={onBack}
-                    className="px-4 py-2 text-th-text-muted hover:text-th-text-primary transition-colors"
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="flex items-center gap-2 px-6 py-2 bg-th-accent-primary hover:bg-th-accent-primary-hover text-white rounded-xl disabled:opacity-50 transition-colors"
-                >
-                    {isSubmitting ? (
-                        <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            Connecting...
-                        </>
-                    ) : (
-                        <>
-                            <Check className="w-4 h-4" />
-                            Connect
-                        </>
-                    )}
-                </button>
-            </div>
-        </form>
-    );
-}
-
-function FormField({
-    label,
-    required,
-    hint,
-    children,
-}: {
-    label: string;
-    required?: boolean;
-    hint?: string;
-    children: React.ReactNode;
-}) {
-    return (
-        <div>
-            <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                {label}
-                {required && <span className="text-red-500 ml-1">*</span>}
-            </label>
-            {children}
-            {hint && <p className="text-xs text-th-text-muted mt-1.5">{hint}</p>}
         </div>
     );
 }
