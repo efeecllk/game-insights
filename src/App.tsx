@@ -3,7 +3,7 @@
  * Clean Architecture with SOLID Principles
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2 } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
@@ -15,6 +15,9 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Sidebar } from './components/Sidebar';
 import { KPICard } from './components/ui/KPICard';
 import { GameSelector } from './components/ui/GameSelector';
+import { CommandPalette, useCommandPalette } from './components/CommandPalette';
+import { ShortcutsModal, useKeyboardShortcuts } from './components/KeyboardShortcuts';
+import { WelcomeFlow, useOnboarding } from './components/Onboarding';
 
 // Charts
 import { RetentionCurve } from './components/charts/RetentionCurve';
@@ -267,6 +270,75 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
 }
 
 /**
+ * App Content with Keyboard Shortcuts
+ */
+function AppContent() {
+    const commandPalette = useCommandPalette();
+    const [showShortcuts, setShowShortcuts] = useState(false);
+    const { hasCompleted: hasOnboarded } = useOnboarding();
+    const [showOnboarding, setShowOnboarding] = useState(!hasOnboarded);
+
+    // Initialize keyboard shortcuts
+    useKeyboardShortcuts({
+        onOpenCommandPalette: commandPalette.open,
+        onOpenShortcuts: () => setShowShortcuts(true),
+    });
+
+    return (
+        <>
+            {/* Onboarding Flow */}
+            {showOnboarding && (
+                <WelcomeFlow
+                    onComplete={() => setShowOnboarding(false)}
+                    onSkip={() => {
+                        localStorage.setItem('game-insights-onboarded', 'true');
+                        setShowOnboarding(false);
+                    }}
+                />
+            )}
+
+            <div className="min-h-screen bg-th-bg-base flex">
+                {/* Sidebar Navigation */}
+                <Sidebar />
+
+                {/* Main Content Area */}
+                <main className="flex-1 ml-[200px] p-6">
+                    <Routes>
+                        <Route path="/" element={<OverviewPage />} />
+                        <Route path="/data-sources" element={<DataHubPage />} />
+                        <Route path="/integrations" element={<DataHubPage />} />
+                        <Route path="/templates" element={<TemplatesPage />} />
+                        <Route path="/predictions" element={<PredictionsPage />} />
+                        <Route path="/analytics" element={<AnalyticsPage />} />
+                        <Route path="/realtime" element={<RealtimePage />} />
+                        <Route path="/dashboards" element={<DashboardBuilderPage />} />
+                        <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
+                        <Route path="/funnels" element={<FunnelsPage />} />
+                        <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
+                        <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
+                        <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
+                        <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
+                        <Route path="/monetization" element={<MonetizationPage />} />
+                        <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                        <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
+                        <Route path="/ab-testing" element={<ABTestingPage />} />
+                        <Route path="/games" element={<GamesPage />} />
+                        <Route path="/settings" element={<SettingsPage />} />
+                        <Route path="/upload" element={<UploadPage />} />
+                    </Routes>
+                </main>
+            </div>
+
+            {/* Command Palette */}
+            <CommandPalette isOpen={commandPalette.isOpen} onClose={commandPalette.close} />
+
+            {/* Keyboard Shortcuts Modal */}
+            <ShortcutsModal isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+        </>
+    );
+}
+
+/**
  * Main App Component
  */
 function App() {
@@ -275,37 +347,7 @@ function App() {
             <DataProvider>
                 <IntegrationProvider>
                     <GameProvider>
-                        <div className="min-h-screen bg-th-bg-base flex">
-                            {/* Sidebar Navigation */}
-                            <Sidebar />
-
-                            {/* Main Content Area */}
-                            <main className="flex-1 ml-[200px] p-6">
-                                <Routes>
-                                    <Route path="/" element={<OverviewPage />} />
-                                    <Route path="/data-sources" element={<DataHubPage />} />
-                                    <Route path="/integrations" element={<DataHubPage />} />
-                                    <Route path="/templates" element={<TemplatesPage />} />
-                                    <Route path="/predictions" element={<PredictionsPage />} />
-                                    <Route path="/analytics" element={<AnalyticsPage />} />
-                                    <Route path="/realtime" element={<RealtimePage />} />
-                                    <Route path="/dashboards" element={<DashboardBuilderPage />} />
-                                    <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
-                                    <Route path="/funnels" element={<FunnelsPage />} />
-                                    <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
-                                    <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
-                                    <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
-                                    <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
-                                    <Route path="/monetization" element={<MonetizationPage />} />
-                                    <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
-                                    <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
-                                    <Route path="/ab-testing" element={<ABTestingPage />} />
-                                    <Route path="/games" element={<GamesPage />} />
-                                    <Route path="/settings" element={<SettingsPage />} />
-                                    <Route path="/upload" element={<UploadPage />} />
-                                </Routes>
-                            </main>
-                        </div>
+                        <AppContent />
                     </GameProvider>
                 </IntegrationProvider>
             </DataProvider>
