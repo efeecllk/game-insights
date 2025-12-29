@@ -1,17 +1,22 @@
 /**
  * Game Insights Dashboard - Main Application
  * Clean Architecture with SOLID Principles
+ *
+ * Performance Optimizations:
+ * - Code splitting with React.lazy() for heavy pages
+ * - Suspense boundaries for loading states
+ * - Manual chunks in vite.config.ts for vendor splitting
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2 } from 'lucide-react';
+import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2 } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
 import { IntegrationProvider } from './context/IntegrationContext';
 import { ThemeProvider } from './context/ThemeContext';
 
-// Components
+// Components (always loaded - core UI)
 import { Sidebar } from './components/Sidebar';
 import { KPICard } from './components/ui/KPICard';
 import { GameSelector } from './components/ui/GameSelector';
@@ -19,30 +24,57 @@ import { CommandPalette, useCommandPalette } from './components/CommandPalette';
 import { ShortcutsModal, useKeyboardShortcuts } from './components/KeyboardShortcuts';
 import { WelcomeFlow, useOnboarding } from './components/Onboarding';
 
-// Charts
+// Charts (always loaded - used on main overview)
 import { RetentionCurve } from './components/charts/RetentionCurve';
 import { FunnelChart } from './components/charts/FunnelChart';
 import { RevenueChart } from './components/charts/RevenueChart';
 import { SegmentChart } from './components/charts/SegmentChart';
 
-// Pages
+// ============================================================================
+// Lazy-loaded Pages (Code Splitting)
+// Heavy pages that are not needed on initial load
+// ============================================================================
+
+// Core pages (loaded immediately)
 import { UploadPage } from './pages/Upload';
 import { SettingsPage } from './pages/Settings';
-import { RealtimePage } from './pages/Realtime';
-import { FunnelsPage } from './pages/Funnels';
-import { MonetizationPage } from './pages/Monetization';
-import { AnalyticsPage } from './pages/Analytics';
-import { DataHubPage } from './pages/DataHub';
-import { TemplatesPage } from './pages/Templates';
-import { PredictionsPage } from './pages/Predictions';
-import { ABTestingPage } from './pages/ABTesting';
-import { DashboardBuilderPage } from './pages/DashboardBuilder';
 import { GamesPage } from './pages/Games';
-import { FunnelBuilderPage } from './pages/FunnelBuilder';
-import { AttributionPage } from './pages/Attribution';
+
+// Heavy pages with complex UI - lazy loaded
+const DashboardBuilderPage = lazy(() => import('./pages/DashboardBuilder'));
+const ABTestingPage = lazy(() => import('./pages/ABTesting'));
+const FunnelBuilderPage = lazy(() => import('./pages/FunnelBuilder'));
+const AttributionPage = lazy(() => import('./pages/Attribution'));
+const PredictionsPage = lazy(() => import('./pages/Predictions'));
+
+// Analytics pages - lazy loaded (use echarts)
+const RealtimePage = lazy(() => import('./pages/Realtime'));
+const FunnelsPage = lazy(() => import('./pages/Funnels'));
+const MonetizationPage = lazy(() => import('./pages/Monetization'));
+const AnalyticsPage = lazy(() => import('./pages/Analytics'));
+const DataHubPage = lazy(() => import('./pages/DataHub'));
+const TemplatesPage = lazy(() => import('./pages/Templates'));
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
+
+// ============================================================================
+// Loading Components
+// ============================================================================
+
+/**
+ * Page loading spinner for Suspense fallback
+ */
+function PageLoader() {
+    return (
+        <div className="flex items-center justify-center min-h-[400px]">
+            <div className="flex flex-col items-center gap-3">
+                <Loader2 className="w-8 h-8 text-accent-primary animate-spin" />
+                <p className="text-sm text-th-text-muted">Loading...</p>
+            </div>
+        </div>
+    );
+}
 
 // Icon mapping for KPIs
 const iconMap: Record<string, typeof Users> = {
@@ -305,28 +337,79 @@ function AppContent() {
                 {/* Main Content Area */}
                 <main className="flex-1 ml-[200px] p-6">
                     <Routes>
+                        {/* Core routes - not lazy loaded */}
                         <Route path="/" element={<OverviewPage />} />
-                        <Route path="/data-sources" element={<DataHubPage />} />
-                        <Route path="/integrations" element={<DataHubPage />} />
-                        <Route path="/templates" element={<TemplatesPage />} />
-                        <Route path="/predictions" element={<PredictionsPage />} />
-                        <Route path="/analytics" element={<AnalyticsPage />} />
-                        <Route path="/realtime" element={<RealtimePage />} />
-                        <Route path="/dashboards" element={<DashboardBuilderPage />} />
-                        <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
-                        <Route path="/funnels" element={<FunnelsPage />} />
-                        <Route path="/funnel-builder" element={<FunnelBuilderPage />} />
-                        <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
-                        <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
-                        <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
-                        <Route path="/monetization" element={<MonetizationPage />} />
-                        <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
-                        <Route path="/attribution" element={<AttributionPage />} />
-                        <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
-                        <Route path="/ab-testing" element={<ABTestingPage />} />
                         <Route path="/games" element={<GamesPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
                         <Route path="/upload" element={<UploadPage />} />
+
+                        {/* Lazy-loaded routes wrapped in Suspense */}
+                        <Route path="/data-sources" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <DataHubPage />
+                            </Suspense>
+                        } />
+                        <Route path="/integrations" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <DataHubPage />
+                            </Suspense>
+                        } />
+                        <Route path="/templates" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <TemplatesPage />
+                            </Suspense>
+                        } />
+                        <Route path="/predictions" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <PredictionsPage />
+                            </Suspense>
+                        } />
+                        <Route path="/analytics" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <AnalyticsPage />
+                            </Suspense>
+                        } />
+                        <Route path="/realtime" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <RealtimePage />
+                            </Suspense>
+                        } />
+                        <Route path="/dashboards" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <DashboardBuilderPage />
+                            </Suspense>
+                        } />
+                        <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
+                        <Route path="/funnels" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <FunnelsPage />
+                            </Suspense>
+                        } />
+                        <Route path="/funnel-builder" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <FunnelBuilderPage />
+                            </Suspense>
+                        } />
+                        <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
+                        <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
+                        <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
+                        <Route path="/monetization" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <MonetizationPage />
+                            </Suspense>
+                        } />
+                        <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
+                        <Route path="/attribution" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <AttributionPage />
+                            </Suspense>
+                        } />
+                        <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
+                        <Route path="/ab-testing" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <ABTestingPage />
+                            </Suspense>
+                        } />
                     </Routes>
                 </main>
             </div>

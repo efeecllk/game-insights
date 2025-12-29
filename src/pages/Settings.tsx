@@ -14,7 +14,7 @@ export function getStoredApiKey(): string {
     return localStorage.getItem(API_KEY_STORAGE) || '';
 }
 
-export function setStoredApiKey(key: string): void {
+function setStoredApiKey(key: string): void {
     if (key) {
         localStorage.setItem(API_KEY_STORAGE, key);
     } else {

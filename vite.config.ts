@@ -24,5 +24,23 @@ export default defineConfig({
         reportCompressedSize: true,
         // Warn if chunks are too large
         chunkSizeWarningLimit: 500,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    // Core React vendor chunk
+                    'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+                    // Charts library - large dependency
+                    'vendor-echarts': ['echarts', 'echarts-for-react'],
+                    // SQL.js for SQLite support - heavy WASM
+                    'vendor-sql': ['sql.js'],
+                    // Excel parsing library
+                    'vendor-xlsx': ['xlsx'],
+                    // Animation library
+                    'vendor-motion': ['framer-motion'],
+                    // CSV parsing
+                    'vendor-utils': ['papaparse', 'pako'],
+                },
+            },
+        },
     },
 })

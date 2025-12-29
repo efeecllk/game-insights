@@ -3,7 +3,7 @@
  * Custom funnel creation and analysis for Phase 6
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
     Filter,
     Plus,
@@ -47,9 +47,20 @@ export function FunnelBuilderPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
 
+    const loadFunnels = useCallback(async () => {
+        setLoading(true);
+        await initializeSampleFunnels();
+        const all = await getAllFunnels();
+        setFunnels(all);
+        if (all.length > 0) {
+            setSelectedFunnel((current) => current || all[0]);
+        }
+        setLoading(false);
+    }, []);
+
     useEffect(() => {
         loadFunnels();
-    }, []);
+    }, [loadFunnels]);
 
     useEffect(() => {
         if (selectedFunnel) {
@@ -57,17 +68,6 @@ export function FunnelBuilderPage() {
             setResult(getMockFunnelResult(selectedFunnel));
         }
     }, [selectedFunnel]);
-
-    async function loadFunnels() {
-        setLoading(true);
-        await initializeSampleFunnels();
-        const all = await getAllFunnels();
-        setFunnels(all);
-        if (all.length > 0 && !selectedFunnel) {
-            setSelectedFunnel(all[0]);
-        }
-        setLoading(false);
-    }
 
     async function handleSaveFunnel() {
         if (!selectedFunnel) return;
@@ -651,3 +651,5 @@ function formatTime(seconds: number): string {
     if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
     return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`;
 }
+
+export default FunnelBuilderPage;

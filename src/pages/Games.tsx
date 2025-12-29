@@ -691,3 +691,5 @@ function GameModal({
         </div>
     );
 }
+
+export default GamesPage;
