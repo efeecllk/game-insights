@@ -10,6 +10,8 @@ import { SupabaseAdapter } from '../adapters/SupabaseAdapter';
 import { PostgreSQLAdapter } from '../adapters/PostgreSQLAdapter';
 import { WebhookAdapter } from '../adapters/WebhookAdapter';
 import { APIAdapter } from '../adapters/APIAdapter';
+import { FirebaseAdapter } from '../adapters/FirebaseAdapter';
+import { PlayFabAdapter } from '../adapters/PlayFabAdapter';
 import { Integration } from './integrationStore';
 
 // ============================================================================
@@ -48,9 +50,13 @@ export function createAdapter(integration: Integration): BaseAdapter {
             return new APIAdapter();
 
         case 'firebase':
+            return new FirebaseAdapter();
+
+        case 'playfab':
+            return new PlayFabAdapter();
+
         case 'mongodb':
         case 'mysql':
-        case 'playfab':
         case 'unity':
             throw new Error(`Adapter for "${type}" is not yet implemented`);
 
@@ -130,6 +136,27 @@ function buildAdapterConfig(integration: Integration): Record<string, unknown> {
                 endpoint: '', // Would need to be configured
                 authType: auth.type === 'bearer' ? 'bearer' : auth.type,
                 authValue: auth.type === 'apikey' ? auth.key : auth.type === 'bearer' ? auth.token : undefined,
+            };
+
+        case 'firebase':
+            return {
+                ...base,
+                projectId: integration.config.firebase?.projectId || '',
+                serviceAccount: auth.type === 'serviceAccount' ? auth.credentials : undefined,
+                accessToken: auth.type === 'oauth' ? auth.accessToken : undefined,
+                eventTypes: integration.config.firebase?.eventTypes,
+                dateRange: integration.config.firebase?.dateRange,
+            };
+
+        case 'playfab':
+            return {
+                ...base,
+                titleId: (integration.config as unknown as { playfab?: { titleId: string } }).playfab?.titleId || '',
+                secretKey: auth.type === 'apikey' ? auth.key : '',
+                segmentId: (integration.config as unknown as { playfab?: { segmentId?: string } }).playfab?.segmentId,
+                dataTypes: (integration.config as unknown as { playfab?: { dataTypes?: string[] } }).playfab?.dataTypes,
+                eventTypes: (integration.config as unknown as { playfab?: { eventTypes?: string[] } }).playfab?.eventTypes,
+                dateRange: (integration.config as unknown as { playfab?: { dateRange?: { start: string; end: string } } }).playfab?.dateRange,
             };
 
         default:

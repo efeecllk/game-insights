@@ -37,3 +37,24 @@ export type { PostgreSQLConfig } from './PostgreSQLAdapter';
 
 export { WebhookAdapter } from './WebhookAdapter';
 export type { WebhookConfig, WebhookEvent } from './WebhookAdapter';
+
+export { FirebaseAdapter } from './FirebaseAdapter';
+export type {
+    FirebaseConfig,
+    FirebaseServiceAccount,
+    FirebaseEvent,
+    FirebaseUserProperty,
+    FirebaseStandardEvent
+} from './FirebaseAdapter';
+
+export { PlayFabAdapter } from './PlayFabAdapter';
+export type {
+    PlayFabConfig,
+    PlayFabDataType,
+    PlayFabPlayer,
+    PlayFabPlayerProfile,
+    PlayStreamEvent,
+    PlayFabLeaderboard,
+    PlayFabCatalogItem,
+    PlayFabVirtualCurrency
+} from './PlayFabAdapter';

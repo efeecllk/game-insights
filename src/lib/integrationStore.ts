@@ -93,6 +93,16 @@ export interface IntegrationConfig {
         projectId: string;
         collection?: string;
         eventTypes?: string[];
+        userProperties?: string[];
+        bigQueryDatasetId?: string;
+        dateRange?: { start: string; end: string };
+    };
+
+    playfab?: {
+        titleId: string;
+        segmentId?: string;
+        dataTypes?: ('player_data' | 'playstream_events' | 'leaderboards' | 'virtual_currency' | 'catalog_items' | 'player_statistics' | 'title_data')[];
+        eventTypes?: string[];
         dateRange?: { start: string; end: string };
     };
 }
