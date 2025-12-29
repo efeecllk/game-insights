@@ -157,7 +157,7 @@ export class LTVPredictor {
         };
 
         // Apply early prediction multipliers
-        let prediction = this.predict(features);
+        const prediction = this.predict(features);
 
         // Adjust confidence based on data age
         if (daysSinceInstall < 3) {

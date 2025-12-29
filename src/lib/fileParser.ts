@@ -62,7 +62,7 @@ function parseCSV(content: string): ParseResult {
             });
 
             data.push(row);
-        } catch (error) {
+        } catch {
             errors.push(`Error parsing line ${i + 1}`);
         }
     }
@@ -127,7 +127,7 @@ function parseJSON(content: string): ParseResult {
             rowCount: 0,
             errors: ['JSON must be an array of objects']
         };
-    } catch (error) {
+    } catch {
         return {
             data: [],
             headers: [],

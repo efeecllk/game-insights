@@ -6,7 +6,6 @@
 import { describe, it, expect } from 'vitest';
 import { ChartSelector, ChartType } from '../../../src/ai/ChartSelector';
 import { ColumnMeaning } from '../../../src/ai/SchemaAnalyzer';
-import { GameCategory } from '../../../src/types';
 
 describe('ChartSelector', () => {
     const selector = new ChartSelector();

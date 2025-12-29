@@ -1,0 +1,229 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - link "Skip to main content" [ref=e3] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e4]:
+    - complementary "Main navigation" [ref=e5]:
+      - generic [ref=e7]:
+        - img [ref=e9]
+        - generic [ref=e15]: Game Insights
+      - navigation "Primary" [ref=e16]:
+        - list [ref=e17]:
+          - listitem [ref=e18]:
+            - link "Overview" [ref=e19] [cursor=pointer]:
+              - /url: /
+              - img [ref=e20]
+              - generic [ref=e23]: Overview
+          - listitem [ref=e24]:
+            - link "Games" [ref=e25] [cursor=pointer]:
+              - /url: /games
+              - img [ref=e26]
+              - generic [ref=e32]: Games
+          - listitem [ref=e33]:
+            - link "Data Sources" [ref=e34] [cursor=pointer]:
+              - /url: /data-sources
+              - img [ref=e35]
+              - generic [ref=e39]: Data Sources
+          - listitem [ref=e40]:
+            - link "Templates New" [ref=e41] [cursor=pointer]:
+              - /url: /templates
+              - img [ref=e42]
+              - generic [ref=e47]: Templates
+              - generic [ref=e48]: New
+          - listitem [ref=e49]:
+            - link "Predictions New" [ref=e50] [cursor=pointer]:
+              - /url: /predictions
+              - img [ref=e51]
+              - generic [ref=e54]: Predictions
+              - generic [ref=e55]: New
+          - listitem [ref=e56]:
+            - link "AI Analytics" [ref=e57] [cursor=pointer]:
+              - /url: /analytics
+              - img [ref=e58]
+              - generic [ref=e64]: AI Analytics
+          - listitem [ref=e65]:
+            - link "Funnels" [ref=e66] [cursor=pointer]:
+              - /url: /funnels
+              - img [ref=e67]
+              - generic [ref=e69]: Funnels
+          - listitem [ref=e70]:
+            - link "Funnel Builder" [ref=e71] [cursor=pointer]:
+              - /url: /funnel-builder
+              - img [ref=e72]
+              - generic [ref=e75]: Funnel Builder
+          - listitem [ref=e76]:
+            - link "Engagement" [ref=e77] [cursor=pointer]:
+              - /url: /engagement
+              - img [ref=e78]
+              - generic [ref=e81]: Engagement
+          - listitem [ref=e82]:
+            - link "Monetization" [ref=e83] [cursor=pointer]:
+              - /url: /monetization
+              - img [ref=e84]
+              - generic [ref=e87]: Monetization
+          - listitem [ref=e88]:
+            - link "Attribution New" [ref=e89] [cursor=pointer]:
+              - /url: /attribution
+              - img [ref=e90]
+              - generic [ref=e94]: Attribution
+              - generic [ref=e95]: New
+          - listitem [ref=e96]:
+            - link "Health" [ref=e97] [cursor=pointer]:
+              - /url: /health
+              - img [ref=e98]
+              - generic [ref=e100]: Health
+          - listitem [ref=e101]:
+            - link "Realtime" [ref=e102] [cursor=pointer]:
+              - /url: /realtime
+              - img [ref=e103]
+              - generic [ref=e107]: Realtime
+          - listitem [ref=e108]:
+            - link "Distributions B" [ref=e109] [cursor=pointer]:
+              - /url: /distributions
+              - img [ref=e110]
+              - generic [ref=e114]: Distributions
+              - generic [ref=e115]: B
+          - listitem [ref=e116]:
+            - link "Explore" [ref=e117] [cursor=pointer]:
+              - /url: /explore
+              - img [ref=e118]
+              - generic [ref=e121]: Explore
+          - listitem [ref=e122]:
+            - link "User Analysis (opens in new tab)" [ref=e123] [cursor=pointer]:
+              - /url: /user-analysis
+              - img [ref=e124]
+              - generic [ref=e129]: User Analysis
+              - img [ref=e130]
+              - generic [ref=e134]: (opens in new tab)
+          - listitem [ref=e135]:
+            - link "Dashboards" [ref=e136] [cursor=pointer]:
+              - /url: /dashboards
+              - img [ref=e137]
+              - generic [ref=e142]: Dashboards
+          - listitem [ref=e143]:
+            - link "A/B Testing" [ref=e144] [cursor=pointer]:
+              - /url: /ab-testing
+              - img [ref=e145]
+              - generic [ref=e147]: A/B Testing
+          - listitem [ref=e148]:
+            - link "Remote Configs" [ref=e149] [cursor=pointer]:
+              - /url: /remote-configs
+              - img [ref=e150]
+              - generic [ref=e152]: Remote Configs
+          - listitem [ref=e153]:
+            - link "Game Settings" [ref=e154] [cursor=pointer]:
+              - /url: /settings
+              - img [ref=e155]
+              - generic [ref=e158]: Game Settings
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]: Theme
+          - button "Switch to light theme" [ref=e162] [cursor=pointer]:
+            - img [ref=e163]
+        - generic [ref=e173]: Active Game
+        - generic [ref=e174]: puzzle
+    - main "Overview - Main content" [ref=e175]:
+      - generic [ref=e176]:
+        - generic [ref=e178]:
+          - heading "Puzzle Game Analytics" [level=1] [ref=e179]:
+            - generic [ref=e180]: 🧩
+            - text: Puzzle Game Analytics
+          - paragraph [ref=e181]: Match-3, puzzle solving, level-based games
+        - generic [ref=e182]:
+          - paragraph [ref=e183]: Select Demo Game Type
+          - generic [ref=e184]:
+            - button "🧩Puzzle Game" [ref=e185] [cursor=pointer]
+            - button "⏰Idle / Clicker" [ref=e186] [cursor=pointer]
+            - button "🔫Battle Royale" [ref=e187] [cursor=pointer]
+            - button "🍬Match-3 + Meta" [ref=e188] [cursor=pointer]
+            - button "⚔️Gacha RPG" [ref=e189] [cursor=pointer]
+        - region "Key Performance Indicators" [ref=e190]:
+          - heading "Key Performance Indicators" [level=2] [ref=e191]
+          - generic [ref=e192]:
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - img [ref=e196]
+                - generic [ref=e201]: +12.5%
+              - generic [ref=e202]:
+                - paragraph [ref=e203]: Daily Active Users
+                - paragraph [ref=e204]: 50,421
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - img [ref=e208]
+                - generic [ref=e211]: +5.2%
+              - generic [ref=e212]:
+                - paragraph [ref=e213]: Day 1 Retention
+                - paragraph [ref=e214]: 42%
+            - generic [ref=e215]:
+              - generic [ref=e216]:
+                - img [ref=e218]
+                - generic [ref=e222]: "-8.3%"
+              - generic [ref=e223]:
+                - paragraph [ref=e224]: Level 15 Pass Rate
+                - paragraph [ref=e225]: 45%
+            - generic [ref=e226]:
+              - generic [ref=e227]:
+                - img [ref=e229]
+                - generic [ref=e232]: +2.1%
+              - generic [ref=e233]:
+                - paragraph [ref=e234]: Avg Session Length
+                - paragraph [ref=e235]: 8m 24s
+        - region "Retention and Funnel Charts" [ref=e236]:
+          - heading "Retention and Funnel Charts" [level=2] [ref=e237]
+          - generic [ref=e238]:
+            - generic [ref=e240]:
+              - generic [ref=e241]:
+                - heading "User Retention" [level=3] [ref=e242]
+                - paragraph [ref=e243]: Track how players return over time
+              - generic [ref=e245]: vs Benchmark
+            - generic [ref=e250]:
+              - generic [ref=e252]:
+                - heading "Level Progression" [level=3] [ref=e253]
+                - paragraph [ref=e254]: Player drop-off by level
+              - generic [ref=e258]:
+                - generic [ref=e259]:
+                  - paragraph [ref=e260]: Level 1
+                  - paragraph [ref=e261]: 100%
+                - generic [ref=e262]:
+                  - paragraph [ref=e263]: Level 5
+                  - paragraph [ref=e264]: 75%
+                  - paragraph [ref=e265]: "-25% drop"
+                - generic [ref=e266]:
+                  - paragraph [ref=e267]: Level 10
+                  - paragraph [ref=e268]: 52%
+                  - paragraph [ref=e269]: "-23% drop"
+        - region "Revenue and Segment Charts" [ref=e270]:
+          - heading "Revenue and Segment Charts" [level=2] [ref=e271]
+          - generic [ref=e272]:
+            - generic [ref=e274]:
+              - generic [ref=e275]:
+                - heading "Revenue" [level=3] [ref=e276]
+                - paragraph [ref=e277]: Track earnings over time
+              - generic [ref=e278]:
+                - paragraph [ref=e279]: $21,900
+                - paragraph [ref=e280]: "Avg: $3,128.571/day"
+            - generic [ref=e285]:
+              - heading "Booster Usage" [level=3] [ref=e286]
+              - paragraph [ref=e287]: Most used power-ups
+        - region "AI Insights" [ref=e291]:
+          - generic [ref=e292]:
+            - generic [ref=e294]: 🧠
+            - generic [ref=e295]:
+              - heading "AI Insights" [level=2] [ref=e296]
+              - paragraph [ref=e297]: Auto-generated recommendations
+          - list "AI-generated insights" [ref=e298]:
+            - listitem [ref=e299]:
+              - generic [ref=e300]:
+                - generic [ref=e301]: ⚠️
+                - generic [ref=e302]:
+                  - generic [ref=e303]: "Warning:"
+                  - paragraph [ref=e304]: Level 15 has 72% failure rate. Consider adding hints or reducing difficulty.
+            - listitem [ref=e305]:
+              - generic [ref=e306]:
+                - generic [ref=e307]: 💡
+                - generic [ref=e308]:
+                  - generic [ref=e309]: "Opportunity:"
+                  - paragraph [ref=e310]: Booster usage correlates with 2.3x higher D7 retention. Promote early booster trial.
+```

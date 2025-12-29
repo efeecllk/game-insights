@@ -1,0 +1,139 @@
+{
+    "navigation": {
+        "overview": "Ubersicht",
+        "games": "Spiele",
+        "dataSources": "Datenquellen",
+        "templates": "Vorlagen",
+        "predictions": "Vorhersagen",
+        "aiAnalytics": "KI-Analytik",
+        "realtime": "Echtzeit",
+        "dashboards": "Dashboards",
+        "explore": "Erkunden",
+        "funnels": "Trichter",
+        "funnelBuilder": "Trichter-Builder",
+        "engagement": "Engagement",
+        "distributions": "Verteilungen",
+        "health": "Gesundheit",
+        "monetization": "Monetarisierung",
+        "userAnalysis": "Benutzeranalyse",
+        "remoteConfigs": "Remote-Konfigurationen",
+        "abTesting": "A/B-Tests",
+        "attribution": "Attribution",
+        "settings": "Spieleinstellungen"
+    },
+    "sidebar": {
+        "theme": "Design",
+        "activeGame": "Aktives Spiel"
+    },
+    "pages": {
+        "overview": {
+            "title": "Analytik",
+            "gameHeader": "Spielkopf",
+            "tabs": {
+                "overview": "Ubersicht",
+                "integration": "Integration"
+            },
+            "sections": {
+                "overview": "Ubersicht",
+                "activeUsers": "Aktive Benutzer",
+                "explorer": "Explorer"
+            }
+        },
+        "settings": {
+            "title": "Einstellungen",
+            "subtitle": "Konfigurieren Sie Ihre KI-Integration und Analytik",
+            "openai": {
+                "title": "OpenAI API-Schlussel",
+                "subtitle": "Erforderlich fur KI-gestutzte Spaltenanalyse",
+                "placeholder": "sk-...",
+                "status": {
+                    "validating": "Validierung...",
+                    "valid": "API-Schlussel ist gultig",
+                    "invalid": "Ungultiger API-Schlussel"
+                },
+                "info": {
+                    "title": "Ihr API-Schlussel wird lokal gespeichert",
+                    "description": "in Ihrem Browser und wird nur fur direkte API-Aufrufe an OpenAI verwendet. Wir senden Ihren Schlussel niemals an unsere Server.",
+                    "link": "Holen Sie sich Ihren API-Schlussel von OpenAI"
+                }
+            }
+        }
+    },
+    "kpi": {
+        "dau": "TAB",
+        "dauFull": "Taglich Aktive Benutzer",
+        "playtime": "Spielzeit",
+        "playtimeTooltip": "Durchschnittliche Sitzungsspielzeit",
+        "newUsers": "Neue Benutzer",
+        "newUsersTooltip": "Neue Benutzer heute",
+        "sessions": "Sitzungen",
+        "sessionsTooltip": "Gesamte Sitzungen heute",
+        "d1Retention": "D1-Retention",
+        "d7Retention": "D7-Retention",
+        "d30Retention": "D30-Retention",
+        "revenue": "Umsatz",
+        "revenueToday": "Umsatz (Heute)",
+        "arpu": "ARPU",
+        "arppu": "ARPPU",
+        "conversionRate": "Konversionsrate",
+        "iapConvRate": "IAP-Konv.-Rate",
+        "ltv": "LTV",
+        "churnRate": "Abwanderungsrate"
+    },
+    "actions": {
+        "save": "Speichern",
+        "cancel": "Abbrechen",
+        "delete": "Loschen",
+        "edit": "Bearbeiten",
+        "create": "Erstellen",
+        "update": "Aktualisieren",
+        "close": "Schliessen",
+        "confirm": "Bestatigen",
+        "validate": "Validieren",
+        "clear": "Loschen",
+        "saved": "Gespeichert!",
+        "loading": "Laden...",
+        "saveKey": "Schlussel Speichern",
+        "apply": "Anwenden",
+        "reset": "Zurucksetzen",
+        "export": "Exportieren",
+        "import": "Importieren",
+        "refresh": "Aktualisieren",
+        "search": "Suchen"
+    },
+    "common": {
+        "new": "Neu",
+        "beta": "Beta",
+        "live": "Live",
+        "realtime": "Echtzeit",
+        "time": "Zeit",
+        "role": "Rolle",
+        "organization": "Organisation",
+        "platform": "Plattform",
+        "admin": "Admin",
+        "language": "Sprache",
+        "languageSelector": "Sprache Auswahlen"
+    },
+    "errors": {
+        "generic": "Etwas ist schief gelaufen",
+        "networkError": "Netzwerkfehler. Bitte uberprufen Sie Ihre Verbindung.",
+        "unauthorized": "Nicht autorisiert. Bitte uberprufen Sie Ihre Anmeldedaten.",
+        "notFound": "Ressource nicht gefunden",
+        "validation": "Validierungsfehler",
+        "invalidApiKey": "Ungultiger API-Schlussel",
+        "required": "Dieses Feld ist erforderlich"
+    },
+    "charts": {
+        "retentionCurve": "Retentionskurve",
+        "funnel": "Trichter",
+        "revenue": "Umsatz",
+        "segments": "Segmente"
+    },
+    "gameTypes": {
+        "puzzle": "Puzzle",
+        "idle": "Idle",
+        "battleRoyale": "Battle Royale",
+        "match3Meta": "Match-3 Meta",
+        "gachaRpg": "Gacha RPG"
+    }
+}

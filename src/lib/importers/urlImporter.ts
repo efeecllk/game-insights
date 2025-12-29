@@ -76,7 +76,7 @@ export const urlImporter = {
 
         // Convert special URLs
         let fetchUrl = url;
-        let originalUrl = url;
+        const originalUrl = url;
 
         const googleSheetsUrl = convertGoogleSheetsUrl(url);
         if (googleSheetsUrl) {

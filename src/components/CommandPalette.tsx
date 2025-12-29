@@ -2,6 +2,13 @@
  * Command Palette
  * Global search and navigation with Cmd+K
  * Phase 8: Usability & Accessibility
+ * 
+ * Accessibility Features:
+ * - Focus trapping within modal
+ * - ARIA roles and labels for dialog pattern
+ * - Keyboard navigation with arrow keys
+ * - Screen reader announcements for search results
+ * - Focus restoration on close
  */
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
@@ -25,6 +32,7 @@ import {
     LayoutGrid,
     FileText,
 } from 'lucide-react';
+import { useFocusTrap, announceToScreenReader, useAriaId } from '../lib/a11y';
 
 // ============================================================================
 // Types
@@ -56,6 +64,18 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
+    const dialogRef = useRef<HTMLDivElement>(null);
+    
+    // Generate unique IDs for ARIA
+    const dialogLabelId = useAriaId('command-palette-label');
+    const dialogDescId = useAriaId('command-palette-desc');
+    const listboxId = useAriaId('command-list');
+
+    // Focus trap for modal
+    useFocusTrap(dialogRef, isOpen, {
+        onEscape: onClose,
+        initialFocus: inputRef,
+    });
 
     // Define all available commands
     const commands: Command[] = useMemo(() => [
@@ -257,18 +277,32 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         setSelectedIndex(0);
     }, [query]);
 
-    // Focus input when opened
+    // Focus input when opened and announce to screen readers
     useEffect(() => {
         if (isOpen) {
             setQuery('');
             setSelectedIndex(0);
             setTimeout(() => inputRef.current?.focus(), 50);
+            announceToScreenReader('Command palette opened. Type to search commands.');
         }
     }, [isOpen]);
 
+    // Announce search results to screen readers
+    useEffect(() => {
+        if (isOpen && query.trim()) {
+            const resultCount = flatCommands.length;
+            if (resultCount === 0) {
+                announceToScreenReader('No commands found');
+            } else {
+                const plural = resultCount === 1 ? '' : 's';
+                announceToScreenReader(resultCount + ' command' + plural + ' found');
+            }
+        }
+    }, [isOpen, query, flatCommands.length]);
+
     // Scroll selected item into view
     useEffect(() => {
-        const selectedElement = listRef.current?.querySelector(`[data-index="${selectedIndex}"]`);
+        const selectedElement = listRef.current?.querySelector('[data-index="' + selectedIndex + '"]');
         selectedElement?.scrollIntoView({ block: 'nearest' });
     }, [selectedIndex]);
 
@@ -312,13 +346,27 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
             <div
                 className="absolute inset-0 bg-black/60 backdrop-blur-sm"
                 onClick={onClose}
+                aria-hidden="true"
             />
 
-            {/* Palette */}
-            <div className="relative w-full max-w-xl bg-th-bg-card border border-th-border rounded-xl shadow-2xl overflow-hidden">
+            {/* Dialog */}
+            <div
+                ref={dialogRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={dialogLabelId}
+                aria-describedby={dialogDescId}
+                className="relative w-full max-w-xl bg-th-bg-card border border-th-border rounded-xl shadow-2xl overflow-hidden"
+            >
+                {/* Hidden labels for screen readers */}
+                <h2 id={dialogLabelId} className="sr-only">Command Palette</h2>
+                <p id={dialogDescId} className="sr-only">
+                    Search and navigate to any page or action. Use arrow keys to navigate and Enter to select.
+                </p>
+
                 {/* Search Input */}
                 <div className="flex items-center gap-3 px-4 py-3 border-b border-th-border">
-                    <Search className="w-5 h-5 text-th-text-secondary" />
+                    <Search className="w-5 h-5 text-th-text-secondary" aria-hidden="true" />
                     <input
                         ref={inputRef}
                         type="text"
@@ -327,24 +375,36 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                         onKeyDown={handleKeyDown}
                         placeholder="Type a command or search..."
                         className="flex-1 bg-transparent text-th-text-primary placeholder:text-th-text-secondary outline-none text-sm"
+                        role="combobox"
+                        aria-expanded="true"
+                        aria-controls={listboxId}
+                        aria-activedescendant={flatCommands[selectedIndex]?.id ? 'command-' + flatCommands[selectedIndex].id : undefined}
+                        aria-autocomplete="list"
+                        aria-label="Search commands"
                     />
-                    <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border">
+                    <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border" aria-hidden="true">
                         ESC
                     </kbd>
                 </div>
 
                 {/* Command List */}
-                <div ref={listRef} className="max-h-[50vh] overflow-y-auto p-2">
+                <div 
+                    ref={listRef} 
+                    id={listboxId}
+                    role="listbox"
+                    aria-label="Commands"
+                    className="max-h-[50vh] overflow-y-auto p-2"
+                >
                     {flatCommands.length === 0 ? (
-                        <div className="py-8 text-center text-th-text-secondary text-sm">
+                        <div className="py-8 text-center text-th-text-secondary text-sm" role="status">
                             No commands found for "{query}"
                         </div>
                     ) : (
                         Object.entries(groupedCommands).map(([category, cmds]) => {
                             if (cmds.length === 0) return null;
                             return (
-                                <div key={category} className="mb-2">
-                                    <div className="px-2 py-1.5 text-xs font-medium text-th-text-secondary uppercase tracking-wider">
+                                <div key={category} className="mb-2" role="group" aria-label={categoryLabels[category]}>
+                                    <div className="px-2 py-1.5 text-xs font-medium text-th-text-secondary uppercase tracking-wider" aria-hidden="true">
                                         {categoryLabels[category]}
                                     </div>
                                     {cmds.map((cmd) => {
@@ -355,16 +415,19 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                         return (
                                             <button
                                                 key={cmd.id}
+                                                id={'command-' + cmd.id}
                                                 data-index={globalIndex}
+                                                role="option"
+                                                aria-selected={isSelected}
                                                 onClick={cmd.action}
                                                 onMouseEnter={() => setSelectedIndex(globalIndex)}
-                                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
+                                                className={'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ' + (
                                                     isSelected
                                                         ? 'bg-th-accent-primary/20 text-th-text-primary'
                                                         : 'text-th-text-secondary hover:bg-th-bg-elevated'
-                                                }`}
+                                                )}
                                             >
-                                                <Icon className={`w-5 h-5 ${isSelected ? 'text-th-accent-primary' : ''}`} />
+                                                <Icon className={'w-5 h-5 ' + (isSelected ? 'text-th-accent-primary' : '')} aria-hidden="true" />
                                                 <div className="flex-1 min-w-0">
                                                     <div className="text-sm font-medium truncate">{cmd.name}</div>
                                                     {cmd.description && (
@@ -374,7 +437,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                                     )}
                                                 </div>
                                                 {cmd.shortcut && (
-                                                    <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border">
+                                                    <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border" aria-label={'Keyboard shortcut: ' + cmd.shortcut}>
                                                         {cmd.shortcut}
                                                     </kbd>
                                                 )}
@@ -388,7 +451,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-between px-4 py-2 border-t border-th-border text-xs text-th-text-secondary">
+                <div className="flex items-center justify-between px-4 py-2 border-t border-th-border text-xs text-th-text-secondary" aria-hidden="true">
                     <div className="flex items-center gap-4">
                         <span className="flex items-center gap-1">
                             <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">↑</kbd>

@@ -312,8 +312,8 @@ export class ChurnPredictor {
             actual: sample.churned,
         })).sort((a, b) => b.score - a.score);
 
-        let positives = scored.filter(s => s.actual).length;
-        let negatives = scored.length - positives;
+        const positives = scored.filter(s => s.actual).length;
+        const negatives = scored.length - positives;
 
         if (positives === 0 || negatives === 0) return 0.5;
 

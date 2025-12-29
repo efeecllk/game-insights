@@ -1,0 +1,139 @@
+{
+    "navigation": {
+        "overview": "Overview",
+        "games": "Games",
+        "dataSources": "Data Sources",
+        "templates": "Templates",
+        "predictions": "Predictions",
+        "aiAnalytics": "AI Analytics",
+        "realtime": "Realtime",
+        "dashboards": "Dashboards",
+        "explore": "Explore",
+        "funnels": "Funnels",
+        "funnelBuilder": "Funnel Builder",
+        "engagement": "Engagement",
+        "distributions": "Distributions",
+        "health": "Health",
+        "monetization": "Monetization",
+        "userAnalysis": "User Analysis",
+        "remoteConfigs": "Remote Configs",
+        "abTesting": "A/B Testing",
+        "attribution": "Attribution",
+        "settings": "Game Settings"
+    },
+    "sidebar": {
+        "theme": "Theme",
+        "activeGame": "Active Game"
+    },
+    "pages": {
+        "overview": {
+            "title": "Analytics",
+            "gameHeader": "Game Header",
+            "tabs": {
+                "overview": "Overview",
+                "integration": "Integration"
+            },
+            "sections": {
+                "overview": "Overview",
+                "activeUsers": "Active users",
+                "explorer": "Explorer"
+            }
+        },
+        "settings": {
+            "title": "Settings",
+            "subtitle": "Configure your AI integration and analytics",
+            "openai": {
+                "title": "OpenAI API Key",
+                "subtitle": "Required for AI-powered column analysis",
+                "placeholder": "sk-...",
+                "status": {
+                    "validating": "Validating...",
+                    "valid": "API key is valid",
+                    "invalid": "Invalid API key"
+                },
+                "info": {
+                    "title": "Your API key is stored locally",
+                    "description": "in your browser and is only used for direct API calls to OpenAI. We never send your key to our servers.",
+                    "link": "Get your API key from OpenAI"
+                }
+            }
+        }
+    },
+    "kpi": {
+        "dau": "DAU",
+        "dauFull": "Daily Active Users",
+        "playtime": "Playtime",
+        "playtimeTooltip": "Average session playtime",
+        "newUsers": "New users",
+        "newUsersTooltip": "New users today",
+        "sessions": "Sessions",
+        "sessionsTooltip": "Total sessions today",
+        "d1Retention": "D1 Retention",
+        "d7Retention": "D7 Retention",
+        "d30Retention": "D30 Retention",
+        "revenue": "Revenue",
+        "revenueToday": "Revenue (Today)",
+        "arpu": "ARPU",
+        "arppu": "ARPPU",
+        "conversionRate": "Conversion Rate",
+        "iapConvRate": "IAP Conv Rate",
+        "ltv": "LTV",
+        "churnRate": "Churn Rate"
+    },
+    "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "edit": "Edit",
+        "create": "Create",
+        "update": "Update",
+        "close": "Close",
+        "confirm": "Confirm",
+        "validate": "Validate",
+        "clear": "Clear",
+        "saved": "Saved!",
+        "loading": "Loading...",
+        "saveKey": "Save Key",
+        "apply": "Apply",
+        "reset": "Reset",
+        "export": "Export",
+        "import": "Import",
+        "refresh": "Refresh",
+        "search": "Search"
+    },
+    "common": {
+        "new": "New",
+        "beta": "Beta",
+        "live": "Live",
+        "realtime": "Realtime",
+        "time": "time",
+        "role": "Role",
+        "organization": "Organization",
+        "platform": "Platform",
+        "admin": "Admin",
+        "language": "Language",
+        "languageSelector": "Select Language"
+    },
+    "errors": {
+        "generic": "Something went wrong",
+        "networkError": "Network error. Please check your connection.",
+        "unauthorized": "Unauthorized. Please check your credentials.",
+        "notFound": "Resource not found",
+        "validation": "Validation error",
+        "invalidApiKey": "Invalid API key",
+        "required": "This field is required"
+    },
+    "charts": {
+        "retentionCurve": "Retention Curve",
+        "funnel": "Funnel",
+        "revenue": "Revenue",
+        "segments": "Segments"
+    },
+    "gameTypes": {
+        "puzzle": "Puzzle",
+        "idle": "Idle",
+        "battleRoyale": "Battle Royale",
+        "match3Meta": "Match-3 Meta",
+        "gachaRpg": "Gacha RPG"
+    }
+}

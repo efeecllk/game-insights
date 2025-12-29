@@ -134,6 +134,143 @@ const BATTLE_ROYALE_LAYOUT: TemplateLayout = {
 };
 
 // ============================================================================
+// New Templates - Hyper-Casual, Social Casino, Racing, Strategy, Simulation,
+// Educational, Multiplayer Shooter, Subscription
+// ============================================================================
+
+const HYPER_CASUAL_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-installs', name: 'Daily Installs', metric: 'daily_installs', format: 'compact', colorScheme: 'violet', icon: 'Download' },
+        { id: 'kpi-d1', name: 'D1 Retention', metric: 'retention_d1', format: 'percentage', colorScheme: 'green', icon: 'TrendingUp' },
+        { id: 'kpi-cpi', name: 'CPI', metric: 'cost_per_install', format: 'currency', colorScheme: 'orange', icon: 'DollarSign' },
+    ],
+    mainCharts: [
+        { id: 'main-installs', type: 'line', title: 'Install Trend', subtitle: 'Daily new installs', xColumn: 'date', yColumn: 'installs' },
+        { id: 'main-playtime', type: 'bar', title: 'Session Distribution', subtitle: 'Playtime per session', xColumn: 'session_bucket', yColumn: 'user_count' },
+    ],
+    sideCharts: [
+        { id: 'side-source', type: 'pie', title: 'Traffic Source', subtitle: 'Where users come from', xColumn: 'source', yColumn: 'install_count' },
+    ],
+};
+
+const SOCIAL_CASINO_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'violet', icon: 'Users' },
+        { id: 'kpi-coins', name: 'Avg Coin Balance', metric: 'avg_coin_balance', format: 'compact', colorScheme: 'orange', icon: 'Coins' },
+        { id: 'kpi-sessions', name: 'Sessions/Day', metric: 'sessions_per_day', format: 'number', colorScheme: 'blue', icon: 'Activity' },
+        { id: 'kpi-spin-revenue', name: 'Spin Revenue', metric: 'spin_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
+    ],
+    mainCharts: [
+        { id: 'main-spins', type: 'line', title: 'Daily Spins', subtitle: 'Total spin count over time', xColumn: 'date', yColumn: 'spin_count' },
+        { id: 'main-coin-flow', type: 'area', title: 'Coin Economy', subtitle: 'Coins earned vs spent', xColumn: 'date', yColumn: 'net_coins' },
+    ],
+    sideCharts: [
+        { id: 'side-game-type', type: 'donut', title: 'Game Popularity', subtitle: 'Slots, Poker, Bingo', xColumn: 'game_type', yColumn: 'session_count' },
+        { id: 'side-jackpots', type: 'bar', title: 'Jackpot Distribution', subtitle: 'Wins by size', xColumn: 'jackpot_tier', yColumn: 'win_count' },
+    ],
+};
+
+const RACING_GAME_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-races', name: 'Daily Races', metric: 'daily_races', format: 'compact', colorScheme: 'violet', icon: 'Flag' },
+        { id: 'kpi-avg-time', name: 'Avg Lap Time', metric: 'avg_lap_time', format: 'number', colorScheme: 'blue', icon: 'Clock' },
+        { id: 'kpi-unlocks', name: 'Vehicle Unlocks', metric: 'vehicle_unlocks', format: 'compact', colorScheme: 'green', icon: 'Unlock' },
+    ],
+    mainCharts: [
+        { id: 'main-times', type: 'line', title: 'Track Best Times', subtitle: 'Fastest times trend', xColumn: 'date', yColumn: 'best_time' },
+        { id: 'main-vehicles', type: 'bar', title: 'Vehicle Usage', subtitle: 'Most popular vehicles', xColumn: 'vehicle_name', yColumn: 'race_count' },
+    ],
+    sideCharts: [
+        { id: 'side-tracks', type: 'donut', title: 'Track Popularity', subtitle: 'Races per track', xColumn: 'track_name', yColumn: 'race_count' },
+        { id: 'side-finish', type: 'histogram', title: 'Finish Position', subtitle: 'Position distribution', xColumn: 'position', yColumn: 'count' },
+    ],
+};
+
+const STRATEGY_GAME_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'violet', icon: 'Users' },
+        { id: 'kpi-resources', name: 'Avg Resources', metric: 'avg_resources', format: 'compact', colorScheme: 'green', icon: 'Package' },
+        { id: 'kpi-battles', name: 'Daily Battles', metric: 'daily_battles', format: 'compact', colorScheme: 'orange', icon: 'Swords' },
+        { id: 'kpi-buildings', name: 'Avg Buildings', metric: 'avg_buildings', format: 'number', colorScheme: 'blue', icon: 'Building' },
+    ],
+    mainCharts: [
+        { id: 'main-progression', type: 'funnel', title: 'Base Level Funnel', subtitle: 'Players at each HQ level', xColumn: 'hq_level', yColumn: 'player_count' },
+        { id: 'main-battles', type: 'line', title: 'Battle Activity', subtitle: 'Daily attacks and defenses', xColumn: 'date', yColumn: 'battle_count' },
+    ],
+    sideCharts: [
+        { id: 'side-units', type: 'bar', title: 'Unit Composition', subtitle: 'Army composition breakdown', xColumn: 'unit_type', yColumn: 'count' },
+        { id: 'side-resources', type: 'donut', title: 'Resource Distribution', subtitle: 'Gold, Wood, Stone, etc.', xColumn: 'resource_type', yColumn: 'amount' },
+    ],
+};
+
+const SIMULATION_GAME_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-playtime', name: 'Avg Playtime', metric: 'avg_daily_playtime', format: 'number', colorScheme: 'violet', icon: 'Clock' },
+        { id: 'kpi-economy', name: 'Economy Health', metric: 'economy_index', format: 'number', colorScheme: 'green', icon: 'TrendingUp' },
+        { id: 'kpi-progression', name: 'Avg Progress', metric: 'avg_progression', format: 'percentage', colorScheme: 'blue', icon: 'Target' },
+    ],
+    mainCharts: [
+        { id: 'main-playtime', type: 'area', title: 'Playtime Distribution', subtitle: 'Time spent per session', xColumn: 'date', yColumn: 'total_playtime' },
+        { id: 'main-milestones', type: 'funnel', title: 'Milestone Completion', subtitle: 'Players reaching milestones', xColumn: 'milestone', yColumn: 'player_count' },
+    ],
+    sideCharts: [
+        { id: 'side-activities', type: 'donut', title: 'Activity Types', subtitle: 'How players spend time', xColumn: 'activity_type', yColumn: 'time_spent' },
+        { id: 'side-economy', type: 'line', title: 'Currency Flow', subtitle: 'Income vs expenses', xColumn: 'date', yColumn: 'net_currency' },
+    ],
+};
+
+const EDUCATIONAL_GAME_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-completion', name: 'Course Completion', metric: 'course_completion_rate', format: 'percentage', colorScheme: 'green', icon: 'CheckCircle' },
+        { id: 'kpi-accuracy', name: 'Avg Accuracy', metric: 'avg_accuracy', format: 'percentage', colorScheme: 'violet', icon: 'Target' },
+        { id: 'kpi-streak', name: 'Avg Streak', metric: 'avg_streak_days', format: 'number', colorScheme: 'orange', icon: 'Flame' },
+        { id: 'kpi-lessons', name: 'Lessons/Day', metric: 'lessons_per_day', format: 'number', colorScheme: 'blue', icon: 'Book' },
+    ],
+    mainCharts: [
+        { id: 'main-progress', type: 'funnel', title: 'Learning Path Progress', subtitle: 'Students at each stage', xColumn: 'stage', yColumn: 'student_count' },
+        { id: 'main-scores', type: 'line', title: 'Score Improvement', subtitle: 'Average scores over time', xColumn: 'date', yColumn: 'avg_score' },
+    ],
+    sideCharts: [
+        { id: 'side-topics', type: 'bar', title: 'Topic Performance', subtitle: 'Accuracy by topic', xColumn: 'topic', yColumn: 'accuracy' },
+        { id: 'side-time', type: 'donut', title: 'Study Time', subtitle: 'Time per subject', xColumn: 'subject', yColumn: 'time_spent' },
+    ],
+};
+
+const MULTIPLAYER_SHOOTER_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-kd', name: 'Avg K/D Ratio', metric: 'avg_kd_ratio', format: 'number', colorScheme: 'orange', icon: 'Target' },
+        { id: 'kpi-matches', name: 'Daily Matches', metric: 'daily_matches', format: 'compact', colorScheme: 'violet', icon: 'Crosshair' },
+        { id: 'kpi-win-rate', name: 'Win Rate', metric: 'win_rate', format: 'percentage', colorScheme: 'green', icon: 'Trophy' },
+        { id: 'kpi-headshots', name: 'Headshot %', metric: 'headshot_rate', format: 'percentage', colorScheme: 'blue', icon: 'Zap' },
+    ],
+    mainCharts: [
+        { id: 'main-weapons', type: 'bar', title: 'Weapon Usage', subtitle: 'Kills by weapon type', xColumn: 'weapon_name', yColumn: 'kill_count' },
+        { id: 'main-kd-trend', type: 'line', title: 'K/D Trend', subtitle: 'Performance over time', xColumn: 'date', yColumn: 'kd_ratio' },
+    ],
+    sideCharts: [
+        { id: 'side-maps', type: 'donut', title: 'Map Popularity', subtitle: 'Matches by map', xColumn: 'map_name', yColumn: 'match_count' },
+        { id: 'side-modes', type: 'pie', title: 'Game Modes', subtitle: 'TDM, CTF, Domination', xColumn: 'game_mode', yColumn: 'match_count' },
+    ],
+};
+
+const SUBSCRIPTION_GAME_LAYOUT: TemplateLayout = {
+    kpis: [
+        { id: 'kpi-mrr', name: 'MRR', metric: 'monthly_recurring_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
+        { id: 'kpi-churn', name: 'Churn Rate', metric: 'churn_rate', format: 'percentage', colorScheme: 'orange', icon: 'TrendingDown' },
+        { id: 'kpi-conversion', name: 'Trial Conversion', metric: 'trial_conversion_rate', format: 'percentage', colorScheme: 'violet', icon: 'UserPlus' },
+        { id: 'kpi-ltv', name: 'Subscriber LTV', metric: 'subscriber_ltv', format: 'currency', colorScheme: 'blue', icon: 'Award' },
+    ],
+    mainCharts: [
+        { id: 'main-mrr', type: 'area', title: 'MRR Growth', subtitle: 'Monthly recurring revenue trend', xColumn: 'date', yColumn: 'mrr' },
+        { id: 'main-subscribers', type: 'line', title: 'Subscriber Count', subtitle: 'Active subscriptions over time', xColumn: 'date', yColumn: 'subscriber_count' },
+    ],
+    sideCharts: [
+        { id: 'side-plans', type: 'donut', title: 'Plan Distribution', subtitle: 'Subscribers by tier', xColumn: 'plan_tier', yColumn: 'subscriber_count' },
+        { id: 'side-churn', type: 'bar', title: 'Churn Reasons', subtitle: 'Why users cancel', xColumn: 'reason', yColumn: 'count' },
+    ],
+};
+
+// ============================================================================
 // Column Requirements
 // ============================================================================
 
@@ -185,6 +322,63 @@ const BATTLE_ROYALE_COLUMNS: ColumnRequirement[] = [
     { semantic: 'kills', optional: true, description: 'Kills in match' },
     { semantic: 'timestamp', optional: false, description: 'Match time' },
     { semantic: 'survival_time', optional: true, description: 'Time survived' },
+];
+
+// New Column Requirements
+
+const HYPER_CASUAL_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'session_id', optional: true, description: 'Session identifier' },
+];
+
+const SOCIAL_CASINO_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'session_id', optional: true, description: 'Session identifier' },
+    { semantic: 'currency', optional: true, description: 'Coin balance or amount', alternatives: ['coins', 'balance'] },
+];
+
+const RACING_GAME_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Race timestamp' },
+    { semantic: 'item_id', optional: true, description: 'Vehicle identifier', alternatives: ['vehicle_id', 'car_id'] },
+    { semantic: 'score', optional: true, description: 'Lap time or race time', alternatives: ['lap_time', 'race_time'] },
+];
+
+const STRATEGY_GAME_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'level', optional: true, description: 'Base or HQ level', alternatives: ['hq_level', 'base_level'] },
+    { semantic: 'currency', optional: true, description: 'Resource amounts', alternatives: ['resources', 'gold'] },
+];
+
+const SIMULATION_GAME_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'session_id', optional: true, description: 'Session identifier' },
+    { semantic: 'currency', optional: true, description: 'In-game currency', alternatives: ['balance', 'money'] },
+];
+
+const EDUCATIONAL_GAME_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Student identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'score', optional: true, description: 'Quiz or lesson score', alternatives: ['accuracy', 'grade'] },
+    { semantic: 'level', optional: true, description: 'Learning stage or lesson', alternatives: ['lesson_id', 'stage'] },
+];
+
+const MULTIPLAYER_SHOOTER_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Player identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Match timestamp' },
+    { semantic: 'kills', optional: true, description: 'Kill count in match' },
+    { semantic: 'item_id', optional: true, description: 'Weapon identifier', alternatives: ['weapon_id', 'weapon_name'] },
+];
+
+const SUBSCRIPTION_GAME_COLUMNS: ColumnRequirement[] = [
+    { semantic: 'user_id', optional: false, description: 'Subscriber identifier' },
+    { semantic: 'timestamp', optional: false, description: 'Event timestamp' },
+    { semantic: 'revenue', optional: true, description: 'Subscription amount', alternatives: ['price', 'amount'] },
+    { semantic: 'category', optional: true, description: 'Subscription tier', alternatives: ['plan', 'tier'] },
 ];
 
 // ============================================================================
@@ -323,6 +517,158 @@ export const STARTER_TEMPLATES: DashboardTemplate[] = [
         featured: false,
         verified: true,
         createdAt: '2024-04-01T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Hyper-Casual Quick Start Template
+    {
+        id: 'starter-hyper-casual',
+        name: 'Hyper-Casual Quick Start',
+        description: 'Minimal metrics dashboard for simple hyper-casual games. Focus on installs, D1 retention, and session length.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: HYPER_CASUAL_LAYOUT,
+        gameTypes: ['puzzle', 'custom'],
+        requiredColumns: HYPER_CASUAL_COLUMNS,
+        tags: ['hyper-casual', 'quick-start', 'minimal', 'beginner'],
+        category: 'acquisition',
+        downloads: 890,
+        stars: 67,
+        featured: true,
+        verified: true,
+        createdAt: '2024-04-15T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Social Casino Dashboard Template
+    {
+        id: 'starter-social-casino',
+        name: 'Social Casino Dashboard',
+        description: 'Track slots, poker, and bingo performance. Monitor coin economy, spins, jackpots, and session engagement.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: SOCIAL_CASINO_LAYOUT,
+        gameTypes: ['custom'],
+        requiredColumns: SOCIAL_CASINO_COLUMNS,
+        tags: ['casino', 'slots', 'coins', 'economy', 'social'],
+        category: 'engagement',
+        downloads: 420,
+        stars: 35,
+        featured: false,
+        verified: true,
+        createdAt: '2024-05-01T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Racing Game Analytics Template
+    {
+        id: 'starter-racing',
+        name: 'Racing Game Analytics',
+        description: 'Analyze track times, vehicle usage, unlocks, and race completion. Perfect for racing and driving games.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: RACING_GAME_LAYOUT,
+        gameTypes: ['custom'],
+        requiredColumns: RACING_GAME_COLUMNS,
+        tags: ['racing', 'vehicles', 'tracks', 'leaderboards'],
+        category: 'engagement',
+        downloads: 380,
+        stars: 29,
+        featured: false,
+        verified: true,
+        createdAt: '2024-05-15T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Strategy Game Metrics Template
+    {
+        id: 'starter-strategy',
+        name: 'Strategy Game Metrics',
+        description: 'Monitor resources, buildings, battles, and base progression for strategy and 4X games.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: STRATEGY_GAME_LAYOUT,
+        gameTypes: ['custom'],
+        requiredColumns: STRATEGY_GAME_COLUMNS,
+        tags: ['strategy', 'resources', 'battles', 'base-building'],
+        category: 'progression',
+        downloads: 510,
+        stars: 41,
+        featured: false,
+        verified: true,
+        createdAt: '2024-06-01T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Simulation Game Health Template
+    {
+        id: 'starter-simulation',
+        name: 'Simulation Game Health',
+        description: 'Track economy health, progression milestones, and time played for simulation and tycoon games.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: SIMULATION_GAME_LAYOUT,
+        gameTypes: ['idle', 'custom'],
+        requiredColumns: SIMULATION_GAME_COLUMNS,
+        tags: ['simulation', 'economy', 'tycoon', 'playtime'],
+        category: 'progression',
+        downloads: 340,
+        stars: 26,
+        featured: false,
+        verified: true,
+        createdAt: '2024-06-05T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Educational Game Progress Template
+    {
+        id: 'starter-educational',
+        name: 'Educational Game Progress',
+        description: 'Learning metrics dashboard with course completion, accuracy tracking, streaks, and topic performance.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: EDUCATIONAL_GAME_LAYOUT,
+        gameTypes: ['puzzle', 'custom'],
+        requiredColumns: EDUCATIONAL_GAME_COLUMNS,
+        tags: ['educational', 'learning', 'progress', 'accuracy'],
+        category: 'progression',
+        downloads: 290,
+        stars: 23,
+        featured: false,
+        verified: true,
+        createdAt: '2024-06-08T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Multiplayer Shooter Stats Template
+    {
+        id: 'starter-multiplayer-shooter',
+        name: 'Multiplayer Shooter Stats',
+        description: 'Comprehensive FPS analytics with K/D ratio, weapon usage, map popularity, and headshot tracking.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: MULTIPLAYER_SHOOTER_LAYOUT,
+        gameTypes: ['battle_royale', 'custom'],
+        requiredColumns: MULTIPLAYER_SHOOTER_COLUMNS,
+        tags: ['shooter', 'fps', 'weapons', 'kd-ratio', 'competitive'],
+        category: 'engagement',
+        downloads: 670,
+        stars: 52,
+        featured: true,
+        verified: true,
+        createdAt: '2024-06-10T00:00:00Z',
+        updatedAt: '2024-06-15T00:00:00Z',
+    },
+    // Subscription Game Monitor Template
+    {
+        id: 'starter-subscription',
+        name: 'Subscription Game Monitor',
+        description: 'Track MRR, churn rate, trial conversion, and subscriber LTV for subscription-based games.',
+        author: 'Game Insights Team',
+        version: '1.0.0',
+        layout: SUBSCRIPTION_GAME_LAYOUT,
+        gameTypes: ['custom'],
+        requiredColumns: SUBSCRIPTION_GAME_COLUMNS,
+        tags: ['subscription', 'mrr', 'churn', 'conversion', 'saas'],
+        category: 'monetization',
+        downloads: 450,
+        stars: 38,
+        featured: true,
+        verified: true,
+        createdAt: '2024-06-12T00:00:00Z',
         updatedAt: '2024-06-15T00:00:00Z',
     },
 ];

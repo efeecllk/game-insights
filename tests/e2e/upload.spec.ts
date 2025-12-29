@@ -4,7 +4,6 @@
  */
 
 import { test, expect } from '@playwright/test';
-import path from 'path';
 
 test.describe('File Upload Flow', () => {
     test.beforeEach(async ({ page }) => {

@@ -21,30 +21,30 @@ Indie developers are at a massive disadvantage:
 
 ---
 
-## The 9 Phases - ALL COMPLETE ✅
+## The 9 Phases - Progress Overview
 
 ```
-Phase 1-3: Foundation ✅
+Phase 1-3: Foundation (Core Complete)
 ┌─────────────────────────────────────────────────────────────────────┐
-│  Phase 1 ✅       Phase 2 ✅       Phase 3 ✅                        │
+│  Phase 1 [~]      Phase 2 [x]      Phase 3 [~]                      │
 │  Universal   →    Zero-Config  →   One-Click                        │
 │  Data Import      Analytics        Integrations                     │
 │  "Any format"     "Instant         "Connect                         │
 │   just works"      insights"        everything"                     │
 └─────────────────────────────────────────────────────────────────────┘
                               ↓
-Phase 4-6: Growth ✅
+Phase 4-6: Growth (Core Complete)
 ┌─────────────────────────────────────────────────────────────────────┐
-│  Phase 4 ✅       Phase 5 ✅       Phase 6 ✅                        │
+│  Phase 4 [~]      Phase 5 [~]      Phase 6 [~]                      │
 │  Community   →    Advanced    →    Polish &                         │
 │  & Ecosystem      AI               Production                       │
 │  "Share &         "Predict         "Ready for                       │
 │   learn"          the future"       your team"                      │
 └─────────────────────────────────────────────────────────────────────┘
                               ↓
-Phase 7-9: Excellence ✅
+Phase 7-9: Excellence (Core Complete)
 ┌─────────────────────────────────────────────────────────────────────┐
-│  Phase 7 ✅       Phase 8 ✅       Phase 9 ✅                        │
+│  Phase 7 [~]      Phase 8 [x]      Phase 9 [~]                      │
 │  Testing &   →    Usability &  →   Advanced                         │
 │  Quality          Accessibility    Features                         │
 │  "Ship with       "Analytics       "Beyond                          │
@@ -52,178 +52,181 @@ Phase 7-9: Excellence ✅
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+**Legend:** [x] Complete | [~] Partial | [ ] Not Started
+
 ---
 
-## Phase 1: Universal Data Import ✅
+## Phase 1: Universal Data Import [~]
 **"If you can export it, we can analyze it."**
 
 | Feature | Status |
 |---------|--------|
-| CSV/JSON upload | ✅ Done |
-| AI column mapping | ✅ Done |
-| Excel support | ✅ Done |
-| SQLite import | ✅ Done |
-| URL import | ✅ Done |
-| Clipboard paste | ✅ Done |
-| Game engine templates | ✅ Done |
-| Folder upload | ✅ Done |
+| CSV/JSON upload | [x] Done |
+| AI column mapping | [x] Done (SchemaAnalyzer) |
+| Excel support | [x] Done (xlsxImporter) |
+| SQLite import | [x] Done (sqliteImporter) |
+| URL import | [x] Done (urlImporter) |
+| Clipboard paste | [x] Done (clipboardImporter) |
+| Game engine templates | [x] Done (Unity, Firebase, GameAnalytics, PlayFab, Godot) |
+| Folder upload | [ ] Not implemented |
 
-**Goal:** Any indie dev can get their data in within 60 seconds. ✅ Achieved
+**Goal:** Any indie dev can get their data in within 60 seconds.
 
 [Full Details →](./1-phase.md)
 
 ---
 
-## Phase 2: Zero-Config Analytics ✅
+## Phase 2: Zero-Config Analytics [x]
 **"Upload once. Understand everything."**
 
 | Feature | Status |
 |---------|--------|
-| Game type detection | ✅ Done |
-| Chart recommendations | ✅ Done |
-| Data cleaning pipeline | ✅ Done |
-| Instant dashboard generation | ✅ Done |
-| Automatic metric calculation | ✅ Done |
-| Natural language questions | ✅ Done |
-| Anomaly detection | ✅ Done |
-| Auto cohort analysis | ✅ Done |
+| Game type detection | [x] Done (GameTypeDetector.ts) |
+| Chart recommendations | [x] Done (ChartSelector.ts) |
+| Data cleaning pipeline | [x] Done (DataCleaner.ts) |
+| Instant dashboard generation | [x] Done (DataPipeline.ts) |
+| Automatic metric calculation | [x] Done (MetricCalculator.ts) |
+| Natural language questions | [x] Done (QuestionAnswering.ts) |
+| Anomaly detection | [x] Done (AnomalyDetector.ts) |
+| Auto cohort analysis | [x] Done (CohortAnalyzer.ts) |
 
-**Goal:** Zero manual configuration for 90% of use cases. ✅ Achieved
+**Goal:** Zero manual configuration for 90% of use cases. [x] Achieved
 
 [Full Details →](./2-phase.md)
 
 ---
 
-## Phase 3: One-Click Integrations ✅
+## Phase 3: One-Click Integrations [~]
 **"Connect once. Insights flow automatically."**
 
 | Integration | Status |
 |-------------|--------|
-| REST API | ✅ Done |
-| Google Sheets | ✅ Done |
-| Firebase Analytics | ✅ Done |
-| Supabase | ✅ Done |
-| PostgreSQL | ✅ Done |
-| PlayFab | ✅ Done |
-| Unity Gaming Services | ✅ Done |
-| Webhooks | ✅ Done |
+| REST API | [x] Done (APIAdapter.ts) |
+| Google Sheets | [x] Done (GoogleSheetsAdapter.ts) |
+| Firebase Analytics | [x] Done (FirebaseAdapter.ts) |
+| Supabase | [x] Done (SupabaseAdapter.ts) |
+| PostgreSQL | [x] Done (PostgreSQLAdapter.ts) |
+| PlayFab | [x] Done (PlayFabAdapter.ts) |
+| Unity Gaming Services | [ ] Not implemented |
+| Webhooks | [x] Done (WebhookAdapter.ts) |
 
-**Goal:** Connect any service in under 5 minutes. ✅ Achieved
+**Goal:** Connect any service in under 5 minutes.
 
 [Full Details →](./3-phase.md)
 
 ---
 
-## Phase 4: Community & Ecosystem ✅
+## Phase 4: Community & Ecosystem [~]
 **"Built by indie devs, for indie devs."**
 
 | Feature | Status |
 |---------|--------|
-| Template marketplace | ✅ Done |
-| Community benchmarks | ✅ Done |
-| Integration recipes | ✅ Done |
-| Plugin system | ✅ Done |
-| Knowledge base | ✅ Done |
-| Discussion forum | ✅ Done |
+| Template marketplace | [x] Done (templateStore.ts, Templates.tsx) |
+| Community benchmarks | [x] Done (benchmarkStore.ts) |
+| Integration recipes | [x] Done (recipeStore.ts) |
+| Plugin system | [x] Done (plugins/registry.ts) |
+| Knowledge base | [ ] Not implemented |
+| Discussion forum | [ ] Not implemented |
 
-**Goal:** Thriving community sharing templates and knowledge. ✅ Achieved
+**Goal:** Thriving community sharing templates and knowledge.
 
 [Full Details →](./4-phase.md)
 
 ---
 
-## Phase 5: Advanced AI & Automation ✅
+## Phase 5: Advanced AI & Automation [~]
 **"Know what's coming before it happens."**
 
 | Feature | Status |
 |---------|--------|
-| Retention prediction | ✅ Done |
-| Churn prediction | ✅ Done |
-| Revenue forecasting | ✅ Done |
-| Intelligent alerts | ✅ Done |
-| What-if analysis | ✅ Done |
-| A/B test intelligence | ✅ Done |
-| Natural language reports | ✅ Done |
+| Retention prediction | [x] Done (ml/RetentionPredictor.ts) |
+| Churn prediction | [x] Done (ml/ChurnPredictor.ts) |
+| Revenue forecasting | [x] Done (ml/RevenueForecaster.ts) |
+| LTV prediction | [x] Done (ml/LTVPredictor.ts) |
+| Intelligent alerts | [x] Done (alertStore.ts) |
+| What-if analysis | [ ] Not implemented |
+| A/B test intelligence | [ ] Not implemented (basic A/B dashboard exists) |
+| Natural language reports | [~] Partial (ReportGenerator.ts exists) |
 
-**Goal:** Predictive insights that feel like magic. ✅ Achieved
+**Goal:** Predictive insights that feel like magic.
 
 [Full Details →](./5-phase.md)
 
 ---
 
-## Phase 6: Polish, Power & Production ✅
+## Phase 6: Polish, Power & Production [~]
 **"Ready for your whole team."**
 
 | Feature | Status |
 |---------|--------|
-| A/B Testing Dashboard | ✅ Done |
-| Dashboard Builder | ✅ Done |
-| Mobile Responsive | ✅ Done |
-| Multi-Game Management | ✅ Done |
-| Export & Sharing | ✅ Done |
-| Team Collaboration | ✅ Done |
-| Funnel Builder | ✅ Done |
-| Game Engine SDKs | ✅ Done |
+| A/B Testing Dashboard | [x] Done (ABTesting.tsx) |
+| Dashboard Builder | [x] Done (DashboardBuilder.tsx) |
+| Mobile Responsive | [x] Done (Tailwind responsive classes) |
+| Multi-Game Management | [x] Done (Games.tsx, gameStore.ts) |
+| Export & Sharing | [x] Done (ExportModal.tsx, exportUtils.ts) |
+| Team Collaboration | [ ] Not implemented |
+| Funnel Builder | [x] Done (FunnelBuilder.tsx) |
+| Game Engine SDKs | [~] Partial (SDK Status tab in Realtime.tsx) |
 
-**Goal:** Production-ready platform for teams at any scale. ✅ Achieved
+**Goal:** Production-ready platform for teams at any scale.
 
 [Full Details →](./6-phase.md)
 
 ---
 
-## Phase 7: Testing & Quality Assurance ✅
+## Phase 7: Testing & Quality Assurance [~]
 **"Ship with confidence."**
 
 | Feature | Status |
 |---------|--------|
-| Unit Testing | ✅ Done |
-| Component Testing | ✅ Done |
-| Integration Testing | ✅ Done |
-| E2E Testing | ✅ Done |
-| Visual Regression | ✅ Done |
-| Performance Testing | ✅ Done |
-| CI/CD Pipeline | ✅ Done |
+| Unit Testing | [x] Done (Vitest, tests/unit/) |
+| Component Testing | [x] Done (@testing-library/react) |
+| Integration Testing | [~] Partial |
+| E2E Testing | [x] Done (Playwright) |
+| Visual Regression | [~] Partial (Storybook configured) |
+| Performance Testing | [~] Partial (Lighthouse CI configured) |
+| CI/CD Pipeline | [x] Done (GitHub Actions workflows) |
 
-**Goal:** 80%+ test coverage, < 10 min CI pipeline, zero flaky tests. ✅ Achieved
+**Goal:** 80%+ test coverage, < 10 min CI pipeline, zero flaky tests.
 
 [Full Details →](./7-phase.md)
 
 ---
 
-## Phase 8: Usability & Accessibility ✅
+## Phase 8: Usability & Accessibility [x]
 **"Analytics for all."**
 
 | Feature | Status |
 |---------|--------|
-| Guided Onboarding | ✅ Done |
-| Contextual Help | ✅ Done |
-| Keyboard Navigation | ✅ Done |
-| Screen Reader Support | ✅ Done |
-| Color & Contrast (WCAG) | ✅ Done |
-| Internationalization | ✅ Done |
-| Command Palette | ✅ Done |
+| Guided Onboarding | [x] Done (WelcomeFlow.tsx) |
+| Contextual Help | [x] Done (HelpTooltip.tsx) |
+| Keyboard Navigation | [x] Done (KeyboardShortcuts.tsx) |
+| Screen Reader Support | [x] Done (a11y.ts utilities) |
+| Color & Contrast (WCAG) | [x] Done (accessible color scheme) |
+| Internationalization | [x] Done (i18n with en/es/de) |
+| Command Palette | [x] Done (CommandPalette.tsx) |
 
-**Goal:** < 2 min to first insight, 100/100 Lighthouse accessibility. ✅ Achieved
+**Goal:** < 2 min to first insight, 100/100 Lighthouse accessibility. [x] Achieved
 
 [Full Details →](./8-phase.md)
 
 ---
 
-## Phase 9: Advanced Features & Future Vision ✅
+## Phase 9: Advanced Features & Future Vision [~]
 **"Beyond analytics."**
 
 | Feature | Status |
 |---------|--------|
-| Real-Time Analytics | ✅ Done |
-| Natural Language Queries | ✅ Done |
-| Custom Metrics Builder | ✅ Done |
-| Attribution Modeling | ✅ Done |
-| ML Studio | ✅ Done |
-| Embedded Analytics SDK | ✅ Done |
-| Cross-Platform Analytics | ✅ Done |
-| Public API | ✅ Done |
+| Real-Time Analytics | [x] Done (Realtime.tsx, EventStream.tsx) |
+| Natural Language Queries | [x] Done (NaturalLanguageQuery.tsx) |
+| Custom Metrics Builder | [x] Done (CustomMetricsBuilder.tsx) |
+| Attribution Modeling | [x] Done (Attribution.tsx - 5 models) |
+| ML Studio | [ ] Not implemented |
+| Embedded Analytics SDK | [ ] Not implemented |
+| Cross-Platform Analytics | [ ] Not implemented |
+| Public API | [ ] Not implemented |
 
-**Goal:** Full game intelligence platform with AI-powered automation. ✅ Achieved
+**Goal:** Full game intelligence platform with AI-powered automation.
 
 [Full Details →](./9-phase.md)
 
@@ -252,57 +255,65 @@ Phase 7-9: Excellence ✅
 
 ## Current Progress
 
-### All Phases Complete! 🎉
+### Core Features Complete - Enhancement Opportunities Remain
 
-**Phase 1: Universal Data Import** ✅
-- CSV/JSON/Excel/SQLite upload
-- AI-powered column mapping
-- Game engine templates
-- Clipboard paste & URL import
+**Phase 1: Universal Data Import** [~]
+- [x] CSV/JSON/Excel/SQLite upload
+- [x] AI-powered column mapping (SchemaAnalyzer)
+- [x] Game engine templates (6 templates)
+- [x] Clipboard paste & URL import
+- [ ] Folder upload (directory import)
 
-**Phase 2: Zero-Config Analytics** ✅
-- Game type auto-detection (5 types)
-- Chart recommendations
-- Instant dashboard generation
-- Anomaly detection & cohort analysis
+**Phase 2: Zero-Config Analytics** [x]
+- [x] Game type auto-detection (5 types)
+- [x] Chart recommendations
+- [x] Instant dashboard generation
+- [x] Anomaly detection & cohort analysis
 
-**Phase 3: One-Click Integrations** ✅
-- REST API, Firebase, Supabase, PostgreSQL
-- Google Sheets, PlayFab, Unity Gaming Services
-- Webhooks support
+**Phase 3: One-Click Integrations** [~]
+- [x] REST API, Firebase, Supabase, PostgreSQL
+- [x] Google Sheets, PlayFab
+- [x] Webhooks support
+- [ ] Unity Gaming Services adapter
 
-**Phase 4: Community & Ecosystem** ✅
-- Template marketplace with starter templates
-- Plugin system with registry
-- Community benchmarks & integration recipes
+**Phase 4: Community & Ecosystem** [~]
+- [x] Template marketplace with starter templates
+- [x] Plugin system with registry
+- [x] Community benchmarks & integration recipes
+- [ ] Knowledge base & Discussion forum
 
-**Phase 5: Advanced AI & Automation** ✅
-- Retention, churn, LTV prediction models
-- Revenue forecasting
-- Intelligent alerts system
+**Phase 5: Advanced AI & Automation** [~]
+- [x] Retention, churn, LTV prediction models
+- [x] Revenue forecasting
+- [x] Intelligent alerts system
+- [ ] What-if analysis, A/B test intelligence
 
-**Phase 6: Polish, Power & Production** ✅
-- A/B Testing dashboard
-- Dashboard builder
-- Multi-game management
-- Funnel builder
+**Phase 6: Polish, Power & Production** [~]
+- [x] A/B Testing dashboard
+- [x] Dashboard builder
+- [x] Multi-game management
+- [x] Funnel builder & Export/Sharing
+- [ ] Team Collaboration
 
-**Phase 7: Testing & Quality Assurance** ✅
-- Vitest unit & component testing
-- Playwright E2E testing
-- CI/CD workflows (GitHub Actions)
+**Phase 7: Testing & Quality Assurance** [~]
+- [x] Vitest unit & component testing
+- [x] Playwright E2E testing
+- [x] CI/CD workflows (GitHub Actions)
+- [~] Visual regression & Performance testing (configured)
 
-**Phase 8: Usability & Accessibility** ✅
-- Command palette (Cmd+K)
-- Keyboard shortcuts
-- Guided onboarding flow
-- Contextual help tooltips
+**Phase 8: Usability & Accessibility** [x]
+- [x] Command palette (Cmd+K)
+- [x] Keyboard shortcuts
+- [x] Guided onboarding flow
+- [x] Contextual help tooltips
+- [x] i18n (English, Spanish, German)
 
-**Phase 9: Advanced Features & Future Vision** ✅
-- Real-time event streaming
-- Natural language queries
-- Custom metrics builder
-- Attribution modeling (5 models)
+**Phase 9: Advanced Features & Future Vision** [~]
+- [x] Real-time event streaming
+- [x] Natural language queries
+- [x] Custom metrics builder
+- [x] Attribution modeling (5 models)
+- [ ] ML Studio, Embedded SDK, Public API
 
 ---
 
@@ -329,15 +340,15 @@ Affordable (free/open source), simple, focused on what indie devs actually need.
 
 We welcome contributions at every phase:
 
-- **Phase 1:** File format parsers, game engine templates
+- **Phase 1:** Folder upload, additional file format parsers
 - **Phase 2:** AI improvements, metric calculations
-- **Phase 3:** New adapter implementations
-- **Phase 4:** Templates, documentation, community building
-- **Phase 5:** ML models, prediction algorithms
-- **Phase 6:** Dashboard widgets, SDK development, mobile UX
-- **Phase 7:** Test suites, CI/CD pipelines, quality tools
-- **Phase 8:** Accessibility improvements, i18n translations, UX enhancements
-- **Phase 9:** Advanced features, API development, integrations
+- **Phase 3:** Unity Gaming Services adapter
+- **Phase 4:** Knowledge base, discussion forum, templates
+- **Phase 5:** What-if analysis, A/B test intelligence
+- **Phase 6:** Team collaboration features, Game Engine SDKs
+- **Phase 7:** Test coverage, visual regression, performance testing
+- **Phase 8:** Additional i18n translations, UX enhancements
+- **Phase 9:** ML Studio, Embedded SDK, Public API
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
@@ -347,11 +358,11 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for guidelines.
 
 | Metric | Target | Status |
 |--------|--------|--------|
-| Time from download to first insight | < 5 minutes | ✅ Achieved |
-| Data sources supported | 10+ | ✅ 8 adapters + file imports |
-| Dashboard templates available | 50+ | ✅ Template marketplace |
-| GitHub stars | 1000+ (Year 1) | 🎯 In Progress |
-| Active users | 500+ (Year 1) | 🎯 In Progress |
+| Time from download to first insight | < 5 minutes | [x] Achieved |
+| Data sources supported | 10+ | [~] 7 adapters + file imports |
+| Dashboard templates available | 50+ | [x] Template marketplace |
+| GitHub stars | 1000+ (Year 1) | In Progress |
+| Active users | 500+ (Year 1) | In Progress |
 
 ---
 

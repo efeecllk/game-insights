@@ -3,9 +3,11 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Key, Check, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe } from 'lucide-react';
 import { validateApiKey } from '../services/openai';
 import { AnomalyConfigPanel } from '../components/settings';
+import { languages, changeLanguage, type LanguageCode } from '../i18n';
 
 // Simple local storage for API key (in production, use secure storage)
 const API_KEY_STORAGE = 'game_insights_openai_key';
@@ -23,6 +25,7 @@ function setStoredApiKey(key: string): void {
 }
 
 export function SettingsPage() {
+    const { t, i18n } = useTranslation();
     const [apiKey, setApiKey] = useState('');
     const [showKey, setShowKey] = useState(false);
     const [status, setStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
@@ -35,6 +38,10 @@ export function SettingsPage() {
             setStatus('valid');
         }
     }, []);
+
+    const handleLanguageChange = (code: LanguageCode) => {
+        changeLanguage(code);
+    };
 
     const handleValidate = async () => {
         if (!apiKey.startsWith('sk-')) {
@@ -65,8 +72,37 @@ export function SettingsPage() {
         <div className="space-y-6 max-w-2xl">
             {/* Page Header */}
             <div>
-                <h1 className="text-2xl font-bold text-th-text-primary">Settings</h1>
-                <p className="text-th-text-muted mt-1">Configure your AI integration and analytics</p>
+                <h1 className="text-2xl font-bold text-th-text-primary">{t('pages.settings.title')}</h1>
+                <p className="text-th-text-muted mt-1">{t('pages.settings.subtitle')}</p>
+            </div>
+
+            {/* Language Selection Section */}
+            <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center">
+                        <Globe className="w-5 h-5 text-accent-primary" />
+                    </div>
+                    <div>
+                        <h3 className="text-lg font-semibold text-white">{t('common.language')}</h3>
+                        <p className="text-sm text-zinc-500">{t('common.languageSelector')}</p>
+                    </div>
+                </div>
+
+                <div className="flex gap-3 flex-wrap">
+                    {languages.map((lang) => (
+                        <button
+                            key={lang.code}
+                            onClick={() => handleLanguageChange(lang.code)}
+                            className={`px-4 py-2 rounded-xl border transition-colors ${
+                                i18n.language === lang.code
+                                    ? 'bg-accent-primary text-white border-accent-primary'
+                                    : 'bg-bg-elevated border-white/[0.1] text-zinc-300 hover:bg-bg-card-hover'
+                            }`}
+                        >
+                            {lang.nativeName}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {/* OpenAI API Key Section */}
@@ -76,8 +112,8 @@ export function SettingsPage() {
                         <Key className="w-5 h-5 text-accent-primary" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold text-white">OpenAI API Key</h3>
-                        <p className="text-sm text-zinc-500">Required for AI-powered column analysis</p>
+                        <h3 className="text-lg font-semibold text-white">{t('pages.settings.openai.title')}</h3>
+                        <p className="text-sm text-zinc-500">{t('pages.settings.openai.subtitle')}</p>
                     </div>
                 </div>
 
@@ -91,7 +127,7 @@ export function SettingsPage() {
                                 setApiKey(e.target.value);
                                 setStatus('idle');
                             }}
-                            placeholder="sk-..."
+                            placeholder={t('pages.settings.openai.placeholder')}
                             className="w-full px-4 py-3 pr-12 bg-bg-elevated border border-white/[0.1] rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:border-accent-primary transition-colors"
                         />
                         <button
@@ -112,9 +148,9 @@ export function SettingsPage() {
                             {status === 'valid' && <Check className="w-4 h-4" />}
                             {status === 'invalid' && <AlertCircle className="w-4 h-4" />}
                             <span>
-                                {status === 'validating' && 'Validating...'}
-                                {status === 'valid' && 'API key is valid'}
-                                {status === 'invalid' && 'Invalid API key'}
+                                {status === 'validating' && t('pages.settings.openai.status.validating')}
+                                {status === 'valid' && t('pages.settings.openai.status.valid')}
+                                {status === 'invalid' && t('pages.settings.openai.status.invalid')}
                             </span>
                         </div>
                     )}
@@ -126,21 +162,21 @@ export function SettingsPage() {
                             disabled={!apiKey || status === 'validating'}
                             className="px-4 py-2 bg-bg-elevated border border-white/[0.1] rounded-xl text-zinc-300 hover:bg-bg-card-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            Validate
+                            {t('actions.validate')}
                         </button>
                         <button
                             onClick={handleSave}
                             disabled={status !== 'valid'}
                             className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/90 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            {saved ? 'Saved!' : 'Save Key'}
+                            {saved ? t('actions.saved') : t('actions.saveKey')}
                         </button>
                         {apiKey && (
                             <button
                                 onClick={handleClear}
                                 className="px-4 py-2 text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
                             >
-                                Clear
+                                {t('actions.clear')}
                             </button>
                         )}
                     </div>
@@ -149,7 +185,7 @@ export function SettingsPage() {
                 {/* Info */}
                 <div className="mt-6 p-4 bg-bg-elevated rounded-xl">
                     <p className="text-sm text-zinc-400">
-                        <span className="text-zinc-300 font-medium">Your API key is stored locally</span> in your browser and is only used for direct API calls to OpenAI. We never send your key to our servers.
+                        <span className="text-zinc-300 font-medium">{t('pages.settings.openai.info.title')}</span> {t('pages.settings.openai.info.description')}
                     </p>
                     <a
                         href="https://platform.openai.com/api-keys"
@@ -157,7 +193,7 @@ export function SettingsPage() {
                         rel="noopener noreferrer"
                         className="inline-block mt-2 text-sm text-accent-primary hover:underline"
                     >
-                        Get your API key from OpenAI →
+                        {t('pages.settings.openai.info.link')} -&gt;
                     </a>
                 </div>
             </div>

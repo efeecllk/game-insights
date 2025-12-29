@@ -4,8 +4,8 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { SchemaAnalyzer, ColumnMeaning, SemanticType } from '../../../src/ai/SchemaAnalyzer';
-import { SchemaInfo, ColumnInfo } from '../../../src/adapters/BaseAdapter';
+import { SchemaAnalyzer, ColumnMeaning } from '../../../src/ai/SchemaAnalyzer';
+import { SchemaInfo } from '../../../src/adapters/BaseAdapter';
 
 describe('SchemaAnalyzer', () => {
     const analyzer = new SchemaAnalyzer();

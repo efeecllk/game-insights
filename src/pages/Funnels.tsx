@@ -388,7 +388,7 @@ export function FunnelsPage() {
     const [expandedFunnelId, setExpandedFunnelId] = useState<string | null>(null);
 
     // Get detected funnels from pipeline
-    const detectedFunnels = result?.funnels || [];
+    const detectedFunnels = useMemo(() => result?.funnels || [], [result?.funnels]);
     const hasDetectedFunnels = detectedFunnels.length > 0;
 
     // Calculate overall stats

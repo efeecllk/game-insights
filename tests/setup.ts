@@ -13,6 +13,51 @@ afterEach(() => {
     cleanup();
 });
 
+// Mock react-i18next
+vi.mock('react-i18next', () => ({
+    useTranslation: () => ({
+        t: (key: string) => {
+            const translations: Record<string, string> = {
+                // Navigation
+                'navigation.overview': 'Overview',
+                'navigation.games': 'Games',
+                'navigation.dataSources': 'Data Sources',
+                'navigation.templates': 'Templates',
+                'navigation.predictions': 'Predictions',
+                'navigation.aiAnalytics': 'AI Analytics',
+                'navigation.realtime': 'Realtime',
+                'navigation.dashboards': 'Dashboards',
+                'navigation.explore': 'Explore',
+                'navigation.funnels': 'Funnels',
+                'navigation.funnelBuilder': 'Funnel Builder',
+                'navigation.engagement': 'Engagement',
+                'navigation.distributions': 'Distributions',
+                'navigation.health': 'Health',
+                'navigation.monetization': 'Monetization',
+                'navigation.userAnalysis': 'User Analysis',
+                'navigation.remoteConfigs': 'Remote Configs',
+                'navigation.abTesting': 'A/B Testing',
+                'navigation.attribution': 'Attribution',
+                'navigation.settings': 'Game Settings',
+                // Sidebar
+                'sidebar.theme': 'Theme',
+                'sidebar.activeGame': 'Active Game',
+                'sidebar.toggleTheme': 'Toggle theme',
+            };
+            return translations[key] || key;
+        },
+        i18n: {
+            language: 'en',
+            changeLanguage: vi.fn().mockResolvedValue(undefined),
+        },
+    }),
+    Trans: ({ children }: { children: React.ReactNode }) => children,
+    initReactI18next: {
+        type: '3rdParty',
+        init: vi.fn(),
+    },
+}));
+
 // Mock IndexedDB
 const indexedDB = {
     open: vi.fn(() => ({
@@ -85,7 +130,11 @@ Object.defineProperty(navigator, 'clipboard', {
         readText: vi.fn().mockResolvedValue(''),
     },
     writable: true,
+    configurable: true,
 });
+
+// Mock scrollIntoView for elements
+Element.prototype.scrollIntoView = vi.fn();
 
 // Mock console.warn/error to keep test output clean (optional)
 // vi.spyOn(console, 'warn').mockImplementation(() => {});

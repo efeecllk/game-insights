@@ -7,8 +7,6 @@ import { describe, it, expect } from 'vitest';
 import {
   MonetizationAnalyzer,
   UserMonetizationFeatures,
-  AdTimingRecommendation,
-  OfferRecommendation,
 } from '../../../src/ai/MonetizationAnalyzer';
 
 describe('MonetizationAnalyzer', () => {

@@ -1,0 +1,139 @@
+{
+    "navigation": {
+        "overview": "Resumen",
+        "games": "Juegos",
+        "dataSources": "Fuentes de Datos",
+        "templates": "Plantillas",
+        "predictions": "Predicciones",
+        "aiAnalytics": "Analitica IA",
+        "realtime": "Tiempo Real",
+        "dashboards": "Paneles",
+        "explore": "Explorar",
+        "funnels": "Embudos",
+        "funnelBuilder": "Constructor de Embudos",
+        "engagement": "Interaccion",
+        "distributions": "Distribuciones",
+        "health": "Salud",
+        "monetization": "Monetizacion",
+        "userAnalysis": "Analisis de Usuarios",
+        "remoteConfigs": "Configuraciones Remotas",
+        "abTesting": "Pruebas A/B",
+        "attribution": "Atribucion",
+        "settings": "Configuracion del Juego"
+    },
+    "sidebar": {
+        "theme": "Tema",
+        "activeGame": "Juego Activo"
+    },
+    "pages": {
+        "overview": {
+            "title": "Analiticas",
+            "gameHeader": "Cabecera del Juego",
+            "tabs": {
+                "overview": "Resumen",
+                "integration": "Integracion"
+            },
+            "sections": {
+                "overview": "Resumen",
+                "activeUsers": "Usuarios activos",
+                "explorer": "Explorador"
+            }
+        },
+        "settings": {
+            "title": "Configuracion",
+            "subtitle": "Configura tu integracion de IA y analiticas",
+            "openai": {
+                "title": "Clave API de OpenAI",
+                "subtitle": "Requerida para el analisis de columnas con IA",
+                "placeholder": "sk-...",
+                "status": {
+                    "validating": "Validando...",
+                    "valid": "La clave API es valida",
+                    "invalid": "Clave API invalida"
+                },
+                "info": {
+                    "title": "Tu clave API se almacena localmente",
+                    "description": "en tu navegador y solo se usa para llamadas directas a la API de OpenAI. Nunca enviamos tu clave a nuestros servidores.",
+                    "link": "Obtener tu clave API de OpenAI"
+                }
+            }
+        }
+    },
+    "kpi": {
+        "dau": "UAD",
+        "dauFull": "Usuarios Activos Diarios",
+        "playtime": "Tiempo de Juego",
+        "playtimeTooltip": "Tiempo promedio de sesion",
+        "newUsers": "Nuevos usuarios",
+        "newUsersTooltip": "Nuevos usuarios hoy",
+        "sessions": "Sesiones",
+        "sessionsTooltip": "Total de sesiones hoy",
+        "d1Retention": "Retencion D1",
+        "d7Retention": "Retencion D7",
+        "d30Retention": "Retencion D30",
+        "revenue": "Ingresos",
+        "revenueToday": "Ingresos (Hoy)",
+        "arpu": "ARPU",
+        "arppu": "ARPPU",
+        "conversionRate": "Tasa de Conversion",
+        "iapConvRate": "Tasa Conv. IAP",
+        "ltv": "LTV",
+        "churnRate": "Tasa de Abandono"
+    },
+    "actions": {
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "create": "Crear",
+        "update": "Actualizar",
+        "close": "Cerrar",
+        "confirm": "Confirmar",
+        "validate": "Validar",
+        "clear": "Limpiar",
+        "saved": "Guardado!",
+        "loading": "Cargando...",
+        "saveKey": "Guardar Clave",
+        "apply": "Aplicar",
+        "reset": "Restablecer",
+        "export": "Exportar",
+        "import": "Importar",
+        "refresh": "Actualizar",
+        "search": "Buscar"
+    },
+    "common": {
+        "new": "Nuevo",
+        "beta": "Beta",
+        "live": "En vivo",
+        "realtime": "Tiempo real",
+        "time": "tiempo",
+        "role": "Rol",
+        "organization": "Organizacion",
+        "platform": "Plataforma",
+        "admin": "Admin",
+        "language": "Idioma",
+        "languageSelector": "Seleccionar Idioma"
+    },
+    "errors": {
+        "generic": "Algo salio mal",
+        "networkError": "Error de red. Por favor verifica tu conexion.",
+        "unauthorized": "No autorizado. Por favor verifica tus credenciales.",
+        "notFound": "Recurso no encontrado",
+        "validation": "Error de validacion",
+        "invalidApiKey": "Clave API invalida",
+        "required": "Este campo es requerido"
+    },
+    "charts": {
+        "retentionCurve": "Curva de Retencion",
+        "funnel": "Embudo",
+        "revenue": "Ingresos",
+        "segments": "Segmentos"
+    },
+    "gameTypes": {
+        "puzzle": "Puzzle",
+        "idle": "Idle",
+        "battleRoyale": "Battle Royale",
+        "match3Meta": "Match-3 Meta",
+        "gachaRpg": "Gacha RPG"
+    }
+}

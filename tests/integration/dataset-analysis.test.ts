@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { SchemaAnalyzer, SemanticType, ColumnMeaning } from '../../src/ai/SchemaAnalyzer';
+import { SchemaAnalyzer } from '../../src/ai/SchemaAnalyzer';
 import { GameTypeDetector } from '../../src/ai/GameTypeDetector';
 import { SchemaInfo, ColumnInfo } from '../../src/adapters/BaseAdapter';
 
@@ -217,8 +217,8 @@ describe('Dataset Analysis Integration', () => {
         it('should detect ad monetization columns', () => {
             const adType = meanings.find(m => m.column === 'ad_type');
             const adNetwork = meanings.find(m => m.column === 'ad_network');
-            const adRevenue = meanings.find(m => m.column === 'ad_revenue_usd');
-            const ecpm = meanings.find(m => m.column === 'ad_ecpm_usd');
+            const _adRevenue = meanings.find(m => m.column === 'ad_revenue_usd');
+            const _ecpm = meanings.find(m => m.column === 'ad_ecpm_usd');
 
             expect(adType?.semanticType).toBe('ad_type');
             expect(adNetwork?.semanticType).toBe('ad_network');

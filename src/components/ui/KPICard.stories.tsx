@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Users, DollarSign, TrendingUp, Activity, Gamepad2, Clock } from 'lucide-react';
 import { KPICard } from './KPICard';
 

@@ -66,7 +66,6 @@ export function ABTestingPage() {
 
     useEffect(() => {
         loadExperiments();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filteredExperiments = useMemo(() => {

@@ -159,7 +159,7 @@ test.describe('Accessibility - Keyboard Navigation', () => {
         }
 
         // Focus should still be within modal (not on background elements)
-        const focusedInModal = await page.evaluate(() => {
+        const _focusedInModal = await page.evaluate(() => {
             const modal = document.querySelector('[role="dialog"], .modal, [data-modal]');
             const activeEl = document.activeElement;
             return modal?.contains(activeEl) ?? false;
