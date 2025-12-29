@@ -1,0 +1,26 @@
+# Gitleaks configuration
+# https://github.com/gitleaks/gitleaks
+
+title = "Game Insights Gitleaks Config"
+
+[extend]
+# Use the default gitleaks config as base
+useDefault = true
+
+# Allowlist paths that contain example/documentation code
+[[rules]]
+id = "curl-auth-header"
+description = "Curl auth header in documentation"
+
+[rules.allowlist]
+paths = [
+  '''game-insights-docs/.*\.md$''',
+  '''docs/.*\.md$''',
+]
+
+# Global allowlist for documentation files
+[allowlist]
+description = "Allowlist for documentation examples"
+paths = [
+  '''game-insights-docs/docs/.*''',
+]
