@@ -8,7 +8,12 @@ import { useData } from '../context/DataContext';
 import { dataPipeline, PipelineResult, PipelineConfig } from '../ai/DataPipeline';
 import { NormalizedData } from '../adapters/BaseAdapter';
 import { questionAnswering, QuestionResult } from '../ai/QuestionAnswering';
+import { cohortAnalyzer, CohortDefinition } from '../ai/CohortAnalyzer';
 import { GameCategory } from '../types';
+import {
+    getStoredAnomalyConfig,
+    getStoredAnomalyThresholds,
+} from '../components/settings';
 
 export interface AnalyticsState {
     isLoading: boolean;
@@ -22,6 +27,7 @@ export interface AnalyticsState {
 export interface UseAnalyticsReturn extends AnalyticsState {
     runAnalysis: (config?: Partial<PipelineConfig>) => Promise<void>;
     askQuestion: (question: string) => Promise<QuestionResult | null>;
+    changeCohortDimension: (dimension: CohortDefinition) => void;
     clearError: () => void;
 }
 
@@ -88,7 +94,20 @@ export function useAnalytics(): UseAnalyticsReturn {
 
         try {
             const normalizedData = normalizeData(activeGameData.rawData);
-            const fullConfig = { ...DEFAULT_CONFIG, ...config };
+
+            // Get stored anomaly configuration
+            const storedAnomalyConfig = getStoredAnomalyConfig();
+            const storedThresholds = getStoredAnomalyThresholds();
+            const anomalyConfig = {
+                ...storedAnomalyConfig,
+                thresholds: storedThresholds,
+            };
+
+            const fullConfig = {
+                ...DEFAULT_CONFIG,
+                ...config,
+                anomalyConfig,
+            };
 
             const result = await dataPipeline.run(normalizedData, fullConfig);
 
@@ -131,6 +150,32 @@ export function useAnalytics(): UseAnalyticsReturn {
         }
     }, [activeGameData, state.result, normalizeData]);
 
+    // Change cohort dimension and re-analyze
+    const changeCohortDimension = useCallback((dimension: CohortDefinition) => {
+        if (!activeGameData?.rawData || !state.result) {
+            return;
+        }
+
+        try {
+            const normalizedData = normalizeData(activeGameData.rawData);
+            const newCohortAnalysis = cohortAnalyzer.analyze(
+                normalizedData,
+                state.result.columnMeanings,
+                dimension
+            );
+
+            setState(prev => ({
+                ...prev,
+                result: prev.result ? {
+                    ...prev.result,
+                    cohortAnalysis: newCohortAnalysis,
+                } : null,
+            }));
+        } catch (error) {
+            console.error('Cohort dimension change failed:', error);
+        }
+    }, [activeGameData, state.result, normalizeData]);
+
     // Clear error state
     const clearError = useCallback(() => {
         setState(prev => ({ ...prev, error: null }));
@@ -154,6 +199,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         ...state,
         runAnalysis,
         askQuestion,
+        changeCohortDimension,
         clearError,
     };
 }

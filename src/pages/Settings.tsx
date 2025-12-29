@@ -1,10 +1,11 @@
 /**
- * Settings Page - API key configuration
+ * Settings Page - API key and analytics configuration
  */
 
 import { useState, useEffect } from 'react';
 import { Key, Check, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
 import { validateApiKey } from '../services/openai';
+import { AnomalyConfigPanel } from '../components/settings';
 
 // Simple local storage for API key (in production, use secure storage)
 const API_KEY_STORAGE = 'game_insights_openai_key';
@@ -64,8 +65,8 @@ export function SettingsPage() {
         <div className="space-y-6 max-w-2xl">
             {/* Page Header */}
             <div>
-                <h1 className="text-2xl font-bold text-white">Settings</h1>
-                <p className="text-zinc-500 mt-1">Configure your AI integration</p>
+                <h1 className="text-2xl font-bold text-th-text-primary">Settings</h1>
+                <p className="text-th-text-muted mt-1">Configure your AI integration and analytics</p>
             </div>
 
             {/* OpenAI API Key Section */}
@@ -160,6 +161,9 @@ export function SettingsPage() {
                     </a>
                 </div>
             </div>
+
+            {/* Anomaly Detection Configuration */}
+            <AnomalyConfigPanel />
         </div>
     );
 }

@@ -202,6 +202,9 @@ export function AnalyticsPage() {
                     insights={result.insights}
                     anomalies={result.anomalies}
                     funnels={result.funnels}
+                    cohortAnalysis={result.cohortAnalysis}
+                    availableCohortDimensions={result.availableCohortDimensions}
+                    onCohortDimensionChange={analytics.changeCohortDimension}
                     gameType={result.gameType}
                     suggestedQuestions={suggestedQuestions}
                     onAskQuestion={analytics.askQuestion}
@@ -210,7 +213,7 @@ export function AnalyticsPage() {
 
             {/* Stats Footer */}
             <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
                     <div>
                         <div className="text-2xl font-bold text-th-text-primary">
                             {result.chartRecommendations.length}
@@ -234,6 +237,12 @@ export function AnalyticsPage() {
                             {result.funnelStats?.detected || 0}
                         </div>
                         <div className="text-xs text-th-text-muted">Funnels Identified</div>
+                    </div>
+                    <div>
+                        <div className="text-2xl font-bold text-th-text-primary">
+                            {result.cohortAnalysis?.cohorts.length || 0}
+                        </div>
+                        <div className="text-xs text-th-text-muted">Cohorts Analyzed</div>
                     </div>
                     <div>
                         <div className="text-2xl font-bold text-th-text-primary">

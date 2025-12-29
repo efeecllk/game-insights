@@ -12,7 +12,7 @@ import { gameTypeDetector } from './GameTypeDetector';
 import { chartSelector, ChartRecommendation } from './ChartSelector';
 import { insightGenerator, Insight } from './InsightGenerator';
 import { metricCalculator, CalculatedMetrics } from './MetricCalculator';
-import { anomalyDetector, Anomaly, AnomalyDetectionResult } from './AnomalyDetector';
+import { anomalyDetector, Anomaly, AnomalyDetectionResult, DetectionConfig } from './AnomalyDetector';
 import { cohortAnalyzer, CohortAnalysisResult } from './CohortAnalyzer';
 import { funnelDetector, DetectedFunnel, FunnelAnalysisResult } from './FunnelDetector';
 import { GameCategory } from '../types';
@@ -33,6 +33,9 @@ export interface PipelineConfig {
     detectFunnels?: boolean;
     useLLM?: boolean;
     llmConfig?: LLMConfig;
+
+    // Anomaly detection config
+    anomalyConfig?: DetectionConfig;
 }
 
 export interface PipelineResult {
@@ -81,6 +84,7 @@ export interface PipelineResult {
 
     // Step 9: Cohort Analysis
     cohortAnalysis?: CohortAnalysisResult;
+    availableCohortDimensions?: import('./CohortAnalyzer').CohortDefinition[];
 
     // Step 10: Funnel Detection
     funnels?: DetectedFunnel[];
@@ -110,6 +114,7 @@ const DEFAULT_CONFIG: Required<PipelineConfig> = {
     detectFunnels: true,
     useLLM: false,
     llmConfig: undefined as unknown as LLMConfig,
+    anomalyConfig: undefined as unknown as DetectionConfig,
 };
 
 // ============ DATA PIPELINE CLASS ============
@@ -174,7 +179,11 @@ export class DataPipeline {
         let anomalyStats: PipelineResult['anomalyStats'];
         if (fullConfig.detectAnomalies) {
             try {
-                const anomalyResult = anomalyDetector.detect(dataForVisualization, columnMeanings);
+                const anomalyResult = anomalyDetector.detect(
+                    dataForVisualization,
+                    columnMeanings,
+                    fullConfig.anomalyConfig
+                );
                 anomalies = anomalyResult.anomalies;
                 anomalyStats = {
                     total: anomalies.length,
@@ -190,9 +199,11 @@ export class DataPipeline {
 
         // Step 9: Cohort Analysis
         let cohortAnalysis: CohortAnalysisResult | undefined;
+        let availableCohortDimensions: import('./CohortAnalyzer').CohortDefinition[] | undefined;
         if (fullConfig.analyzeCohorts) {
             try {
                 const dimensions = cohortAnalyzer.suggestCohortDimensions(columnMeanings);
+                availableCohortDimensions = dimensions;
                 if (dimensions.length > 0) {
                     cohortAnalysis = cohortAnalyzer.analyze(dataForVisualization, columnMeanings, dimensions[0]);
                 }
@@ -270,6 +281,7 @@ export class DataPipeline {
             anomalies,
             anomalyStats,
             cohortAnalysis,
+            availableCohortDimensions,
             funnels,
             funnelStats,
             pipelineStats: {
