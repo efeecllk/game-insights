@@ -1,6 +1,8 @@
 /**
- * Demo Data Provider - Implements Dependency Inversion Principle
+ * Data Provider - Implements Dependency Inversion Principle
  * High-level modules depend on abstractions, not concrete implementations
+ *
+ * Supports both real uploaded data and demo data for exploration
  */
 
 import {
@@ -11,6 +13,8 @@ import {
     SegmentData,
     TimeSeriesData
 } from '../types';
+import { GameData } from './dataStore';
+import { RealDataProvider, EmptyDataProvider } from './realDataProvider';
 
 /**
  * Abstract data provider interface
@@ -296,6 +300,7 @@ export class GachaRPGDataProvider implements IDataProvider {
 /**
  * Factory function - Dependency Inversion Principle
  * Returns appropriate data provider based on game category
+ * This returns DEMO data - use createSmartDataProvider for real data support
  */
 export function createDataProvider(category: GameCategory): IDataProvider {
     switch (category) {
@@ -312,6 +317,38 @@ export function createDataProvider(category: GameCategory): IDataProvider {
         default:
             return new PuzzleGameDataProvider(); // Default
     }
+}
+
+/**
+ * Smart factory that uses real data when available, falls back to demo data
+ * @param category - Game category for demo data fallback
+ * @param gameData - Optional uploaded game data to use
+ * @returns Data provider with real or demo data
+ */
+export function createSmartDataProvider(
+    category: GameCategory,
+    gameData: GameData | null
+): IDataProvider {
+    if (gameData && gameData.rawData && gameData.rawData.length > 0) {
+        return new RealDataProvider(gameData);
+    }
+    return createDataProvider(category);
+}
+
+/**
+ * Create an empty data provider for no-data states
+ */
+export function createEmptyDataProvider(): IDataProvider {
+    return new EmptyDataProvider();
+}
+
+/**
+ * Check if data provider has meaningful data
+ */
+export function hasData(provider: IDataProvider): boolean {
+    const kpis = provider.getKPIData();
+    const funnel = provider.getFunnelData();
+    return kpis.length > 0 || funnel.length > 0;
 }
 
 /**

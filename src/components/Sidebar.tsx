@@ -47,6 +47,7 @@ import {
 import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
 import { sidebarPriorities } from '../lib/gamePriorities';
+import { DataModeIndicator } from './ui/DataModeIndicator';
 
 interface NavItemType {
     icon: LucideIcon;
@@ -111,6 +112,11 @@ export function Sidebar() {
                         Game Insights
                     </span>
                 </div>
+            </div>
+
+            {/* Data Mode Indicator */}
+            <div className="px-2 py-2 border-b border-th-border-subtle">
+                <DataModeIndicator />
             </div>
 
             {/* Navigation - dynamically sorted */}

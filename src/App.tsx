@@ -70,7 +70,8 @@ const WhatIfPage = lazy(() => import('./pages/WhatIf'));
 const MLStudioPage = lazy(() => import('./pages/MLStudio'));
 
 // Data & Types
-import { createDataProvider, gameCategories } from './lib/dataProviders';
+import { createSmartDataProvider, gameCategories } from './lib/dataProviders';
+import { useData } from './context/DataContext';
 
 // ============================================================================
 // Skip Link Component (Accessibility)
@@ -130,15 +131,20 @@ const iconMap: Record<string, typeof Users> = {
 /**
  * Overview Dashboard Page
  * Dynamically renders charts based on selected game type
+ * Uses real uploaded data when available, falls back to demo data
  */
 function OverviewPage() {
     const { selectedGame, setSelectedGame } = useGame();
+    const { activeGameData } = useData();
 
-    // Get data provider based on selected game (Dependency Inversion)
+    // Get data provider - uses real data if available, otherwise demo data
     const dataProvider = useMemo(
-        () => createDataProvider(selectedGame),
-        [selectedGame]
+        () => createSmartDataProvider(selectedGame, activeGameData),
+        [selectedGame, activeGameData]
     );
+
+    // Check if using real data
+    const isUsingRealData = activeGameData !== null;
 
     // Get game metadata
     const gameInfo = gameCategories.find((g) => g.id === selectedGame);
@@ -193,9 +199,24 @@ function OverviewPage() {
                 <div>
                     <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
                         <span aria-hidden="true">{gameInfo?.icon}</span>
-                        {gameInfo?.name} Analytics
+                        {isUsingRealData ? activeGameData?.name : `${gameInfo?.name} Analytics`}
+                        {isUsingRealData && (
+                            <span className="text-xs font-medium bg-green-500/10 text-green-400 px-2 py-1 rounded-full">
+                                Your Data
+                            </span>
+                        )}
+                        {!isUsingRealData && (
+                            <span className="text-xs font-medium bg-amber-500/10 text-amber-400 px-2 py-1 rounded-full">
+                                Demo
+                            </span>
+                        )}
                     </h1>
-                    <p className="text-th-text-muted mt-1">{gameInfo?.description}</p>
+                    <p className="text-th-text-muted mt-1">
+                        {isUsingRealData
+                            ? `Analyzing ${activeGameData?.rowCount?.toLocaleString() || activeGameData?.rawData?.length?.toLocaleString() || 0} rows of data`
+                            : gameInfo?.description
+                        }
+                    </p>
                 </div>
             </header>
 
