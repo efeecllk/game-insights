@@ -16,21 +16,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,  // Phase 3: Integration Hub
         'Templates': 4,     // Phase 4: Community Templates
         'Predictions': 5,   // Phase 5: AI Predictions
-        'AI Analytics': 6,
-        'Funnels': 7,       // Level progression is critical
-        'Funnel Builder': 8,
-        'Engagement': 9,
-        'Monetization': 10,
-        'Attribution': 11,  // Phase 9: Attribution Analytics
-        'Health': 12,
-        'Realtime': 13,
-        'Distributions': 14,
-        'Explore': 15,
-        'User Analysis': 16,
-        'Dashboards': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Funnels': 9,       // Level progression is critical
+        'Funnel Builder': 10,
+        'Engagement': 11,
+        'Monetization': 12,
+        'Attribution': 13,  // Phase 9: Attribution Analytics
+        'Health': 14,
+        'Realtime': 15,
+        'Distributions': 16,
+        'Explore': 17,
+        'User Analysis': 18,
+        'Dashboards': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
     idle: {
         'Overview': 1,
@@ -38,21 +40,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,
         'Templates': 4,
         'Predictions': 5,
-        'AI Analytics': 6,
-        'Engagement': 7,    // Session time is critical
-        'Monetization': 8,  // Ads + IAP balance
-        'Distributions': 9, // Prestige distribution
-        'Funnels': 10,
-        'Funnel Builder': 11,
-        'Attribution': 12,  // Phase 9: Attribution Analytics
-        'Health': 13,
-        'Realtime': 14,
-        'Explore': 15,
-        'User Analysis': 16,
-        'Dashboards': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Engagement': 9,    // Session time is critical
+        'Monetization': 10,  // Ads + IAP balance
+        'Distributions': 11, // Prestige distribution
+        'Funnels': 12,
+        'Funnel Builder': 13,
+        'Attribution': 14,  // Phase 9: Attribution Analytics
+        'Health': 15,
+        'Realtime': 16,
+        'Explore': 17,
+        'User Analysis': 18,
+        'Dashboards': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
     battle_royale: {
         'Overview': 1,
@@ -60,21 +64,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,
         'Templates': 4,
         'Predictions': 5,
-        'AI Analytics': 6,
-        'Realtime': 7,      // Live matches critical
-        'Distributions': 8, // Rank distribution
-        'Engagement': 9,
-        'Health': 10,       // Server health
-        'Monetization': 11,
-        'Attribution': 12,  // Phase 9: Attribution Analytics
-        'Funnels': 13,
-        'Funnel Builder': 14,
-        'Explore': 15,
-        'User Analysis': 16,
-        'Dashboards': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Realtime': 9,      // Live matches critical
+        'Distributions': 10, // Rank distribution
+        'Engagement': 11,
+        'Health': 12,       // Server health
+        'Monetization': 13,
+        'Attribution': 14,  // Phase 9: Attribution Analytics
+        'Funnels': 15,
+        'Funnel Builder': 16,
+        'Explore': 17,
+        'User Analysis': 18,
+        'Dashboards': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
     match3_meta: {
         'Overview': 1,
@@ -82,21 +88,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,
         'Templates': 4,
         'Predictions': 5,
-        'AI Analytics': 6,
-        'Funnels': 7,       // Chapter/story progression
-        'Funnel Builder': 8,
-        'Engagement': 9,    // Decoration engagement
-        'Monetization': 10,
-        'Attribution': 11,  // Phase 9: Attribution Analytics
-        'User Analysis': 12, // Player segments
-        'Health': 13,
-        'Realtime': 14,
-        'Distributions': 15,
-        'Explore': 16,
-        'Dashboards': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Funnels': 9,       // Chapter/story progression
+        'Funnel Builder': 10,
+        'Engagement': 11,    // Decoration engagement
+        'Monetization': 12,
+        'Attribution': 13,  // Phase 9: Attribution Analytics
+        'User Analysis': 14, // Player segments
+        'Health': 15,
+        'Realtime': 16,
+        'Distributions': 17,
+        'Explore': 18,
+        'Dashboards': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
     gacha_rpg: {
         'Overview': 1,
@@ -104,21 +112,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,
         'Templates': 4,
         'Predictions': 5,
-        'AI Analytics': 6,
-        'Monetization': 7,  // Revenue is king
-        'Attribution': 8,   // Phase 9: Attribution Analytics (critical for UA)
-        'Distributions': 9, // Pull/pity distribution
-        'User Analysis': 10, // Whale identification
-        'Realtime': 11,     // Limited banner tracking
-        'Engagement': 12,
-        'Funnels': 13,
-        'Funnel Builder': 14,
-        'Health': 15,
-        'Explore': 16,
-        'Dashboards': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Monetization': 9,  // Revenue is king
+        'Attribution': 10,   // Phase 9: Attribution Analytics (critical for UA)
+        'Distributions': 11, // Pull/pity distribution
+        'User Analysis': 12, // Whale identification
+        'Realtime': 13,     // Limited banner tracking
+        'Engagement': 14,
+        'Funnels': 15,
+        'Funnel Builder': 16,
+        'Health': 17,
+        'Explore': 18,
+        'Dashboards': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
     custom: {
         'Overview': 1,
@@ -126,21 +136,23 @@ export const sidebarPriorities: Record<GameCategory, Record<string, number>> = {
         'Data Sources': 3,
         'Templates': 4,
         'Predictions': 5,
-        'AI Analytics': 6,
-        'Explore': 7,
-        'Dashboards': 8,
-        'Funnels': 9,
-        'Funnel Builder': 10,
-        'Engagement': 11,
-        'Distributions': 12,
-        'Monetization': 13,
-        'Attribution': 14,  // Phase 9: Attribution Analytics
-        'Health': 15,
-        'Realtime': 16,
-        'User Analysis': 17,
-        'A/B Testing': 18,
-        'Remote Configs': 19,
-        'Game Settings': 20,
+        'What-If Analysis': 6, // Phase 5: What-If Simulation
+        'ML Studio': 7,     // Phase 7: ML Studio
+        'AI Analytics': 8,
+        'Explore': 9,
+        'Dashboards': 10,
+        'Funnels': 11,
+        'Funnel Builder': 12,
+        'Engagement': 13,
+        'Distributions': 14,
+        'Monetization': 15,
+        'Attribution': 16,  // Phase 9: Attribution Analytics
+        'Health': 17,
+        'Realtime': 18,
+        'User Analysis': 19,
+        'A/B Testing': 20,
+        'Remote Configs': 21,
+        'Game Settings': 22,
     },
 };
 

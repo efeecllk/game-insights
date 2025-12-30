@@ -4,20 +4,30 @@
  */
 
 import { useState, useCallback, DragEvent, ChangeEvent } from 'react';
-import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard } from 'lucide-react';
-import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult } from '../../lib/importers';
+import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard, FolderOpen } from 'lucide-react';
+import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult, type FolderImportProgress } from '../../lib/importers';
+import { folderImporter, type MergeStrategy, type FolderImportResult } from '../../lib/importers/folderImporter';
 import { urlImporter } from '../../lib/importers/urlImporter';
 import { clipboardImporter } from '../../lib/importers/clipboardImporter';
 import { parseError, ErrorCode, AppError } from '../../lib/errorHandler';
+import { FolderUploadPreview } from './FolderUploadPreview';
 
 interface UploadZoneProps {
     onFileLoaded: (result: ImportResult, file?: File) => void;
+    onFolderLoaded?: (result: FolderImportResult) => void;
     isLoading?: boolean;
 }
 
-type ImportMode = 'file' | 'url' | 'paste';
+type ImportMode = 'file' | 'folder' | 'url' | 'paste';
 
-export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
+interface FolderPreviewData {
+    files: Array<{ name: string; format: string; size: number }>;
+    unsupportedFiles: string[];
+    totalSize: number;
+    rawFiles: File[];
+}
+
+export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZoneProps) {
     const [isDragging, setIsDragging] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [fileName, setFileName] = useState<string | null>(null);
@@ -26,7 +36,13 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
     const [pasteInput, setPasteInput] = useState('');
     const [localLoading, setLocalLoading] = useState(false);
 
-    const loading = isLoading || localLoading;
+    // Folder-specific state
+    const [folderPreview, setFolderPreview] = useState<FolderPreviewData | null>(null);
+    const [mergeStrategy, setMergeStrategy] = useState<MergeStrategy>('auto');
+    const [folderProgress, setFolderProgress] = useState<FolderImportProgress | undefined>();
+    const [isFolderImporting, setIsFolderImporting] = useState(false);
+
+    const loading = isLoading || localLoading || isFolderImporting;
 
     const handleFile = useCallback(async (file: File) => {
         setError(null);
@@ -141,6 +157,87 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
         }
     };
 
+    const handleFolderSelect = async (files: FileList) => {
+        setError(null);
+
+        try {
+            const analysis = await folderImporter.analyze(files);
+
+            if (analysis.supportedFiles.length === 0) {
+                setError('No supported files found in the folder');
+                return;
+            }
+
+            setFolderPreview({
+                files: analysis.supportedFiles.map(f => ({
+                    name: f.name,
+                    format: f.format,
+                    size: f.size
+                })),
+                unsupportedFiles: analysis.unsupportedFiles,
+                totalSize: analysis.totalSize,
+                rawFiles: Array.from(files).filter(f => isFormatSupported(f))
+            });
+        } catch (err) {
+            const parsed = parseError(err);
+            setError(parsed.message);
+        }
+    };
+
+    const handleFolderImport = async () => {
+        if (!folderPreview) return;
+
+        setIsFolderImporting(true);
+        setFolderProgress(undefined);
+
+        try {
+            const result = await folderImporter.import(folderPreview.rawFiles, {
+                mergeStrategy,
+                onProgress: setFolderProgress
+            });
+
+            if (!result.success) {
+                const parsed = parseError(new AppError(ErrorCode.FILE_PARSE_ERROR, result.errors[0]?.message));
+                setError(parsed.message);
+                setIsFolderImporting(false);
+                return;
+            }
+
+            // If we have merged data, use that; otherwise use the first successful file
+            if (result.mergedData && result.mergedData.success) {
+                onFileLoaded(result.mergedData);
+            } else if (onFolderLoaded) {
+                onFolderLoaded(result);
+            } else if (result.files.length > 0) {
+                // Fallback: load the first successful file
+                const firstSuccess = result.files.find(f => f.success);
+                if (firstSuccess) {
+                    onFileLoaded(firstSuccess);
+                }
+            }
+
+            setFolderPreview(null);
+            setFileName(`${result.successfulFiles} files imported`);
+        } catch (err) {
+            const parsed = parseError(err);
+            setError(parsed.message);
+        } finally {
+            setIsFolderImporting(false);
+        }
+    };
+
+    const handleFolderCancel = () => {
+        setFolderPreview(null);
+        setError(null);
+    };
+
+    const handleFolderInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            handleFolderSelect(files);
+        }
+    };
+
     const handleDragOver = (e: DragEvent) => {
         e.preventDefault();
         setIsDragging(true);
@@ -185,6 +282,17 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
                 >
                     <Upload className="w-4 h-4" />
                     File Upload
+                </button>
+                <button
+                    onClick={() => setMode('folder')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                        mode === 'folder'
+                            ? 'bg-accent-primary text-white'
+                            : 'bg-bg-elevated text-zinc-400 hover:text-white'
+                    }`}
+                >
+                    <FolderOpen className="w-4 h-4" />
+                    Folder
                 </button>
                 <button
                     onClick={() => setMode('url')}
@@ -284,6 +392,89 @@ export function UploadZone({ onFileLoaded, isLoading }: UploadZoneProps) {
                         )}
                     </div>
                 </label>
+            )}
+
+            {/* Folder Upload Mode */}
+            {mode === 'folder' && (
+                folderPreview ? (
+                    <FolderUploadPreview
+                        files={folderPreview.files.map(f => ({
+                            ...f,
+                            format: f.format as import('../../lib/importers').FileFormat
+                        }))}
+                        unsupportedFiles={folderPreview.unsupportedFiles}
+                        totalSize={folderPreview.totalSize}
+                        isImporting={isFolderImporting}
+                        progress={folderProgress}
+                        mergeStrategy={mergeStrategy}
+                        onMergeStrategyChange={setMergeStrategy}
+                        onImport={handleFolderImport}
+                        onCancel={handleFolderCancel}
+                    />
+                ) : (
+                    <label
+                        className={`
+                            relative flex flex-col items-center justify-center
+                            w-full h-64 p-6
+                            border-2 border-dashed rounded-card
+                            cursor-pointer transition-all duration-200
+                            border-white/[0.1] bg-bg-card hover:border-accent-primary/50 hover:bg-bg-card-hover
+                            ${error ? 'border-red-500/50' : ''}
+                            ${loading ? 'pointer-events-none opacity-60' : ''}
+                        `}
+                    >
+                        <input
+                            type="file"
+                            // @ts-expect-error webkitdirectory is not in React types
+                            webkitdirectory=""
+                            directory=""
+                            multiple
+                            onChange={handleFolderInputChange}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            disabled={loading}
+                        />
+
+                        <div className="flex flex-col items-center gap-4 text-center">
+                            {error ? (
+                                <>
+                                    <AlertCircle className="w-12 h-12 text-red-500" />
+                                    <div>
+                                        <p className="text-red-500 font-medium">{error}</p>
+                                        <p className="text-zinc-500 text-sm mt-1">Click to try again</p>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="w-16 h-16 rounded-2xl bg-accent-primary/10 flex items-center justify-center">
+                                        <FolderOpen className="w-8 h-8 text-accent-primary" />
+                                    </div>
+                                    <div>
+                                        <p className="text-white font-medium">
+                                            Click to select a folder
+                                        </p>
+                                        <p className="text-zinc-500 text-sm mt-1">
+                                            All supported files will be imported
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center gap-4 mt-2">
+                                        <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <FileSpreadsheet className="w-4 h-4" />
+                                            CSV/Excel
+                                        </div>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <FileText className="w-4 h-4" />
+                                            JSON
+                                        </div>
+                                        <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <Database className="w-4 h-4" />
+                                            SQLite
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </label>
+                )
             )}
 
             {/* URL Import Mode */}

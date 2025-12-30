@@ -19,6 +19,8 @@
         "remoteConfigs": "Configuraciones Remotas",
         "abTesting": "Pruebas A/B",
         "attribution": "Atribucion",
+        "whatIf": "Analisis What-If",
+        "mlStudio": "ML Studio",
         "settings": "Configuracion del Juego"
     },
     "sidebar": {

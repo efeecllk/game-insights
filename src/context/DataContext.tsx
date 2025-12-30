@@ -21,6 +21,7 @@ interface DataContextType {
     activeGameData: GameData | null;
     setActiveGameData: (data: GameData | null) => void;
     addGameData: (data: Omit<GameData, 'id'>) => Promise<GameData>;
+    addMultipleGameData: (dataList: Omit<GameData, 'id'>[]) => Promise<GameData[]>;
     removeGameData: (id: string) => Promise<void>;
 
     // Game Profiles
@@ -87,6 +88,25 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return newData;
     }, []);
 
+    const addMultipleGameData = useCallback(async (dataList: Omit<GameData, 'id'>[]): Promise<GameData[]> => {
+        const newDataList: GameData[] = dataList.map(data => ({
+            ...data,
+            id: generateId(),
+        }));
+
+        // Save all in parallel
+        await Promise.all(newDataList.map(data => saveGameData(data)));
+
+        setGameDataList(prev => [...prev, ...newDataList]);
+
+        // Set the first one as active
+        if (newDataList.length > 0) {
+            setActiveGameData(newDataList[0]);
+        }
+
+        return newDataList;
+    }, []);
+
     const removeGameData = useCallback(async (id: string): Promise<void> => {
         await deleteGameData(id);
         setGameDataList(prev => prev.filter(d => d.id !== id));
@@ -113,6 +133,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
             activeGameData,
             setActiveGameData,
             addGameData,
+            addMultipleGameData,
             removeGameData,
             profiles,
             activeProfile,

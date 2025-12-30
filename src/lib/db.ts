@@ -5,7 +5,7 @@
  */
 
 export const DB_NAME = 'game-insights-db';
-export const DB_VERSION = 6;
+export const DB_VERSION = 7;
 
 let db: IDBDatabase | null = null;
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -160,6 +160,22 @@ export async function getDatabase(): Promise<IDBDatabase> {
 
             if (!database.objectStoreNames.contains('gameSettings')) {
                 database.createObjectStore('gameSettings', { keyPath: 'gameId' });
+            }
+
+            // Version 7: ML Studio stores
+            if (!database.objectStoreNames.contains('trainingJobs')) {
+                const jobStore = database.createObjectStore('trainingJobs', { keyPath: 'id' });
+                jobStore.createIndex('status', 'status', { unique: false });
+                jobStore.createIndex('modelType', 'modelType', { unique: false });
+                jobStore.createIndex('createdAt', 'createdAt', { unique: false });
+            }
+
+            if (!database.objectStoreNames.contains('deployedModels')) {
+                const modelStore = database.createObjectStore('deployedModels', { keyPath: 'id' });
+                modelStore.createIndex('modelType', 'modelType', { unique: false });
+                modelStore.createIndex('isActive', 'isActive', { unique: false });
+                modelStore.createIndex('version', 'version', { unique: false });
+                modelStore.createIndex('deployedAt', 'deployedAt', { unique: false });
             }
         };
     });

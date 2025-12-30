@@ -66,6 +66,8 @@ const MonetizationPage = lazy(() => import('./pages/Monetization'));
 const AnalyticsPage = lazy(() => import('./pages/Analytics'));
 const DataHubPage = lazy(() => import('./pages/DataHub'));
 const TemplatesPage = lazy(() => import('./pages/Templates'));
+const WhatIfPage = lazy(() => import('./pages/WhatIf'));
+const MLStudioPage = lazy(() => import('./pages/MLStudio'));
 
 // Data & Types
 import { createDataProvider, gameCategories } from './lib/dataProviders';
@@ -373,6 +375,8 @@ function getPageTitle(pathname: string): string {
         '/monetization': 'Monetization',
         '/ab-testing': 'A/B Testing',
         '/attribution': 'Attribution',
+        '/what-if': 'What-If Analysis',
+        '/ml-studio': 'ML Studio',
     };
     return titles[pathname] || 'Page';
 }
@@ -494,6 +498,16 @@ function AppContent() {
                         <Route path="/ab-testing" element={
                             <Suspense fallback={<PageLoader />}>
                                 <ABTestingPage />
+                            </Suspense>
+                        } />
+                        <Route path="/what-if" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <WhatIfPage />
+                            </Suspense>
+                        } />
+                        <Route path="/ml-studio" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <MLStudioPage />
                             </Suspense>
                         } />
                     </Routes>

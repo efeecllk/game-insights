@@ -23,6 +23,12 @@ export interface ImportMetadata {
     sheetName?: string;
     importedAt: string;
     processingTimeMs: number;
+    /** For folder imports: name of the folder */
+    folderName?: string;
+    /** For folder imports: index of this file in the folder */
+    fileIndex?: number;
+    /** For folder imports: total files in folder */
+    totalFilesInFolder?: number;
 }
 
 export interface ImportError {
@@ -34,6 +40,7 @@ export interface ImportError {
 
 export type ImportSource =
     | 'file'
+    | 'folder'
     | 'url'
     | 'clipboard'
     | 'api';
@@ -106,6 +113,15 @@ export { excelImporter, type ExcelImportOptions } from './excelImporter';
 export { sqliteImporter, type SQLiteImportOptions } from './sqliteImporter';
 export { urlImporter, type URLImportOptions } from './urlImporter';
 export { clipboardImporter } from './clipboardImporter';
+export {
+    folderImporter,
+    type FolderImportOptions,
+    type FolderImportResult,
+    type FolderImportProgress,
+    type FileImportResult,
+    type ColumnCompatibility,
+    type MergeStrategy
+} from './folderImporter';
 
 // Import all importers for unified import function
 import { csvImporter } from './csvImporter';

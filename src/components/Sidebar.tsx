@@ -38,6 +38,8 @@ import {
     Brain,
     Plus,
     Target,
+    Lightbulb,
+    FlaskConical,
     LucideIcon,
     Sun,
     Moon,
@@ -75,6 +77,8 @@ const allNavItems: NavItemType[] = [
     { icon: Wrench, labelKey: 'navigation.remoteConfigs', label: 'Remote Configs', path: '/remote-configs' },
     { icon: Zap, labelKey: 'navigation.abTesting', label: 'A/B Testing', path: '/ab-testing' },
     { icon: Target, labelKey: 'navigation.attribution', label: 'Attribution', path: '/attribution', badge: 'New' },
+    { icon: Lightbulb, labelKey: 'navigation.whatIf', label: 'What-If Analysis', path: '/what-if', badge: 'New' },
+    { icon: FlaskConical, labelKey: 'navigation.mlStudio', label: 'ML Studio', path: '/ml-studio', badge: 'New' },
     { icon: Settings, labelKey: 'navigation.settings', label: 'Game Settings', path: '/settings' },
 ];
 

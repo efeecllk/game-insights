@@ -23,7 +23,10 @@ import {
     BarChart3,
     Settings,
     Trash2,
+    Brain,
+    Sparkles,
 } from 'lucide-react';
+import { ExperimentInsights } from '../components/analytics/ExperimentInsights';
 import {
     Experiment,
     ExperimentStatus,
@@ -52,7 +55,7 @@ import { generateId } from '../lib/db';
 export function ABTestingPage() {
     const [experiments, setExperiments] = useState<Experiment[]>([]);
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
-    const [view, setView] = useState<'list' | 'detail' | 'create' | 'calculator'>('list');
+    const [view, setView] = useState<'list' | 'detail' | 'create' | 'calculator' | 'insights'>('list');
     const [loading, setLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState<ExperimentStatus | 'all'>('all');
 
@@ -143,6 +146,13 @@ export function ABTestingPage() {
                 </div>
                 <div className="flex gap-3">
                     <button
+                        onClick={() => setView('insights')}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
+                    >
+                        <Sparkles className="w-4 h-4 text-chart-orange" />
+                        AI Insights
+                    </button>
+                    <button
                         onClick={() => setView('calculator')}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
                     >
@@ -224,6 +234,8 @@ export function ABTestingPage() {
                 />
             ) : view === 'calculator' ? (
                 <SampleSizeCalculator onBack={() => setView('list')} />
+            ) : view === 'insights' ? (
+                <AggregateInsightsView experiments={experiments} onBack={() => setView('list')} />
             ) : null}
         </div>
     );
@@ -791,6 +803,24 @@ function ExperimentDetail({
                 </div>
             )}
 
+            {/* AI Insights Panel */}
+            {(experiment.status === 'running' || experiment.status === 'completed') && experiment.results && (
+                <div className="bg-bg-card rounded-card border border-white/[0.06]">
+                    <div className="p-6 border-b border-white/[0.06]">
+                        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                            <Brain className="w-5 h-5 text-chart-orange" />
+                            AI Intelligence
+                        </h3>
+                        <p className="text-sm text-zinc-500 mt-1">
+                            Automated analysis and recommendations
+                        </p>
+                    </div>
+                    <div className="p-6">
+                        <ExperimentInsights experiment={experiment} />
+                    </div>
+                </div>
+            )}
+
             {/* Conclusion notes for completed experiments */}
             {experiment.status === 'completed' && experiment.conclusionNotes && (
                 <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
@@ -1287,6 +1317,57 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// ============================================================================
+// Aggregate Insights View
+// ============================================================================
+
+function AggregateInsightsView({
+    experiments,
+    onBack,
+}: {
+    experiments: Experiment[];
+    onBack: () => void;
+}) {
+    return (
+        <div className="space-y-6">
+            <button
+                onClick={onBack}
+                className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors"
+            >
+                <ChevronRight className="w-4 h-4 rotate-180" />
+                Back to experiments
+            </button>
+
+            <div className="bg-bg-card rounded-card border border-white/[0.06]">
+                <div className="p-6 border-b border-white/[0.06]">
+                    <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+                        <Brain className="w-5 h-5 text-chart-orange" />
+                        AI-Powered Experimentation Insights
+                    </h2>
+                    <p className="text-sm text-zinc-500 mt-1">
+                        Aggregate learnings and patterns across all your experiments
+                    </p>
+                </div>
+
+                <div className="p-6">
+                    {experiments.length === 0 ? (
+                        <div className="text-center py-12">
+                            <FlaskConical className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
+                            <h3 className="text-lg font-semibold text-white mb-2">No experiments to analyze</h3>
+                            <p className="text-zinc-500">Create and run some experiments to see AI insights</p>
+                        </div>
+                    ) : (
+                        <ExperimentInsights
+                            experiments={experiments}
+                            showAggregate={true}
+                        />
+                    )}
                 </div>
             </div>
         </div>
