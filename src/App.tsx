@@ -399,21 +399,23 @@ function AppContent() {
 
     const pageTitle = getPageTitle(location.pathname);
 
+    // Don't render dashboard when onboarding is active
+    if (showOnboarding) {
+        return (
+            <WelcomeFlow
+                onComplete={() => setShowOnboarding(false)}
+                onSkip={() => {
+                    localStorage.setItem('game-insights-onboarded', 'true');
+                    setShowOnboarding(false);
+                }}
+            />
+        );
+    }
+
     return (
         <>
             {/* Skip Link for Keyboard Navigation */}
             <SkipLink />
-
-            {/* Onboarding Flow */}
-            {showOnboarding && (
-                <WelcomeFlow
-                    onComplete={() => setShowOnboarding(false)}
-                    onSkip={() => {
-                        localStorage.setItem('game-insights-onboarded', 'true');
-                        setShowOnboarding(false);
-                    }}
-                />
-            )}
 
             <div className="min-h-screen bg-th-bg-base flex">
                 {/* Sidebar Navigation */}
