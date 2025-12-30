@@ -1,12 +1,15 @@
 /**
- * Overview Page - GameAnalytics Style
- * Main dashboard with KPI cards and Active Users chart
+ * Overview Page - Design System v2
+ * Fully theme-aware GameAnalytics-style dashboard
  */
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactECharts from 'echarts-for-react';
-import { Users, Clock, UserPlus, Activity, TrendingUp, TrendingDown, LucideIcon } from 'lucide-react';
+import { Users, Clock, UserPlus, Activity, LucideIcon, Info } from 'lucide-react';
+import { Card } from '../components/ui/Card';
+import { KPICardCompact } from '../components/ui/KPICard';
+import { useTheme } from '../context/ThemeContext';
 
 // Sample data for demo
 const activeUsersData = {
@@ -33,45 +36,52 @@ const kpiData: KPIDataItem[] = [
 export function OverviewPage() {
     const [activeTab, setActiveTab] = useState<'overview' | 'integration'>('overview');
     const { t } = useTranslation();
+    const { resolvedTheme } = useTheme();
 
     return (
         <div className="space-y-6">
             {/* Game Header */}
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <Card variant="default" padding="md" animate staggerIndex={1}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
-                        <span className="text-white text-xl font-bold">⚔️</span>
+                    <div className="w-12 h-12 bg-th-bg-elevated rounded-xl flex items-center justify-center border border-th-border">
+                        <span className="text-xl" role="img" aria-label="Game icon">⚔️</span>
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900">Event Forge</h1>
-                        <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
-                            <span>{t('common.role')}: <span className="text-gray-700">{t('common.admin')}</span></span>
-                            <span>{t('common.organization')}: <span className="text-gray-700">GA Mobile</span></span>
-                            <span>{t('common.platform')}: <span className="text-gray-700">🎮</span></span>
-                            <span className="text-gray-400">SDK</span>
+                        <h1 className="text-xl font-display font-bold text-th-text-primary">Event Forge</h1>
+                        <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
+                            <span>{t('common.role')}: <span className="text-th-text-secondary">{t('common.admin')}</span></span>
+                            <span>{t('common.organization')}: <span className="text-th-text-secondary">GA Mobile</span></span>
+                            <span>{t('common.platform')}: <span className="text-th-text-secondary">🎮</span></span>
+                            <span className="text-th-text-disabled">SDK</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Card>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200">
-                <div className="flex gap-6">
+            <div className="border-b border-th-border">
+                <div className="flex gap-6" role="tablist" aria-label="Overview sections">
                     <button
+                        role="tab"
+                        aria-selected={activeTab === 'overview'}
+                        aria-controls="panel-overview"
                         onClick={() => setActiveTab('overview')}
-                        className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'overview'
-                                ? 'border-violet-600 text-violet-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
-                            }`}
+                        className={`pb-3 text-sm font-medium border-b-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-th-accent-primary focus-visible:ring-offset-2 ${activeTab === 'overview'
+                            ? 'border-th-accent-primary text-th-accent-primary'
+                            : 'border-transparent text-th-text-muted hover:text-th-text-secondary'
+                        }`}
                     >
                         {t('pages.overview.tabs.overview')}
                     </button>
                     <button
+                        role="tab"
+                        aria-selected={activeTab === 'integration'}
+                        aria-controls="panel-integration"
                         onClick={() => setActiveTab('integration')}
-                        className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'integration'
-                                ? 'border-violet-600 text-violet-600'
-                                : 'border-transparent text-gray-500 hover:text-gray-700'
-                            }`}
+                        className={`pb-3 text-sm font-medium border-b-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-th-accent-primary focus-visible:ring-offset-2 ${activeTab === 'integration'
+                            ? 'border-th-accent-primary text-th-accent-primary'
+                            : 'border-transparent text-th-text-muted hover:text-th-text-secondary'
+                        }`}
                     >
                         {t('pages.overview.tabs.integration')}
                     </button>
@@ -79,78 +89,124 @@ export function OverviewPage() {
             </div>
 
             {activeTab === 'overview' && (
-                <>
+                <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" className="space-y-6">
                     {/* Overview Section */}
-                    <div className="bg-white rounded-xl border border-gray-200">
-                        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
-                            <h2 className="font-semibold text-gray-900">{t('pages.overview.sections.overview')}</h2>
-                            <button className="text-sm text-violet-600 hover:underline">{t('pages.overview.sections.explorer')}</button>
+                    <Card variant="default" padding="none" animate staggerIndex={2}>
+                        <div className="p-4 border-b border-th-border-subtle flex items-center justify-between">
+                            <h2 className="font-display font-semibold text-th-text-primary">{t('pages.overview.sections.overview')}</h2>
+                            <button className="text-sm text-th-accent-primary hover:text-th-accent-primary-hover transition-colors">
+                                {t('pages.overview.sections.explorer')}
+                            </button>
                         </div>
-                        <div className="grid grid-cols-4 divide-x divide-gray-100">
+                        <div className="grid grid-cols-4 divide-x divide-th-border-subtle">
                             {kpiData.map((kpi) => (
-                                <KPICard key={kpi.labelKey} {...kpi} t={t} />
+                                <KPICardCompact
+                                    key={kpi.labelKey}
+                                    label={t(kpi.labelKey)}
+                                    value={kpi.value}
+                                    change={kpi.change * 100}
+                                    changeType={kpi.trend}
+                                    icon={kpi.icon}
+                                />
                             ))}
                         </div>
-                    </div>
+                    </Card>
 
                     {/* Active Users Chart */}
-                    <div className="bg-white rounded-xl border border-gray-200 p-4">
+                    <Card variant="default" padding="md" animate staggerIndex={3}>
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center gap-2">
-                                <h3 className="font-semibold text-gray-900">{t('pages.overview.sections.activeUsers')}</h3>
-                                <span className="text-xs text-gray-400">i</span>
-                                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                                <h3 className="font-display font-semibold text-th-text-primary">{t('pages.overview.sections.activeUsers')}</h3>
+                                <button
+                                    className="text-th-text-disabled hover:text-th-text-muted transition-colors"
+                                    aria-label="More information about active users"
+                                >
+                                    <Info className="w-4 h-4" />
+                                </button>
+                                <span className="badge badge-success text-[10px]">
                                     {t('common.live')}
                                 </span>
                             </div>
-                            <span className="text-sm text-gray-500">{t('common.realtime')}</span>
+                            <span className="text-sm text-th-text-muted">{t('common.realtime')}</span>
                         </div>
-                        <ActiveUsersChart data={activeUsersData} t={t} />
-                    </div>
-                </>
+                        <ActiveUsersChart data={activeUsersData} isDark={resolvedTheme === 'dark'} t={t} />
+                    </Card>
+                </div>
             )}
 
-            {activeTab === 'integration' && <IntegrationTab />}
+            {activeTab === 'integration' && (
+                <div id="panel-integration" role="tabpanel" aria-labelledby="tab-integration">
+                    <IntegrationTab />
+                </div>
+            )}
         </div>
     );
 }
 
-interface KPICardProps extends KPIDataItem {
+function ActiveUsersChart({
+    data,
+    isDark,
+    t,
+}: {
+    data: { timestamps: string[]; values: number[] };
+    isDark: boolean;
     t: (key: string) => string;
-}
+}) {
+    // Theme-aware chart colors
+    const colors = {
+        text: isDark ? '#a1a1aa' : '#6b7280',
+        grid: isDark ? 'rgba(255,255,255,0.04)' : '#f3f4f6',
+        line: isDark ? '#a78bfa' : '#8b5cf6',
+        area: isDark
+            ? [{ offset: 0, color: 'rgba(167, 139, 250, 0.15)' }, { offset: 1, color: 'rgba(167, 139, 250, 0)' }]
+            : [{ offset: 0, color: 'rgba(139, 92, 246, 0.1)' }, { offset: 1, color: 'rgba(139, 92, 246, 0)' }],
+        tooltip: {
+            bg: isDark ? '#242430' : '#ffffff',
+            border: isDark ? 'rgba(255,255,255,0.1)' : '#e5e7eb',
+            text: isDark ? '#f4f4f5' : '#374151',
+        },
+    };
 
-function KPICard({ labelKey, value, change, trend, tooltipKey, t }: KPICardProps) {
-    return (
-        <div className="p-4 hover:bg-gray-50 transition-colors cursor-pointer">
-            <div className="flex items-center gap-1 text-sm text-gray-500 mb-2">
-                <span>{t(labelKey)}</span>
-                <span className="text-xs text-gray-400" title={t(tooltipKey)}>i</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{value}</div>
-            <div className={`flex items-center gap-1 text-sm mt-1 ${trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-                {trend === 'up' ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                <span>{change > 0 ? '+' : ''}{(change * 100).toFixed(2)}%</span>
-            </div>
-        </div>
-    );
-}
-
-function ActiveUsersChart({ data, t }: { data: { timestamps: string[]; values: number[] }; t: (key: string) => string }) {
     const option = {
-        tooltip: { trigger: 'axis', backgroundColor: '#fff', borderColor: '#e5e7eb', borderWidth: 1, textStyle: { color: '#374151' } },
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: colors.tooltip.bg,
+            borderColor: colors.tooltip.border,
+            borderWidth: 1,
+            textStyle: { color: colors.tooltip.text, fontFamily: 'DM Sans' },
+            padding: [8, 12],
+        },
         grid: { left: 50, right: 20, top: 20, bottom: 30 },
-        xAxis: { type: 'category', data: data.timestamps, axisLine: { lineStyle: { color: '#e5e7eb' } }, axisLabel: { color: '#6b7280', fontSize: 11 }, axisTick: { show: false } },
-        yAxis: { type: 'value', max: 500, axisLine: { show: false }, axisLabel: { color: '#6b7280', fontSize: 11 }, splitLine: { lineStyle: { color: '#f3f4f6' } } },
+        xAxis: {
+            type: 'category',
+            data: data.timestamps,
+            axisLine: { lineStyle: { color: colors.grid } },
+            axisLabel: { color: colors.text, fontSize: 11, fontFamily: 'DM Sans' },
+            axisTick: { show: false },
+        },
+        yAxis: {
+            type: 'value',
+            max: 500,
+            axisLine: { show: false },
+            axisLabel: { color: colors.text, fontSize: 11, fontFamily: 'JetBrains Mono' },
+            splitLine: { lineStyle: { color: colors.grid } },
+        },
         series: [{
             name: 'Active Users',
             type: 'line',
             data: data.values,
-            smooth: false,
+            smooth: 0.3,
             symbol: 'circle',
             symbolSize: 6,
-            lineStyle: { color: '#6366f1', width: 2 },
-            itemStyle: { color: '#6366f1', borderColor: '#fff', borderWidth: 2 },
-            areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(99, 102, 241, 0.1)' }, { offset: 1, color: 'rgba(99, 102, 241, 0)' }] } },
+            lineStyle: { color: colors.line, width: 2 },
+            itemStyle: { color: colors.line, borderColor: isDark ? '#16161e' : '#ffffff', borderWidth: 2 },
+            areaStyle: {
+                color: {
+                    type: 'linear',
+                    x: 0, y: 0, x2: 0, y2: 1,
+                    colorStops: colors.area,
+                },
+            },
         }],
     };
 
@@ -160,8 +216,8 @@ function ActiveUsersChart({ data, t }: { data: { timestamps: string[]; values: n
                 <ReactECharts option={option} style={{ height: 280 }} />
             </div>
             <div className="text-right pb-8">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                    <span className="w-3 h-0.5 bg-indigo-500 rounded" />
+                <div className="flex items-center gap-2 text-sm text-th-text-muted">
+                    <span className="w-3 h-0.5 bg-th-accent-primary rounded" aria-hidden="true" />
                     <span>{t('common.time')}</span>
                 </div>
             </div>
@@ -171,39 +227,46 @@ function ActiveUsersChart({ data, t }: { data: { timestamps: string[]; values: n
 
 function IntegrationTab() {
     const eventTypes = [
-        { name: 'Resource events', count: 988, color: 'bg-blue-500' },
-        { name: 'Progression events', count: 563634, color: 'bg-violet-500' },
-        { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-gray-300' },
-        { name: 'Design events', count: 286378, color: 'bg-green-500' },
-        { name: 'Business events', count: 229, color: 'bg-orange-500' },
-        { name: 'Ad events', count: 5264, color: 'bg-pink-500' },
-        { name: 'Impression events', count: 511, color: 'bg-cyan-500' },
+        { name: 'Resource events', count: 988, color: 'bg-th-info' },
+        { name: 'Progression events', count: 563634, color: 'bg-th-accent-primary' },
+        { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-th-text-disabled' },
+        { name: 'Design events', count: 286378, color: 'bg-th-success' },
+        { name: 'Business events', count: 229, color: 'bg-th-warning' },
+        { name: 'Ad events', count: 5264, color: 'bg-th-chart-3' },
+        { name: 'Impression events', count: 511, color: 'bg-th-chart-4' },
     ];
 
     return (
         <div className="space-y-6">
-            <div className="bg-white rounded-xl border border-gray-200 p-4">
+            <Card variant="default" padding="md" animate staggerIndex={1}>
                 <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-gray-900">Total events sent yesterday</h3>
-                    <button className="text-sm text-violet-600 hover:underline">Event types ↗</button>
+                    <h3 className="font-display font-semibold text-th-text-primary">Total events sent yesterday</h3>
+                    <button className="text-sm text-th-accent-primary hover:text-th-accent-primary-hover transition-colors">
+                        Event types ↗
+                    </button>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {eventTypes.map((event) => (
                         <div key={event.name} className="flex items-center gap-2">
-                            <span className={`w-2 h-2 rounded-full ${event.color}`} />
-                            <span className="text-sm text-gray-600">{event.name}</span>
+                            <span className={`w-2 h-2 rounded-full ${event.color} flex-shrink-0`} aria-hidden="true" />
+                            <span className="text-sm text-th-text-secondary truncate">{event.name}</span>
                             {event.count !== null ? (
-                                <span className="text-sm font-medium text-gray-900 ml-auto">{event.count.toLocaleString()}</span>
+                                <span className="text-sm font-mono font-medium text-th-text-primary ml-auto">
+                                    {event.count.toLocaleString()}
+                                </span>
                             ) : (
-                                <span className="text-sm text-red-500 ml-auto">{event.status}</span>
+                                <span className="text-sm text-th-error ml-auto">{event.status}</span>
                             )}
                         </div>
                     ))}
                 </div>
-            </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
-                <p className="text-gray-500">📊 Event charts will appear here</p>
-            </div>
+            </Card>
+            <Card variant="default" padding="lg" animate staggerIndex={2} className="text-center">
+                <div className="py-8">
+                    <div className="text-4xl mb-3" role="img" aria-label="Chart placeholder">📊</div>
+                    <p className="text-th-text-muted">Event charts will appear here</p>
+                </div>
+            </Card>
         </div>
     );
 }

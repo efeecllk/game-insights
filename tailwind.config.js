@@ -7,7 +7,10 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                // Distinctive typography system
+                sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                display: ['Sora', 'system-ui', 'sans-serif'],
+                mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
             },
             colors: {
                 // Semantic background colors

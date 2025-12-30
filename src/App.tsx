@@ -88,7 +88,7 @@ function SkipLink() {
     return (
         <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-th-accent-primary focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-th-bg-base"
+            className="skip-link"
         >
             Skip to main content
         </a>
@@ -106,7 +106,7 @@ function PageLoader() {
     return (
         <div className="flex items-center justify-center min-h-[400px]" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-3">
-                <Loader2 className="w-8 h-8 text-accent-primary animate-spin" aria-hidden="true" />
+                <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" aria-hidden="true" />
                 <p className="text-sm text-th-text-muted">Loading...</p>
             </div>
         </div>
