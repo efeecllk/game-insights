@@ -48,6 +48,7 @@ import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
 import { sidebarPriorities } from '../lib/gamePriorities';
 import { DataModeIndicator } from './ui/DataModeIndicator';
+import { MLStatusBadge } from './ml';
 
 interface NavItemType {
     icon: LucideIcon;
@@ -117,6 +118,7 @@ export function Sidebar() {
             {/* Data Mode Indicator */}
             <div className="px-2 py-2 border-b border-th-border-subtle">
                 <DataModeIndicator />
+                <MLStatusBadge />
             </div>
 
             {/* Navigation - dynamically sorted */}

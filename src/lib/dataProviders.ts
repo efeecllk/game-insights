@@ -17,6 +17,42 @@ import { GameData } from './dataStore';
 import { RealDataProvider, EmptyDataProvider } from './realDataProvider';
 
 /**
+ * Spender tier data structure
+ */
+export interface SpenderTier {
+    tier: string;
+    users: number;
+    revenue: number;
+    percentage: number;
+}
+
+/**
+ * Attribution channel data structure
+ */
+export interface AttributionChannel {
+    name: string;
+    users: number;
+    revenue: number;
+    percentage: number;
+}
+
+/**
+ * Revenue time series point
+ */
+export interface RevenueTimePoint {
+    date: string;
+    value: number;
+}
+
+/**
+ * Session metrics
+ */
+export interface SessionMetrics {
+    avgSessionLength: number;
+    sessionsPerUser: number;
+}
+
+/**
  * Abstract data provider interface
  */
 export interface IDataProvider {
@@ -25,6 +61,21 @@ export interface IDataProvider {
     getKPIData(): KPIData[];
     getRevenueData(): TimeSeriesData[];
     getSegmentData(): SegmentData[];
+
+    // Extended metrics
+    getDAU(): number;
+    getMAU(): number;
+    calculateARPU(): number;
+    getTotalRevenue(): number;
+    getRetentionDay(day: number): number;
+    getAvgSessionLength(): number;
+    getPayerConversion(): number;
+    getSpenderTiers(): SpenderTier[];
+    getRevenueTimeSeries(period: 'daily' | 'weekly' | 'monthly'): RevenueTimePoint[];
+    getAttributionChannels(): AttributionChannel[];
+    calculateFunnelSteps(stepDefinitions: Array<{ name: string; event?: string; condition?: Record<string, unknown> }>): FunnelStep[];
+    getHistoricalGrowthRate(): number;
+    getSessionMetrics(): SessionMetrics;
 }
 
 /**
@@ -40,9 +91,105 @@ const baseRetentionCurve = (
     benchmark: [100, 42, 28, 18, 12, 7],
 });
 
+/**
+ * Base class with default implementations for extended metrics
+ */
+abstract class BaseDataProvider implements IDataProvider {
+    abstract getRetentionData(): RetentionData;
+    abstract getFunnelData(): FunnelStep[];
+    abstract getKPIData(): KPIData[];
+    abstract getRevenueData(): TimeSeriesData[];
+    abstract getSegmentData(): SegmentData[];
+
+    getDAU(): number {
+        return 50000;
+    }
+
+    getMAU(): number {
+        return 250000;
+    }
+
+    calculateARPU(): number {
+        return 0.15;
+    }
+
+    getTotalRevenue(): number {
+        return 105000;
+    }
+
+    getRetentionDay(day: number): number {
+        const retention = this.getRetentionData();
+        const dayIndex = retention.days.findIndex(d => d.includes(day.toString()));
+        return dayIndex >= 0 ? retention.values[dayIndex] : 0;
+    }
+
+    getAvgSessionLength(): number {
+        return 8.5;
+    }
+
+    getPayerConversion(): number {
+        return 3.5;
+    }
+
+    getSpenderTiers(): SpenderTier[] {
+        return [
+            { tier: 'Non-Payers', users: 45000, revenue: 0, percentage: 90 },
+            { tier: 'Minnows ($1-$10)', users: 3500, revenue: 12250, percentage: 7 },
+            { tier: 'Dolphins ($10-$100)', users: 1200, revenue: 42000, percentage: 2.4 },
+            { tier: 'Whales ($100+)', users: 300, revenue: 45000, percentage: 0.6 },
+        ];
+    }
+
+    getRevenueTimeSeries(period: 'daily' | 'weekly' | 'monthly'): RevenueTimePoint[] {
+        const today = new Date();
+        const points: RevenueTimePoint[] = [];
+        const count = period === 'daily' ? 30 : period === 'weekly' ? 12 : 6;
+
+        for (let i = count - 1; i >= 0; i--) {
+            const date = new Date(today);
+            if (period === 'daily') date.setDate(date.getDate() - i);
+            else if (period === 'weekly') date.setDate(date.getDate() - i * 7);
+            else date.setMonth(date.getMonth() - i);
+
+            points.push({
+                date: date.toISOString().slice(0, 10),
+                value: 3000 + Math.random() * 1500,
+            });
+        }
+        return points;
+    }
+
+    getAttributionChannels(): AttributionChannel[] {
+        return [
+            { name: 'Organic', users: 12500, revenue: 18750, percentage: 28 },
+            { name: 'Facebook Ads', users: 8200, revenue: 24600, percentage: 22 },
+            { name: 'Google Ads', users: 6800, revenue: 20400, percentage: 18 },
+            { name: 'Apple Search', users: 4500, revenue: 11250, percentage: 12 },
+            { name: 'Referral', users: 3200, revenue: 9600, percentage: 10 },
+            { name: 'Direct', users: 2800, revenue: 8400, percentage: 10 },
+        ];
+    }
+
+    calculateFunnelSteps(_stepDefinitions: Array<{ name: string; event?: string; condition?: Record<string, unknown> }>): FunnelStep[] {
+        // Default implementation returns the normal funnel data
+        return this.getFunnelData();
+    }
+
+    getHistoricalGrowthRate(): number {
+        return 5.2;
+    }
+
+    getSessionMetrics(): SessionMetrics {
+        return {
+            avgSessionLength: this.getAvgSessionLength(),
+            sessionsPerUser: 3.2,
+        };
+    }
+}
+
 // ============ PUZZLE GAME DATA ============
 
-export class PuzzleGameDataProvider implements IDataProvider {
+export class PuzzleGameDataProvider extends BaseDataProvider {
     getRetentionData(): RetentionData {
         return baseRetentionCurve(42, 18, 5);
     }
@@ -94,7 +241,7 @@ export class PuzzleGameDataProvider implements IDataProvider {
 
 // ============ IDLE GAME DATA ============
 
-export class IdleGameDataProvider implements IDataProvider {
+export class IdleGameDataProvider extends BaseDataProvider {
     getRetentionData(): RetentionData {
         return baseRetentionCurve(55, 25, 12);
     }
@@ -145,7 +292,7 @@ export class IdleGameDataProvider implements IDataProvider {
 
 // ============ BATTLE ROYALE DATA ============
 
-export class BattleRoyaleDataProvider implements IDataProvider {
+export class BattleRoyaleDataProvider extends BaseDataProvider {
     getRetentionData(): RetentionData {
         return baseRetentionCurve(38, 15, 6);
     }
@@ -196,7 +343,7 @@ export class BattleRoyaleDataProvider implements IDataProvider {
 
 // ============ MATCH-3 META DATA ============
 
-export class Match3MetaDataProvider implements IDataProvider {
+export class Match3MetaDataProvider extends BaseDataProvider {
     getRetentionData(): RetentionData {
         return baseRetentionCurve(48, 20, 8);
     }
@@ -248,7 +395,7 @@ export class Match3MetaDataProvider implements IDataProvider {
 
 // ============ GACHA RPG DATA ============
 
-export class GachaRPGDataProvider implements IDataProvider {
+export class GachaRPGDataProvider extends BaseDataProvider {
     getRetentionData(): RetentionData {
         return baseRetentionCurve(52, 28, 22);
     }

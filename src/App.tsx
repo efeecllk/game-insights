@@ -24,6 +24,7 @@ import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2 } from 
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
 import { IntegrationProvider } from './context/IntegrationContext';
+import { MLProvider } from './context/MLContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -41,6 +42,9 @@ import { RetentionCurve } from './components/charts/RetentionCurve';
 import { FunnelChart } from './components/charts/FunnelChart';
 import { RevenueChart } from './components/charts/RevenueChart';
 import { SegmentChart } from './components/charts/SegmentChart';
+
+// ML Components
+import { MLInsightsPanel } from './components/ml';
 
 // ============================================================================
 // Lazy-loaded Pages (Code Splitting)
@@ -239,6 +243,14 @@ function OverviewPage() {
                     ))}
                 </div>
             </section>
+
+            {/* ML Insights Panel - Only shown when ML is ready */}
+            {isUsingRealData && (
+                <section aria-labelledby="ml-insights-heading">
+                    <h2 id="ml-insights-heading" className="sr-only">Machine Learning Insights</h2>
+                    <MLInsightsPanel compact />
+                </section>
+            )}
 
             {/* Charts Row 1 */}
             <section aria-labelledby="charts-heading-1">
@@ -556,11 +568,13 @@ function App() {
             <ThemeProvider>
                 <ToastProvider position="bottom-right" maxToasts={5}>
                     <DataProvider>
-                        <IntegrationProvider>
-                            <GameProvider>
-                                <AppContent />
-                            </GameProvider>
-                        </IntegrationProvider>
+                        <MLProvider>
+                            <IntegrationProvider>
+                                <GameProvider>
+                                    <AppContent />
+                                </GameProvider>
+                            </IntegrationProvider>
+                        </MLProvider>
                     </DataProvider>
                 </ToastProvider>
             </ThemeProvider>

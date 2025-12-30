@@ -5,7 +5,7 @@
  */
 
 export const DB_NAME = 'game-insights-db';
-export const DB_VERSION = 7;
+export const DB_VERSION = 8;
 
 let db: IDBDatabase | null = null;
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -176,6 +176,13 @@ export async function getDatabase(): Promise<IDBDatabase> {
                 modelStore.createIndex('isActive', 'isActive', { unique: false });
                 modelStore.createIndex('version', 'version', { unique: false });
                 modelStore.createIndex('deployedAt', 'deployedAt', { unique: false });
+            }
+
+            // Version 8: Analysis cache (Phase 1 - Core Data Integration)
+            if (!database.objectStoreNames.contains('analysisCache')) {
+                const cacheStore = database.createObjectStore('analysisCache', { keyPath: 'id' });
+                cacheStore.createIndex('dataId', 'dataId', { unique: false });
+                cacheStore.createIndex('timestamp', 'timestamp', { unique: false });
             }
         };
     });

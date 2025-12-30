@@ -1,6 +1,7 @@
 /**
  * Funnels Page - Conversion Funnel Analysis
  * Displays AI-detected funnels from uploaded data with manual builder fallback
+ * Phase 2: Page-by-Page Functionality
  */
 
 import { useState, useMemo } from 'react';
@@ -20,6 +21,8 @@ import {
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useAnalytics } from '../hooks/useAnalytics';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { DetectedFunnel } from '../ai/FunnelDetector';
 
 // Sample funnel templates by game type (fallback when no data)
@@ -379,6 +382,7 @@ function StatsCard({ title, value, icon: Icon, color }: { title: string; value: 
 export function FunnelsPage() {
     const { selectedGame } = useGame();
     const { result } = useAnalytics();
+    const { hasRealData } = useGameData();
 
     // State for manual builder
     const [manualSteps, setManualSteps] = useState<ManualFunnelStep[]>(
@@ -387,8 +391,11 @@ export function FunnelsPage() {
     const [showManualBuilder, setShowManualBuilder] = useState(false);
     const [expandedFunnelId, setExpandedFunnelId] = useState<string | null>(null);
 
-    // Get detected funnels from pipeline
-    const detectedFunnels = useMemo(() => result?.funnels || [], [result?.funnels]);
+    // Get detected funnels from pipeline (real data) or use empty array
+    const detectedFunnels = useMemo(() => {
+        if (!hasRealData) return [];
+        return result?.funnels || [];
+    }, [result?.funnels, hasRealData]);
     const hasDetectedFunnels = detectedFunnels.length > 0;
 
     // Calculate overall stats
@@ -468,10 +475,13 @@ export function FunnelsPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
-                        <Filter className="w-6 h-6 text-th-accent-primary" />
-                        Funnels
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                            <Filter className="w-6 h-6 text-th-accent-primary" />
+                            Funnels
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
                     <p className="text-th-text-muted mt-1">
                         {hasDetectedFunnels
                             ? `${detectedFunnels.length} AI-detected funnel${detectedFunnels.length > 1 ? 's' : ''} from your data`

@@ -1,12 +1,15 @@
 /**
  * Monetization Page - Revenue Analytics
  * Revenue charts, ARPU, spender tiers
+ * Phase 2: Page-by-Page Functionality
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { DollarSign, TrendingUp, Users, CreditCard, Calendar } from 'lucide-react';
 import { useGame } from '../context/GameContext';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
 
 // Sample revenue data by game type
 const revenueData = {
@@ -77,27 +80,97 @@ const revenueData = {
 
 export function MonetizationPage() {
     const { selectedGame } = useGame();
+    const { dataProvider, hasRealData } = useGameData();
     const [_dateRange] = useState('last14days');
 
-    const data = revenueData[selectedGame as keyof typeof revenueData] || revenueData.puzzle;
-    const dates = Array.from({ length: 14 }, (_, i) => {
-        const d = new Date();
-        d.setDate(d.getDate() - (13 - i));
-        return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    });
+    // Get real or demo data based on data availability
+    const { data, dates, totalRevenue, avgDaily } = useMemo(() => {
+        // Default demo data for the selected game
+        const demoData = revenueData[selectedGame as keyof typeof revenueData] || revenueData.puzzle;
 
-    const totalRevenue = data.daily.reduce((a, b) => a + b, 0);
-    const avgDaily = totalRevenue / data.daily.length;
+        // Generate date labels for the last 14 days
+        const dateLabels = Array.from({ length: 14 }, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (13 - i));
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        });
+
+        if (!hasRealData) {
+            const total = demoData.daily.reduce((a, b) => a + b, 0);
+            return {
+                data: demoData,
+                dates: dateLabels,
+                totalRevenue: total,
+                avgDaily: total / demoData.daily.length,
+                spenderTiers: demoData.spenderTiers,
+                revenueTimeSeries: demoData.daily,
+            };
+        }
+
+        // Use real data from provider
+        const realSpenderTiers = dataProvider.getSpenderTiers();
+        const realTimeSeries = dataProvider.getRevenueTimeSeries('daily');
+        const realArpu = dataProvider.calculateARPU();
+        const realTotalRevenue = dataProvider.getTotalRevenue();
+        const realPayerConversion = dataProvider.getPayerConversion() * 100;
+
+        // Transform spender tiers for chart
+        const tierColors = ['var(--color-border-subtle)', '#86efac', '#fbbf24', '#f97316', '#ef4444'];
+        const transformedTiers = realSpenderTiers.map((tier, index) => ({
+            tier: tier.tier,
+            users: tier.users,
+            color: tierColors[index] || tierColors[0],
+        }));
+
+        // Transform time series for chart
+        const chartData = realTimeSeries.slice(-14).map(d => d.value);
+        const chartDates = realTimeSeries.slice(-14).map(d => {
+            const date = new Date(d.date);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        });
+
+        // Calculate whale count (users in highest tier)
+        const whaleCount = realSpenderTiers.length > 0 ? realSpenderTiers[0].users : 0;
+
+        // Calculate ARPPU (revenue from paying users / paying users)
+        const payingUsers = realSpenderTiers
+            .filter((_, i) => i < realSpenderTiers.length - 1) // Exclude non-payers
+            .reduce((sum, t) => sum + t.users, 0);
+        const payerRevenue = realSpenderTiers
+            .filter((_, i) => i < realSpenderTiers.length - 1)
+            .reduce((sum, t) => sum + t.revenue, 0);
+        const arppu = payingUsers > 0 ? payerRevenue / payingUsers : 0;
+
+        return {
+            data: {
+                daily: chartData.length > 0 ? chartData : demoData.daily,
+                arpu: realArpu || demoData.arpu,
+                arppu: arppu || demoData.arppu,
+                conversionRate: realPayerConversion || demoData.conversionRate,
+                whales: whaleCount || demoData.whales,
+                spenderTiers: transformedTiers.length > 0 ? transformedTiers : demoData.spenderTiers,
+                topProducts: demoData.topProducts, // Keep demo products until we have real product data
+            },
+            dates: chartDates.length > 0 ? chartDates : dateLabels,
+            totalRevenue: realTotalRevenue || demoData.daily.reduce((a, b) => a + b, 0),
+            avgDaily: chartData.length > 0 ? chartData.reduce((a, b) => a + b, 0) / chartData.length : demoData.daily.reduce((a, b) => a + b, 0) / demoData.daily.length,
+            spenderTiers: transformedTiers.length > 0 ? transformedTiers : demoData.spenderTiers,
+            revenueTimeSeries: chartData.length > 0 ? chartData : demoData.daily,
+        };
+    }, [selectedGame, hasRealData, dataProvider]);
 
     return (
         <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
-                        <DollarSign className="w-6 h-6 text-th-success" />
-                        Monetization
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                            <DollarSign className="w-6 h-6 text-th-success" />
+                            Monetization
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
                     <p className="text-th-text-muted mt-1">Revenue and transaction analytics</p>
                 </div>
                 <button className="px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated rounded-lg hover:bg-th-interactive-hover flex items-center gap-2">

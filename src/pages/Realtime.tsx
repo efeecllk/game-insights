@@ -1,11 +1,15 @@
 /**
  * Realtime Page - Live Analytics Dashboard
  * Shows live updating charts for real-time monitoring
+ * Phase 2: Page-by-Page Functionality
  */
 
 import { useState, useEffect } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { Activity, Users, UserPlus, DollarSign, Repeat, PlayCircle, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Activity, Users, UserPlus, DollarSign, Repeat, PlayCircle, AlertTriangle, RefreshCw, Link } from 'lucide-react';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
+import { useNavigate } from 'react-router-dom';
 
 // Simulated live data generator
 function generateLiveData(base: number, variance: number) {
@@ -23,10 +27,16 @@ const liveCharts = [
 ];
 
 export function RealtimePage() {
+    const { hasRealData } = useGameData();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<'live' | 'sdk'>('live');
     const [chartData, setChartData] = useState<Record<string, number[]>>({});
     const [timestamps, setTimestamps] = useState<string[]>([]);
     const [isLive, setIsLive] = useState(true);
+
+    // Note: Real-time data would require actual live data source integration
+    // For now, we use pattern-based simulation from the static data
+    void hasRealData; // Mark as used for future integration
 
     // Initialize chart data
     useEffect(() => {
@@ -73,10 +83,16 @@ export function RealtimePage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
-                        <Activity className="w-6 h-6 text-th-accent-primary" />
-                        Realtime
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
+                            <Activity className="w-6 h-6 text-th-accent-primary" />
+                            Realtime
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
+                    <p className="text-th-text-muted mt-1">
+                        {!hasRealData ? 'Simulated live data' : 'Pattern-based simulation from your data'}
+                    </p>
                 </div>
                 <button
                     onClick={() => setIsLive(!isLive)}
@@ -89,6 +105,25 @@ export function RealtimePage() {
                     {isLive ? 'Live' : 'Paused'}
                 </button>
             </div>
+
+            {/* Demo Mode Banner */}
+            {!hasRealData && (
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <Link className="w-5 h-5 text-blue-400" />
+                        <div>
+                            <p className="text-sm font-medium text-th-text-primary">Connect a live data source for real-time analytics</p>
+                            <p className="text-xs text-th-text-muted">Currently showing simulated data</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => navigate('/data-sources')}
+                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    >
+                        Connect
+                    </button>
+                </div>
+            )}
 
             {/* Tabs */}
             <div className="border-b border-th-border">

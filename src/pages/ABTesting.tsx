@@ -1,6 +1,6 @@
 /**
  * A/B Testing Dashboard
- * Phase 6: Full experiment management UI
+ * Phase 2: Page-by-Page Functionality (updated)
  */
 
 import { useState, useEffect, useMemo } from 'react';
@@ -47,17 +47,31 @@ import {
     generateMockResults,
 } from '../lib/experimentStore';
 import { generateId } from '../lib/db';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
 
 // ============================================================================
 // Main Page Component
 // ============================================================================
 
 export function ABTestingPage() {
+    const { columns } = useGameData();
     const [experiments, setExperiments] = useState<Experiment[]>([]);
     const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
     const [view, setView] = useState<'list' | 'detail' | 'create' | 'calculator' | 'insights'>('list');
     const [loading, setLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState<ExperimentStatus | 'all'>('all');
+
+    // Check if uploaded data has experiment/variant columns (for future real data integration)
+    // Note: This will be used when we integrate real experiment data from uploads
+    void columns.some(c =>
+        c.role === 'dimension' && (
+            c.originalName.toLowerCase().includes('variant') ||
+            c.originalName.toLowerCase().includes('ab_test') ||
+            c.originalName.toLowerCase().includes('experiment') ||
+            c.originalName.toLowerCase().includes('group')
+        )
+    );
 
     async function loadExperiments() {
         setLoading(true);
@@ -138,10 +152,13 @@ export function ABTestingPage() {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-                        <FlaskConical className="w-7 h-7 text-accent-primary" />
-                        A/B Testing
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                            <FlaskConical className="w-7 h-7 text-accent-primary" />
+                            A/B Testing
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
                     <p className="text-zinc-500 mt-1">Run experiments and optimize your game</p>
                 </div>
                 <div className="flex gap-3">

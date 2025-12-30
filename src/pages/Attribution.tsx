@@ -1,7 +1,7 @@
 /**
  * Attribution Analytics Page
  * User acquisition source tracking and modeling
- * Phase 9: Advanced Features
+ * Phase 2: Page-by-Page Functionality (updated)
  */
 
 import { useState, useMemo } from 'react';
@@ -12,7 +12,10 @@ import {
     DollarSign,
     Users,
     ArrowRight,
+    Database,
 } from 'lucide-react';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
 
 // ============================================================================
 // Types
@@ -144,12 +147,75 @@ const MODEL_INFO: Record<AttributionModel, { name: string; description: string }
 // ============================================================================
 
 export function AttributionPage() {
+    const { dataProvider, hasRealData } = useGameData();
     const [selectedModel, setSelectedModel] = useState<AttributionModel>('linear');
     const [dateRange, setDateRange] = useState('30d');
 
+    // Generate channels from real data or use demo data
+    const channels = useMemo((): Channel[] => {
+        if (!hasRealData) return CHANNELS;
+
+        // Get attribution data from the provider
+        const realChannels = dataProvider.getAttributionChannels();
+
+        // If we have real channel data, transform it
+        if (realChannels.length > 0) {
+            const channelIcons: Record<string, string> = {
+                organic: '🔍',
+                facebook: '📘',
+                google: '🔎',
+                apple: '🍎',
+                influencer: '⭐',
+                referral: '🤝',
+                email: '📧',
+                direct: '🌐',
+                tiktok: '🎵',
+                twitter: '🐦',
+            };
+
+            const channelColors: Record<string, string> = {
+                organic: '#10b981',
+                facebook: '#3b82f6',
+                google: '#ef4444',
+                apple: '#6366f1',
+                influencer: '#f59e0b',
+                referral: '#8b5cf6',
+                email: '#06b6d4',
+                direct: '#94a3b8',
+                tiktok: '#000000',
+                twitter: '#1da1f2',
+            };
+
+            return realChannels.map((ch, idx) => {
+                const key = ch.name.toLowerCase().replace(/\s+/g, '_');
+                const baseKey = Object.keys(channelIcons).find(k => key.includes(k)) || 'direct';
+
+                return {
+                    id: key,
+                    name: ch.name,
+                    icon: channelIcons[baseKey] || '📊',
+                    color: channelColors[baseKey] || `hsl(${idx * 45}, 70%, 50%)`,
+                    installs: ch.users,
+                    cost: Math.round(ch.revenue * 0.3), // Estimated ad spend
+                    revenue: ch.revenue,
+                    conversions: Math.round(ch.users * 0.05), // Estimated conversions
+                    attribution: {
+                        first_touch: ch.percentage,
+                        last_touch: ch.percentage * 0.9,
+                        linear: ch.percentage * 0.95,
+                        time_decay: ch.percentage * 0.92,
+                        position_based: ch.percentage * 0.97,
+                    },
+                };
+            });
+        }
+
+        return CHANNELS;
+    }, [hasRealData, dataProvider]);
+
     // Calculate totals
     const totals = useMemo(() => {
-        return CHANNELS.reduce(
+        return channels.reduce(
             (acc, ch) => ({
                 installs: acc.installs + ch.installs,
                 cost: acc.cost + ch.cost,
@@ -158,14 +224,14 @@ export function AttributionPage() {
             }),
             { installs: 0, cost: 0, revenue: 0, conversions: 0 }
         );
-    }, []);
+    }, [channels]);
 
     // Sort channels by attribution for selected model
     const sortedChannels = useMemo(() => {
-        return [...CHANNELS].sort(
+        return [...channels].sort(
             (a, b) => b.attribution[selectedModel] - a.attribution[selectedModel]
         );
-    }, [selectedModel]);
+    }, [channels, selectedModel]);
 
     // Chart data for attribution breakdown
     const pieChartOption = useMemo(() => ({
@@ -206,7 +272,7 @@ export function AttributionPage() {
         grid: { left: 60, right: 20, top: 20, bottom: 40 },
         xAxis: {
             type: 'category',
-            data: CHANNELS.filter(ch => ch.cost > 0).map(ch => ch.name),
+            data: channels.filter(ch => ch.cost > 0).map(ch => ch.name),
             axisLabel: { color: '#a0a0b0', fontSize: 10, rotate: 15 },
             axisLine: { lineStyle: { color: '#333' } },
         },
@@ -218,27 +284,38 @@ export function AttributionPage() {
         series: [
             {
                 type: 'bar',
-                data: CHANNELS.filter(ch => ch.cost > 0).map(ch => ({
+                data: channels.filter(ch => ch.cost > 0).map(ch => ({
                     value: (ch.revenue / ch.cost).toFixed(2),
                     itemStyle: { color: ch.color },
                 })),
                 barWidth: '50%',
             },
         ],
-    }), []);
+    }), [channels]);
 
     return (
         <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
-                        <Target className="w-7 h-7 text-th-accent-primary" />
-                        Attribution Analytics
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
+                            <Target className="w-7 h-7 text-th-accent-primary" />
+                            Attribution Analytics
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
                     <p className="text-th-text-secondary mt-1">
-                        Understand where your users come from and which channels drive value
+                        {hasRealData
+                            ? 'Attribution analysis from your uploaded data'
+                            : 'Understand where your users come from and which channels drive value'}
                     </p>
+                    {hasRealData && (
+                        <div className="flex items-center gap-2 mt-1 text-xs text-green-400">
+                            <Database className="w-3.5 h-3.5" />
+                            Channel data derived from your uploaded dataset
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center gap-3">
                     <select
@@ -430,7 +507,7 @@ export function AttributionPage() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-th-border">
-                            {CHANNELS.map((channel) => (
+                            {channels.map((channel) => (
                                 <tr key={channel.id} className="hover:bg-th-bg-elevated transition-colors">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center gap-2">

@@ -1,10 +1,10 @@
 /**
  * What-If Analysis Page
  * Scenario simulation for revenue and metric projections
- * Phase 5: Advanced AI & Automation
+ * Phase 2: Page-by-Page Functionality (updated)
  */
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     Lightbulb,
@@ -13,6 +13,7 @@ import {
     StarOff,
     Copy,
     Download,
+    Database,
 } from 'lucide-react';
 import { WhatIfSimulator } from '../components/analytics/WhatIfSimulator';
 import {
@@ -25,6 +26,8 @@ import {
     type SavedScenario,
 } from '../lib/scenarioStore';
 import type { ScenarioInput, ScenarioResult } from '../ai/WhatIfEngine';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
 
 // ============================================================================
 // Component
@@ -32,9 +35,37 @@ import type { ScenarioInput, ScenarioResult } from '../ai/WhatIfEngine';
 
 export function WhatIfPage() {
     useTranslation(); // Initialize i18n context
+    const { hasRealData, dataProvider } = useGameData();
     const [scenarios, setScenarios] = useState<SavedScenario[]>([]);
     const [selectedScenario, setSelectedScenario] = useState<SavedScenario | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Calculate baseline metrics from real data when available
+    const realBaseline = useMemo(() => {
+        if (!hasRealData) return undefined;
+
+        const sessionMetrics = dataProvider.getSessionMetrics();
+        const totalRevenue = dataProvider.getTotalRevenue();
+        const dau = dataProvider.getDAU();
+        const payerConversion = dataProvider.getPayerConversion();
+        const payingUsers = dau * (payerConversion / 100);
+
+        return {
+            dau,
+            mau: dataProvider.getMAU(),
+            retention: {
+                d1: dataProvider.getRetentionDay(1),
+                d7: dataProvider.getRetentionDay(7),
+                d30: dataProvider.getRetentionDay(30),
+            },
+            arpu: dataProvider.calculateARPU(),
+            arppu: payingUsers > 0 ? totalRevenue / payingUsers : 0,
+            conversionRate: payerConversion,
+            avgRevenuePerPurchase: 5.0, // Default, would need transaction data
+            avgSessionLength: dataProvider.getAvgSessionLength(),
+            sessionsPerDau: sessionMetrics.sessionsPerUser,
+        };
+    }, [hasRealData, dataProvider]);
 
     // Load scenarios on mount
     useEffect(() => {
@@ -136,6 +167,27 @@ export function WhatIfPage() {
 
     return (
         <div className="min-h-screen bg-bg-darkest">
+            {/* Page Header */}
+            <div className="p-6 border-b border-white/[0.06]">
+                <div className="flex items-center gap-3">
+                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                        <Lightbulb className="w-7 h-7 text-chart-orange" />
+                        What-If Analysis
+                    </h1>
+                    <DataModeIndicator />
+                </div>
+                <p className="text-zinc-500 mt-1">
+                    {hasRealData
+                        ? 'Simulate scenarios using your real data as baseline'
+                        : 'Simulate revenue and metric projections with demo data'}
+                </p>
+                {hasRealData && (
+                    <div className="mt-2 flex items-center gap-2 text-xs text-green-400">
+                        <Database className="w-3.5 h-3.5" />
+                        Baseline metrics calculated from your uploaded data
+                    </div>
+                )}
+            </div>
             <div className="flex">
                 {/* Sidebar - Saved Scenarios */}
                 <aside className="w-80 min-h-screen bg-bg-dark border-r border-white/[0.06] p-4 flex flex-col">
@@ -217,7 +269,7 @@ export function WhatIfPage() {
                 {/* Main Content */}
                 <main className="flex-1 p-6">
                     <WhatIfSimulator
-                        baselineMetrics={selectedScenario?.baselineMetrics}
+                        baselineMetrics={selectedScenario?.baselineMetrics || realBaseline}
                         onSave={handleSaveScenario}
                     />
                 </main>

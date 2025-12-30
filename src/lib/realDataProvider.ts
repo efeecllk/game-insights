@@ -126,12 +126,31 @@ export class RealDataProvider implements IDataProvider {
     }
 
     private mapRoleToDetected(role: string, col: string): string {
+        const lower = col.toLowerCase();
+
         switch (role) {
-            case 'identifier': return 'user_id';
-            case 'timestamp': return 'timestamp';
-            case 'metric': return detectColumnRole(col, this.columnStats.get(col)!);
-            case 'dimension': return 'segment';
-            default: return detectColumnRole(col, this.columnStats.get(col)!);
+            case 'identifier':
+                return 'user_id';
+            case 'timestamp':
+                if (lower.includes('install') || lower.includes('created')) return 'install_date';
+                return 'timestamp';
+            case 'metric':
+                // For metrics, try to detect more specific type
+                if (lower.includes('revenue') || lower.includes('amount') || lower.includes('price')) return 'revenue';
+                if (lower.includes('level') || lower.includes('stage')) return 'level';
+                if (lower.includes('session') || lower.includes('duration')) return 'duration';
+                if (lower.includes('retention') || lower.match(/d\d+/)) return 'retention';
+                return detectColumnRole(col, this.columnStats.get(col)!);
+            case 'dimension':
+                if (lower.includes('country') || lower.includes('region')) return 'geo';
+                if (lower.includes('platform') || lower.includes('device')) return 'platform';
+                if (lower.includes('event') || lower.includes('action')) return 'event';
+                if (lower.includes('source') || lower.includes('channel')) return 'source';
+                return 'segment';
+            case 'noise':
+                return 'unknown';
+            default:
+                return detectColumnRole(col, this.columnStats.get(col)!);
         }
     }
 
@@ -583,6 +602,405 @@ export class RealDataProvider implements IDataProvider {
             .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
             .join(' ');
     }
+
+    // ========================================================================
+    // Extended Methods for Phase 1
+    // ========================================================================
+
+    /**
+     * Get DAU (Daily Active Users)
+     */
+    getDAU(): number {
+        const userIdCol = this.findColumnByRole('user_id');
+        const dateCol = this.findColumnByRole('timestamp');
+
+        if (!userIdCol) {
+            return this.rows.length; // Fallback to row count
+        }
+
+        if (!dateCol) {
+            // No date column - count unique users
+            return new Set(this.rows.map(r => r[userIdCol])).size;
+        }
+
+        // Get unique users from most recent day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const todayUsers = new Set<unknown>();
+        for (const row of this.rows) {
+            const date = this.parseDate(row[dateCol]);
+            if (date && date >= today) {
+                todayUsers.add(row[userIdCol]);
+            }
+        }
+
+        if (todayUsers.size === 0) {
+            // No data for today - return unique users from last day in data
+            return new Set(this.rows.map(r => r[userIdCol])).size;
+        }
+
+        return todayUsers.size;
+    }
+
+    /**
+     * Get MAU (Monthly Active Users)
+     */
+    getMAU(): number {
+        const userIdCol = this.findColumnByRole('user_id');
+        const dateCol = this.findColumnByRole('timestamp');
+
+        if (!userIdCol) {
+            return this.rows.length;
+        }
+
+        if (!dateCol) {
+            return new Set(this.rows.map(r => r[userIdCol])).size;
+        }
+
+        // Get unique users from last 30 days
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const monthlyUsers = new Set<unknown>();
+        for (const row of this.rows) {
+            const date = this.parseDate(row[dateCol]);
+            if (date && date >= thirtyDaysAgo) {
+                monthlyUsers.add(row[userIdCol]);
+            }
+        }
+
+        if (monthlyUsers.size === 0) {
+            return new Set(this.rows.map(r => r[userIdCol])).size;
+        }
+
+        return monthlyUsers.size;
+    }
+
+    /**
+     * Calculate ARPU (Average Revenue Per User)
+     */
+    calculateARPU(): number {
+        const revenueCol = this.findColumnByRole('revenue') || this.findColumnByRole('ltv');
+        const userIdCol = this.findColumnByRole('user_id');
+
+        if (!revenueCol) {
+            return 0;
+        }
+
+        const totalRevenue = this.rows.reduce((sum, r) => sum + (Number(r[revenueCol]) || 0), 0);
+        const uniqueUsers = userIdCol
+            ? new Set(this.rows.map(r => r[userIdCol])).size
+            : this.rows.length;
+
+        return uniqueUsers > 0 ? totalRevenue / uniqueUsers : 0;
+    }
+
+    /**
+     * Get total revenue
+     */
+    getTotalRevenue(): number {
+        const revenueCol = this.findColumnByRole('revenue') || this.findColumnByRole('ltv');
+        if (!revenueCol) return 0;
+
+        return this.rows.reduce((sum, r) => sum + (Number(r[revenueCol]) || 0), 0);
+    }
+
+    /**
+     * Get retention rate for a specific day
+     */
+    getRetentionDay(day: number): number {
+        const retentionData = this.getRetentionData();
+        const dayIndex = retentionData.days.findIndex(d =>
+            d.toLowerCase().includes(`day ${day}`) || d === `D${day}` || d === `d${day}`
+        );
+
+        return dayIndex >= 0 ? retentionData.values[dayIndex] / 100 : 0;
+    }
+
+    /**
+     * Get average session length
+     */
+    getAvgSessionLength(): number {
+        const durationCol = this.findColumnByRole('duration');
+        if (!durationCol) return 0;
+
+        const stats = this.columnStats.get(durationCol);
+        return stats?.avg ?? 0;
+    }
+
+    /**
+     * Get payer conversion rate
+     */
+    getPayerConversion(): number {
+        const revenueCol = this.findColumnByRole('revenue') || this.findColumnByRole('purchase');
+        const userIdCol = this.findColumnByRole('user_id');
+
+        if (!revenueCol || !userIdCol) return 0;
+
+        const totalUsers = new Set(this.rows.map(r => r[userIdCol])).size;
+        const payingUsers = new Set(
+            this.rows.filter(r => (Number(r[revenueCol]) || 0) > 0).map(r => r[userIdCol])
+        ).size;
+
+        return totalUsers > 0 ? payingUsers / totalUsers : 0;
+    }
+
+    /**
+     * Get spender tiers distribution
+     */
+    getSpenderTiers(): Array<{ tier: string; users: number; revenue: number; percentage: number }> {
+        const revenueCol = this.findColumnByRole('revenue') || this.findColumnByRole('ltv');
+        const userIdCol = this.findColumnByRole('user_id');
+
+        if (!revenueCol || !userIdCol) return [];
+
+        // Aggregate revenue per user
+        const userRevenue = new Map<unknown, number>();
+        for (const row of this.rows) {
+            const userId = row[userIdCol];
+            const revenue = Number(row[revenueCol]) || 0;
+            userRevenue.set(userId, (userRevenue.get(userId) || 0) + revenue);
+        }
+
+        // Categorize into tiers
+        const tiers = {
+            whale: { users: 0, revenue: 0 },
+            dolphin: { users: 0, revenue: 0 },
+            minnow: { users: 0, revenue: 0 },
+            nonPayer: { users: 0, revenue: 0 },
+        };
+
+        for (const [, revenue] of userRevenue) {
+            if (revenue >= 100) {
+                tiers.whale.users++;
+                tiers.whale.revenue += revenue;
+            } else if (revenue >= 20) {
+                tiers.dolphin.users++;
+                tiers.dolphin.revenue += revenue;
+            } else if (revenue > 0) {
+                tiers.minnow.users++;
+                tiers.minnow.revenue += revenue;
+            } else {
+                tiers.nonPayer.users++;
+            }
+        }
+
+        const totalUsers = userRevenue.size;
+
+        return [
+            {
+                tier: 'Whale ($100+)',
+                users: tiers.whale.users,
+                revenue: tiers.whale.revenue,
+                percentage: totalUsers > 0 ? (tiers.whale.users / totalUsers) * 100 : 0,
+            },
+            {
+                tier: 'Dolphin ($20-100)',
+                users: tiers.dolphin.users,
+                revenue: tiers.dolphin.revenue,
+                percentage: totalUsers > 0 ? (tiers.dolphin.users / totalUsers) * 100 : 0,
+            },
+            {
+                tier: 'Minnow ($1-20)',
+                users: tiers.minnow.users,
+                revenue: tiers.minnow.revenue,
+                percentage: totalUsers > 0 ? (tiers.minnow.users / totalUsers) * 100 : 0,
+            },
+            {
+                tier: 'Non-Payer',
+                users: tiers.nonPayer.users,
+                revenue: 0,
+                percentage: totalUsers > 0 ? (tiers.nonPayer.users / totalUsers) * 100 : 0,
+            },
+        ];
+    }
+
+    /**
+     * Get revenue time series by period
+     */
+    getRevenueTimeSeries(period: 'daily' | 'weekly' | 'monthly'): Array<{ date: string; value: number }> {
+        const revenueCol = this.findColumnByRole('revenue') || this.findColumnByRole('ltv');
+        const dateCol = this.findColumnByRole('timestamp') || this.findColumnByRole('install_date');
+
+        if (!revenueCol || !dateCol) return [];
+
+        const grouped = new Map<string, number>();
+
+        for (const row of this.rows) {
+            const date = this.parseDate(row[dateCol]);
+            const revenue = Number(row[revenueCol]) || 0;
+
+            if (!date) continue;
+
+            let key: string;
+            switch (period) {
+                case 'weekly': {
+                    const weekStart = new Date(date);
+                    weekStart.setDate(date.getDate() - date.getDay());
+                    key = weekStart.toISOString().split('T')[0];
+                    break;
+                }
+                case 'monthly':
+                    key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                    break;
+                default:
+                    key = date.toISOString().split('T')[0];
+            }
+
+            grouped.set(key, (grouped.get(key) || 0) + revenue);
+        }
+
+        return Array.from(grouped.entries())
+            .sort((a, b) => a[0].localeCompare(b[0]))
+            .map(([date, value]) => ({ date, value }));
+    }
+
+    /**
+     * Get attribution channels
+     */
+    getAttributionChannels(): Array<{ name: string; users: number; revenue: number; percentage: number }> {
+        const sourceCol = this.findColumnByRole('source') ||
+            Array.from(this.columnRoles.entries()).find(([col]) =>
+                col.toLowerCase().includes('source') ||
+                col.toLowerCase().includes('channel') ||
+                col.toLowerCase().includes('utm')
+            )?.[0];
+
+        const userIdCol = this.findColumnByRole('user_id');
+        const revenueCol = this.findColumnByRole('revenue');
+
+        if (!sourceCol) return [];
+
+        const channels = new Map<string, { users: Set<unknown>; revenue: number }>();
+
+        for (const row of this.rows) {
+            const source = String(row[sourceCol] || 'Unknown');
+            const userId = userIdCol ? row[userIdCol] : null;
+            const revenue = revenueCol ? (Number(row[revenueCol]) || 0) : 0;
+
+            if (!channels.has(source)) {
+                channels.set(source, { users: new Set(), revenue: 0 });
+            }
+
+            const channel = channels.get(source)!;
+            if (userId) channel.users.add(userId);
+            channel.revenue += revenue;
+        }
+
+        const totalUsers = userIdCol
+            ? new Set(this.rows.map(r => r[userIdCol])).size
+            : this.rows.length;
+
+        return Array.from(channels.entries())
+            .map(([name, data]) => ({
+                name,
+                users: data.users.size,
+                revenue: data.revenue,
+                percentage: totalUsers > 0 ? (data.users.size / totalUsers) * 100 : 0,
+            }))
+            .sort((a, b) => b.users - a.users)
+            .slice(0, 10);
+    }
+
+    /**
+     * Calculate funnel steps from step definitions
+     */
+    calculateFunnelSteps(stepDefinitions: Array<{ name: string; event?: string; condition?: Record<string, unknown> }>): FunnelStep[] {
+        const eventCol = this.findColumnByRole('event');
+        const userIdCol = this.findColumnByRole('user_id');
+
+        if (!eventCol || !userIdCol) return [];
+
+        const results: FunnelStep[] = [];
+        let prevCount = 0;
+
+        for (let i = 0; i < stepDefinitions.length; i++) {
+            const step = stepDefinitions[i];
+            let matchingUsers: Set<unknown>;
+
+            if (step.event) {
+                // Simple event matching
+                matchingUsers = new Set(
+                    this.rows
+                        .filter(r => String(r[eventCol]).toLowerCase() === step.event!.toLowerCase())
+                        .map(r => r[userIdCol])
+                );
+            } else if (step.condition) {
+                // Complex condition matching
+                matchingUsers = new Set(
+                    this.rows
+                        .filter(r => this.matchesCondition(r, step.condition!))
+                        .map(r => r[userIdCol])
+                );
+            } else {
+                matchingUsers = new Set(this.rows.map(r => r[userIdCol]));
+            }
+
+            const count = matchingUsers.size;
+            const percentage = i === 0 ? 100 : (prevCount > 0 ? (count / prevCount) * 100 : 0);
+            const dropOff = i === 0 ? 0 : (100 - percentage);
+
+            results.push({
+                name: step.name,
+                value: count,
+                percentage: Math.round(percentage),
+                dropOff: Math.round(dropOff),
+            });
+
+            prevCount = count;
+        }
+
+        return results;
+    }
+
+    private matchesCondition(row: Record<string, unknown>, condition: Record<string, unknown>): boolean {
+        for (const [key, value] of Object.entries(condition)) {
+            if (row[key] !== value) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get historical growth rate for projections
+     */
+    getHistoricalGrowthRate(): number {
+        const timeSeries = this.getRevenueTimeSeries('daily');
+        if (timeSeries.length < 2) return 0.02; // Default 2% growth
+
+        const recentValues = timeSeries.slice(-7);
+        if (recentValues.length < 2) return 0.02;
+
+        const firstValue = recentValues[0].value;
+        const lastValue = recentValues[recentValues.length - 1].value;
+
+        if (firstValue === 0) return 0.02;
+
+        const growthRate = (lastValue - firstValue) / firstValue / recentValues.length;
+        return Math.max(-0.5, Math.min(0.5, growthRate)); // Cap between -50% and 50%
+    }
+
+    /**
+     * Get session metrics
+     */
+    getSessionMetrics(): { avgSessionLength: number; sessionsPerUser: number } {
+        const durationCol = this.findColumnByRole('duration');
+        const sessionCol = this.findColumnByRole('session');
+        const userIdCol = this.findColumnByRole('user_id');
+
+        const avgSessionLength = durationCol
+            ? (this.columnStats.get(durationCol)?.avg ?? 0)
+            : 0;
+
+        let sessionsPerUser = 0;
+        if (sessionCol && userIdCol) {
+            const uniqueSessions = new Set(this.rows.map(r => r[sessionCol])).size;
+            const uniqueUsers = new Set(this.rows.map(r => r[userIdCol])).size;
+            sessionsPerUser = uniqueUsers > 0 ? uniqueSessions / uniqueUsers : 0;
+        }
+
+        return { avgSessionLength, sessionsPerUser };
+    }
 }
 
 // ============================================================================
@@ -608,5 +1026,57 @@ export class EmptyDataProvider implements IDataProvider {
 
     getSegmentData(): SegmentData[] {
         return [];
+    }
+
+    getDAU(): number {
+        return 0;
+    }
+
+    getMAU(): number {
+        return 0;
+    }
+
+    calculateARPU(): number {
+        return 0;
+    }
+
+    getTotalRevenue(): number {
+        return 0;
+    }
+
+    getRetentionDay(_day: number): number {
+        return 0;
+    }
+
+    getAvgSessionLength(): number {
+        return 0;
+    }
+
+    getPayerConversion(): number {
+        return 0;
+    }
+
+    getSpenderTiers(): Array<{ tier: string; users: number; revenue: number; percentage: number }> {
+        return [];
+    }
+
+    getRevenueTimeSeries(_period: 'daily' | 'weekly' | 'monthly'): Array<{ date: string; value: number }> {
+        return [];
+    }
+
+    getAttributionChannels(): Array<{ name: string; users: number; revenue: number; percentage: number }> {
+        return [];
+    }
+
+    calculateFunnelSteps(_stepDefinitions: Array<{ name: string; event?: string; condition?: Record<string, unknown> }>): FunnelStep[] {
+        return [];
+    }
+
+    getHistoricalGrowthRate(): number {
+        return 0;
+    }
+
+    getSessionMetrics(): { avgSessionLength: number; sessionsPerUser: number } {
+        return { avgSessionLength: 0, sessionsPerUser: 0 };
     }
 }

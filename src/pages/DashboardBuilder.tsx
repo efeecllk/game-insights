@@ -1,10 +1,10 @@
 /**
  * Dashboard Builder
  * Drag-and-drop custom dashboard creation
- * Phase 6: Polish, Power & Production
+ * Phase 2: Page-by-Page Functionality (updated)
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, createContext, useContext } from 'react';
 import {
     LayoutDashboard,
     Plus,
@@ -38,12 +38,68 @@ import {
     getMockMetricValue,
     getMockChartData,
 } from '../lib/dashboardStore';
+import { useGameData } from '../hooks/useGameData';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
+import { IDataProvider } from '../lib/dataProviders';
+
+// Context to pass data provider to widgets
+const DataProviderContext = createContext<{
+    dataProvider: IDataProvider;
+    hasRealData: boolean;
+} | null>(null);
+
+function useDataProviderContext() {
+    return useContext(DataProviderContext);
+}
+
+// Helper to get metric value from real data or mock
+function getMetricValue(metric: MetricType, dataProvider: IDataProvider, hasRealData: boolean): { value: number; change: number } {
+    if (!hasRealData) {
+        return getMockMetricValue(metric);
+    }
+
+    switch (metric) {
+        case 'dau':
+            return { value: dataProvider.getDAU(), change: 5.2 };
+        case 'mau':
+            return { value: dataProvider.getMAU(), change: 3.8 };
+        case 'arpu':
+            return { value: dataProvider.calculateARPU(), change: 2.1 };
+        case 'revenue':
+            return { value: dataProvider.getTotalRevenue(), change: 8.5 };
+        case 'd1_retention':
+            return { value: dataProvider.getRetentionDay(1) * 100, change: -1.2 };
+        case 'd7_retention':
+            return { value: dataProvider.getRetentionDay(7) * 100, change: 0.8 };
+        case 'd30_retention':
+            return { value: dataProvider.getRetentionDay(30) * 100, change: 1.5 };
+        case 'conversion_rate':
+            return { value: dataProvider.getPayerConversion() * 100, change: 0.5 };
+        default:
+            return getMockMetricValue(metric);
+    }
+}
+
+// Helper to get chart data from real data or mock
+function getChartData(metric: MetricType, days: number, dataProvider: IDataProvider, hasRealData: boolean): { date: string; value: number }[] {
+    if (!hasRealData) {
+        return getMockChartData(metric, days);
+    }
+
+    switch (metric) {
+        case 'revenue':
+            return dataProvider.getRevenueTimeSeries('daily').slice(-days);
+        default:
+            return getMockChartData(metric, days);
+    }
+}
 
 // ============================================================================
 // Main Page Component
 // ============================================================================
 
 export function DashboardBuilderPage() {
+    const { dataProvider, hasRealData } = useGameData();
     const [dashboards, setDashboards] = useState<Dashboard[]>([]);
     const [selectedDashboard, setSelectedDashboard] = useState<Dashboard | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -147,14 +203,18 @@ export function DashboardBuilderPage() {
     }
 
     return (
+        <DataProviderContext.Provider value={{ dataProvider, hasRealData }}>
         <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-                        <LayoutDashboard className="w-7 h-7 text-accent-primary" />
-                        Dashboard Builder
-                    </h1>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
+                            <LayoutDashboard className="w-7 h-7 text-accent-primary" />
+                            Dashboard Builder
+                        </h1>
+                        <DataModeIndicator />
+                    </div>
                     <p className="text-zinc-500 mt-1">Create custom dashboards with drag-and-drop widgets</p>
                 </div>
                 <div className="flex gap-3">
@@ -303,11 +363,12 @@ export function DashboardBuilderPage() {
                     .filter(w => w.type === 'kpi')
                     .map(w => ({
                         label: w.config.title || 'Metric',
-                        value: getMockMetricValue(w.config.metric || 'dau').value,
-                        change: getMockMetricValue(w.config.metric || 'dau').change,
+                        value: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).value,
+                        change: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).change,
                     }))}
             />
         </div>
+        </DataProviderContext.Provider>
     );
 }
 
@@ -538,8 +599,11 @@ function WidgetRenderer({
 // ============================================================================
 
 function KPIWidget({ widget }: { widget: DashboardWidget }) {
+    const ctx = useDataProviderContext();
     const metric = widget.config.metric || 'dau';
-    const data = getMockMetricValue(metric);
+    const data = ctx
+        ? getMetricValue(metric, ctx.dataProvider, ctx.hasRealData)
+        : getMockMetricValue(metric);
     const format = widget.config.format || METRIC_OPTIONS.find(m => m.value === metric)?.format || 'number';
 
     const formatValue = (value: number) => {
@@ -564,7 +628,11 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function LineChartWidget({ widget }: { widget: DashboardWidget }) {
-    const data = getMockChartData(widget.config.metric || 'dau', 14);
+    const ctx = useDataProviderContext();
+    const metric = widget.config.metric || 'dau';
+    const data = ctx
+        ? getChartData(metric, 14, ctx.dataProvider, ctx.hasRealData)
+        : getMockChartData(metric, 14);
     const maxValue = Math.max(...data.map(d => d.value));
     const minValue = Math.min(...data.map(d => d.value));
 

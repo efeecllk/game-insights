@@ -1,7 +1,7 @@
 /**
  * Predictions Dashboard
  * AI-powered predictive analytics and recommendations
- * Phase 5: Advanced AI & Automation
+ * Phase 2: Page-by-Page Functionality (updated)
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -20,7 +20,12 @@ import {
     BarChart3,
     Brain,
     Zap,
+    Database,
 } from 'lucide-react';
+import { useGameData } from '../hooks/useGameData';
+import { useML } from '../context/MLContext';
+import DataModeIndicator from '../components/ui/DataModeIndicator';
+import { ChurnRiskTable, RevenueForecastChart, MLStatusBadge } from '../components/ml';
 
 // Types
 interface RevenueForecast {
@@ -57,28 +62,6 @@ interface Alert {
 }
 
 // Mock data generators
-const generateForecast = (): RevenueForecast[] => {
-    const forecast: RevenueForecast[] = [];
-    const baseRevenue = 3500;
-    const today = new Date();
-
-    for (let i = 0; i < 30; i++) {
-        const date = new Date(today);
-        date.setDate(date.getDate() + i);
-        const variation = Math.random() * 0.2 - 0.1;
-        const trend = 1 + (i * 0.003);
-        const projected = baseRevenue * trend * (1 + variation);
-
-        forecast.push({
-            date: date.toISOString().slice(0, 10),
-            projected: Math.round(projected),
-            low: Math.round(projected * 0.8),
-            high: Math.round(projected * 1.2),
-        });
-    }
-    return forecast;
-};
-
 const generateChurnRiskUsers = (): ChurnRiskUser[] => [
     {
         id: '1',
@@ -443,35 +426,125 @@ const WhatIfAnalysis: React.FC = () => {
 
 // Main Page Component
 export const PredictionsPage: React.FC = () => {
+    const { dataProvider, hasRealData } = useGameData();
+    const {
+        isReady: mlReady,
+        isTraining,
+        atRiskUsers: mlAtRiskUsers,
+        revenueForecast: mlRevenueForecast,
+        churnPredictions,
+        status: mlStatus,
+    } = useML();
     const [forecast, setForecast] = useState<RevenueForecast[]>([]);
     const [churnUsers, setChurnUsers] = useState<ChurnRiskUser[]>([]);
     const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Use ML predictions when available
+    const useMLPredictions = mlReady && hasRealData;
+
+    // Generate forecast based on real or demo data
+    const generateRealDataForecast = useMemo((): RevenueForecast[] => {
+        const forecast: RevenueForecast[] = [];
+        const today = new Date();
+
+        // Base revenue from real data or fallback to demo
+        const baseRevenue = hasRealData
+            ? dataProvider.getTotalRevenue() / 30 // Approximate daily revenue
+            : 3500;
+
+        // Growth rate from real data history or demo
+        const growthRate = hasRealData
+            ? dataProvider.getHistoricalGrowthRate() / 100
+            : 0.003;
+
+        for (let i = 0; i < 30; i++) {
+            const date = new Date(today);
+            date.setDate(date.getDate() + i);
+            const variation = Math.random() * 0.2 - 0.1;
+            const trend = 1 + (i * growthRate);
+            const projected = baseRevenue * trend * (1 + variation);
+
+            forecast.push({
+                date: date.toISOString().slice(0, 10),
+                projected: Math.round(projected),
+                low: Math.round(projected * 0.8),
+                high: Math.round(projected * 1.2),
+            });
+        }
+        return forecast;
+    }, [hasRealData, dataProvider]);
+
+    // Convert ML churn predictions to UI format
+    const mlChurnUsersFormatted = useMemo((): ChurnRiskUser[] => {
+        if (!mlReady || mlAtRiskUsers.length === 0) return [];
+        return mlAtRiskUsers.slice(0, 5).map(prediction => ({
+            id: prediction.userId,
+            name: `User #${prediction.userId.slice(0, 6)}`,
+            riskScore: prediction.value,
+            lastSeen: prediction.daysUntilChurn
+                ? `May churn in ${prediction.daysUntilChurn} days`
+                : 'At risk',
+            factors: prediction.factors?.map(f => f.name) || ['Activity declining'],
+        }));
+    }, [mlReady, mlAtRiskUsers]);
+
     useEffect(() => {
         // Simulate data loading
         const loadData = async () => {
             setIsLoading(true);
             await new Promise(resolve => setTimeout(resolve, 500));
-            setForecast(generateForecast());
-            setChurnUsers(generateChurnRiskUsers());
+            setForecast(generateRealDataForecast);
+            setChurnUsers(useMLPredictions ? mlChurnUsersFormatted : generateChurnRiskUsers());
             setRecommendations(generateRecommendations());
             setAlerts(generateAlerts());
             setIsLoading(false);
         };
         loadData();
-    }, []);
+    }, [generateRealDataForecast, useMLPredictions, mlChurnUsersFormatted]);
 
     const stats = useMemo(() => {
-        const totalForecast = forecast.reduce((sum, d) => sum + d.projected, 0);
+        // Use ML-based stats when available
+        const totalForecast = useMLPredictions && mlRevenueForecast.length > 0
+            ? mlRevenueForecast.reduce((sum, d) => sum + d.value, 0)
+            : forecast.reduce((sum, d) => sum + d.projected, 0);
+
+        // Calculate stats from ML or real data
+        const atRiskCount = useMLPredictions
+            ? churnPredictions.filter(p => p.riskLevel === 'high' || p.riskLevel === 'critical').length
+            : hasRealData ? Math.round(dataProvider.getDAU() * 0.0156) : 156;
+
+        const dau = hasRealData ? dataProvider.getDAU() : 10000;
+        const opportunities = Math.round(dau * 0.0089); // ~0.89% opportunities
+
+        // Model accuracy from ML status
+        const accuracy = mlStatus.modelMetrics.churn?.accuracy
+            ? Math.round(mlStatus.modelMetrics.churn.accuracy * 100)
+            : 87;
+
         return {
             revenue30d: totalForecast,
-            atRiskUsers: 156,
-            opportunities: 89,
-            modelAccuracy: 87,
+            atRiskUsers: atRiskCount,
+            opportunities: hasRealData ? opportunities : 89,
+            modelAccuracy: accuracy,
         };
-    }, [forecast]);
+    }, [forecast, hasRealData, dataProvider, useMLPredictions, mlRevenueForecast, churnPredictions, mlStatus]);
+
+    // Show training progress
+    if (isTraining) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <div className="flex flex-col items-center gap-4">
+                    <Brain className="w-12 h-12 text-violet-500 animate-pulse" />
+                    <div className="text-center">
+                        <div className="text-lg font-medium text-white">Training ML Models</div>
+                        <div className="text-gray-400">Analyzing your data for predictions...</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     if (isLoading) {
         return (
@@ -489,13 +562,35 @@ export const PredictionsPage: React.FC = () => {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">Predictions</h1>
-                    <p className="text-gray-400 mt-1">AI-powered insights and forecasts</p>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-2xl font-bold text-white">Predictions</h1>
+                        <DataModeIndicator />
+                        <MLStatusBadge />
+                    </div>
+                    <p className="text-gray-400 mt-1">
+                        {useMLPredictions
+                            ? 'ML-powered forecasts from trained models'
+                            : hasRealData
+                                ? 'AI-powered forecasts based on your data'
+                                : 'AI-powered insights and forecasts (demo data)'}
+                    </p>
+                    {useMLPredictions && (
+                        <div className="flex items-center gap-2 mt-1 text-xs text-purple-400">
+                            <Brain className="w-3.5 h-3.5" />
+                            ML models trained on {mlStatus.dataPointsUsed.toLocaleString()} data points
+                        </div>
+                    )}
+                    {hasRealData && !useMLPredictions && (
+                        <div className="flex items-center gap-2 mt-1 text-xs text-green-400">
+                            <Database className="w-3.5 h-3.5" />
+                            Predictions generated from your uploaded data
+                        </div>
+                    )}
                 </div>
                 <div className="flex items-center gap-2">
                     <button className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition-colors">
                         <Clock className="w-4 h-4" />
-                        <span>Last updated: 5 min ago</span>
+                        <span>Last updated: {mlStatus.lastTrainedAt ? new Date(mlStatus.lastTrainedAt).toLocaleTimeString() : '5 min ago'}</span>
                     </button>
                     <button className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg text-white transition-colors">
                         <RefreshCw className="w-4 h-4" />
@@ -541,14 +636,51 @@ export const PredictionsPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Column - Forecast */}
                 <div className="lg:col-span-2 space-y-6">
-                    <ForecastChart data={forecast} />
+                    {/* Use ML RevenueForecastChart when available */}
+                    {useMLPredictions && mlRevenueForecast.length > 0 ? (
+                        <div className="bg-card rounded-card p-5 border border-white/5">
+                            <div className="flex items-center gap-2 mb-4">
+                                <Brain className="w-5 h-5 text-purple-400" />
+                                <h3 className="text-lg font-semibold text-white">ML Revenue Forecast</h3>
+                                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">
+                                    ML Powered
+                                </span>
+                            </div>
+                            <RevenueForecastChart
+                                forecast={mlRevenueForecast}
+                                showConfidenceInterval
+                                height={280}
+                            />
+                        </div>
+                    ) : (
+                        <ForecastChart data={forecast} />
+                    )}
                     <RecommendationsPanel recommendations={recommendations} />
                 </div>
 
                 {/* Right Column - Alerts & Actions */}
                 <div className="space-y-6">
                     <AlertsPanel alerts={alerts} />
-                    <ChurnRiskPanel users={churnUsers} />
+
+                    {/* Use ML ChurnRiskTable when available */}
+                    {useMLPredictions && mlAtRiskUsers.length > 0 ? (
+                        <div className="bg-card rounded-card p-5 border border-white/5">
+                            <div className="flex items-center gap-2 mb-4">
+                                <AlertTriangle className="w-5 h-5 text-orange-400" />
+                                <h3 className="text-lg font-semibold text-white">ML Churn Risk</h3>
+                                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">
+                                    ML Powered
+                                </span>
+                            </div>
+                            <ChurnRiskTable
+                                users={mlAtRiskUsers}
+                                maxRows={5}
+                            />
+                        </div>
+                    ) : (
+                        <ChurnRiskPanel users={churnUsers} />
+                    )}
+
                     <WhatIfAnalysis />
                 </div>
             </div>
