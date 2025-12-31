@@ -136,6 +136,18 @@ Object.defineProperty(navigator, 'clipboard', {
 // Mock scrollIntoView for elements
 Element.prototype.scrollIntoView = vi.fn();
 
+// Polyfill Blob.text() for jsdom
+if (!Blob.prototype.text) {
+    Blob.prototype.text = function() {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(this);
+        });
+    };
+}
+
 // Mock console.warn/error to keep test output clean (optional)
 // vi.spyOn(console, 'warn').mockImplementation(() => {});
 // vi.spyOn(console, 'error').mockImplementation(() => {});
