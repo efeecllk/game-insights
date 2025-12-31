@@ -58,3 +58,17 @@ export type {
     PlayFabCatalogItem,
     PlayFabVirtualCurrency
 } from './PlayFabAdapter';
+
+export { UnityAdapter } from './UnityAdapter';
+export type {
+    UnityConfig,
+    UnityDataType,
+    UnityAnalyticsEvent,
+    UnityPlayer,
+    UnityCloudSaveItem,
+    UnityEconomyPurchase,
+    UnityEconomyCurrency,
+    UnityEconomyBalance,
+    UnityInventoryItem,
+    UnityRemoteConfigValue
+} from './UnityAdapter';
