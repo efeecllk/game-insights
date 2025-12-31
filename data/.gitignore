@@ -1,0 +1,6 @@
+# Generated test datasets (can be regenerated with scripts)
+csv-tests/
+*.csv
+
+# Keep the directory structure
+!.gitignore
