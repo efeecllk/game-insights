@@ -90,11 +90,11 @@ export function Sidebar() {
     const location = useLocation();
     const { t } = useTranslation();
 
-    // Sort nav items based on game type priority
-    const priorities = sidebarPriorities[selectedGame];
+    // Sort nav items based on game type priority (fallback to 'custom' for unknown types)
+    const priorities = sidebarPriorities[selectedGame] ?? sidebarPriorities['custom'];
     const sortedNavItems = [...allNavItems].sort((a, b) => {
-        const priorityA = priorities[a.label] ?? 99;
-        const priorityB = priorities[b.label] ?? 99;
+        const priorityA = priorities?.[a.label] ?? 99;
+        const priorityB = priorities?.[b.label] ?? 99;
         return priorityA - priorityB;
     });
 
