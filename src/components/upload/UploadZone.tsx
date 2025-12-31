@@ -1,14 +1,17 @@
 /**
  * Upload Zone Component - Enhanced multi-format support
  * Phase 8: Enhanced error handling with user-friendly messages
+ * Now with streaming support for large files (1GB+)
  */
 
 import { useState, useCallback, DragEvent, ChangeEvent } from 'react';
-import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard, FolderOpen } from 'lucide-react';
-import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult, type FolderImportProgress } from '../../lib/importers';
+import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard, FolderOpen, HardDrive } from 'lucide-react';
+import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult, type FolderImportProgress, detectFileFormat } from '../../lib/importers';
 import { folderImporter, type MergeStrategy, type FolderImportResult } from '../../lib/importers/folderImporter';
 import { urlImporter } from '../../lib/importers/urlImporter';
 import { clipboardImporter } from '../../lib/importers/clipboardImporter';
+import { streamingCsvImporter, type StreamingProgress } from '../../lib/importers/streamingCsvImporter';
+import { saveChunk } from '../../lib/chunkedDataStore';
 import { parseError, ErrorCode, AppError } from '../../lib/errorHandler';
 import { FolderUploadPreview } from './FolderUploadPreview';
 
@@ -42,28 +45,82 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
     const [folderProgress, setFolderProgress] = useState<FolderImportProgress | undefined>();
     const [isFolderImporting, setIsFolderImporting] = useState(false);
 
-    const loading = isLoading || localLoading || isFolderImporting;
+    // Streaming progress state for large files
+    const [streamingProgress, setStreamingProgress] = useState<StreamingProgress | null>(null);
+    const [isStreaming, setIsStreaming] = useState(false);
+
+    const loading = isLoading || localLoading || isFolderImporting || isStreaming;
 
     const handleFile = useCallback(async (file: File) => {
         setError(null);
         setFileName(file.name);
-        setLocalLoading(true);
+        setStreamingProgress(null);
 
         // Validate file format
         if (!isFormatSupported(file)) {
             const parsed = parseError(new AppError(ErrorCode.FILE_UNSUPPORTED));
             setError(parsed.message);
-            setLocalLoading(false);
             return;
         }
 
-        // Validate file size (max 100MB)
-        if (file.size > 100 * 1024 * 1024) {
-            const parsed = parseError(new AppError(ErrorCode.FILE_TOO_LARGE));
-            setError(parsed.message);
-            setLocalLoading(false);
+        const format = detectFileFormat(file);
+        const isLargeFile = file.size > 50 * 1024 * 1024; // 50MB threshold
+        const isCsv = format === 'csv' || format === 'tsv';
+
+        // Use streaming for large CSV files
+        if (isLargeFile && isCsv) {
+            setIsStreaming(true);
+            const datasetId = `dataset_${Date.now()}`;
+
+            try {
+                const result = await streamingCsvImporter.import(file, {
+                    chunkSize: 10000,
+                    sampleSize: 1000,
+                    onProgress: (progress) => {
+                        setStreamingProgress(progress);
+                    },
+                    onChunk: async (chunk) => {
+                        // Store each chunk in IndexedDB
+                        await saveChunk(datasetId, chunk);
+                    }
+                });
+
+                if (!result.success) {
+                    const parsed = parseError(new AppError(ErrorCode.FILE_PARSE_ERROR, result.errors[0]?.message));
+                    setError(parsed.message);
+                    setIsStreaming(false);
+                    return;
+                }
+
+                if (result.rowCount === 0) {
+                    const parsed = parseError(new AppError(ErrorCode.FILE_EMPTY));
+                    setError(parsed.message);
+                    setIsStreaming(false);
+                    return;
+                }
+
+                // Pass result with sample data to onFileLoaded
+                onFileLoaded({
+                    ...result,
+                    data: result.sampleData, // Use sample for preview
+                    metadata: {
+                        ...result.metadata,
+                        // Add chunked info
+                        format: `${result.metadata.format} (streamed: ${result.totalChunks} chunks)`
+                    }
+                }, file);
+            } catch (err) {
+                const parsed = parseError(err);
+                setError(parsed.message);
+            } finally {
+                setIsStreaming(false);
+                setStreamingProgress(null);
+            }
             return;
         }
+
+        // Standard import for smaller files (no size limit for non-streaming)
+        setLocalLoading(true);
 
         try {
             const result = await importFile(file);
@@ -346,7 +403,40 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                     />
 
                     <div className="flex flex-col items-center gap-4 text-center">
-                        {loading ? (
+                        {isStreaming && streamingProgress ? (
+                            <>
+                                <div className="w-16 h-16 rounded-2xl bg-accent-primary/10 flex items-center justify-center">
+                                    <HardDrive className="w-8 h-8 text-accent-primary animate-pulse" />
+                                </div>
+                                <div className="w-full max-w-xs">
+                                    <div className="flex justify-between text-sm mb-1">
+                                        <span className="text-zinc-400">
+                                            {streamingProgress.phase === 'parsing' ? 'Processing...' : 'Complete!'}
+                                        </span>
+                                        <span className="text-accent-primary font-medium">
+                                            {streamingProgress.percent}%
+                                        </span>
+                                    </div>
+                                    <div className="h-2 bg-bg-elevated rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-gradient-to-r from-accent-primary to-accent-secondary transition-all duration-300"
+                                            style={{ width: `${streamingProgress.percent}%` }}
+                                        />
+                                    </div>
+                                    <div className="flex justify-between text-xs text-zinc-500 mt-2">
+                                        <span>
+                                            {(streamingProgress.rowsProcessed).toLocaleString()} rows
+                                        </span>
+                                        <span>
+                                            {(streamingProgress.bytesProcessed / 1024 / 1024).toFixed(1)} MB / {(streamingProgress.totalBytes / 1024 / 1024).toFixed(1)} MB
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-zinc-500 mt-1">
+                                        Chunk {streamingProgress.chunkIndex + 1} • Streaming large file
+                                    </p>
+                                </div>
+                            </>
+                        ) : loading ? (
                             <>
                                 <Loader2 className="w-12 h-12 text-accent-primary animate-spin" />
                                 <p className="text-zinc-400">Importing your data...</p>

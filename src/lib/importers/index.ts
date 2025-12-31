@@ -114,6 +114,13 @@ export { sqliteImporter, type SQLiteImportOptions } from './sqliteImporter';
 export { urlImporter, type URLImportOptions } from './urlImporter';
 export { clipboardImporter } from './clipboardImporter';
 export {
+    streamingCsvImporter,
+    type StreamingImportOptions,
+    type StreamingProgress,
+    type StreamingImportResult,
+    type ChunkData
+} from './streamingCsvImporter';
+export {
     folderImporter,
     type FolderImportOptions,
     type FolderImportResult,

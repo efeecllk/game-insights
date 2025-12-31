@@ -95,7 +95,7 @@ const ERROR_MESSAGES: Record<ErrorCode, FriendlyError> = {
     },
     [ErrorCode.FILE_TOO_LARGE]: {
         title: 'File Too Large',
-        message: 'This file exceeds the size limit. Try splitting it into smaller files.',
+        message: 'This file is too large for this format. CSV files up to 1GB are supported with streaming. For other formats, try splitting into smaller files.',
     },
     [ErrorCode.FILE_UNSUPPORTED]: {
         title: 'Unsupported Format',
