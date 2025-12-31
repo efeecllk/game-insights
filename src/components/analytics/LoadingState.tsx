@@ -8,6 +8,7 @@ import { Loader2, Brain, BarChart3, Search, Sparkles } from 'lucide-react';
 interface LoadingStateProps {
     stage?: 'sampling' | 'analyzing' | 'detecting' | 'generating';
     progress?: number;
+    rowCount?: number;
 }
 
 const STAGES = [
@@ -17,12 +18,12 @@ const STAGES = [
     { id: 'generating', label: 'Generating insights...', icon: Sparkles },
 ];
 
-export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateProps) {
+export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: LoadingStateProps) {
     const currentStageIndex = STAGES.findIndex(s => s.id === stage);
 
     return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center">
-            <div className="bg-white rounded-2xl border border-gray-200 p-8 max-w-md w-full shadow-sm">
+            <div className="bg-bg-card rounded-2xl border border-white/10 p-8 max-w-md w-full shadow-lg">
                 {/* Animated Icon */}
                 <div className="flex justify-center mb-6">
                     <div className="relative">
@@ -34,11 +35,13 @@ export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateP
                 </div>
 
                 {/* Title */}
-                <h2 className="text-xl font-semibold text-gray-900 text-center mb-2">
+                <h2 className="text-xl font-semibold text-white text-center mb-2">
                     Analyzing Your Data
                 </h2>
-                <p className="text-gray-500 text-center text-sm mb-6">
-                    AI is processing your data to generate insights
+                <p className="text-zinc-400 text-center text-sm mb-6">
+                    {rowCount
+                        ? `Processing ${rowCount.toLocaleString()} rows...`
+                        : 'AI is processing your data to generate insights'}
                 </p>
 
                 {/* Progress Steps */}
@@ -53,10 +56,10 @@ export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateP
                                 key={s.id}
                                 className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
                                     isCurrent
-                                        ? 'bg-violet-50 border border-violet-200'
+                                        ? 'bg-violet-500/10 border border-violet-500/30'
                                         : isComplete
-                                        ? 'bg-green-50 border border-green-200'
-                                        : 'bg-gray-50 border border-gray-100'
+                                        ? 'bg-green-500/10 border border-green-500/30'
+                                        : 'bg-white/5 border border-white/10'
                                 }`}
                             >
                                 <div
@@ -65,7 +68,7 @@ export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateP
                                             ? 'bg-violet-500 text-white'
                                             : isComplete
                                             ? 'bg-green-500 text-white'
-                                            : 'bg-gray-200 text-gray-400'
+                                            : 'bg-white/10 text-zinc-500'
                                     }`}
                                 >
                                     {isCurrent ? (
@@ -81,10 +84,10 @@ export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateP
                                 <span
                                     className={`text-sm font-medium ${
                                         isCurrent
-                                            ? 'text-violet-700'
+                                            ? 'text-violet-400'
                                             : isComplete
-                                            ? 'text-green-700'
-                                            : 'text-gray-400'
+                                            ? 'text-green-400'
+                                            : 'text-zinc-500'
                                     }`}
                                 >
                                     {s.label}
@@ -95,20 +98,18 @@ export function LoadingState({ stage = 'sampling', progress = 0 }: LoadingStateP
                 </div>
 
                 {/* Progress Bar */}
-                {progress > 0 && (
-                    <div className="mt-6">
-                        <div className="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>Progress</span>
-                            <span>{Math.round(progress)}%</span>
-                        </div>
-                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
-                                className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full transition-all duration-500"
-                                style={{ width: `${progress}%` }}
-                            />
-                        </div>
+                <div className="mt-6">
+                    <div className="flex justify-between text-xs text-zinc-500 mb-1">
+                        <span>Progress</span>
+                        <span>{Math.round(progress)}%</span>
                     </div>
-                )}
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                        <div
+                            className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.max(progress, 5)}%` }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

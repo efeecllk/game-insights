@@ -77,7 +77,12 @@ export function AnalyticsPage() {
 
     // Loading state
     if (analytics.isLoading || analytics.isProcessing) {
-        return <LoadingState stage={analytics.isProcessing ? 'analyzing' : 'sampling'} />;
+        return (
+            <LoadingState
+                stage={analytics.isProcessing ? 'analyzing' : 'sampling'}
+                rowCount={activeGameData?.rowCount}
+            />
+        );
     }
 
     // Error state

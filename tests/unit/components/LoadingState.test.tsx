@@ -1,6 +1,8 @@
 /**
  * LoadingState Component Tests
  * Phase 7: Testing & Quality Assurance
+ *
+ * Tests the redesigned LoadingState component with dark theme styling
  */
 
 import { describe, it, expect } from 'vitest';
@@ -15,10 +17,16 @@ describe('LoadingState', () => {
             expect(screen.getByText('Analyzing Your Data')).toBeInTheDocument();
         });
 
-        it('should render description', () => {
+        it('should render default description without row count', () => {
             render(<LoadingState />);
 
             expect(screen.getByText('AI is processing your data to generate insights')).toBeInTheDocument();
+        });
+
+        it('should render row count in description when provided', () => {
+            render(<LoadingState rowCount={1000} />);
+
+            expect(screen.getByText('Processing 1,000 rows...')).toBeInTheDocument();
         });
 
         it('should render all stages', () => {
@@ -36,7 +44,7 @@ describe('LoadingState', () => {
             render(<LoadingState />);
 
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-violet-700');
+            expect(samplingStage).toHaveClass('text-violet-400');
         });
 
         it('should highlight analyzing stage when specified', () => {
@@ -44,51 +52,52 @@ describe('LoadingState', () => {
 
             // Sampling should be complete
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-green-700');
+            expect(samplingStage).toHaveClass('text-green-400');
 
             // Analyzing should be current
             const analyzingStage = screen.getByText('Analyzing patterns...');
-            expect(analyzingStage).toHaveClass('text-violet-700');
+            expect(analyzingStage).toHaveClass('text-violet-400');
         });
 
         it('should highlight detecting stage when specified', () => {
             render(<LoadingState stage="detecting" />);
 
             // Previous stages should be complete
-            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-700');
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-700');
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-400');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-400');
 
             // Detecting should be current
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-violet-700');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-violet-400');
         });
 
         it('should highlight generating stage when specified', () => {
             render(<LoadingState stage="generating" />);
 
             // All previous stages should be complete
-            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-700');
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-700');
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-green-700');
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-400');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-400');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-green-400');
 
             // Generating should be current
-            expect(screen.getByText('Generating insights...')).toHaveClass('text-violet-700');
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-violet-400');
         });
 
-        it('should show pending stages in gray', () => {
+        it('should show pending stages in muted color', () => {
             render(<LoadingState stage="sampling" />);
 
-            // Stages after sampling should be gray
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-gray-400');
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-gray-400');
-            expect(screen.getByText('Generating insights...')).toHaveClass('text-gray-400');
+            // Stages after sampling should be muted
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-zinc-500');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-zinc-500');
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-zinc-500');
         });
     });
 
     describe('progress bar', () => {
-        it('should not show progress bar when progress is 0', () => {
+        it('should always show progress bar with progress indicator', () => {
             render(<LoadingState progress={0} />);
 
-            expect(screen.queryByText('Progress')).not.toBeInTheDocument();
+            expect(screen.getByText('Progress')).toBeInTheDocument();
+            expect(screen.getByText('0%')).toBeInTheDocument();
         });
 
         it('should show progress bar when progress is greater than 0', () => {
@@ -122,13 +131,33 @@ describe('LoadingState', () => {
             render(<LoadingState />);
 
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-violet-700');
+            expect(samplingStage).toHaveClass('text-violet-400');
         });
 
-        it('should default to 0 progress (no progress bar)', () => {
+        it('should default to 0 progress', () => {
             render(<LoadingState />);
 
-            expect(screen.queryByText('Progress')).not.toBeInTheDocument();
+            expect(screen.getByText('0%')).toBeInTheDocument();
+        });
+    });
+
+    describe('accessibility', () => {
+        it('should have descriptive content', () => {
+            render(<LoadingState />);
+
+            // Should have a heading
+            expect(screen.getByText('Analyzing Your Data')).toBeInTheDocument();
+
+            // Should have a description
+            expect(screen.getByText('AI is processing your data to generate insights')).toBeInTheDocument();
+        });
+
+        it('should show visual progress indication', () => {
+            render(<LoadingState progress={50} />);
+
+            // Progress text should be visible
+            expect(screen.getByText('Progress')).toBeInTheDocument();
+            expect(screen.getByText('50%')).toBeInTheDocument();
         });
     });
 });

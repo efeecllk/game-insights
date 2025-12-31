@@ -104,7 +104,9 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('+10%');
-        expect(badge).toHaveClass('text-green-500');
+        // Badge container should have success theme styles
+        expect(badge.parentElement).toHaveClass('text-th-success');
+        expect(badge.parentElement).toHaveClass('bg-th-success-muted');
     });
 
     it('should apply correct styling for down change', () => {
@@ -119,7 +121,9 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('-5%');
-        expect(badge).toHaveClass('text-red-500');
+        // Badge container should have error theme styles
+        expect(badge.parentElement).toHaveClass('text-th-error');
+        expect(badge.parentElement).toHaveClass('bg-th-error-muted');
     });
 
     it('should apply correct styling for neutral change', () => {
@@ -134,6 +138,23 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('0%');
-        expect(badge).toHaveClass('text-zinc-500');
+        // Badge container should have muted theme styles
+        expect(badge.parentElement).toHaveClass('text-th-text-muted');
+        expect(badge.parentElement).toHaveClass('bg-th-bg-elevated');
+    });
+
+    it('should render the icon', () => {
+        render(
+            <KPICard
+                icon={TrendingUp}
+                label="Test"
+                value="100"
+                changeType="neutral"
+            />
+        );
+
+        // Icon container should exist with proper styling
+        const iconContainer = document.querySelector('.bg-th-accent-primary-muted');
+        expect(iconContainer).toBeInTheDocument();
     });
 });

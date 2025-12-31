@@ -8,8 +8,20 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { Sidebar } from '../../../src/components/Sidebar';
+import { DataProvider } from '../../../src/context/DataContext';
 import { GameProvider } from '../../../src/context/GameContext';
 import { ThemeProvider } from '../../../src/context/ThemeContext';
+
+// Mock IndexedDB for DataProvider
+vi.mock('../../../src/lib/dataStore', () => ({
+    initDB: vi.fn().mockResolvedValue(undefined),
+    getAllGameData: vi.fn().mockResolvedValue([]),
+    getAllGameProfiles: vi.fn().mockResolvedValue([]),
+    saveGameData: vi.fn().mockResolvedValue(undefined),
+    saveGameProfile: vi.fn().mockResolvedValue(undefined),
+    deleteGameData: vi.fn().mockResolvedValue(undefined),
+    generateId: vi.fn().mockReturnValue('test-id'),
+}));
 
 // Test wrapper component with all required providers
 function TestWrapper({
@@ -22,7 +34,9 @@ function TestWrapper({
     return (
         <MemoryRouter initialEntries={[initialRoute]}>
             <ThemeProvider>
-                <GameProvider>{children}</GameProvider>
+                <DataProvider>
+                    <GameProvider>{children}</GameProvider>
+                </DataProvider>
             </ThemeProvider>
         </MemoryRouter>
     );

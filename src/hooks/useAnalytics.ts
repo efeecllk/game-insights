@@ -41,6 +41,9 @@ const DEFAULT_CONFIG: Partial<PipelineConfig> = {
     useLLM: false, // Start without LLM, can be enabled in settings
 };
 
+// Timeout for analysis (30 seconds)
+const ANALYSIS_TIMEOUT = 30000;
+
 export function useAnalytics(): UseAnalyticsReturn {
     const { activeGameData, isReady } = useData();
 
@@ -79,7 +82,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         };
     }, []);
 
-    // Run analysis on data
+    // Run analysis on data with timeout protection
     const runAnalysis = useCallback(async (config?: Partial<PipelineConfig>) => {
         if (!activeGameData?.rawData) {
             setState(prev => ({
@@ -109,7 +112,15 @@ export function useAnalytics(): UseAnalyticsReturn {
                 anomalyConfig,
             };
 
-            const result = await dataPipeline.run(normalizedData, fullConfig);
+            // Run pipeline with timeout
+            const timeoutPromise = new Promise<never>((_, reject) => {
+                setTimeout(() => reject(new Error('Analysis timed out. Try uploading a smaller dataset.')), ANALYSIS_TIMEOUT);
+            });
+
+            const result = await Promise.race([
+                dataPipeline.run(normalizedData, fullConfig),
+                timeoutPromise,
+            ]);
 
             setState(prev => ({
                 ...prev,
