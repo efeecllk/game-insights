@@ -67,6 +67,12 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
         const isLargeFile = file.size > 50 * 1024 * 1024; // 50MB threshold
         const isCsv = format === 'csv' || format === 'tsv';
 
+        // For large non-CSV files, show helpful error (streaming only supports CSV)
+        if (isLargeFile && !isCsv) {
+            setError(`Large ${format.toUpperCase()} files are not supported yet. For files over 50MB, please use CSV format which supports streaming. Alternatively, split your ${format.toUpperCase()} file into smaller parts.`);
+            return;
+        }
+
         // Use streaming for large CSV files
         if (isLargeFile && isCsv) {
             setIsStreaming(true);
