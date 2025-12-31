@@ -340,7 +340,9 @@ function detectErrorCode(error: unknown): ErrorCode {
         if (message.includes('parse') || message.includes('syntax')) {
             return ErrorCode.FILE_PARSE_ERROR;
         }
-        if (message.includes('too large') || message.includes('size')) {
+        // Check for file size errors but exclude stack size errors
+        if ((message.includes('too large') || message.includes('file size')) &&
+            !message.includes('stack size') && !message.includes('call stack')) {
             return ErrorCode.FILE_TOO_LARGE;
         }
         if (message.includes('unsupported') || message.includes('format')) {

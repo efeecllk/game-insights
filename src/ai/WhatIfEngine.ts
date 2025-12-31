@@ -158,8 +158,9 @@ export class WhatIfEngine {
 
     /**
      * Simulate a scenario and return projections
+     * @param isBaselineCalculation - internal flag to prevent infinite recursion
      */
-    simulateScenario(input: ScenarioInput): ScenarioResult {
+    simulateScenario(input: ScenarioInput, isBaselineCalculation: boolean = false): ScenarioResult {
         const { baselineMetrics, modifications, timeHorizon, dailyNewUsers = 1000 } = input;
 
         // Apply modifications to baseline
@@ -216,24 +217,35 @@ export class WhatIfEngine {
         // Calculate LTV
         const projectedLtv = this.calculateLtv(modifiedMetrics, retentionCurve);
 
-        // Calculate baseline for comparison
-        const baselineResult = this.calculateBaseline(baselineMetrics, timeHorizon, dailyNewUsers);
-
-        // Calculate impact
-        const impact = {
-            revenueChange: totalRevenue - baselineResult.totalRevenue,
-            revenueChangePercent: baselineResult.totalRevenue > 0
-                ? ((totalRevenue - baselineResult.totalRevenue) / baselineResult.totalRevenue) * 100
-                : 0,
-            dauChange: (totalDau / timeHorizon) - baselineResult.avgDau,
-            dauChangePercent: baselineResult.avgDau > 0
-                ? (((totalDau / timeHorizon) - baselineResult.avgDau) / baselineResult.avgDau) * 100
-                : 0,
-            ltvChange: projectedLtv - baselineResult.ltv,
-            ltvChangePercent: baselineResult.ltv > 0
-                ? ((projectedLtv - baselineResult.ltv) / baselineResult.ltv) * 100
-                : 0,
+        // Calculate impact (skip baseline comparison if this IS the baseline calculation)
+        let impact = {
+            revenueChange: 0,
+            revenueChangePercent: 0,
+            dauChange: 0,
+            dauChangePercent: 0,
+            ltvChange: 0,
+            ltvChangePercent: 0,
         };
+
+        if (!isBaselineCalculation) {
+            // Calculate baseline for comparison (only when not already calculating baseline)
+            const baselineResult = this.calculateBaseline(baselineMetrics, timeHorizon, dailyNewUsers);
+
+            impact = {
+                revenueChange: totalRevenue - baselineResult.totalRevenue,
+                revenueChangePercent: baselineResult.totalRevenue > 0
+                    ? ((totalRevenue - baselineResult.totalRevenue) / baselineResult.totalRevenue) * 100
+                    : 0,
+                dauChange: (totalDau / timeHorizon) - baselineResult.avgDau,
+                dauChangePercent: baselineResult.avgDau > 0
+                    ? (((totalDau / timeHorizon) - baselineResult.avgDau) / baselineResult.avgDau) * 100
+                    : 0,
+                ltvChange: projectedLtv - baselineResult.ltv,
+                ltvChangePercent: baselineResult.ltv > 0
+                    ? ((projectedLtv - baselineResult.ltv) / baselineResult.ltv) * 100
+                    : 0,
+            };
+        }
 
         // Estimate confidence based on modification magnitude
         const modificationMagnitude = this.calculateModificationMagnitude(modifications);
@@ -486,7 +498,8 @@ export class WhatIfEngine {
             dailyNewUsers,
         };
 
-        const result = this.simulateScenario(input);
+        // Pass true to prevent infinite recursion
+        const result = this.simulateScenario(input, true);
         return {
             totalRevenue: result.summary.totalRevenue,
             avgDau: result.summary.avgDau,
