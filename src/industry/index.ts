@@ -15,4 +15,12 @@ export { IndustryRegistry, getIndustryRegistry } from './IndustryRegistry';
 export { IndustryDetector, createIndustryDetector } from './IndustryDetector';
 export type { DetectorConfig } from './IndustryDetector';
 
-// Industry packs will be exported from ./packs/
+// Pack import/export
+export { PackExporter } from './PackExporter';
+export type { PackExportMetadata, ExportedPack, ImportValidation } from './PackExporter';
+
+// Pack development kit
+export { PackDevKit, createPack, extendPack } from './PackDevKit';
+
+// Industry packs
+export * from './packs';
