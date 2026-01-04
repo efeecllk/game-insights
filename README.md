@@ -52,10 +52,10 @@ git clone https://github.com/yourusername/game-insights.git
 cd game-insights
 
 # Install dependencies
-npm install
+pnpm install
 
 # Start development server
-npm run dev
+pnpm dev
 ```
 
 Open http://localhost:5173 and upload a CSV to get started.
@@ -86,21 +86,26 @@ Try with the sample data in `/sample-data/`:
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| **Phase 1** | Universal Data Import | In Progress |
-| **Phase 2** | Zero-Config Analytics | In Progress |
-| **Phase 3** | One-Click Integrations | Planned |
-| **Phase 4** | Community & Ecosystem | Planned |
-| **Phase 5** | Advanced AI & Predictions | Planned |
+| **Phase 1** | Universal Data Import | ✅ Complete |
+| **Phase 2** | Zero-Config Analytics | ✅ Complete |
+| **Phase 3** | One-Click Integrations | ✅ Complete |
+| **Phase 4** | Community & Ecosystem | ✅ Complete |
+| **Phase 5** | Advanced AI & Predictions | ✅ Complete |
 
 See [docs/phases/](./docs/phases/) for detailed roadmap.
 
-### Coming Soon
+### Implemented Features
 - Google Sheets integration
 - Firebase Analytics connection
 - Supabase / PostgreSQL support
 - PlayFab integration
+- Unity SDK adapter
 - Template marketplace
-- Predictive analytics
+- Plugin system
+- Predictive analytics (Retention, Churn, LTV, Revenue forecasting)
+- Anomaly detection
+- User segmentation
+- Intelligent alerting system
 
 ---
 
@@ -117,10 +122,11 @@ We welcome contributions! Here's how you can help:
 ### Development
 
 ```bash
-npm run dev       # Start dev server
-npm run build     # Production build
-npm run lint      # Run ESLint
-npm run preview   # Preview production build
+pnpm dev          # Start dev server
+pnpm build        # Production build
+pnpm lint         # Run ESLint
+pnpm preview      # Preview production build
+pnpm test         # Run tests
 ```
 
 ---
