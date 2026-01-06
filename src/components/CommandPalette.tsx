@@ -1,8 +1,14 @@
 /**
- * Command Palette
+ * Command Palette - Obsidian Analytics Design
  * Global search and navigation with Cmd+K
  * Phase 8: Usability & Accessibility
- * 
+ *
+ * Premium design with:
+ * - Glassmorphism container
+ * - Emerald accent theme
+ * - Animated transitions
+ * - Noise texture background
+ *
  * Accessibility Features:
  * - Focus trapping within modal
  * - ARIA roles and labels for dialog pattern
@@ -13,6 +19,7 @@
 
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search,
     LayoutDashboard,
@@ -341,135 +348,181 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
     let globalIndex = -1;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]">
-            {/* Backdrop */}
-            <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                onClick={onClose}
-                aria-hidden="true"
-            />
-
-            {/* Dialog */}
-            <div
-                ref={dialogRef}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby={dialogLabelId}
-                aria-describedby={dialogDescId}
-                className="relative w-full max-w-xl bg-th-bg-card border border-th-border rounded-xl shadow-2xl overflow-hidden"
+        <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
             >
-                {/* Hidden labels for screen readers */}
-                <h2 id={dialogLabelId} className="sr-only">Command Palette</h2>
-                <p id={dialogDescId} className="sr-only">
-                    Search and navigate to any page or action. Use arrow keys to navigate and Enter to select.
-                </p>
+                {/* Backdrop */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    onClick={onClose}
+                    aria-hidden="true"
+                />
 
-                {/* Search Input */}
-                <div className="flex items-center gap-3 px-4 py-3 border-b border-th-border">
-                    <Search className="w-5 h-5 text-th-text-secondary" aria-hidden="true" />
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
-                        placeholder="Type a command or search..."
-                        className="flex-1 bg-transparent text-th-text-primary placeholder:text-th-text-secondary outline-none text-sm"
-                        role="combobox"
-                        aria-expanded="true"
-                        aria-controls={listboxId}
-                        aria-activedescendant={flatCommands[selectedIndex]?.id ? 'command-' + flatCommands[selectedIndex].id : undefined}
-                        aria-autocomplete="list"
-                        aria-label="Search commands"
-                    />
-                    <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border" aria-hidden="true">
-                        ESC
-                    </kbd>
-                </div>
-
-                {/* Command List */}
-                <div 
-                    ref={listRef} 
-                    id={listboxId}
-                    role="listbox"
-                    aria-label="Commands"
-                    className="max-h-[50vh] overflow-y-auto p-2"
+                {/* Dialog */}
+                <motion.div
+                    ref={dialogRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={dialogLabelId}
+                    aria-describedby={dialogDescId}
+                    initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    className="relative w-full max-w-xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden"
                 >
-                    {flatCommands.length === 0 ? (
-                        <div className="py-8 text-center text-th-text-secondary text-sm" role="status">
-                            No commands found for "{query}"
+                    {/* Noise texture */}
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                    <div className="relative">
+                        {/* Hidden labels for screen readers */}
+                        <h2 id={dialogLabelId} className="sr-only">
+                            Command Palette
+                        </h2>
+                        <p id={dialogDescId} className="sr-only">
+                            Search and navigate to any page or action. Use arrow keys to navigate and Enter to select.
+                        </p>
+
+                        {/* Search Input */}
+                        <div className="flex items-center gap-3 px-4 py-4 border-b border-white/[0.06]">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                <Search className="w-4 h-4 text-emerald-400" />
+                            </div>
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="Type a command or search..."
+                                className="flex-1 bg-transparent text-white placeholder:text-slate-500 outline-none text-sm"
+                                role="combobox"
+                                aria-expanded="true"
+                                aria-controls={listboxId}
+                                aria-activedescendant={
+                                    flatCommands[selectedIndex]?.id ? 'command-' + flatCommands[selectedIndex].id : undefined
+                                }
+                                aria-autocomplete="list"
+                                aria-label="Search commands"
+                            />
+                            <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-slate-500 bg-white/[0.03] rounded-lg border border-white/[0.06]">
+                                ESC
+                            </kbd>
                         </div>
-                    ) : (
-                        Object.entries(groupedCommands).map(([category, cmds]) => {
-                            if (cmds.length === 0) return null;
-                            return (
-                                <div key={category} className="mb-2" role="group" aria-label={categoryLabels[category]}>
-                                    <div className="px-2 py-1.5 text-xs font-medium text-th-text-secondary uppercase tracking-wider" aria-hidden="true">
-                                        {categoryLabels[category]}
-                                    </div>
-                                    {cmds.map((cmd) => {
-                                        globalIndex++;
-                                        const isSelected = globalIndex === selectedIndex;
-                                        const Icon = cmd.icon;
 
-                                        return (
-                                            <button
-                                                key={cmd.id}
-                                                id={'command-' + cmd.id}
-                                                data-index={globalIndex}
-                                                role="option"
-                                                aria-selected={isSelected}
-                                                onClick={cmd.action}
-                                                onMouseEnter={() => setSelectedIndex(globalIndex)}
-                                                className={'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ' + (
-                                                    isSelected
-                                                        ? 'bg-th-accent-primary/20 text-th-text-primary'
-                                                        : 'text-th-text-secondary hover:bg-th-bg-elevated'
-                                                )}
-                                            >
-                                                <Icon className={'w-5 h-5 ' + (isSelected ? 'text-th-accent-primary' : '')} aria-hidden="true" />
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="text-sm font-medium truncate">{cmd.name}</div>
-                                                    {cmd.description && (
-                                                        <div className="text-xs text-th-text-secondary truncate">
-                                                            {cmd.description}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                                {cmd.shortcut && (
-                                                    <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-xs text-th-text-secondary bg-th-bg-elevated rounded border border-th-border" aria-label={'Keyboard shortcut: ' + cmd.shortcut}>
-                                                        {cmd.shortcut}
-                                                    </kbd>
-                                                )}
-                                            </button>
-                                        );
-                                    })}
+                        {/* Command List */}
+                        <div
+                            ref={listRef}
+                            id={listboxId}
+                            role="listbox"
+                            aria-label="Commands"
+                            className="max-h-[50vh] overflow-y-auto p-2"
+                        >
+                            {flatCommands.length === 0 ? (
+                                <div className="py-8 text-center text-slate-500 text-sm" role="status">
+                                    No commands found for "{query}"
                                 </div>
-                            );
-                        })
-                    )}
-                </div>
+                            ) : (
+                                Object.entries(groupedCommands).map(([category, cmds]) => {
+                                    if (cmds.length === 0) return null;
+                                    return (
+                                        <div key={category} className="mb-2" role="group" aria-label={categoryLabels[category]}>
+                                            <div className="px-2 py-1.5 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                                                {categoryLabels[category]}
+                                            </div>
+                                            {cmds.map((cmd) => {
+                                                globalIndex++;
+                                                const isSelected = globalIndex === selectedIndex;
+                                                const Icon = cmd.icon;
+                                                const currentIndex = globalIndex;
 
-                {/* Footer */}
-                <div className="flex items-center justify-between px-4 py-2 border-t border-th-border text-xs text-th-text-secondary" aria-hidden="true">
-                    <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1">
-                            <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">↑</kbd>
-                            <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">↓</kbd>
-                            to navigate
-                        </span>
-                        <span className="flex items-center gap-1">
-                            <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">↵</kbd>
-                            to select
-                        </span>
+                                                return (
+                                                    <motion.button
+                                                        key={cmd.id}
+                                                        id={'command-' + cmd.id}
+                                                        data-index={currentIndex}
+                                                        role="option"
+                                                        aria-selected={isSelected}
+                                                        onClick={cmd.action}
+                                                        onMouseEnter={() => setSelectedIndex(currentIndex)}
+                                                        whileHover={{ x: 4 }}
+                                                        className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
+                                                            isSelected
+                                                                ? 'bg-emerald-500/10 border border-emerald-500/20'
+                                                                : 'border border-transparent hover:bg-white/[0.03]'
+                                                        }`}
+                                                    >
+                                                        <div
+                                                            className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                                                isSelected
+                                                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                                                    : 'bg-white/[0.03] text-slate-400'
+                                                            }`}
+                                                        >
+                                                            <Icon className="w-4 h-4" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div
+                                                                className={`text-sm font-medium truncate ${
+                                                                    isSelected ? 'text-white' : 'text-slate-300'
+                                                                }`}
+                                                            >
+                                                                {cmd.name}
+                                                            </div>
+                                                            {cmd.description && (
+                                                                <div className="text-xs text-slate-500 truncate">{cmd.description}</div>
+                                                            )}
+                                                        </div>
+                                                        {cmd.shortcut && (
+                                                            <kbd
+                                                                className={`hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border ${
+                                                                    isSelected
+                                                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                                                        : 'bg-white/[0.02] border-white/[0.06] text-slate-500'
+                                                                }`}
+                                                                aria-label={'Keyboard shortcut: ' + cmd.shortcut}
+                                                            >
+                                                                {cmd.shortcut}
+                                                            </kbd>
+                                                        )}
+                                                    </motion.button>
+                                                );
+                                            })}
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex items-center justify-between px-4 py-2.5 border-t border-white/[0.06] text-xs text-slate-500">
+                            <div className="flex items-center gap-4">
+                                <span className="flex items-center gap-1.5">
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↑</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↓</kbd>
+                                    <span className="text-slate-600">navigate</span>
+                                </span>
+                                <span className="flex items-center gap-1.5">
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↵</kbd>
+                                    <span className="text-slate-600">select</span>
+                                </span>
+                            </div>
+                            <span className="flex items-center gap-1.5">
+                                <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">ESC</kbd>
+                                <span className="text-slate-600">close</span>
+                            </span>
+                        </div>
                     </div>
-                    <span className="flex items-center gap-1">
-                        <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">ESC</kbd>
-                        to close
-                    </span>
-                </div>
-            </div>
-        </div>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 

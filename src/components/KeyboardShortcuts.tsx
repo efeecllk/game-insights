@@ -1,8 +1,14 @@
 /**
- * Keyboard Shortcuts Provider
+ * Keyboard Shortcuts Provider - Obsidian Analytics Design
  * Global keyboard navigation and shortcuts
  * Phase 8: Usability & Accessibility
- * 
+ *
+ * Premium design with:
+ * - Glassmorphism container
+ * - Emerald accent theme
+ * - Animated transitions
+ * - Noise texture background
+ *
  * Accessibility Features:
  * - Focus trapping within modal
  * - ARIA roles and labels for dialog pattern
@@ -13,8 +19,9 @@
 
 import { useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useFocusTrap, useAriaId, announceToScreenReader } from '../lib/a11y';
-import { X } from 'lucide-react';
+import { X, Keyboard } from 'lucide-react';
 
 // ============================================================================
 // Shortcuts Modal Component
@@ -83,86 +90,133 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
     ];
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-            {/* Backdrop */}
-            <div
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-                onClick={onClose}
-                aria-hidden="true"
-            />
-
-            {/* Modal */}
-            <div 
-                ref={dialogRef}
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby={dialogLabelId}
-                aria-describedby={dialogDescId}
-                className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto bg-th-bg-card border border-th-border rounded-xl shadow-2xl"
+        <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 flex items-center justify-center"
             >
-                {/* Header */}
-                <div className="sticky top-0 flex items-center justify-between px-6 py-4 border-b border-th-border bg-th-bg-card">
-                    <h2 id={dialogLabelId} className="text-lg font-semibold text-th-text-primary">
-                        Keyboard Shortcuts
-                    </h2>
-                    <button
-                        ref={closeButtonRef}
-                        onClick={onClose}
-                        className="p-1 hover:bg-th-bg-elevated rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-th-accent-primary"
-                        aria-label="Close keyboard shortcuts dialog"
-                    >
-                        <X className="w-5 h-5 text-th-text-secondary" aria-hidden="true" />
-                    </button>
-                </div>
+                {/* Backdrop */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    onClick={onClose}
+                    aria-hidden="true"
+                />
 
-                <p id={dialogDescId} className="sr-only">
-                    A list of keyboard shortcuts organized by category. Use Tab to navigate through shortcuts.
-                </p>
+                {/* Modal */}
+                <motion.div
+                    ref={dialogRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={dialogLabelId}
+                    aria-describedby={dialogDescId}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl"
+                >
+                    {/* Noise texture */}
+                    <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
-                {/* Content */}
-                <div className="p-6 space-y-6">
-                    {shortcuts.map((section) => (
-                        <section key={section.category} aria-labelledby={'section-' + section.category.toLowerCase()}>
-                            <h3 
-                                id={'section-' + section.category.toLowerCase()}
-                                className="text-sm font-medium text-th-text-secondary uppercase tracking-wider mb-3"
-                            >
-                                {section.category}
-                            </h3>
-                            <dl className="space-y-2">
-                                {section.items.map((shortcut, index) => (
-                                    <div
-                                        key={index}
-                                        className="flex items-center justify-between py-2"
-                                    >
-                                        <dt className="text-sm text-th-text-primary">
-                                            {shortcut.description}
-                                        </dt>
-                                        <dd className="flex items-center gap-1">
-                                            {shortcut.keys.map((key, keyIndex) => (
-                                                <span key={keyIndex} className="flex items-center">
-                                                    <kbd className="inline-flex items-center justify-center min-w-[24px] px-2 py-1 text-xs font-medium text-th-text-secondary bg-th-bg-elevated border border-th-border rounded">
-                                                        {key}
-                                                    </kbd>
-                                                    {keyIndex < shortcut.keys.length - 1 && (
-                                                        <span className="mx-1 text-th-text-muted text-xs" aria-hidden="true">then</span>
-                                                    )}
-                                                </span>
-                                            ))}
-                                        </dd>
+                    <div className="relative max-h-[80vh] overflow-y-auto">
+                        {/* Header */}
+                        <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-white/[0.06] bg-slate-900/80 backdrop-blur-xl">
+                            <div className="flex items-center gap-3">
+                                <motion.div
+                                    initial={{ scale: 0, rotate: -180 }}
+                                    animate={{ scale: 1, rotate: 0 }}
+                                    transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
+                                    className="relative"
+                                >
+                                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
+                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                        <Keyboard className="w-5 h-5 text-emerald-400" />
                                     </div>
-                                ))}
-                            </dl>
-                        </section>
-                    ))}
-                </div>
+                                </motion.div>
+                                <h2 id={dialogLabelId} className="text-lg font-semibold text-white">
+                                    Keyboard Shortcuts
+                                </h2>
+                            </div>
+                            <motion.button
+                                ref={closeButtonRef}
+                                onClick={onClose}
+                                whileHover={{ scale: 1.1, rotate: 90 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="p-2 hover:bg-white/[0.05] rounded-lg transition-colors"
+                                aria-label="Close keyboard shortcuts dialog"
+                            >
+                                <X className="w-5 h-5 text-slate-400" />
+                            </motion.button>
+                        </div>
 
-                {/* Footer */}
-                <div className="sticky bottom-0 px-6 py-3 border-t border-th-border bg-th-bg-card text-xs text-th-text-secondary text-center">
-                    Press <kbd className="px-1 py-0.5 bg-th-bg-elevated rounded border border-th-border">?</kbd> to toggle this dialog
-                </div>
-            </div>
-        </div>
+                        <p id={dialogDescId} className="sr-only">
+                            A list of keyboard shortcuts organized by category. Use Tab to navigate through shortcuts.
+                        </p>
+
+                        {/* Content */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 }}
+                            className="p-6 space-y-6"
+                        >
+                            {shortcuts.map((section, sectionIndex) => (
+                                <motion.section
+                                    key={section.category}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: sectionIndex * 0.1 + 0.2 }}
+                                    aria-labelledby={'section-' + section.category.toLowerCase()}
+                                >
+                                    <h3
+                                        id={'section-' + section.category.toLowerCase()}
+                                        className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider mb-3"
+                                    >
+                                        {section.category}
+                                    </h3>
+                                    <dl className="space-y-1">
+                                        {section.items.map((shortcut, index) => (
+                                            <div
+                                                key={index}
+                                                className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-white/[0.02] transition-colors"
+                                            >
+                                                <dt className="text-sm text-slate-300">{shortcut.description}</dt>
+                                                <dd className="flex items-center gap-1">
+                                                    {shortcut.keys.map((key, keyIndex) => (
+                                                        <span key={keyIndex} className="flex items-center">
+                                                            <kbd className="inline-flex items-center justify-center min-w-[28px] px-2 py-1.5 text-xs font-medium text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg">
+                                                                {key}
+                                                            </kbd>
+                                                            {keyIndex < shortcut.keys.length - 1 && (
+                                                                <span className="mx-1.5 text-slate-600 text-xs">then</span>
+                                                            )}
+                                                        </span>
+                                                    ))}
+                                                </dd>
+                                            </div>
+                                        ))}
+                                    </dl>
+                                </motion.section>
+                            ))}
+                        </motion.div>
+
+                        {/* Footer */}
+                        <div className="sticky bottom-0 px-6 py-3 border-t border-white/[0.06] bg-slate-900/80 backdrop-blur-xl text-xs text-slate-500 text-center">
+                            Press{' '}
+                            <kbd className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06] text-emerald-400">
+                                ?
+                            </kbd>{' '}
+                            to toggle this dialog
+                        </div>
+                    </div>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 
