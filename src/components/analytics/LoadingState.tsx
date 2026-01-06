@@ -1,15 +1,29 @@
 /**
- * LoadingState Component
- * Shows analysis progress with animated UI
+ * LoadingState Component - Obsidian Analytics Design
+ *
+ * Premium loading state with:
+ * - Glassmorphism container
+ * - Animated progress steps
+ * - Emerald accent colors
+ * - Smooth animations
  */
 
-import { Loader2, Brain, BarChart3, Search, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Loader2, Brain, BarChart3, Search, Sparkles, CheckCircle } from 'lucide-react';
+
+// ============================================================================
+// Types
+// ============================================================================
 
 interface LoadingStateProps {
     stage?: 'sampling' | 'analyzing' | 'detecting' | 'generating';
     progress?: number;
     rowCount?: number;
 }
+
+// ============================================================================
+// Constants
+// ============================================================================
 
 const STAGES = [
     { id: 'sampling', label: 'Sampling data...', icon: Search },
@@ -18,31 +32,72 @@ const STAGES = [
     { id: 'generating', label: 'Generating insights...', icon: Sparkles },
 ];
 
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
+
+// ============================================================================
+// Main Component
+// ============================================================================
+
 export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: LoadingStateProps) {
     const currentStageIndex = STAGES.findIndex(s => s.id === stage);
 
     return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center">
-            <div className="bg-bg-card rounded-2xl border border-white/10 p-8 max-w-md w-full shadow-lg">
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-8 max-w-md w-full shadow-2xl"
+            >
                 {/* Animated Icon */}
-                <div className="flex justify-center mb-6">
+                <motion.div
+                    variants={itemVariants}
+                    className="flex justify-center mb-6"
+                >
                     <div className="relative">
-                        <div className="absolute inset-0 bg-violet-500/20 rounded-full blur-xl animate-pulse" />
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-2xl flex items-center justify-center">
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-pulse" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
                             <Loader2 className="w-8 h-8 text-white animate-spin" />
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Title */}
-                <h2 className="text-xl font-semibold text-white text-center mb-2">
-                    Analyzing Your Data
-                </h2>
-                <p className="text-zinc-400 text-center text-sm mb-6">
-                    {rowCount
-                        ? `Processing ${rowCount.toLocaleString()} rows...`
-                        : 'AI is processing your data to generate insights'}
-                </p>
+                <motion.div variants={itemVariants}>
+                    <h2 className="text-xl font-bold text-white text-center mb-2">
+                        Analyzing Your Data
+                    </h2>
+                    <p className="text-slate-400 text-center text-sm mb-6">
+                        {rowCount
+                            ? `Processing ${rowCount.toLocaleString()} rows...`
+                            : 'AI is processing your data to generate insights'}
+                    </p>
+                </motion.div>
 
                 {/* Progress Steps */}
                 <div className="space-y-3">
@@ -52,65 +107,66 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                         const isCurrent = index === currentStageIndex;
 
                         return (
-                            <div
+                            <motion.div
                                 key={s.id}
-                                className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                                variants={itemVariants}
+                                className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                                     isCurrent
-                                        ? 'bg-violet-500/10 border border-violet-500/30'
+                                        ? 'bg-emerald-500/10 border border-emerald-500/30'
                                         : isComplete
-                                        ? 'bg-green-500/10 border border-green-500/30'
-                                        : 'bg-white/5 border border-white/10'
+                                        ? 'bg-teal-500/10 border border-teal-500/30'
+                                        : 'bg-white/[0.02] border border-white/[0.06]'
                                 }`}
                             >
                                 <div
-                                    className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                    className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                                         isCurrent
-                                            ? 'bg-violet-500 text-white'
+                                            ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
                                             : isComplete
-                                            ? 'bg-green-500 text-white'
-                                            : 'bg-white/10 text-zinc-500'
+                                            ? 'bg-teal-500 text-white shadow-lg shadow-teal-500/30'
+                                            : 'bg-white/[0.05] text-slate-500'
                                     }`}
                                 >
                                     {isCurrent ? (
                                         <Loader2 className="w-4 h-4 animate-spin" />
                                     ) : isComplete ? (
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                        </svg>
+                                        <CheckCircle className="w-4 h-4" />
                                     ) : (
                                         <Icon className="w-4 h-4" />
                                     )}
                                 </div>
                                 <span
-                                    className={`text-sm font-medium ${
+                                    className={`text-sm font-medium transition-colors ${
                                         isCurrent
-                                            ? 'text-violet-400'
+                                            ? 'text-emerald-400'
                                             : isComplete
-                                            ? 'text-green-400'
-                                            : 'text-zinc-500'
+                                            ? 'text-teal-400'
+                                            : 'text-slate-500'
                                     }`}
                                 >
                                     {s.label}
                                 </span>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
 
                 {/* Progress Bar */}
-                <div className="mt-6">
-                    <div className="flex justify-between text-xs text-zinc-500 mb-1">
+                <motion.div variants={itemVariants} className="mt-6">
+                    <div className="flex justify-between text-xs text-slate-400 mb-2">
                         <span>Progress</span>
-                        <span>{Math.round(progress)}%</span>
+                        <span className="tabular-nums">{Math.round(progress)}%</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                            className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full transition-all duration-500"
-                            style={{ width: `${Math.max(progress, 5)}%` }}
+                    <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-white/[0.06]">
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${Math.max(progress, 5)}%` }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
+                            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
                         />
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
         </div>
     );
 }

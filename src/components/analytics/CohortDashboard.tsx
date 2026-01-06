@@ -1,9 +1,15 @@
 /**
- * CohortDashboard Component
- * Displays cohort analysis with retention heatmap, comparison, and insights
+ * CohortDashboard Component - Obsidian Analytics Design
+ *
+ * Premium cohort analysis with:
+ * - Glassmorphism cards and containers
+ * - Animated retention heatmap
+ * - Color-coded summary cards
+ * - Smooth transitions and hover effects
  */
 
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Users,
     TrendingUp,
@@ -25,6 +31,10 @@ import {
     CohortDimension,
 } from '../../ai/CohortAnalyzer';
 
+// ============================================================================
+// Types
+// ============================================================================
+
 interface CohortDashboardProps {
     cohortAnalysis?: CohortAnalysisResult;
     availableDimensions?: CohortDefinition[];
@@ -32,58 +42,101 @@ interface CohortDashboardProps {
     className?: string;
 }
 
-// Retention heatmap color scale
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
+
+// ============================================================================
+// Utility Functions
+// ============================================================================
+
 function getRetentionColor(value: number): string {
-    if (value === 0) return 'bg-th-bg-elevated';
-    if (value >= 40) return 'bg-green-500';
-    if (value >= 30) return 'bg-green-400';
-    if (value >= 20) return 'bg-emerald-400';
-    if (value >= 15) return 'bg-yellow-400';
-    if (value >= 10) return 'bg-amber-400';
-    if (value >= 5) return 'bg-orange-400';
-    return 'bg-red-400';
+    if (value === 0) return 'bg-white/[0.03]';
+    if (value >= 40) return 'bg-emerald-500';
+    if (value >= 30) return 'bg-emerald-400';
+    if (value >= 20) return 'bg-teal-400';
+    if (value >= 15) return 'bg-amber-400';
+    if (value >= 10) return 'bg-orange-400';
+    if (value >= 5) return 'bg-rose-400';
+    return 'bg-rose-500';
 }
 
 function getRetentionTextColor(value: number): string {
-    if (value === 0) return 'text-th-text-muted';
+    if (value === 0) return 'text-slate-500';
     if (value >= 20) return 'text-white';
-    return 'text-gray-900';
+    return 'text-slate-900';
 }
 
-// Format large numbers
 function formatNumber(value: number): string {
     if (value >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
     if (value >= 1000) return `${(value / 1000).toFixed(1)}K`;
     return value.toLocaleString();
 }
 
-// Cohort summary card
+// ============================================================================
+// Summary Card Component
+// ============================================================================
+
 function CohortSummaryCard({
     icon: Icon,
     label,
     value,
     subValue,
     trend,
-    iconColor,
+    color,
 }: {
     icon: React.ElementType;
     label: string;
     value: string | number;
     subValue?: string;
     trend?: 'up' | 'down' | 'neutral';
-    iconColor: string;
+    color: 'emerald' | 'blue' | 'violet' | 'amber';
 }) {
+    const colorStyles = {
+        emerald: { bg: 'from-emerald-500/20 to-emerald-500/5', border: 'border-emerald-500/20', icon: 'bg-emerald-500' },
+        blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'bg-blue-500' },
+        violet: { bg: 'from-violet-500/20 to-violet-500/5', border: 'border-violet-500/20', icon: 'bg-violet-500' },
+        amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'bg-amber-500' },
+    };
+
+    const styles = colorStyles[color];
+
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border p-4">
+        <motion.div
+            variants={itemVariants}
+            className={`
+                bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80
+                backdrop-blur-xl rounded-xl
+                border border-white/[0.06]
+                p-4 hover:border-white/[0.12] transition-all
+            `}
+        >
             <div className="flex items-start justify-between">
-                <div className={`w-10 h-10 rounded-xl ${iconColor} flex items-center justify-center`}>
+                <div className={`w-10 h-10 rounded-xl ${styles.icon} flex items-center justify-center`}>
                     <Icon className="w-5 h-5 text-white" />
                 </div>
                 {trend && (
                     <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-                        trend === 'up' ? 'bg-green-500/10 text-green-500' :
-                        trend === 'down' ? 'bg-red-500/10 text-red-500' :
-                        'bg-th-bg-elevated text-th-text-muted'
+                        trend === 'up' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                        trend === 'down' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                        'bg-white/[0.03] text-slate-400 border border-white/[0.06]'
                     }`}>
                         {trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
                          trend === 'down' ? <TrendingDown className="w-3 h-3" /> : null}
@@ -92,15 +145,18 @@ function CohortSummaryCard({
                 )}
             </div>
             <div className="mt-3">
-                <p className="text-sm text-th-text-muted">{label}</p>
-                <p className="text-2xl font-semibold text-th-text-primary mt-1">{value}</p>
-                {subValue && <p className="text-xs text-th-text-muted mt-1">{subValue}</p>}
+                <p className="text-sm text-slate-400">{label}</p>
+                <p className="text-2xl font-bold text-white mt-1">{value}</p>
+                {subValue && <p className="text-xs text-slate-500 mt-1">{subValue}</p>}
             </div>
-        </div>
+        </motion.div>
     );
 }
 
-// Best/Worst cohort highlight
+// ============================================================================
+// Cohort Highlight Component
+// ============================================================================
+
 function CohortHighlight({
     type,
     cohort,
@@ -112,31 +168,43 @@ function CohortHighlight({
 
     const isBest = type === 'best';
     const Icon = isBest ? Trophy : AlertTriangle;
-    const bgColor = isBest ? 'bg-green-500/10' : 'bg-amber-500/10';
-    const borderColor = isBest ? 'border-green-500/30' : 'border-amber-500/30';
-    const iconColor = isBest ? 'text-green-500' : 'text-amber-500';
-    const label = isBest ? 'Top Performer' : 'Needs Attention';
 
     return (
-        <div className={`rounded-xl border p-4 ${bgColor} ${borderColor}`}>
+        <motion.div
+            variants={itemVariants}
+            className={`
+                rounded-xl border p-4
+                ${isBest
+                    ? 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20'
+                    : 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20'
+                }
+            `}
+        >
             <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isBest ? 'bg-green-500/20' : 'bg-amber-500/20'}`}>
-                    <Icon className={`w-5 h-5 ${iconColor}`} />
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    isBest ? 'bg-emerald-500/20' : 'bg-amber-500/20'
+                }`}>
+                    <Icon className={`w-5 h-5 ${isBest ? 'text-emerald-400' : 'text-amber-400'}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${iconColor}`}>{label}</p>
-                    <p className="text-th-text-primary font-semibold truncate">{cohort.name}</p>
+                    <p className={`text-sm font-medium ${isBest ? 'text-emerald-400' : 'text-amber-400'}`}>
+                        {isBest ? 'Top Performer' : 'Needs Attention'}
+                    </p>
+                    <p className="text-white font-semibold truncate">{cohort.name}</p>
                 </div>
                 <div className="text-right">
-                    <p className="text-2xl font-bold text-th-text-primary">{cohort.value.toFixed(1)}%</p>
-                    <p className="text-xs text-th-text-muted">{cohort.metric}</p>
+                    <p className="text-2xl font-bold text-white">{cohort.value.toFixed(1)}%</p>
+                    <p className="text-xs text-slate-400">{cohort.metric}</p>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
-// Retention heatmap component
+// ============================================================================
+// Retention Heatmap Component
+// ============================================================================
+
 function RetentionHeatmap({
     matrix,
 }: {
@@ -144,28 +212,34 @@ function RetentionHeatmap({
 }) {
     if (matrix.labels.length === 0) {
         return (
-            <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
-                <BarChart3 className="w-12 h-12 text-th-text-muted mx-auto mb-3" />
-                <p className="text-th-text-muted">No retention data available</p>
-            </div>
+            <motion.div
+                variants={itemVariants}
+                className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] p-8 text-center"
+            >
+                <BarChart3 className="w-12 h-12 text-slate-500 mx-auto mb-3" />
+                <p className="text-slate-400">No retention data available</p>
+            </motion.div>
         );
     }
 
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
-            <div className="p-4 border-b border-th-border">
-                <h3 className="font-semibold text-th-text-primary">Retention Matrix</h3>
-                <p className="text-sm text-th-text-muted mt-1">Cohort retention over time</p>
+        <motion.div
+            variants={itemVariants}
+            className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] overflow-hidden"
+        >
+            <div className="p-4 border-b border-white/[0.06]">
+                <h3 className="font-semibold text-white">Retention Matrix</h3>
+                <p className="text-sm text-slate-400 mt-1">Cohort retention over time</p>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full min-w-[500px]">
                     <thead>
-                        <tr className="bg-th-bg-elevated/50">
-                            <th className="text-left py-3 px-4 text-sm font-medium text-th-text-secondary sticky left-0 bg-th-bg-elevated/50">
+                        <tr className="bg-white/[0.02]">
+                            <th className="text-left py-3 px-4 text-sm font-medium text-slate-400 sticky left-0 bg-slate-900/90 backdrop-blur-sm">
                                 Cohort
                             </th>
                             {matrix.days.map(day => (
-                                <th key={day} className="text-center py-3 px-3 text-sm font-medium text-th-text-secondary min-w-[60px]">
+                                <th key={day} className="text-center py-3 px-3 text-sm font-medium text-slate-400 min-w-[60px]">
                                     {day}
                                 </th>
                             ))}
@@ -173,18 +247,21 @@ function RetentionHeatmap({
                     </thead>
                     <tbody>
                         {matrix.labels.map((label, rowIdx) => (
-                            <tr key={label} className="border-t border-th-border/50">
-                                <td className="py-2 px-4 text-sm text-th-text-primary font-medium sticky left-0 bg-th-bg-surface">
+                            <tr key={label} className="border-t border-white/[0.04]">
+                                <td className="py-2 px-4 text-sm text-white font-medium sticky left-0 bg-slate-900/90 backdrop-blur-sm">
                                     {label}
                                 </td>
                                 {matrix.matrix[rowIdx]?.map((value, colIdx) => (
                                     <td key={colIdx} className="py-2 px-2 text-center">
-                                        <div
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ delay: rowIdx * 0.05 + colIdx * 0.02 }}
                                             className={`mx-auto w-12 h-8 rounded-md flex items-center justify-center text-xs font-medium ${getRetentionColor(value)} ${getRetentionTextColor(value)}`}
                                             title={`${label} - ${matrix.days[colIdx]}: ${value}%`}
                                         >
                                             {value > 0 ? `${value.toFixed(0)}%` : '-'}
-                                        </div>
+                                        </motion.div>
                                     </td>
                                 ))}
                             </tr>
@@ -193,40 +270,31 @@ function RetentionHeatmap({
                 </table>
             </div>
             {/* Legend */}
-            <div className="px-4 py-3 bg-th-bg-elevated/30 border-t border-th-border flex items-center gap-4 text-xs text-th-text-muted">
+            <div className="px-4 py-3 bg-white/[0.02] border-t border-white/[0.06] flex items-center gap-4 text-xs text-slate-400">
                 <span>Retention:</span>
                 <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-red-400" />
-                        <span>&lt;5%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-orange-400" />
-                        <span>5-10%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-amber-400" />
-                        <span>10-15%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-yellow-400" />
-                        <span>15-20%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-emerald-400" />
-                        <span>20-30%</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-4 h-4 rounded bg-green-500" />
-                        <span>&gt;30%</span>
-                    </div>
+                    {[
+                        { color: 'bg-rose-500', label: '<5%' },
+                        { color: 'bg-orange-400', label: '5-10%' },
+                        { color: 'bg-amber-400', label: '10-15%' },
+                        { color: 'bg-teal-400', label: '15-30%' },
+                        { color: 'bg-emerald-500', label: '>30%' },
+                    ].map(({ color, label }) => (
+                        <div key={label} className="flex items-center gap-1">
+                            <div className={`w-4 h-4 rounded ${color}`} />
+                            <span>{label}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
-// Individual cohort card
+// ============================================================================
+// Cohort Card Component
+// ============================================================================
+
 function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention: Record<string, number> }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -235,96 +303,114 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
     const performanceVsAvg = avgD7 > 0 ? ((d7Retention - avgD7) / avgD7) * 100 : 0;
 
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
+        <motion.div
+            variants={itemVariants}
+            className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] overflow-hidden"
+        >
             <div
-                className="p-4 cursor-pointer hover:bg-th-interactive-hover transition-colors"
+                className="p-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 onClick={() => setIsExpanded(!isExpanded)}
             >
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-th-accent-primary/10 flex items-center justify-center">
-                            <Users className="w-5 h-5 text-th-accent-primary" />
+                        <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                            <Users className="w-5 h-5 text-violet-400" />
                         </div>
                         <div>
-                            <p className="font-medium text-th-text-primary">{cohort.value}</p>
-                            <p className="text-sm text-th-text-muted">{formatNumber(cohort.userCount)} users</p>
+                            <p className="font-medium text-white">{cohort.value}</p>
+                            <p className="text-sm text-slate-400">{formatNumber(cohort.userCount)} users</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="text-right">
-                            <p className="text-lg font-semibold text-th-text-primary">{d7Retention.toFixed(1)}%</p>
-                            <p className="text-xs text-th-text-muted">D7 Retention</p>
+                            <p className="text-lg font-semibold text-white">{d7Retention.toFixed(1)}%</p>
+                            <p className="text-xs text-slate-400">D7 Retention</p>
                         </div>
                         {performanceVsAvg !== 0 && (
                             <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                                performanceVsAvg > 0 ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+                                performanceVsAvg > 0
+                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                             }`}>
                                 {performanceVsAvg > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                 {Math.abs(performanceVsAvg).toFixed(0)}% vs avg
                             </div>
                         )}
-                        <ChevronDown className={`w-5 h-5 text-th-text-muted transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                     </div>
                 </div>
             </div>
 
-            {isExpanded && (
-                <div className="px-4 pb-4 space-y-4 border-t border-th-border/50 pt-4">
-                    {/* Retention breakdown */}
-                    <div>
-                        <p className="text-sm font-medium text-th-text-secondary mb-2">Retention by Day</p>
-                        <div className="grid grid-cols-5 gap-2">
-                            {['D1', 'D3', 'D7', 'D14', 'D30'].map(day => {
-                                const value = cohort.metrics.retention[day] ?? 0;
-                                return (
-                                    <div key={day} className="bg-th-bg-elevated rounded-lg p-3 text-center">
-                                        <p className="text-xs text-th-text-muted">{day}</p>
-                                        <p className="text-lg font-semibold text-th-text-primary mt-1">
-                                            {value > 0 ? `${value.toFixed(1)}%` : '-'}
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="px-4 pb-4 space-y-4 border-t border-white/[0.04] pt-4">
+                            {/* Retention breakdown */}
+                            <div>
+                                <p className="text-sm font-medium text-slate-300 mb-2">Retention by Day</p>
+                                <div className="grid grid-cols-5 gap-2">
+                                    {['D1', 'D3', 'D7', 'D14', 'D30'].map(day => {
+                                        const value = cohort.metrics.retention[day] ?? 0;
+                                        return (
+                                            <div key={day} className="bg-white/[0.03] rounded-lg p-3 text-center border border-white/[0.04]">
+                                                <p className="text-xs text-slate-400">{day}</p>
+                                                <p className="text-lg font-semibold text-white mt-1">
+                                                    {value > 0 ? `${value.toFixed(1)}%` : '-'}
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
 
-                    {/* Metrics */}
-                    <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-th-bg-elevated rounded-lg p-3">
-                            <div className="flex items-center gap-2 text-th-text-muted mb-1">
-                                <DollarSign className="w-4 h-4" />
-                                <span className="text-xs">Total Revenue</span>
+                            {/* Metrics */}
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                    <div className="flex items-center gap-2 text-slate-400 mb-1">
+                                        <DollarSign className="w-4 h-4" />
+                                        <span className="text-xs">Total Revenue</span>
+                                    </div>
+                                    <p className="text-lg font-semibold text-white">
+                                        ${formatNumber(cohort.metrics.totalRevenue)}
+                                    </p>
+                                </div>
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                    <div className="flex items-center gap-2 text-slate-400 mb-1">
+                                        <Percent className="w-4 h-4" />
+                                        <span className="text-xs">Conversion Rate</span>
+                                    </div>
+                                    <p className="text-lg font-semibold text-white">
+                                        {cohort.metrics.conversionRate.toFixed(2)}%
+                                    </p>
+                                </div>
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                    <div className="flex items-center gap-2 text-slate-400 mb-1">
+                                        <Users className="w-4 h-4" />
+                                        <span className="text-xs">Cohort Size</span>
+                                    </div>
+                                    <p className="text-lg font-semibold text-white">
+                                        {formatNumber(cohort.userCount)}
+                                    </p>
+                                </div>
                             </div>
-                            <p className="text-lg font-semibold text-th-text-primary">
-                                ${formatNumber(cohort.metrics.totalRevenue)}
-                            </p>
                         </div>
-                        <div className="bg-th-bg-elevated rounded-lg p-3">
-                            <div className="flex items-center gap-2 text-th-text-muted mb-1">
-                                <Percent className="w-4 h-4" />
-                                <span className="text-xs">Conversion Rate</span>
-                            </div>
-                            <p className="text-lg font-semibold text-th-text-primary">
-                                {cohort.metrics.conversionRate.toFixed(2)}%
-                            </p>
-                        </div>
-                        <div className="bg-th-bg-elevated rounded-lg p-3">
-                            <div className="flex items-center gap-2 text-th-text-muted mb-1">
-                                <Users className="w-4 h-4" />
-                                <span className="text-xs">Cohort Size</span>
-                            </div>
-                            <p className="text-lg font-semibold text-th-text-primary">
-                                {formatNumber(cohort.userCount)}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
-// Dimension selector
+// ============================================================================
+// Dimension Selector Component
+// ============================================================================
+
 function DimensionSelector({
     current,
     available,
@@ -351,41 +437,53 @@ function DimensionSelector({
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-4 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary hover:bg-th-interactive-hover transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white hover:bg-white/[0.06] hover:border-white/[0.12] transition-all"
             >
-                <Icon className="w-4 h-4 text-th-accent-primary" />
+                <Icon className="w-4 h-4 text-emerald-400" />
                 <span className="font-medium">{current.name}</span>
-                <ChevronDown className={`w-4 h-4 text-th-text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            {isOpen && available.length > 1 && (
-                <div className="absolute top-full left-0 mt-2 w-64 bg-th-bg-surface border border-th-border rounded-lg shadow-lg z-10">
-                    {available.map((dim, idx) => {
-                        const DimIcon = dimensionIcons[dim.dimension] || BarChart3;
-                        const isSelected = dim.dimension === current.dimension;
-                        return (
-                            <button
-                                key={idx}
-                                onClick={() => {
-                                    onChange(dim);
-                                    setIsOpen(false);
-                                }}
-                                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-th-interactive-hover transition-colors first:rounded-t-lg last:rounded-b-lg ${
-                                    isSelected ? 'bg-th-accent-primary/10' : ''
-                                }`}
-                            >
-                                <DimIcon className={`w-4 h-4 ${isSelected ? 'text-th-accent-primary' : 'text-th-text-muted'}`} />
-                                <span className={`font-medium ${isSelected ? 'text-th-accent-primary' : 'text-th-text-primary'}`}>
-                                    {dim.name}
-                                </span>
-                            </button>
-                        );
-                    })}
-                </div>
-            )}
+            <AnimatePresence>
+                {isOpen && available.length > 1 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-xl z-10 overflow-hidden"
+                    >
+                        {available.map((dim, idx) => {
+                            const DimIcon = dimensionIcons[dim.dimension] || BarChart3;
+                            const isSelected = dim.dimension === current.dimension;
+                            return (
+                                <button
+                                    key={idx}
+                                    onClick={() => {
+                                        onChange(dim);
+                                        setIsOpen(false);
+                                    }}
+                                    className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.05] transition-colors ${
+                                        isSelected ? 'bg-emerald-500/10' : ''
+                                    }`}
+                                >
+                                    <DimIcon className={`w-4 h-4 ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`} />
+                                    <span className={`font-medium ${isSelected ? 'text-emerald-400' : 'text-white'}`}>
+                                        {dim.name}
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
+
+// ============================================================================
+// Main Component
+// ============================================================================
 
 export function CohortDashboard({
     cohortAnalysis,
@@ -426,17 +524,21 @@ export function CohortDashboard({
     // No data state
     if (!cohortAnalysis || cohortAnalysis.cohorts.length === 0) {
         return (
-            <div className={`bg-th-bg-surface rounded-card border border-th-border p-8 ${className ?? ''}`}>
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-8 ${className ?? ''}`}
+            >
                 <div className="text-center">
-                    <div className="w-12 h-12 bg-th-accent-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <Users className="w-6 h-6 text-th-accent-primary" />
+                    <div className="w-16 h-16 bg-violet-500/10 border border-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <Users className="w-8 h-8 text-violet-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Cohort Data</h3>
-                    <p className="text-th-text-muted">
+                    <h3 className="text-lg font-semibold text-white mb-2">No Cohort Data</h3>
+                    <p className="text-slate-400">
                         Upload data with user IDs and timestamps to enable cohort analysis.
                     </p>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 
@@ -444,16 +546,21 @@ export function CohortDashboard({
     const displayedCohorts = showAllCohorts ? cohorts : cohorts.slice(0, 5);
 
     return (
-        <div className={`space-y-6 ${className ?? ''}`}>
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className={`space-y-6 ${className ?? ''}`}
+        >
             {/* Header with dimension selector */}
-            <div className="flex items-center justify-between">
+            <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
                         <Users className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-th-text-primary">Cohort Analysis</h2>
-                        <p className="text-sm text-th-text-muted">Compare user cohorts by {definition.dimension.replace(/_/g, ' ')}</p>
+                        <h2 className="text-xl font-bold text-white">Cohort Analysis</h2>
+                        <p className="text-sm text-slate-400">Compare user cohorts by {definition.dimension.replace(/_/g, ' ')}</p>
                     </div>
                 </div>
                 {availableDimensions && availableDimensions.length > 0 && onDimensionChange && (
@@ -463,7 +570,7 @@ export function CohortDashboard({
                         onChange={onDimensionChange}
                     />
                 )}
-            </div>
+            </motion.div>
 
             {/* Summary Cards */}
             {stats && (
@@ -472,26 +579,26 @@ export function CohortDashboard({
                         icon={Users}
                         label="Total Cohorts"
                         value={stats.totalCohorts}
-                        iconColor="bg-indigo-500"
+                        color="violet"
                     />
                     <CohortSummaryCard
                         icon={Users}
                         label="Total Users"
                         value={formatNumber(stats.totalUsers)}
-                        iconColor="bg-blue-500"
+                        color="blue"
                     />
                     <CohortSummaryCard
                         icon={Percent}
                         label="Avg D7 Retention"
                         value={`${stats.avgD7Retention.toFixed(1)}%`}
                         trend={stats.retentionTrend}
-                        iconColor="bg-emerald-500"
+                        color="emerald"
                     />
                     <CohortSummaryCard
                         icon={DollarSign}
                         label="Total Revenue"
                         value={`$${formatNumber(stats.totalRevenue)}`}
-                        iconColor="bg-green-500"
+                        color="amber"
                     />
                 </div>
             )}
@@ -506,20 +613,25 @@ export function CohortDashboard({
 
             {/* Insights */}
             {comparison.insights.length > 0 && (
-                <div className="bg-th-bg-surface rounded-xl border border-th-border p-4">
+                <motion.div
+                    variants={itemVariants}
+                    className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] p-4"
+                >
                     <div className="flex items-center gap-2 mb-3">
-                        <Lightbulb className="w-5 h-5 text-amber-500" />
-                        <h3 className="font-semibold text-th-text-primary">Cohort Insights</h3>
+                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                            <Lightbulb className="w-4 h-4 text-amber-400" />
+                        </div>
+                        <h3 className="font-semibold text-white">Cohort Insights</h3>
                     </div>
                     <ul className="space-y-2">
                         {comparison.insights.map((insight, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-th-text-secondary">
-                                <span className="text-th-accent-primary mt-0.5">•</span>
+                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                                <span className="text-emerald-400 mt-0.5">•</span>
                                 {insight}
                             </li>
                         ))}
                     </ul>
-                </div>
+                </motion.div>
             )}
 
             {/* Retention Heatmap */}
@@ -527,17 +639,17 @@ export function CohortDashboard({
 
             {/* Cohort List */}
             <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-th-text-primary">All Cohorts</h3>
+                <motion.div variants={itemVariants} className="flex items-center justify-between">
+                    <h3 className="font-semibold text-white">All Cohorts</h3>
                     {cohorts.length > 5 && (
                         <button
                             onClick={() => setShowAllCohorts(!showAllCohorts)}
-                            className="text-sm text-th-accent-primary hover:underline"
+                            className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
                         >
                             {showAllCohorts ? 'Show Less' : `Show All (${cohorts.length})`}
                         </button>
                     )}
-                </div>
+                </motion.div>
                 <div className="space-y-2">
                     {displayedCohorts.map(cohort => (
                         <CohortCard
@@ -548,7 +660,7 @@ export function CohortDashboard({
                     ))}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
