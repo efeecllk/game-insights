@@ -110,6 +110,47 @@ const METRIC_GLOSSARY: Record<string, MetricInfo> = {
         formula: 'DAU / MAU × 100',
         benchmark: 'Good: 20-30%, Great: 30-50%',
     },
+    funnel: {
+        name: 'Funnel Analysis',
+        description: 'Visualizes how players progress through key stages of your game, showing drop-off at each step.',
+        benchmark: 'Focus on stages with >30% drop-off',
+    },
+    level_pass_rate: {
+        name: 'Level Pass Rate',
+        description: 'The percentage of players who complete a level after attempting it.',
+        formula: 'Players who passed / Players who attempted × 100',
+        benchmark: 'Target 70-85% for most levels, harder at key milestones',
+    },
+    booster_usage: {
+        name: 'Booster Usage',
+        description: 'Tracks which power-ups or boosters players use most frequently.',
+        benchmark: 'High usage often indicates difficulty spikes',
+    },
+    prestige: {
+        name: 'Prestige/Reset',
+        description: 'In idle games, the number of times a player has reset progress for permanent bonuses.',
+        benchmark: 'First prestige within 24-48 hours indicates good progression',
+    },
+    whale: {
+        name: 'Whale',
+        description: 'A high-spending player, typically in the top 1-5% of spenders.',
+        benchmark: 'Whales often generate 50%+ of total revenue',
+    },
+    banner: {
+        name: 'Banner/Gacha',
+        description: 'A limited-time event where players spend currency for random character/item rewards.',
+        benchmark: 'Limited banners typically see 2-3x normal spending',
+    },
+    match_time: {
+        name: 'Average Match Time',
+        description: 'The typical duration of a single game session or match.',
+        benchmark: 'Mobile: 3-10 min, Mid-core: 15-30 min',
+    },
+    meta_engagement: {
+        name: 'Meta Engagement',
+        description: 'Player interaction with features outside core gameplay (decorating, collecting, social).',
+        benchmark: 'Meta-engaged users show 2-3x better retention',
+    },
 };
 
 // ============================================================================

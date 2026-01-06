@@ -19,6 +19,8 @@
  */
 
 import { useMemo, useState, lazy, Suspense } from 'react';
+import { QuickStartCard } from './components/ui/QuickStartCard';
+import { ContextualHint } from './components/ui/ContextualHint';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
@@ -50,13 +52,14 @@ import { MLInsightsPanel } from './components/ml';
 
 // ============================================================================
 // Lazy-loaded Pages (Code Splitting)
-// Heavy pages that are not needed on initial load
+// All pages are lazy loaded to reduce initial bundle size
+// Only the Overview page components are eagerly loaded
 // ============================================================================
 
-// Core pages (loaded immediately)
-import { UploadPage } from './pages/Upload';
-import { SettingsPage } from './pages/Settings';
-import { GamesPage } from './pages/Games';
+// All pages lazy loaded for optimal code splitting
+const UploadPage = lazy(() => import('./pages/Upload').then(m => ({ default: m.UploadPage })));
+const SettingsPage = lazy(() => import('./pages/Settings').then(m => ({ default: m.SettingsPage })));
+const GamesPage = lazy(() => import('./pages/Games').then(m => ({ default: m.GamesPage })));
 
 // Heavy pages with complex UI - lazy loaded
 const DashboardBuilderPage = lazy(() => import('./pages/DashboardBuilder'));
@@ -171,7 +174,11 @@ const itemVariants = {
 
 function OverviewPage() {
     const { selectedGame, setSelectedGame } = useGame();
-    const { activeGameData } = useData();
+    const { activeGameData, gameDataList } = useData();
+    const [showDemoMode, setShowDemoMode] = useState(false);
+
+    // Check if this is a first-time user (no data ever uploaded)
+    const isFirstTimeUser = gameDataList.length === 0;
 
     // Get data provider - uses real data if available, otherwise demo data
     const dataProvider = useMemo(
@@ -191,6 +198,11 @@ function OverviewPage() {
     const kpiData = dataProvider.getKPIData();
     const revenueData = dataProvider.getRevenueData();
     const segmentData = dataProvider.getSegmentData();
+
+    // Handler for demo mode
+    const handleTryDemo = () => {
+        setShowDemoMode(true);
+    };
 
     // Chart configurations based on game type
     const chartConfigs = useMemo(() => {
@@ -228,6 +240,27 @@ function OverviewPage() {
         }
     }, [selectedGame]);
 
+    // Show QuickStartCard for first-time users who haven't seen demo yet
+    if (isFirstTimeUser && !showDemoMode) {
+        return (
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="space-y-6 max-w-4xl mx-auto"
+            >
+                <QuickStartCard onTryDemo={handleTryDemo} />
+
+                {/* Brief explanation of what the app does */}
+                <motion.div variants={itemVariants} className="text-center">
+                    <p className="text-sm text-slate-500">
+                        Game Insights automatically analyzes retention, funnels, revenue, and player behavior
+                    </p>
+                </motion.div>
+            </motion.div>
+        );
+    }
+
     return (
         <motion.div
             variants={containerVariants}
@@ -235,6 +268,19 @@ function OverviewPage() {
             animate="visible"
             className="space-y-6"
         >
+            {/* First-time demo mode hint */}
+            {isFirstTimeUser && showDemoMode && (
+                <motion.div variants={itemVariants}>
+                    <ContextualHint
+                        id="demo-mode-hint"
+                        variant="tip"
+                        message="You're viewing demo data. Upload your own CSV to see insights from your game."
+                        actionText="Upload now"
+                        onAction={() => window.location.href = '/upload'}
+                    />
+                </motion.div>
+            )}
+
             {/* Page Header - Premium gradient styling */}
             <motion.header variants={itemVariants} className="relative">
                 <div className="flex items-center justify-between">
@@ -659,11 +705,25 @@ function AppContent() {
                     aria-label={pageTitle + ' - Main content'}
                 >
                     <Routes>
-                        {/* Core routes - not lazy loaded */}
+                        {/* Overview - core route, eagerly loaded */}
                         <Route path="/" element={<OverviewPage />} />
-                        <Route path="/games" element={<GamesPage />} />
-                        <Route path="/settings" element={<SettingsPage />} />
-                        <Route path="/upload" element={<UploadPage />} />
+
+                        {/* Lazy-loaded routes wrapped in Suspense */}
+                        <Route path="/games" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <GamesPage />
+                            </Suspense>
+                        } />
+                        <Route path="/settings" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <SettingsPage />
+                            </Suspense>
+                        } />
+                        <Route path="/upload" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <UploadPage />
+                            </Suspense>
+                        } />
 
                         {/* Lazy-loaded routes wrapped in Suspense */}
                         <Route path="/data-sources" element={

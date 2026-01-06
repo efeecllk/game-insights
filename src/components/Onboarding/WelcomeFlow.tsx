@@ -199,10 +199,22 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
                 <h1 className="text-4xl font-bold text-white mb-4">
                     Welcome to Game Insights
                 </h1>
-                <p className="text-lg text-slate-300 max-w-lg mx-auto">
-                    Zero-config analytics for indie game developers.
-                    Understand your players, improve retention, and grow revenue.
+                <p className="text-lg text-slate-300 max-w-lg mx-auto mb-6">
+                    Turn your game data into actionable insights in 3 simple steps:
                 </p>
+
+                {/* Simple 3-step overview */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 text-left max-w-2xl mx-auto">
+                    <StepPreview number={1} title="Upload" description="Drop in your CSV or connect a data source" />
+                    <div className="hidden sm:block text-slate-700">
+                        <ChevronRight className="w-5 h-5" />
+                    </div>
+                    <StepPreview number={2} title="Analyze" description="AI auto-detects your game type and metrics" />
+                    <div className="hidden sm:block text-slate-700">
+                        <ChevronRight className="w-5 h-5" />
+                    </div>
+                    <StepPreview number={3} title="Explore" description="Get retention, funnel, and revenue insights" />
+                </div>
             </motion.div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -237,7 +249,31 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
                 <Feature icon={BarChart3} label="AI Analytics" />
                 <Feature icon={Sparkles} label="Instant Insights" />
             </motion.div>
+
+            {/* Privacy note */}
+            <p className="mt-8 text-xs text-slate-500">
+                Your data stays 100% private - everything runs locally in your browser.
+            </p>
         </div>
+    );
+}
+
+function StepPreview({ number, title, description }: { number: number; title: string; description: string }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: number * 0.1 }}
+            className="flex-1 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]"
+        >
+            <div className="flex items-center gap-3 mb-2">
+                <span className="w-6 h-6 rounded-full bg-[#DA7756]/20 text-[#DA7756] text-xs font-bold flex items-center justify-center">
+                    {number}
+                </span>
+                <span className="font-medium text-white">{title}</span>
+            </div>
+            <p className="text-xs text-slate-400">{description}</p>
+        </motion.div>
     );
 }
 

@@ -6,10 +6,11 @@
  * - Orange accent styling
  * - Animated entrance with Framer Motion
  * - Consistent with design system
+ * - Optional sample data loading
  */
 
 import { motion } from 'framer-motion';
-import { Upload, Database, BarChart3 } from 'lucide-react';
+import { Upload, Database, BarChart3, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 
@@ -18,6 +19,8 @@ interface EmptyStateProps {
     description?: string;
     icon?: 'upload' | 'database' | 'chart';
     showUploadButton?: boolean;
+    showDemoButton?: boolean;
+    onTryDemo?: () => void;
     compact?: boolean;
 }
 
@@ -26,6 +29,8 @@ export function EmptyState({
     description = 'Upload your game data to see insights here.',
     icon = 'chart',
     showUploadButton = true,
+    showDemoButton = false,
+    onTryDemo,
     compact = false,
 }: EmptyStateProps) {
     const navigate = useNavigate();
@@ -48,16 +53,31 @@ export function EmptyState({
                     <Icon className="w-5 h-5 text-slate-500" />
                 </div>
                 <p className="text-sm text-slate-500">{title}</p>
-                {showUploadButton && (
-                    <motion.button
-                        onClick={() => navigate('/upload')}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="mt-2 text-xs text-[#DA7756] hover:text-[#DA7756]/80 transition-colors"
-                    >
-                        Upload data
-                    </motion.button>
-                )}
+                <div className="flex items-center gap-3 mt-3">
+                    {showUploadButton && (
+                        <motion.button
+                            onClick={() => navigate('/upload')}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="text-xs text-[#DA7756] hover:text-[#DA7756]/80 transition-colors"
+                        >
+                            Upload data
+                        </motion.button>
+                    )}
+                    {showDemoButton && onTryDemo && (
+                        <>
+                            <span className="text-slate-600">or</span>
+                            <motion.button
+                                onClick={onTryDemo}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
+                            >
+                                Try demo
+                            </motion.button>
+                        </>
+                    )}
+                </div>
             </motion.div>
         );
     }
@@ -100,13 +120,14 @@ export function EmptyState({
                 {description}
             </motion.p>
 
-            {/* Upload button */}
-            {showUploadButton && (
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.25 }}
-                >
+            {/* Action buttons */}
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="flex items-center gap-3"
+            >
+                {showUploadButton && (
                     <Button
                         variant="primary"
                         icon={<Upload className="w-4 h-4" />}
@@ -114,7 +135,28 @@ export function EmptyState({
                     >
                         Upload Data
                     </Button>
-                </motion.div>
+                )}
+                {showDemoButton && onTryDemo && (
+                    <Button
+                        variant="ghost"
+                        icon={<Sparkles className="w-4 h-4" />}
+                        onClick={onTryDemo}
+                    >
+                        Try Demo
+                    </Button>
+                )}
+            </motion.div>
+
+            {/* Privacy note for first-time users */}
+            {showUploadButton && (
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="text-xs text-slate-600 mt-6"
+                >
+                    Your data stays private - everything runs locally in your browser.
+                </motion.p>
             )}
         </motion.div>
     );
