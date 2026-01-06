@@ -1,17 +1,20 @@
 /**
- * Event Stream Viewer
- * Real-time event feed with filtering
- * Phase 9: Advanced Features
+ * Event Stream Viewer - Obsidian Analytics Design
+ *
+ * Real-time event feed with:
+ * - Glassmorphism containers
+ * - Animated event entries
+ * - Color-coded event types
  */
 
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity,
     Play,
     Pause,
     Download,
     RefreshCw,
-    ChevronDown,
     ChevronRight,
     User,
     DollarSign,
@@ -117,16 +120,16 @@ function generateMockEvent(): GameEvent {
 // ============================================================================
 
 const EVENT_STYLES: Record<EventType, { icon: typeof Activity; color: string; bg: string }> = {
-    session_start: { icon: Play, color: 'text-green-400', bg: 'bg-green-500/10' },
-    session_end: { icon: Pause, color: 'text-gray-400', bg: 'bg-gray-500/10' },
+    session_start: { icon: Play, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    session_end: { icon: Pause, color: 'text-slate-400', bg: 'bg-slate-500/10' },
     level_start: { icon: Gamepad2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    level_complete: { icon: Zap, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
-    level_fail: { icon: X, color: 'text-red-400', bg: 'bg-red-500/10' },
+    level_complete: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    level_fail: { icon: X, color: 'text-rose-400', bg: 'bg-rose-500/10' },
     purchase: { icon: DollarSign, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    ad_view: { icon: Activity, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+    ad_view: { icon: Activity, color: 'text-violet-400', bg: 'bg-violet-500/10' },
     achievement: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     tutorial_step: { icon: User, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
-    custom: { icon: Activity, color: 'text-gray-400', bg: 'bg-gray-500/10' },
+    custom: { icon: Activity, color: 'text-slate-400', bg: 'bg-slate-500/10' },
 };
 
 // ============================================================================
@@ -192,16 +195,16 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
     };
 
     return (
-        <div className="bg-th-bg-card rounded-xl border border-th-border overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-th-border">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg ${isStreaming ? 'bg-green-500/20' : 'bg-th-bg-elevated'} flex items-center justify-center`}>
-                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-green-400 animate-pulse' : 'text-th-text-secondary'}`} />
+                    <div className={`w-8 h-8 rounded-lg ${isStreaming ? 'bg-emerald-500/20' : 'bg-white/[0.03]'} flex items-center justify-center`}>
+                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-emerald-400 animate-pulse' : 'text-slate-400'}`} />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-th-text-primary">Event Stream</h3>
-                        <p className="text-xs text-th-text-secondary">
+                        <h3 className="font-semibold text-white">Event Stream</h3>
+                        <p className="text-xs text-slate-400">
                             {filteredEvents.length} events {isStreaming && '• Live'}
                         </p>
                     </div>
@@ -210,13 +213,13 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                 <div className="flex items-center gap-2">
                     {/* Search */}
                     <div className="relative">
-                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-secondary" />
+                        <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                         <input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search..."
-                            className="pl-8 pr-3 py-1.5 w-40 bg-th-bg-elevated border border-th-border rounded-lg text-sm text-th-text-primary placeholder:text-th-text-secondary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                            className="pl-8 pr-3 py-1.5 w-40 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
                         />
                     </div>
 
@@ -224,7 +227,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                     <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value as EventType | 'all')}
-                        className="px-3 py-1.5 bg-th-bg-elevated border border-th-border rounded-lg text-sm text-th-text-primary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                        className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     >
                         <option value="all">All Events</option>
                         {EVENT_TYPES.map(type => (
@@ -235,69 +238,86 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                     </select>
 
                     {/* Controls */}
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => setIsStreaming(!isStreaming)}
                         className={`p-2 rounded-lg transition-colors ${
-                            isStreaming ? 'bg-green-500/20 text-green-400' : 'bg-th-bg-elevated text-th-text-secondary hover:text-th-text-primary'
+                            isStreaming ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.03] text-slate-400 hover:text-white'
                         }`}
                         title={isStreaming ? 'Pause stream' : 'Resume stream'}
                     >
                         {isStreaming ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={() => setEvents([])}
-                        className="p-2 bg-th-bg-elevated text-th-text-secondary hover:text-th-text-primary rounded-lg transition-colors"
+                        className="p-2 bg-white/[0.03] text-slate-400 hover:text-white rounded-lg transition-colors"
                         title="Clear events"
                     >
                         <RefreshCw className="w-4 h-4" />
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                         onClick={handleExport}
-                        className="p-2 bg-th-bg-elevated text-th-text-secondary hover:text-th-text-primary rounded-lg transition-colors"
+                        className="p-2 bg-white/[0.03] text-slate-400 hover:text-white rounded-lg transition-colors"
                         title="Export events"
                     >
                         <Download className="w-4 h-4" />
-                    </button>
+                    </motion.button>
                 </div>
             </div>
 
             {/* Event List */}
             <div ref={listRef} className="h-96 overflow-y-auto">
                 {filteredEvents.length === 0 ? (
-                    <div className="h-full flex items-center justify-center text-th-text-secondary">
+                    <div className="h-full flex items-center justify-center text-slate-400">
                         <p>No events yet. {isStreaming ? 'Waiting for events...' : 'Start streaming to see events.'}</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-th-border">
-                        {filteredEvents.map((event) => (
-                            <EventRow
-                                key={event.id}
-                                event={event}
-                                isSelected={selectedEvent?.id === event.id}
-                                onClick={() => setSelectedEvent(selectedEvent?.id === event.id ? null : event)}
-                            />
-                        ))}
+                    <div className="divide-y divide-white/[0.06]">
+                        <AnimatePresence initial={false}>
+                            {filteredEvents.map((event) => (
+                                <EventRow
+                                    key={event.id}
+                                    event={event}
+                                    isSelected={selectedEvent?.id === event.id}
+                                    onClick={() => setSelectedEvent(selectedEvent?.id === event.id ? null : event)}
+                                />
+                            ))}
+                        </AnimatePresence>
                     </div>
                 )}
             </div>
 
             {/* Event Detail Panel */}
-            {selectedEvent && (
-                <div className="border-t border-th-border p-4 bg-th-bg-elevated">
-                    <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-th-text-primary">Event Details</h4>
-                        <button
-                            onClick={() => setSelectedEvent(null)}
-                            className="p-1 hover:bg-th-bg-card rounded transition-colors"
-                        >
-                            <X className="w-4 h-4 text-th-text-secondary" />
-                        </button>
-                    </div>
-                    <pre className="text-xs text-th-text-secondary bg-th-bg-card rounded-lg p-3 overflow-x-auto">
-                        {JSON.stringify(selectedEvent, null, 2)}
-                    </pre>
-                </div>
-            )}
+            <AnimatePresence>
+                {selectedEvent && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="border-t border-white/[0.06] p-4 bg-white/[0.02]"
+                    >
+                        <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-medium text-white">Event Details</h4>
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => setSelectedEvent(null)}
+                                className="p-1 hover:bg-white/[0.06] rounded transition-colors"
+                            >
+                                <X className="w-4 h-4 text-slate-400" />
+                            </motion.button>
+                        </div>
+                        <pre className="text-xs text-slate-400 bg-white/[0.02] border border-white/[0.06] rounded-xl p-3 overflow-x-auto">
+                            {JSON.stringify(selectedEvent, null, 2)}
+                        </pre>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -320,10 +340,13 @@ function EventRow({
     const time = new Date(event.timestamp);
 
     return (
-        <button
+        <motion.button
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
             onClick={onClick}
             className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                isSelected ? 'bg-th-accent-primary/10' : 'hover:bg-th-bg-elevated'
+                isSelected ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'
             }`}
         >
             <div className={`w-8 h-8 rounded-lg ${style.bg} flex items-center justify-center flex-shrink-0`}>
@@ -331,7 +354,7 @@ function EventRow({
             </div>
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                    <span className="font-medium text-th-text-primary text-sm">
+                    <span className="font-medium text-white text-sm">
                         {event.type.replace(/_/g, ' ')}
                     </span>
                     {event.type === 'purchase' && (
@@ -340,12 +363,12 @@ function EventRow({
                         </span>
                     )}
                     {(event.type === 'level_complete' || event.type === 'level_fail') && (
-                        <span className="text-xs text-th-text-secondary">
+                        <span className="text-xs text-slate-400">
                             Level {String(event.properties.level)}
                         </span>
                     )}
                 </div>
-                <div className="flex items-center gap-2 text-xs text-th-text-secondary">
+                <div className="flex items-center gap-2 text-xs text-slate-500">
                     <span>{event.userId}</span>
                     <span>•</span>
                     <span>{event.platform}</span>
@@ -354,16 +377,14 @@ function EventRow({
                 </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
-                <span className="text-xs text-th-text-secondary">
+                <span className="text-xs text-slate-500">
                     {time.toLocaleTimeString()}
                 </span>
-                {isSelected ? (
-                    <ChevronDown className="w-4 h-4 text-th-text-secondary" />
-                ) : (
-                    <ChevronRight className="w-4 h-4 text-th-text-secondary" />
-                )}
+                <motion.div animate={{ rotate: isSelected ? 90 : 0 }}>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
+                </motion.div>
             </div>
-        </button>
+        </motion.button>
     );
 }
 
