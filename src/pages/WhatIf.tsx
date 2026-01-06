@@ -216,7 +216,7 @@ export function WhatIfPage() {
         <div className="min-h-screen bg-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/5 rounded-full" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#E5A84B]/5 rounded-full" />
                 <div className="absolute top-1/3 -left-32 w-72 h-72 bg-orange-500/5 rounded-full" />
                 <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-yellow-500/5 rounded-full" />
             </div>
@@ -234,12 +234,12 @@ export function WhatIfPage() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                        className="p-3 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-500/20"
+                        className="p-3 rounded-xl bg-gradient-to-br from-[#E5A84B]/20 to-orange-500/10 border border-[#E5A84B]/20"
                     >
-                        <Lightbulb className="w-6 h-6 text-amber-400" />
+                        <Lightbulb className="w-6 h-6 text-[#E5A84B]" />
                     </motion.div>
                     <div>
-                        <h1 className="text-2xl font-bold bg-gradient-to-r from-amber-200 via-orange-200 to-yellow-200 bg-clip-text text-transparent flex items-center gap-3">
+                        <h1 className="text-2xl font-bold bg-gradient-to-r from-[#E5A84B] via-[#E5A84B] to-[#E5A84B] bg-clip-text text-transparent flex items-center gap-3">
                             What-If Analysis
                             <DataModeIndicator />
                         </h1>
@@ -274,7 +274,7 @@ export function WhatIfPage() {
                 >
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-amber-400" />
+                            <Sparkles className="w-4 h-4 text-[#E5A84B]" />
                             Saved Scenarios
                         </h2>
                         <motion.button
@@ -282,7 +282,7 @@ export function WhatIfPage() {
                             whileTap={{ scale: 0.95 }}
                             onClick={handleExport}
                             disabled={scenarios.length === 0}
-                            className="p-2 text-slate-400 hover:text-amber-400 transition-colors disabled:opacity-30 disabled:hover:text-slate-400 rounded-lg hover:bg-white/5"
+                            className="p-2 text-slate-400 hover:text-[#E5A84B] transition-colors disabled:opacity-30 disabled:hover:text-slate-400 rounded-lg hover:bg-white/5"
                             title="Export all scenarios"
                         >
                             <Download className="w-4 h-4" />
@@ -292,8 +292,8 @@ export function WhatIfPage() {
                     {isLoading ? (
                         <div className="flex items-center justify-center py-12">
                             <div className="relative">
-                                <div className="w-10 h-10 border-2 border-amber-500/20 rounded-full" />
-                                <div className="absolute inset-0 w-10 h-10 border-2 border-transparent border-t-amber-400 rounded-full animate-spin" />
+                                <div className="w-10 h-10 border-2 border-[#E5A84B]/20 rounded-full" />
+                                <div className="absolute inset-0 w-10 h-10 border-2 border-transparent border-t-[#E5A84B] rounded-full animate-spin" />
                             </div>
                         </div>
                     ) : scenarios.length === 0 ? (
@@ -323,8 +323,8 @@ export function WhatIfPage() {
                             <AnimatePresence>
                                 {favoriteScenarios.length > 0 && (
                                     <motion.div variants={itemVariants}>
-                                        <h3 className="text-[10px] font-semibold text-amber-400/80 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                            <Star className="w-3 h-3 fill-amber-400" />
+                                        <h3 className="text-[10px] font-semibold text-[#E5A84B]/80 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                            <Star className="w-3 h-3 fill-[#E5A84B]" />
                                             Favorites
                                         </h3>
                                         <div className="space-y-2">
@@ -427,7 +427,7 @@ function ScenarioCard({
             whileTap={{ scale: 0.98 }}
             className={`group relative p-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 isSelected
-                    ? 'bg-gradient-to-br from-amber-500/15 to-orange-500/10 border border-amber-500/30 shadow-lg shadow-amber-500/5'
+                    ? 'bg-gradient-to-br from-[#E5A84B]/15 to-orange-500/10 border border-[#E5A84B]/30 shadow-lg shadow-[#E5A84B]/5'
                     : 'bg-slate-800/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-slate-800 hover:border-white/[0.1]'
             }`}
             
@@ -442,13 +442,13 @@ function ScenarioCard({
                             {scenario.name}
                         </h4>
                         {scenario.isFavorite && (
-                            <Star className="w-3 h-3 text-amber-400 fill-amber-400 flex-shrink-0" />
+                            <Star className="w-3 h-3 text-[#E5A84B] fill-[#E5A84B] flex-shrink-0" />
                         )}
                     </div>
                     {impact && (
                         <div className={`text-xs mt-1.5 flex items-center gap-1 ${
                             isNeutral ? 'text-slate-400' :
-                            isPositive ? 'text-[#DA7756]' : 'text-rose-400'
+                            isPositive ? 'text-[#DA7756]' : 'text-[#E25C5C]'
                         }`}>
                             {!isNeutral && (
                                 isPositive
@@ -480,7 +480,7 @@ function ScenarioCard({
                                 whileHover={{ scale: 1.15 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => { e.stopPropagation(); onToggleFavorite(scenario.id); }}
-                                className="p-1.5 text-slate-400 hover:text-amber-400 rounded-lg hover:bg-amber-500/10 transition-colors"
+                                className="p-1.5 text-slate-400 hover:text-[#E5A84B] rounded-lg hover:bg-[#E5A84B]/10 transition-colors"
                                 title={scenario.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                             >
                                 {scenario.isFavorite ? (
@@ -502,7 +502,7 @@ function ScenarioCard({
                                 whileHover={{ scale: 1.15 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => { e.stopPropagation(); onDelete(scenario.id); }}
-                                className="p-1.5 text-slate-400 hover:text-rose-400 rounded-lg hover:bg-rose-500/10 transition-colors"
+                                className="p-1.5 text-slate-400 hover:text-[#E25C5C] rounded-lg hover:bg-[#E25C5C]/10 transition-colors"
                                 title="Delete"
                             >
                                 <Trash2 className="w-3.5 h-3.5" />

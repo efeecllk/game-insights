@@ -203,12 +203,9 @@ export function CustomMetricsBuilder() {
                 className="flex items-center justify-between"
             >
                 <div className="flex items-center gap-4">
-                    {/* Icon with glow */}
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                            <Calculator className="w-6 h-6 text-[#DA7756]" />
-                        </div>
+                    {/* Icon */}
+                    <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <Calculator className="w-6 h-6 text-[#DA7756]" />
                     </div>
                     <div>
                         <h3 className="font-semibold text-white text-lg">Custom Metrics</h3>
@@ -321,7 +318,7 @@ function MetricCard({
         number: { icon: Hash, color: 'text-[#8F8B82]', bg: 'bg-[#8F8B82]/10' },
         percent: { icon: Percent, color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10' },
         currency: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
-        duration: { icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+        duration: { icon: Clock, color: 'text-[#E5A84B]', bg: 'bg-[#E5A84B]/10' },
     }[metric.format];
 
     const Icon = formatConfig.icon;
@@ -358,7 +355,7 @@ function MetricCard({
             {/* Value & Change */}
             <div className="text-right flex-shrink-0 mr-4">
                 <div className="font-semibold text-white">{mockValue}</div>
-                <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-[#DA7756]' : 'text-rose-400'}`}>
+                <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                     <TrendingUp className={`w-3 h-3 ${!isPositive && 'rotate-180'}`} />
                     {isPositive ? '+' : ''}{changePercent}%
                 </div>
@@ -386,9 +383,9 @@ function MetricCard({
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onDelete}
-                    className="p-2 hover:bg-rose-500/10 rounded-lg transition-colors group"
+                    className="p-2 hover:bg-[#E25C5C]/10 rounded-lg transition-colors group"
                 >
-                    <Trash2 className="w-4 h-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                    <Trash2 className="w-4 h-4 text-slate-500 group-hover:text-[#E25C5C] transition-colors" />
                 </motion.button>
             </div>
         </motion.div>
@@ -473,7 +470,7 @@ function MetricEditor({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="flex items-center gap-2 p-3 mb-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-sm text-rose-400"
+                        className="flex items-center gap-2 p-3 mb-4 bg-[#E25C5C]/10 border border-[#E25C5C]/20 rounded-xl text-sm text-[#E25C5C]"
                     >
                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
                         {error}

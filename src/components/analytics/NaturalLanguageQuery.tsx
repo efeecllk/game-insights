@@ -66,7 +66,7 @@ async function processQuery(query: string): Promise<QueryResult> {
                     { name: 'United Kingdom', value: 890, color: '#C15F3C' },
                     { name: 'Germany', value: 670, color: '#A68B5B' },
                     { name: 'Japan', value: 520, color: '#E5A84B' },
-                    { name: 'Others', value: 920, color: '#64748b' },
+                    { name: 'Others', value: 920, color: '#8F8B82' },
                 ],
                 confidence: 0.95,
             },
@@ -235,11 +235,8 @@ export function NaturalLanguageQuery() {
         <div className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden h-[600px] flex flex-col">
             {/* Header */}
             <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800">
-                <div className="relative w-10 h-10">
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/20 border border-[#DA7756]/20 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
-                    </div>
+                <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-[#DA7756]" />
                 </div>
                 <div>
                     <h3 className="font-semibold text-white">Ask Game Insights</h3>
@@ -410,7 +407,7 @@ function QueryResultCard({
                                     whileTap={{ scale: 0.9 }}
                                     className="p-1 hover:bg-white/[0.06] rounded transition-colors"
                                 >
-                                    <ThumbsDown className="w-3.5 h-3.5 text-slate-500 hover:text-rose-400" />
+                                    <ThumbsDown className="w-3.5 h-3.5 text-slate-500 hover:text-[#E25C5C]" />
                                 </motion.button>
                             </div>
                         </div>
@@ -471,7 +468,7 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                         value: d.value,
                         itemStyle: { color: d.color },
                     })),
-                    label: { color: '#94a3b8', fontSize: 11 },
+                    label: { color: '#C8C4BA', fontSize: 11 },
                 }],
             };
         }
@@ -484,11 +481,11 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                 xAxis: {
                     type: 'category',
                     data: d.dates,
-                    axisLabel: { color: '#64748b', fontSize: 10 },
+                    axisLabel: { color: '#8F8B82', fontSize: 10 },
                 },
                 yAxis: {
                     type: 'value',
-                    axisLabel: { color: '#64748b', formatter: '{value}%' },
+                    axisLabel: { color: '#8F8B82', formatter: '{value}%' },
                     splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
                 },
                 series: [{
@@ -510,18 +507,18 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                 xAxis: {
                     type: 'category',
                     data: d.levels,
-                    axisLabel: { color: '#64748b', fontSize: 10 },
+                    axisLabel: { color: '#8F8B82', fontSize: 10 },
                 },
                 yAxis: {
                     type: 'value',
-                    axisLabel: { color: '#64748b', formatter: '{value}%' },
+                    axisLabel: { color: '#8F8B82', formatter: '{value}%' },
                     splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
                 },
                 series: [{
                     type: 'bar',
                     data: d.failRates.map((v) => ({
                         value: v,
-                        itemStyle: { color: v > 60 ? '#f43f5e' : v > 50 ? '#f59e0b' : '#DA7756' },
+                        itemStyle: { color: v > 60 ? '#E25C5C' : v > 50 ? '#E5A84B' : '#DA7756' },
                     })),
                     barWidth: '50%',
                 }],
@@ -541,17 +538,17 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
 function MixedContent({ data }: { data: { atRisk: number; percentage: number; topReasons: string[] } }) {
     return (
         <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/[0.02] border border-rose-500/20 rounded-xl p-4">
-                <div className="text-3xl font-bold text-rose-400">{data.atRisk.toLocaleString()}</div>
+            <div className="bg-white/[0.02] border border-[#E25C5C]/20 rounded-xl p-4">
+                <div className="text-3xl font-bold text-[#E25C5C]">{data.atRisk.toLocaleString()}</div>
                 <div className="text-sm text-slate-400">Users at Risk</div>
-                <div className="text-xs text-rose-400 mt-1">{data.percentage}% of active users</div>
+                <div className="text-xs text-[#E25C5C] mt-1">{data.percentage}% of active users</div>
             </div>
             <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                 <div className="text-sm font-medium text-white mb-2">Top Risk Factors</div>
                 <ul className="space-y-1">
                     {data.topReasons.map((reason, i) => (
                         <li key={i} className="text-xs text-slate-400 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#E25C5C]" />
                             {reason}
                         </li>
                     ))}

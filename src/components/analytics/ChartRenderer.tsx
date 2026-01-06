@@ -37,7 +37,7 @@ const TOOLTIP_STYLE = {
     borderColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     textStyle: {
-        color: '#f1f5f9',
+        color: '#FAF9F6',
         fontFamily: 'DM Sans',
     },
     padding: [12, 16],
@@ -47,7 +47,7 @@ const TOOLTIP_STYLE = {
 // Common axis styling for dark theme
 const AXIS_STYLE = {
     axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
-    axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'DM Sans' },
+    axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'DM Sans' },
     axisTick: { show: false },
     splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } },
 };
@@ -79,7 +79,7 @@ function buildLineOrAreaChart(
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'JetBrains Mono' },
             splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
@@ -140,7 +140,7 @@ function buildBarChart(
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'JetBrains Mono' },
             splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
@@ -199,7 +199,7 @@ function buildPieOrDonutChart(
             orient: 'vertical',
             right: 10,
             top: 'center',
-            textStyle: { color: '#94a3b8', fontSize: 11, fontFamily: 'DM Sans' },
+            textStyle: { color: '#C8C4BA', fontSize: 11, fontFamily: 'DM Sans' },
         },
         series: [{
             type: 'pie',
@@ -323,7 +323,7 @@ function buildHistogramChart(
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'JetBrains Mono' },
             splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
@@ -368,12 +368,12 @@ function buildScatterChart(
         xAxis: {
             type: 'value',
             ...AXIS_STYLE,
-            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'JetBrains Mono' },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            axisLabel: { color: '#8F8B82', fontSize: 11, fontFamily: 'JetBrains Mono' },
             splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
@@ -432,15 +432,9 @@ export function ChartRenderer({
 
     return (
         <div className={`relative group ${className ?? ''}`}>
-            {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
             {/* Card container */}
-            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-                <div className="relative">
+            <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
+                <div>
                     {/* Header */}
                     <div className="p-4 border-b border-slate-800">
                         <h3 className="font-display font-semibold text-white">{recommendation.title}</h3>

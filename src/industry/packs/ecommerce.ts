@@ -402,17 +402,17 @@ const terminology: TerminologyMap = {
  * E-commerce theme
  */
 const theme: IndustryTheme = {
-  primaryColor: '#22c55e', // Green
-  accentColor: '#10b981', // Emerald
+  primaryColor: '#DA7756', // Terracotta
+  accentColor: '#C15F3C', // Deep terracotta
   chartColors: [
-    '#22c55e', // Green
-    '#10b981', // Emerald
-    '#3b82f6', // Blue
-    '#8b5cf6', // Purple
-    '#f59e0b', // Amber
-    '#ef4444', // Red
-    '#ec4899', // Pink
-    '#06b6d4', // Cyan
+    '#DA7756', // Terracotta
+    '#C15F3C', // Deep terracotta
+    '#E5A84B', // Gold
+    '#A68B5B', // Brown
+    '#8B7355', // Earth brown
+    '#B89B7D', // Tan
+    '#E25C5C', // Red
+    '#8F8B82', // Neutral
   ],
   icon: 'shopping-cart',
 };

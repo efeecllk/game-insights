@@ -65,18 +65,18 @@ const funnelTemplates = {
         { step: 'VIP Purchase', users: 180, color: '#7A3420' },
     ],
     battle_royale: [
-        { step: 'First Match', users: 10000, color: '#ef4444' },
-        { step: 'First Kill', users: 6500, color: '#dc2626' },
-        { step: 'First Win', users: 1800, color: '#b91c1c' },
-        { step: 'Ranked Mode', users: 950, color: '#991b1b' },
-        { step: 'Battle Pass', users: 420, color: '#7f1d1d' },
+        { step: 'First Match', users: 10000, color: '#E25C5C' },
+        { step: 'First Kill', users: 6500, color: '#C94141' },
+        { step: 'First Win', users: 1800, color: '#B33636' },
+        { step: 'Ranked Mode', users: 950, color: '#9D2B2B' },
+        { step: 'Battle Pass', users: 420, color: '#872020' },
     ],
     match3_meta: [
-        { step: 'Tutorial', users: 10000, color: '#f59e0b' },
-        { step: 'First Decoration', users: 7200, color: '#d97706' },
-        { step: 'Chapter 5', users: 3800, color: '#b45309' },
-        { step: 'Chapter 10', users: 1500, color: '#92400e' },
-        { step: 'Premium Decor', users: 280, color: '#78350f' },
+        { step: 'Tutorial', users: 10000, color: '#E5A84B' },
+        { step: 'First Decoration', users: 7200, color: '#C98A2E' },
+        { step: 'Chapter 5', users: 3800, color: '#A68B5B' },
+        { step: 'Chapter 10', users: 1500, color: '#8B7355' },
+        { step: 'Premium Decor', users: 280, color: '#6B5B47' },
     ],
     gacha_rpg: [
         { step: 'First Login', users: 10000, color: '#DA7756' },
@@ -203,8 +203,7 @@ function DetectedFunnelCard({
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                                     <Filter className="w-5 h-5 text-[#DA7756]" />
                                 </div>
                             </motion.div>
@@ -269,7 +268,7 @@ function DetectedFunnelCard({
                                                     transition={{ delay: stepIndex * 0.05 }}
                                                     className={`flex items-center gap-3 p-3 rounded-lg ${
                                                         isBottleneck
-                                                            ? 'bg-amber-500/10 border border-amber-500/30'
+                                                            ? 'bg-[#E5A84B]/10 border border-[#E5A84B]/30'
                                                             : 'bg-white/[0.02]'
                                                     }`}
                                                 >
@@ -283,7 +282,7 @@ function DetectedFunnelCard({
                                                         <div className="flex items-center gap-2">
                                                             <p className="font-medium text-white truncate">{step.name}</p>
                                                             {isBottleneck && (
-                                                                <span className="px-2 py-0.5 text-xs rounded-full bg-amber-500/20 text-amber-500 flex items-center gap-1">
+                                                                <span className="px-2 py-0.5 text-xs rounded-full bg-[#E5A84B]/20 text-[#E5A84B] flex items-center gap-1">
                                                                     <AlertTriangle className="w-3 h-3" />
                                                                     Bottleneck
                                                                 </span>
@@ -298,7 +297,7 @@ function DetectedFunnelCard({
                                                         <p className="text-xs text-slate-500">{step.percentage.toFixed(1)}%</p>
                                                     </div>
                                                     {stepIndex > 0 && (
-                                                        <div className={`text-right min-w-[60px] ${step.dropOffRate > 30 ? 'text-rose-400' : 'text-slate-500'}`}>
+                                                        <div className={`text-right min-w-[60px] ${step.dropOffRate > 30 ? 'text-[#E25C5C]' : 'text-slate-500'}`}>
                                                             <p className="text-sm font-medium">-{step.dropOffRate.toFixed(0)}%</p>
                                                             <p className="text-xs">drop</p>
                                                         </div>
@@ -312,9 +311,9 @@ function DetectedFunnelCard({
                                 {/* Bottleneck Recommendations */}
                                 {funnel.bottleneck && (
                                     <div className="px-4 pb-4">
-                                        <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4">
+                                        <div className="bg-[#E5A84B]/5 border border-[#E5A84B]/20 rounded-xl p-4">
                                             <div className="flex items-center gap-2 mb-3">
-                                                <Lightbulb className="w-5 h-5 text-amber-500" />
+                                                <Lightbulb className="w-5 h-5 text-[#E5A84B]" />
                                                 <h4 className="font-medium text-white">Optimization Recommendations</h4>
                                             </div>
                                             <p className="text-sm text-slate-400 mb-3">
@@ -323,7 +322,7 @@ function DetectedFunnelCard({
                                             <ul className="space-y-1.5">
                                                 {funnel.bottleneck.recommendations.map((rec, idx) => (
                                                     <li key={idx} className="flex items-start gap-2 text-sm text-slate-400">
-                                                        <span className="text-amber-500 mt-0.5">•</span>
+                                                        <span className="text-[#E5A84B] mt-0.5">•</span>
                                                         {rec}
                                                     </li>
                                                 ))}
@@ -412,7 +411,7 @@ function ManualFunnelBuilder({
                         />
                         <button
                             onClick={() => handleRemoveStep(index)}
-                            className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                            className="p-2 text-slate-500 hover:text-[#E25C5C] transition-colors"
                             disabled={steps.length <= 2}
                         >
                             <Trash2 className="w-4 h-4" />
@@ -446,28 +445,24 @@ function StatsCard({
 }) {
     const colorStyles = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            bg: 'bg-[#DA7756]/15',
             border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            bg: 'bg-[#8F8B82]/15',
             border: 'border-[#8F8B82]/20',
             icon: 'text-[#8F8B82]',
-            glow: 'bg-[#8F8B82]/20',
         },
         warmOrange: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            bg: 'bg-[#C15F3C]/15',
             border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
         amber: {
-            bg: 'from-amber-500/20 to-amber-500/5',
-            border: 'border-amber-500/20',
-            icon: 'text-amber-400',
-            glow: 'bg-amber-500/20',
+            bg: 'bg-[#E5A84B]/15',
+            border: 'border-[#E5A84B]/20',
+            icon: 'text-[#E5A84B]',
         },
     };
 
@@ -479,13 +474,10 @@ function StatsCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
+            <Card variant="default" padding="md" className="group hover:border-th-border-strong transition-colors">
                 <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                        <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                            <Icon className={`w-5 h-5 ${style.icon}`} />
-                        </div>
+                    <div className={`w-10 h-10 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                        <Icon className={`w-5 h-5 ${style.icon}`} />
                     </div>
                     <div>
                         <div className="text-2xl font-bold text-white">{value}</div>
@@ -608,14 +600,13 @@ export function FunnelsPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Filter className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         Funnels
                                     </h1>
                                     <DataModeIndicator />
@@ -721,7 +712,7 @@ export function FunnelsPage() {
                     {/* Drop-off Analysis for manual funnel */}
                     <Card variant="default" padding="md">
                         <h3 className="font-medium text-white mb-4 flex items-center gap-2">
-                            <TrendingDown className="w-5 h-5 text-rose-400" />
+                            <TrendingDown className="w-5 h-5 text-[#E25C5C]" />
                             Drop-off Analysis
                         </h3>
                         <div className="space-y-3">
@@ -743,7 +734,7 @@ export function FunnelsPage() {
                                                 <span className="text-sm text-slate-400">
                                                     {step.step} → {nextStep.step}
                                                 </span>
-                                                <span className="text-sm font-medium text-rose-400">
+                                                <span className="text-sm font-medium text-[#E25C5C]">
                                                     -{dropOff.toLocaleString()} ({dropOffPercent.toFixed(1)}%)
                                                 </span>
                                             </div>
@@ -752,7 +743,7 @@ export function FunnelsPage() {
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${dropOffPercent}%` }}
                                                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                                                    className="h-full bg-rose-400/60 rounded-full"
+                                                    className="h-full bg-[#E25C5C]/60 rounded-full"
                                                 />
                                             </div>
                                         </div>

@@ -70,6 +70,7 @@ export class GoogleSheetsAdapter extends BaseAdapter {
     private schema: SchemaInfo | null = null;
     private lastFetch: Date | null = null;
     private spreadsheetInfo: SpreadsheetInfo | null = null;
+    private abortController: AbortController | null = null;
 
     // OAuth client ID (would be configured per deployment)
     private clientId: string = '';
@@ -80,6 +81,7 @@ export class GoogleSheetsAdapter extends BaseAdapter {
 
     async connect(config: GoogleSheetsConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         if (!this.tokens) {
             throw new Error('No OAuth tokens. Please authenticate first.');
@@ -98,6 +100,11 @@ export class GoogleSheetsAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
         this.config = null;
         this.tokens = null;
         this.cachedData = [];
@@ -285,6 +292,7 @@ export class GoogleSheetsAdapter extends BaseAdapter {
             headers: {
                 Authorization: `Bearer ${this.tokens.accessToken}`,
             },
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -336,6 +344,7 @@ export class GoogleSheetsAdapter extends BaseAdapter {
             headers: {
                 Authorization: `Bearer ${this.tokens.accessToken}`,
             },
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {

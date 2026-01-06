@@ -131,10 +131,8 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                                     initial={{ scale: 0, rotate: -180 }}
                                     animate={{ scale: 1, rotate: 0 }}
                                     transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-                                    className="relative"
                                 >
-                                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                                         <Keyboard className="w-5 h-5 text-[#DA7756]" />
                                     </div>
                                 </motion.div>

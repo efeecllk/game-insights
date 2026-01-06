@@ -39,13 +39,13 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
-                color: '#e2e8f0',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans, system-ui, sans-serif',
             },
             formatter: (params: unknown) => {
                 const p = params as Array<{ name: string; value: number }>;
                 return `
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p[0].name}</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8F8B82; margin-bottom: 8px;">${p[0].name}</div>
                     <div style="color: #DA7756; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">$${p[0].value.toLocaleString()}</div>
                 `;
             },
@@ -63,7 +63,7 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
             data: series?.data.map((d) => d.timestamp) ?? [],
             axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono, monospace',
             },
@@ -73,7 +73,7 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
             type: 'value',
             axisLine: { show: false },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono, monospace',
                 formatter: (value: number) => `$${(value / 1000).toFixed(0)}K`,

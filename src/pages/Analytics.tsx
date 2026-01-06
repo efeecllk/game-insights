@@ -180,12 +180,11 @@ export function AnalyticsPage() {
                         transition={{ type: 'spring', delay: 0.1 }}
                         className="relative inline-block mb-4"
                     >
-                        <div className="absolute inset-0 bg-rose-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center">
-                            <AlertCircle className="w-6 h-6 text-rose-400" />
+                        <div className="w-12 h-12 bg-[#E25C5C]/10 border border-[#E25C5C]/20 rounded-xl flex items-center justify-center">
+                            <AlertCircle className="w-6 h-6 text-[#E25C5C]" />
                         </div>
                     </motion.div>
-                    <h3 className="text-lg font-semibold text-rose-400 mb-2">Analysis Failed</h3>
+                    <h3 className="text-lg font-semibold text-[#E25C5C] mb-2">Analysis Failed</h3>
                     <p className="text-slate-500 mb-4">{analytics.error}</p>
                     <Button
                         variant="danger"
@@ -221,21 +220,19 @@ export function AnalyticsPage() {
                 <Card variant="elevated" padding="md">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            {/* Icon with glow */}
+                            {/* Icon */}
                             <motion.div
-                                className="relative"
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Sparkles className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
 
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         {analytics.dataName}
                                     </h1>
                                     <span className="px-2 py-0.5 text-xs bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full capitalize">

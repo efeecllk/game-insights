@@ -156,14 +156,14 @@ export function WhatIfSimulator({
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'axis',
-            backgroundColor: '#252532',
+            backgroundColor: '#262524',
             borderColor: 'rgba(255, 255, 255, 0.1)',
             textStyle: { color: '#fff' },
         },
         legend: {
             data: ['Baseline', 'Modified'],
             top: 0,
-            textStyle: { color: '#a1a1aa' },
+            textStyle: { color: '#C8C4BA' },
         },
         grid: {
             left: '3%',
@@ -176,14 +176,14 @@ export function WhatIfSimulator({
             type: 'category',
             data: baselineResult.projections.map(p => `Day ${p.day}`),
             axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-            axisLabel: { color: '#71717a' },
+            axisLabel: { color: '#8F8B82' },
         },
         yAxis: [
             {
                 type: 'value',
                 name: 'Revenue',
                 axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-                axisLabel: { color: '#71717a', formatter: '${value}' },
+                axisLabel: { color: '#8F8B82', formatter: '${value}' },
                 splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.05)' } },
             },
         ],
@@ -193,7 +193,7 @@ export function WhatIfSimulator({
                 type: 'line',
                 data: baselineResult.projections.map(p => p.revenue),
                 smooth: true,
-                lineStyle: { color: '#71717a', width: 2 },
+                lineStyle: { color: '#8F8B82', width: 2 },
                 areaStyle: { color: 'rgba(113, 113, 122, 0.1)' },
             },
             {
@@ -285,7 +285,7 @@ export function WhatIfSimulator({
                                 </div>
                                 <span className={`text-sm font-mono ${
                                     value > 0 ? 'text-[#7A8B5B]' :
-                                    value < 0 ? 'text-red-400' : 'text-zinc-400'
+                                    value < 0 ? 'text-[#E25C5C]' : 'text-zinc-400'
                                 }`}>
                                     {slider.format(value)}
                                 </span>
@@ -414,7 +414,7 @@ interface ImpactCardProps {
 function ImpactCard({ label, value, change, type = 'neutral', subtext }: ImpactCardProps) {
     const Icon = type === 'positive' ? TrendingUp : type === 'negative' ? TrendingDown : Minus;
     const colorClass = type === 'positive' ? 'text-[#7A8B5B]' :
-                       type === 'negative' ? 'text-red-400' : 'text-zinc-400';
+                       type === 'negative' ? 'text-[#E25C5C]' : 'text-zinc-400';
 
     return (
         <div className="bg-bg-card rounded-xl p-4 border border-slate-800">

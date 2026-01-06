@@ -45,7 +45,7 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
-                color: '#e2e8f0',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans, system-ui, sans-serif',
             },
             formatter: (params: unknown) => {

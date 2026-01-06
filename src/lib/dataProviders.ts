@@ -326,16 +326,16 @@ export class BattleRoyaleDataProvider extends BaseDataProvider {
                     { timestamp: 'Week 3', value: 28000 },
                     { timestamp: 'Week 4', value: 52000 },
                 ],
-                color: '#f97316',
+                color: '#C15F3C',
             },
         ];
     }
 
     getSegmentData(): SegmentData[] {
         return [
-            { name: 'AK-47', value: 32, percentage: 32, color: '#ef4444' },
-            { name: 'Shotgun', value: 28, percentage: 28, color: '#f97316' },
-            { name: 'SMG', value: 22, percentage: 22, color: '#eab308' },
+            { name: 'AK-47', value: 32, percentage: 32, color: '#E25C5C' },
+            { name: 'Shotgun', value: 28, percentage: 28, color: '#C15F3C' },
+            { name: 'SMG', value: 22, percentage: 22, color: '#E5A84B' },
             { name: 'Sniper', value: 18, percentage: 18, color: '#DA7756' },
         ];
     }

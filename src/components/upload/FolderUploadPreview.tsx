@@ -177,8 +177,8 @@ export function FolderUploadPreview({
                     <div className="flex items-center gap-2 mb-3">
                         {columnCompatibility.isFullyCompatible ? (
                             <>
-                                <CheckCircle className="w-5 h-5 text-[#6BBF59]" />
-                                <span className="text-[#6BBF59] font-medium">
+                                <CheckCircle className="w-5 h-5 text-[#7A8B5B]" />
+                                <span className="text-[#7A8B5B] font-medium">
                                     All files have compatible columns
                                 </span>
                             </>
@@ -278,7 +278,7 @@ export function FolderUploadPreview({
                                     isProcessing ? (
                                         <Loader2 className="w-4 h-4 text-accent-primary animate-spin" />
                                     ) : isComplete ? (
-                                        <CheckCircle className="w-4 h-4 text-[#6BBF59]" />
+                                        <CheckCircle className="w-4 h-4 text-[#7A8B5B]" />
                                     ) : (
                                         <Icon className={`w-4 h-4 ${getFormatColor(file.format)}`} />
                                     )

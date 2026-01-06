@@ -78,11 +78,11 @@ const COLOR_CLASSES = {
     button: 'bg-[#8F8B82]/20 hover:bg-[#8F8B82]/30 text-[#8F8B82] border-[#8F8B82]/30',
   },
   amber: {
-    border: 'border-amber-500/20 hover:border-amber-500/40',
-    bg: 'hover:bg-amber-500/5',
-    icon: 'text-amber-400',
-    iconBg: 'bg-amber-500/10 border-amber-500/20',
-    button: 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border-amber-500/30',
+    border: 'border-[#E5A84B]/20 hover:border-[#E5A84B]/40',
+    bg: 'hover:bg-[#E5A84B]/5',
+    icon: 'text-[#E5A84B]',
+    iconBg: 'bg-[#E5A84B]/10 border-[#E5A84B]/20',
+    button: 'bg-[#E5A84B]/20 hover:bg-[#E5A84B]/30 text-[#E5A84B] border-[#E5A84B]/30',
   },
 };
 

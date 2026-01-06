@@ -66,7 +66,7 @@ const liveCharts = [
     { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#C15F3C', baseValue: 420, variance: 150 },
     { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#A68B5B', baseValue: 180, variance: 80 },
     { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#DA7756', baseValue: 150, variance: 100, prefix: '$' },
-    { id: 'transactions', title: 'Transactions', icon: Activity, color: '#f59e0b', baseValue: 28, variance: 15 },
+    { id: 'transactions', title: 'Transactions', icon: Activity, color: '#E5A84B', baseValue: 28, variance: 15 },
     { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#DA7756', baseValue: 850, variance: 200 },
 ];
 
@@ -162,14 +162,13 @@ export function RealtimePage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Activity className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         Realtime
                                     </h1>
                                     <DataModeIndicator />
@@ -347,7 +346,7 @@ function LiveChart({ title, icon: Icon, color, data, timestamps, isLive, index }
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: '#64748b', interval: 4 }
+            axisLabel: { fontSize: 10, color: '#8F8B82', interval: 4 }
         },
         yAxis: {
             type: 'value',
@@ -456,7 +455,7 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
         legend: {
             data: ['info', 'warning', 'error', 'debug'],
             bottom: 0,
-            textStyle: { fontSize: 10, color: '#64748b' },
+            textStyle: { fontSize: 10, color: '#8F8B82' },
             icon: 'circle',
             itemWidth: 8,
             itemHeight: 8,
@@ -467,7 +466,7 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: '#64748b', interval: 4 }
+            axisLabel: { fontSize: 10, color: '#8F8B82', interval: 4 }
         },
         yAxis: {
             type: 'value',
@@ -477,9 +476,9 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
         },
         series: [
             { name: 'info', type: 'line', stack: 'errors', data: errorData.info, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#8F8B82' } },
-            { name: 'warning', type: 'line', stack: 'errors', data: errorData.warning, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#f59e0b' } },
-            { name: 'error', type: 'line', stack: 'errors', data: errorData.error, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#ef4444' } },
-            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#64748b' } },
+            { name: 'warning', type: 'line', stack: 'errors', data: errorData.warning, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#E5A84B' } },
+            { name: 'error', type: 'line', stack: 'errors', data: errorData.error, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#E25C5C' } },
+            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#8F8B82' } },
         ],
     };
 
@@ -495,8 +494,8 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
             <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
-                            <AlertTriangle className="w-4 h-4 text-amber-400" />
+                        <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/10 flex items-center justify-center">
+                            <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />
                         </div>
                         <h3 className="font-medium text-white">Error Events</h3>
                         {isLive && (
@@ -540,24 +539,21 @@ function SDKStatusTab() {
         },
     ];
 
-    const colorStyles: Record<string, { bg: string; border: string; icon: string; glow: string }> = {
+    const colorStyles: Record<string, { bg: string; border: string; icon: string }> = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            bg: 'bg-[#DA7756]/15',
             border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            bg: 'bg-[#8F8B82]/15',
             border: 'border-[#8F8B82]/20',
             icon: 'text-[#8F8B82]',
-            glow: 'bg-[#8F8B82]/20',
         },
         violet: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            bg: 'bg-[#C15F3C]/15',
             border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
     };
 
@@ -572,13 +568,10 @@ function SDKStatusTab() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
                     >
-                        <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
+                        <Card variant="default" padding="md" className="group hover:border-th-border-strong transition-colors">
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="relative">
-                                    <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                                    <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                                        <card.icon className={`w-5 h-5 ${style.icon}`} />
-                                    </div>
+                                <div className={`w-10 h-10 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                                    <card.icon className={`w-5 h-5 ${style.icon}`} />
                                 </div>
                                 <h3 className="font-medium text-white">{card.title}</h3>
                                 {card.status === 'healthy' && (

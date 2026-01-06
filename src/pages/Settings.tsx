@@ -330,7 +330,7 @@ export function SettingsPage() {
                             />
                             <button
                                 onClick={() => setShowKey(!showKey)}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-th-text-muted hover:text-th-text-secondary transition-colors"
                             >
                                 {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -343,10 +343,10 @@ export function SettingsPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${
                                     status === 'valid'
-                                        ? 'bg-[#DA7756]/10 text-[#DA7756]'
+                                        ? 'bg-th-success-muted text-th-success'
                                         : status === 'invalid'
-                                        ? 'bg-rose-500/10 text-rose-400'
-                                        : 'bg-white/[0.03] text-slate-400'
+                                        ? 'bg-th-error-muted text-th-error'
+                                        : 'bg-th-bg-elevated text-th-text-muted'
                                 }`}
                             >
                                 {status === 'validating' && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -367,7 +367,7 @@ export function SettingsPage() {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleValidate}
                                 disabled={!apiKey || status === 'validating'}
-                                className="px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-slate-300 hover:bg-white/[0.06] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                                className="px-4 py-2.5 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-secondary hover:bg-th-bg-surface-hover hover:text-th-text-primary disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                                 {t('actions.validate')}
                             </motion.button>
@@ -376,7 +376,7 @@ export function SettingsPage() {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleSave}
                                 disabled={status !== 'valid'}
-                                className="px-4 py-2.5 bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                                className="px-4 py-2.5 bg-th-accent-primary-muted border border-th-accent-primary/30 text-th-accent-primary hover:bg-th-accent-primary/30 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                                 {saved ? t('actions.saved') : t('actions.saveKey')}
                             </motion.button>
@@ -385,7 +385,7 @@ export function SettingsPage() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleClear}
-                                    className="px-4 py-2.5 text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all text-sm font-medium"
+                                    className="px-4 py-2.5 text-th-error hover:bg-th-error-muted rounded-xl transition-all text-sm font-medium"
                                 >
                                     {t('actions.clear')}
                                 </motion.button>
@@ -394,19 +394,19 @@ export function SettingsPage() {
                     </div>
 
                     {/* Info Box */}
-                    <div className="mt-6 p-4 rounded-xl bg-white/[0.02] border border-slate-800">
+                    <div className="mt-6 p-4 rounded-xl bg-th-bg-elevated border border-th-border">
                         <div className="flex items-start gap-3">
-                            <Shield className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
+                            <Shield className="w-4 h-4 text-th-text-muted mt-0.5 flex-shrink-0" />
                             <div>
-                                <p className="text-sm text-slate-400">
-                                    <span className="text-slate-300 font-medium">{t('pages.settings.openai.info.title')}</span>{' '}
+                                <p className="text-sm text-th-text-muted">
+                                    <span className="text-th-text-secondary font-medium">{t('pages.settings.openai.info.title')}</span>{' '}
                                     {t('pages.settings.openai.info.description')}
                                 </p>
                                 <a
                                     href="https://platform.openai.com/api-keys"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 mt-2 text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors"
+                                    className="inline-flex items-center gap-1 mt-2 text-sm text-th-accent-primary hover:text-th-accent-primary-hover transition-colors"
                                 >
                                     {t('pages.settings.openai.info.link')}
                                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -452,11 +452,8 @@ function SettingsCard({
 
     return (
         <div className="relative group">
-            {/* Subtle glow on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-th-accent-primary/0 via-th-accent-primary/5 to-th-accent-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="relative bg-th-bg-surface  rounded-2xl p-6 border border-th-border overflow-hidden shadow-theme-sm">
-                <div className="relative">
+            <div className="bg-th-bg-surface rounded-2xl p-6 border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
+                <div>
                     {/* Header */}
                     <div className="flex items-center gap-3 mb-6">
                         <div className={`w-10 h-10 rounded-xl ${colorClasses[iconColor]} border flex items-center justify-center`}>

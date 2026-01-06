@@ -252,13 +252,12 @@ export function TemplatesPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Package className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
-                                <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                <h1 className="text-xl font-display font-bold text-th-text-primary">
                                     Template Marketplace
                                 </h1>
                                 <p className="text-slate-500 text-sm mt-0.5">
@@ -506,10 +505,10 @@ function StatCard({ icon: Icon, label, value, color, index }: {
     index: number;
 }) {
     const colorStyles = {
-        orange: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'text-[#DA7756]', glow: 'bg-[#DA7756]/20' },
-        amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'text-amber-400', glow: 'bg-amber-500/20' },
-        orangeDark: { bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5', border: 'border-[#C15F3C]/20', icon: 'text-[#C15F3C]', glow: 'bg-[#C15F3C]/20' },
-        blue: { bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5', border: 'border-[#8F8B82]/20', icon: 'text-[#8F8B82]', glow: 'bg-[#8F8B82]/20' },
+        orange: { bg: 'bg-[#DA7756]/15', border: 'border-[#DA7756]/20', icon: 'text-[#DA7756]' },
+        amber: { bg: 'bg-[#E5A84B]/15', border: 'border-[#E5A84B]/20', icon: 'text-[#E5A84B]' },
+        orangeDark: { bg: 'bg-[#C15F3C]/15', border: 'border-[#C15F3C]/20', icon: 'text-[#C15F3C]' },
+        blue: { bg: 'bg-[#8F8B82]/15', border: 'border-[#8F8B82]/20', icon: 'text-[#8F8B82]' },
     };
 
     const style = colorStyles[color];
@@ -520,13 +519,10 @@ function StatCard({ icon: Icon, label, value, color, index }: {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
+            <Card variant="default" padding="md" className="group hover:border-th-border-strong transition-colors">
                 <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                        <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                            <Icon className={`w-6 h-6 ${style.icon}`} />
-                        </div>
+                    <div className={`w-12 h-12 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                        <Icon className={`w-6 h-6 ${style.icon}`} />
                     </div>
                     <div>
                         <p className="text-2xl font-bold text-white">{value}</p>
@@ -570,7 +566,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-2">
                             {template.featured && (
-                                <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-medium rounded-full">
+                                <span className="px-2 py-0.5 bg-[#E5A84B] text-[#3D2E1F] text-xs font-medium rounded-full">
                                     Featured
                                 </span>
                             )}
@@ -586,7 +582,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
                             onClick={e => { e.stopPropagation(); onStar(); }}
                             className={`p-1.5 rounded-full ${
                                 isStarred
-                                    ? 'bg-amber-400 text-amber-900'
+                                    ? 'bg-[#E5A84B] text-[#3D2E1F]'
                                     : 'bg-white/20 text-white hover:bg-white/30'
                             }`}
                         >
@@ -680,7 +676,7 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse, index }:
                             <CheckCircle className="w-4 h-4 text-[#DA7756]" />
                         )}
                         {template.featured && (
-                            <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs font-medium rounded-full">
+                            <span className="px-2 py-0.5 bg-[#E5A84B]/10 text-[#E5A84B] text-xs font-medium rounded-full">
                                 Featured
                             </span>
                         )}
@@ -700,7 +696,7 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse, index }:
                         onClick={onStar}
                         className={`p-2 rounded-xl ${
                             isStarred
-                                ? 'bg-amber-500/10 text-amber-400'
+                                ? 'bg-[#E5A84B]/10 text-[#E5A84B]'
                                 : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.05]'
                         } transition-colors`}
                     >
@@ -752,7 +748,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 
                     <div className="flex items-start gap-2">
                         {template.featured && (
-                            <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-medium rounded-full">
+                            <span className="px-2 py-0.5 bg-[#E5A84B] text-[#3D2E1F] text-xs font-medium rounded-full">
                                 Featured
                             </span>
                         )}
@@ -917,10 +913,9 @@ function ImportModal({ onClose, onImport }: {
                     Import a template from a JSON file exported from Game Insights.
                 </p>
 
-                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/[0.1] rounded-xl hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 cursor-pointer transition-all group">
-                    <div className="relative mb-3">
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="relative w-12 h-12 bg-white/[0.03] border border-slate-700 rounded-xl flex items-center justify-center group-hover:border-[#DA7756]/30 transition-colors">
+                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-th-border rounded-xl hover:border-th-accent-primary/30 hover:bg-th-accent-primary-muted cursor-pointer transition-all group">
+                    <div className="mb-3">
+                        <div className="w-12 h-12 bg-th-bg-elevated border border-th-border rounded-xl flex items-center justify-center group-hover:border-th-accent-primary/30 transition-colors">
                             <Upload className="w-6 h-6 text-slate-500 group-hover:text-[#DA7756] transition-colors" />
                         </div>
                     </div>

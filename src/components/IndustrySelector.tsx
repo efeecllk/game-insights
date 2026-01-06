@@ -44,9 +44,9 @@ const INDUSTRY_COLORS: Record<IndustryType, string> = {
   saas: 'text-[#8F8B82]',
   ecommerce: 'text-[#7A8B5B]',
   edtech: 'text-[#E5A84B]',
-  media: 'text-rose-400',
+  media: 'text-[#E25C5C]',
   fintech: 'text-[#C15F3C]',
-  healthcare: 'text-rose-300',
+  healthcare: 'text-[#E25C5C]',
   custom: 'text-gray-400',
 };
 

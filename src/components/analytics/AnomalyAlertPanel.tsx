@@ -56,10 +56,10 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
 }> = {
     critical: {
         label: 'Critical',
-        bgColor: 'bg-rose-500/10',
-        borderColor: 'border-rose-500/30',
-        textColor: 'text-rose-400',
-        badgeBg: 'bg-rose-500',
+        bgColor: 'bg-[#E25C5C]/10',
+        borderColor: 'border-[#E25C5C]/30',
+        textColor: 'text-[#E25C5C]',
+        badgeBg: 'bg-[#E25C5C]',
         icon: AlertCircle,
     },
     high: {
@@ -72,10 +72,10 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
     },
     medium: {
         label: 'Medium',
-        bgColor: 'bg-amber-500/10',
-        borderColor: 'border-amber-500/30',
-        textColor: 'text-amber-400',
-        badgeBg: 'bg-amber-500',
+        bgColor: 'bg-[#E5A84B]/10',
+        borderColor: 'border-[#E5A84B]/30',
+        textColor: 'text-[#E5A84B]',
+        badgeBg: 'bg-[#E5A84B]',
         icon: AlertTriangle,
     },
     low: {
@@ -203,7 +203,7 @@ function AnomalyCard({
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <span className={`text-sm font-semibold ${anomaly.percentChange > 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
+                    <span className={`text-sm font-semibold ${anomaly.percentChange > 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                         {anomaly.percentChange > 0 ? '+' : ''}{anomaly.percentChange.toFixed(1)}%
                     </span>
                     <motion.div animate={{ rotate: isExpanded ? 90 : 0 }}>
@@ -254,7 +254,7 @@ function AnomalyCard({
                             {anomaly.possibleCauses && anomaly.possibleCauses.length > 0 && (
                                 <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                                     <div className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-3">
-                                        <Lightbulb className="w-4 h-4 text-amber-400" />
+                                        <Lightbulb className="w-4 h-4 text-[#E5A84B]" />
                                         Possible Causes
                                     </div>
                                     <ul className="space-y-2">
@@ -419,15 +419,12 @@ export function AnomalyAlertPanel({
             {/* Header */}
             <motion.div
                 variants={itemVariants}
-                className={`p-6 border-b ${hasCritical ? 'bg-rose-500/5 border-rose-500/20' : hasHigh ? 'bg-orange-500/5 border-orange-500/20' : 'border-slate-800'}`}
+                className={`p-6 border-b ${hasCritical ? 'bg-[#E25C5C]/5 border-[#E25C5C]/20' : hasHigh ? 'bg-orange-500/5 border-orange-500/20' : 'border-slate-800'}`}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
-                        <div className="relative">
-                            <div className={`absolute inset-0 ${hasCritical ? 'bg-rose-500/20' : hasHigh ? 'bg-orange-500/20' : 'bg-amber-500/20'} rounded-xl blur-lg`} />
-                            <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center ${hasCritical ? 'bg-rose-500/10 border border-rose-500/20' : hasHigh ? 'bg-orange-500/10 border border-orange-500/20' : 'bg-amber-500/10 border border-amber-500/20'}`}>
-                                <AlertTriangle className={`w-6 h-6 ${hasCritical ? 'text-rose-400' : hasHigh ? 'text-orange-400' : 'text-amber-400'}`} />
-                            </div>
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${hasCritical ? 'bg-[#E25C5C]/15 border border-[#E25C5C]/20' : hasHigh ? 'bg-[#E5A84B]/15 border border-[#E5A84B]/20' : 'bg-[#E5A84B]/15 border border-[#E5A84B]/20'}`}>
+                            <AlertTriangle className={`w-6 h-6 ${hasCritical ? 'text-[#E25C5C]' : hasHigh ? 'text-[#E5A84B]' : 'text-[#E5A84B]'}`} />
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold text-white">Anomaly Alerts</h2>

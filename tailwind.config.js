@@ -97,12 +97,12 @@ export default {
                     secondary: 'var(--color-accent-secondary)',
                 },
                 'chart': {
-                    purple: 'var(--color-chart-1)',
-                    indigo: 'var(--color-chart-2)',
-                    pink: 'var(--color-chart-3)',
-                    cyan: 'var(--color-chart-4)',
-                    green: 'var(--color-chart-5)',
-                    orange: 'var(--color-chart-6)',
+                    terracotta: 'var(--color-chart-1)',
+                    deepTerracotta: 'var(--color-chart-2)',
+                    gold: 'var(--color-chart-3)',
+                    brown: 'var(--color-chart-4)',
+                    earthBrown: 'var(--color-chart-5)',
+                    tan: 'var(--color-chart-6)',
                 },
             },
             boxShadow: {

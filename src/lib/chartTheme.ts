@@ -3,6 +3,8 @@
  * Provides consistent theming for ECharts across the application
  */
 
+import { useMemo } from 'react';
+
 export interface ChartThemeColors {
   text: string;
   textMuted: string;
@@ -21,14 +23,15 @@ export interface ChartThemeColors {
 
 export function getChartTheme(isDark: boolean): ChartThemeColors {
   if (isDark) {
+    // Dark mode: warm dark backgrounds (#1A1918, #262524)
     return {
-      text: '#a1a1aa',
-      textMuted: '#71717a',
-      grid: 'rgba(255,255,255,0.04)',
+      text: '#C8C4BA', // --color-text-secondary in dark
+      textMuted: '#8F8B82', // --color-text-muted in dark
+      grid: 'rgba(250, 249, 246, 0.04)', // subtle warm white grid
       tooltip: {
-        bg: '#242430',
-        border: 'rgba(255,255,255,0.1)',
-        text: '#f4f4f5',
+        bg: '#262524', // --color-bg-surface in dark
+        border: 'rgba(250, 249, 246, 0.08)', // --color-border-default in dark
+        text: '#FAF9F6', // --color-text-primary in dark
       },
       series: [
         '#DA7756', // terracotta - primary
@@ -47,28 +50,29 @@ export function getChartTheme(isDark: boolean): ChartThemeColors {
     };
   }
 
+  // Light mode: warm cream backgrounds (#F5F5F0, #FAF9F7)
   return {
-    text: '#6b7280',
-    textMuted: '#9ca3af',
-    grid: '#f3f4f6',
+    text: '#4A4641', // --color-text-secondary in light
+    textMuted: '#8F8B82', // --color-text-muted in light
+    grid: '#EAE8E1', // --color-border-subtle in light
     tooltip: {
-      bg: '#ffffff',
-      border: '#e5e7eb',
-      text: '#374151',
+      bg: '#FFFFFF', // --color-bg-surface in light
+      border: '#DBD8CE', // --color-border-default in light
+      text: '#1A1918', // --color-text-primary in light
     },
     series: [
-      '#DA7756', // terracotta - primary
-      '#C15F3C', // darker terracotta
-      '#E5A84B', // amber/gold
-      '#A68B5B', // warm tan
+      '#C15F3C', // darker terracotta for better contrast on light
+      '#DA7756', // terracotta
+      '#C98A2E', // darker amber for light mode
       '#8B7355', // brown
+      '#A68B5B', // warm tan
       '#B89B7D', // light brown
-      '#E25C5C', // warm red
-      '#8F8B82', // warm gray
+      '#C94141', // warm red (light mode version)
+      '#6B7280', // neutral gray
     ],
     area: [
-      { offset: 0, color: 'rgba(218, 119, 86, 0.1)' },
-      { offset: 1, color: 'rgba(218, 119, 86, 0)' },
+      { offset: 0, color: 'rgba(193, 95, 60, 0.1)' },
+      { offset: 1, color: 'rgba(193, 95, 60, 0)' },
     ],
   };
 }
@@ -143,7 +147,7 @@ export function createLineChartOptions(
     },
     itemStyle: {
       color: theme.series[seriesIndex],
-      borderColor: isDark ? '#16161e' : '#ffffff',
+      borderColor: isDark ? '#1A1918' : '#FFFFFF',
       borderWidth: 2,
     },
     ...(showArea && {
@@ -181,6 +185,32 @@ export function createBarChartOptions(
       },
     },
   };
+}
+
+/**
+ * React hook to get chart theme based on current app theme
+ * Usage: const chartTheme = useChartTheme();
+ */
+export function useChartTheme() {
+  // Read the resolved theme from document
+  const isDark = useMemo(() => {
+    if (typeof document === 'undefined') return true;
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }, []);
+
+  return useMemo(() => getChartTheme(isDark), [isDark]);
+}
+
+/**
+ * Hook to get base chart options with current theme
+ */
+export function useBaseChartOptions() {
+  const isDark = useMemo(() => {
+    if (typeof document === 'undefined') return true;
+    return document.documentElement.getAttribute('data-theme') !== 'light';
+  }, []);
+
+  return useMemo(() => createBaseChartOptions(isDark), [isDark]);
 }
 
 export default getChartTheme;

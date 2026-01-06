@@ -3,7 +3,7 @@
  * Manages analytics state and runs the data pipeline
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useData } from '../context/DataContext';
 import { dataPipeline, PipelineResult, PipelineConfig } from '../ai/DataPipeline';
 import { NormalizedData } from '../adapters/BaseAdapter';
@@ -46,6 +46,7 @@ const ANALYSIS_TIMEOUT = 30000;
 
 export function useAnalytics(): UseAnalyticsReturn {
     const { activeGameData, isReady } = useData();
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     const [state, setState] = useState<AnalyticsState>({
         isLoading: true,
@@ -55,6 +56,15 @@ export function useAnalytics(): UseAnalyticsReturn {
         gameType: 'custom',
         dataName: '',
     });
+
+    // Cleanup on unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
+    }, []);
 
     // Convert raw data to NormalizedData format
     const normalizeData = useCallback((rawData: Record<string, unknown>[], sourceName: string = 'upload'): NormalizedData => {
@@ -93,7 +103,16 @@ export function useAnalytics(): UseAnalyticsReturn {
             return;
         }
 
+        // Abort any previous analysis
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+        }
+        abortControllerRef.current = new AbortController();
+
         setState(prev => ({ ...prev, isProcessing: true, error: null }));
+
+        // Create a timeout that can be cleared
+        let timeoutId: ReturnType<typeof setTimeout>;
 
         try {
             const normalizedData = normalizeData(activeGameData.rawData);
@@ -112,15 +131,18 @@ export function useAnalytics(): UseAnalyticsReturn {
                 anomalyConfig,
             };
 
-            // Run pipeline with timeout
+            // Run pipeline with timeout (timeout is properly cleaned up)
             const timeoutPromise = new Promise<never>((_, reject) => {
-                setTimeout(() => reject(new Error('Analysis timed out. Try uploading a smaller dataset.')), ANALYSIS_TIMEOUT);
+                timeoutId = setTimeout(() => reject(new Error('Analysis timed out. Try uploading a smaller dataset.')), ANALYSIS_TIMEOUT);
             });
 
             const result = await Promise.race([
                 dataPipeline.run(normalizedData, fullConfig),
                 timeoutPromise,
             ]);
+
+            // Clear timeout after successful completion
+            clearTimeout(timeoutId!);
 
             setState(prev => ({
                 ...prev,
@@ -131,6 +153,14 @@ export function useAnalytics(): UseAnalyticsReturn {
                 dataName: activeGameData.name,
             }));
         } catch (error) {
+            // Clear timeout on error as well
+            clearTimeout(timeoutId!);
+
+            // Don't report errors if the operation was aborted
+            if (error instanceof Error && error.name === 'AbortError') {
+                return;
+            }
+
             console.error('Analytics pipeline failed:', error);
             setState(prev => ({
                 ...prev,

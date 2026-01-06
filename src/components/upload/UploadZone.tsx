@@ -414,7 +414,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             </>
                         ) : fileName ? (
                             <>
-                                <CheckCircle className="w-12 h-12 text-[#6BBF59]" />
+                                <CheckCircle className="w-12 h-12 text-[#7A8B5B]" />
                                 <div>
                                     <p className="text-white font-medium">{fileName}</p>
                                     <p className="text-zinc-500 text-sm mt-1">File loaded successfully</p>

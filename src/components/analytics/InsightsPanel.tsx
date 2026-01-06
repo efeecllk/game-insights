@@ -61,17 +61,17 @@ const INSIGHT_STYLES: Record<InsightType, {
     },
     negative: {
         icon: TrendingDown,
-        bg: 'from-rose-500/10 to-rose-500/5',
-        border: 'border-rose-500/20',
-        iconBg: 'bg-rose-500/10',
-        iconColor: 'text-rose-400',
+        bg: 'from-[#E25C5C]/10 to-[#E25C5C]/5',
+        border: 'border-[#E25C5C]/20',
+        iconBg: 'bg-[#E25C5C]/10',
+        iconColor: 'text-[#E25C5C]',
     },
     warning: {
         icon: AlertTriangle,
-        bg: 'from-amber-500/10 to-amber-500/5',
-        border: 'border-amber-500/20',
-        iconBg: 'bg-amber-500/10',
-        iconColor: 'text-amber-400',
+        bg: 'from-[#E5A84B]/10 to-[#E5A84B]/5',
+        border: 'border-[#E5A84B]/20',
+        iconBg: 'bg-[#E5A84B]/10',
+        iconColor: 'text-[#E5A84B]',
     },
     opportunity: {
         icon: Lightbulb,
@@ -159,9 +159,9 @@ function InsightCard({ insight, index }: { insight: Insight; index: number }) {
 function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
     const severityStyles = {
         critical: {
-            bg: 'from-rose-500/10 to-rose-500/5',
-            border: 'border-rose-500/30',
-            badge: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
+            bg: 'from-[#E25C5C]/10 to-[#E25C5C]/5',
+            border: 'border-[#E25C5C]/30',
+            badge: 'bg-[#E25C5C]/20 text-[#E25C5C] border-[#E25C5C]/30',
         },
         high: {
             bg: 'from-orange-500/10 to-orange-500/5',
@@ -169,9 +169,9 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
             badge: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
         },
         medium: {
-            bg: 'from-amber-500/10 to-amber-500/5',
-            border: 'border-amber-500/30',
-            badge: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+            bg: 'from-[#E5A84B]/10 to-[#E5A84B]/5',
+            border: 'border-[#E5A84B]/30',
+            badge: 'bg-[#E5A84B]/20 text-[#E5A84B] border-[#E5A84B]/30',
         },
         low: {
             bg: 'from-[#8F8B82]/10 to-[#8F8B82]/5',
@@ -190,7 +190,7 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
         >
             <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400" />
+                    <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />
                     <span className="font-medium text-white">{anomaly.metric}</span>
                 </div>
                 <span className={`px-2 py-0.5 text-xs rounded-full border font-medium ${style.badge}`}>
@@ -208,7 +208,7 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
                 <span className={`px-2 py-1 rounded-lg border ${
                     anomaly.percentChange > 0
                         ? 'bg-[#DA7756]/10 border-[#DA7756]/20 text-[#DA7756]'
-                        : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
+                        : 'bg-[#E25C5C]/10 border-[#E25C5C]/20 text-[#E25C5C]'
                 }`}>
                     {anomaly.percentChange > 0 ? '+' : ''}{anomaly.percentChange.toFixed(1)}%
                 </span>
@@ -291,7 +291,7 @@ export function InsightsPanel({
                                     </span>
                                 )}
                                 {'critical' in tab && typeof tab.critical === 'number' && tab.critical > 0 && (
-                                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-rose-500/20 text-rose-400 rounded-full">
+                                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-[#E25C5C]/20 text-[#E25C5C] rounded-full">
                                         {tab.critical}
                                     </span>
                                 )}

@@ -72,10 +72,10 @@ function getRetentionColor(value: number): string {
     if (value >= 40) return 'bg-[#DA7756]';
     if (value >= 30) return 'bg-[#DA7756]/80';
     if (value >= 20) return 'bg-[#C15F3C]';
-    if (value >= 15) return 'bg-amber-400';
+    if (value >= 15) return 'bg-[#E5A84B]';
     if (value >= 10) return 'bg-orange-400';
-    if (value >= 5) return 'bg-rose-400';
-    return 'bg-rose-500';
+    if (value >= 5) return 'bg-[#E25C5C]';
+    return 'bg-[#E25C5C]';
 }
 
 function getRetentionTextColor(value: number): string {
@@ -113,7 +113,7 @@ function CohortSummaryCard({
         primary: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'bg-[#DA7756]' },
         blue: { bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5', border: 'border-[#8F8B82]/20', icon: 'bg-[#8F8B82]' },
         violet: { bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5', border: 'border-[#C15F3C]/20', icon: 'bg-[#C15F3C]' },
-        amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'bg-amber-500' },
+        amber: { bg: 'from-[#E5A84B]/20 to-[#E5A84B]/5', border: 'border-[#E5A84B]/20', icon: 'bg-[#E5A84B]' },
     };
 
     const styles = colorStyles[color];
@@ -135,7 +135,7 @@ function CohortSummaryCard({
                 {trend && (
                     <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
                         trend === 'up' ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20' :
-                        trend === 'down' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
+                        trend === 'down' ? 'bg-[#E25C5C]/10 text-[#E25C5C] border border-[#E25C5C]/20' :
                         'bg-white/[0.03] text-slate-400 border border-slate-800'
                     }`}>
                         {trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
@@ -176,18 +176,18 @@ function CohortHighlight({
                 rounded-xl border p-4
                 ${isBest
                     ? 'bg-gradient-to-br from-[#DA7756]/10 to-[#DA7756]/5 border-[#DA7756]/20'
-                    : 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20'
+                    : 'bg-gradient-to-br from-[#E5A84B]/10 to-[#E5A84B]/5 border-[#E5A84B]/20'
                 }
             `}
         >
             <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    isBest ? 'bg-[#DA7756]/20' : 'bg-amber-500/20'
+                    isBest ? 'bg-[#DA7756]/20' : 'bg-[#E5A84B]/20'
                 }`}>
-                    <Icon className={`w-5 h-5 ${isBest ? 'text-[#DA7756]' : 'text-amber-400'}`} />
+                    <Icon className={`w-5 h-5 ${isBest ? 'text-[#DA7756]' : 'text-[#E5A84B]'}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${isBest ? 'text-[#DA7756]' : 'text-amber-400'}`}>
+                    <p className={`text-sm font-medium ${isBest ? 'text-[#DA7756]' : 'text-[#E5A84B]'}`}>
                         {isBest ? 'Top Performer' : 'Needs Attention'}
                     </p>
                     <p className="text-white font-semibold truncate">{cohort.name}</p>
@@ -274,9 +274,9 @@ function RetentionHeatmap({
                 <span>Retention:</span>
                 <div className="flex items-center gap-2">
                     {[
-                        { color: 'bg-rose-500', label: '<5%' },
+                        { color: 'bg-[#E25C5C]', label: '<5%' },
                         { color: 'bg-orange-400', label: '5-10%' },
-                        { color: 'bg-amber-400', label: '10-15%' },
+                        { color: 'bg-[#E5A84B]', label: '10-15%' },
                         { color: 'bg-[#C15F3C]', label: '15-30%' },
                         { color: 'bg-[#DA7756]', label: '>30%' },
                     ].map(({ color, label }) => (
@@ -330,7 +330,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                             <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                                 performanceVsAvg > 0
                                     ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20'
-                                    : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                    : 'bg-[#E25C5C]/10 text-[#E25C5C] border border-[#E25C5C]/20'
                             }`}>
                                 {performanceVsAvg > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                                 {Math.abs(performanceVsAvg).toFixed(0)}% vs avg
@@ -618,8 +618,8 @@ export function CohortDashboard({
                     className="bg-slate-900  rounded-xl border border-slate-800 p-4"
                 >
                     <div className="flex items-center gap-2 mb-3">
-                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                            <Lightbulb className="w-4 h-4 text-amber-400" />
+                        <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/10 border border-[#E5A84B]/20 flex items-center justify-center">
+                            <Lightbulb className="w-4 h-4 text-[#E5A84B]" />
                         </div>
                         <h3 className="font-semibold text-white">Cohort Insights</h3>
                     </div>

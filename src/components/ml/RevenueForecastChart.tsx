@@ -65,11 +65,11 @@ export function RevenueForecastChart({
                         <div style="font-weight: 600; margin-bottom: 4px">${point.name}</div>
                         <div style="color: #DA7756">Forecast: $${point.value.toLocaleString()}</div>
                         ${forecastData?.range ? `
-                            <div style="color: #6b7280; font-size: 11px">
+                            <div style="color: #8F8B82; font-size: 11px">
                                 Range: $${forecastData.range.low.toLocaleString()} - $${forecastData.range.high.toLocaleString()}
                             </div>
                         ` : ''}
-                        <div style="color: #6b7280; font-size: 11px; margin-top: 4px">
+                        <div style="color: #8F8B82; font-size: 11px; margin-top: 4px">
                             Confidence: ${((forecastData?.confidence ?? 0.5) * 100).toFixed(0)}%
                         </div>
                     </div>
@@ -82,7 +82,7 @@ export function RevenueForecastChart({
             data: dates,
             axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
             axisLabel: {
-                color: '#71717a',
+                color: '#8F8B82',
                 fontSize: 10,
                 rotate: 45,
                 interval: Math.floor(dates.length / 7),
@@ -93,7 +93,7 @@ export function RevenueForecastChart({
             type: 'value',
             axisLine: { show: false },
             axisLabel: {
-                color: '#71717a',
+                color: '#8F8B82',
                 formatter: (val: number) => `$${val >= 1000 ? (val / 1000).toFixed(0) + 'k' : val}`,
             },
             splitLine: { lineStyle: { color: 'rgba(255,255,255,0.05)' } },

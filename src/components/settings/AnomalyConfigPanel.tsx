@@ -133,9 +133,9 @@ function ThresholdSlider({
 }: ThresholdSliderProps) {
     const severityColors: Record<string, string> = {
         low: 'bg-[#8F8B82]',
-        medium: 'bg-amber-500',
+        medium: 'bg-[#E5A84B]',
         high: 'bg-orange-500',
-        critical: 'bg-rose-500',
+        critical: 'bg-[#E25C5C]',
     };
 
     return (
@@ -233,11 +233,8 @@ export function AnomalyConfigPanel() {
                 className="w-full flex items-center justify-between"
             >
                 <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-orange-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                            <AlertTriangle className="w-5 h-5 text-orange-400" />
-                        </div>
+                    <div className="w-10 h-10 rounded-xl bg-[#E5A84B]/15 border border-[#E5A84B]/20 flex items-center justify-center">
+                        <AlertTriangle className="w-5 h-5 text-[#E5A84B]" />
                     </div>
                     <div className="text-left">
                         <h3 className="text-lg font-semibold text-white">
@@ -330,10 +327,10 @@ export function AnomalyConfigPanel() {
                                     <motion.div
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl"
+                                        className="flex items-center gap-2 p-3 bg-[#E5A84B]/10 border border-[#E5A84B]/20 rounded-xl"
                                     >
-                                        <Info className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                                        <span className="text-sm text-amber-400">
+                                        <Info className="w-4 h-4 text-[#E5A84B] flex-shrink-0" />
+                                        <span className="text-sm text-[#E5A84B]">
                                             Thresholds should increase with severity: Low &lt; Medium &lt; High &lt; Critical
                                         </span>
                                     </motion.div>

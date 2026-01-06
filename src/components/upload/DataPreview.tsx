@@ -32,8 +32,8 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                            qualityReport.overallScore >= 80 ? 'bg-[#6BBF59]/10' :
-                            qualityReport.overallScore >= 60 ? 'bg-yellow-500/10' : 'bg-red-500/10'
+                            qualityReport.overallScore >= 80 ? 'bg-[#7A8B5B]/10' :
+                            qualityReport.overallScore >= 60 ? 'bg-[#E5A84B]/10' : 'bg-[#E25C5C]/10'
                         }`}>
                             <BarChart3 className={`w-6 h-6 ${getQualityColor(qualityReport.overallScore)}`} />
                         </div>
@@ -43,8 +43,8 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                                     {Math.round(qualityReport.overallScore)}%
                                 </span>
                                 <span className={`text-sm font-medium px-2 py-0.5 rounded ${
-                                    qualityReport.overallScore >= 80 ? 'bg-[#6BBF59]/10 text-[#6BBF59]' :
-                                    qualityReport.overallScore >= 60 ? 'bg-yellow-500/10 text-yellow-500' : 'bg-red-500/10 text-red-500'
+                                    qualityReport.overallScore >= 80 ? 'bg-[#7A8B5B]/10 text-[#7A8B5B]' :
+                                    qualityReport.overallScore >= 60 ? 'bg-[#E5A84B]/10 text-[#E5A84B]' : 'bg-[#E25C5C]/10 text-[#E25C5C]'
                                 }`}>
                                     {getQualityLabel(qualityReport.overallScore)}
                                 </span>

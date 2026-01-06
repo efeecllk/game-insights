@@ -21,15 +21,9 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
 
     return (
         <div className={`relative group ${className ?? ''}`}>
-            {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
             {/* Card container */}
-            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-                <div className="relative">
+            <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
+                <div>
                     {/* Header */}
                     <div className="p-4 border-b border-slate-800">
                         <div className="flex items-center justify-between">
@@ -58,7 +52,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                     <div className="flex items-center gap-3">
                                         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                                             isBottleneck
-                                                ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                                                ? 'bg-[#E5A84B]/20 text-[#E5A84B] border border-[#E5A84B]/30'
                                                 : 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20'
                                         }`}>
                                             {index + 1}
@@ -68,7 +62,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-sm font-medium text-white">{step.name}</span>
                                                     {isBottleneck && (
-                                                        <span className="px-1.5 py-0.5 text-xs bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded flex items-center gap-1">
+                                                        <span className="px-1.5 py-0.5 text-xs bg-[#E5A84B]/20 text-[#E5A84B] border border-[#E5A84B]/30 rounded flex items-center gap-1">
                                                             <AlertCircle className="w-3 h-3" />
                                                             bottleneck
                                                         </span>
@@ -82,7 +76,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                                 <div
                                                     className={`h-full rounded-full transition-all ${
                                                         isBottleneck
-                                                            ? 'bg-gradient-to-r from-amber-400 to-amber-500'
+                                                            ? 'bg-gradient-to-r from-[#E5A84B] to-[#E5A84B]'
                                                             : 'bg-[#DA7756]'
                                                     }`}
                                                     style={{ width: `${widthPercent}%` }}

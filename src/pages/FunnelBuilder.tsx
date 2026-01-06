@@ -521,7 +521,7 @@ function FunnelListItem({
                                 onDelete();
                                 setShowMenu(false);
                             }}
-                            className="w-full px-3 py-2 text-left text-sm text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 transition-colors"
+                            className="w-full px-3 py-2 text-left text-sm text-[#E25C5C] hover:bg-[#E25C5C]/10 flex items-center gap-2 transition-colors"
                         >
                             <Trash2 className="w-4 h-4" />
                             Delete
@@ -632,7 +632,7 @@ function FunnelStepCard({
                         <div className="text-right">
                             <p className={`text-lg font-semibold ${
                                 result.conversionRate > 50 ? 'text-[#DA7756]' :
-                                result.conversionRate > 20 ? 'text-amber-400' : 'text-rose-400'
+                                result.conversionRate > 20 ? 'text-[#E5A84B]' : 'text-[#E25C5C]'
                             }`}>
                                 {result.conversionRate.toFixed(1)}%
                             </p>
@@ -640,7 +640,7 @@ function FunnelStepCard({
                         </div>
                         {index > 0 && (
                             <div className="text-right">
-                                <p className="text-sm text-rose-400">
+                                <p className="text-sm text-[#E25C5C]">
                                     -{result.dropoffRate.toFixed(1)}%
                                 </p>
                                 <p className="text-xs text-slate-500">dropoff</p>
@@ -655,7 +655,7 @@ function FunnelStepCard({
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={onDelete}
-                        className="p-2 hover:bg-rose-500/20 rounded-lg transition-colors text-rose-400"
+                        className="p-2 hover:bg-[#E25C5C]/20 rounded-lg transition-colors text-[#E25C5C]"
                     >
                         <Trash2 className="w-4 h-4" />
                     </motion.button>

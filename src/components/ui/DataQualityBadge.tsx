@@ -40,9 +40,9 @@ export function DataQualityBadge({
 
     const colorClasses = {
         warmOrange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20 hover:bg-[#DA7756]/15',
-        amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/15',
+        amber: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20 hover:bg-[#E5A84B]/15',
         deepOrange: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20 hover:bg-[#C15F3C]/15',
-        rose: 'bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/15',
+        rose: 'bg-[#E25C5C]/10 text-[#E25C5C] border-[#E25C5C]/20 hover:bg-[#E25C5C]/15',
     };
 
     const sizeClasses = {
@@ -112,10 +112,10 @@ export function DataQualityBadge({
                                     className="flex items-start gap-2 text-xs"
                                 >
                                     {issue.severity === 'critical' && (
-                                        <AlertCircle className="w-3.5 h-3.5 text-rose-400 flex-shrink-0 mt-0.5" />
+                                        <AlertCircle className="w-3.5 h-3.5 text-[#E25C5C] flex-shrink-0 mt-0.5" />
                                     )}
                                     {issue.severity === 'warning' && (
-                                        <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                                        <AlertTriangle className="w-3.5 h-3.5 text-[#E5A84B] flex-shrink-0 mt-0.5" />
                                     )}
                                     {issue.severity === 'info' && (
                                         <Info className="w-3.5 h-3.5 text-[#8F8B82] flex-shrink-0 mt-0.5" />
@@ -145,9 +145,9 @@ export function DataQualityBadge({
                             </span>
                             <span className={`font-medium ${
                                 score >= 90 ? 'text-[#DA7756]' :
-                                score >= 70 ? 'text-amber-400' :
+                                score >= 70 ? 'text-[#E5A84B]' :
                                 score >= 50 ? 'text-[#C15F3C]' :
-                                'text-rose-400'
+                                'text-[#E25C5C]'
                             }`}>
                                 Score: {score}%
                             </span>
@@ -164,9 +164,9 @@ export function DataQualityBadge({
  */
 export function DataQualityDot({ score }: { score: number }) {
     const color = score >= 90 ? 'bg-[#DA7756]' :
-                  score >= 70 ? 'bg-amber-400' :
+                  score >= 70 ? 'bg-[#E5A84B]' :
                   score >= 50 ? 'bg-[#C15F3C]' :
-                  'bg-rose-400';
+                  'bg-[#E25C5C]';
 
     return (
         <motion.span
@@ -196,9 +196,9 @@ export function DataQualityBar({
     const infoCount = issues.filter(i => i.severity === 'info').length;
 
     const barColor = score >= 90 ? 'bg-[#DA7756]' :
-                     score >= 70 ? 'bg-amber-500' :
+                     score >= 70 ? 'bg-[#E5A84B]' :
                      score >= 50 ? 'bg-[#C15F3C]' :
-                     'bg-rose-500';
+                     'bg-[#E25C5C]';
 
     return (
         <div className="space-y-2">
@@ -220,13 +220,13 @@ export function DataQualityBar({
                 <div className="flex items-center gap-3 text-xs text-slate-500">
                     {criticalCount > 0 && (
                         <span className="flex items-center gap-1">
-                            <AlertCircle className="w-3 h-3 text-rose-400" />
+                            <AlertCircle className="w-3 h-3 text-[#E25C5C]" />
                             {criticalCount} critical
                         </span>
                     )}
                     {warningCount > 0 && (
                         <span className="flex items-center gap-1">
-                            <AlertTriangle className="w-3 h-3 text-amber-400" />
+                            <AlertTriangle className="w-3 h-3 text-[#E5A84B]" />
                             {warningCount} warnings
                         </span>
                     )}

@@ -186,15 +186,15 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-amber-500/10 to-amber-600/5  rounded-2xl p-4 border border-amber-500/20 overflow-hidden"
+                        className="relative bg-gradient-to-br from-[#E5A84B]/10 to-[#C49840]/5  rounded-2xl p-4 border border-[#E5A84B]/20 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-amber-500/20 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
-                                <AlertTriangle className="w-4 h-4 text-amber-400" />
+                            <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/20 border border-[#E5A84B]/30 flex items-center justify-center flex-shrink-0">
+                                <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />
                             </div>
                             <div>
-                                <p className="text-amber-400 font-medium">No API key configured</p>
+                                <p className="text-[#E5A84B] font-medium">No API key configured</p>
                                 <p className="text-sm text-slate-400 mt-1">
                                     Add your OpenAI API key in{' '}
                                     <a href="/settings" className="text-[#DA7756] hover:text-[#C15F3C] transition-colors">
@@ -360,7 +360,7 @@ export function UploadPage() {
                                     </div>
                                 </div>
                                 {analysisResult.warnings.length > 0 && (
-                                    <span className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-full font-medium">
+                                    <span className="text-xs text-[#E5A84B] bg-[#E5A84B]/10 border border-[#E5A84B]/20 px-3 py-1.5 rounded-full font-medium">
                                         {analysisResult.warnings.length} warning{analysisResult.warnings.length > 1 ? 's' : ''}
                                     </span>
                                 )}
@@ -442,10 +442,10 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-rose-500/10 to-rose-600/5  rounded-2xl p-4 border border-rose-500/20 overflow-hidden"
+                        className="relative bg-gradient-to-br from-[#E25C5C]/10 to-[#E25C5C]/5  rounded-2xl p-4 border border-[#E25C5C]/20 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                        <p className="relative text-rose-400">{error}</p>
+                        <p className="relative text-[#E25C5C]">{error}</p>
                     </motion.div>
                 )}
             </AnimatePresence>

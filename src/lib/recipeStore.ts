@@ -542,10 +542,10 @@ export async function initializeStarterRecipes(): Promise<void> {
 
 export function getDifficultyColor(difficulty: RecipeDifficulty): string {
     switch (difficulty) {
-        case 'beginner': return 'text-green-500';
-        case 'intermediate': return 'text-yellow-500';
-        case 'advanced': return 'text-red-500';
-        default: return 'text-gray-500';
+        case 'beginner': return 'text-[#7A8B5B]';
+        case 'intermediate': return 'text-[#E5A84B]';
+        case 'advanced': return 'text-[#E25C5C]';
+        default: return 'text-[#8F8B82]';
     }
 }
 

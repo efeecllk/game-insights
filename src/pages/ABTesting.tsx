@@ -1,11 +1,11 @@
 /**
- * A/B Testing Dashboard - Obsidian Analytics Design
+ * A/B Testing Dashboard - Clean Analytics Design
  *
- * Premium experimentation platform with:
- * - Glassmorphism containers
+ * Experimentation platform with:
+ * - Clean, minimal containers
  * - Warm orange accent theme (Claude palette)
  * - Animated entrance effects
- * - Refined stat cards
+ * - Simple stat cards
  */
 
 import { useState, useEffect, useMemo } from 'react';
@@ -186,14 +186,13 @@ export function ABTestingPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <FlaskConical className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         A/B Testing
                                     </h1>
                                     <DataModeIndicator />
@@ -205,7 +204,7 @@ export function ABTestingPage() {
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                icon={<Sparkles className="w-4 h-4 text-amber-400" />}
+                                icon={<Sparkles className="w-4 h-4 text-[#E5A84B]" />}
                                 onClick={() => setView('insights')}
                             >
                                 AI Insights
@@ -377,28 +376,24 @@ function StatCard({
 }) {
     const colorStyles = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            bg: 'bg-[#DA7756]/15',
             border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         success: {
-            bg: 'from-[#7A8B5B]/20 to-[#7A8B5B]/5',
+            bg: 'bg-[#7A8B5B]/15',
             border: 'border-[#7A8B5B]/20',
             icon: 'text-[#7A8B5B]',
-            glow: 'bg-[#7A8B5B]/20',
         },
         blue: {
-            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            bg: 'bg-[#8F8B82]/15',
             border: 'border-[#8F8B82]/20',
             icon: 'text-[#8F8B82]',
-            glow: 'bg-[#8F8B82]/20',
         },
         amber: {
-            bg: 'from-amber-500/20 to-amber-500/5',
-            border: 'border-amber-500/20',
-            icon: 'text-amber-400',
-            glow: 'bg-amber-500/20',
+            bg: 'bg-[#E5A84B]/15',
+            border: 'border-[#E5A84B]/20',
+            icon: 'text-[#E5A84B]',
         },
     };
 
@@ -414,16 +409,13 @@ function StatCard({
             onClick={onClick}
             className={`relative overflow-hidden rounded-xl p-4 text-left transition-all ${
                 active
-                    ? 'bg-slate-900 border-[#DA7756]/50 ring-1 ring-[#DA7756]/20'
-                    : 'bg-gradient-to-br from-slate-900/50 via-slate-900/30 to-slate-950/50 border-slate-800 hover:border-slate-600'
+                    ? 'bg-th-bg-surface border-th-accent-primary/50'
+                    : 'bg-th-bg-surface border-th-border hover:border-th-border-strong'
             } border`}
         >
             <div className="flex items-center gap-3">
-                <div className="relative">
-                    <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                    <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                        <Icon className={`w-5 h-5 ${style.icon}`} />
-                    </div>
+                <div className={`w-10 h-10 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                    <Icon className={`w-5 h-5 ${style.icon}`} />
                 </div>
                 <div>
                     <p className="text-2xl font-bold text-white">{value}</p>
@@ -520,7 +512,7 @@ function ExperimentCard({
     const statusConfig = {
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
         running: { color: 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20', icon: Play, label: 'Running' },
-        paused: { color: 'bg-amber-500/10 text-amber-400 border-amber-500/20', icon: Pause, label: 'Paused' },
+        paused: { color: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20', icon: Pause, label: 'Paused' },
         completed: { color: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20', icon: CheckCircle, label: 'Completed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Archive, label: 'Archived' },
     };
@@ -638,7 +630,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onDelete(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E25C5C]/10 text-[#E25C5C] border border-[#E25C5C]/20 hover:bg-[#E25C5C]/20 transition-colors text-sm"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 Delete
@@ -651,7 +643,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onPause(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E5A84B]/10 text-[#E5A84B] border border-[#E5A84B]/20 hover:bg-[#E5A84B]/20 transition-colors text-sm"
                             >
                                 <Pause className="w-4 h-4" />
                                 Pause
@@ -878,7 +870,7 @@ function ExperimentDetail({
                                                 <p className="text-sm text-slate-500 mb-1">Improvement</p>
                                                 <p className={`text-xl font-bold flex items-center gap-1 ${
                                                     result.improvement > 0 ? 'text-[#DA7756]' :
-                                                    result.improvement < 0 ? 'text-rose-400' : 'text-slate-400'
+                                                    result.improvement < 0 ? 'text-[#E25C5C]' : 'text-slate-400'
                                                 }`}>
                                                     {result.improvement > 0 ? <TrendingUp className="w-5 h-5" /> :
                                                      result.improvement < 0 ? <TrendingDown className="w-5 h-5" /> : null}
@@ -988,7 +980,7 @@ function ExperimentDetail({
                 <Card variant="default" padding="none">
                     <div className="p-6 border-b border-slate-800">
                         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                            <Brain className="w-5 h-5 text-amber-400" />
+                            <Brain className="w-5 h-5 text-[#E5A84B]" />
                             AI Intelligence
                         </h3>
                         <p className="text-sm text-slate-500 mt-1">
@@ -1217,7 +1209,7 @@ function ExperimentCreate({
                                         <button
                                             type="button"
                                             onClick={() => removeVariant(variant.id)}
-                                            className="p-2 text-slate-500 hover:text-rose-400 transition-colors"
+                                            className="p-2 text-slate-500 hover:text-[#E25C5C] transition-colors"
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </button>
@@ -1485,7 +1477,7 @@ function AggregateInsightsView({
             <Card variant="default" padding="none">
                 <div className="p-6 border-b border-slate-800">
                     <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                        <Brain className="w-5 h-5 text-amber-400" />
+                        <Brain className="w-5 h-5 text-[#E5A84B]" />
                         AI-Powered Experimentation Insights
                     </h2>
                     <p className="text-sm text-slate-500 mt-1">

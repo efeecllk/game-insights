@@ -305,9 +305,9 @@ export function analyzeDataQuality(
  * Get quality score color
  */
 export function getQualityColor(score: number): string {
-    if (score >= 80) return 'text-green-500';
-    if (score >= 60) return 'text-yellow-500';
-    return 'text-red-500';
+    if (score >= 80) return 'text-[#7A8B5B]';
+    if (score >= 60) return 'text-[#E5A84B]';
+    return 'text-[#E25C5C]';
 }
 
 /**

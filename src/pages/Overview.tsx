@@ -87,21 +87,19 @@ export function OverviewPage() {
             <motion.div variants={itemVariants}>
                 <Card variant="elevated" padding="md">
                     <div className="flex items-center gap-4">
-                        {/* Game icon with glow */}
+                        {/* Game icon */}
                         <motion.div
-                            className="relative"
                             whileHover={{ scale: 1.05 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                         >
-                            <div className="absolute inset-0 bg-[#DA7756]/30 rounded-xl blur-lg" />
-                            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                                 <Gamepad2 className="w-7 h-7 text-[#DA7756]" />
                             </div>
                         </motion.div>
 
                         <div className="flex-1">
-                            {/* Game title with gradient */}
-                            <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                            {/* Game title */}
+                            <h1 className="text-xl font-display font-bold text-th-text-primary">
                                 Event Forge
                             </h1>
                             <div className="flex items-center gap-4 text-sm text-slate-500 mt-1">
@@ -283,7 +281,7 @@ function ActiveUsersChart({
             borderColor: 'rgba(255, 255, 255, 0.08)',
             borderWidth: 1,
             textStyle: {
-                color: '#f1f5f9',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
@@ -295,7 +293,7 @@ function ActiveUsersChart({
             data: data.timestamps,
             axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'DM Sans',
             },
@@ -306,7 +304,7 @@ function ActiveUsersChart({
             max: 500,
             axisLine: { show: false },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono',
             },
@@ -369,11 +367,11 @@ function IntegrationTab() {
     const eventTypes = [
         { name: 'Resource events', count: 988, color: 'bg-[#A68B5B]' },
         { name: 'Progression events', count: 563634, color: 'bg-[#DA7756]' },
-        { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-slate-600' },
+        { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-[#5C5954]' },
         { name: 'Design events', count: 286378, color: 'bg-[#C15F3C]' },
-        { name: 'Business events', count: 229, color: 'bg-amber-500' },
+        { name: 'Business events', count: 229, color: 'bg-[#E5A84B]' },
         { name: 'Ad events', count: 5264, color: 'bg-[#C15F3C]' },
-        { name: 'Impression events', count: 511, color: 'bg-rose-500' },
+        { name: 'Impression events', count: 511, color: 'bg-[#E25C5C]' },
     ];
 
     return (
@@ -416,7 +414,7 @@ function IntegrationTab() {
                                         {event.count.toLocaleString()}
                                     </span>
                                 ) : (
-                                    <span className="text-sm text-rose-400 ml-auto">{event.status}</span>
+                                    <span className="text-sm text-[#E25C5C] ml-auto">{event.status}</span>
                                 )}
                             </motion.div>
                         ))}

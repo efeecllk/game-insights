@@ -38,8 +38,8 @@ export class PackDevKit {
       insightTemplates: [],
       terminology: {},
       theme: {
-        primaryColor: '#8b5cf6',
-        accentColor: '#6366f1',
+        primaryColor: '#DA7756',
+        accentColor: '#C15F3C',
         chartColors: [],
       },
     };

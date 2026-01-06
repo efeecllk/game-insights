@@ -276,7 +276,7 @@ function StatsCard({
         violet: 'from-[#C15F3C]/20 to-[#DA7756]/10 border-[#C15F3C]/20 text-[#C15F3C]',
         orange: 'from-[#DA7756]/20 to-[#C15F3C]/10 border-[#DA7756]/20 text-[#DA7756]',
         blue: 'from-[#8F8B82]/20 to-[#A68B5B]/10 border-[#8F8B82]/20 text-[#8F8B82]',
-        amber: 'from-amber-500/20 to-[#E5A84B]/10 border-amber-500/20 text-amber-400',
+        amber: 'from-[#E5A84B]/20 to-[#E5A84B]/10 border-[#E5A84B]/20 text-[#E5A84B]',
     };
 
     return (
@@ -333,7 +333,7 @@ function JobList({
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
         training: { color: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20', icon: RefreshCw, label: 'Training' },
         completed: { color: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20', icon: CheckCircle, label: 'Completed' },
-        failed: { color: 'bg-rose-500/10 text-rose-400 border-rose-500/20', icon: AlertCircle, label: 'Failed' },
+        failed: { color: 'bg-[#E25C5C]/10 text-[#E25C5C] border-[#E25C5C]/20', icon: AlertCircle, label: 'Failed' },
         deployed: { color: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20', icon: Zap, label: 'Deployed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Clock, label: 'Archived' },
     };
@@ -439,7 +439,7 @@ function JobList({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onDelete(job.id); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors text-sm ml-auto border border-rose-500/20"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E25C5C]/10 text-[#E25C5C] hover:bg-[#E25C5C]/20 transition-colors text-sm ml-auto border border-[#E25C5C]/20"
                             >
                                 <Trash2 className="w-4 h-4" />
                                 Delete
@@ -729,8 +729,8 @@ function JobDetail({
                                     {new Date(log.timestamp).toLocaleTimeString()}
                                 </span>
                                 <span className={`${
-                                    log.level === 'error' ? 'text-rose-400' :
-                                    log.level === 'warning' ? 'text-amber-400' :
+                                    log.level === 'error' ? 'text-[#E25C5C]' :
+                                    log.level === 'warning' ? 'text-[#E5A84B]' :
                                     'text-slate-400'
                                 }`}>
                                     {log.message}

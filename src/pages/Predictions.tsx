@@ -182,10 +182,10 @@ const StatCard: React.FC<{
             glow: 'bg-[#DA7756]/20',
         },
         amber: {
-            bg: 'from-amber-500/20 to-amber-500/5',
-            border: 'border-amber-500/20 group-hover:border-amber-500/30',
-            icon: 'text-amber-400',
-            glow: 'bg-amber-500/20',
+            bg: 'from-[#E5A84B]/20 to-[#E5A84B]/5',
+            border: 'border-[#E5A84B]/20 group-hover:border-[#E5A84B]/30',
+            icon: 'text-[#E5A84B]',
+            glow: 'bg-[#E5A84B]/20',
         },
         sky: {
             bg: 'from-[#A68B5B]/20 to-[#A68B5B]/5',
@@ -218,7 +218,7 @@ const StatCard: React.FC<{
                             <Icon className={`w-5 h-5 ${styles.icon}`} />
                         </div>
                         {change !== undefined && (
-                            <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
+                            <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                                 {change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                                 {Math.abs(change)}%
                             </div>
@@ -306,8 +306,8 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
     <Card variant="default" padding="lg">
         <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-                    <Users className="w-4 h-4 text-rose-400" />
+                <div className="w-8 h-8 rounded-lg bg-[#E25C5C]/10 border border-[#E25C5C]/20 flex items-center justify-center">
+                    <Users className="w-4 h-4 text-[#E25C5C]" />
                 </div>
                 <div>
                     <h3 className="font-display font-semibold text-white">Churn Risk Users</h3>
@@ -337,8 +337,8 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
                             <div className="text-sm text-slate-500">{user.lastSeen}</div>
                             <div className={`px-2 py-0.5 rounded text-xs font-medium ${
                                 user.riskScore >= 0.8
-                                    ? 'bg-rose-500/20 text-rose-400 border border-rose-500/20'
-                                    : 'bg-amber-500/20 text-amber-400 border border-amber-500/20'
+                                    ? 'bg-[#E25C5C]/20 text-[#E25C5C] border border-[#E25C5C]/20'
+                                    : 'bg-[#E5A84B]/20 text-[#E5A84B] border border-[#E5A84B]/20'
                             }`}>
                                 {(user.riskScore * 100).toFixed(0)}% risk
                             </div>
@@ -364,14 +364,14 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
 const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({ recommendations }) => {
     const priorityStyles = {
         critical: {
-            border: 'border-rose-500/30',
-            bg: 'bg-rose-500/5',
-            icon: <Zap className="w-4 h-4 text-rose-400" />,
+            border: 'border-[#E25C5C]/30',
+            bg: 'bg-[#E25C5C]/5',
+            icon: <Zap className="w-4 h-4 text-[#E25C5C]" />,
         },
         high: {
-            border: 'border-amber-500/30',
-            bg: 'bg-amber-500/5',
-            icon: <AlertTriangle className="w-4 h-4 text-amber-400" />,
+            border: 'border-[#E5A84B]/30',
+            bg: 'bg-[#E5A84B]/5',
+            icon: <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />,
         },
         medium: {
             border: 'border-yellow-500/30',
@@ -444,7 +444,7 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
 
 const AlertsPanel: React.FC<{ alerts: Alert[] }> = ({ alerts }) => {
     const alertStyles = {
-        warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+        warning: { icon: AlertTriangle, color: 'text-[#E5A84B]', bg: 'bg-[#E5A84B]/10', border: 'border-[#E5A84B]/20' },
         opportunity: { icon: Lightbulb, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20' },
         info: { icon: Bell, color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10', border: 'border-[#A68B5B]/20' },
     };
@@ -545,7 +545,7 @@ const WhatIfAnalysis: React.FC = () => {
                         <span className="text-2xl font-display font-bold text-white">
                             ${(projectedRevenue / 1000).toFixed(1)}K
                         </span>
-                        <span className={`text-sm ${projectedChange >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
+                        <span className={`text-sm ${projectedChange >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                             {projectedChange >= 0 ? '+' : ''}{(projectedChange * 100).toFixed(1)}%
                         </span>
                     </div>
@@ -715,14 +715,13 @@ export const PredictionsPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-[#C15F3C]/30 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/30 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-xl bg-[#C15F3C]/15 border border-[#C15F3C]/20 flex items-center justify-center">
                                     <Brain className="w-6 h-6 text-[#C15F3C]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         Predictions
                                     </h1>
                                     <DataModeIndicator />
@@ -839,8 +838,8 @@ export const PredictionsPage: React.FC = () => {
                         {useMLPredictions && mlAtRiskUsers.length > 0 ? (
                             <Card variant="default" padding="lg">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-                                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                                    <div className="w-8 h-8 rounded-lg bg-[#E25C5C]/10 border border-[#E25C5C]/20 flex items-center justify-center">
+                                        <AlertTriangle className="w-4 h-4 text-[#E25C5C]" />
                                     </div>
                                     <h3 className="font-display font-semibold text-white">ML Churn Risk</h3>
                                     <span className="px-2 py-0.5 bg-[#C15F3C]/10 border border-[#C15F3C]/20 text-[#C15F3C] text-xs rounded-full">

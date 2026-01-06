@@ -143,9 +143,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                 <div className="max-w-lg w-full bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center shadow-lg">
                     {/* Icon with glow */}
                     <div className="relative w-16 h-16 mx-auto mb-6">
-                        <div className="absolute inset-0 bg-rose-500/20 rounded-2xl" />
-                        <div className="relative w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
-                            <AlertTriangle className="w-8 h-8 text-rose-400" />
+                        <div className="absolute inset-0 bg-[#E25C5C]/20 rounded-2xl" />
+                        <div className="relative w-16 h-16 rounded-2xl bg-[#E25C5C]/10 border border-[#E25C5C]/20 flex items-center justify-center">
+                            <AlertTriangle className="w-8 h-8 text-[#E25C5C]" />
                         </div>
                     </div>
 
@@ -209,7 +209,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                                 Error Code: {parsedError?.code || 'UNKNOWN'}
                             </p>
                             {error && (
-                                <pre className="text-xs text-rose-400 font-mono whitespace-pre-wrap break-words">
+                                <pre className="text-xs text-[#E25C5C] font-mono whitespace-pre-wrap break-words">
                                     {error.message}
                                     {error.stack && (
                                         <span className="text-slate-600 block mt-2">

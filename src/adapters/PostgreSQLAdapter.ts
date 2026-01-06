@@ -79,6 +79,7 @@ export class PostgreSQLAdapter extends BaseAdapter {
     private lastFetch: Date | null = null;
     private availableTables: PostgreSQLTableInfo[] = [];
     private tableColumns: Map<string, PostgreSQLColumnInfo[]> = new Map();
+    private abortController: AbortController | null = null;
 
     // ========================================================================
     // Lifecycle Methods
@@ -86,6 +87,7 @@ export class PostgreSQLAdapter extends BaseAdapter {
 
     async connect(config: PostgreSQLConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Establish connection through proxy
         const response = await this.proxyRequest<{ connectionId: string }>('connect', {
@@ -116,6 +118,12 @@ export class PostgreSQLAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
+
         if (this.connectionId && this.config) {
             await this.proxyRequest('disconnect', {
                 connectionId: this.connectionId,
@@ -281,6 +289,7 @@ export class PostgreSQLAdapter extends BaseAdapter {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(params),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {

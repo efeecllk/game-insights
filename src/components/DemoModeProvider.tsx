@@ -129,7 +129,7 @@ export function DemoBanner() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-accent-primary/20 to-purple-500/20 border-b border-accent-primary/30">
+    <div className="bg-gradient-to-r from-accent-primary/20 to-[#E5A84B]/20 border-b border-accent-primary/30">
       <div className="max-w-screen-xl mx-auto px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm">
           <svg

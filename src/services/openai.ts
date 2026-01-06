@@ -23,6 +23,7 @@ export interface SchemaAnalysisResult {
 export interface OpenAIConfig {
     apiKey: string;
     model?: string;
+    signal?: AbortSignal;
 }
 
 const DEFAULT_MODEL = 'gpt-4o-mini';
@@ -59,6 +60,7 @@ export async function analyzeColumns(
                 temperature: 0.2,
                 response_format: { type: 'json_object' }
             }),
+            signal: config.signal,
         });
 
         if (!response.ok) {
@@ -135,12 +137,13 @@ ROLES:
 /**
  * Validate API key by making a minimal request
  */
-export async function validateApiKey(apiKey: string): Promise<boolean> {
+export async function validateApiKey(apiKey: string, signal?: AbortSignal): Promise<boolean> {
     try {
         const response = await fetch('https://api.openai.com/v1/models', {
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
             },
+            signal,
         });
         return response.ok;
     } catch {
@@ -183,6 +186,7 @@ Respond with JSON: { "insights": ["insight1", "insight2", ...] }
                 temperature: 0.5,
                 response_format: { type: 'json_object' }
             }),
+            signal: config.signal,
         });
 
         if (!response.ok) {

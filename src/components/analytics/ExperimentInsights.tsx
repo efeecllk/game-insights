@@ -71,14 +71,14 @@ const levelColors: Record<RiskLevel, string> = {
     low: 'text-chart-green',
     medium: 'text-chart-orange',
     high: 'text-chart-pink',
-    critical: 'text-red-500',
+    critical: 'text-[#E25C5C]',
 };
 
 const levelBgColors: Record<RiskLevel, string> = {
     low: 'bg-chart-green/10',
     medium: 'bg-chart-orange/10',
     high: 'bg-chart-pink/10',
-    critical: 'bg-red-500/10',
+    critical: 'bg-[#E25C5C]/10',
 };
 
 const insightTypeColors = {

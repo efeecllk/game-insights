@@ -246,7 +246,7 @@ function StatCard({
 }) {
     const highlightClass = highlight
         ? highlightColor === 'rose'
-            ? 'border-rose-500/30'
+            ? 'border-[#E25C5C]/30'
             : 'border-[#DA7756]/30'
         : 'border-slate-800';
 
@@ -377,7 +377,7 @@ function IntegrationCard({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={onPause}
-                            className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-all"
+                            className="p-2 text-slate-400 hover:text-[#E5A84B] hover:bg-[#E5A84B]/10 rounded-lg transition-all"
                             title="Pause"
                         >
                             <Pause className="w-5 h-5" />
@@ -396,7 +396,7 @@ function IntegrationCard({
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={onRemove}
-                        className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all"
+                        className="p-2 text-slate-400 hover:text-[#E25C5C] hover:bg-[#E25C5C]/10 rounded-lg transition-all"
                         title="Remove"
                     >
                         <Trash2 className="w-5 h-5" />
@@ -407,9 +407,9 @@ function IntegrationCard({
             {/* Error Message */}
             {integration.status === 'error' && integration.lastError && (
                 <div className="px-4 pb-4">
-                    <div className="flex items-start gap-2 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl">
-                        <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
-                        <div className="text-sm text-rose-300">{integration.lastError}</div>
+                    <div className="flex items-start gap-2 p-3 bg-[#E25C5C]/10 border border-[#E25C5C]/20 rounded-xl">
+                        <AlertCircle className="w-5 h-5 text-[#E25C5C] flex-shrink-0 mt-0.5" />
+                        <div className="text-sm text-[#E25C5C]">{integration.lastError}</div>
                     </div>
                 </div>
             )}
@@ -741,10 +741,10 @@ function ConfigurationForm({
                     <FormField label="Spreadsheet ID" required hint="The ID from the spreadsheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit">
                         <input type="text" value={spreadsheetId} onChange={e => setSpreadsheetId(e.target.value)} placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
-                    <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                    <div className="p-4 bg-[#E5A84B]/10 border border-[#E5A84B]/20 rounded-xl">
                         <div className="flex items-start gap-3">
-                            <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-                            <div className="text-sm text-amber-200">
+                            <AlertCircle className="w-5 h-5 text-[#E5A84B] flex-shrink-0 mt-0.5" />
+                            <div className="text-sm text-[#E5A84B]">
                                 Google OAuth requires additional setup. After saving, you'll be redirected to sign in with Google.
                             </div>
                         </div>
@@ -833,9 +833,9 @@ function ConfigurationForm({
 
             {/* Error */}
             {error && (
-                <div className="flex items-start gap-2 p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl">
-                    <AlertCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-rose-300">{error}</div>
+                <div className="flex items-start gap-2 p-3 bg-[#E25C5C]/10 border border-[#E25C5C]/20 rounded-xl">
+                    <AlertCircle className="w-5 h-5 text-[#E25C5C] flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-[#E25C5C]">{error}</div>
                 </div>
             )}
 
@@ -889,7 +889,7 @@ function FormField({
         <div>
             <label className="block text-sm font-medium text-slate-300 mb-2">
                 {label}
-                {required && <span className="text-rose-400 ml-1">*</span>}
+                {required && <span className="text-[#E25C5C] ml-1">*</span>}
             </label>
             {children}
             {hint && <p className="text-xs text-slate-500 mt-1.5">{hint}</p>}

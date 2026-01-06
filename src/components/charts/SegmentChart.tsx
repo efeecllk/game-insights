@@ -44,16 +44,16 @@ function SegmentChartComponent({ data, config, className, bare = false }: Segmen
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
-                color: '#e2e8f0',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans, system-ui, sans-serif',
             },
             formatter: (params: unknown) => {
                 const p = params as { name: string; value: number; percent: number; color: string };
                 return `
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p.name}</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8F8B82; margin-bottom: 8px;">${p.name}</div>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="width: 8px; height: 8px; border-radius: 2px; background: ${p.color};"></span>
-                        <span style="color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-weight: 600;">${p.percent.toFixed(1)}%</span>
+                        <span style="color: #FAF9F6; font-family: 'JetBrains Mono', monospace; font-weight: 600;">${p.percent.toFixed(1)}%</span>
                     </div>
                 `;
             },

@@ -51,11 +51,11 @@ const COLOR_STYLES = {
         hoverBorder: 'hover:border-[#C15F3C]/40',
     },
     blue: {
-        bg: 'from-[#5B9BD5]/20 to-[#5B9BD5]/5',
-        border: 'border-[#5B9BD5]/20',
-        icon: 'text-[#5B9BD5]',
-        glow: 'bg-[#5B9BD5]/20',
-        hoverBorder: 'hover:border-[#5B9BD5]/40',
+        bg: 'from-[#A68B5B]/20 to-[#A68B5B]/5',
+        border: 'border-[#A68B5B]/20',
+        icon: 'text-[#A68B5B]',
+        glow: 'bg-[#A68B5B]/20',
+        hoverBorder: 'hover:border-[#A68B5B]/40',
     },
     violet: {
         bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
@@ -72,11 +72,11 @@ const COLOR_STYLES = {
         hoverBorder: 'hover:border-[#E5A84B]/40',
     },
     rose: {
-        bg: 'from-rose-500/20 to-rose-500/5',
-        border: 'border-rose-500/20',
-        icon: 'text-rose-400',
-        glow: 'bg-rose-500/20',
-        hoverBorder: 'hover:border-rose-500/40',
+        bg: 'from-[#E25C5C]/20 to-[#E25C5C]/5',
+        border: 'border-[#E25C5C]/20',
+        icon: 'text-[#E25C5C]',
+        glow: 'bg-[#E25C5C]/20',
+        hoverBorder: 'hover:border-[#E25C5C]/40',
     },
 };
 
@@ -155,7 +155,7 @@ function KPICard({ label, value, change, icon, tooltip, color = 'primary', index
                             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                                 isPositive
                                     ? 'bg-[#7A8B5B]/10 text-[#7A8B5B] border border-[#7A8B5B]/20'
-                                    : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                    : 'bg-[#E25C5C]/10 text-[#E25C5C] border border-[#E25C5C]/20'
                             }`}
                         >
                             {isPositive ? (

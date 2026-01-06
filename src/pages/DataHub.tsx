@@ -118,13 +118,12 @@ export function DataHubPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Database className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
-                                <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                <h1 className="text-xl font-display font-bold text-th-text-primary">
                                     Data Hub
                                 </h1>
                                 <p className="text-slate-500 text-sm mt-0.5">
@@ -362,34 +361,29 @@ function StatCard({
 }) {
     const colorStyles = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            bg: 'bg-[#DA7756]/15',
             border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            bg: 'bg-[#8F8B82]/15',
             border: 'border-[#8F8B82]/20',
             icon: 'text-[#8F8B82]',
-            glow: 'bg-[#8F8B82]/20',
         },
         deepOrange: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            bg: 'bg-[#C15F3C]/15',
             border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
         rose: {
-            bg: 'from-rose-500/20 to-rose-500/5',
-            border: 'border-rose-500/20',
-            icon: 'text-rose-400',
-            glow: 'bg-rose-500/20',
+            bg: 'bg-[#E25C5C]/15',
+            border: 'border-[#E25C5C]/20',
+            icon: 'text-[#E25C5C]',
         },
         slate: {
-            bg: 'from-slate-500/20 to-slate-500/5',
+            bg: 'bg-slate-500/15',
             border: 'border-slate-500/20',
             icon: 'text-slate-400',
-            glow: 'bg-slate-500/20',
         },
     };
 
@@ -401,13 +395,10 @@ function StatCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
+            <Card variant="default" padding="md" className="group hover:border-th-border-strong transition-colors">
                 <div className="flex items-center gap-3">
-                    <div className="relative">
-                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                        <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                            <Icon className={`w-5 h-5 ${style.icon}`} />
-                        </div>
+                    <div className={`w-10 h-10 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                        <Icon className={`w-5 h-5 ${style.icon}`} />
                     </div>
                     <div>
                         <p className="text-2xl font-bold text-white">{value}</p>
@@ -500,8 +491,8 @@ function IntegrationCard({
     const statusColors = {
         connected: 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20',
         syncing: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
-        error: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
-        paused: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+        error: 'bg-[#E25C5C]/10 text-[#E25C5C] border-[#E25C5C]/20',
+        paused: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20',
         disconnected: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
     };
 
@@ -574,7 +565,7 @@ function IntegrationCard({
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={onPause}
-                                className="p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                className="p-2 rounded-lg text-slate-500 hover:text-[#E5A84B] hover:bg-[#E5A84B]/10 transition-colors"
                                 title="Pause sync"
                             >
                                 <Pause className="w-4 h-4" />
@@ -584,7 +575,7 @@ function IntegrationCard({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={onRemove}
-                            className="p-2 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                            className="p-2 rounded-lg text-slate-500 hover:text-[#E25C5C] hover:bg-[#E25C5C]/10 transition-colors"
                             title="Remove integration"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -616,9 +607,9 @@ function IntegrationCard({
                                     </div>
                                 </div>
                                 {integration.lastError && (
-                                    <div className="mt-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
-                                        <p className="text-xs text-rose-400 font-medium mb-1">Last Error</p>
-                                        <p className="text-sm text-rose-300">{integration.lastError}</p>
+                                    <div className="mt-3 p-3 rounded-xl bg-[#E25C5C]/10 border border-[#E25C5C]/20">
+                                        <p className="text-xs text-[#E25C5C] font-medium mb-1">Last Error</p>
+                                        <p className="text-sm text-[#E25C5C]">{integration.lastError}</p>
                                     </div>
                                 )}
                             </div>
@@ -777,7 +768,7 @@ function AddIntegrationModal({
                                             ? 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20'
                                             : item.complexity === 'medium'
                                             ? 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20'
-                                            : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                            : 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20'
                                     }`}>
                                         {item.complexity}
                                     </span>

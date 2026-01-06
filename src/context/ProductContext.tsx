@@ -62,9 +62,9 @@ const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
 // Default theme fallback
 const DEFAULT_THEME: IndustryTheme = {
-  primaryColor: '#8b5cf6',
-  accentColor: '#6366f1',
-  chartColors: ['#8b5cf6', '#6366f1', '#ec4899', '#06b6d4', '#22c55e', '#f97316'],
+  primaryColor: '#DA7756',
+  accentColor: '#C15F3C',
+  chartColors: ['#DA7756', '#C15F3C', '#E5A84B', '#A68B5B', '#8B7355', '#B89B7D'],
 };
 
 // Default terminology fallback

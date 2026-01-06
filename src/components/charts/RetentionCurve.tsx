@@ -35,7 +35,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
-                color: '#e2e8f0',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans, system-ui, sans-serif',
             },
             formatter: (params: unknown) => {
@@ -43,10 +43,10 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
                 const dataPoint = p[0];
                 const benchmarkPoint = p[1];
                 return `
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${dataPoint.name}</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8F8B82; margin-bottom: 8px;">${dataPoint.name}</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                         <span style="width: 8px; height: 8px; border-radius: 2px; background: linear-gradient(135deg, #DA7756, #C15F3C);"></span>
-                        <span style="color: #e2e8f0; font-weight: 500;">Retention: <span style="color: #DA7756; font-family: 'JetBrains Mono', monospace;">${dataPoint.value}%</span></span>
+                        <span style="color: #FAF9F6; font-weight: 500;">Retention: <span style="color: #DA7756; font-family: 'JetBrains Mono', monospace;">${dataPoint.value}%</span></span>
                     </div>
                     ${benchmarkPoint ? `
                         <div style="display: flex; align-items: center; gap: 8px;">
@@ -63,7 +63,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
             top: 0,
             right: 0,
             textStyle: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontFamily: 'DM Sans, system-ui, sans-serif',
                 fontSize: 11,
             },
@@ -84,7 +84,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
             data: data.days,
             axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono, monospace',
             },
@@ -95,7 +95,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
             max: 100,
             axisLine: { show: false },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono, monospace',
                 formatter: '{value}%',

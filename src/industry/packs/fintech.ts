@@ -572,17 +572,17 @@ const terminology: TerminologyMap = {
  * Fintech theme
  */
 const theme: IndustryTheme = {
-  primaryColor: '#059669', // Emerald
-  accentColor: '#10b981', // Green
+  primaryColor: '#DA7756', // Terracotta
+  accentColor: '#C15F3C', // Deep terracotta
   chartColors: [
-    '#059669', // Emerald
-    '#10b981', // Green
-    '#14b8a6', // Teal
-    '#06b6d4', // Cyan
-    '#0ea5e9', // Sky
-    '#3b82f6', // Blue
-    '#f59e0b', // Amber
-    '#ef4444', // Red
+    '#DA7756', // Terracotta
+    '#C15F3C', // Deep terracotta
+    '#E5A84B', // Gold
+    '#A68B5B', // Brown
+    '#8B7355', // Earth brown
+    '#B89B7D', // Tan
+    '#E25C5C', // Red
+    '#8F8B82', // Neutral
   ],
   icon: 'landmark',
 };

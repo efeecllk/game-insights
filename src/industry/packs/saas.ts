@@ -380,17 +380,17 @@ const terminology: TerminologyMap = {
  * SaaS theme
  */
 const theme: IndustryTheme = {
-  primaryColor: '#3b82f6', // Blue
-  accentColor: '#0ea5e9', // Sky
+  primaryColor: '#DA7756', // Terracotta
+  accentColor: '#C15F3C', // Deep terracotta
   chartColors: [
-    '#3b82f6', // Blue
-    '#0ea5e9', // Sky
-    '#6366f1', // Indigo
-    '#8b5cf6', // Purple
-    '#22c55e', // Green
-    '#f59e0b', // Amber
-    '#ef4444', // Red
-    '#ec4899', // Pink
+    '#DA7756', // Terracotta
+    '#C15F3C', // Deep terracotta
+    '#E5A84B', // Gold
+    '#A68B5B', // Brown
+    '#8B7355', // Earth brown
+    '#B89B7D', // Tan
+    '#E25C5C', // Red
+    '#8F8B82', // Neutral
   ],
   icon: 'building-2',
 };

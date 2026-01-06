@@ -189,7 +189,7 @@ export function GamesPage() {
             {pinnedGames.length > 0 && (
                 <motion.section variants={itemVariants}>
                     <h2 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                        <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Star className="w-4 h-4 text-[#E5A84B] fill-[#E5A84B]" />
                         <span className="uppercase tracking-wider">Pinned Games</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -281,7 +281,7 @@ function StatCard({
 }) {
     const colors = {
         orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
-        amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+        amber: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20',
         orangeDark: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
         blue: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
     };
@@ -291,10 +291,8 @@ function StatCard({
             whileHover={{ y: -2 }}
             className="relative group"
         >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 p-4 overflow-hidden">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                <div className="relative flex items-center gap-3">
+            <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong p-4 transition-colors duration-200">
+                <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-xl ${colors[color]} border flex items-center justify-center`}>
                         <Icon className="w-5 h-5" />
                     </div>
@@ -340,12 +338,7 @@ function GameCard({
             className={`relative group cursor-pointer ${!game.isActive ? 'opacity-60' : ''}`}
             onClick={onSelect}
         >
-            {/* Glow effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 group-hover:border-[#DA7756]/20 transition-colors overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+            <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
 
                 {/* Header */}
                 <div className="relative p-4 border-b border-slate-800">
@@ -397,7 +390,7 @@ function GameCard({
                                         {game.isPinned ? (
                                             <><StarOff className="w-4 h-4 text-slate-500" />Unpin</>
                                         ) : (
-                                            <><Star className="w-4 h-4 text-amber-400" />Pin</>
+                                            <><Star className="w-4 h-4 text-[#E5A84B]" />Pin</>
                                         )}
                                     </button>
                                     <button
@@ -410,7 +403,7 @@ function GameCard({
                                     <div className="border-t border-slate-800 my-1" />
                                     <button
                                         onClick={() => { onDelete(); setShowMenu(false); }}
-                                        className="w-full px-3 py-2 text-left text-sm text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 transition-colors"
+                                        className="w-full px-3 py-2 text-left text-sm text-[#E25C5C] hover:bg-[#E25C5C]/10 flex items-center gap-2 transition-colors"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         Delete
@@ -467,7 +460,7 @@ function GameCard({
                 {/* Pin indicator */}
                 {game.isPinned && (
                     <div className="absolute top-3 right-12">
-                        <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                        <Star className="w-4 h-4 text-[#E5A84B] fill-[#E5A84B]" />
                     </div>
                 )}
             </div>

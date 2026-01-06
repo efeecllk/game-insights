@@ -74,6 +74,8 @@ class PerformanceStore {
     private state: PerformanceState;
     private listeners: Set<PerformanceListener> = new Set();
     private fpsMonitorId: number | null = null;
+    private mediaQuery: MediaQueryList | null = null;
+    private mediaQueryHandler: ((e: MediaQueryListEvent) => void) | null = null;
 
     constructor() {
         // Load preferences from localStorage
@@ -90,13 +92,40 @@ class PerformanceStore {
 
         // Detect reduced motion preference
         if (typeof window !== 'undefined') {
-            const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-            this.state.preferences.reducedMotion = mediaQuery.matches;
+            this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+            this.state.preferences.reducedMotion = this.mediaQuery.matches;
 
-            mediaQuery.addEventListener('change', (e) => {
+            this.mediaQueryHandler = (e: MediaQueryListEvent) => {
                 this.updatePreferences({ reducedMotion: e.matches });
-            });
+            };
+            this.mediaQuery.addEventListener('change', this.mediaQueryHandler);
         }
+    }
+
+    /**
+     * Cleanup method to remove event listeners
+     * Should be called when the store is no longer needed
+     */
+    destroy(): void {
+        // Remove media query listener
+        if (this.mediaQuery && this.mediaQueryHandler) {
+            this.mediaQuery.removeEventListener('change', this.mediaQueryHandler);
+            this.mediaQuery = null;
+            this.mediaQueryHandler = null;
+        }
+
+        // Stop FPS monitoring
+        if (this.fpsMonitorId !== null) {
+            cancelAnimationFrame(this.fpsMonitorId);
+            this.fpsMonitorId = null;
+        }
+
+        // Clear all listeners
+        this.listeners.clear();
+
+        // Clear all operations
+        this.state.activeFeatures.clear();
+        this.state.pausableOperations.clear();
     }
 
     // ============================================================================

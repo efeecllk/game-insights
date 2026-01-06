@@ -92,7 +92,7 @@ const CHANNELS: Channel[] = [
         id: 'google',
         name: 'Google Ads',
         icon: '🔎',
-        color: '#ef4444',
+        color: '#E25C5C',
         installs: 6800,
         cost: 10200,
         revenue: 20400,
@@ -114,7 +114,7 @@ const CHANNELS: Channel[] = [
         id: 'influencer',
         name: 'Influencer',
         icon: '⭐',
-        color: '#f59e0b',
+        color: '#E5A84B',
         installs: 3200,
         cost: 4800,
         revenue: 9600,
@@ -201,12 +201,12 @@ export function AttributionPage() {
             const channelColors: Record<string, string> = {
                 organic: '#DA7756',
                 facebook: '#8F8B82',
-                google: '#ef4444',
+                google: '#E25C5C',
                 apple: '#C15F3C',
-                influencer: '#f59e0b',
+                influencer: '#E5A84B',
                 referral: '#DA7756',
                 email: '#A68B5B',
-                direct: '#94a3b8',
+                direct: '#8F8B82',
                 tiktok: '#000000',
                 twitter: '#A68B5B',
             };
@@ -265,7 +265,7 @@ export function AttributionPage() {
             formatter: '{b}: {d}%',
             backgroundColor: 'rgba(15, 23, 42, 0.9)',
             borderColor: 'rgba(255, 255, 255, 0.1)',
-            textStyle: { color: '#e2e8f0' },
+            textStyle: { color: '#FAF9F6' },
         },
         series: [
             {
@@ -279,7 +279,7 @@ export function AttributionPage() {
                 },
                 label: {
                     show: true,
-                    color: '#94a3b8',
+                    color: '#C8C4BA',
                     fontSize: 11,
                 },
                 emphasis: {
@@ -309,18 +309,18 @@ export function AttributionPage() {
             axisPointer: { type: 'shadow' },
             backgroundColor: 'rgba(15, 23, 42, 0.9)',
             borderColor: 'rgba(255, 255, 255, 0.1)',
-            textStyle: { color: '#e2e8f0' },
+            textStyle: { color: '#FAF9F6' },
         },
         grid: { left: 60, right: 20, top: 20, bottom: 40 },
         xAxis: {
             type: 'category',
             data: channels.filter(ch => ch.cost > 0).map(ch => ch.name),
-            axisLabel: { color: '#64748b', fontSize: 10, rotate: 15 },
+            axisLabel: { color: '#8F8B82', fontSize: 10, rotate: 15 },
             axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
         },
         yAxis: {
             type: 'value',
-            axisLabel: { color: '#64748b', formatter: '{value}x' },
+            axisLabel: { color: '#8F8B82', formatter: '{value}x' },
             splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
         },
         series: [
@@ -368,14 +368,13 @@ export function AttributionPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                <div className="w-12 h-12 bg-th-accent-primary-muted border border-th-accent-primary/20 rounded-xl flex items-center justify-center">
                                     <Target className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         Attribution Analytics
                                     </h1>
                                     {hasRealData && (
@@ -684,8 +683,8 @@ export function AttributionPage() {
                                                     channel.revenue / channel.cost >= 2
                                                         ? 'bg-[#DA7756]/10 text-[#DA7756]'
                                                         : channel.revenue / channel.cost >= 1
-                                                        ? 'bg-amber-500/10 text-amber-400'
-                                                        : 'bg-rose-500/10 text-rose-400'
+                                                        ? 'bg-[#E5A84B]/10 text-[#E5A84B]'
+                                                        : 'bg-[#E25C5C]/10 text-[#E25C5C]'
                                                 }`}>
                                                     {(channel.revenue / channel.cost).toFixed(2)}x
                                                 </span>
@@ -730,28 +729,24 @@ function KPICard({
 }) {
     const colorStyles = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            bg: 'bg-[#DA7756]/15',
             border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            bg: 'bg-[#8F8B82]/15',
             border: 'border-[#8F8B82]/20',
             icon: 'text-[#8F8B82]',
-            glow: 'bg-[#8F8B82]/20',
         },
         warmOrange: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            bg: 'bg-[#C15F3C]/15',
             border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
         violet: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            bg: 'bg-[#C15F3C]/15',
             border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
     };
 
@@ -763,13 +758,10 @@ function KPICard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
+            <Card variant="default" padding="md" className="group hover:border-th-border-strong transition-colors">
                 <div className="flex items-center gap-3 mb-3">
-                    <div className="relative">
-                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
-                        <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
-                            <Icon className={`w-5 h-5 ${style.icon}`} />
-                        </div>
+                    <div className={`w-10 h-10 rounded-xl ${style.bg} border ${style.border} flex items-center justify-center`}>
+                        <Icon className={`w-5 h-5 ${style.icon}`} />
                     </div>
                     <span className="text-sm text-slate-500">{label}</span>
                 </div>
@@ -778,7 +770,7 @@ function KPICard({
                     <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
                         positive
                             ? 'bg-[#DA7756]/10 text-[#DA7756]'
-                            : 'bg-rose-500/10 text-rose-400'
+                            : 'bg-[#E25C5C]/10 text-[#E25C5C]'
                     }`}>
                         {change}
                     </span>

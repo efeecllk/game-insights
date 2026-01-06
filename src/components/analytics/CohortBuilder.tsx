@@ -337,11 +337,8 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
                 <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                            <Users className="w-6 h-6 text-[#DA7756]" />
-                        </div>
+                    <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <Users className="w-6 h-6 text-[#DA7756]" />
                     </div>
                     <div>
                         <h2 className="font-semibold text-white text-lg">Cohort Builder</h2>
@@ -547,7 +544,7 @@ function RuleGroupEditor({
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={onDelete}
-                        className="p-1.5 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
+                        className="p-1.5 hover:bg-[#E25C5C]/10 rounded-lg text-slate-400 hover:text-[#E25C5C] transition-colors"
                     >
                         <X className="w-4 h-4" />
                     </motion.button>
@@ -688,7 +685,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={onDelete}
-                    className="p-1.5 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors ml-auto"
+                    className="p-1.5 hover:bg-[#E25C5C]/10 rounded-lg text-slate-400 hover:text-[#E25C5C] transition-colors ml-auto"
                 >
                     <Trash2 className="w-4 h-4" />
                 </motion.button>

@@ -29,15 +29,15 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 
 const variantStyles: Record<ButtonVariant, string> = {
     primary:
-        'bg-[#DA7756]/20 border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 hover:border-[#DA7756]/40 focus:ring-[#DA7756]/20',
+        'bg-th-accent-primary-muted border-th-accent-primary/30 text-th-accent-primary hover:bg-th-accent-primary/30 hover:border-th-accent-primary/40 focus:ring-th-accent-primary/20',
     secondary:
-        'bg-white/[0.03] border-slate-700 text-slate-300 hover:bg-white/[0.06] hover:border-slate-600 hover:text-white focus:ring-white/10',
+        'bg-th-bg-elevated border-th-border text-th-text-secondary hover:bg-th-bg-surface-hover hover:border-th-border-strong hover:text-th-text-primary focus:ring-th-border/20',
     ghost:
-        'bg-transparent border-transparent text-slate-400 hover:bg-white/[0.05] hover:text-slate-200 focus:ring-white/10',
+        'bg-transparent border-transparent text-th-text-muted hover:bg-th-interactive-hover hover:text-th-text-secondary focus:ring-th-border/20',
     danger:
-        'bg-rose-500/10 border-rose-500/20 text-rose-400 hover:bg-rose-500/20 hover:border-rose-500/30 focus:ring-rose-500/20',
+        'bg-th-error-muted border-th-error/20 text-th-error hover:bg-th-error/20 hover:border-th-error/30 focus:ring-th-error/20',
     outline:
-        'bg-transparent border-white/[0.12] text-slate-300 hover:bg-white/[0.03] hover:border-white/[0.2] focus:ring-white/10',
+        'bg-transparent border-th-border text-th-text-secondary hover:bg-th-interactive-hover hover:border-th-border-strong focus:ring-th-border/20',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -80,7 +80,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 className={`
                     relative inline-flex items-center justify-center font-medium
                     border transition-all duration-200
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-th-bg-base
                     disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
                     ${variantStyles[variant]}
                     ${sizeStyles[size]}
@@ -142,7 +142,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 className={`
                     relative inline-flex items-center justify-center
                     border rounded-xl transition-all duration-200
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-th-bg-base
                     disabled:opacity-50 disabled:cursor-not-allowed
                     ${variantStyles[variant]}
                     ${iconOnlySizes[size]}

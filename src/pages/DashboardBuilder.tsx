@@ -565,7 +565,7 @@ function DashboardListItem({
                                             onDelete();
                                             setShowMenu(false);
                                         }}
-                                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 transition-colors"
+                                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#E25C5C] hover:bg-[#E25C5C]/10 transition-colors"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         Delete
@@ -736,7 +736,7 @@ function WidgetRenderer({
                             }}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors border border-rose-500/20"
+                            className="p-1.5 rounded-lg bg-[#E25C5C]/10 text-[#E25C5C] hover:bg-[#E25C5C]/20 transition-colors border border-[#E25C5C]/20"
                         >
                             <Trash2 className="w-3.5 h-3.5" />
                         </motion.button>
@@ -785,7 +785,7 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
             </p>
             <p className="text-3xl font-bold text-white mb-2">{formatValue(data.value)}</p>
             {widget.config.showTrend !== false && (
-                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
+                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                     {data.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     <span className="font-medium">{data.change >= 0 ? '+' : ''}{data.change}%</span>
                     <span className="text-slate-500">vs last period</span>
@@ -1246,7 +1246,7 @@ function WidgetConfigPanel({
                         onClick={onDelete}
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors text-sm border border-rose-500/20"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#E25C5C]/10 text-[#E25C5C] hover:bg-[#E25C5C]/20 transition-colors text-sm border border-[#E25C5C]/20"
                     >
                         <Trash2 className="w-4 h-4" />
                         Delete Widget

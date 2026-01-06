@@ -209,10 +209,8 @@ export function ExportModal({
                                     initial={{ scale: 0, rotate: -180 }}
                                     animate={{ scale: 1, rotate: 0 }}
                                     transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-                                    className="relative"
                                 >
-                                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                                         <Download className="w-5 h-5 text-[#DA7756]" />
                                     </div>
                                 </motion.div>
@@ -359,10 +357,10 @@ export function ExportModal({
                                         <motion.div
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20"
+                                            className="p-3 rounded-xl bg-[#E5A84B]/10 border border-[#E5A84B]/20"
                                             role="alert"
                                         >
-                                            <p className="text-sm text-amber-400">
+                                            <p className="text-sm text-[#E5A84B]">
                                                 {selectedFormat.toUpperCase()} export requires additional setup.
                                                 Install the required libraries first.
                                             </p>
@@ -515,10 +513,10 @@ export function ExportModal({
                                                                         </button>
                                                                         <button
                                                                             onClick={() => handleDeleteLink(link.id)}
-                                                                            className="p-1.5 hover:bg-rose-500/20 rounded transition-colors"
+                                                                            className="p-1.5 hover:bg-[#E25C5C]/20 rounded transition-colors"
                                                                             aria-label="Delete link"
                                                                         >
-                                                                            <Trash2 className="w-3 h-3 text-rose-400" />
+                                                                            <Trash2 className="w-3 h-3 text-[#E25C5C]" />
                                                                         </button>
                                                                     </div>
                                                                 </motion.li>

@@ -3,7 +3,7 @@
  *
  * Clean card with:
  * - Multiple variants (default, elevated, interactive, glass)
- * - Orange accent hover states
+ * - Simple border hover states
  * - Framer Motion animations
  */
 
@@ -31,14 +31,14 @@ const paddingStyles: Record<CardPadding, string> = {
 
 const variantStyles: Record<CardVariant, string> = {
     default:
-        'bg-slate-900 border border-slate-800',
+        'bg-th-bg-surface border border-th-border',
     elevated:
-        'bg-slate-900 border border-slate-700 shadow-lg',
+        'bg-th-bg-surface border border-th-border-strong shadow-theme-sm',
     interactive:
-        'bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer',
-    glass: 'bg-slate-900/80 border border-slate-800',
+        'bg-th-bg-surface border border-th-border hover:border-th-border-strong cursor-pointer',
+    glass: 'bg-th-bg-surface/80 border border-th-border',
     'gradient-border':
-        'relative bg-slate-900 border border-slate-800',
+        'relative bg-th-bg-surface border border-th-border',
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -103,16 +103,16 @@ interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardHeader({ title, action, subtitle, icon, className = '', ...props }: CardHeaderProps) {
     return (
-        <div className={`flex items-center justify-between pb-4 border-b border-slate-800 ${className}`} {...props}>
+        <div className={`flex items-center justify-between pb-4 border-b border-th-border ${className}`} {...props}>
             <div className="flex items-center gap-3">
                 {icon && (
-                    <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                         {icon}
                     </div>
                 )}
                 <div>
-                    <h3 className="font-semibold text-white">{title}</h3>
-                    {subtitle && <p className="text-sm text-slate-500 mt-0.5">{subtitle}</p>}
+                    <h3 className="font-semibold text-th-text-primary">{title}</h3>
+                    {subtitle && <p className="text-sm text-th-text-muted mt-0.5">{subtitle}</p>}
                 </div>
             </div>
             {action && <div>{action}</div>}
@@ -136,7 +136,7 @@ export function CardContent({ children, className = '', ...props }: React.HTMLAt
  */
 export function CardFooter({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
     return (
-        <div className={`pt-4 mt-4 border-t border-slate-800 ${className}`} {...props}>
+        <div className={`pt-4 mt-4 border-t border-th-border ${className}`} {...props}>
             {children}
         </div>
     );

@@ -53,9 +53,9 @@ interface MetricItem {
 const CATEGORY_COLORS: Record<MetricCategory, { bg: string; text: string; chart: string; border: string }> = {
     retention: { bg: 'bg-[#DA7756]/10', text: 'text-[#DA7756]', chart: '#DA7756', border: 'border-[#DA7756]/20' },
     engagement: { bg: 'bg-[#8F8B82]/10', text: 'text-[#8F8B82]', chart: '#8F8B82', border: 'border-[#8F8B82]/20' },
-    monetization: { bg: 'bg-amber-500/10', text: 'text-amber-400', chart: '#f59e0b', border: 'border-amber-500/20' },
+    monetization: { bg: 'bg-[#E5A84B]/10', text: 'text-[#E5A84B]', chart: '#E5A84B', border: 'border-[#E5A84B]/20' },
     progression: { bg: 'bg-[#C15F3C]/10', text: 'text-[#C15F3C]', chart: '#C15F3C', border: 'border-[#C15F3C]/20' },
-    all: { bg: 'bg-slate-500/10', text: 'text-slate-400', chart: '#64748b', border: 'border-slate-500/20' },
+    all: { bg: 'bg-[#8F8B82]/10', text: 'text-[#8F8B82]', chart: '#8F8B82', border: 'border-[#8F8B82]/20' },
 };
 
 const CATEGORY_LABELS: Record<MetricCategory, string> = {
@@ -172,7 +172,7 @@ function MetricCard({
             trigger: 'axis',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
-            textStyle: { color: '#f1f5f9' },
+            textStyle: { color: '#FAF9F6' },
             formatter: (params: { name: string; value: number }[]) => {
                 const p = params[0];
                 return `${p.name}<br/>${metric.label}: ${formatValue(p.value, metric.format)}`;
@@ -208,7 +208,7 @@ function MetricCard({
                                     <span className={`px-2 py-0.5 text-xs rounded-full ${
                                         benchmarkStatus === 'great' ? 'bg-[#DA7756]/10 text-[#DA7756]' :
                                         benchmarkStatus === 'good' ? 'bg-[#8F8B82]/10 text-[#8F8B82]' :
-                                        'bg-amber-500/10 text-amber-400'
+                                        'bg-[#E5A84B]/10 text-[#E5A84B]'
                                     }`}>
                                         {benchmarkStatus === 'great' ? 'Great' :
                                          benchmarkStatus === 'good' ? 'Good' : 'Needs Work'}
@@ -228,7 +228,7 @@ function MetricCard({
                             {metric.trend && (
                                 <div className={`flex items-center justify-end gap-1 text-xs ${
                                     metric.trend === 'up' ? 'text-[#DA7756]' :
-                                    metric.trend === 'down' ? 'text-rose-400' : 'text-slate-400'
+                                    metric.trend === 'down' ? 'text-[#E25C5C]' : 'text-slate-400'
                                 }`}>
                                     {metric.trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
                                      metric.trend === 'down' ? <TrendingDown className="w-3 h-3" /> : null}
@@ -352,7 +352,7 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
             trigger: 'axis',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
-            textStyle: { color: '#f1f5f9' },
+            textStyle: { color: '#FAF9F6' },
         },
     };
 
@@ -413,7 +413,7 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
             data: levels.map(l => ({
                 value: l.rate,
                 itemStyle: {
-                    color: progression.difficultySpikes.includes(l.name) ? '#f43f5e' : '#C15F3C',
+                    color: progression.difficultySpikes.includes(l.name) ? '#E25C5C' : '#C15F3C',
                 },
             })),
             barMaxWidth: 40,
@@ -422,11 +422,11 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
             trigger: 'axis',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
-            textStyle: { color: '#f1f5f9' },
+            textStyle: { color: '#FAF9F6' },
             formatter: (params: { name: string; value: number }[]) => {
                 const p = params[0];
                 const isSpike = progression.difficultySpikes.includes(p.name);
-                return `${p.name}<br/>Completion: ${p.value.toFixed(1)}%${isSpike ? '<br/><span style="color:#f43f5e">Difficulty Spike</span>' : ''}`;
+                return `${p.name}<br/>Completion: ${p.value.toFixed(1)}%${isSpike ? '<br/><span style="color:#E25C5C">Difficulty Spike</span>' : ''}`;
             },
         },
     };
@@ -444,7 +444,7 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
                     <h3 className="font-semibold text-white">Level Progression</h3>
                 </div>
                 {progression.difficultySpikes.length > 0 && (
-                    <span className="px-3 py-1 text-xs rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400">
+                    <span className="px-3 py-1 text-xs rounded-full bg-[#E25C5C]/10 border border-[#E25C5C]/20 text-[#E25C5C]">
                         {progression.difficultySpikes.length} difficulty spike{progression.difficultySpikes.length > 1 ? 's' : ''}
                     </span>
                 )}
@@ -577,7 +577,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'currency',
                 category: 'monetization',
                 icon: DollarSign,
-                color: '#f59e0b',
+                color: '#E5A84B',
                 description: 'Total revenue generated in the dataset',
             });
             items.push({
@@ -587,7 +587,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'currency',
                 category: 'monetization',
                 icon: DollarSign,
-                color: '#f59e0b',
+                color: '#E5A84B',
                 description: 'Average Revenue Per User across all users',
             });
             items.push({
@@ -597,7 +597,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'currency',
                 category: 'monetization',
                 icon: DollarSign,
-                color: '#f59e0b',
+                color: '#E5A84B',
                 description: 'Average Revenue Per Paying User (excludes non-payers)',
             });
             items.push({
@@ -607,7 +607,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'percent',
                 category: 'monetization',
                 icon: Percent,
-                color: '#f59e0b',
+                color: '#E5A84B',
                 description: 'Percentage of users who made at least one purchase',
             });
             items.push({
@@ -617,7 +617,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'currency',
                 category: 'monetization',
                 icon: TrendingUp,
-                color: '#f59e0b',
+                color: '#E5A84B',
                 description: 'Projected lifetime value based on retention and ARPU',
             });
         }
@@ -688,11 +688,8 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             {/* Header */}
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                            <LineChart className="w-6 h-6 text-[#DA7756]" />
-                        </div>
+                    <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <LineChart className="w-6 h-6 text-[#DA7756]" />
                     </div>
                     <div>
                         <h2 className="text-xl font-bold text-white">Metric Analysis</h2>

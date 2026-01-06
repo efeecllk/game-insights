@@ -29,14 +29,14 @@ export function DataModeIndicator() {
     return (
         <button
             onClick={() => navigate('/upload')}
-            className="flex items-center gap-2 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/20 transition-colors group w-full"
+            className="flex items-center gap-2 px-3 py-2 bg-[#E5A84B]/10 border border-[#E5A84B]/20 rounded-lg hover:bg-[#E5A84B]/20 transition-colors group w-full"
         >
-            <Play className="w-4 h-4 text-amber-400" />
+            <Play className="w-4 h-4 text-[#E5A84B]" />
             <div className="flex-1 min-w-0 text-left">
-                <p className="text-xs font-medium text-amber-400">Demo Mode</p>
-                <p className="text-xs text-amber-400/70">Using sample data</p>
+                <p className="text-xs font-medium text-[#E5A84B]">Demo Mode</p>
+                <p className="text-xs text-[#E5A84B]/70">Using sample data</p>
             </div>
-            <Upload className="w-3 h-3 text-amber-400/50 group-hover:text-amber-400 transition-colors" />
+            <Upload className="w-3 h-3 text-[#E5A84B]/50 group-hover:text-[#E5A84B] transition-colors" />
         </button>
     );
 }

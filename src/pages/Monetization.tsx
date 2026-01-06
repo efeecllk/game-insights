@@ -27,11 +27,11 @@ const revenueData = {
         conversionRate: 5.3,
         whales: 42,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 85000, color: '#475569' },
+            { tier: '$0 (F2P)', users: 85000, color: '#5C5954' },
             { tier: '$1-10', users: 4200, color: '#DA7756' },
-            { tier: '$10-50', users: 850, color: '#fbbf24' },
-            { tier: '$50-100', users: 180, color: '#f97316' },
-            { tier: '$100+', users: 42, color: '#ef4444' },
+            { tier: '$10-50', users: 850, color: '#E5A84B' },
+            { tier: '$50-100', users: 180, color: '#C15F3C' },
+            { tier: '$100+', users: 42, color: '#E25C5C' },
         ],
         topProducts: [
             { name: 'Coin Pack 500', revenue: 4500, sales: 900 },
@@ -48,11 +48,11 @@ const revenueData = {
         conversionRate: 6.2,
         whales: 180,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 120000, color: '#475569' },
+            { tier: '$0 (F2P)', users: 120000, color: '#5C5954' },
             { tier: '$1-50', users: 8500, color: '#DA7756' },
-            { tier: '$50-200', users: 2100, color: '#fbbf24' },
-            { tier: '$200-500', users: 650, color: '#f97316' },
-            { tier: '$500+', users: 180, color: '#ef4444' },
+            { tier: '$50-200', users: 2100, color: '#E5A84B' },
+            { tier: '$200-500', users: 650, color: '#C15F3C' },
+            { tier: '$500+', users: 180, color: '#E25C5C' },
         ],
         topProducts: [
             { name: 'Crystal Pack x100', revenue: 28000, sales: 5600 },
@@ -69,11 +69,11 @@ const revenueData = {
         conversionRate: 5.7,
         whales: 95,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 180000, color: '#475569' },
+            { tier: '$0 (F2P)', users: 180000, color: '#5C5954' },
             { tier: '$1-20', users: 12000, color: '#DA7756' },
-            { tier: '$20-50', users: 3500, color: '#fbbf24' },
-            { tier: '$50-100', users: 850, color: '#f97316' },
-            { tier: '$100+', users: 95, color: '#ef4444' },
+            { tier: '$20-50', users: 3500, color: '#E5A84B' },
+            { tier: '$50-100', users: 850, color: '#C15F3C' },
+            { tier: '$100+', users: 95, color: '#E25C5C' },
         ],
         topProducts: [
             { name: 'Battle Pass', revenue: 45000, sales: 4500 },
@@ -145,7 +145,7 @@ export function MonetizationPage() {
         const realPayerConversion = dataProvider.getPayerConversion() * 100;
 
         // Transform spender tiers for chart
-        const tierColors = ['#475569', '#DA7756', '#fbbf24', '#f97316', '#ef4444'];
+        const tierColors = ['#5C5954', '#DA7756', '#E5A84B', '#C15F3C', '#E25C5C'];
         const transformedTiers = realSpenderTiers.map((tier, index) => ({
             tier: tier.tier,
             users: tier.users,
@@ -201,20 +201,18 @@ export function MonetizationPage() {
                 <Card variant="elevated" padding="md">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            {/* Icon with glow */}
+                            {/* Icon */}
                             <motion.div
-                                className="relative"
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
                                     <DollarSign className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-3">
-                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    <h1 className="text-xl font-display font-bold text-th-text-primary">
                                         Monetization
                                     </h1>
                                     <DataModeIndicator />
@@ -310,8 +308,8 @@ export function MonetizationPage() {
                 <motion.div variants={itemVariants}>
                     <Card variant="default" padding="lg">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                                <CreditCard className="w-4 h-4 text-amber-400" />
+                            <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/10 border border-[#E5A84B]/20 flex items-center justify-center">
+                                <CreditCard className="w-4 h-4 text-[#E5A84B]" />
                             </div>
                             <h3 className="font-display font-semibold text-white">Top Products</h3>
                         </div>
@@ -343,7 +341,7 @@ export function MonetizationPage() {
 
             {/* Whale Alert */}
             <motion.div variants={itemVariants}>
-                <Card variant="default" padding="lg" className="border-rose-500/20 bg-gradient-to-br from-rose-500/5 to-transparent">
+                <Card variant="default" padding="lg" className="border-[#E25C5C]/20 bg-gradient-to-br from-[#E25C5C]/5 to-transparent">
                     <div className="flex items-center gap-3 mb-3">
                         <motion.span
                             initial={{ scale: 0 }}
@@ -357,7 +355,7 @@ export function MonetizationPage() {
                     </div>
                     <p className="text-slate-400">
                         You have{' '}
-                        <span className="font-bold text-rose-400">{data.whales}</span>{' '}
+                        <span className="font-bold text-[#E25C5C]">{data.whales}</span>{' '}
                         whale users ($100+ spent). They contribute approximately{' '}
                         <span className="font-bold text-white">
                             {((data.whales * 150) / totalRevenue * 100).toFixed(0)}%
@@ -386,34 +384,29 @@ function KPICard({
 }) {
     const colorStyles = {
         orange: {
-            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
-            border: 'border-[#DA7756]/20 group-hover:border-[#DA7756]/30',
+            bg: 'bg-[#DA7756]/15',
+            border: 'border-[#DA7756]/20',
             icon: 'text-[#DA7756]',
-            glow: 'bg-[#DA7756]/20',
         },
         sky: {
-            bg: 'from-[#A68B5B]/20 to-[#A68B5B]/5',
-            border: 'border-[#A68B5B]/20 group-hover:border-[#A68B5B]/30',
+            bg: 'bg-[#A68B5B]/15',
+            border: 'border-[#A68B5B]/20',
             icon: 'text-[#A68B5B]',
-            glow: 'bg-[#A68B5B]/20',
         },
         violet: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
-            border: 'border-[#C15F3C]/20 group-hover:border-[#C15F3C]/30',
+            bg: 'bg-[#C15F3C]/15',
+            border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
         amber: {
-            bg: 'from-amber-500/20 to-amber-500/5',
-            border: 'border-amber-500/20 group-hover:border-amber-500/30',
-            icon: 'text-amber-400',
-            glow: 'bg-amber-500/20',
+            bg: 'bg-[#E5A84B]/15',
+            border: 'border-[#E5A84B]/20',
+            icon: 'text-[#E5A84B]',
         },
         secondary: {
-            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
-            border: 'border-[#C15F3C]/20 group-hover:border-[#C15F3C]/30',
+            bg: 'bg-[#C15F3C]/15',
+            border: 'border-[#C15F3C]/20',
             icon: 'text-[#C15F3C]',
-            glow: 'bg-[#C15F3C]/20',
         },
     };
 
@@ -425,21 +418,13 @@ function KPICard({
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             className="relative group"
         >
-            {/* Glow effect */}
-            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-            <div className={`relative bg-gradient-to-br ${styles.bg}  rounded-2xl p-4 border ${styles.border} transition-all duration-300 overflow-hidden`}>
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-                <div className="relative">
-                    <div className="flex items-center gap-2 mb-2">
-                        <Icon className={`w-4 h-4 ${styles.icon}`} />
-                        <span className="text-sm text-slate-500">{title}</span>
-                    </div>
-                    <div className="text-2xl font-display font-bold text-white">{value}</div>
-                    <div className="text-xs text-slate-600 mt-1">{subtitle}</div>
+            <div className={`${styles.bg} rounded-2xl p-4 border ${styles.border} group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden`}>
+                <div className="flex items-center gap-2 mb-2">
+                    <Icon className={`w-4 h-4 ${styles.icon}`} />
+                    <span className="text-sm text-slate-500">{title}</span>
                 </div>
+                <div className="text-2xl font-display font-bold text-white">{value}</div>
+                <div className="text-xs text-slate-600 mt-1">{subtitle}</div>
             </div>
         </motion.div>
     );
@@ -453,7 +438,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
             borderColor: 'rgba(255, 255, 255, 0.08)',
             borderWidth: 1,
             textStyle: {
-                color: '#f1f5f9',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
@@ -467,7 +452,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
             data: dates,
             axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'DM Sans',
                 rotate: 45,
@@ -478,7 +463,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
             type: 'value',
             axisLine: { show: false },
             axisLabel: {
-                color: '#64748b',
+                color: '#8F8B82',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono',
                 formatter: (val: number) => `$${val / 1000}k`,
@@ -494,7 +479,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                     x: 0, y: 0, x2: 0, y2: 1,
                     colorStops: [
                         { offset: 0, color: '#DA7756' },
-                        { offset: 1, color: '#C56545' }
+                        { offset: 1, color: '#C15F3C' }
                     ]
                 },
                 borderRadius: [6, 6, 0, 0]
@@ -505,7 +490,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: '#E8937A' },
+                            { offset: 0, color: '#DA7756' },
                             { offset: 1, color: '#DA7756' }
                         ]
                     }
@@ -525,7 +510,7 @@ function SpenderTiersChart({ data }: { data: Array<{ tier: string; users: number
             borderColor: 'rgba(255, 255, 255, 0.08)',
             borderWidth: 1,
             textStyle: {
-                color: '#f1f5f9',
+                color: '#FAF9F6',
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
@@ -539,7 +524,7 @@ function SpenderTiersChart({ data }: { data: Array<{ tier: string; users: number
             top: 'center',
             textStyle: {
                 fontSize: 11,
-                color: '#94a3b8',
+                color: '#C8C4BA',
                 fontFamily: 'DM Sans',
             },
             itemWidth: 12,

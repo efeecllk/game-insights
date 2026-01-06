@@ -71,7 +71,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                     </p>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                    <span className="text-[#6BBF59]">{highConfidence.length} confident</span>
+                    <span className="text-[#7A8B5B]">{highConfidence.length} confident</span>
                     {lowConfidence.length > 0 && (
                         <span className="text-yellow-500">{lowConfidence.length} needs review</span>
                     )}
@@ -106,7 +106,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
             {/* High confidence columns */}
             <div className="bg-bg-card border border-slate-800 rounded-card p-4">
                 <div className="flex items-center gap-2 mb-3">
-                    <Check className="w-5 h-5 text-[#6BBF59]" />
+                    <Check className="w-5 h-5 text-[#7A8B5B]" />
                     <span className="text-zinc-300 font-medium">Auto-Detected</span>
                 </div>
                 <div className="space-y-2">
@@ -194,7 +194,7 @@ function ColumnRow({
 
             {/* Confidence */}
             <div className="w-16 text-right ml-4">
-                <span className={`text-xs ${column.confidence >= 0.8 ? 'text-[#6BBF59]' : 'text-yellow-500'}`}>
+                <span className={`text-xs ${column.confidence >= 0.8 ? 'text-[#7A8B5B]' : 'text-yellow-500'}`}>
                     {Math.round(column.confidence * 100)}%
                 </span>
             </div>
