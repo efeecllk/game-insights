@@ -70,6 +70,8 @@ vi.mock('react-i18next', () => ({
             const translations: Record<string, string> = {
                 // Navigation
                 'navigation.overview': 'Overview',
+                'navigation.dashboard': 'Dashboard',
+                'navigation.upload': 'Upload Data',
                 'navigation.games': 'Games',
                 'navigation.dataSources': 'Data Sources',
                 'navigation.templates': 'Templates',

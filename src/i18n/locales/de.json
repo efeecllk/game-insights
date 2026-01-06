@@ -1,6 +1,8 @@
 {
     "navigation": {
         "overview": "Ubersicht",
+        "dashboard": "Dashboard",
+        "upload": "Daten Hochladen",
         "games": "Spiele",
         "dataSources": "Datenquellen",
         "templates": "Vorlagen",

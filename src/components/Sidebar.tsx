@@ -55,9 +55,10 @@ interface NavItemType {
 }
 
 // Primary nav items - always visible (essential features)
+// Order prioritizes user workflow: Upload first (new users need data), then Dashboard, then Analytics
 const primaryNavItems: NavItemType[] = [
-    { icon: Home, labelKey: 'navigation.overview', label: 'Overview', path: '/' },
     { icon: Database, labelKey: 'navigation.upload', label: 'Upload Data', path: '/upload' },
+    { icon: Home, labelKey: 'navigation.dashboard', label: 'Dashboard', path: '/' },
     { icon: Sparkles, labelKey: 'navigation.aiAnalytics', label: 'AI Analytics', path: '/analytics' },
     { icon: Filter, labelKey: 'navigation.funnels', label: 'Funnels', path: '/funnels' },
     { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Monetization', path: '/monetization' },

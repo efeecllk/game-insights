@@ -24,13 +24,14 @@ const SIDEBAR_SETTINGS_STORE = 'sidebarSettings';
 const SETTINGS_ID = 'default';
 
 /**
- * Default sidebar order - ensures Overview is first and Upload Data is near the top
+ * Default sidebar order - prioritizes user workflow with Upload Data first
+ * First-time users need to upload data before they can use the dashboard
  * This order reflects the simplified navigation structure with sections
  */
 export const DEFAULT_SIDEBAR_ORDER: string[] = [
-    // Primary nav items
-    'Overview',
+    // Primary nav items - Upload first for new user workflow
     'Upload Data',
+    'Dashboard',
     'AI Analytics',
     'Funnels',
     'Monetization',

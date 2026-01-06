@@ -1,6 +1,8 @@
 {
     "navigation": {
         "overview": "Resumen",
+        "dashboard": "Panel",
+        "upload": "Subir Datos",
         "games": "Juegos",
         "dataSources": "Fuentes de Datos",
         "templates": "Plantillas",
