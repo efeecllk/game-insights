@@ -1,10 +1,15 @@
 /**
- * Sync Schedule Manager Component
- * Configure and manage sync schedules for data sources
- * Phase 3: Data Sources
+ * Sync Schedule Manager - Obsidian Analytics Design
+ *
+ * Configure sync schedules with:
+ * - Glassmorphism containers
+ * - Emerald accent colors
+ * - Framer Motion animations
+ * - Interactive schedule presets
  */
 
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Clock,
     RefreshCw,
@@ -39,6 +44,36 @@ interface SchedulePreset {
     strategy: SyncStrategy;
     icon: React.ElementType;
 }
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
 
 // ============================================================================
 // Presets
@@ -111,30 +146,44 @@ export function SyncScheduleManager() {
 
     if (integrations.length === 0) {
         return (
-            <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
-                <div className="w-16 h-16 bg-th-bg-elevated rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Clock className="w-8 h-8 text-th-text-muted" />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+            >
+                <div className="relative w-16 h-16 mx-auto mb-4">
+                    <div className="absolute inset-0 bg-slate-500/20 rounded-2xl blur-xl" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                        <Clock className="w-8 h-8 text-slate-400" />
+                    </div>
                 </div>
-                <h3 className="text-lg font-semibold text-th-text-primary mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                     No Sync Schedules
                 </h3>
-                <p className="text-th-text-muted">
+                <p className="text-slate-400">
                     Connect data sources to manage their sync schedules.
                 </p>
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Overview Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <SyncTypeCard
-                    icon={<RefreshCw className="w-5 h-5 text-gray-400" />}
+                    icon={<RefreshCw className="w-5 h-5 text-slate-400" />}
                     label="Manual"
                     count={groupedIntegrations.manual.length}
                     description="On-demand sync"
-                    color="gray"
+                    color="slate"
+                    index={0}
                 />
                 <SyncTypeCard
                     icon={<Clock className="w-5 h-5 text-blue-400" />}
@@ -142,57 +191,75 @@ export function SyncScheduleManager() {
                     count={groupedIntegrations.scheduled.length}
                     description="Automatic intervals"
                     color="blue"
+                    index={1}
                 />
                 <SyncTypeCard
-                    icon={<Zap className="w-5 h-5 text-green-400" />}
+                    icon={<Zap className="w-5 h-5 text-emerald-400" />}
                     label="Real-time"
                     count={groupedIntegrations.realtime.length}
                     description="Continuous sync"
-                    color="green"
+                    color="emerald"
+                    index={2}
                 />
                 <SyncTypeCard
-                    icon={<Bell className="w-5 h-5 text-purple-400" />}
+                    icon={<Bell className="w-5 h-5 text-violet-400" />}
                     label="Webhook"
                     count={groupedIntegrations.webhook.length}
                     description="Push-based"
-                    color="purple"
+                    color="violet"
+                    index={3}
                 />
-            </div>
+            </motion.div>
 
             {/* Upcoming Syncs */}
-            {nextSyncs.length > 0 && (
-                <div className="bg-th-bg-surface rounded-xl border border-th-border p-4">
-                    <h3 className="font-semibold text-th-text-primary mb-4 flex items-center gap-2">
-                        <History className="w-5 h-5 text-th-accent-primary" />
-                        Upcoming Syncs
-                    </h3>
-                    <div className="space-y-2">
-                        {nextSyncs.slice(0, 5).map(({ integration, nextSync }) => (
-                            <UpcomingSyncRow
-                                key={integration.id}
-                                integration={integration}
-                                nextSync={nextSync}
-                                onRefresh={() => refreshIntegration(integration.id)}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
+            <AnimatePresence>
+                {nextSyncs.length > 0 && (
+                    <motion.div
+                        variants={cardVariants}
+                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
+                    >
+                        <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                                <History className="w-4 h-4 text-emerald-400" />
+                            </div>
+                            Upcoming Syncs
+                        </h3>
+                        <div className="space-y-2">
+                            {nextSyncs.slice(0, 5).map(({ integration, nextSync }, idx) => (
+                                <UpcomingSyncRow
+                                    key={integration.id}
+                                    integration={integration}
+                                    nextSync={nextSync}
+                                    onRefresh={() => refreshIntegration(integration.id)}
+                                    index={idx}
+                                />
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Integration Schedule List */}
-            <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
-                <div className="p-4 border-b border-th-border-subtle">
-                    <h3 className="font-semibold text-th-text-primary flex items-center gap-2">
-                        <Settings className="w-5 h-5 text-th-accent-primary" />
-                        Sync Schedules
-                    </h3>
-                    <p className="text-sm text-th-text-muted mt-1">
-                        Configure when each data source syncs
-                    </p>
+            <motion.div
+                variants={cardVariants}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            >
+                <div className="px-5 py-4 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                            <Settings className="w-4 h-4 text-violet-400" />
+                        </div>
+                        <div>
+                            <h3 className="font-semibold text-white">Sync Schedules</h3>
+                            <p className="text-sm text-slate-400">
+                                Configure when each data source syncs
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="divide-y divide-th-border-subtle">
-                    {integrations.map(integration => (
+                <div className="divide-y divide-white/[0.06]">
+                    {integrations.map((integration, idx) => (
                         <ScheduleRow
                             key={integration.id}
                             integration={integration}
@@ -201,45 +268,51 @@ export function SyncScheduleManager() {
                             onRefresh={() => refreshIntegration(integration.id)}
                             onPause={() => pauseIntegration(integration.id)}
                             onResume={() => resumeIntegration(integration.id)}
+                            index={idx}
                         />
                     ))}
                 </div>
-            </div>
+            </motion.div>
 
             {/* Sync Tips */}
-            <div className="bg-th-accent-primary-muted rounded-xl p-4">
-                <h4 className="font-medium text-th-accent-primary mb-3 flex items-center gap-2">
-                    <Info className="w-5 h-5" />
+            <motion.div
+                variants={cardVariants}
+                className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5"
+            >
+                <h4 className="font-medium text-emerald-400 mb-4 flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                        <Info className="w-4 h-4 text-emerald-400" />
+                    </div>
                     Sync Best Practices
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-th-text-secondary">
+                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-slate-300">
                             Use real-time sync for dashboards that need live data
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-th-text-secondary">
+                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-slate-300">
                             Schedule syncs during off-peak hours to reduce API usage
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-th-text-secondary">
+                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-slate-300">
                             Pause syncs for integrations you're not actively using
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-th-text-secondary">
+                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-slate-300">
                             Use webhooks when available for instant updates
                         </span>
                     </div>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -253,31 +326,43 @@ function SyncTypeCard({
     count,
     description,
     color,
+    index,
 }: {
     icon: React.ReactNode;
     label: string;
     count: number;
     description: string;
-    color: 'gray' | 'blue' | 'green' | 'purple';
+    color: 'slate' | 'blue' | 'emerald' | 'violet';
+    index: number;
 }) {
     const colorMap = {
-        gray: 'bg-gray-500/10',
-        blue: 'bg-blue-500/10',
-        green: 'bg-green-500/10',
-        purple: 'bg-purple-500/10',
+        slate: { bg: 'bg-slate-500/10', border: 'border-slate-500/20', glow: '' },
+        blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', glow: 'shadow-blue-500/10' },
+        emerald: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', glow: 'shadow-emerald-500/10' },
+        violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', glow: 'shadow-violet-500/10' },
     };
 
+    const colors = colorMap[color];
+
     return (
-        <div className={`rounded-xl p-4 ${colorMap[color]}`}>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, type: 'spring', stiffness: 300, damping: 30 }}
+            whileHover={{ scale: 1.02, y: -2 }}
+            className={`rounded-xl p-4 ${colors.bg} border ${colors.border} shadow-lg ${colors.glow}`}
+        >
             <div className="flex items-center gap-3">
-                {icon}
+                <div className="w-10 h-10 rounded-lg bg-white/[0.06] flex items-center justify-center">
+                    {icon}
+                </div>
                 <div>
-                    <div className="text-2xl font-bold text-th-text-primary">{count}</div>
-                    <div className="text-sm text-th-text-muted">{label}</div>
+                    <div className="text-2xl font-bold text-white">{count}</div>
+                    <div className="text-sm text-slate-400">{label}</div>
                 </div>
             </div>
-            <p className="text-xs text-th-text-muted mt-2">{description}</p>
-        </div>
+            <p className="text-xs text-slate-500 mt-2">{description}</p>
+        </motion.div>
     );
 }
 
@@ -285,34 +370,43 @@ function UpcomingSyncRow({
     integration,
     nextSync,
     onRefresh,
+    index,
 }: {
     integration: Integration;
     nextSync: Date;
     onRefresh: () => void;
+    index: number;
 }) {
     const catalogItem = INTEGRATION_CATALOG.find(c => c.type === integration.config.type);
     const timeUntil = getTimeUntil(nextSync);
 
     return (
-        <div className="flex items-center gap-4 p-3 bg-th-bg-elevated rounded-lg">
-            <div className="w-10 h-10 rounded-lg bg-th-bg-surface flex items-center justify-center text-xl">
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 30 }}
+            className="flex items-center gap-4 p-3 bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.04] transition-colors"
+        >
+            <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xl">
                 {getIntegrationIcon(integration.config.type)}
             </div>
             <div className="flex-1 min-w-0">
-                <div className="font-medium text-th-text-primary truncate">
+                <div className="font-medium text-white truncate">
                     {integration.config.name}
                 </div>
-                <div className="text-sm text-th-text-muted">
+                <div className="text-sm text-slate-400">
                     {catalogItem?.name} • Next sync {timeUntil}
                 </div>
             </div>
-            <button
+            <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={onRefresh}
-                className="px-3 py-1.5 bg-th-accent-primary/10 text-th-accent-primary rounded-lg text-sm font-medium hover:bg-th-accent-primary/20 transition-colors"
+                className="px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm font-medium hover:bg-emerald-500/20 transition-colors"
             >
                 Sync Now
-            </button>
-        </div>
+            </motion.button>
+        </motion.div>
     );
 }
 
@@ -323,6 +417,7 @@ function ScheduleRow({
     onRefresh,
     onPause,
     onResume,
+    index,
 }: {
     integration: Integration;
     isExpanded: boolean;
@@ -330,35 +425,40 @@ function ScheduleRow({
     onRefresh: () => void;
     onPause: () => void;
     onResume: () => void;
+    index: number;
 }) {
     const catalogItem = INTEGRATION_CATALOG.find(c => c.type === integration.config.type);
     const isPaused = integration.status === 'paused';
 
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.05 }}
+        >
             {/* Main Row */}
             <div
-                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-th-bg-surface-hover transition-colors"
+                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 onClick={onToggle}
             >
                 {/* Icon */}
-                <div className="w-10 h-10 rounded-lg bg-th-bg-elevated flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xl">
                     {getIntegrationIcon(integration.config.type)}
                 </div>
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                        <h4 className="font-medium text-th-text-primary truncate">
+                        <h4 className="font-medium text-white truncate">
                             {integration.config.name}
                         </h4>
                         {isPaused && (
-                            <span className="text-xs px-2 py-0.5 bg-yellow-500/10 text-yellow-500 rounded-full">
+                            <span className="text-xs px-2 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full">
                                 Paused
                             </span>
                         )}
                     </div>
-                    <div className="text-sm text-th-text-muted">
+                    <div className="text-sm text-slate-400">
                         {catalogItem?.name} • {formatLastSync(integration.lastSyncAt)}
                     </div>
                 </div>
@@ -367,129 +467,163 @@ function ScheduleRow({
                 <ScheduleBadge strategy={integration.config.syncStrategy} />
 
                 {/* Actions */}
-                <div className="flex items-center gap-2">
-                    <button
+                <div className="flex items-center gap-1">
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={e => {
                             e.stopPropagation();
                             onRefresh();
                         }}
                         disabled={integration.status === 'syncing'}
-                        className="p-2 text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover rounded-lg transition-colors disabled:opacity-50"
+                        className="p-2 text-slate-500 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors disabled:opacity-50"
                         title="Sync Now"
                     >
                         <RefreshCw className={`w-4 h-4 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
-                    </button>
+                    </motion.button>
                     {isPaused ? (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={e => {
                                 e.stopPropagation();
                                 onResume();
                             }}
-                            className="p-2 text-th-text-muted hover:text-green-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors"
                             title="Resume"
                         >
                             <Play className="w-4 h-4" />
-                        </button>
+                        </motion.button>
                     ) : (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={e => {
                                 e.stopPropagation();
                                 onPause();
                             }}
-                            className="p-2 text-th-text-muted hover:text-yellow-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"
                             title="Pause"
                         >
                             <Pause className="w-4 h-4" />
-                        </button>
+                        </motion.button>
                     )}
-                    <ChevronDown
-                        className={`w-5 h-5 text-th-text-muted transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-                    />
+                    <motion.div
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <ChevronDown className="w-5 h-5 text-slate-500" />
+                    </motion.div>
                 </div>
             </div>
 
             {/* Expanded Config */}
-            {isExpanded && (
-                <div className="px-4 pb-4 border-t border-th-border-subtle pt-4 ml-14">
-                    <h5 className="text-sm font-medium text-th-text-secondary mb-3">
-                        Change Sync Schedule
-                    </h5>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                        {syncPresets.map(preset => {
-                            const isActive = matchesStrategy(integration.config.syncStrategy, preset.strategy);
-                            const Icon = preset.icon;
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="px-4 pb-4 border-t border-white/[0.06] pt-4 ml-14">
+                            <h5 className="text-sm font-medium text-slate-300 mb-3">
+                                Change Sync Schedule
+                            </h5>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                {syncPresets.map((preset, idx) => {
+                                    const isActive = matchesStrategy(integration.config.syncStrategy, preset.strategy);
+                                    const Icon = preset.icon;
 
-                            return (
-                                <button
-                                    key={preset.id}
-                                    className={`p-3 rounded-lg border text-left transition-colors ${
-                                        isActive
-                                            ? 'border-th-accent-primary bg-th-accent-primary-muted'
-                                            : 'border-th-border-subtle hover:border-th-border bg-th-bg-elevated hover:bg-th-bg-surface-hover'
-                                    }`}
+                                    return (
+                                        <motion.button
+                                            key={preset.id}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className={`p-3 rounded-xl border text-left transition-all ${
+                                                isActive
+                                                    ? 'border-emerald-500/30 bg-emerald-500/10 shadow-lg shadow-emerald-500/10'
+                                                    : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.04]'
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`} />
+                                                <span className={`font-medium ${isActive ? 'text-emerald-400' : 'text-white'}`}>
+                                                    {preset.name}
+                                                </span>
+                                                {isActive && <Check className="w-4 h-4 text-emerald-400 ml-auto" />}
+                                            </div>
+                                            <p className="text-xs text-slate-500">{preset.description}</p>
+                                        </motion.button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Custom Interval (for scheduled) */}
+                            {integration.config.syncStrategy.type === 'scheduled' && (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="mt-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl"
                                 >
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <Icon className={`w-4 h-4 ${isActive ? 'text-th-accent-primary' : 'text-th-text-muted'}`} />
-                                        <span className={`font-medium ${isActive ? 'text-th-accent-primary' : 'text-th-text-primary'}`}>
-                                            {preset.name}
+                                    <label className="text-sm font-medium text-slate-300 mb-3 block">
+                                        Custom Interval
+                                    </label>
+                                    <div className="flex items-center gap-4">
+                                        <input
+                                            type="range"
+                                            min={5}
+                                            max={1440}
+                                            step={5}
+                                            value={integration.config.syncStrategy.intervalMinutes}
+                                            readOnly
+                                            className="flex-1 h-2 bg-white/[0.06] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:shadow-emerald-500/30"
+                                        />
+                                        <span className="text-sm font-medium text-white min-w-[80px] text-right">
+                                            {formatInterval(integration.config.syncStrategy.intervalMinutes)}
                                         </span>
-                                        {isActive && <Check className="w-4 h-4 text-th-accent-primary ml-auto" />}
                                     </div>
-                                    <p className="text-xs text-th-text-muted">{preset.description}</p>
-                                </button>
-                            );
-                        })}
-                    </div>
+                                </motion.div>
+                            )}
 
-                    {/* Custom Interval (for scheduled) */}
-                    {integration.config.syncStrategy.type === 'scheduled' && (
-                        <div className="mt-4 p-3 bg-th-bg-elevated rounded-lg">
-                            <label className="text-sm font-medium text-th-text-secondary mb-2 block">
-                                Custom Interval
-                            </label>
-                            <div className="flex items-center gap-3">
-                                <input
-                                    type="range"
-                                    min={5}
-                                    max={1440}
-                                    step={5}
-                                    value={integration.config.syncStrategy.intervalMinutes}
-                                    readOnly
-                                    className="flex-1"
-                                />
-                                <span className="text-sm font-medium text-th-text-primary min-w-[80px]">
-                                    {formatInterval(integration.config.syncStrategy.intervalMinutes)}
-                                </span>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Status Info */}
-                    <div className="mt-4 p-3 bg-th-bg-elevated rounded-lg">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                            <div>
-                                <div className="text-th-text-muted">Last Sync</div>
-                                <div className="text-th-text-primary">{formatLastSync(integration.lastSyncAt)}</div>
-                            </div>
-                            <div>
-                                <div className="text-th-text-muted">Sync Duration</div>
-                                <div className="text-th-text-primary">
-                                    {integration.metadata.syncDuration
-                                        ? `${(integration.metadata.syncDuration / 1000).toFixed(2)}s`
-                                        : 'N/A'}
+                            {/* Status Info */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.3 }}
+                                className="mt-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl"
+                            >
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                                    <div>
+                                        <div className="text-slate-500 mb-1">Last Sync</div>
+                                        <div className="text-white font-medium">{formatLastSync(integration.lastSyncAt)}</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-500 mb-1">Sync Duration</div>
+                                        <div className="text-white font-medium">
+                                            {integration.metadata.syncDuration
+                                                ? `${(integration.metadata.syncDuration / 1000).toFixed(2)}s`
+                                                : 'N/A'}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="text-slate-500 mb-1">Rows Synced</div>
+                                        <div className="text-white font-medium">
+                                            {integration.metadata.rowCount?.toLocaleString() || 'N/A'}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <div className="text-th-text-muted">Rows Synced</div>
-                                <div className="text-th-text-primary">
-                                    {integration.metadata.rowCount?.toLocaleString() || 'N/A'}
-                                </div>
-                            </div>
+                            </motion.div>
                         </div>
-                    </div>
-                </div>
-            )}
-        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
@@ -497,28 +631,28 @@ function ScheduleBadge({ strategy }: { strategy: SyncStrategy }) {
     switch (strategy.type) {
         case 'manual':
             return (
-                <span className="flex items-center gap-1 px-2 py-1 bg-gray-500/10 text-gray-400 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-slate-500/10 text-slate-400 border border-slate-500/20 rounded-lg text-xs font-medium">
                     <RefreshCw className="w-3 h-3" />
                     Manual
                 </span>
             );
         case 'scheduled':
             return (
-                <span className="flex items-center gap-1 px-2 py-1 bg-blue-500/10 text-blue-400 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-medium">
                     <Clock className="w-3 h-3" />
                     Every {formatInterval(strategy.intervalMinutes)}
                 </span>
             );
         case 'realtime':
             return (
-                <span className="flex items-center gap-1 px-2 py-1 bg-green-500/10 text-green-400 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-medium">
                     <Zap className="w-3 h-3" />
                     Real-time
                 </span>
             );
         case 'webhook':
             return (
-                <span className="flex items-center gap-1 px-2 py-1 bg-purple-500/10 text-purple-400 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-violet-500/10 text-violet-400 border border-violet-500/20 rounded-lg text-xs font-medium">
                     <Bell className="w-3 h-3" />
                     Webhook
                 </span>

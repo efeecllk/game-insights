@@ -1,15 +1,19 @@
 /**
- * Error Resolution Guide Component
- * Provides contextual help and troubleshooting for connection errors
- * Phase 3: Data Sources
+ * Error Resolution Guide Component - Obsidian Analytics Design
+ *
+ * Premium error troubleshooting with:
+ * - Glassmorphism containers
+ * - Animated expandable sections
+ * - Severity-based color coding
+ * - Interactive completion tracking
  */
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     AlertCircle,
     CheckCircle,
     ChevronDown,
-    ChevronRight,
     ExternalLink,
     Copy,
     RefreshCw,
@@ -59,6 +63,33 @@ interface ErrorPattern {
     preventionTips?: string[];
     docsUrl?: string;
 }
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const expandVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+        opacity: 1,
+        height: 'auto',
+        transition: { duration: 0.2 },
+    },
+    exit: {
+        opacity: 0,
+        height: 0,
+        transition: { duration: 0.15 },
+    },
+};
 
 // ============================================================================
 // Error Patterns Database
@@ -500,120 +531,166 @@ export function ErrorResolutionGuide({
 
     const Icon = errorPattern.icon;
     const severityColors = {
-        critical: 'bg-red-500/10 border-red-500/30 text-red-500',
-        warning: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-500',
-        info: 'bg-blue-500/10 border-blue-500/30 text-blue-500',
+        critical: {
+            bg: 'bg-rose-500/10',
+            border: 'border-rose-500/30',
+            text: 'text-rose-400',
+            iconBg: 'bg-rose-500/20',
+        },
+        warning: {
+            bg: 'bg-amber-500/10',
+            border: 'border-amber-500/30',
+            text: 'text-amber-400',
+            iconBg: 'bg-amber-500/20',
+        },
+        info: {
+            bg: 'bg-blue-500/10',
+            border: 'border-blue-500/30',
+            text: 'text-blue-400',
+            iconBg: 'bg-blue-500/20',
+        },
     };
 
+    const colors = severityColors[errorPattern.severity];
+
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+        >
             {/* Header */}
-            <div className={`p-4 border-b ${severityColors[errorPattern.severity]}`}>
+            <div className={`p-4 border-b border-white/[0.06] ${colors.bg}`}>
                 <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-lg ${errorPattern.severity === 'critical' ? 'bg-red-500/20' : errorPattern.severity === 'warning' ? 'bg-yellow-500/20' : 'bg-blue-500/20'}`}>
-                        <Icon className="w-5 h-5" />
+                    <div className={`p-2.5 rounded-xl ${colors.iconBg}`}>
+                        <Icon className={`w-5 h-5 ${colors.text}`} />
                     </div>
                     <div className="flex-1">
-                        <h3 className="font-semibold text-th-text-primary">{errorPattern.title}</h3>
-                        <p className="text-sm text-th-text-muted mt-1">{errorPattern.description}</p>
+                        <h3 className="font-semibold text-white">{errorPattern.title}</h3>
+                        <p className="text-sm text-slate-400 mt-1">{errorPattern.description}</p>
                     </div>
                     {onClose && (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={onClose}
-                            className="p-1 hover:bg-th-bg-surface-hover rounded transition-colors"
+                            className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors"
                         >
-                            <X className="w-5 h-5 text-th-text-muted" />
-                        </button>
+                            <X className="w-5 h-5 text-slate-400" />
+                        </motion.button>
                     )}
                 </div>
             </div>
 
             {/* Error Message */}
-            <div className="px-4 py-3 bg-th-bg-elevated border-b border-th-border-subtle">
+            <div className="px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
                 <div className="flex items-center gap-2 text-sm">
-                    <Terminal className="w-4 h-4 text-th-text-muted" />
-                    <span className="text-th-text-muted">Error:</span>
-                    <code className="text-red-400 font-mono text-xs bg-red-500/10 px-2 py-0.5 rounded">
+                    <Terminal className="w-4 h-4 text-slate-500" />
+                    <span className="text-slate-500">Error:</span>
+                    <code className="text-rose-400 font-mono text-xs bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded">
                         {error.message}
                     </code>
                 </div>
             </div>
 
             {/* Possible Causes */}
-            <div className="p-4 border-b border-th-border-subtle">
-                <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <HelpCircle className="w-4 h-4" />
+            <div className="p-4 border-b border-white/[0.06]">
+                <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                    <HelpCircle className="w-4 h-4 text-slate-500" />
                     Possible Causes
                 </h4>
                 <ul className="space-y-2">
                     {errorPattern.causes.map((cause, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-sm text-th-text-muted">
-                            <span className="text-th-text-disabled mt-0.5">•</span>
+                        <motion.li
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                            className="flex items-start gap-2 text-sm text-slate-400"
+                        >
+                            <span className="text-slate-600 mt-0.5">•</span>
                             {cause}
-                        </li>
+                        </motion.li>
                     ))}
                 </ul>
             </div>
 
             {/* Resolution Steps */}
             <div className="p-4">
-                <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
+                <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-emerald-400" />
                     Resolution Steps
                 </h4>
                 <div className="space-y-2">
                     {errorPattern.steps.map((step, idx) => (
-                        <div
+                        <motion.div
                             key={idx}
-                            className={`rounded-lg border transition-colors ${
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className={`rounded-xl border transition-colors ${
                                 completedSteps.has(idx)
-                                    ? 'bg-green-500/5 border-green-500/30'
-                                    : 'bg-th-bg-elevated border-th-border-subtle'
+                                    ? 'bg-emerald-500/5 border-emerald-500/20'
+                                    : 'bg-white/[0.02] border-white/[0.06]'
                             }`}
                         >
                             <button
                                 onClick={() => setExpandedStep(expandedStep === idx ? null : idx)}
                                 className="w-full p-3 flex items-center gap-3 text-left"
                             >
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
                                     onClick={e => {
                                         e.stopPropagation();
                                         toggleStepComplete(idx);
                                     }}
-                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                                    className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                                         completedSteps.has(idx)
-                                            ? 'bg-green-500 border-green-500 text-white'
-                                            : 'border-th-border hover:border-th-accent-primary'
+                                            ? 'bg-emerald-500 border-emerald-500 text-white'
+                                            : 'border-white/[0.2] hover:border-emerald-500/50'
                                     }`}
                                 >
                                     {completedSteps.has(idx) && <Check className="w-3 h-3" />}
-                                </button>
+                                </motion.button>
                                 <div className="flex-1 min-w-0">
-                                    <span className={`font-medium ${completedSteps.has(idx) ? 'text-green-500' : 'text-th-text-primary'}`}>
+                                    <span className={`font-medium ${completedSteps.has(idx) ? 'text-emerald-400' : 'text-white'}`}>
                                         Step {idx + 1}: {step.title}
                                     </span>
                                 </div>
-                                {expandedStep === idx ? (
-                                    <ChevronDown className="w-5 h-5 text-th-text-muted" />
-                                ) : (
-                                    <ChevronRight className="w-5 h-5 text-th-text-muted" />
-                                )}
+                                <motion.div
+                                    animate={{ rotate: expandedStep === idx ? 180 : 0 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <ChevronDown className="w-5 h-5 text-slate-500" />
+                                </motion.div>
                             </button>
 
-                            {expandedStep === idx && (
-                                <div className="px-3 pb-3 pt-0 ml-9">
-                                    <p className="text-sm text-th-text-muted mb-3">{step.description}</p>
-                                    {step.action && (
-                                        <StepAction
-                                            action={step.action}
-                                            onCopy={handleCopy}
-                                            copiedText={copiedText}
-                                            onEditConnection={onEditConnection}
-                                        />
-                                    )}
-                                </div>
-                            )}
-                        </div>
+                            <AnimatePresence>
+                                {expandedStep === idx && (
+                                    <motion.div
+                                        variants={expandVariants}
+                                        initial="hidden"
+                                        animate="visible"
+                                        exit="exit"
+                                        className="overflow-hidden"
+                                    >
+                                        <div className="px-3 pb-3 pt-0 ml-9">
+                                            <p className="text-sm text-slate-400 mb-3">{step.description}</p>
+                                            {step.action && (
+                                                <StepAction
+                                                    action={step.action}
+                                                    onCopy={handleCopy}
+                                                    copiedText={copiedText}
+                                                    onEditConnection={onEditConnection}
+                                                />
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
                     ))}
                 </div>
             </div>
@@ -621,17 +698,23 @@ export function ErrorResolutionGuide({
             {/* Prevention Tips */}
             {errorPattern.preventionTips && (
                 <div className="px-4 pb-4">
-                    <div className="p-3 bg-th-accent-primary-muted rounded-lg">
-                        <h4 className="text-sm font-medium text-th-accent-primary mb-2 flex items-center gap-2">
+                    <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl">
+                        <h4 className="text-sm font-medium text-emerald-400 mb-3 flex items-center gap-2">
                             <Lightbulb className="w-4 h-4" />
                             Prevention Tips
                         </h4>
-                        <ul className="space-y-1">
+                        <ul className="space-y-2">
                             {errorPattern.preventionTips.map((tip, idx) => (
-                                <li key={idx} className="flex items-start gap-2 text-sm text-th-text-secondary">
-                                    <span className="text-th-accent-primary mt-0.5">•</span>
+                                <motion.li
+                                    key={idx}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.3 + idx * 0.05 }}
+                                    className="flex items-start gap-2 text-sm text-slate-400"
+                                >
+                                    <span className="text-emerald-500 mt-0.5">•</span>
                                     {tip}
-                                </li>
+                                </motion.li>
                             ))}
                         </ul>
                     </div>
@@ -641,28 +724,32 @@ export function ErrorResolutionGuide({
             {/* Actions */}
             <div className="px-4 pb-4 flex items-center gap-3">
                 {onRetry && (
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={onRetry}
-                        className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-medium hover:bg-emerald-600 transition-colors"
                     >
                         <RefreshCw className="w-4 h-4" />
                         Retry Connection
-                    </button>
+                    </motion.button>
                 )}
                 {onEditConnection && (
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={onEditConnection}
-                        className="flex items-center gap-2 px-4 py-2 bg-th-bg-elevated text-th-text-secondary rounded-lg text-sm font-medium hover:bg-th-interactive-hover transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] text-slate-300 rounded-xl text-sm font-medium transition-colors"
                     >
                         Edit Connection
-                    </button>
+                    </motion.button>
                 )}
                 {errorPattern.docsUrl && (
                     <a
                         href={errorPattern.docsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 text-th-text-muted hover:text-th-text-secondary text-sm transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 text-slate-500 hover:text-slate-300 text-sm transition-colors"
                     >
                         <ExternalLink className="w-4 h-4" />
                         Documentation
@@ -672,14 +759,14 @@ export function ErrorResolutionGuide({
 
             {/* Integration Info */}
             {catalogItem && (
-                <div className="px-4 pb-4 pt-2 border-t border-th-border-subtle">
-                    <p className="text-xs text-th-text-muted">
+                <div className="px-4 pb-4 pt-2 border-t border-white/[0.06]">
+                    <p className="text-xs text-slate-500">
                         Integration: {catalogItem.icon} {catalogItem.name}
                         {error.timestamp && ` • Error occurred ${new Date(error.timestamp).toLocaleString()}`}
                     </p>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 
@@ -703,14 +790,16 @@ function StepAction({
     switch (action.type) {
         case 'copy':
             return (
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => onCopy(action.value)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-th-bg-surface border border-th-border-subtle rounded text-sm text-th-text-secondary hover:bg-th-interactive-hover transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-slate-300 hover:bg-white/[0.06] transition-colors"
                 >
                     {copiedText === action.value ? (
                         <>
-                            <Check className="w-4 h-4 text-green-500" />
-                            Copied!
+                            <Check className="w-4 h-4 text-emerald-400" />
+                            <span className="text-emerald-400">Copied!</span>
                         </>
                     ) : (
                         <>
@@ -718,7 +807,7 @@ function StepAction({
                             {action.label}
                         </>
                     )}
-                </button>
+                </motion.button>
             );
 
         case 'link':
@@ -727,7 +816,7 @@ function StepAction({
                     href={action.value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-th-bg-surface border border-th-border-subtle rounded text-sm text-th-accent-primary hover:bg-th-interactive-hover transition-colors"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-emerald-400 hover:bg-white/[0.06] transition-colors"
                 >
                     <ExternalLink className="w-4 h-4" />
                     {action.label}
@@ -736,12 +825,14 @@ function StepAction({
 
         case 'button':
             return (
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={action.value === 'edit' ? onEditConnection : action.onClick}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-th-accent-primary/10 border border-th-accent-primary/30 rounded text-sm text-th-accent-primary hover:bg-th-accent-primary/20 transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-sm text-emerald-400 hover:bg-emerald-500/20 transition-colors"
                 >
                     {action.label}
-                </button>
+                </motion.button>
             );
 
         default:
@@ -759,59 +850,72 @@ function GenericErrorGuide({
     onEditConnection?: () => void;
 }) {
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border p-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+        >
             <div className="flex items-start gap-4">
-                <div className="p-2 bg-red-500/10 rounded-lg">
-                    <AlertCircle className="w-6 h-6 text-red-500" />
+                <div className="relative">
+                    <div className="absolute inset-0 bg-rose-500/20 rounded-xl blur-lg" />
+                    <div className="relative p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+                        <AlertCircle className="w-6 h-6 text-rose-400" />
+                    </div>
                 </div>
                 <div className="flex-1">
-                    <h3 className="font-semibold text-th-text-primary">Connection Error</h3>
-                    <p className="text-sm text-th-text-muted mt-1 mb-4">{error.message}</p>
+                    <h3 className="font-semibold text-white">Connection Error</h3>
+                    <p className="text-sm text-slate-400 mt-1 mb-4">{error.message}</p>
 
-                    <div className="space-y-3 mb-4">
-                        <p className="text-sm font-medium text-th-text-secondary">Try these steps:</p>
-                        <ul className="space-y-2 text-sm text-th-text-muted">
-                            <li className="flex items-start gap-2">
-                                <span className="text-th-text-disabled">1.</span>
-                                Check your internet connection
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-th-text-disabled">2.</span>
-                                Verify your credentials are correct
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-th-text-disabled">3.</span>
-                                Ensure the service is available
-                            </li>
-                            <li className="flex items-start gap-2">
-                                <span className="text-th-text-disabled">4.</span>
-                                Try again in a few minutes
-                            </li>
+                    <div className="space-y-3 mb-5">
+                        <p className="text-sm font-medium text-slate-300">Try these steps:</p>
+                        <ul className="space-y-2 text-sm text-slate-400">
+                            {[
+                                'Check your internet connection',
+                                'Verify your credentials are correct',
+                                'Ensure the service is available',
+                                'Try again in a few minutes',
+                            ].map((step, idx) => (
+                                <motion.li
+                                    key={idx}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="flex items-start gap-2"
+                                >
+                                    <span className="text-slate-600">{idx + 1}.</span>
+                                    {step}
+                                </motion.li>
+                            ))}
                         </ul>
                     </div>
 
                     <div className="flex items-center gap-3">
                         {onRetry && (
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                                 onClick={onRetry}
-                                className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-medium hover:bg-emerald-600 transition-colors"
                             >
                                 <RefreshCw className="w-4 h-4" />
                                 Retry
-                            </button>
+                            </motion.button>
                         )}
                         {onEditConnection && (
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                                 onClick={onEditConnection}
-                                className="flex items-center gap-2 px-4 py-2 bg-th-bg-elevated text-th-text-secondary rounded-lg text-sm font-medium hover:bg-th-interactive-hover transition-colors"
+                                className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] text-slate-300 rounded-xl text-sm font-medium transition-colors"
                             >
                                 Edit Connection
-                            </button>
+                            </motion.button>
                         )}
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

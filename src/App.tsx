@@ -107,8 +107,8 @@ function PageLoader() {
     return (
         <div className="flex items-center justify-center min-h-[400px]" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-3">
-                <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" aria-hidden="true" />
-                <p className="text-sm text-th-text-muted">Loading...</p>
+                <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" aria-hidden="true" />
+                <p className="text-sm text-slate-400">Loading...</p>
             </div>
         </div>
     );
@@ -568,18 +568,18 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
     return (
         <div className="space-y-6">
             <header className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-th-text-primary">{title}</h1>
+                <h1 className="text-2xl font-bold text-white">{title}</h1>
                 {badge && (
-                    <span className="text-xs font-semibold text-th-accent-primary bg-th-accent-primary-muted px-2 py-1 rounded">
+                    <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
                         {badge}
                     </span>
                 )}
             </header>
-            <p className="text-th-text-muted">{description ?? 'This section is under development'}</p>
-            <div className="bg-th-bg-surface rounded-xl p-12 border border-th-border-subtle flex flex-col items-center justify-center text-center">
+            <p className="text-slate-400">{description ?? 'This section is under development'}</p>
+            <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-white/[0.08] flex flex-col items-center justify-center text-center">
                 <span className="text-4xl mb-4" aria-hidden="true">🚧</span>
-                <p className="text-th-text-secondary font-medium">Coming soon...</p>
-                <p className="text-th-text-muted text-sm mt-2">Check back for updates</p>
+                <p className="text-slate-300 font-medium">Coming soon...</p>
+                <p className="text-slate-500 text-sm mt-2">Check back for updates</p>
             </div>
         </div>
     );
@@ -646,7 +646,7 @@ function AppContent() {
             {/* Skip Link for Keyboard Navigation */}
             <SkipLink />
 
-            <div className="min-h-screen bg-th-bg-base flex">
+            <div className="min-h-screen bg-slate-950 flex">
                 {/* Sidebar Navigation */}
                 <Sidebar />
 

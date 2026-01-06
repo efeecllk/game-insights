@@ -1,10 +1,15 @@
 /**
- * Integration Recipes Component
- * Display step-by-step integration guides
- * Phase 4: Community & Ecosystem
+ * Integration Recipes - Obsidian Analytics Design
+ *
+ * Step-by-step integration guides with:
+ * - Glassmorphism containers
+ * - Emerald accent colors
+ * - Framer Motion animations
+ * - Interactive progress tracking
  */
 
 import { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Book,
     Search,
@@ -19,6 +24,7 @@ import {
     Lightbulb,
     ThumbsUp,
     ThumbsDown,
+    Sparkles,
 } from 'lucide-react';
 import {
     IntegrationRecipe,
@@ -40,6 +46,36 @@ interface RecipeFilters {
     difficulty: RecipeDifficulty | 'all';
     search: string;
 }
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
 
 // ============================================================================
 // Main Component
@@ -104,104 +140,141 @@ export function IntegrationRecipes() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="animate-spin w-8 h-8 border-2 border-th-accent-primary border-t-transparent rounded-full" />
+                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center animate-pulse">
+                    <Book className="w-6 h-6 text-emerald-400" />
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
-                        <Book className="w-5 h-5 text-purple-400" />
+            <motion.div variants={itemVariants} className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-violet-500/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                            <Book className="w-6 h-6 text-violet-400" />
+                        </div>
                     </div>
                     <div>
-                        <h2 className="text-lg font-semibold text-th-text-primary">Integration Recipes</h2>
-                        <p className="text-sm text-th-text-muted">Step-by-step guides for connecting data sources</p>
+                        <h2 className="text-lg font-semibold text-white">Integration Recipes</h2>
+                        <p className="text-sm text-slate-400">Step-by-step guides for connecting data sources</p>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Search and Filters */}
-            <div className="flex flex-col sm:flex-row gap-3">
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                     <input
                         type="text"
                         placeholder="Search recipes..."
                         value={filters.search}
                         onChange={(e) => setFilters(f => ({ ...f, search: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-2.5 bg-th-bg-surface border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary"
+                        className="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                     />
                 </div>
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => setShowFilters(!showFilters)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-colors ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
                         showFilters
-                            ? 'bg-th-accent-primary/10 border-th-accent-primary text-th-accent-primary'
-                            : 'bg-th-bg-surface border-th-border text-th-text-secondary hover:bg-th-bg-elevated'
+                            ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                            : 'bg-white/[0.03] border-white/[0.08] text-slate-400 hover:text-white'
                     }`}
                 >
                     <Filter className="w-4 h-4" />
                     Filters
                     {(filters.integrationType !== 'all' || filters.difficulty !== 'all') && (
-                        <span className="w-2 h-2 rounded-full bg-th-accent-primary" />
+                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
                     )}
-                </button>
-            </div>
+                </motion.button>
+            </motion.div>
 
             {/* Filter Panel */}
-            {showFilters && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-th-bg-surface border border-th-border rounded-xl">
-                    <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                            Integration Type
-                        </label>
-                        <select
-                            value={filters.integrationType}
-                            onChange={(e) => setFilters(f => ({ ...f, integrationType: e.target.value as IntegrationType | 'all' }))}
-                            className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary"
-                        >
-                            <option value="all">All Integrations</option>
-                            {INTEGRATION_CATALOG.map(cat => (
-                                <option key={cat.type} value={cat.type}>{cat.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                            Difficulty
-                        </label>
-                        <select
-                            value={filters.difficulty}
-                            onChange={(e) => setFilters(f => ({ ...f, difficulty: e.target.value as RecipeDifficulty | 'all' }))}
-                            className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary"
-                        >
-                            <option value="all">All Levels</option>
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                        </select>
-                    </div>
-                </div>
-            )}
+            <AnimatePresence>
+                {showFilters && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                    >
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    Integration Type
+                                </label>
+                                <select
+                                    value={filters.integrationType}
+                                    onChange={(e) => setFilters(f => ({ ...f, integrationType: e.target.value as IntegrationType | 'all' }))}
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                >
+                                    <option value="all" className="bg-slate-900">All Integrations</option>
+                                    {INTEGRATION_CATALOG.map(cat => (
+                                        <option key={cat.type} value={cat.type} className="bg-slate-900">{cat.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-slate-300 mb-2">
+                                    Difficulty
+                                </label>
+                                <select
+                                    value={filters.difficulty}
+                                    onChange={(e) => setFilters(f => ({ ...f, difficulty: e.target.value as RecipeDifficulty | 'all' }))}
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                >
+                                    <option value="all" className="bg-slate-900">All Levels</option>
+                                    <option value="beginner" className="bg-slate-900">Beginner</option>
+                                    <option value="intermediate" className="bg-slate-900">Intermediate</option>
+                                    <option value="advanced" className="bg-slate-900">Advanced</option>
+                                </select>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Recipe List or Detail View */}
-            {selectedRecipe ? (
-                <RecipeDetail
-                    recipe={selectedRecipe}
-                    onBack={() => setSelectedRecipe(null)}
-                    onVote={(helpful) => markRecipeHelpful(selectedRecipe.id, helpful)}
-                />
-            ) : (
-                <RecipeList
-                    recipes={filteredRecipes}
-                    onSelect={handleSelectRecipe}
-                />
-            )}
-        </div>
+            <AnimatePresence mode="wait">
+                {selectedRecipe ? (
+                    <motion.div
+                        key="detail"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                    >
+                        <RecipeDetail
+                            recipe={selectedRecipe}
+                            onBack={() => setSelectedRecipe(null)}
+                            onVote={(helpful) => markRecipeHelpful(selectedRecipe.id, helpful)}
+                        />
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        key="list"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                    >
+                        <RecipeList
+                            recipes={filteredRecipes}
+                            onSelect={handleSelectRecipe}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
@@ -218,20 +291,37 @@ function RecipeList({
 }) {
     if (recipes.length === 0) {
         return (
-            <div className="text-center py-12 bg-th-bg-surface border border-th-border rounded-xl">
-                <Book className="w-12 h-12 text-th-text-muted mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-th-text-primary mb-2">No recipes found</h3>
-                <p className="text-th-text-muted">Try adjusting your filters</p>
-            </div>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-16 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08]"
+            >
+                <div className="w-16 h-16 bg-white/[0.02] border border-white/[0.06] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Book className="w-8 h-8 text-slate-500" />
+                </div>
+                <h3 className="text-lg font-medium text-white mb-2">No recipes found</h3>
+                <p className="text-slate-400">Try adjusting your filters</p>
+            </motion.div>
         );
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} onClick={() => onSelect(recipe)} />
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+            {recipes.map((recipe, index) => (
+                <motion.div
+                    key={recipe.id}
+                    variants={cardVariants}
+                    transition={{ delay: index * 0.05 }}
+                >
+                    <RecipeCard recipe={recipe} onClick={() => onSelect(recipe)} />
+                </motion.div>
             ))}
-        </div>
+        </motion.div>
     );
 }
 
@@ -249,50 +339,59 @@ function RecipeCard({
     const integration = INTEGRATION_CATALOG.find(c => c.type === recipe.integrationType);
     const integrationIcon = integration ? getIntegrationIcon(recipe.integrationType) : null;
 
-    const difficultyColors: Record<RecipeDifficulty, string> = {
-        beginner: 'bg-green-500/10 text-green-400',
-        intermediate: 'bg-yellow-500/10 text-yellow-400',
-        advanced: 'bg-red-500/10 text-red-400',
+    const difficultyColors: Record<RecipeDifficulty, { bg: string; text: string; border: string }> = {
+        beginner: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+        intermediate: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
+        advanced: { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20' },
     };
 
     const helpfulPercent = recipe.helpful + recipe.notHelpful > 0
         ? Math.round((recipe.helpful / (recipe.helpful + recipe.notHelpful)) * 100)
         : 100;
 
+    const difficultyStyle = difficultyColors[recipe.difficulty];
+
     return (
-        <button
+        <motion.button
             onClick={onClick}
-            className="w-full text-left p-5 bg-th-bg-surface border border-th-border rounded-xl hover:border-th-accent-primary/50 hover:bg-th-bg-elevated transition-all group"
+            whileHover={{ scale: 1.01, borderColor: 'rgba(16, 185, 129, 0.3)' }}
+            whileTap={{ scale: 0.99 }}
+            className="w-full text-left p-5 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl transition-all group"
         >
             {/* Header */}
             <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-th-bg-elevated flex items-center justify-center flex-shrink-0 text-2xl">
-                    {integrationIcon || <Book className="w-6 h-6 text-th-text-secondary" />}
+                <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0 text-2xl">
+                    {integrationIcon || <Book className="w-6 h-6 text-slate-400" />}
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-th-text-primary group-hover:text-th-accent-primary transition-colors truncate">
+                        <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors truncate">
                             {recipe.title}
                         </h3>
                         {recipe.verified && (
-                            <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                         )}
                     </div>
-                    <p className="text-sm text-th-text-muted line-clamp-2">{recipe.description}</p>
+                    <p className="text-sm text-slate-400 line-clamp-2">{recipe.description}</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-th-text-muted group-hover:text-th-accent-primary flex-shrink-0 transition-colors" />
+                <motion.div
+                    animate={{ x: 0 }}
+                    whileHover={{ x: 4 }}
+                >
+                    <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 flex-shrink-0 transition-colors" />
+                </motion.div>
             </div>
 
             {/* Metadata */}
-            <div className="flex items-center gap-4 mt-4 text-sm">
-                <span className={`px-2 py-0.5 rounded text-xs font-medium ${difficultyColors[recipe.difficulty]}`}>
+            <div className="flex items-center gap-3 mt-4 text-sm">
+                <span className={`px-2 py-0.5 rounded-lg text-xs font-medium border ${difficultyStyle.bg} ${difficultyStyle.text} ${difficultyStyle.border}`}>
                     {recipe.difficulty.charAt(0).toUpperCase() + recipe.difficulty.slice(1)}
                 </span>
-                <span className="flex items-center gap-1 text-th-text-muted">
+                <span className="flex items-center gap-1 text-slate-500">
                     <Clock className="w-3.5 h-3.5" />
                     {recipe.estimatedTime}
                 </span>
-                <span className="flex items-center gap-1 text-th-text-muted">
+                <span className="flex items-center gap-1 text-slate-500">
                     <ThumbsUp className="w-3.5 h-3.5" />
                     {helpfulPercent}% helpful
                 </span>
@@ -301,15 +400,15 @@ function RecipeCard({
             {/* Tags */}
             <div className="flex items-center gap-2 mt-3 flex-wrap">
                 {recipe.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="px-2 py-0.5 bg-th-bg-elevated rounded text-xs text-th-text-muted">
+                    <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] rounded-lg text-xs text-slate-400">
                         {tag}
                     </span>
                 ))}
                 {recipe.tags.length > 3 && (
-                    <span className="text-xs text-th-text-muted">+{recipe.tags.length - 3} more</span>
+                    <span className="text-xs text-slate-500">+{recipe.tags.length - 3} more</span>
                 )}
             </div>
-        </button>
+        </motion.button>
     );
 }
 
@@ -378,34 +477,44 @@ function RecipeDetail({
         : 0;
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Back Button */}
-            <button
+            <motion.button
+                variants={itemVariants}
                 onClick={onBack}
-                className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-primary transition-colors"
+                whileHover={{ x: -4 }}
+                className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
             >
                 <ChevronRight className="w-4 h-4 rotate-180" />
                 Back to recipes
-            </button>
+            </motion.button>
 
             {/* Header */}
-            <div className="p-6 bg-th-bg-surface border border-th-border rounded-xl">
+            <motion.div
+                variants={itemVariants}
+                className="p-6 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl"
+            >
                 <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-th-bg-elevated flex items-center justify-center flex-shrink-0 text-3xl">
-                        {integration ? getIntegrationIcon(recipe.integrationType) : <Book className="w-7 h-7 text-th-text-secondary" />}
+                    <div className="w-14 h-14 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0 text-3xl">
+                        {integration ? getIntegrationIcon(recipe.integrationType) : <Book className="w-7 h-7 text-slate-400" />}
                     </div>
                     <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                            <h1 className="text-xl font-semibold text-th-text-primary">{recipe.title}</h1>
+                            <h1 className="text-xl font-semibold text-white">{recipe.title}</h1>
                             {recipe.verified && (
-                                <span className="flex items-center gap-1 px-2 py-0.5 bg-green-500/10 rounded text-xs text-green-400">
+                                <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-xs text-emerald-400">
                                     <CheckCircle className="w-3.5 h-3.5" />
                                     Verified
                                 </span>
                             )}
                         </div>
-                        <p className="text-th-text-muted">{recipe.description}</p>
-                        <div className="flex items-center gap-4 mt-3 text-sm text-th-text-muted">
+                        <p className="text-slate-400">{recipe.description}</p>
+                        <div className="flex items-center gap-4 mt-3 text-sm text-slate-500">
                             <span>By {recipe.author}</span>
                             <span>v{recipe.version}</span>
                             <span className="flex items-center gap-1">
@@ -419,209 +528,251 @@ function RecipeDetail({
                 {/* Progress Bar */}
                 <div className="mt-6">
                     <div className="flex items-center justify-between text-sm mb-2">
-                        <span className="text-th-text-secondary">Progress</span>
-                        <span className="text-th-text-muted">{completedSteps.size} of {recipe.steps.length} steps</span>
+                        <span className="text-slate-300">Progress</span>
+                        <span className="text-slate-400">{completedSteps.size} of {recipe.steps.length} steps</span>
                     </div>
-                    <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
-                        <div
-                            className="h-full bg-th-accent-primary rounded-full transition-all duration-300"
-                            style={{ width: `${progress}%` }}
+                    <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
+                        <motion.div
+                            className="h-full bg-emerald-500 rounded-full"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                            transition={{ duration: 0.5, ease: 'easeOut' }}
                         />
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Prerequisites */}
             {recipe.prerequisites.length > 0 && (
-                <div className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-xl">
-                    <h3 className="font-medium text-blue-400 mb-2">Prerequisites</h3>
+                <motion.div
+                    variants={itemVariants}
+                    className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-xl"
+                >
+                    <h3 className="font-medium text-blue-400 mb-2 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        Prerequisites
+                    </h3>
                     <ul className="space-y-1">
                         {recipe.prerequisites.map((prereq, idx) => (
-                            <li key={idx} className="flex items-start gap-2 text-sm text-th-text-secondary">
+                            <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
                                 <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                                 {prereq}
                             </li>
                         ))}
                     </ul>
-                </div>
+                </motion.div>
             )}
 
             {/* Steps */}
-            <div className="space-y-3">
-                <h2 className="font-semibold text-th-text-primary">Steps</h2>
-                {recipe.steps.map((step) => (
-                    <div
-                        key={step.order}
-                        className={`border rounded-xl overflow-hidden transition-colors ${
-                            completedSteps.has(step.order)
-                                ? 'border-green-500/30 bg-green-500/5'
-                                : 'border-th-border bg-th-bg-surface'
-                        }`}
-                    >
-                        {/* Step Header */}
-                        <button
-                            onClick={() => toggleStep(step.order)}
-                            className="w-full flex items-center gap-3 p-4 text-left"
+            <motion.div variants={itemVariants} className="space-y-3">
+                <h2 className="font-semibold text-white flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    Steps
+                </h2>
+                <AnimatePresence>
+                    {recipe.steps.map((step) => (
+                        <motion.div
+                            key={step.order}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: step.order * 0.05 }}
+                            className={`border rounded-xl overflow-hidden transition-all ${
+                                completedSteps.has(step.order)
+                                    ? 'border-emerald-500/30 bg-emerald-500/5'
+                                    : 'border-white/[0.08] bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95'
+                            }`}
                         >
-                            <div
-                                className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0 ${
-                                    completedSteps.has(step.order)
-                                        ? 'bg-green-500 text-white'
-                                        : 'bg-th-bg-elevated text-th-text-secondary'
-                                }`}
+                            {/* Step Header */}
+                            <motion.button
+                                onClick={() => toggleStep(step.order)}
+                                className="w-full flex items-center gap-3 p-4 text-left"
+                                whileHover={{ backgroundColor: 'rgba(255,255,255,0.02)' }}
                             >
-                                {completedSteps.has(step.order) ? (
-                                    <Check className="w-4 h-4" />
-                                ) : (
-                                    step.order
-                                )}
-                            </div>
-                            <span className="flex-1 font-medium text-th-text-primary">{step.title}</span>
-                            <ChevronDown
-                                className={`w-5 h-5 text-th-text-muted transition-transform ${
-                                    expandedSteps.has(step.order) ? 'rotate-180' : ''
-                                }`}
-                            />
-                        </button>
+                                <div
+                                    className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0 transition-colors ${
+                                        completedSteps.has(step.order)
+                                            ? 'bg-emerald-500 text-white'
+                                            : 'bg-white/[0.06] text-slate-400'
+                                    }`}
+                                >
+                                    {completedSteps.has(step.order) ? (
+                                        <Check className="w-4 h-4" />
+                                    ) : (
+                                        step.order
+                                    )}
+                                </div>
+                                <span className="flex-1 font-medium text-white">{step.title}</span>
+                                <motion.div animate={{ rotate: expandedSteps.has(step.order) ? 180 : 0 }}>
+                                    <ChevronDown className="w-5 h-5 text-slate-500" />
+                                </motion.div>
+                            </motion.button>
 
-                        {/* Step Content */}
-                        {expandedSteps.has(step.order) && (
-                            <div className="px-4 pb-4 space-y-4">
-                                <p className="text-th-text-secondary pl-11">{step.description}</p>
+                            {/* Step Content */}
+                            <AnimatePresence>
+                                {expandedSteps.has(step.order) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="px-4 pb-4 space-y-4"
+                                    >
+                                        <p className="text-slate-400 pl-11">{step.description}</p>
 
-                                {/* Code Block */}
-                                {step.code && (
-                                    <div className="ml-11 bg-th-bg-elevated rounded-lg overflow-hidden">
-                                        <div className="flex items-center justify-between px-3 py-2 border-b border-th-border">
-                                            <span className="text-xs text-th-text-muted uppercase">
-                                                {step.codeLanguage || 'code'}
-                                            </span>
-                                            <button
-                                                onClick={() => copyCode(step.code!, step.order)}
-                                                className="flex items-center gap-1 text-xs text-th-text-muted hover:text-th-text-primary transition-colors"
+                                        {/* Code Block */}
+                                        {step.code && (
+                                            <div className="ml-11 bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
+                                                <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.06]">
+                                                    <span className="text-xs text-slate-500 uppercase">
+                                                        {step.codeLanguage || 'code'}
+                                                    </span>
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        onClick={() => copyCode(step.code!, step.order)}
+                                                        className="flex items-center gap-1 text-xs text-slate-400 hover:text-white transition-colors"
+                                                    >
+                                                        {copiedCode === step.order ? (
+                                                            <>
+                                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                                                                <span className="text-emerald-400">Copied</span>
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <Copy className="w-3.5 h-3.5" />
+                                                                Copy
+                                                            </>
+                                                        )}
+                                                    </motion.button>
+                                                </div>
+                                                <pre className="p-3 text-sm text-slate-300 overflow-x-auto font-mono">
+                                                    <code>{step.code}</code>
+                                                </pre>
+                                            </div>
+                                        )}
+
+                                        {/* Tip */}
+                                        {step.tip && (
+                                            <div className="ml-11 flex items-start gap-2 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                                                <Lightbulb className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                                                <p className="text-sm text-blue-400">{step.tip}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Warning */}
+                                        {step.warning && (
+                                            <div className="ml-11 flex items-start gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                                                <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                                                <p className="text-sm text-amber-400">{step.warning}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Mark Complete Button */}
+                                        <div className="ml-11">
+                                            <motion.button
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                onClick={() => markComplete(step.order)}
+                                                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                                                    completedSteps.has(step.order)
+                                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                                        : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
+                                                }`}
                                             >
-                                                {copiedCode === step.order ? (
+                                                {completedSteps.has(step.order) ? (
                                                     <>
-                                                        <Check className="w-3.5 h-3.5" />
-                                                        Copied
+                                                        <Check className="w-4 h-4" />
+                                                        Completed
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <Copy className="w-3.5 h-3.5" />
-                                                        Copy
+                                                        <CheckCircle className="w-4 h-4" />
+                                                        Mark as Complete
                                                     </>
                                                 )}
-                                            </button>
+                                            </motion.button>
                                         </div>
-                                        <pre className="p-3 text-sm text-th-text-primary overflow-x-auto font-mono">
-                                            <code>{step.code}</code>
-                                        </pre>
-                                    </div>
+                                    </motion.div>
                                 )}
-
-                                {/* Tip */}
-                                {step.tip && (
-                                    <div className="ml-11 flex items-start gap-2 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-                                        <Lightbulb className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                                        <p className="text-sm text-blue-400">{step.tip}</p>
-                                    </div>
-                                )}
-
-                                {/* Warning */}
-                                {step.warning && (
-                                    <div className="ml-11 flex items-start gap-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                                        <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-                                        <p className="text-sm text-yellow-400">{step.warning}</p>
-                                    </div>
-                                )}
-
-                                {/* Mark Complete Button */}
-                                <div className="ml-11">
-                                    <button
-                                        onClick={() => markComplete(step.order)}
-                                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                            completedSteps.has(step.order)
-                                                ? 'bg-green-500/10 text-green-400 hover:bg-green-500/20'
-                                                : 'bg-th-bg-elevated text-th-text-secondary hover:bg-th-interactive-hover'
-                                        }`}
-                                    >
-                                        {completedSteps.has(step.order) ? (
-                                            <>
-                                                <Check className="w-4 h-4" />
-                                                Completed
-                                            </>
-                                        ) : (
-                                            <>
-                                                <CheckCircle className="w-4 h-4" />
-                                                Mark as Complete
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
+                            </AnimatePresence>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            </motion.div>
 
             {/* Troubleshooting */}
             {recipe.troubleshooting.length > 0 && (
-                <div className="p-4 bg-th-bg-surface border border-th-border rounded-xl">
-                    <h3 className="font-semibold text-th-text-primary mb-3 flex items-center gap-2">
-                        <AlertTriangle className="w-5 h-5 text-yellow-400" />
+                <motion.div
+                    variants={itemVariants}
+                    className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl"
+                >
+                    <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
+                        <AlertTriangle className="w-5 h-5 text-amber-400" />
                         Troubleshooting
                     </h3>
                     <div className="space-y-3">
                         {recipe.troubleshooting.map((item, idx) => (
                             <div key={idx} className="pl-7">
-                                <p className="font-medium text-th-text-primary text-sm">{item.problem}</p>
-                                <p className="text-sm text-th-text-muted mt-1">{item.solution}</p>
+                                <p className="font-medium text-white text-sm">{item.problem}</p>
+                                <p className="text-sm text-slate-400 mt-1">{item.solution}</p>
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             )}
 
             {/* Feedback */}
-            <div className="p-4 bg-th-bg-surface border border-th-border rounded-xl">
-                <h3 className="font-medium text-th-text-primary mb-3">Was this recipe helpful?</h3>
+            <motion.div
+                variants={itemVariants}
+                className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl"
+            >
+                <h3 className="font-medium text-white mb-3">Was this recipe helpful?</h3>
                 <div className="flex items-center gap-3">
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => handleVote(true)}
                         disabled={voted !== null}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             voted === 'helpful'
-                                ? 'bg-green-500/20 text-green-400'
+                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                                 : voted
-                                ? 'bg-th-bg-elevated text-th-text-muted cursor-not-allowed'
-                                : 'bg-th-bg-elevated text-th-text-secondary hover:bg-green-500/10 hover:text-green-400'
+                                ? 'bg-white/[0.02] text-slate-500 cursor-not-allowed'
+                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-400'
                         }`}
                     >
                         <ThumbsUp className="w-4 h-4" />
                         Yes, helpful
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => handleVote(false)}
                         disabled={voted !== null}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             voted === 'notHelpful'
-                                ? 'bg-red-500/20 text-red-400'
+                                ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                                 : voted
-                                ? 'bg-th-bg-elevated text-th-text-muted cursor-not-allowed'
-                                : 'bg-th-bg-elevated text-th-text-secondary hover:bg-red-500/10 hover:text-red-400'
+                                ? 'bg-white/[0.02] text-slate-500 cursor-not-allowed'
+                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-rose-500/10 hover:text-rose-400'
                         }`}
                     >
                         <ThumbsDown className="w-4 h-4" />
                         Not helpful
-                    </button>
+                    </motion.button>
                 </div>
-                {voted && (
-                    <p className="text-sm text-th-text-muted mt-2">
-                        Thanks for your feedback!
-                    </p>
-                )}
-            </div>
-        </div>
+                <AnimatePresence>
+                    {voted && (
+                        <motion.p
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-sm text-slate-400 mt-2"
+                        >
+                            Thanks for your feedback!
+                        </motion.p>
+                    )}
+                </AnimatePresence>
+            </motion.div>
+        </motion.div>
     );
 }
 

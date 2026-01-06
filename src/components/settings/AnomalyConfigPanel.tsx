@@ -1,9 +1,15 @@
 /**
- * Anomaly Configuration Panel
- * UI for configuring anomaly detection thresholds and parameters
+ * Anomaly Configuration Panel - Obsidian Analytics Design
+ *
+ * Premium settings panel with:
+ * - Glassmorphism containers
+ * - Animated expandable sections
+ * - Custom slider styling
+ * - Framer Motion animations
  */
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     AlertTriangle,
     Sliders,
@@ -11,7 +17,6 @@ import {
     Check,
     Info,
     ChevronDown,
-    ChevronUp,
 } from 'lucide-react';
 import { AnomalyThresholds, DetectionConfig } from '../../ai/AnomalyDetector';
 import { SemanticType } from '../../ai/SchemaAnalyzer';
@@ -81,6 +86,28 @@ export function setStoredAnomalyConfig(config: DetectionConfig): void {
     localStorage.setItem(ANOMALY_CONFIG_STORAGE, JSON.stringify(config));
 }
 
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const expandVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+        opacity: 1,
+        height: 'auto',
+        transition: { duration: 0.3, ease: 'easeOut' },
+    },
+    exit: {
+        opacity: 0,
+        height: 0,
+        transition: { duration: 0.2 },
+    },
+};
+
+// ============================================================================
+// Sub Components
+// ============================================================================
+
 interface ThresholdSliderProps {
     label: string;
     value: number;
@@ -106,9 +133,9 @@ function ThresholdSlider({
 }: ThresholdSliderProps) {
     const severityColors: Record<string, string> = {
         low: 'bg-blue-500',
-        medium: 'bg-yellow-500',
+        medium: 'bg-amber-500',
         high: 'bg-orange-500',
-        critical: 'bg-red-500',
+        critical: 'bg-rose-500',
     };
 
     return (
@@ -118,9 +145,9 @@ function ThresholdSlider({
                     {severity && (
                         <div className={`w-3 h-3 rounded-full ${severityColors[severity]}`} />
                     )}
-                    <span className="text-sm font-medium text-th-text-secondary">{label}</span>
+                    <span className="text-sm font-medium text-slate-300">{label}</span>
                 </div>
-                <span className="text-sm font-mono text-th-text-primary">
+                <span className="text-sm font-mono text-white">
                     {value}{unit}
                 </span>
             </div>
@@ -131,12 +158,16 @@ function ThresholdSlider({
                 step={step}
                 value={value}
                 onChange={(e) => onChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-th-bg-elevated rounded-lg appearance-none cursor-pointer accent-th-accent-primary"
+                className="w-full h-2 bg-white/[0.06] rounded-lg appearance-none cursor-pointer accent-emerald-500"
             />
-            <p className="text-xs text-th-text-muted">{description}</p>
+            <p className="text-xs text-slate-500">{description}</p>
         </div>
     );
 }
+
+// ============================================================================
+// Main Component
+// ============================================================================
 
 export function AnomalyConfigPanel() {
     const [thresholds, setThresholds] = useState<AnomalyThresholds>(DEFAULT_THRESHOLDS);
@@ -193,253 +224,281 @@ export function AnomalyConfigPanel() {
     };
 
     return (
-        <div className="bg-th-bg-surface rounded-card p-6 border border-th-border">
+        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.08]">
             {/* Header */}
-            <button
+            <motion.button
+                whileHover={{ scale: 1.005 }}
+                whileTap={{ scale: 0.995 }}
                 onClick={() => setExpanded(!expanded)}
                 className="w-full flex items-center justify-between"
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                        <AlertTriangle className="w-5 h-5 text-orange-500" />
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-orange-500/20 rounded-xl blur-lg" />
+                        <div className="relative w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                            <AlertTriangle className="w-5 h-5 text-orange-400" />
+                        </div>
                     </div>
                     <div className="text-left">
-                        <h3 className="text-lg font-semibold text-th-text-primary">
+                        <h3 className="text-lg font-semibold text-white">
                             Anomaly Detection
                         </h3>
-                        <p className="text-sm text-th-text-muted">
+                        <p className="text-sm text-slate-400">
                             Configure thresholds and sensitivity
                         </p>
                     </div>
                 </div>
-                {expanded ? (
-                    <ChevronUp className="w-5 h-5 text-th-text-muted" />
-                ) : (
-                    <ChevronDown className="w-5 h-5 text-th-text-muted" />
-                )}
-            </button>
+                <motion.div
+                    animate={{ rotate: expanded ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <ChevronDown className="w-5 h-5 text-slate-400" />
+                </motion.div>
+            </motion.button>
 
             {/* Expandable Content */}
-            {expanded && (
-                <div className="mt-6 space-y-6">
-                    {/* Severity Thresholds */}
-                    <div className="space-y-4">
-                        <div className="flex items-center gap-2">
-                            <Sliders className="w-4 h-4 text-th-text-muted" />
-                            <h4 className="text-sm font-semibold text-th-text-primary uppercase tracking-wide">
-                                Severity Thresholds
-                            </h4>
-                        </div>
+            <AnimatePresence>
+                {expanded && (
+                    <motion.div
+                        variants={expandVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="overflow-hidden"
+                    >
+                        <div className="mt-6 space-y-6">
+                            {/* Severity Thresholds */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2">
+                                    <Sliders className="w-4 h-4 text-slate-500" />
+                                    <h4 className="text-sm font-semibold text-white uppercase tracking-wide">
+                                        Severity Thresholds
+                                    </h4>
+                                </div>
 
-                        <div className="bg-th-bg-elevated rounded-xl p-4 space-y-5">
-                            <ThresholdSlider
-                                label="Low Severity"
-                                value={thresholds.lowStdDev}
-                                min={1}
-                                max={3}
-                                step={0.1}
-                                unit="σ"
-                                severity="low"
-                                description="Standard deviations from mean to trigger low severity alert"
-                                onChange={(v) => handleThresholdChange('lowStdDev', v)}
-                            />
-                            <ThresholdSlider
-                                label="Medium Severity"
-                                value={thresholds.mediumStdDev}
-                                min={1.5}
-                                max={4}
-                                step={0.1}
-                                unit="σ"
-                                severity="medium"
-                                description="Standard deviations for medium severity (should be > low)"
-                                onChange={(v) => handleThresholdChange('mediumStdDev', v)}
-                            />
-                            <ThresholdSlider
-                                label="High Severity"
-                                value={thresholds.highStdDev}
-                                min={2}
-                                max={5}
-                                step={0.1}
-                                unit="σ"
-                                severity="high"
-                                description="Standard deviations for high severity (should be > medium)"
-                                onChange={(v) => handleThresholdChange('highStdDev', v)}
-                            />
-                            <ThresholdSlider
-                                label="Critical Severity"
-                                value={thresholds.criticalStdDev}
-                                min={3}
-                                max={6}
-                                step={0.1}
-                                unit="σ"
-                                severity="critical"
-                                description="Standard deviations for critical alerts (should be > high)"
-                                onChange={(v) => handleThresholdChange('criticalStdDev', v)}
-                            />
-                        </div>
+                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-5">
+                                    <ThresholdSlider
+                                        label="Low Severity"
+                                        value={thresholds.lowStdDev}
+                                        min={1}
+                                        max={3}
+                                        step={0.1}
+                                        unit="σ"
+                                        severity="low"
+                                        description="Standard deviations from mean to trigger low severity alert"
+                                        onChange={(v) => handleThresholdChange('lowStdDev', v)}
+                                    />
+                                    <ThresholdSlider
+                                        label="Medium Severity"
+                                        value={thresholds.mediumStdDev}
+                                        min={1.5}
+                                        max={4}
+                                        step={0.1}
+                                        unit="σ"
+                                        severity="medium"
+                                        description="Standard deviations for medium severity (should be > low)"
+                                        onChange={(v) => handleThresholdChange('mediumStdDev', v)}
+                                    />
+                                    <ThresholdSlider
+                                        label="High Severity"
+                                        value={thresholds.highStdDev}
+                                        min={2}
+                                        max={5}
+                                        step={0.1}
+                                        unit="σ"
+                                        severity="high"
+                                        description="Standard deviations for high severity (should be > medium)"
+                                        onChange={(v) => handleThresholdChange('highStdDev', v)}
+                                    />
+                                    <ThresholdSlider
+                                        label="Critical Severity"
+                                        value={thresholds.criticalStdDev}
+                                        min={3}
+                                        max={6}
+                                        step={0.1}
+                                        unit="σ"
+                                        severity="critical"
+                                        description="Standard deviations for critical alerts (should be > high)"
+                                        onChange={(v) => handleThresholdChange('criticalStdDev', v)}
+                                    />
+                                </div>
 
-                        {/* Validation warning */}
-                        {(thresholds.lowStdDev >= thresholds.mediumStdDev ||
-                            thresholds.mediumStdDev >= thresholds.highStdDev ||
-                            thresholds.highStdDev >= thresholds.criticalStdDev) && (
-                            <div className="flex items-center gap-2 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-                                <Info className="w-4 h-4 text-yellow-500 flex-shrink-0" />
-                                <span className="text-sm text-yellow-500">
-                                    Thresholds should increase with severity: Low &lt; Medium &lt; High &lt; Critical
-                                </span>
+                                {/* Validation warning */}
+                                {(thresholds.lowStdDev >= thresholds.mediumStdDev ||
+                                    thresholds.mediumStdDev >= thresholds.highStdDev ||
+                                    thresholds.highStdDev >= thresholds.criticalStdDev) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl"
+                                    >
+                                        <Info className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                                        <span className="text-sm text-amber-400">
+                                            Thresholds should increase with severity: Low &lt; Medium &lt; High &lt; Critical
+                                        </span>
+                                    </motion.div>
+                                )}
                             </div>
-                        )}
-                    </div>
 
-                    {/* Detection Parameters */}
-                    <div className="space-y-4">
-                        <h4 className="text-sm font-semibold text-th-text-primary uppercase tracking-wide">
-                            Detection Parameters
-                        </h4>
+                            {/* Detection Parameters */}
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-semibold text-white uppercase tracking-wide">
+                                    Detection Parameters
+                                </h4>
 
-                        <div className="bg-th-bg-elevated rounded-xl p-4 space-y-5">
-                            <ThresholdSlider
-                                label="Minimum Data Points"
-                                value={thresholds.minDataPoints}
-                                min={3}
-                                max={30}
-                                step={1}
-                                description="Minimum data points required before anomaly detection activates"
-                                onChange={(v) => handleThresholdChange('minDataPoints', v)}
-                            />
-                            <ThresholdSlider
-                                label="Minimum % Change"
-                                value={thresholds.minPercentChange}
-                                min={5}
-                                max={50}
-                                step={5}
-                                unit="%"
-                                description="Minimum percentage change from baseline to flag as anomaly"
-                                onChange={(v) => handleThresholdChange('minPercentChange', v)}
-                            />
-                            <ThresholdSlider
-                                label="Lookback Period"
-                                value={config.lookbackDays || 30}
-                                min={7}
-                                max={90}
-                                step={1}
-                                unit=" days"
-                                description="Historical data window for baseline calculation"
-                                onChange={(v) => handleConfigChange('lookbackDays', v)}
-                            />
-                        </div>
-                    </div>
+                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-5">
+                                    <ThresholdSlider
+                                        label="Minimum Data Points"
+                                        value={thresholds.minDataPoints}
+                                        min={3}
+                                        max={30}
+                                        step={1}
+                                        description="Minimum data points required before anomaly detection activates"
+                                        onChange={(v) => handleThresholdChange('minDataPoints', v)}
+                                    />
+                                    <ThresholdSlider
+                                        label="Minimum % Change"
+                                        value={thresholds.minPercentChange}
+                                        min={5}
+                                        max={50}
+                                        step={5}
+                                        unit="%"
+                                        description="Minimum percentage change from baseline to flag as anomaly"
+                                        onChange={(v) => handleThresholdChange('minPercentChange', v)}
+                                    />
+                                    <ThresholdSlider
+                                        label="Lookback Period"
+                                        value={config.lookbackDays || 30}
+                                        min={7}
+                                        max={90}
+                                        step={1}
+                                        unit=" days"
+                                        description="Historical data window for baseline calculation"
+                                        onChange={(v) => handleConfigChange('lookbackDays', v)}
+                                    />
+                                </div>
+                            </div>
 
-                    {/* Granularity */}
-                    <div className="space-y-4">
-                        <h4 className="text-sm font-semibold text-th-text-primary uppercase tracking-wide">
-                            Time Granularity
-                        </h4>
+                            {/* Granularity */}
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-semibold text-white uppercase tracking-wide">
+                                    Time Granularity
+                                </h4>
 
-                        <div className="flex gap-2">
-                            {(['hour', 'day', 'week'] as const).map((g) => (
-                                <button
-                                    key={g}
-                                    onClick={() => handleConfigChange('granularity', g)}
-                                    className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                                        config.granularity === g
-                                            ? 'bg-th-accent-primary text-white'
-                                            : 'bg-th-bg-elevated text-th-text-secondary hover:bg-th-interactive-hover'
+                                <div className="flex gap-2">
+                                    {(['hour', 'day', 'week'] as const).map((g) => (
+                                        <motion.button
+                                            key={g}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            onClick={() => handleConfigChange('granularity', g)}
+                                            className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                                                config.granularity === g
+                                                    ? 'bg-emerald-500 text-white'
+                                                    : 'bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] border border-white/[0.06]'
+                                            }`}
+                                        >
+                                            {g.charAt(0).toUpperCase() + g.slice(1)}ly
+                                        </motion.button>
+                                    ))}
+                                </div>
+                                <p className="text-xs text-slate-500">
+                                    Aggregate data by hour, day, or week for anomaly detection
+                                </p>
+                            </div>
+
+                            {/* Metrics to Monitor */}
+                            <div className="space-y-4">
+                                <h4 className="text-sm font-semibold text-white uppercase tracking-wide">
+                                    Metrics to Monitor
+                                </h4>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    {AVAILABLE_METRICS.map((metric) => {
+                                        const isSelected = config.metrics?.includes(metric.value);
+                                        return (
+                                            <motion.button
+                                                key={metric.value}
+                                                whileHover={{ scale: 1.02 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                onClick={() => handleMetricToggle(metric.value)}
+                                                className={`p-3 rounded-xl border text-left transition-all ${
+                                                    isSelected
+                                                        ? 'bg-emerald-500/10 border-emerald-500/30'
+                                                        : 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]'
+                                                }`}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <span className={`text-sm font-medium ${
+                                                        isSelected ? 'text-emerald-400' : 'text-slate-300'
+                                                    }`}>
+                                                        {metric.label}
+                                                    </span>
+                                                    {isSelected && (
+                                                        <Check className="w-4 h-4 text-emerald-400" />
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-slate-500 mt-1">
+                                                    {metric.description}
+                                                </p>
+                                            </motion.button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={handleReset}
+                                    className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-white hover:bg-white/[0.06] rounded-xl transition-colors"
+                                >
+                                    <RotateCcw className="w-4 h-4" />
+                                    Reset to Defaults
+                                </motion.button>
+                                <div className="flex-1" />
+                                <motion.button
+                                    whileHover={{ scale: hasChanges ? 1.02 : 1 }}
+                                    whileTap={{ scale: hasChanges ? 0.98 : 1 }}
+                                    onClick={handleSave}
+                                    disabled={!hasChanges}
+                                    className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all ${
+                                        hasChanges
+                                            ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+                                            : 'bg-white/[0.03] text-slate-600 cursor-not-allowed'
                                     }`}
                                 >
-                                    {g.charAt(0).toUpperCase() + g.slice(1)}ly
-                                </button>
-                            ))}
-                        </div>
-                        <p className="text-xs text-th-text-muted">
-                            Aggregate data by hour, day, or week for anomaly detection
-                        </p>
-                    </div>
+                                    {saved ? (
+                                        <>
+                                            <Check className="w-4 h-4" />
+                                            Saved!
+                                        </>
+                                    ) : (
+                                        'Save Changes'
+                                    )}
+                                </motion.button>
+                            </div>
 
-                    {/* Metrics to Monitor */}
-                    <div className="space-y-4">
-                        <h4 className="text-sm font-semibold text-th-text-primary uppercase tracking-wide">
-                            Metrics to Monitor
-                        </h4>
-
-                        <div className="grid grid-cols-2 gap-3">
-                            {AVAILABLE_METRICS.map((metric) => {
-                                const isSelected = config.metrics?.includes(metric.value);
-                                return (
-                                    <button
-                                        key={metric.value}
-                                        onClick={() => handleMetricToggle(metric.value)}
-                                        className={`p-3 rounded-lg border text-left transition-colors ${
-                                            isSelected
-                                                ? 'bg-th-accent-primary-muted border-th-accent-primary'
-                                                : 'bg-th-bg-elevated border-th-border hover:border-th-text-muted'
-                                        }`}
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <span className={`text-sm font-medium ${
-                                                isSelected ? 'text-th-accent-primary' : 'text-th-text-secondary'
-                                            }`}>
-                                                {metric.label}
-                                            </span>
-                                            {isSelected && (
-                                                <Check className="w-4 h-4 text-th-accent-primary" />
-                                            )}
-                                        </div>
-                                        <p className="text-xs text-th-text-muted mt-1">
-                                            {metric.description}
+                            {/* Info Box */}
+                            <div className="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+                                <div className="flex items-start gap-3">
+                                    <Info className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
+                                    <div className="text-sm text-slate-500 space-y-2">
+                                        <p>
+                                            <span className="text-slate-300 font-medium">Standard Deviation (σ)</span> measures how far a value deviates from the mean. Higher thresholds = fewer alerts.
                                         </p>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-th-border">
-                        <button
-                            onClick={handleReset}
-                            className="flex items-center gap-2 px-4 py-2 text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
-                        >
-                            <RotateCcw className="w-4 h-4" />
-                            Reset to Defaults
-                        </button>
-                        <div className="flex-1" />
-                        <button
-                            onClick={handleSave}
-                            disabled={!hasChanges}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium transition-colors ${
-                                hasChanges
-                                    ? 'bg-th-accent-primary text-white hover:bg-th-accent-primary-hover'
-                                    : 'bg-th-bg-elevated text-th-text-muted cursor-not-allowed'
-                            }`}
-                        >
-                            {saved ? (
-                                <>
-                                    <Check className="w-4 h-4" />
-                                    Saved!
-                                </>
-                            ) : (
-                                'Save Changes'
-                            )}
-                        </button>
-                    </div>
-
-                    {/* Info Box */}
-                    <div className="p-4 bg-th-bg-elevated rounded-xl">
-                        <div className="flex items-start gap-3">
-                            <Info className="w-5 h-5 text-th-text-muted flex-shrink-0 mt-0.5" />
-                            <div className="text-sm text-th-text-muted space-y-2">
-                                <p>
-                                    <span className="text-th-text-secondary font-medium">Standard Deviation (σ)</span> measures how far a value deviates from the mean. Higher thresholds = fewer alerts.
-                                </p>
-                                <p>
-                                    Changes apply to future analyses. Re-run analysis from the Analytics page to see updated results.
-                                </p>
+                                        <p>
+                                            Changes apply to future analyses. Re-run analysis from the Analytics page to see updated results.
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
