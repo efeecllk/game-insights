@@ -1,10 +1,15 @@
 /**
- * Connection Health Dashboard
- * Displays health status of all data source connections
- * Phase 3: Data Sources
+ * Connection Health Dashboard - Obsidian Analytics Design
+ *
+ * Premium health monitoring with:
+ * - Glassmorphism containers
+ * - Animated health indicators
+ * - Color-coded status variants
+ * - Expandable detail panels
  */
 
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity,
     AlertCircle,
@@ -17,7 +22,6 @@ import {
     Pause,
     XCircle,
     ChevronDown,
-    ChevronUp,
     ExternalLink,
     Settings,
     BarChart3,
@@ -51,6 +55,43 @@ interface SyncHistoryItem {
     rowCount: number;
     error?: string;
 }
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const expandVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+        opacity: 1,
+        height: 'auto',
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: {
+        opacity: 0,
+        height: 0,
+        transition: { duration: 0.2 },
+    },
+};
 
 // ============================================================================
 // Main Component
@@ -92,83 +133,102 @@ export function ConnectionHealth() {
 
     if (integrations.length === 0) {
         return (
-            <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
-                <div className="w-16 h-16 bg-th-bg-elevated rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Activity className="w-8 h-8 text-th-text-muted" />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+            >
+                <div className="relative w-16 h-16 mx-auto mb-4">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                        <Activity className="w-8 h-8 text-slate-400" />
+                    </div>
                 </div>
-                <h3 className="text-lg font-semibold text-th-text-primary mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                     No Data Sources Connected
                 </h3>
-                <p className="text-th-text-muted">
+                <p className="text-slate-400">
                     Connect your first data source to see health metrics here.
                 </p>
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Overall Health Summary */}
-            <div className="bg-th-bg-surface rounded-xl border border-th-border p-6">
+            <motion.div
+                variants={itemVariants}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+            >
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h2 className="text-lg font-semibold text-th-text-primary">
+                        <h2 className="text-lg font-semibold text-white">
                             Connection Health
                         </h2>
-                        <p className="text-sm text-th-text-muted mt-1">
+                        <p className="text-sm text-slate-400 mt-1">
                             Real-time status of all your data sources
                         </p>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => integrations.forEach(i => refreshIntegration(i.id))}
-                            className="flex items-center gap-2 px-4 py-2 bg-th-bg-elevated hover:bg-th-interactive-hover rounded-lg text-sm text-th-text-secondary transition-colors"
-                        >
-                            <RefreshCw className="w-4 h-4" />
-                            Refresh All
-                        </button>
-                    </div>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => integrations.forEach(i => refreshIntegration(i.id))}
+                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.12] rounded-xl text-sm text-slate-300 transition-all"
+                    >
+                        <RefreshCw className="w-4 h-4" />
+                        Refresh All
+                    </motion.button>
                 </div>
 
                 {/* Health Score Card */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <HealthScoreCard score={overallHealth.score} status={overallHealth.status} />
                     <MetricCard
-                        icon={<CheckCircle className="w-5 h-5 text-green-500" />}
+                        icon={<CheckCircle className="w-5 h-5 text-emerald-400" />}
                         label="Healthy"
                         value={overallHealth.healthyCount ?? 0}
-                        bgColor="bg-green-500/10"
+                        color="emerald"
                     />
                     <MetricCard
-                        icon={<AlertCircle className="w-5 h-5 text-red-500" />}
+                        icon={<AlertCircle className="w-5 h-5 text-rose-400" />}
                         label="Errors"
                         value={overallHealth.errorCount ?? 0}
-                        bgColor="bg-red-500/10"
+                        color="rose"
                     />
                     <MetricCard
-                        icon={<Pause className="w-5 h-5 text-yellow-500" />}
+                        icon={<Pause className="w-5 h-5 text-amber-400" />}
                         label="Paused"
                         value={overallHealth.pausedCount ?? 0}
-                        bgColor="bg-yellow-500/10"
+                        color="amber"
                     />
                 </div>
-            </div>
+            </motion.div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-2">
+            <motion.div variants={itemVariants} className="flex items-center gap-2">
                 {(['all', 'healthy', 'warning', 'error'] as const).map(f => (
-                    <button
+                    <motion.button
                         key={f}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => setFilter(f)}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             filter === f
-                                ? 'bg-th-accent-primary text-white'
-                                : 'bg-th-bg-surface text-th-text-secondary hover:bg-th-interactive-hover'
+                                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
+                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06] hover:text-white'
                         }`}
                     >
                         {f.charAt(0).toUpperCase() + f.slice(1)}
                         {f !== 'all' && (
-                            <span className="ml-2 px-1.5 py-0.5 bg-white/20 rounded text-xs">
+                            <span className={`ml-2 px-1.5 py-0.5 rounded text-xs ${
+                                filter === f ? 'bg-emerald-500/20' : 'bg-white/[0.06]'
+                            }`}>
                                 {f === 'healthy'
                                     ? integrations.filter(i => i.status === 'connected').length
                                     : f === 'warning'
@@ -176,31 +236,42 @@ export function ConnectionHealth() {
                                     : integrations.filter(i => ['error', 'disconnected'].includes(i.status)).length}
                             </span>
                         )}
-                    </button>
+                    </motion.button>
                 ))}
-            </div>
+            </motion.div>
 
             {/* Integration List */}
-            <div className="space-y-3">
-                {filteredIntegrations.map(integration => (
-                    <IntegrationHealthCard
-                        key={integration.id}
-                        integration={integration}
-                        isExpanded={expandedId === integration.id}
-                        onToggle={() => setExpandedId(expandedId === integration.id ? null : integration.id)}
-                        onRefresh={() => refreshIntegration(integration.id)}
-                        onPause={() => pauseIntegration(integration.id)}
-                        onResume={() => resumeIntegration(integration.id)}
-                    />
-                ))}
+            <motion.div variants={containerVariants} className="space-y-3">
+                <AnimatePresence mode="popLayout">
+                    {filteredIntegrations.map(integration => (
+                        <motion.div
+                            key={integration.id}
+                            variants={itemVariants}
+                            layout
+                            exit={{ opacity: 0, scale: 0.95 }}
+                        >
+                            <IntegrationHealthCard
+                                integration={integration}
+                                isExpanded={expandedId === integration.id}
+                                onToggle={() => setExpandedId(expandedId === integration.id ? null : integration.id)}
+                                onRefresh={() => refreshIntegration(integration.id)}
+                                onPause={() => pauseIntegration(integration.id)}
+                                onResume={() => resumeIntegration(integration.id)}
+                            />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
 
                 {filteredIntegrations.length === 0 && (
-                    <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
-                        <p className="text-th-text-muted">No integrations match this filter.</p>
-                    </div>
+                    <motion.div
+                        variants={itemVariants}
+                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+                    >
+                        <p className="text-slate-400">No integrations match this filter.</p>
+                    </motion.div>
                 )}
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -210,16 +281,38 @@ export function ConnectionHealth() {
 
 function HealthScoreCard({ score, status }: { score: number; status: 'healthy' | 'warning' | 'error' }) {
     const colors = {
-        healthy: { ring: 'stroke-green-500', text: 'text-green-500', bg: 'bg-green-500/10' },
-        warning: { ring: 'stroke-yellow-500', text: 'text-yellow-500', bg: 'bg-yellow-500/10' },
-        error: { ring: 'stroke-red-500', text: 'text-red-500', bg: 'bg-red-500/10' },
+        healthy: {
+            ring: 'stroke-emerald-500',
+            text: 'text-emerald-400',
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20',
+            glow: 'shadow-emerald-500/20',
+        },
+        warning: {
+            ring: 'stroke-amber-500',
+            text: 'text-amber-400',
+            bg: 'from-amber-500/20 to-amber-500/5',
+            border: 'border-amber-500/20',
+            glow: 'shadow-amber-500/20',
+        },
+        error: {
+            ring: 'stroke-rose-500',
+            text: 'text-rose-400',
+            bg: 'from-rose-500/20 to-rose-500/5',
+            border: 'border-rose-500/20',
+            glow: 'shadow-rose-500/20',
+        },
     };
 
     const circumference = 2 * Math.PI * 40;
     const strokeDashoffset = circumference - (score / 100) * circumference;
 
     return (
-        <div className={`rounded-xl p-4 ${colors[status].bg}`}>
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className={`rounded-xl p-4 bg-gradient-to-br ${colors[status].bg} border ${colors[status].border} shadow-lg ${colors[status].glow}`}
+        >
             <div className="flex items-center gap-4">
                 <div className="relative w-20 h-20">
                     <svg className="w-20 h-20 -rotate-90">
@@ -229,9 +322,9 @@ function HealthScoreCard({ score, status }: { score: number; status: 'healthy' |
                             r="40"
                             strokeWidth="8"
                             fill="none"
-                            className="stroke-th-border-subtle"
+                            className="stroke-white/[0.06]"
                         />
-                        <circle
+                        <motion.circle
                             cx="40"
                             cy="40"
                             r="40"
@@ -239,11 +332,10 @@ function HealthScoreCard({ score, status }: { score: number; status: 'healthy' |
                             fill="none"
                             strokeLinecap="round"
                             className={colors[status].ring}
-                            style={{
-                                strokeDasharray: circumference,
-                                strokeDashoffset,
-                                transition: 'stroke-dashoffset 0.5s ease',
-                            }}
+                            initial={{ strokeDashoffset: circumference }}
+                            animate={{ strokeDashoffset }}
+                            style={{ strokeDasharray: circumference }}
+                            transition={{ duration: 1, ease: 'easeOut' }}
                         />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
@@ -253,13 +345,13 @@ function HealthScoreCard({ score, status }: { score: number; status: 'healthy' |
                     </div>
                 </div>
                 <div>
-                    <div className="text-sm font-medium text-th-text-muted">Health Score</div>
+                    <div className="text-sm font-medium text-slate-400">Health Score</div>
                     <div className={`text-lg font-semibold capitalize ${colors[status].text}`}>
                         {status}
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -267,23 +359,32 @@ function MetricCard({
     icon,
     label,
     value,
-    bgColor,
+    color,
 }: {
     icon: React.ReactNode;
     label: string;
     value: number;
-    bgColor: string;
+    color: 'emerald' | 'rose' | 'amber';
 }) {
+    const colorStyles = {
+        emerald: 'from-emerald-500/10 to-emerald-500/5 border-emerald-500/20',
+        rose: 'from-rose-500/10 to-rose-500/5 border-rose-500/20',
+        amber: 'from-amber-500/10 to-amber-500/5 border-amber-500/20',
+    };
+
     return (
-        <div className={`rounded-xl p-4 ${bgColor}`}>
+        <motion.div
+            whileHover={{ scale: 1.02 }}
+            className={`rounded-xl p-4 bg-gradient-to-br ${colorStyles[color]} border transition-all`}
+        >
             <div className="flex items-center gap-3">
                 {icon}
                 <div>
-                    <div className="text-2xl font-bold text-th-text-primary">{value}</div>
-                    <div className="text-sm text-th-text-muted">{label}</div>
+                    <div className="text-2xl font-bold text-white">{value}</div>
+                    <div className="text-sm text-slate-400">{label}</div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -310,31 +411,35 @@ function IntegrationHealthCard({
     const statusConfig = getStatusConfig(integration.status);
 
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden">
             {/* Main Row */}
             <div
-                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-th-bg-surface-hover transition-colors"
+                className="p-4 flex items-center gap-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 onClick={onToggle}
             >
                 {/* Status Indicator */}
-                <div className={`w-3 h-3 rounded-full ${statusConfig.dotColor}`} />
+                <motion.div
+                    animate={integration.status === 'syncing' ? { scale: [1, 1.2, 1] } : {}}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                    className={`w-3 h-3 rounded-full ${statusConfig.dotColor}`}
+                />
 
                 {/* Icon */}
-                <div className="w-10 h-10 rounded-lg bg-th-bg-elevated flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-xl">
                     {getIntegrationIcon(integration.config.type)}
                 </div>
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-th-text-primary truncate">
+                        <h3 className="font-medium text-white truncate">
                             {integration.config.name}
                         </h3>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${statusConfig.badgeColor}`}>
                             {statusConfig.label}
                         </span>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
+                    <div className="flex items-center gap-4 text-sm text-slate-400 mt-1">
                         <span>{catalogItem?.name}</span>
                         <span className="flex items-center gap-1">
                             <Clock className="w-3.5 h-3.5" />
@@ -346,22 +451,22 @@ function IntegrationHealthCard({
                 {/* Quick Metrics */}
                 <div className="hidden md:flex items-center gap-6 text-sm">
                     <div className="text-center">
-                        <div className="text-th-text-muted">Uptime</div>
-                        <div className={`font-medium ${health.uptime >= 95 ? 'text-green-500' : health.uptime >= 80 ? 'text-yellow-500' : 'text-red-500'}`}>
+                        <div className="text-slate-500">Uptime</div>
+                        <div className={`font-medium ${health.uptime >= 95 ? 'text-emerald-400' : health.uptime >= 80 ? 'text-amber-400' : 'text-rose-400'}`}>
                             {health.uptime.toFixed(1)}%
                         </div>
                     </div>
                     <div className="text-center">
-                        <div className="text-th-text-muted">Avg Sync</div>
-                        <div className="font-medium text-th-text-primary">
+                        <div className="text-slate-500">Avg Sync</div>
+                        <div className="font-medium text-white">
                             {health.avgSyncDuration < 1000
                                 ? `${health.avgSyncDuration}ms`
                                 : `${(health.avgSyncDuration / 1000).toFixed(1)}s`}
                         </div>
                     </div>
                     <div className="text-center">
-                        <div className="text-th-text-muted">Error Rate</div>
-                        <div className={`font-medium ${health.errorRate === 0 ? 'text-green-500' : health.errorRate < 5 ? 'text-yellow-500' : 'text-red-500'}`}>
+                        <div className="text-slate-500">Error Rate</div>
+                        <div className={`font-medium ${health.errorRate === 0 ? 'text-emerald-400' : health.errorRate < 5 ? 'text-amber-400' : 'text-rose-400'}`}>
                             {health.errorRate.toFixed(1)}%
                         </div>
                     </div>
@@ -369,141 +474,167 @@ function IntegrationHealthCard({
 
                 {/* Actions */}
                 <div className="flex items-center gap-1">
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={e => {
                             e.stopPropagation();
                             onRefresh();
                         }}
                         disabled={integration.status === 'syncing'}
-                        className="p-2 text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover rounded-lg transition-colors disabled:opacity-50"
+                        className="p-2 text-slate-400 hover:text-white hover:bg-white/[0.06] rounded-lg transition-colors disabled:opacity-50"
                         title="Sync Now"
                     >
                         <RefreshCw className={`w-4 h-4 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
-                    </button>
+                    </motion.button>
                     {integration.status === 'paused' ? (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={e => {
                                 e.stopPropagation();
                                 onResume();
                             }}
-                            className="p-2 text-th-text-muted hover:text-green-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
+                            className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors"
                             title="Resume"
                         >
                             <Zap className="w-4 h-4" />
-                        </button>
+                        </motion.button>
                     ) : (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={e => {
                                 e.stopPropagation();
                                 onPause();
                             }}
-                            className="p-2 text-th-text-muted hover:text-yellow-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
+                            className="p-2 text-slate-400 hover:text-amber-400 hover:bg-amber-500/10 rounded-lg transition-colors"
                             title="Pause"
                         >
                             <Pause className="w-4 h-4" />
-                        </button>
+                        </motion.button>
                     )}
-                    {isExpanded ? (
-                        <ChevronUp className="w-5 h-5 text-th-text-muted" />
-                    ) : (
-                        <ChevronDown className="w-5 h-5 text-th-text-muted" />
-                    )}
+                    <motion.div
+                        animate={{ rotate: isExpanded ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <ChevronDown className="w-5 h-5 text-slate-400" />
+                    </motion.div>
                 </div>
             </div>
 
             {/* Expanded Details */}
-            {isExpanded && (
-                <div className="border-t border-th-border">
-                    {/* Error Alert */}
-                    {integration.status === 'error' && integration.lastError && (
-                        <div className="px-4 py-3 bg-red-500/10 border-b border-red-500/20">
-                            <div className="flex items-start gap-3">
-                                <XCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                                <div className="flex-1">
-                                    <p className="text-sm text-red-400 font-medium">Last Error</p>
-                                    <p className="text-sm text-red-400/80 mt-1">{integration.lastError}</p>
-                                    <div className="flex items-center gap-3 mt-2">
-                                        <button className="text-sm text-red-400 hover:text-red-300 underline">
-                                            View Resolution Guide
-                                        </button>
-                                        <button
-                                            onClick={onRefresh}
-                                            className="text-sm text-red-400 hover:text-red-300 underline"
-                                        >
-                                            Retry Now
-                                        </button>
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        variants={expandVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                        className="border-t border-white/[0.06] overflow-hidden"
+                    >
+                        {/* Error Alert */}
+                        {integration.status === 'error' && integration.lastError && (
+                            <div className="px-4 py-3 bg-rose-500/10 border-b border-rose-500/20">
+                                <div className="flex items-start gap-3">
+                                    <XCircle className="w-5 h-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                                    <div className="flex-1">
+                                        <p className="text-sm text-rose-400 font-medium">Last Error</p>
+                                        <p className="text-sm text-rose-400/80 mt-1">{integration.lastError}</p>
+                                        <div className="flex items-center gap-3 mt-2">
+                                            <button className="text-sm text-rose-400 hover:text-rose-300 underline transition-colors">
+                                                View Resolution Guide
+                                            </button>
+                                            <button
+                                                onClick={onRefresh}
+                                                className="text-sm text-rose-400 hover:text-rose-300 underline transition-colors"
+                                            >
+                                                Retry Now
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        )}
+
+                        {/* Metrics Grid */}
+                        <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <MetricTile
+                                label="Uptime"
+                                value={`${health.uptime.toFixed(1)}%`}
+                                icon={<Activity className="w-4 h-4" />}
+                                trend={health.uptime >= 99 ? 'up' : health.uptime >= 95 ? 'stable' : 'down'}
+                            />
+                            <MetricTile
+                                label="Avg Sync Time"
+                                value={health.avgSyncDuration < 1000 ? `${health.avgSyncDuration}ms` : `${(health.avgSyncDuration / 1000).toFixed(1)}s`}
+                                icon={<Clock className="w-4 h-4" />}
+                            />
+                            <MetricTile
+                                label="Error Rate"
+                                value={`${health.errorRate.toFixed(1)}%`}
+                                icon={<AlertCircle className="w-4 h-4" />}
+                                trend={health.errorRate === 0 ? 'up' : health.errorRate < 5 ? 'stable' : 'down'}
+                            />
+                            <MetricTile
+                                label="Total Rows"
+                                value={(integration.metadata.rowCount || 0).toLocaleString()}
+                                icon={<BarChart3 className="w-4 h-4" />}
+                            />
                         </div>
-                    )}
 
-                    {/* Metrics Grid */}
-                    <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <MetricTile
-                            label="Uptime"
-                            value={`${health.uptime.toFixed(1)}%`}
-                            icon={<Activity className="w-4 h-4" />}
-                            trend={health.uptime >= 99 ? 'up' : health.uptime >= 95 ? 'stable' : 'down'}
-                        />
-                        <MetricTile
-                            label="Avg Sync Time"
-                            value={health.avgSyncDuration < 1000 ? `${health.avgSyncDuration}ms` : `${(health.avgSyncDuration / 1000).toFixed(1)}s`}
-                            icon={<Clock className="w-4 h-4" />}
-                        />
-                        <MetricTile
-                            label="Error Rate"
-                            value={`${health.errorRate.toFixed(1)}%`}
-                            icon={<AlertCircle className="w-4 h-4" />}
-                            trend={health.errorRate === 0 ? 'up' : health.errorRate < 5 ? 'stable' : 'down'}
-                        />
-                        <MetricTile
-                            label="Total Rows"
-                            value={(integration.metadata.rowCount || 0).toLocaleString()}
-                            icon={<BarChart3 className="w-4 h-4" />}
-                        />
-                    </div>
-
-                    {/* Sync History */}
-                    <div className="px-4 pb-4">
-                        <h4 className="text-sm font-medium text-th-text-secondary mb-3">Recent Syncs</h4>
-                        <div className="space-y-2">
-                            {health.syncHistory.slice(0, 5).map((sync, idx) => (
-                                <div
-                                    key={idx}
-                                    className="flex items-center gap-3 p-2 bg-th-bg-elevated rounded-lg text-sm"
-                                >
-                                    {sync.success ? (
-                                        <CheckCircle className="w-4 h-4 text-green-500" />
-                                    ) : (
-                                        <XCircle className="w-4 h-4 text-red-500" />
-                                    )}
-                                    <span className="text-th-text-muted">{sync.timestamp}</span>
-                                    <span className="text-th-text-secondary">
-                                        {sync.rowCount.toLocaleString()} rows
-                                    </span>
-                                    <span className="text-th-text-muted">{sync.duration}ms</span>
-                                    {sync.error && (
-                                        <span className="text-red-400 truncate">{sync.error}</span>
-                                    )}
-                                </div>
-                            ))}
+                        {/* Sync History */}
+                        <div className="px-4 pb-4">
+                            <h4 className="text-sm font-medium text-slate-300 mb-3">Recent Syncs</h4>
+                            <div className="space-y-2">
+                                {health.syncHistory.slice(0, 5).map((sync, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: idx * 0.05 }}
+                                        className="flex items-center gap-3 p-2 bg-white/[0.02] border border-white/[0.06] rounded-xl text-sm"
+                                    >
+                                        {sync.success ? (
+                                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                                        ) : (
+                                            <XCircle className="w-4 h-4 text-rose-400" />
+                                        )}
+                                        <span className="text-slate-400">{sync.timestamp}</span>
+                                        <span className="text-slate-300">
+                                            {sync.rowCount.toLocaleString()} rows
+                                        </span>
+                                        <span className="text-slate-500">{sync.duration}ms</span>
+                                        {sync.error && (
+                                            <span className="text-rose-400 truncate">{sync.error}</span>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Quick Actions */}
-                    <div className="px-4 pb-4 flex items-center gap-2">
-                        <button className="flex items-center gap-2 px-3 py-1.5 bg-th-bg-elevated hover:bg-th-interactive-hover rounded-lg text-sm text-th-text-secondary transition-colors">
-                            <Settings className="w-4 h-4" />
-                            Settings
-                        </button>
-                        <button className="flex items-center gap-2 px-3 py-1.5 bg-th-bg-elevated hover:bg-th-interactive-hover rounded-lg text-sm text-th-text-secondary transition-colors">
-                            <ExternalLink className="w-4 h-4" />
-                            View Logs
-                        </button>
-                    </div>
-                </div>
-            )}
+                        {/* Quick Actions */}
+                        <div className="px-4 pb-4 flex items-center gap-2">
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-slate-300 transition-all"
+                            >
+                                <Settings className="w-4 h-4" />
+                                Settings
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-slate-300 transition-all"
+                            >
+                                <ExternalLink className="w-4 h-4" />
+                                View Logs
+                            </motion.button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -520,17 +651,17 @@ function MetricTile({
     trend?: 'up' | 'down' | 'stable';
 }) {
     return (
-        <div className="bg-th-bg-elevated rounded-lg p-3">
-            <div className="flex items-center gap-2 text-th-text-muted mb-1">
+        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+            <div className="flex items-center gap-2 text-slate-400 mb-1">
                 {icon}
                 <span className="text-xs">{label}</span>
             </div>
             <div className="flex items-center gap-2">
-                <span className="text-lg font-semibold text-th-text-primary">{value}</span>
+                <span className="text-lg font-semibold text-white">{value}</span>
                 {trend && (
                     <span>
-                        {trend === 'up' && <TrendingUp className="w-4 h-4 text-green-500" />}
-                        {trend === 'down' && <TrendingDown className="w-4 h-4 text-red-500" />}
+                        {trend === 'up' && <TrendingUp className="w-4 h-4 text-emerald-400" />}
+                        {trend === 'down' && <TrendingDown className="w-4 h-4 text-rose-400" />}
                     </span>
                 )}
             </div>
@@ -551,38 +682,38 @@ function getStatusConfig(status: IntegrationStatus): {
         case 'connected':
             return {
                 label: 'Healthy',
-                dotColor: 'bg-green-500',
-                badgeColor: 'bg-green-500/10 text-green-500',
+                dotColor: 'bg-emerald-500',
+                badgeColor: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
             };
         case 'syncing':
             return {
                 label: 'Syncing',
-                dotColor: 'bg-blue-500 animate-pulse',
-                badgeColor: 'bg-blue-500/10 text-blue-500',
+                dotColor: 'bg-blue-500',
+                badgeColor: 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
             };
         case 'paused':
             return {
                 label: 'Paused',
-                dotColor: 'bg-yellow-500',
-                badgeColor: 'bg-yellow-500/10 text-yellow-500',
+                dotColor: 'bg-amber-500',
+                badgeColor: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
             };
         case 'error':
             return {
                 label: 'Error',
-                dotColor: 'bg-red-500',
-                badgeColor: 'bg-red-500/10 text-red-500',
+                dotColor: 'bg-rose-500',
+                badgeColor: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
             };
         case 'disconnected':
             return {
                 label: 'Disconnected',
-                dotColor: 'bg-gray-500',
-                badgeColor: 'bg-gray-500/10 text-gray-500',
+                dotColor: 'bg-slate-500',
+                badgeColor: 'bg-slate-500/10 text-slate-400 border border-slate-500/20',
             };
         default:
             return {
                 label: 'Unknown',
-                dotColor: 'bg-gray-500',
-                badgeColor: 'bg-gray-500/10 text-gray-500',
+                dotColor: 'bg-slate-500',
+                badgeColor: 'bg-slate-500/10 text-slate-400 border border-slate-500/20',
             };
     }
 }

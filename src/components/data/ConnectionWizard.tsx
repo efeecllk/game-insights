@@ -1,10 +1,15 @@
 /**
- * Connection Wizard Component
- * Multi-step guided setup for data source integrations
- * Phase 3: Data Sources
+ * Connection Wizard Component - Obsidian Analytics Design
+ *
+ * Multi-step guided setup with:
+ * - Glassmorphism containers
+ * - Animated step transitions
+ * - Emerald accent colors
+ * - Premium form styling
  */
 
 import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     X,
     ArrowRight,
@@ -45,46 +50,31 @@ interface ConnectionWizardProps {
 }
 
 interface FormState {
-    // Common
     name: string;
     type: IntegrationType | null;
-
-    // Auth
     authMethod: AuthMethod['type'];
     apiKey: string;
     username: string;
     password: string;
     connectionString: string;
     bearerToken: string;
-
-    // Google Sheets
     spreadsheetId: string;
     sheetName: string;
     range: string;
     hasHeaderRow: boolean;
-
-    // Supabase
     projectUrl: string;
     tableName: string;
-
-    // PostgreSQL
     host: string;
     port: number;
     database: string;
     schema: string;
     ssl: boolean;
     query: string;
-
-    // Webhook
     endpointPath: string;
     secretKey: string;
-
-    // REST API
     apiUrl: string;
     headerName: string;
     dataPath: string;
-
-    // Sync
     syncType: SyncStrategy['type'];
     intervalMinutes: number;
     pollIntervalSeconds: number;
@@ -122,6 +112,33 @@ const initialFormState: FormState = {
 };
 
 // ============================================================================
+// Animation Variants
+// ============================================================================
+
+const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+};
+
+const modalVariants = {
+    hidden: { opacity: 0, scale: 0.95, y: 20 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: { opacity: 0, scale: 0.95, y: 20 },
+};
+
+const contentVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
+    exit: { opacity: 0, x: -20, transition: { duration: 0.2 } },
+};
+
+// ============================================================================
 // Main Component
 // ============================================================================
 
@@ -137,15 +154,12 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
     const [testError, setTestError] = useState<string | null>(null);
     const [isCreating, setIsCreating] = useState(false);
 
-    // Get catalog item for selected type
     const catalogItem = form.type ? INTEGRATION_CATALOG.find(i => i.type === form.type) : null;
 
-    // Update form field
     const updateForm = useCallback(<K extends keyof FormState>(field: K, value: FormState[K]) => {
         setForm(prev => ({ ...prev, [field]: value }));
     }, []);
 
-    // Step navigation
     const steps: WizardStep[] = ['select', 'auth', 'configure', 'sync', 'test'];
     const currentStepIndex = steps.indexOf(currentStep);
 
@@ -163,7 +177,6 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
         }
     };
 
-    // Validate current step
     const isStepValid = (): boolean => {
         switch (currentStep) {
             case 'select':
@@ -173,7 +186,7 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
             case 'configure':
                 return validateConfig();
             case 'sync':
-                return true; // Sync settings have defaults
+                return true;
             case 'test':
                 return testStatus === 'success';
             default:
@@ -195,11 +208,7 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
             case 'connection':
                 return form.connectionString.trim().length > 0;
             case 'oauth':
-                // OAuth is handled separately - for now, just check we have a type
-                return true;
             case 'serviceAccount':
-                // Service account would need JSON upload
-                return true;
             case 'none':
                 return true;
             default:
@@ -230,16 +239,13 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
         }
     };
 
-    // Test connection
     const testConnection = async () => {
         setTestStatus('testing');
         setTestError(null);
 
         try {
-            // Simulate connection test
             await new Promise(resolve => setTimeout(resolve, 1500));
 
-            // Basic validation for different types
             if (form.type === 'supabase') {
                 if (!form.projectUrl.includes('supabase.co')) {
                     throw new Error('Invalid Supabase URL. Expected format: https://xxx.supabase.co');
@@ -252,7 +258,6 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
                 }
             }
 
-            // Connection test passed
             setTestStatus('success');
         } catch (error) {
             setTestStatus('error');
@@ -260,7 +265,6 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
         }
     };
 
-    // Build integration config
     const buildConfig = (): IntegrationConfig => {
         const auth = buildAuthMethod();
         const sync = buildSyncStrategy();
@@ -272,7 +276,6 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
             syncStrategy: sync,
         };
 
-        // Add type-specific config
         switch (form.type) {
             case 'google_sheets':
                 config.googleSheets = {
@@ -347,7 +350,6 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
         }
     };
 
-    // Create integration
     const handleCreate = async () => {
         if (!form.type) return;
 
@@ -367,138 +369,169 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-th-bg-surface rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-th-border-subtle">
-                    <div>
-                        <h2 className="text-xl font-semibold text-th-text-primary">
-                            {catalogItem ? `Connect ${catalogItem.name}` : 'Add Data Source'}
-                        </h2>
-                        <p className="text-sm text-th-text-muted mt-1">
-                            {getStepDescription(currentStep)}
-                        </p>
+        <AnimatePresence>
+            <motion.div
+                variants={overlayVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            >
+                <motion.div
+                    variants={modalVariants}
+                    className="bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-white/[0.08]"
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
+                        <div>
+                            <h2 className="text-xl font-bold text-white">
+                                {catalogItem ? `Connect ${catalogItem.name}` : 'Add Data Source'}
+                            </h2>
+                            <p className="text-sm text-slate-400 mt-1">
+                                {getStepDescription(currentStep)}
+                            </p>
+                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={onCancel}
+                            className="p-2 hover:bg-white/[0.06] rounded-lg transition-colors"
+                        >
+                            <X className="w-5 h-5 text-slate-400" />
+                        </motion.button>
                     </div>
-                    <button
-                        onClick={onCancel}
-                        className="p-2 hover:bg-th-bg-surface-hover rounded-lg transition-colors"
-                    >
-                        <X className="w-5 h-5 text-th-text-muted" />
-                    </button>
-                </div>
 
-                {/* Progress Steps */}
-                <div className="px-6 py-4 border-b border-th-border-subtle">
-                    <div className="flex items-center justify-between">
-                        {steps.map((step, index) => (
-                            <div key={step} className="flex items-center">
-                                <div
-                                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                                        index < currentStepIndex
-                                            ? 'bg-th-accent-primary text-white'
-                                            : index === currentStepIndex
-                                            ? 'bg-th-accent-primary-muted text-th-accent-primary border-2 border-th-accent-primary'
-                                            : 'bg-th-bg-elevated text-th-text-muted'
-                                    }`}
-                                >
-                                    {index < currentStepIndex ? (
-                                        <Check className="w-4 h-4" />
-                                    ) : (
-                                        index + 1
+                    {/* Progress Steps */}
+                    <div className="px-6 py-4 border-b border-white/[0.06]">
+                        <div className="flex items-center justify-between">
+                            {steps.map((step, index) => (
+                                <div key={step} className="flex items-center">
+                                    <motion.div
+                                        initial={{ scale: 0.8 }}
+                                        animate={{ scale: 1 }}
+                                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                                            index < currentStepIndex
+                                                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                                                : index === currentStepIndex
+                                                ? 'bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500'
+                                                : 'bg-white/[0.05] text-slate-500'
+                                        }`}
+                                    >
+                                        {index < currentStepIndex ? (
+                                            <Check className="w-4 h-4" />
+                                        ) : (
+                                            index + 1
+                                        )}
+                                    </motion.div>
+                                    {index < steps.length - 1 && (
+                                        <div
+                                            className={`w-12 h-0.5 mx-2 transition-colors ${
+                                                index < currentStepIndex
+                                                    ? 'bg-emerald-500'
+                                                    : 'bg-white/[0.08]'
+                                            }`}
+                                        />
                                     )}
                                 </div>
-                                {index < steps.length - 1 && (
-                                    <div
-                                        className={`w-12 h-0.5 mx-2 ${
-                                            index < currentStepIndex
-                                                ? 'bg-th-accent-primary'
-                                                : 'bg-th-border-subtle'
-                                        }`}
+                            ))}
+                        </div>
+                        <div className="flex justify-between mt-2 text-xs text-slate-500">
+                            <span>Select</span>
+                            <span>Auth</span>
+                            <span>Configure</span>
+                            <span>Sync</span>
+                            <span>Test</span>
+                        </div>
+                    </div>
+
+                    {/* Step Content */}
+                    <div className="flex-1 overflow-y-auto p-6">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentStep}
+                                variants={contentVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                            >
+                                {currentStep === 'select' && (
+                                    <SelectStep form={form} updateForm={updateForm} />
+                                )}
+                                {currentStep === 'auth' && catalogItem && (
+                                    <AuthStep
+                                        form={form}
+                                        updateForm={updateForm}
+                                        catalogItem={catalogItem}
+                                        showPassword={showPassword}
+                                        setShowPassword={setShowPassword}
                                     />
                                 )}
-                            </div>
-                        ))}
+                                {currentStep === 'configure' && (
+                                    <ConfigureStep form={form} updateForm={updateForm} />
+                                )}
+                                {currentStep === 'sync' && (
+                                    <SyncStep form={form} updateForm={updateForm} />
+                                )}
+                                {currentStep === 'test' && (
+                                    <TestStep
+                                        form={form}
+                                        testStatus={testStatus}
+                                        testError={testError}
+                                        onTest={testConnection}
+                                    />
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
-                    <div className="flex justify-between mt-2 text-xs text-th-text-muted">
-                        <span>Select</span>
-                        <span>Auth</span>
-                        <span>Configure</span>
-                        <span>Sync</span>
-                        <span>Test</span>
+
+                    {/* Footer */}
+                    <div className="flex items-center justify-between p-6 border-t border-white/[0.06] bg-white/[0.02]">
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={currentStepIndex === 0 ? onCancel : goBack}
+                            className="flex items-center gap-2 px-4 py-2 text-slate-400 hover:text-white transition-colors"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            {currentStepIndex === 0 ? 'Cancel' : 'Back'}
+                        </motion.button>
+
+                        {currentStep === 'test' ? (
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={handleCreate}
+                                disabled={testStatus !== 'success' || isCreating}
+                                className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-emerald-500/20"
+                            >
+                                {isCreating ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Creating...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Check className="w-4 h-4" />
+                                        Create Connection
+                                    </>
+                                )}
+                            </motion.button>
+                        ) : (
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={goNext}
+                                disabled={!isStepValid()}
+                                className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-emerald-500/20"
+                            >
+                                Continue
+                                <ArrowRight className="w-4 h-4" />
+                            </motion.button>
+                        )}
                     </div>
-                </div>
-
-                {/* Step Content */}
-                <div className="flex-1 overflow-y-auto p-6">
-                    {currentStep === 'select' && (
-                        <SelectStep form={form} updateForm={updateForm} />
-                    )}
-                    {currentStep === 'auth' && catalogItem && (
-                        <AuthStep
-                            form={form}
-                            updateForm={updateForm}
-                            catalogItem={catalogItem}
-                            showPassword={showPassword}
-                            setShowPassword={setShowPassword}
-                        />
-                    )}
-                    {currentStep === 'configure' && (
-                        <ConfigureStep form={form} updateForm={updateForm} />
-                    )}
-                    {currentStep === 'sync' && (
-                        <SyncStep form={form} updateForm={updateForm} />
-                    )}
-                    {currentStep === 'test' && (
-                        <TestStep
-                            form={form}
-                            testStatus={testStatus}
-                            testError={testError}
-                            onTest={testConnection}
-                        />
-                    )}
-                </div>
-
-                {/* Footer */}
-                <div className="flex items-center justify-between p-6 border-t border-th-border-subtle bg-th-bg-subtle">
-                    <button
-                        onClick={currentStepIndex === 0 ? onCancel : goBack}
-                        className="flex items-center gap-2 px-4 py-2 text-th-text-secondary hover:text-th-text-primary transition-colors"
-                    >
-                        <ArrowLeft className="w-4 h-4" />
-                        {currentStepIndex === 0 ? 'Cancel' : 'Back'}
-                    </button>
-
-                    {currentStep === 'test' ? (
-                        <button
-                            onClick={handleCreate}
-                            disabled={testStatus !== 'success' || isCreating}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-th-accent-primary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-th-accent-primary/90 transition-colors"
-                        >
-                            {isCreating ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                    Creating...
-                                </>
-                            ) : (
-                                <>
-                                    <Check className="w-4 h-4" />
-                                    Create Connection
-                                </>
-                            )}
-                        </button>
-                    ) : (
-                        <button
-                            onClick={goNext}
-                            disabled={!isStepValid()}
-                            className="flex items-center gap-2 px-6 py-2.5 bg-th-accent-primary text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-th-accent-primary/90 transition-colors"
-                        >
-                            Continue
-                            <ArrowRight className="w-4 h-4" />
-                        </button>
-                    )}
-                </div>
-            </div>
-        </div>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
     );
 }
 
@@ -513,17 +546,15 @@ function SelectStep({
     form: FormState;
     updateForm: <K extends keyof FormState>(field: K, value: FormState[K]) => void;
 }) {
-    // Group integrations by tier
     const tier1 = INTEGRATION_CATALOG.filter(i => i.tier === 1);
     const tier2 = INTEGRATION_CATALOG.filter(i => i.tier === 2);
     const tier3 = INTEGRATION_CATALOG.filter(i => i.tier >= 3);
 
     return (
         <div className="space-y-6">
-            {/* Tier 1 - Most Popular */}
             <div>
-                <h3 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-th-accent-primary" />
+                <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-emerald-400" />
                     Most Popular
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -538,10 +569,9 @@ function SelectStep({
                 </div>
             </div>
 
-            {/* Tier 2 - Databases */}
             <div>
-                <h3 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <Database className="w-4 h-4 text-th-info" />
+                <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                    <Database className="w-4 h-4 text-blue-400" />
                     Databases
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -556,10 +586,9 @@ function SelectStep({
                 </div>
             </div>
 
-            {/* Tier 3 - Game Platforms */}
             <div>
-                <h3 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-th-success" />
+                <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-violet-400" />
                     Game Platforms
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -587,35 +616,37 @@ function IntegrationOption({
     onSelect: () => void;
 }) {
     return (
-        <button
+        <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             onClick={onSelect}
             className={`p-4 rounded-xl border-2 text-left transition-all ${
                 selected
-                    ? 'border-th-accent-primary bg-th-accent-primary-muted'
-                    : 'border-th-border-subtle hover:border-th-border bg-th-bg-elevated hover:bg-th-bg-surface-hover'
+                    ? 'border-emerald-500 bg-emerald-500/10'
+                    : 'border-white/[0.08] hover:border-white/[0.16] bg-white/[0.02] hover:bg-white/[0.04]'
             }`}
         >
             <div className="flex items-start gap-3">
                 <span className="text-2xl">{item.icon}</span>
                 <div className="flex-1 min-w-0">
-                    <div className="font-medium text-th-text-primary">{item.name}</div>
-                    <div className="text-xs text-th-text-muted mt-0.5 line-clamp-2">
+                    <div className="font-medium text-white">{item.name}</div>
+                    <div className="text-xs text-slate-400 mt-0.5 line-clamp-2">
                         {item.description}
                     </div>
                     <div className="flex items-center gap-2 mt-2">
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${
+                        <span className={`text-xs px-2 py-0.5 rounded-full border ${
                             item.complexity === 'low'
-                                ? 'bg-th-success-muted text-th-success'
+                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                                 : item.complexity === 'medium'
-                                ? 'bg-th-warning-muted text-th-warning'
-                                : 'bg-th-error-muted text-th-error'
+                                ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
                         }`}>
                             {item.complexity}
                         </span>
                     </div>
                 </div>
             </div>
-        </button>
+        </motion.button>
     );
 }
 
@@ -632,14 +663,12 @@ function AuthStep({
     showPassword: boolean;
     setShowPassword: (show: boolean) => void;
 }) {
-    // Set default auth method based on catalog
     const availableAuth = catalogItem.authMethods;
 
     return (
         <div className="space-y-6">
-            {/* Connection Name */}
             <div>
-                <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
                     Connection Name
                 </label>
                 <input
@@ -647,14 +676,13 @@ function AuthStep({
                     value={form.name}
                     onChange={e => updateForm('name', e.target.value)}
                     placeholder={`My ${catalogItem.name}`}
-                    className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                    className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                 />
             </div>
 
-            {/* Auth Method Selection */}
             {availableAuth.length > 1 && (
                 <div>
-                    <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Authentication Method
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -662,10 +690,10 @@ function AuthStep({
                             <button
                                 key={method}
                                 onClick={() => updateForm('authMethod', method)}
-                                className={`px-4 py-2 rounded-lg border transition-colors ${
+                                className={`px-4 py-2 rounded-lg border transition-all ${
                                     form.authMethod === method
-                                        ? 'border-th-accent-primary bg-th-accent-primary-muted text-th-accent-primary'
-                                        : 'border-th-border-subtle hover:border-th-border text-th-text-secondary'
+                                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                                        : 'border-white/[0.08] hover:border-white/[0.16] text-slate-400'
                                 }`}
                             >
                                 {getAuthMethodLabel(method)}
@@ -675,10 +703,9 @@ function AuthStep({
                 </div>
             )}
 
-            {/* Auth Fields based on method */}
             {form.authMethod === 'apikey' && (
                 <div>
-                    <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         API Key
                     </label>
                     <div className="relative">
@@ -687,17 +714,17 @@ function AuthStep({
                             value={form.apiKey}
                             onChange={e => updateForm('apiKey', e.target.value)}
                             placeholder="Enter your API key"
-                            className="w-full px-4 py-2.5 pr-12 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-th-text-muted hover:text-th-text-secondary"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                     </div>
-                    <p className="text-xs text-th-text-muted mt-2 flex items-center gap-1">
+                    <p className="text-xs text-slate-500 mt-2 flex items-center gap-1">
                         <Shield className="w-3 h-3" />
                         Credentials are encrypted and stored locally
                     </p>
@@ -706,7 +733,7 @@ function AuthStep({
 
             {form.authMethod === 'bearer' && (
                 <div>
-                    <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Bearer Token
                     </label>
                     <div className="relative">
@@ -715,12 +742,12 @@ function AuthStep({
                             value={form.bearerToken}
                             onChange={e => updateForm('bearerToken', e.target.value)}
                             placeholder="Enter your bearer token"
-                            className="w-full px-4 py-2.5 pr-12 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-th-text-muted hover:text-th-text-secondary"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
@@ -731,7 +758,7 @@ function AuthStep({
             {form.authMethod === 'basic' && (
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Username
                         </label>
                         <input
@@ -739,11 +766,11 @@ function AuthStep({
                             value={form.username}
                             onChange={e => updateForm('username', e.target.value)}
                             placeholder="Enter username"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Password
                         </label>
                         <div className="relative">
@@ -752,12 +779,12 @@ function AuthStep({
                                 value={form.password}
                                 onChange={e => updateForm('password', e.target.value)}
                                 placeholder="Enter password"
-                                className="w-full px-4 py-2.5 pr-12 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-th-text-muted hover:text-th-text-secondary"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                             >
                                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             </button>
@@ -768,7 +795,7 @@ function AuthStep({
 
             {form.authMethod === 'connection' && (
                 <div>
-                    <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Connection String
                     </label>
                     <div className="relative">
@@ -777,12 +804,12 @@ function AuthStep({
                             value={form.connectionString}
                             onChange={e => updateForm('connectionString', e.target.value)}
                             placeholder="postgresql://user:pass@host:5432/db"
-                            className="w-full px-4 py-2.5 pr-12 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-th-text-muted hover:text-th-text-secondary"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                         >
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
@@ -791,14 +818,14 @@ function AuthStep({
             )}
 
             {form.authMethod === 'oauth' && (
-                <div className="p-4 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
+                <div className="p-4 bg-white/[0.03] rounded-xl border border-white/[0.08]">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-th-info flex-shrink-0 mt-0.5" />
+                        <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                         <div>
-                            <p className="text-sm text-th-text-secondary">
+                            <p className="text-sm text-slate-300">
                                 OAuth authentication will open a popup window to sign in with your {catalogItem.name} account.
                             </p>
-                            <button className="mt-3 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 transition-colors">
+                            <button className="mt-3 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg text-sm font-medium transition-colors">
                                 Sign in with {form.type === 'google_sheets' ? 'Google' : catalogItem.name}
                             </button>
                         </div>
@@ -807,8 +834,8 @@ function AuthStep({
             )}
 
             {form.authMethod === 'none' && (
-                <div className="p-4 bg-th-success-muted rounded-xl border border-th-success/20">
-                    <div className="flex items-center gap-2 text-th-success">
+                <div className="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                    <div className="flex items-center gap-2 text-emerald-400">
                         <Check className="w-5 h-5" />
                         <span className="text-sm font-medium">No authentication required</span>
                     </div>
@@ -827,11 +854,10 @@ function ConfigureStep({
 }) {
     return (
         <div className="space-y-6">
-            {/* Google Sheets Config */}
             {form.type === 'google_sheets' && (
                 <>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Spreadsheet ID or URL
                         </label>
                         <input
@@ -839,15 +865,15 @@ function ConfigureStep({
                             value={form.spreadsheetId}
                             onChange={e => updateForm('spreadsheetId', extractSpreadsheetId(e.target.value))}
                             placeholder="https://docs.google.com/spreadsheets/d/..."
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
-                        <p className="text-xs text-th-text-muted mt-1">
+                        <p className="text-xs text-slate-500 mt-1">
                             Paste the full URL or just the spreadsheet ID
                         </p>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
                                 Sheet Name (optional)
                             </label>
                             <input
@@ -855,11 +881,11 @@ function ConfigureStep({
                                 value={form.sheetName}
                                 onChange={e => updateForm('sheetName', e.target.value)}
                                 placeholder="Sheet1"
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                            <label className="block text-sm font-medium text-slate-300 mb-2">
                                 Range (optional)
                             </label>
                             <input
@@ -867,7 +893,7 @@ function ConfigureStep({
                                 value={form.range}
                                 onChange={e => updateForm('range', e.target.value)}
                                 placeholder="A1:Z1000"
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                     </div>
@@ -876,18 +902,17 @@ function ConfigureStep({
                             type="checkbox"
                             checked={form.hasHeaderRow}
                             onChange={e => updateForm('hasHeaderRow', e.target.checked)}
-                            className="w-4 h-4 rounded border-th-border text-th-accent-primary focus:ring-th-accent-primary"
+                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500"
                         />
-                        <span className="text-sm text-th-text-secondary">First row contains headers</span>
+                        <span className="text-sm text-slate-300">First row contains headers</span>
                     </label>
                 </>
             )}
 
-            {/* Supabase Config */}
             {form.type === 'supabase' && (
                 <>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Project URL
                         </label>
                         <input
@@ -895,11 +920,11 @@ function ConfigureStep({
                             value={form.projectUrl}
                             onChange={e => updateForm('projectUrl', e.target.value)}
                             placeholder="https://xxxxx.supabase.co"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Table Name
                         </label>
                         <input
@@ -907,69 +932,60 @@ function ConfigureStep({
                             value={form.tableName}
                             onChange={e => updateForm('tableName', e.target.value)}
                             placeholder="game_events"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
                     </div>
                 </>
             )}
 
-            {/* PostgreSQL/MySQL Config */}
             {(form.type === 'postgresql' || form.type === 'mysql') && (
                 <>
                     <div className="grid grid-cols-3 gap-4">
                         <div className="col-span-2">
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                                Host
-                            </label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Host</label>
                             <input
                                 type="text"
                                 value={form.host}
                                 onChange={e => updateForm('host', e.target.value)}
                                 placeholder="localhost"
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                                Port
-                            </label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Port</label>
                             <input
                                 type="number"
                                 value={form.port}
                                 onChange={e => updateForm('port', parseInt(e.target.value) || 5432)}
                                 placeholder={form.type === 'mysql' ? '3306' : '5432'}
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                                Database
-                            </label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Database</label>
                             <input
                                 type="text"
                                 value={form.database}
                                 onChange={e => updateForm('database', e.target.value)}
                                 placeholder="game_analytics"
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                                Schema
-                            </label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Schema</label>
                             <input
                                 type="text"
                                 value={form.schema}
                                 onChange={e => updateForm('schema', e.target.value)}
                                 placeholder="public"
-                                className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Table or Query (optional)
                         </label>
                         <textarea
@@ -977,7 +993,7 @@ function ConfigureStep({
                             onChange={e => updateForm('query', e.target.value)}
                             placeholder="SELECT * FROM events WHERE created_at > NOW() - INTERVAL '7 days'"
                             rows={3}
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all resize-none"
                         />
                     </div>
                     <label className="flex items-center gap-3 cursor-pointer">
@@ -985,22 +1001,19 @@ function ConfigureStep({
                             type="checkbox"
                             checked={form.ssl}
                             onChange={e => updateForm('ssl', e.target.checked)}
-                            className="w-4 h-4 rounded border-th-border text-th-accent-primary focus:ring-th-accent-primary"
+                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500"
                         />
-                        <span className="text-sm text-th-text-secondary">Use SSL connection</span>
+                        <span className="text-sm text-slate-300">Use SSL connection</span>
                     </label>
                 </>
             )}
 
-            {/* Webhook Config */}
             {form.type === 'webhook' && (
                 <>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                            Endpoint Path
-                        </label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">Endpoint Path</label>
                         <div className="flex items-center">
-                            <span className="px-4 py-2.5 bg-th-bg-elevated border border-r-0 border-th-border-subtle rounded-l-lg text-th-text-muted text-sm">
+                            <span className="px-4 py-2.5 bg-white/[0.02] border border-white/[0.08] border-r-0 rounded-l-xl text-slate-500 text-sm">
                                 /webhook/
                             </span>
                             <input
@@ -1008,15 +1021,15 @@ function ConfigureStep({
                                 value={form.endpointPath}
                                 onChange={e => updateForm('endpointPath', e.target.value)}
                                 placeholder="my-game-events"
-                                className="flex-1 px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-r-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                                className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-r-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                             />
                         </div>
-                        <p className="text-xs text-th-text-muted mt-1">
-                            Your webhook URL will be: <code className="text-th-accent-primary">https://api.gameinsights.dev/webhook/{form.endpointPath || 'my-game-events'}</code>
+                        <p className="text-xs text-slate-500 mt-1">
+                            Your webhook URL will be: <code className="text-emerald-400">https://api.gameinsights.dev/webhook/{form.endpointPath || 'my-game-events'}</code>
                         </p>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Secret Key (optional)
                         </label>
                         <input
@@ -1024,29 +1037,26 @@ function ConfigureStep({
                             value={form.secretKey}
                             onChange={e => updateForm('secretKey', e.target.value)}
                             placeholder="Auto-generated if empty"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                     </div>
                 </>
             )}
 
-            {/* REST API Config */}
             {form.type === 'rest_api' && (
                 <>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
-                            API URL
-                        </label>
+                        <label className="block text-sm font-medium text-slate-300 mb-2">API URL</label>
                         <input
                             type="text"
                             value={form.apiUrl}
                             onChange={e => updateForm('apiUrl', e.target.value)}
                             placeholder="https://api.example.com/v1/events"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Data Path (optional)
                         </label>
                         <input
@@ -1054,40 +1064,37 @@ function ConfigureStep({
                             value={form.dataPath}
                             onChange={e => updateForm('dataPath', e.target.value)}
                             placeholder="data.events"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
-                        <p className="text-xs text-th-text-muted mt-1">
+                        <p className="text-xs text-slate-500 mt-1">
                             JSON path to the data array in the response (e.g., data.items)
                         </p>
                     </div>
                 </>
             )}
 
-            {/* Firebase/PlayFab/Unity - Basic config */}
             {(form.type === 'firebase' || form.type === 'playfab' || form.type === 'unity') && (
-                <div className="p-4 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
+                <div className="p-4 bg-white/[0.03] rounded-xl border border-white/[0.08]">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-th-info flex-shrink-0 mt-0.5" />
-                        <div className="text-sm text-th-text-secondary">
-                            <p className="font-medium text-th-text-primary mb-1">
+                        <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <div className="text-sm text-slate-300">
+                            <p className="font-medium text-white mb-1">
                                 {form.type === 'firebase' && 'Firebase Analytics Configuration'}
                                 {form.type === 'playfab' && 'PlayFab Configuration'}
                                 {form.type === 'unity' && 'Unity Gaming Services Configuration'}
                             </p>
                             <p>
                                 Advanced configuration for this integration will be available after initial connection.
-                                You can customize event types, date ranges, and data filtering later.
                             </p>
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* MongoDB Config */}
             {form.type === 'mongodb' && (
                 <>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Connection String
                         </label>
                         <input
@@ -1095,11 +1102,11 @@ function ConfigureStep({
                             value={form.connectionString}
                             onChange={e => updateForm('connectionString', e.target.value)}
                             placeholder="mongodb+srv://user:pass@cluster.mongodb.net/db"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary font-mono text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Collection Name
                         </label>
                         <input
@@ -1107,7 +1114,7 @@ function ConfigureStep({
                             value={form.tableName}
                             onChange={e => updateForm('tableName', e.target.value)}
                             placeholder="events"
-                            className="w-full px-4 py-2.5 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary placeholder:text-th-text-disabled focus:outline-none focus:border-th-accent-primary"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
                     </div>
                 </>
@@ -1129,34 +1136,13 @@ function SyncStep({
         title: string;
         description: string;
     }> = [
-        {
-            type: 'manual',
-            icon: RefreshCw,
-            title: 'Manual',
-            description: 'Sync data when you click refresh',
-        },
-        {
-            type: 'scheduled',
-            icon: Clock,
-            title: 'Scheduled',
-            description: 'Automatically sync at regular intervals',
-        },
-        {
-            type: 'realtime',
-            icon: Zap,
-            title: 'Real-time',
-            description: 'Keep data continuously updated',
-        },
+        { type: 'manual', icon: RefreshCw, title: 'Manual', description: 'Sync data when you click refresh' },
+        { type: 'scheduled', icon: Clock, title: 'Scheduled', description: 'Automatically sync at regular intervals' },
+        { type: 'realtime', icon: Zap, title: 'Real-time', description: 'Keep data continuously updated' },
     ];
 
-    // Add webhook option for webhook type
     if (form.type === 'webhook') {
-        syncOptions.push({
-            type: 'webhook',
-            icon: Bell,
-            title: 'Push-based',
-            description: 'Receive data when events are pushed',
-        });
+        syncOptions.push({ type: 'webhook', icon: Bell, title: 'Push-based', description: 'Receive data when events are pushed' });
     }
 
     return (
@@ -1167,39 +1153,34 @@ function SyncStep({
                     const isSelected = form.syncType === option.type;
 
                     return (
-                        <button
+                        <motion.button
                             key={option.type}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
                             onClick={() => updateForm('syncType', option.type)}
                             className={`p-4 rounded-xl border-2 text-left transition-all ${
                                 isSelected
-                                    ? 'border-th-accent-primary bg-th-accent-primary-muted'
-                                    : 'border-th-border-subtle hover:border-th-border bg-th-bg-elevated'
+                                    ? 'border-emerald-500 bg-emerald-500/10'
+                                    : 'border-white/[0.08] hover:border-white/[0.16] bg-white/[0.02]'
                             }`}
                         >
                             <div className="flex items-center gap-3">
-                                <div className={`p-2 rounded-lg ${
-                                    isSelected ? 'bg-th-accent-primary/20' : 'bg-th-bg-surface'
-                                }`}>
-                                    <Icon className={`w-5 h-5 ${
-                                        isSelected ? 'text-th-accent-primary' : 'text-th-text-muted'
-                                    }`} />
+                                <div className={`p-2 rounded-lg ${isSelected ? 'bg-emerald-500/20' : 'bg-white/[0.03]'}`}>
+                                    <Icon className={`w-5 h-5 ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`} />
                                 </div>
                                 <div>
-                                    <div className="font-medium text-th-text-primary">{option.title}</div>
-                                    <div className="text-sm text-th-text-muted">{option.description}</div>
+                                    <div className="font-medium text-white">{option.title}</div>
+                                    <div className="text-sm text-slate-400">{option.description}</div>
                                 </div>
                             </div>
-                        </button>
+                        </motion.button>
                     );
                 })}
             </div>
 
-            {/* Interval setting for scheduled sync */}
             {form.syncType === 'scheduled' && (
-                <div className="p-4 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
-                    <label className="block text-sm font-medium text-th-text-secondary mb-3">
-                        Sync Interval
-                    </label>
+                <div className="p-4 bg-white/[0.03] rounded-xl border border-white/[0.08]">
+                    <label className="block text-sm font-medium text-slate-300 mb-3">Sync Interval</label>
                     <div className="flex items-center gap-4">
                         <input
                             type="range"
@@ -1208,25 +1189,22 @@ function SyncStep({
                             step={5}
                             value={form.intervalMinutes}
                             onChange={e => updateForm('intervalMinutes', parseInt(e.target.value))}
-                            className="flex-1"
+                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
                         />
-                        <span className="text-sm font-medium text-th-text-primary min-w-[80px] text-right">
+                        <span className="text-sm font-medium text-white min-w-[80px] text-right">
                             {formatInterval(form.intervalMinutes)}
                         </span>
                     </div>
-                    <div className="flex justify-between text-xs text-th-text-muted mt-1">
+                    <div className="flex justify-between text-xs text-slate-500 mt-1">
                         <span>5 min</span>
                         <span>24 hours</span>
                     </div>
                 </div>
             )}
 
-            {/* Poll interval for realtime */}
             {form.syncType === 'realtime' && (
-                <div className="p-4 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
-                    <label className="block text-sm font-medium text-th-text-secondary mb-3">
-                        Poll Interval
-                    </label>
+                <div className="p-4 bg-white/[0.03] rounded-xl border border-white/[0.08]">
+                    <label className="block text-sm font-medium text-slate-300 mb-3">Poll Interval</label>
                     <div className="flex items-center gap-4">
                         <input
                             type="range"
@@ -1235,17 +1213,17 @@ function SyncStep({
                             step={5}
                             value={form.pollIntervalSeconds}
                             onChange={e => updateForm('pollIntervalSeconds', parseInt(e.target.value))}
-                            className="flex-1"
+                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
                         />
-                        <span className="text-sm font-medium text-th-text-primary min-w-[60px] text-right">
+                        <span className="text-sm font-medium text-white min-w-[60px] text-right">
                             {form.pollIntervalSeconds}s
                         </span>
                     </div>
-                    <div className="flex justify-between text-xs text-th-text-muted mt-1">
+                    <div className="flex justify-between text-xs text-slate-500 mt-1">
                         <span>5 sec</span>
                         <span>5 min</span>
                     </div>
-                    <p className="text-xs text-th-warning mt-3 flex items-center gap-1">
+                    <p className="text-xs text-amber-400 mt-3 flex items-center gap-1">
                         <AlertCircle className="w-3 h-3" />
                         Shorter intervals may increase API usage
                     </p>
@@ -1270,88 +1248,95 @@ function TestStep({
 
     return (
         <div className="space-y-6">
-            {/* Connection Summary */}
-            <div className="p-4 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
-                <h4 className="text-sm font-medium text-th-text-secondary mb-3">Connection Summary</h4>
+            <div className="p-4 bg-white/[0.03] rounded-xl border border-white/[0.08]">
+                <h4 className="text-sm font-medium text-slate-300 mb-3">Connection Summary</h4>
                 <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                        <span className="text-th-text-muted">Type</span>
-                        <span className="text-th-text-primary flex items-center gap-2">
+                        <span className="text-slate-500">Type</span>
+                        <span className="text-white flex items-center gap-2">
                             <span>{catalogItem?.icon}</span>
                             {catalogItem?.name}
                         </span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-th-text-muted">Name</span>
-                        <span className="text-th-text-primary">{form.name || 'Untitled'}</span>
+                        <span className="text-slate-500">Name</span>
+                        <span className="text-white">{form.name || 'Untitled'}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-th-text-muted">Auth</span>
-                        <span className="text-th-text-primary">{getAuthMethodLabel(form.authMethod)}</span>
+                        <span className="text-slate-500">Auth</span>
+                        <span className="text-white">{getAuthMethodLabel(form.authMethod)}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-th-text-muted">Sync</span>
-                        <span className="text-th-text-primary capitalize">{form.syncType}</span>
+                        <span className="text-slate-500">Sync</span>
+                        <span className="text-white capitalize">{form.syncType}</span>
                     </div>
                 </div>
             </div>
 
-            {/* Test Connection Button */}
             <div className="flex flex-col items-center justify-center py-8">
                 {testStatus === 'idle' && (
                     <>
-                        <div className="w-16 h-16 rounded-full bg-th-bg-elevated flex items-center justify-center mb-4">
-                            <Database className="w-8 h-8 text-th-text-muted" />
+                        <div className="w-16 h-16 rounded-full bg-white/[0.05] border border-white/[0.08] flex items-center justify-center mb-4">
+                            <Database className="w-8 h-8 text-slate-400" />
                         </div>
-                        <p className="text-th-text-secondary mb-4">Ready to test your connection</p>
-                        <button
+                        <p className="text-slate-300 mb-4">Ready to test your connection</p>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={onTest}
-                            className="flex items-center gap-2 px-6 py-3 bg-th-accent-primary text-white rounded-lg font-medium hover:bg-th-accent-primary/90 transition-colors"
+                            className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium transition-colors shadow-lg shadow-emerald-500/20"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Test Connection
-                        </button>
+                        </motion.button>
                     </>
                 )}
 
                 {testStatus === 'testing' && (
                     <>
-                        <div className="w-16 h-16 rounded-full bg-th-accent-primary-muted flex items-center justify-center mb-4">
-                            <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" />
+                        <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
+                            <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
                         </div>
-                        <p className="text-th-text-secondary">Testing connection...</p>
-                        <p className="text-sm text-th-text-muted mt-1">This may take a few seconds</p>
+                        <p className="text-slate-300">Testing connection...</p>
+                        <p className="text-sm text-slate-500 mt-1">This may take a few seconds</p>
                     </>
                 )}
 
                 {testStatus === 'success' && (
                     <>
-                        <div className="w-16 h-16 rounded-full bg-th-success-muted flex items-center justify-center mb-4">
-                            <Check className="w-8 h-8 text-th-success" />
-                        </div>
-                        <p className="text-th-success font-medium mb-2">Connection successful!</p>
-                        <p className="text-sm text-th-text-muted">Your data source is ready to use</p>
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                            className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4"
+                        >
+                            <Check className="w-8 h-8 text-emerald-400" />
+                        </motion.div>
+                        <p className="text-emerald-400 font-medium mb-2">Connection successful!</p>
+                        <p className="text-sm text-slate-400">Your data source is ready to use</p>
                     </>
                 )}
 
                 {testStatus === 'error' && (
                     <>
-                        <div className="w-16 h-16 rounded-full bg-th-error-muted flex items-center justify-center mb-4">
-                            <AlertCircle className="w-8 h-8 text-th-error" />
+                        <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mb-4">
+                            <AlertCircle className="w-8 h-8 text-rose-400" />
                         </div>
-                        <p className="text-th-error font-medium mb-2">Connection failed</p>
+                        <p className="text-rose-400 font-medium mb-2">Connection failed</p>
                         {testError && (
-                            <p className="text-sm text-th-text-muted mb-4 text-center max-w-sm">
+                            <p className="text-sm text-slate-400 mb-4 text-center max-w-sm">
                                 {testError}
                             </p>
                         )}
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={onTest}
-                            className="flex items-center gap-2 px-4 py-2 border border-th-border-subtle rounded-lg text-th-text-secondary hover:bg-th-bg-surface-hover transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 border border-white/[0.08] rounded-lg text-slate-300 hover:bg-white/[0.04] transition-colors"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Retry
-                        </button>
+                        </motion.button>
                     </>
                 )}
             </div>
@@ -1365,39 +1350,25 @@ function TestStep({
 
 function getStepDescription(step: WizardStep): string {
     switch (step) {
-        case 'select':
-            return 'Choose a data source type to connect';
-        case 'auth':
-            return 'Configure authentication credentials';
-        case 'configure':
-            return 'Set up the data source details';
-        case 'sync':
-            return 'Choose how to keep data updated';
-        case 'test':
-            return 'Verify your connection works';
-        default:
-            return '';
+        case 'select': return 'Choose a data source type to connect';
+        case 'auth': return 'Configure authentication credentials';
+        case 'configure': return 'Set up the data source details';
+        case 'sync': return 'Choose how to keep data updated';
+        case 'test': return 'Verify your connection works';
+        default: return '';
     }
 }
 
 function getAuthMethodLabel(method: AuthMethod['type']): string {
     switch (method) {
-        case 'apikey':
-            return 'API Key';
-        case 'bearer':
-            return 'Bearer Token';
-        case 'basic':
-            return 'Username/Password';
-        case 'connection':
-            return 'Connection String';
-        case 'oauth':
-            return 'OAuth';
-        case 'serviceAccount':
-            return 'Service Account';
-        case 'none':
-            return 'No Auth';
-        default:
-            return method;
+        case 'apikey': return 'API Key';
+        case 'bearer': return 'Bearer Token';
+        case 'basic': return 'Username/Password';
+        case 'connection': return 'Connection String';
+        case 'oauth': return 'OAuth';
+        case 'serviceAccount': return 'Service Account';
+        case 'none': return 'No Auth';
+        default: return method;
     }
 }
 
@@ -1409,7 +1380,6 @@ function formatInterval(minutes: number): string {
 }
 
 function extractSpreadsheetId(input: string): string {
-    // Extract spreadsheet ID from Google Sheets URL
     const match = input.match(/\/d\/([a-zA-Z0-9-_]+)/);
     return match ? match[1] : input;
 }
