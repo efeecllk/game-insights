@@ -20,6 +20,29 @@ export default defineConfig({
         setupFiles: ['./tests/setup.ts'],
         include: ['tests/**/*.{test,spec}.{ts,tsx}'],
         exclude: ['node_modules', 'dist', 'tests/e2e'],
+
+        // Use forks instead of threads - cleaner process exit
+        pool: 'forks',
+        poolOptions: {
+            forks: {
+                // Each test file gets isolated process
+                singleFork: false,
+                isolate: true,
+            },
+        },
+
+        // Limit concurrent workers to reduce memory pressure
+        maxWorkers: 4,
+        minWorkers: 1,
+
+        // Timeouts to prevent hanging
+        testTimeout: 30000,
+        hookTimeout: 10000,
+        teardownTimeout: 3000,
+
+        // Force exit after tests complete
+        passWithNoTests: true,
+
         coverage: {
             provider: 'v8',
             reporter: ['text', 'html', 'lcov'],
