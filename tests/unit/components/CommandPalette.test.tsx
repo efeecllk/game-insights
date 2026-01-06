@@ -76,9 +76,10 @@ describe('CommandPalette', () => {
                 </TestWrapper>
             );
 
-            expect(screen.getByText('to navigate')).toBeInTheDocument();
-            expect(screen.getByText('to select')).toBeInTheDocument();
-            expect(screen.getByText('to close')).toBeInTheDocument();
+            // Obsidian design simplified footer labels
+            expect(screen.getByText('navigate')).toBeInTheDocument();
+            expect(screen.getByText('select')).toBeInTheDocument();
+            expect(screen.getByText('close')).toBeInTheDocument();
         });
     });
 

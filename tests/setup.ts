@@ -13,6 +13,56 @@ afterEach(() => {
     cleanup();
 });
 
+// Mock framer-motion to make animations instant in tests
+vi.mock('framer-motion', async () => {
+    const actual = await vi.importActual('framer-motion');
+    const React = await import('react');
+
+    // Helper to create mock motion component
+    const createMotionComponent = (tag: string) => {
+        return React.forwardRef((props: Record<string, unknown>, ref: unknown) => {
+            // Filter out motion-specific props
+            const {
+                initial, animate, exit, variants, transition, whileHover, whileTap,
+                whileFocus, whileDrag, layout, layoutId, onAnimationStart, onAnimationComplete,
+                onLayoutAnimationComplete, onLayoutAnimationStart, dragConstraints, custom,
+                ...rest
+            } = props as Record<string, unknown>;
+            return React.createElement(tag, { ...rest, ref });
+        });
+    };
+
+    return {
+        ...actual,
+        AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+        motion: {
+            div: createMotionComponent('div'),
+            button: createMotionComponent('button'),
+            span: createMotionComponent('span'),
+            p: createMotionComponent('p'),
+            h1: createMotionComponent('h1'),
+            h2: createMotionComponent('h2'),
+            h3: createMotionComponent('h3'),
+            img: createMotionComponent('img'),
+            a: createMotionComponent('a'),
+            li: createMotionComponent('li'),
+            ul: createMotionComponent('ul'),
+            input: createMotionComponent('input'),
+            nav: createMotionComponent('nav'),
+            aside: createMotionComponent('aside'),
+            section: createMotionComponent('section'),
+            header: createMotionComponent('header'),
+            footer: createMotionComponent('footer'),
+            form: createMotionComponent('form'),
+            svg: createMotionComponent('svg'),
+            path: createMotionComponent('path'),
+            circle: createMotionComponent('circle'),
+            rect: createMotionComponent('rect'),
+            label: createMotionComponent('label'),
+        },
+    };
+});
+
 // Mock react-i18next
 vi.mock('react-i18next', () => ({
     useTranslation: () => ({

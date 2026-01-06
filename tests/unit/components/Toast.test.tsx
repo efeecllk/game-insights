@@ -63,19 +63,22 @@ describe('Toast', () => {
         it('should render success toast with correct styling', () => {
             render(<Toast {...createToastProps({ type: 'success', title: 'Success!' })} />);
             const title = screen.getByText('Success!');
-            expect(title).toHaveClass('text-green-400');
+            // Obsidian design uses emerald for success
+            expect(title).toHaveClass('text-emerald-400');
         });
 
         it('should render error toast with correct styling', () => {
             render(<Toast {...createToastProps({ type: 'error', title: 'Error!' })} />);
             const title = screen.getByText('Error!');
-            expect(title).toHaveClass('text-red-400');
+            // Obsidian design uses rose for error
+            expect(title).toHaveClass('text-rose-400');
         });
 
         it('should render warning toast with correct styling', () => {
             render(<Toast {...createToastProps({ type: 'warning', title: 'Warning!' })} />);
             const title = screen.getByText('Warning!');
-            expect(title).toHaveClass('text-yellow-400');
+            // Obsidian design uses amber for warning
+            expect(title).toHaveClass('text-amber-400');
         });
 
         it('should render info toast with correct styling', () => {
@@ -235,16 +238,16 @@ describe('Toast', () => {
     describe('progress bar', () => {
         it('should show progress bar when duration is positive', () => {
             render(<Toast {...createToastProps({ duration: 5000 })} />);
-            // Progress bar exists (check for the progress element structure)
+            // Progress bar exists (check for the progress element structure with Obsidian design)
             const toast = screen.getByRole('alert');
-            expect(toast.querySelector('.bg-th-border')).toBeInTheDocument();
+            expect(toast.querySelector('.h-1')).toBeInTheDocument();
         });
 
         it('should not show progress bar when duration is 0', () => {
             render(<Toast {...createToastProps({ duration: 0 })} />);
             const toast = screen.getByRole('alert');
-            // No progress container with h-1 class
-            const progressContainer = toast.querySelector('.h-1.bg-th-border');
+            // No progress container with h-1 class when duration is 0
+            const progressContainer = toast.querySelector('.h-1');
             expect(progressContainer).not.toBeInTheDocument();
         });
     });
@@ -256,11 +259,14 @@ describe('ToastContainer', () => {
     // =========================================================================
 
     describe('rendering', () => {
-        it('should render nothing when toasts array is empty', () => {
-            const { container } = render(
+        it('should render container with no toasts when toasts array is empty', () => {
+            render(
                 <ToastContainer toasts={[]} onDismiss={vi.fn()} />
             );
-            expect(container.firstChild).toBeNull();
+            // Container is rendered but has no toast alerts
+            const container = screen.getByLabelText('Notifications');
+            expect(container).toBeInTheDocument();
+            expect(screen.queryByRole('alert')).not.toBeInTheDocument();
         });
 
         it('should render all toasts', () => {

@@ -44,51 +44,52 @@ describe('LoadingState', () => {
             render(<LoadingState />);
 
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-violet-400');
+            // Current stage uses emerald in Obsidian design
+            expect(samplingStage).toHaveClass('text-emerald-400');
         });
 
         it('should highlight analyzing stage when specified', () => {
             render(<LoadingState stage="analyzing" />);
 
-            // Sampling should be complete
+            // Sampling should be complete (teal in Obsidian design)
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-green-400');
+            expect(samplingStage).toHaveClass('text-teal-400');
 
             // Analyzing should be current
             const analyzingStage = screen.getByText('Analyzing patterns...');
-            expect(analyzingStage).toHaveClass('text-violet-400');
+            expect(analyzingStage).toHaveClass('text-emerald-400');
         });
 
         it('should highlight detecting stage when specified', () => {
             render(<LoadingState stage="detecting" />);
 
-            // Previous stages should be complete
-            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-400');
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-400');
+            // Previous stages should be complete (teal)
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-teal-400');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-teal-400');
 
             // Detecting should be current
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-violet-400');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-emerald-400');
         });
 
         it('should highlight generating stage when specified', () => {
             render(<LoadingState stage="generating" />);
 
-            // All previous stages should be complete
-            expect(screen.getByText('Sampling data...')).toHaveClass('text-green-400');
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-green-400');
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-green-400');
+            // All previous stages should be complete (teal)
+            expect(screen.getByText('Sampling data...')).toHaveClass('text-teal-400');
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-teal-400');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-teal-400');
 
             // Generating should be current
-            expect(screen.getByText('Generating insights...')).toHaveClass('text-violet-400');
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-emerald-400');
         });
 
         it('should show pending stages in muted color', () => {
             render(<LoadingState stage="sampling" />);
 
-            // Stages after sampling should be muted
-            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-zinc-500');
-            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-zinc-500');
-            expect(screen.getByText('Generating insights...')).toHaveClass('text-zinc-500');
+            // Stages after sampling should be muted (slate in Obsidian design)
+            expect(screen.getByText('Analyzing patterns...')).toHaveClass('text-slate-500');
+            expect(screen.getByText('Detecting anomalies...')).toHaveClass('text-slate-500');
+            expect(screen.getByText('Generating insights...')).toHaveClass('text-slate-500');
         });
     });
 
@@ -131,7 +132,8 @@ describe('LoadingState', () => {
             render(<LoadingState />);
 
             const samplingStage = screen.getByText('Sampling data...');
-            expect(samplingStage).toHaveClass('text-violet-400');
+            // Current stage uses emerald in Obsidian design
+            expect(samplingStage).toHaveClass('text-emerald-400');
         });
 
         it('should default to 0 progress', () => {

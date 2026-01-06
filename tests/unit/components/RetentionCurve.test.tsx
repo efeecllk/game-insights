@@ -53,7 +53,7 @@ describe('RetentionCurve', () => {
         it('should render default subtitle', () => {
             render(<RetentionCurve data={defaultData} />);
 
-            expect(screen.getByText('Track how players return over time')).toBeInTheDocument();
+            expect(screen.getByText('Track how users return over time')).toBeInTheDocument();
         });
 
         it('should render custom title from config', () => {
@@ -88,16 +88,18 @@ describe('RetentionCurve', () => {
             expect(screen.getByTestId('echarts-mock')).toBeInTheDocument();
         });
 
-        it('should render benchmark indicator', () => {
+        it('should render live indicator', () => {
             render(<RetentionCurve data={defaultData} />);
 
-            expect(screen.getByText('vs Benchmark')).toBeInTheDocument();
+            // Obsidian design uses 'Live' badge instead of benchmark indicator
+            expect(screen.getByText('Live')).toBeInTheDocument();
         });
 
         it('should render pulsing indicator dot', () => {
             const { container } = render(<RetentionCurve data={defaultData} />);
 
-            const pulsingDot = container.querySelector('.animate-pulse');
+            // Obsidian design uses animate-ping for the pulsing live dot
+            const pulsingDot = container.querySelector('.animate-ping');
             expect(pulsingDot).toBeInTheDocument();
         });
     });
@@ -157,7 +159,8 @@ describe('RetentionCurve', () => {
             render(<RetentionCurve data={defaultData} />);
 
             const chart = screen.getByTestId('echarts-mock');
-            expect(chart).toHaveStyle({ height: '300px' });
+            // Obsidian design uses 280px default height
+            expect(chart).toHaveStyle({ height: '280px' });
         });
 
         it('should use custom height from config', () => {
@@ -185,14 +188,16 @@ describe('RetentionCurve', () => {
         it('should have base card styling', () => {
             const { container } = render(<RetentionCurve data={defaultData} />);
 
-            expect(container.firstChild).toHaveClass('bg-bg-card');
-            expect(container.firstChild).toHaveClass('rounded-card');
+            // Obsidian design uses glassmorphism styling
+            expect(container.firstChild).toHaveClass('rounded-2xl');
+            expect(container.firstChild).toHaveClass('backdrop-blur-xl');
         });
 
         it('should have proper padding', () => {
             const { container } = render(<RetentionCurve data={defaultData} />);
 
-            expect(container.firstChild).toHaveClass('p-6');
+            // Obsidian design uses p-5
+            expect(container.firstChild).toHaveClass('p-5');
         });
 
         it('should have border styling', () => {
@@ -252,10 +257,11 @@ describe('RetentionCurve', () => {
             expect(header).toBeInTheDocument();
         });
 
-        it('should display benchmark comparison indicator', () => {
+        it('should display live indicator badge', () => {
             render(<RetentionCurve data={defaultData} />);
 
-            expect(screen.getByText('vs Benchmark')).toBeInTheDocument();
+            // Obsidian design uses 'Live' badge instead of benchmark indicator
+            expect(screen.getByText('Live')).toBeInTheDocument();
         });
     });
 
@@ -270,7 +276,7 @@ describe('RetentionCurve', () => {
         it('should have descriptive subtitle', () => {
             render(<RetentionCurve data={defaultData} />);
 
-            expect(screen.getByText('Track how players return over time')).toBeInTheDocument();
+            expect(screen.getByText('Track how users return over time')).toBeInTheDocument();
         });
     });
 

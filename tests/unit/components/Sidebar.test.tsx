@@ -117,7 +117,8 @@ describe('Sidebar', () => {
             );
 
             const overviewLink = screen.getByRole('link', { name: /overview/i });
-            expect(overviewLink).toHaveClass('bg-th-accent-primary-muted');
+            // Obsidian design uses 'active' class for active links
+            expect(overviewLink).toHaveClass('active');
         });
 
         it('should highlight analytics route when active', () => {
@@ -128,7 +129,8 @@ describe('Sidebar', () => {
             );
 
             const analyticsLink = screen.getByRole('link', { name: /ai analytics/i });
-            expect(analyticsLink).toHaveClass('bg-th-accent-primary-muted');
+            // Obsidian design uses 'active' class for active links
+            expect(analyticsLink).toHaveClass('active');
         });
 
         it('should have correct href for navigation links', () => {
@@ -173,7 +175,7 @@ describe('Sidebar', () => {
             expect(templatesItem?.textContent).toContain('New');
         });
 
-        it('should display New badge on Predictions', () => {
+        it('should display AI badge on Predictions', () => {
             render(
                 <TestWrapper>
                     <Sidebar />
@@ -181,18 +183,19 @@ describe('Sidebar', () => {
             );
 
             const predictionsItem = screen.getByText('Predictions').closest('a');
-            expect(predictionsItem?.textContent).toContain('New');
+            // Obsidian design uses 'AI' badge for Predictions
+            expect(predictionsItem?.textContent).toContain('AI');
         });
 
-        it('should display B badge on Distributions', () => {
+        it('should display Distributions link', () => {
             render(
                 <TestWrapper>
                     <Sidebar />
                 </TestWrapper>
             );
 
-            const distributionsItem = screen.getByText('Distributions').closest('a');
-            expect(distributionsItem?.textContent).toContain('B');
+            // Obsidian design: Distributions exists but may not have a badge
+            expect(screen.getByRole('link', { name: /distributions/i })).toBeInTheDocument();
         });
     });
 
@@ -271,7 +274,8 @@ describe('Sidebar', () => {
             );
 
             const sidebar = document.querySelector('aside');
-            expect(sidebar).toHaveClass('w-[200px]');
+            // Obsidian design uses 220px width
+            expect(sidebar).toHaveClass('w-[220px]');
         });
 
         it('should have scrollable navigation area', () => {

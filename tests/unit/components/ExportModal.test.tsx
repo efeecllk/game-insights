@@ -125,9 +125,9 @@ describe('ExportModal', () => {
         it('should select CSV by default', () => {
             render(<ExportModal {...defaultProps} />);
 
-            // The CSV format button should have the selected styling
+            // The CSV format button should have the selected styling (Obsidian uses emerald)
             const csvButton = screen.getByText('CSV').closest('button');
-            expect(csvButton).toHaveClass('border-violet-500');
+            expect(csvButton).toHaveClass('border-emerald-500/30');
         });
 
         it('should change selected format on click', async () => {
@@ -268,9 +268,10 @@ describe('ExportModal', () => {
             await user.click(screen.getByRole('button', { name: /generate share link/i }));
 
             // Find and click the copy button (by finding the button with Copy icon)
+            // Obsidian design uses emerald colors
             const copyButtons = document.querySelectorAll('button');
             const copyButton = Array.from(copyButtons).find(btn =>
-                btn.querySelector('svg') && btn.closest('.bg-green-500\\/10')
+                btn.querySelector('svg') && btn.closest('.bg-emerald-500\\/10')
             );
             if (copyButton) {
                 await user.click(copyButton);
@@ -380,8 +381,8 @@ describe('ExportModal', () => {
 
             await user.click(screen.getByRole('tab', { name: /share link/i }));
 
-            // Find delete button
-            const deleteButton = document.querySelector('.hover\\:bg-red-500\\/20');
+            // Find delete button - Obsidian design uses rose for destructive actions
+            const deleteButton = document.querySelector('.hover\\:bg-rose-500\\/20');
             if (deleteButton) {
                 await user.click(deleteButton);
             }

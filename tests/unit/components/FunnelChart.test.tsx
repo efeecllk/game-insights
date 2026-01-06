@@ -46,7 +46,7 @@ describe('FunnelChart', () => {
         it('should render default subtitle', () => {
             render(<FunnelChart data={defaultData} />);
 
-            expect(screen.getByText('Track player drop-off at each stage')).toBeInTheDocument();
+            expect(screen.getByText('Track drop-off at each stage')).toBeInTheDocument();
         });
 
         it('should render custom title from config', () => {
@@ -110,7 +110,8 @@ describe('FunnelChart', () => {
         it('should display drop-off indicators', () => {
             render(<FunnelChart data={defaultData} />);
 
-            const dropOffElements = screen.getAllByText(/-\d+% drop/);
+            // Obsidian design renders drop-off as "{value}% drop" (no minus sign)
+            const dropOffElements = screen.getAllByText(/\d+% drop/);
             expect(dropOffElements.length).toBeGreaterThan(0);
         });
 
@@ -124,7 +125,7 @@ describe('FunnelChart', () => {
             render(<FunnelChart data={dataWithoutDropOff} />);
 
             // No drop-off indicators should be present
-            expect(screen.queryByText(/-\d+% drop/)).not.toBeInTheDocument();
+            expect(screen.queryByText(/\d+% drop/)).not.toBeInTheDocument();
         });
 
         it('should not display drop-off when value is 0', () => {
@@ -137,7 +138,7 @@ describe('FunnelChart', () => {
             render(<FunnelChart data={dataWithZeroDropOff} />);
 
             // No drop-off indicators should be present
-            expect(screen.queryByText(/-\d+% drop/)).not.toBeInTheDocument();
+            expect(screen.queryByText(/\d+% drop/)).not.toBeInTheDocument();
         });
     });
 
@@ -146,7 +147,8 @@ describe('FunnelChart', () => {
             render(<FunnelChart data={defaultData} />);
 
             const chart = screen.getByTestId('echarts-mock');
-            expect(chart).toHaveStyle({ height: '350px' });
+            // Obsidian design uses 300px default height
+            expect(chart).toHaveStyle({ height: '300px' });
         });
 
         it('should use custom height from config', () => {
@@ -268,7 +270,7 @@ describe('FunnelChart', () => {
         it('should have descriptive subtitle', () => {
             render(<FunnelChart data={defaultData} />);
 
-            expect(screen.getByText('Track player drop-off at each stage')).toBeInTheDocument();
+            expect(screen.getByText('Track drop-off at each stage')).toBeInTheDocument();
         });
     });
 });

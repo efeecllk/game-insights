@@ -104,9 +104,9 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('+10%');
-        // Badge container should have success theme styles
-        expect(badge.parentElement).toHaveClass('text-th-success');
-        expect(badge.parentElement).toHaveClass('bg-th-success-muted');
+        // Badge container should have emerald success styles (Obsidian design)
+        expect(badge.parentElement).toHaveClass('text-emerald-400');
+        expect(badge.parentElement).toHaveClass('bg-emerald-500/10');
     });
 
     it('should apply correct styling for down change', () => {
@@ -121,9 +121,9 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('-5%');
-        // Badge container should have error theme styles
-        expect(badge.parentElement).toHaveClass('text-th-error');
-        expect(badge.parentElement).toHaveClass('bg-th-error-muted');
+        // Badge container should have rose error styles (Obsidian design)
+        expect(badge.parentElement).toHaveClass('text-rose-400');
+        expect(badge.parentElement).toHaveClass('bg-rose-500/10');
     });
 
     it('should apply correct styling for neutral change', () => {
@@ -138,9 +138,9 @@ describe('KPICard', () => {
         );
 
         const badge = screen.getByText('0%');
-        // Badge container should have muted theme styles
-        expect(badge.parentElement).toHaveClass('text-th-text-muted');
-        expect(badge.parentElement).toHaveClass('bg-th-bg-elevated');
+        // Badge container should have slate neutral styles (Obsidian design)
+        expect(badge.parentElement).toHaveClass('text-slate-400');
+        expect(badge.parentElement).toHaveClass('bg-slate-500/10');
     });
 
     it('should render the icon', () => {
@@ -153,8 +153,8 @@ describe('KPICard', () => {
             />
         );
 
-        // Icon container should exist with proper styling
-        const iconContainer = document.querySelector('.bg-th-accent-primary-muted');
+        // Icon container should exist with emerald styling (Obsidian design)
+        const iconContainer = document.querySelector('.bg-emerald-500\\/10');
         expect(iconContainer).toBeInTheDocument();
     });
 });
