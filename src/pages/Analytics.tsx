@@ -1,10 +1,17 @@
 /**
- * Analytics Page
- * Auto-generated dashboard from uploaded data
+ * Analytics Page - Obsidian Analytics Design
+ *
+ * Premium analytics dashboard with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Noise texture backgrounds
+ * - Refined data selector dropdown
  */
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     BarChart3,
     Upload,
@@ -13,17 +20,59 @@ import {
     Sparkles,
     AlertCircle,
     ChevronDown,
+    Database,
+    Zap,
+    GitBranch,
+    Users,
+    Columns,
 } from 'lucide-react';
 import { useAnalytics } from '../hooks/useAnalytics';
 import { useData } from '../context/DataContext';
 import { LoadingState, DashboardGrid } from '../components/analytics';
 import { questionAnswering } from '../ai/QuestionAnswering';
 import { NormalizedData } from '../adapters/BaseAdapter';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+        },
+    },
+};
 
 export function AnalyticsPage() {
     const { activeGameData, gameDataList, setActiveGameData } = useData();
     const analytics = useAnalytics();
     const [showDataSelector, setShowDataSelector] = useState(false);
+    const selectorRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (selectorRef.current && !selectorRef.current.contains(event.target as Node)) {
+                setShowDataSelector(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     // Convert raw data to NormalizedData format
     const normalizedData: NormalizedData = activeGameData?.rawData
@@ -54,24 +103,55 @@ export function AnalyticsPage() {
     // No data state
     if (!activeGameData) {
         return (
-            <div className="min-h-[80vh] flex flex-col items-center justify-center">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                className="min-h-[80vh] flex flex-col items-center justify-center"
+            >
                 <div className="text-center max-w-md">
-                    <div className="w-16 h-16 bg-th-accent-primary-muted rounded-2xl flex items-center justify-center mx-auto mb-6">
-                        <BarChart3 className="w-8 h-8 text-th-accent-primary" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-th-text-primary mb-2">No Data Available</h2>
-                    <p className="text-th-text-muted mb-6">
-                        Upload your game analytics data to get AI-powered insights and visualizations.
-                    </p>
-                    <Link
-                        to="/upload"
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-th-accent-primary text-white rounded-lg font-medium hover:bg-th-accent-primary-hover transition-colors"
+                    {/* Icon with glow */}
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
+                        className="relative mb-6 inline-block"
                     >
-                        <Upload className="w-5 h-5" />
-                        Upload Data
-                    </Link>
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center">
+                            <BarChart3 className="w-8 h-8 text-emerald-400" />
+                        </div>
+                    </motion.div>
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-2xl font-display font-bold text-white mb-2"
+                    >
+                        No Data Available
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.25 }}
+                        className="text-slate-500 mb-6"
+                    >
+                        Upload your game analytics data to get AI-powered insights and visualizations.
+                    </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <Link to="/upload">
+                            <Button variant="primary" icon={<Upload className="w-5 h-5" />}>
+                                Upload Data
+                            </Button>
+                        </Link>
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 
@@ -88,25 +168,37 @@ export function AnalyticsPage() {
     // Error state
     if (analytics.error) {
         return (
-            <div className="min-h-[60vh] flex flex-col items-center justify-center">
-                <div className="bg-th-error-muted border border-th-error/20 rounded-card p-8 max-w-md text-center">
-                    <div className="w-12 h-12 bg-th-error-muted rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <AlertCircle className="w-6 h-6 text-th-error" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-th-error mb-2">Analysis Failed</h3>
-                    <p className="text-th-error mb-4">{analytics.error}</p>
-                    <button
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="min-h-[60vh] flex flex-col items-center justify-center"
+            >
+                <Card variant="default" padding="lg" className="max-w-md text-center">
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', delay: 0.1 }}
+                        className="relative inline-block mb-4"
+                    >
+                        <div className="absolute inset-0 bg-rose-500/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 bg-rose-500/10 border border-rose-500/20 rounded-xl flex items-center justify-center">
+                            <AlertCircle className="w-6 h-6 text-rose-400" />
+                        </div>
+                    </motion.div>
+                    <h3 className="text-lg font-semibold text-rose-400 mb-2">Analysis Failed</h3>
+                    <p className="text-slate-500 mb-4">{analytics.error}</p>
+                    <Button
+                        variant="danger"
+                        icon={<RefreshCw className="w-4 h-4" />}
                         onClick={() => {
                             analytics.clearError();
                             analytics.runAnalysis();
                         }}
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-th-error text-white rounded-lg hover:bg-th-error/90 transition-colors"
                     >
-                        <RefreshCw className="w-4 h-4" />
                         Retry Analysis
-                    </button>
-                </div>
-            </div>
+                    </Button>
+                </Card>
+            </motion.div>
         );
     }
 
@@ -118,146 +210,218 @@ export function AnalyticsPage() {
     const { result } = analytics;
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                            <Sparkles className="w-6 h-6 text-white" />
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <h1 className="text-xl font-bold text-th-text-primary">{analytics.dataName}</h1>
-                                <span className="px-2 py-0.5 text-xs bg-th-accent-primary-muted text-th-accent-primary rounded-full capitalize">
-                                    {result.gameType.replace(/_/g, ' ')}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
-                                <span>{result.pipelineStats.sampledRows.toLocaleString()} rows analyzed</span>
-                                <span>Quality: {(result.qualityBefore * 100).toFixed(0)}%</span>
-                                <span>{result.pipelineStats.processingTimeMs}ms</span>
-                            </div>
-                        </div>
-                    </div>
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            {/* Icon with glow */}
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                                    <Sparkles className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
 
-                    <div className="flex items-center gap-2">
-                        {/* Data Selector */}
-                        {gameDataList.length > 1 && (
-                            <div className="relative">
-                                <button
-                                    onClick={() => setShowDataSelector(!showDataSelector)}
-                                    className="flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary border border-th-border rounded-lg hover:bg-th-interactive-hover transition-colors"
-                                >
-                                    Switch Data
-                                    <ChevronDown className="w-4 h-4" />
-                                </button>
-                                {showDataSelector && (
-                                    <div className="absolute right-0 mt-2 w-64 bg-th-bg-surface border border-th-border rounded-lg shadow-lg z-10">
-                                        {gameDataList.map(data => (
-                                            <button
-                                                key={data.id}
-                                                onClick={() => {
-                                                    setActiveGameData(data);
-                                                    setShowDataSelector(false);
-                                                }}
-                                                className={`w-full text-left px-4 py-3 hover:bg-th-interactive-hover first:rounded-t-lg last:rounded-b-lg ${
-                                                    data.id === activeGameData?.id ? 'bg-th-accent-primary-muted' : ''
-                                                }`}
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        {analytics.dataName}
+                                    </h1>
+                                    <span className="px-2 py-0.5 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full capitalize">
+                                        {result.gameType.replace(/_/g, ' ')}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-4 text-sm text-slate-500 mt-1">
+                                    <span className="flex items-center gap-1.5">
+                                        <Database className="w-3.5 h-3.5" />
+                                        {result.pipelineStats.sampledRows.toLocaleString()} rows
+                                    </span>
+                                    <span className="w-1 h-1 rounded-full bg-slate-600" />
+                                    <span className="flex items-center gap-1.5">
+                                        <Zap className="w-3.5 h-3.5" />
+                                        {(result.qualityBefore * 100).toFixed(0)}% quality
+                                    </span>
+                                    <span className="w-1 h-1 rounded-full bg-slate-600" />
+                                    <span className="text-slate-600">
+                                        {result.pipelineStats.processingTimeMs}ms
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            {/* Data Selector */}
+                            {gameDataList.length > 1 && (
+                                <div className="relative" ref={selectorRef}>
+                                    <motion.button
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => setShowDataSelector(!showDataSelector)}
+                                        className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                                    >
+                                        Switch Data
+                                        <ChevronDown className={`w-4 h-4 transition-transform ${showDataSelector ? 'rotate-180' : ''}`} />
+                                    </motion.button>
+
+                                    <AnimatePresence>
+                                        {showDataSelector && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                                                className="absolute right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
                                             >
-                                                <div className="font-medium text-th-text-primary">{data.name}</div>
-                                                <div className="text-xs text-th-text-muted">
-                                                    {data.rowCount.toLocaleString()} rows
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                                                {gameDataList.map((data, index) => (
+                                                    <motion.button
+                                                        key={data.id}
+                                                        initial={{ opacity: 0, x: -10 }}
+                                                        animate={{ opacity: 1, x: 0 }}
+                                                        transition={{ delay: index * 0.05 }}
+                                                        onClick={() => {
+                                                            setActiveGameData(data);
+                                                            setShowDataSelector(false);
+                                                        }}
+                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-white/[0.04] last:border-0 ${
+                                                            data.id === activeGameData?.id ? 'bg-emerald-500/10 border-l-2 border-l-emerald-500' : ''
+                                                        }`}
+                                                    >
+                                                        <div className="font-medium text-white">{data.name}</div>
+                                                        <div className="text-xs text-slate-500">
+                                                            {data.rowCount.toLocaleString()} rows
+                                                        </div>
+                                                    </motion.button>
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
+                            )}
 
-                        {/* Refresh */}
-                        <button
-                            onClick={() => analytics.runAnalysis()}
-                            className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
-                            title="Re-run analysis"
-                        >
-                            <RefreshCw className="w-5 h-5" />
-                        </button>
+                            {/* Refresh */}
+                            <motion.button
+                                whileHover={{ scale: 1.1, rotate: 90 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => analytics.runAnalysis()}
+                                className="p-2 text-slate-500 hover:text-emerald-400 hover:bg-white/[0.05] rounded-lg transition-colors"
+                                title="Re-run analysis"
+                            >
+                                <RefreshCw className="w-5 h-5" />
+                            </motion.button>
 
-                        {/* Settings */}
-                        <Link
-                            to="/settings"
-                            className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
-                            title="Analytics settings"
-                        >
-                            <Settings className="w-5 h-5" />
-                        </Link>
+                            {/* Settings */}
+                            <Link
+                                to="/settings"
+                                className="p-2 text-slate-500 hover:text-slate-300 hover:bg-white/[0.05] rounded-lg transition-colors"
+                                title="Analytics settings"
+                            >
+                                <Settings className="w-5 h-5" />
+                            </Link>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </Card>
+            </motion.div>
 
             {/* Dashboard */}
             {result.dashboardLayout && (
-                <DashboardGrid
-                    dashboardLayout={result.dashboardLayout}
-                    data={normalizedData}
-                    columnMeanings={result.columnMeanings}
-                    metrics={result.metrics}
-                    insights={result.insights}
-                    anomalies={result.anomalies}
-                    funnels={result.funnels}
-                    cohortAnalysis={result.cohortAnalysis}
-                    availableCohortDimensions={result.availableCohortDimensions}
-                    onCohortDimensionChange={analytics.changeCohortDimension}
-                    gameType={result.gameType}
-                    suggestedQuestions={suggestedQuestions}
-                    onAskQuestion={analytics.askQuestion}
-                />
+                <motion.div variants={itemVariants}>
+                    <DashboardGrid
+                        dashboardLayout={result.dashboardLayout}
+                        data={normalizedData}
+                        columnMeanings={result.columnMeanings}
+                        metrics={result.metrics}
+                        insights={result.insights}
+                        anomalies={result.anomalies}
+                        funnels={result.funnels}
+                        cohortAnalysis={result.cohortAnalysis}
+                        availableCohortDimensions={result.availableCohortDimensions}
+                        onCohortDimensionChange={analytics.changeCohortDimension}
+                        gameType={result.gameType}
+                        suggestedQuestions={suggestedQuestions}
+                        onAskQuestion={analytics.askQuestion}
+                    />
+                </motion.div>
             )}
 
             {/* Stats Footer */}
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.chartRecommendations.length}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Charts Generated</div>
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="md">
+                    <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                        <StatItem
+                            icon={BarChart3}
+                            value={result.chartRecommendations.length}
+                            label="Charts Generated"
+                            index={0}
+                        />
+                        <StatItem
+                            icon={Zap}
+                            value={result.insights.length}
+                            label="Insights Found"
+                            index={1}
+                        />
+                        <StatItem
+                            icon={AlertCircle}
+                            value={result.anomalyStats?.total || 0}
+                            label="Anomalies Detected"
+                            index={2}
+                        />
+                        <StatItem
+                            icon={GitBranch}
+                            value={result.funnelStats?.detected || 0}
+                            label="Funnels Identified"
+                            index={3}
+                        />
+                        <StatItem
+                            icon={Users}
+                            value={result.cohortAnalysis?.cohorts.length || 0}
+                            label="Cohorts Analyzed"
+                            index={4}
+                        />
+                        <StatItem
+                            icon={Columns}
+                            value={result.columnMeanings.length}
+                            label="Columns Analyzed"
+                            index={5}
+                        />
                     </div>
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.insights.length}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Insights Found</div>
-                    </div>
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.anomalyStats?.total || 0}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Anomalies Detected</div>
-                    </div>
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.funnelStats?.detected || 0}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Funnels Identified</div>
-                    </div>
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.cohortAnalysis?.cohorts.length || 0}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Cohorts Analyzed</div>
-                    </div>
-                    <div>
-                        <div className="text-2xl font-bold text-th-text-primary">
-                            {result.columnMeanings.length}
-                        </div>
-                        <div className="text-xs text-th-text-muted">Columns Analyzed</div>
-                    </div>
-                </div>
+                </Card>
+            </motion.div>
+        </motion.div>
+    );
+}
+
+interface StatItemProps {
+    icon: React.ElementType;
+    value: number;
+    label: string;
+    index: number;
+}
+
+function StatItem({ icon: Icon, value, label, index }: StatItemProps) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className="text-center p-3 rounded-xl hover:bg-white/[0.02] transition-colors group cursor-default"
+        >
+            <div className="flex items-center justify-center gap-2 mb-1">
+                <Icon className="w-4 h-4 text-slate-600 group-hover:text-emerald-500/60 transition-colors" />
+                <span className="text-2xl font-display font-bold text-white">{value}</span>
             </div>
-        </div>
+            <div className="text-xs text-slate-500">{label}</div>
+        </motion.div>
     );
 }
 
