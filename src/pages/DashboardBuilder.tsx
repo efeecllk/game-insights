@@ -1,10 +1,11 @@
 /**
  * Dashboard Builder
  * Drag-and-drop custom dashboard creation
- * Phase 2: Page-by-Page Functionality (updated)
+ * Redesigned with Obsidian design system
  */
 
 import { useState, useEffect, useMemo, createContext, useContext } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     LayoutDashboard,
     Plus,
@@ -19,6 +20,8 @@ import {
     X,
     RefreshCw,
     Download,
+    Sparkles,
+    Grid3X3,
 } from 'lucide-react';
 import { ExportModal } from '../components/ExportModal';
 import {
@@ -41,6 +44,28 @@ import {
 import { useGameData } from '../hooks/useGameData';
 import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { IDataProvider } from '../lib/dataProviders';
+
+// Noise texture for Obsidian style
+const noiseTexture = `data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E`;
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+};
+
+const cardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+};
 
 // Context to pass data provider to widgets
 const DataProviderContext = createContext<{
@@ -204,170 +229,259 @@ export function DashboardBuilderPage() {
 
     return (
         <DataProviderContext.Provider value={{ dataProvider, hasRealData }}>
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-white flex items-center gap-3">
-                            <LayoutDashboard className="w-7 h-7 text-accent-primary" />
-                            Dashboard Builder
-                        </h1>
-                        <DataModeIndicator />
-                    </div>
-                    <p className="text-zinc-500 mt-1">Create custom dashboards with drag-and-drop widgets</p>
+            <motion.div
+                className="space-y-6 relative"
+                initial="hidden"
+                animate="visible"
+                variants={containerVariants}
+            >
+                {/* Background decorations */}
+                <div className="fixed inset-0 pointer-events-none overflow-hidden">
+                    <div className="absolute top-20 right-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-3xl" />
                 </div>
-                <div className="flex gap-3">
-                    {isEditing && selectedDashboard ? (
-                        <>
-                            <button
-                                onClick={() => setShowWidgetPicker(true)}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
-                            >
-                                <Plus className="w-4 h-4" />
-                                Add Widget
-                            </button>
-                            <button
-                                onClick={() => setIsEditing(false)}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
-                            >
-                                <Eye className="w-4 h-4" />
-                                Preview
-                            </button>
-                            <button
-                                onClick={handleSaveDashboard}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-primary text-white hover:bg-accent-primary/90 transition-colors"
-                            >
-                                <Save className="w-4 h-4" />
-                                Save
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            {selectedDashboard && (
-                                <>
-                                    <button
-                                        onClick={() => setShowExportModal(true)}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
-                                    >
-                                        <Download className="w-4 h-4" />
-                                        Export
-                                    </button>
-                                    <button
-                                        onClick={() => setIsEditing(true)}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-bg-card border border-white/10 text-zinc-300 hover:bg-bg-card-hover transition-colors"
-                                    >
-                                        <Edit3 className="w-4 h-4" />
-                                        Edit
-                                    </button>
-                                </>
-                            )}
-                            <button
-                                onClick={handleCreateDashboard}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-primary text-white hover:bg-accent-primary/90 transition-colors"
-                            >
-                                <Plus className="w-4 h-4" />
-                                New Dashboard
-                            </button>
-                        </>
-                    )}
-                </div>
-            </div>
 
-            {loading ? (
-                <div className="flex items-center justify-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-primary"></div>
-                </div>
-            ) : (
-                <div className="flex gap-6">
-                    {/* Dashboard List Sidebar */}
-                    <div className="w-64 flex-shrink-0">
-                        <div className="bg-bg-card rounded-card border border-white/[0.06] overflow-hidden">
-                            <div className="p-4 border-b border-white/[0.06]">
-                                <h3 className="text-sm font-medium text-white">Dashboards</h3>
+                {/* Header */}
+                <motion.div
+                    className="flex items-center justify-between relative z-10"
+                    variants={itemVariants}
+                >
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 blur-xl rounded-full" />
+                                <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center">
+                                    <Grid3X3 className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+                                    Dashboard Builder
+                                </h1>
+                                <p className="text-slate-400 mt-1">Create custom dashboards with drag-and-drop widgets</p>
                             </div>
-                            <div className="p-2">
-                                {dashboards.map((dash) => (
-                                    <DashboardListItem
-                                        key={dash.id}
-                                        dashboard={dash}
-                                        isSelected={selectedDashboard?.id === dash.id}
-                                        onSelect={() => {
-                                            setSelectedDashboard(dash);
-                                            setIsEditing(false);
-                                            setSelectedWidget(null);
-                                        }}
-                                        onDelete={() => handleDeleteDashboard(dash.id)}
-                                        onDuplicate={() => handleDuplicateDashboard(dash.id)}
-                                    />
-                                ))}
-                            </div>
+                            <DataModeIndicator />
                         </div>
                     </div>
-
-                    {/* Main Canvas */}
-                    <div className="flex-1">
-                        {selectedDashboard ? (
-                            <DashboardCanvas
-                                dashboard={selectedDashboard}
-                                isEditing={isEditing}
-                                selectedWidget={selectedWidget}
-                                onSelectWidget={setSelectedWidget}
-                                onDeleteWidget={handleDeleteWidget}
-                            />
-                        ) : (
-                            <div className="bg-bg-card rounded-card p-12 border border-white/[0.06] text-center">
-                                <LayoutDashboard className="w-12 h-12 text-zinc-600 mx-auto mb-4" />
-                                <h3 className="text-lg font-semibold text-white mb-2">No dashboard selected</h3>
-                                <p className="text-zinc-500 mb-4">Create a new dashboard to get started</p>
-                                <button
-                                    onClick={handleCreateDashboard}
-                                    className="px-4 py-2 rounded-xl bg-accent-primary text-white hover:bg-accent-primary/90 transition-colors"
+                    <div className="flex gap-3">
+                        {isEditing && selectedDashboard ? (
+                            <>
+                                <motion.button
+                                    onClick={() => setShowWidgetPicker(true)}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
                                 >
-                                    Create Dashboard
-                                </button>
-                            </div>
+                                    <Plus className="w-4 h-4" />
+                                    Add Widget
+                                </motion.button>
+                                <motion.button
+                                    onClick={() => setIsEditing(false)}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                >
+                                    <Eye className="w-4 h-4" />
+                                    Preview
+                                </motion.button>
+                                <motion.button
+                                    onClick={handleSaveDashboard}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                >
+                                    <Save className="w-4 h-4" />
+                                    Save
+                                </motion.button>
+                            </>
+                        ) : (
+                            <>
+                                {selectedDashboard && (
+                                    <>
+                                        <motion.button
+                                            onClick={() => setShowExportModal(true)}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            Export
+                                        </motion.button>
+                                        <motion.button
+                                            onClick={() => setIsEditing(true)}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                        >
+                                            <Edit3 className="w-4 h-4" />
+                                            Edit
+                                        </motion.button>
+                                    </>
+                                )}
+                                <motion.button
+                                    onClick={handleCreateDashboard}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                >
+                                    <Plus className="w-4 h-4" />
+                                    New Dashboard
+                                </motion.button>
+                            </>
                         )}
                     </div>
+                </motion.div>
 
-                    {/* Widget Config Panel */}
-                    {isEditing && selectedWidget && (
-                        <div className="w-80 flex-shrink-0">
-                            <WidgetConfigPanel
-                                widget={selectedWidget}
-                                onUpdate={(updates) => handleUpdateWidget(selectedWidget.id, updates)}
-                                onClose={() => setSelectedWidget(null)}
-                                onDelete={() => handleDeleteWidget(selectedWidget.id)}
-                            />
+                {loading ? (
+                    <motion.div
+                        className="flex items-center justify-center h-64"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        <div className="relative">
+                            <div className="w-12 h-12 rounded-full border-2 border-emerald-500/20 border-t-emerald-500 animate-spin" />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <Sparkles className="w-5 h-5 text-emerald-500/50" />
+                            </div>
                         </div>
+                    </motion.div>
+                ) : (
+                    <motion.div className="flex gap-6 relative z-10" variants={itemVariants}>
+                        {/* Dashboard List Sidebar */}
+                        <motion.div
+                            className="w-72 flex-shrink-0"
+                            variants={cardVariants}
+                        >
+                            <div
+                                className="relative rounded-2xl overflow-hidden"
+                                style={{ backgroundImage: `url("${noiseTexture}")` }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
+                                <div className="relative border border-white/[0.06]">
+                                    <div className="p-4 border-b border-white/[0.06]">
+                                        <div className="flex items-center gap-2">
+                                            <LayoutDashboard className="w-4 h-4 text-emerald-400" />
+                                            <h3 className="text-sm font-semibold text-white">Your Dashboards</h3>
+                                        </div>
+                                    </div>
+                                    <div className="p-2 max-h-[calc(100vh-300px)] overflow-y-auto">
+                                        <AnimatePresence>
+                                            {dashboards.map((dash, index) => (
+                                                <motion.div
+                                                    key={dash.id}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    exit={{ opacity: 0, x: -10 }}
+                                                    transition={{ delay: index * 0.03 }}
+                                                >
+                                                    <DashboardListItem
+                                                        dashboard={dash}
+                                                        isSelected={selectedDashboard?.id === dash.id}
+                                                        onSelect={() => {
+                                                            setSelectedDashboard(dash);
+                                                            setIsEditing(false);
+                                                            setSelectedWidget(null);
+                                                        }}
+                                                        onDelete={() => handleDeleteDashboard(dash.id)}
+                                                        onDuplicate={() => handleDuplicateDashboard(dash.id)}
+                                                    />
+                                                </motion.div>
+                                            ))}
+                                        </AnimatePresence>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Main Canvas */}
+                        <motion.div className="flex-1" variants={cardVariants}>
+                            {selectedDashboard ? (
+                                <DashboardCanvas
+                                    dashboard={selectedDashboard}
+                                    isEditing={isEditing}
+                                    selectedWidget={selectedWidget}
+                                    onSelectWidget={setSelectedWidget}
+                                    onDeleteWidget={handleDeleteWidget}
+                                />
+                            ) : (
+                                <motion.div
+                                    className="relative rounded-2xl overflow-hidden"
+                                    style={{ backgroundImage: `url("${noiseTexture}")` }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
+                                    <div className="relative p-12 border border-white/[0.06] text-center">
+                                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-white/[0.06] mx-auto mb-4 flex items-center justify-center">
+                                            <LayoutDashboard className="w-8 h-8 text-slate-600" />
+                                        </div>
+                                        <h3 className="text-lg font-semibold text-white mb-2">No dashboard selected</h3>
+                                        <p className="text-slate-500 mb-6">Create a new dashboard to get started</p>
+                                        <motion.button
+                                            onClick={handleCreateDashboard}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                        >
+                                            Create Dashboard
+                                        </motion.button>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </motion.div>
+
+                        {/* Widget Config Panel */}
+                        <AnimatePresence>
+                            {isEditing && selectedWidget && (
+                                <motion.div
+                                    className="w-80 flex-shrink-0"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                                >
+                                    <WidgetConfigPanel
+                                        widget={selectedWidget}
+                                        onUpdate={(updates) => handleUpdateWidget(selectedWidget.id, updates)}
+                                        onClose={() => setSelectedWidget(null)}
+                                        onDelete={() => handleDeleteWidget(selectedWidget.id)}
+                                    />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
+
+                {/* Widget Picker Modal */}
+                <AnimatePresence>
+                    {showWidgetPicker && (
+                        <WidgetPicker
+                            onSelect={handleAddWidget}
+                            onClose={() => setShowWidgetPicker(false)}
+                        />
                     )}
-                </div>
-            )}
+                </AnimatePresence>
 
-            {/* Widget Picker Modal */}
-            {showWidgetPicker && (
-                <WidgetPicker
-                    onSelect={handleAddWidget}
-                    onClose={() => setShowWidgetPicker(false)}
+                {/* Export Modal */}
+                <ExportModal
+                    isOpen={showExportModal}
+                    onClose={() => setShowExportModal(false)}
+                    title={selectedDashboard?.name || 'Dashboard'}
+                    description={selectedDashboard?.description}
+                    dashboardId={selectedDashboard?.id}
+                    metrics={selectedDashboard?.widgets
+                        .filter(w => w.type === 'kpi')
+                        .map(w => ({
+                            label: w.config.title || 'Metric',
+                            value: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).value,
+                            change: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).change,
+                        }))}
                 />
-            )}
-
-            {/* Export Modal */}
-            <ExportModal
-                isOpen={showExportModal}
-                onClose={() => setShowExportModal(false)}
-                title={selectedDashboard?.name || 'Dashboard'}
-                description={selectedDashboard?.description}
-                dashboardId={selectedDashboard?.id}
-                metrics={selectedDashboard?.widgets
-                    .filter(w => w.type === 'kpi')
-                    .map(w => ({
-                        label: w.config.title || 'Metric',
-                        value: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).value,
-                        change: getMetricValue(w.config.metric || 'dau', dataProvider, hasRealData).change,
-                    }))}
-            />
-        </div>
+            </motion.div>
         </DataProviderContext.Provider>
     );
 }
@@ -392,58 +506,78 @@ function DashboardListItem({
     const [showMenu, setShowMenu] = useState(false);
 
     return (
-        <div
+        <motion.div
             className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                 isSelected
-                    ? 'bg-accent-primary/10 text-white'
-                    : 'hover:bg-white/5 text-zinc-400'
+                    ? 'bg-emerald-500/10 border border-emerald-500/30'
+                    : 'hover:bg-white/[0.04] border border-transparent'
             }`}
             onClick={onSelect}
+            whileHover={{ x: 2 }}
+            whileTap={{ scale: 0.98 }}
         >
             <span className="text-xl">{dashboard.icon}</span>
             <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{dashboard.name}</p>
-                <p className="text-xs text-zinc-500">{dashboard.widgets.length} widgets</p>
+                <p className={`text-sm font-medium truncate ${isSelected ? 'text-emerald-300' : 'text-slate-300'}`}>
+                    {dashboard.name}
+                </p>
+                <p className="text-xs text-slate-500">{dashboard.widgets.length} widgets</p>
             </div>
             <button
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowMenu(!showMenu);
                 }}
-                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded transition-all"
+                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-white/10 rounded-lg transition-all"
             >
-                <MoreVertical className="w-4 h-4" />
+                <MoreVertical className="w-4 h-4 text-slate-400" />
             </button>
 
-            {showMenu && (
-                <div className="absolute right-0 top-full mt-1 z-10 bg-bg-elevated rounded-xl border border-white/10 shadow-xl py-1 min-w-32">
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onDuplicate();
-                            setShowMenu(false);
-                        }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 hover:bg-white/5 transition-colors"
+            <AnimatePresence>
+                {showMenu && (
+                    <motion.div
+                        className="absolute right-0 top-full mt-1 z-20"
+                        initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                        transition={{ duration: 0.15 }}
                     >
-                        <Copy className="w-4 h-4" />
-                        Duplicate
-                    </button>
-                    {!dashboard.isDefault && (
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onDelete();
-                                setShowMenu(false);
-                            }}
-                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-white/5 transition-colors"
+                        <div
+                            className="relative rounded-xl overflow-hidden shadow-2xl"
+                            style={{ backgroundImage: `url("${noiseTexture}")` }}
                         >
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                        </button>
-                    )}
-                </div>
-            )}
-        </div>
+                            <div className="absolute inset-0 bg-slate-900/98 backdrop-blur-xl" />
+                            <div className="relative border border-white/[0.08] py-1 min-w-36">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDuplicate();
+                                        setShowMenu(false);
+                                    }}
+                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-white/[0.06] transition-colors"
+                                >
+                                    <Copy className="w-4 h-4" />
+                                    Duplicate
+                                </button>
+                                {!dashboard.isDefault && (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            onDelete();
+                                            setShowMenu(false);
+                                        }}
+                                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-rose-400 hover:bg-rose-500/10 transition-colors"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        Delete
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
@@ -480,49 +614,71 @@ function DashboardCanvas({
     }, [dashboard.widgets]);
 
     return (
-        <div className="bg-bg-card rounded-card border border-white/[0.06] p-6">
-            {/* Dashboard Header */}
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                    <span className="text-2xl">{dashboard.icon}</span>
-                    <div>
-                        <h2 className="text-xl font-semibold text-white">{dashboard.name}</h2>
-                        {dashboard.description && (
-                            <p className="text-sm text-zinc-500">{dashboard.description}</p>
-                        )}
+        <div
+            className="relative rounded-2xl overflow-hidden"
+            style={{ backgroundImage: `url("${noiseTexture}")` }}
+        >
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
+            <div className="relative border border-white/[0.06] p-6">
+                {/* Dashboard Header */}
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                        <span className="text-2xl">{dashboard.icon}</span>
+                        <div>
+                            <h2 className="text-xl font-semibold text-white">{dashboard.name}</h2>
+                            {dashboard.description && (
+                                <p className="text-sm text-slate-500">{dashboard.description}</p>
+                            )}
+                        </div>
                     </div>
+                    {!isEditing && (
+                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                            <RefreshCw className="w-4 h-4" />
+                            <span>Last updated: just now</span>
+                        </div>
+                    )}
                 </div>
-                {!isEditing && (
-                    <div className="flex items-center gap-2 text-sm text-zinc-500">
-                        <RefreshCw className="w-4 h-4" />
-                        <span>Last updated: just now</span>
-                    </div>
+
+                {/* Widget Grid */}
+                <motion.div
+                    style={gridStyle}
+                    initial="hidden"
+                    animate="visible"
+                    variants={containerVariants}
+                >
+                    {sortedWidgets.map((widget, index) => (
+                        <motion.div
+                            key={widget.id}
+                            variants={itemVariants}
+                            custom={index}
+                        >
+                            <WidgetRenderer
+                                widget={widget}
+                                isEditing={isEditing}
+                                isSelected={selectedWidget?.id === widget.id}
+                                columns={dashboard.columns}
+                                onSelect={() => onSelectWidget(widget)}
+                                onDelete={() => onDeleteWidget(widget.id)}
+                            />
+                        </motion.div>
+                    ))}
+                </motion.div>
+
+                {/* Empty state */}
+                {dashboard.widgets.length === 0 && (
+                    <motion.div
+                        className="flex flex-col items-center justify-center h-64 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-white/[0.06] mb-4 flex items-center justify-center">
+                            <LayoutDashboard className="w-8 h-8 text-slate-600" />
+                        </div>
+                        <p className="text-slate-400 mb-2">No widgets yet</p>
+                        <p className="text-sm text-slate-500">Click "Add Widget" to start building</p>
+                    </motion.div>
                 )}
             </div>
-
-            {/* Widget Grid */}
-            <div style={gridStyle}>
-                {sortedWidgets.map((widget) => (
-                    <WidgetRenderer
-                        key={widget.id}
-                        widget={widget}
-                        isEditing={isEditing}
-                        isSelected={selectedWidget?.id === widget.id}
-                        columns={dashboard.columns}
-                        onSelect={() => onSelectWidget(widget)}
-                        onDelete={() => onDeleteWidget(widget.id)}
-                    />
-                ))}
-            </div>
-
-            {/* Empty state */}
-            {dashboard.widgets.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-64 text-center">
-                    <LayoutDashboard className="w-12 h-12 text-zinc-600 mb-4" />
-                    <p className="text-zinc-400 mb-2">No widgets yet</p>
-                    <p className="text-sm text-zinc-500">Click "Add Widget" to start building</p>
-                </div>
-            )}
         </div>
     );
 }
@@ -552,31 +708,42 @@ function WidgetRenderer({
     };
 
     return (
-        <div
+        <motion.div
             style={gridStyle}
-            className={`relative bg-white/[0.02] rounded-xl border transition-all ${
+            className={`relative rounded-xl border transition-all overflow-hidden ${
                 isSelected
-                    ? 'border-accent-primary ring-2 ring-accent-primary/20'
+                    ? 'border-emerald-500/50 ring-2 ring-emerald-500/20 bg-emerald-500/[0.03]'
                     : isEditing
-                    ? 'border-white/10 hover:border-white/20 cursor-pointer'
-                    : 'border-white/[0.06]'
+                    ? 'border-white/[0.08] hover:border-emerald-500/30 cursor-pointer bg-white/[0.02]'
+                    : 'border-white/[0.06] bg-white/[0.02]'
             }`}
             onClick={isEditing ? onSelect : undefined}
+            whileHover={isEditing ? { scale: 1.01 } : {}}
+            whileTap={isEditing ? { scale: 0.99 } : {}}
         >
             {/* Edit mode controls */}
-            {isEditing && (
-                <div className="absolute top-2 right-2 z-10 flex gap-1">
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onDelete();
-                        }}
-                        className="p-1.5 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors"
+            <AnimatePresence>
+                {isEditing && (
+                    <motion.div
+                        className="absolute top-2 right-2 z-10 flex gap-1"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                     >
-                        <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                </div>
-            )}
+                        <motion.button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete();
+                            }}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-1.5 rounded-lg bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors border border-rose-500/20"
+                        >
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Widget content */}
             <div className="p-4 h-full">
@@ -590,7 +757,7 @@ function WidgetRenderer({
                 {widget.type === 'cohort' && <CohortWidget widget={widget} />}
                 {widget.type === 'text' && <TextWidget widget={widget} />}
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -614,13 +781,15 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col justify-center">
-            <p className="text-sm text-zinc-500 mb-1">{widget.config.title || 'Metric'}</p>
+            <p className="text-sm text-slate-500 mb-1 uppercase tracking-wider text-xs font-medium">
+                {widget.config.title || 'Metric'}
+            </p>
             <p className="text-3xl font-bold text-white mb-2">{formatValue(data.value)}</p>
             {widget.config.showTrend !== false && (
-                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {data.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                    <span>{data.change >= 0 ? '+' : ''}{data.change}%</span>
-                    <span className="text-zinc-500">vs last period</span>
+                    <span className="font-medium">{data.change >= 0 ? '+' : ''}{data.change}%</span>
+                    <span className="text-slate-500">vs last period</span>
                 </div>
             )}
         </div>
@@ -643,10 +812,12 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
                 {data.map((d, i) => {
                     const height = ((d.value - minValue) / (maxValue - minValue)) * 100 || 50;
                     return (
-                        <div
+                        <motion.div
                             key={i}
-                            className="flex-1 bg-accent-primary/20 rounded-t transition-all hover:bg-accent-primary/40"
-                            style={{ height: `${Math.max(10, height)}%` }}
+                            initial={{ height: 0 }}
+                            animate={{ height: `${Math.max(10, height)}%` }}
+                            transition={{ delay: i * 0.03, duration: 0.4 }}
+                            className="flex-1 bg-gradient-to-t from-emerald-500/40 to-emerald-500/10 rounded-t hover:from-emerald-500/60 hover:to-emerald-500/20 transition-colors cursor-pointer"
                             title={`${d.date}: ${d.value.toLocaleString()}`}
                         />
                     );
@@ -670,14 +841,16 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
             <div className="flex-1 flex flex-col gap-2 justify-center">
                 {mockData.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
-                        <span className="text-xs text-zinc-500 w-20 truncate">{d.label}</span>
-                        <div className="flex-1 h-4 bg-white/5 rounded overflow-hidden">
-                            <div
-                                className="h-full bg-accent-primary/60 rounded"
-                                style={{ width: `${d.value}%` }}
+                        <span className="text-xs text-slate-500 w-20 truncate">{d.label}</span>
+                        <div className="flex-1 h-4 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${d.value}%` }}
+                                transition={{ delay: i * 0.1, duration: 0.5 }}
+                                className="h-full bg-gradient-to-r from-emerald-500/60 to-teal-500/60 rounded-full"
                             />
                         </div>
-                        <span className="text-xs text-zinc-400 w-8">{d.value}%</span>
+                        <span className="text-xs text-slate-400 w-8">{d.value}%</span>
                     </div>
                 ))}
             </div>
@@ -687,9 +860,9 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
 
 function PieChartWidget({ widget }: { widget: DashboardWidget }) {
     const mockData = [
-        { label: 'IAP', value: 60, color: '#8b5cf6' },
-        { label: 'Ads', value: 25, color: '#6366f1' },
-        { label: 'Subs', value: 15, color: '#ec4899' },
+        { label: 'IAP', value: 60, color: '#10b981' },
+        { label: 'Ads', value: 25, color: '#14b8a6' },
+        { label: 'Subs', value: 15, color: '#06b6d4' },
     ];
 
     return (
@@ -713,6 +886,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                                     strokeWidth="6"
                                     strokeDasharray={strokeDasharray}
                                     strokeDashoffset={-offset}
+                                    className="transition-all duration-500"
                                 />
                             );
                             acc.offset += (d.value / 100) * circumference;
@@ -724,7 +898,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                     {mockData.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-sm">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
-                            <span className="text-zinc-400">{d.label}</span>
+                            <span className="text-slate-400">{d.label}</span>
                             <span className="text-white font-medium ml-auto">{d.value}%</span>
                         </div>
                     ))}
@@ -751,18 +925,18 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
             <div className="flex-1 overflow-auto">
                 <table className="w-full text-sm">
                     <thead>
-                        <tr className="border-b border-white/10">
-                            <th className="text-left py-2 text-zinc-500 font-medium">Name</th>
-                            <th className="text-right py-2 text-zinc-500 font-medium">Revenue</th>
-                            <th className="text-right py-2 text-zinc-500 font-medium">Sales</th>
+                        <tr className="border-b border-white/[0.08]">
+                            <th className="text-left py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Name</th>
+                            <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Revenue</th>
+                            <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Sales</th>
                         </tr>
                     </thead>
                     <tbody>
                         {mockData.map((row) => (
-                            <tr key={row.id} className="border-b border-white/5">
-                                <td className="py-2 text-zinc-300">{row.name}</td>
-                                <td className="py-2 text-right text-white">{row.revenue}</td>
-                                <td className="py-2 text-right text-zinc-400">{row.sales}</td>
+                            <tr key={row.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-2 text-slate-300">{row.name}</td>
+                                <td className="py-2 text-right text-white font-medium">{row.revenue}</td>
+                                <td className="py-2 text-right text-slate-400">{row.sales}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -786,13 +960,16 @@ function FunnelWidget({ widget }: { widget: DashboardWidget }) {
             <div className="flex-1 flex flex-col justify-center gap-2">
                 {mockData.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
-                        <div
-                            className="h-6 bg-accent-primary/40 rounded flex items-center justify-end pr-2"
-                            style={{ width: `${d.percent}%`, minWidth: '40px' }}
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${d.percent}%` }}
+                            transition={{ delay: i * 0.1, duration: 0.5 }}
+                            className="h-6 bg-gradient-to-r from-emerald-500/50 to-teal-500/50 rounded flex items-center justify-end pr-2"
+                            style={{ minWidth: '40px' }}
                         >
                             <span className="text-xs text-white font-medium">{d.percent}%</span>
-                        </div>
-                        <span className="text-xs text-zinc-400">{d.label}</span>
+                        </motion.div>
+                        <span className="text-xs text-slate-400">{d.label}</span>
                     </div>
                 ))}
             </div>
@@ -818,22 +995,22 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
                 <table className="w-full text-xs">
                     <thead>
                         <tr>
-                            <th className="text-left py-1 text-zinc-500"></th>
+                            <th className="text-left py-1 text-slate-500"></th>
                             {days.map(d => (
-                                <th key={d} className="text-center py-1 text-zinc-500 font-medium">{d}</th>
+                                <th key={d} className="text-center py-1 text-slate-500 font-medium">{d}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
                         {weeks.map((week, i) => (
                             <tr key={week}>
-                                <td className="py-1 text-zinc-500 font-medium">{week}</td>
+                                <td className="py-1 text-slate-500 font-medium">{week}</td>
                                 {mockRetention[i].map((val, j) => (
                                     <td key={j} className="p-1">
                                         <div
-                                            className="rounded text-center py-1 text-white"
+                                            className="rounded text-center py-1 text-white transition-all hover:scale-105"
                                             style={{
-                                                backgroundColor: `rgba(139, 92, 246, ${val / 100})`,
+                                                backgroundColor: `rgba(16, 185, 129, ${val / 100})`,
                                             }}
                                         >
                                             {val}%
@@ -852,7 +1029,7 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
 function TextWidget({ widget }: { widget: DashboardWidget }) {
     return (
         <div className="h-full flex items-center">
-            <p className="text-zinc-300">{widget.config.textContent || widget.config.title || 'Text content'}</p>
+            <p className="text-slate-300">{widget.config.textContent || widget.config.title || 'Text content'}</p>
         </div>
     );
 }
@@ -871,34 +1048,69 @@ function WidgetPicker({
     const widgetTypes: WidgetType[] = ['kpi', 'line_chart', 'bar_chart', 'pie_chart', 'area_chart', 'table', 'funnel', 'cohort', 'text'];
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-bg-elevated rounded-2xl border border-white/10 shadow-2xl w-full max-w-2xl">
-                <div className="flex items-center justify-between p-6 border-b border-white/10">
-                    <h3 className="text-lg font-semibold text-white">Add Widget</h3>
-                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                        <X className="w-5 h-5 text-zinc-400" />
-                    </button>
+        <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+        >
+            <motion.div
+                className="relative rounded-2xl overflow-hidden w-full max-w-2xl"
+                style={{ backgroundImage: `url("${noiseTexture}")` }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl" />
+                <div className="relative border border-white/[0.08]">
+                    <div className="flex items-center justify-between p-6 border-b border-white/[0.08]">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                <Plus className="w-5 h-5 text-emerald-400" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-white">Add Widget</h3>
+                        </div>
+                        <motion.button
+                            onClick={onClose}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                        >
+                            <X className="w-5 h-5 text-slate-400" />
+                        </motion.button>
+                    </div>
+                    <motion.div
+                        className="p-6 grid grid-cols-3 gap-4"
+                        initial="hidden"
+                        animate="visible"
+                        variants={containerVariants}
+                    >
+                        {widgetTypes.map((type) => {
+                            const preset = WIDGET_PRESETS[type];
+                            return (
+                                <motion.button
+                                    key={type}
+                                    variants={itemVariants}
+                                    onClick={() => onSelect(type)}
+                                    whileHover={{ scale: 1.02, y: -2 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-white/[0.08] hover:border-emerald-500/30 hover:bg-emerald-500/[0.05] transition-all text-center group"
+                                >
+                                    <span className="text-3xl group-hover:scale-110 transition-transform">{preset.icon}</span>
+                                    <div>
+                                        <p className="text-white font-medium group-hover:text-emerald-300 transition-colors">{preset.name}</p>
+                                        <p className="text-xs text-slate-500 mt-0.5">{preset.description}</p>
+                                    </div>
+                                </motion.button>
+                            );
+                        })}
+                    </motion.div>
                 </div>
-                <div className="p-6 grid grid-cols-3 gap-4">
-                    {widgetTypes.map((type) => {
-                        const preset = WIDGET_PRESETS[type];
-                        return (
-                            <button
-                                key={type}
-                                onClick={() => onSelect(type)}
-                                className="flex flex-col items-center gap-3 p-4 rounded-xl border border-white/10 hover:border-accent-primary hover:bg-accent-primary/5 transition-all text-center"
-                            >
-                                <span className="text-3xl">{preset.icon}</span>
-                                <div>
-                                    <p className="text-white font-medium">{preset.name}</p>
-                                    <p className="text-xs text-zinc-500">{preset.description}</p>
-                                </div>
-                            </button>
-                        );
-                    })}
-                </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -920,114 +1132,127 @@ function WidgetConfigPanel({
     const preset = WIDGET_PRESETS[widget.type];
 
     return (
-        <div className="bg-bg-card rounded-card border border-white/[0.06] overflow-hidden">
-            <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
-                <div className="flex items-center gap-2">
-                    <span className="text-xl">{preset.icon}</span>
-                    <h3 className="text-sm font-medium text-white">{preset.name}</h3>
-                </div>
-                <button onClick={onClose} className="p-1 hover:bg-white/10 rounded transition-colors">
-                    <X className="w-4 h-4 text-zinc-400" />
-                </button>
-            </div>
-
-            <div className="p-4 space-y-4">
-                {/* Title */}
-                <div>
-                    <label className="block text-xs text-zinc-500 mb-1">Title</label>
-                    <input
-                        type="text"
-                        value={widget.config.title || ''}
-                        onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
-                        className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-accent-primary"
-                        placeholder="Widget title"
-                    />
+        <div
+            className="relative rounded-2xl overflow-hidden"
+            style={{ backgroundImage: `url("${noiseTexture}")` }}
+        >
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
+            <div className="relative border border-white/[0.06]">
+                <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-2">
+                        <span className="text-xl">{preset.icon}</span>
+                        <h3 className="text-sm font-semibold text-white">{preset.name}</h3>
+                    </div>
+                    <motion.button
+                        onClick={onClose}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                    >
+                        <X className="w-4 h-4 text-slate-400" />
+                    </motion.button>
                 </div>
 
-                {/* Metric selector for applicable widgets */}
-                {['kpi', 'line_chart', 'bar_chart', 'area_chart'].includes(widget.type) && (
+                <div className="p-4 space-y-4">
+                    {/* Title */}
                     <div>
-                        <label className="block text-xs text-zinc-500 mb-1">Metric</label>
-                        <select
-                            value={widget.config.metric || 'dau'}
-                            onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
-                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-accent-primary"
-                        >
-                            {METRIC_OPTIONS.map((opt) => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                            ))}
-                        </select>
-                    </div>
-                )}
-
-                {/* Show trend toggle for KPI */}
-                {widget.type === 'kpi' && (
-                    <div className="flex items-center justify-between">
-                        <label className="text-xs text-zinc-500">Show Trend</label>
-                        <button
-                            onClick={() => onUpdate({ config: { ...widget.config, showTrend: !widget.config.showTrend } })}
-                            className={`w-10 h-5 rounded-full transition-colors ${
-                                widget.config.showTrend !== false ? 'bg-accent-primary' : 'bg-white/10'
-                            }`}
-                        >
-                            <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
-                                widget.config.showTrend !== false ? 'translate-x-5' : 'translate-x-0.5'
-                            }`} />
-                        </button>
-                    </div>
-                )}
-
-                {/* Text content for text widget */}
-                {widget.type === 'text' && (
-                    <div>
-                        <label className="block text-xs text-zinc-500 mb-1">Content</label>
-                        <textarea
-                            value={widget.config.textContent || ''}
-                            onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
-                            rows={4}
-                            className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-accent-primary resize-none"
-                            placeholder="Enter text content..."
+                        <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Title</label>
+                        <input
+                            type="text"
+                            value={widget.config.title || ''}
+                            onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
+                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all placeholder:text-slate-600"
+                            placeholder="Widget title"
                         />
                     </div>
-                )}
 
-                {/* Size controls */}
-                <div>
-                    <label className="block text-xs text-zinc-500 mb-2">Size</label>
-                    <div className="grid grid-cols-2 gap-2">
+                    {/* Metric selector for applicable widgets */}
+                    {['kpi', 'line_chart', 'bar_chart', 'area_chart'].includes(widget.type) && (
                         <div>
-                            <label className="block text-xs text-zinc-600 mb-1">Width</label>
-                            <input
-                                type="number"
-                                value={widget.position.w}
-                                onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
-                                min={1}
-                                max={12}
-                                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-accent-primary"
+                            <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Metric</label>
+                            <select
+                                value={widget.config.metric || 'dau'}
+                                onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+                            >
+                                {METRIC_OPTIONS.map((opt) => (
+                                    <option key={opt.value} value={opt.value} className="bg-slate-900">{opt.label}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
+
+                    {/* Show trend toggle for KPI */}
+                    {widget.type === 'kpi' && (
+                        <div className="flex items-center justify-between">
+                            <label className="text-xs text-slate-500 uppercase tracking-wider font-medium">Show Trend</label>
+                            <button
+                                onClick={() => onUpdate({ config: { ...widget.config, showTrend: !widget.config.showTrend } })}
+                                className={`w-10 h-5 rounded-full transition-colors ${
+                                    widget.config.showTrend !== false ? 'bg-emerald-500' : 'bg-white/10'
+                                }`}
+                            >
+                                <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
+                                    widget.config.showTrend !== false ? 'translate-x-5' : 'translate-x-0.5'
+                                }`} />
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Text content for text widget */}
+                    {widget.type === 'text' && (
+                        <div>
+                            <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Content</label>
+                            <textarea
+                                value={widget.config.textContent || ''}
+                                onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
+                                rows={4}
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all resize-none placeholder:text-slate-600"
+                                placeholder="Enter text content..."
                             />
                         </div>
-                        <div>
-                            <label className="block text-xs text-zinc-600 mb-1">Height</label>
-                            <input
-                                type="number"
-                                value={widget.position.h}
-                                onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
-                                min={1}
-                                max={10}
-                                className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-accent-primary"
-                            />
+                    )}
+
+                    {/* Size controls */}
+                    <div>
+                        <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Size</label>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label className="block text-xs text-slate-600 mb-1">Width</label>
+                                <input
+                                    type="number"
+                                    value={widget.position.w}
+                                    onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
+                                    min={1}
+                                    max={12}
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs text-slate-600 mb-1">Height</label>
+                                <input
+                                    type="number"
+                                    value={widget.position.h}
+                                    onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
+                                    min={1}
+                                    max={10}
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Delete button */}
-                <button
-                    onClick={onDelete}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors text-sm"
-                >
-                    <Trash2 className="w-4 h-4" />
-                    Delete Widget
-                </button>
+                    {/* Delete button */}
+                    <motion.button
+                        onClick={onDelete}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 transition-colors text-sm border border-rose-500/20"
+                    >
+                        <Trash2 className="w-4 h-4" />
+                        Delete Widget
+                    </motion.button>
+                </div>
             </div>
         </div>
     );
