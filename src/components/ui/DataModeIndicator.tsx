@@ -1,6 +1,8 @@
 /**
- * Data Mode Indicator
+ * Data Mode Indicator - Obsidian Analytics Design
+ *
  * Shows whether user is viewing demo data or their own uploaded data
+ * with premium visual indicators
  */
 
 import { Database, Play, Upload } from 'lucide-react';

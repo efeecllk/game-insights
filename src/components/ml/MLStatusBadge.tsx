@@ -1,7 +1,9 @@
 /**
- * ML Status Badge
- * Shows ML model training/ready status
- * Phase 3: AI/ML Integration
+ * ML Status Badge - Obsidian Analytics Design
+ *
+ * Premium ML status indicator with:
+ * - Training/ready status badges
+ * - Animated loading states
  */
 
 import { Brain, Loader2 } from 'lucide-react';

@@ -1,6 +1,10 @@
 /**
- * Folder Upload Preview Component
- * Shows preview of files to be imported with merge options
+ * Folder Upload Preview - Obsidian Analytics Design
+ *
+ * Premium folder upload with:
+ * - File list preview
+ * - Merge strategy options
+ * - Column compatibility check
  */
 
 import { useState, useMemo } from 'react';

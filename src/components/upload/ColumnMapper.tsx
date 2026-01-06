@@ -1,5 +1,10 @@
 /**
- * Column Mapper Component - Review and edit column mappings
+ * Column Mapper Component - Obsidian Analytics Design
+ *
+ * Premium column mapping with:
+ * - AI-detected column types
+ * - Manual override options
+ * - Validation indicators
  */
 
 import { useState } from 'react';

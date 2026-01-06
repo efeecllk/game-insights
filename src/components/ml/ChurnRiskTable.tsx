@@ -1,7 +1,10 @@
 /**
- * Churn Risk Table
- * Shows users at risk of churning with prevention actions
- * Phase 3: AI/ML Integration
+ * Churn Risk Table - Obsidian Analytics Design
+ *
+ * Premium churn risk display with:
+ * - Risk level badges
+ * - Prevention action buttons
+ * - Expandable user details
  */
 
 import { useState } from 'react';

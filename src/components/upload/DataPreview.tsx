@@ -1,6 +1,10 @@
 /**
- * Data Preview Component
- * Shows imported data with column statistics and quality score
+ * Data Preview Component - Obsidian Analytics Design
+ *
+ * Premium data preview with:
+ * - Column statistics
+ * - Quality scoring
+ * - Sample data display
  */
 
 import { useMemo } from 'react';

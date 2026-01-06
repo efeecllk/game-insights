@@ -1,7 +1,10 @@
 /**
- * Upload Zone Component - Enhanced multi-format support
- * Phase 8: Enhanced error handling with user-friendly messages
- * Now with streaming support for large files (1GB+)
+ * Upload Zone Component - Obsidian Analytics Design
+ *
+ * Premium upload experience with:
+ * - Multi-format support (CSV, JSON, Excel, SQLite)
+ * - Streaming for large files (1GB+)
+ * - Drag & drop with visual feedback
  */
 
 import { useState, useCallback, DragEvent, ChangeEvent } from 'react';

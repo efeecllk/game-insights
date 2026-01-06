@@ -1,7 +1,10 @@
 /**
- * Revenue Forecast Chart
- * Displays ML-based revenue predictions with confidence intervals
- * Phase 3: AI/ML Integration
+ * Revenue Forecast Chart - Obsidian Analytics Design
+ *
+ * Premium ML forecast visualization with:
+ * - Confidence interval bands
+ * - Trend indicators
+ * - Dark theme chart styling
  */
 
 import ReactECharts from 'echarts-for-react';

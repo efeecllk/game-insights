@@ -1,7 +1,10 @@
 /**
- * ML Insights Panel
- * Shows high-level ML insights and recommendations
- * Phase 3: AI/ML Integration
+ * ML Insights Panel - Obsidian Analytics Design
+ *
+ * Premium AI insights with:
+ * - Risk alerts and recommendations
+ * - Segment identification
+ * - Revenue trend analysis
  */
 
 import { useState } from 'react';
