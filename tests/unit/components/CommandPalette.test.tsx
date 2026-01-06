@@ -146,7 +146,7 @@ describe('CommandPalette', () => {
 
             // First matching item should be selected (index 0)
             const monetizationOption = screen.getByRole('option', { name: /Monetization/i });
-            expect(monetizationOption).toHaveClass('bg-th-accent-primary/20');
+            expect(monetizationOption).toHaveClass('bg-emerald-500/10');
         });
     });
 
@@ -165,7 +165,7 @@ describe('CommandPalette', () => {
 
             // Second item should now be selected
             const options = screen.getAllByRole('option');
-            expect(options[1]).toHaveClass('bg-th-accent-primary/20');
+            expect(options[1]).toHaveClass('bg-emerald-500/10');
         });
 
         it('should navigate up with ArrowUp key', async () => {
@@ -184,7 +184,7 @@ describe('CommandPalette', () => {
 
             // Second item should now be selected
             const options = screen.getAllByRole('option');
-            expect(options[1]).toHaveClass('bg-th-accent-primary/20');
+            expect(options[1]).toHaveClass('bg-emerald-500/10');
         });
 
         it('should not go below first item', async () => {
@@ -202,7 +202,7 @@ describe('CommandPalette', () => {
 
             // First item should still be selected
             const options = screen.getAllByRole('option');
-            expect(options[0]).toHaveClass('bg-th-accent-primary/20');
+            expect(options[0]).toHaveClass('bg-emerald-500/10');
         });
 
         it('should execute selected command on Enter', async () => {
@@ -271,7 +271,7 @@ describe('CommandPalette', () => {
             expect(analyticsOption).toBeDefined();
 
             // First option (Dashboard) should be initially selected
-            expect(options[0]).toHaveClass('bg-th-accent-primary/20');
+            expect(options[0]).toHaveClass('bg-emerald-500/10');
         });
 
         it('should execute command on click', async () => {

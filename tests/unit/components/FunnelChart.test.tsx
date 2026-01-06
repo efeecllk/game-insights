@@ -172,8 +172,9 @@ describe('FunnelChart', () => {
         it('should have base card styling', () => {
             const { container } = render(<FunnelChart data={defaultData} />);
 
-            expect(container.firstChild).toHaveClass('bg-bg-card');
-            expect(container.firstChild).toHaveClass('rounded-card');
+            // Obsidian design uses glassmorphism styling
+            expect(container.firstChild).toHaveClass('rounded-2xl');
+            expect(container.firstChild).toHaveClass('backdrop-blur-xl');
         });
     });
 
@@ -236,8 +237,9 @@ describe('FunnelChart', () => {
         it('should have red color for drop-off text', () => {
             render(<FunnelChart data={defaultData} />);
 
-            const dropOffText = screen.getAllByText(/-\d+% drop/)[0];
-            expect(dropOffText).toHaveClass('text-red-500');
+            const dropOffText = screen.getAllByText(/\d+% drop/)[0];
+            // Obsidian design uses rose-400 instead of red-500
+            expect(dropOffText).toHaveClass('text-rose-400');
         });
 
         it('should have border separator for highlights section', () => {
