@@ -53,10 +53,13 @@ playwright-report/
 3-phase.md
 docs/phases/
 docs/research/
+docs/plans/
+docs/data-tests/
 plan-*/
 pivot-*/
 
-# Development testing files
+# Development files (not for public)
+CLAUDE.md
 test-ai-analysis.ts
 game-insights-docs/
 

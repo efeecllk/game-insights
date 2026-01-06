@@ -111,8 +111,7 @@ game-insights/
 │   └── types/           # TypeScript type definitions
 ├── sample-data/         # Example datasets for testing
 ├── docs/                # Documentation
-│   ├── ARCHITECTURE.md  # System architecture overview
-│   └── plans/           # Feature implementation plans
+│   └── ARCHITECTURE.md  # System architecture overview
 └── tests/               # Test suites (Vitest + Playwright)
 ```
 
