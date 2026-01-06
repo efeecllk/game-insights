@@ -186,11 +186,11 @@ export function SyncScheduleManager() {
                     index={0}
                 />
                 <SyncTypeCard
-                    icon={<Clock className="w-5 h-5 text-blue-400" />}
+                    icon={<Clock className="w-5 h-5 text-[#C15F3C]" />}
                     label="Scheduled"
                     count={groupedIntegrations.scheduled.length}
                     description="Automatic intervals"
-                    color="blue"
+                    color="rust"
                     index={1}
                 />
                 <SyncTypeCard
@@ -332,12 +332,12 @@ function SyncTypeCard({
     label: string;
     count: number;
     description: string;
-    color: 'slate' | 'blue' | 'orange' | 'violet';
+    color: 'slate' | 'rust' | 'orange' | 'violet';
     index: number;
 }) {
     const colorMap = {
         slate: { bg: 'bg-slate-500/10', border: 'border-slate-500/20', glow: '' },
-        blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', glow: 'shadow-blue-500/10' },
+        rust: { bg: 'bg-[#C15F3C]/10', border: 'border-[#C15F3C]/20', glow: 'shadow-[#C15F3C]/10' },
         orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20', glow: 'shadow-[#DA7756]/10' },
         violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', glow: 'shadow-violet-500/10' },
     };
@@ -638,7 +638,7 @@ function ScheduleBadge({ strategy }: { strategy: SyncStrategy }) {
             );
         case 'scheduled':
             return (
-                <span className="flex items-center gap-1 px-3 py-1.5 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-[#C15F3C]/10 text-[#C15F3C] border border-[#C15F3C]/20 rounded-lg text-xs font-medium">
                     <Clock className="w-3 h-3" />
                     Every {formatInterval(strategy.intervalMinutes)}
                 </span>

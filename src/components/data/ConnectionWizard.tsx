@@ -571,7 +571,7 @@ function SelectStep({
 
             <div>
                 <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                    <Database className="w-4 h-4 text-blue-400" />
+                    <Database className="w-4 h-4 text-th-text-muted" />
                     Databases
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -820,7 +820,7 @@ function AuthStep({
             {form.authMethod === 'oauth' && (
                 <div className="p-4 bg-white/[0.03] rounded-xl border border-slate-700">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <Info className="w-5 h-5 text-th-text-muted flex-shrink-0 mt-0.5" />
                         <div>
                             <p className="text-sm text-slate-300">
                                 OAuth authentication will open a popup window to sign in with your {catalogItem.name} account.
@@ -1076,7 +1076,7 @@ function ConfigureStep({
             {(form.type === 'firebase' || form.type === 'playfab' || form.type === 'unity') && (
                 <div className="p-4 bg-white/[0.03] rounded-xl border border-slate-700">
                     <div className="flex items-start gap-3">
-                        <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <Info className="w-5 h-5 text-th-text-muted flex-shrink-0 mt-0.5" />
                         <div className="text-sm text-slate-300">
                             <p className="font-medium text-white mb-1">
                                 {form.type === 'firebase' && 'Firebase Analytics Configuration'}

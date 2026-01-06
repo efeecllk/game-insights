@@ -546,16 +546,16 @@ function RecipeDetail({
             {recipe.prerequisites.length > 0 && (
                 <motion.div
                     variants={itemVariants}
-                    className="p-4 bg-blue-500/5 border border-blue-500/20 rounded-xl"
+                    className="p-4 bg-violet-500/5 border border-violet-500/20 rounded-xl"
                 >
-                    <h3 className="font-medium text-blue-400 mb-2 flex items-center gap-2">
+                    <h3 className="font-medium text-violet-400 mb-2 flex items-center gap-2">
                         <Sparkles className="w-4 h-4" />
                         Prerequisites
                     </h3>
                     <ul className="space-y-1">
                         {recipe.prerequisites.map((prereq, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
-                                <CheckCircle className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                                <CheckCircle className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
                                 {prereq}
                             </li>
                         ))}
@@ -652,9 +652,9 @@ function RecipeDetail({
 
                                         {/* Tip */}
                                         {step.tip && (
-                                            <div className="ml-11 flex items-start gap-2 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-                                                <Lightbulb className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                                                <p className="text-sm text-blue-400">{step.tip}</p>
+                                            <div className="ml-11 flex items-start gap-2 p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl">
+                                                <Lightbulb className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
+                                                <p className="text-sm text-violet-400">{step.tip}</p>
                                             </div>
                                         )}
 

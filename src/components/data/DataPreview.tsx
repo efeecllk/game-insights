@@ -244,11 +244,11 @@ export function DataPreview({
                         color="amber"
                     />
                     <QualityCard
-                        icon={<BarChart2 className="w-5 h-5 text-blue-400" />}
+                        icon={<BarChart2 className="w-5 h-5 text-violet-400" />}
                         label="Completeness"
                         value={Math.round((1 - columns.reduce((sum, c) => sum + c.nullCount, 0) / (totalRows * columns.length)) * 100)}
                         suffix="%"
-                        color="blue"
+                        color="violet"
                     />
                 </div>
             </motion.div>
@@ -526,13 +526,13 @@ function QualityCard({
     value: number;
     total?: number;
     suffix?: string;
-    color: 'orange' | 'rose' | 'amber' | 'blue';
+    color: 'orange' | 'rose' | 'amber' | 'violet';
 }) {
     const colorMap = {
         orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20' },
         rose: { bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
         amber: { bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
-        blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+        violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20' },
     };
 
     const style = colorMap[color];
@@ -561,7 +561,7 @@ function QualityCard({
 function ColumnTypeIcon({ type }: { type: ColumnStats['type'] }) {
     switch (type) {
         case 'number':
-            return <Hash className="w-4 h-4 text-blue-400" />;
+            return <Hash className="w-4 h-4 text-violet-400" />;
         case 'date':
             return <Calendar className="w-4 h-4 text-violet-400" />;
         case 'boolean':
@@ -664,7 +664,7 @@ function ColumnStatsCard({ column, totalRows }: { column: ColumnStats; totalRows
                                 initial={{ width: 0 }}
                                 animate={{ width: `${uniqueness}%` }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
-                                className="h-full rounded-full bg-blue-500"
+                                className="h-full rounded-full bg-[#C15F3C]"
                             />
                         </div>
                         <span className="text-xs font-medium text-white">{uniqueness}%</span>
@@ -731,7 +731,7 @@ function IssueCard({ issue }: { issue: ValidationIssue }) {
                         issue.type === 'missing' ? 'bg-slate-500/10 text-slate-400 border border-slate-500/20' :
                         issue.type === 'type_mismatch' ? 'bg-orange-500/10 text-orange-400 border border-orange-500/20' :
                         issue.type === 'duplicate' ? 'bg-violet-500/10 text-violet-400 border border-violet-500/20' :
-                        'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                        'bg-violet-500/10 text-violet-400 border border-violet-500/20'
                     }`}>
                         {issue.type.replace('_', ' ')}
                     </span>

@@ -282,8 +282,8 @@ export function InlineUpload({
             {/* Header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                        <Upload className="w-5 h-5 text-blue-400" />
+                    <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <Upload className="w-5 h-5 text-[#DA7756]" />
                     </div>
                     <div>
                         <h3 className="font-semibold text-white">Upload File</h3>
@@ -466,9 +466,9 @@ function DropZone({
                             animate={{ scale: 1 }}
                             className="relative w-16 h-16 mx-auto mb-4"
                         >
-                            <div className="absolute inset-0 bg-blue-500/20 rounded-2xl" />
-                            <div className="relative w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                <FileSpreadsheet className="w-8 h-8 text-blue-400" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
+                            <div className="relative w-16 h-16 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <FileSpreadsheet className="w-8 h-8 text-[#DA7756]" />
                             </div>
                         </motion.div>
                         <p className="text-white font-medium mb-1">
