@@ -111,8 +111,8 @@ function PageLoader() {
     return (
         <div className="flex items-center justify-center min-h-[400px]" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-3">
-                <Loader2 className="w-8 h-8 text-[#DA7756] animate-spin" aria-hidden="true" />
-                <p className="text-sm text-slate-400">Loading...</p>
+                <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" aria-hidden="true" />
+                <p className="text-sm text-th-text-muted">Loading...</p>
             </div>
         </div>
     );
@@ -253,7 +253,7 @@ function OverviewPage() {
 
                 {/* Brief explanation of what the app does */}
                 <motion.div variants={itemVariants} className="text-center">
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-th-text-muted">
                         Game Insights automatically analyzes retention, funnels, revenue, and player behavior
                     </p>
                 </motion.div>
@@ -293,15 +293,15 @@ function OverviewPage() {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                                 className="relative"
                             >
-                                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                                 <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                     <span className="text-2xl" aria-hidden="true">{gameInfo?.icon}</span>
                                 </div>
                             </motion.div>
 
                             <div>
-                                <h1 className="text-2xl font-display font-bold text-white flex items-center gap-3">
-                                    <span className="bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                <h1 className="text-2xl font-display font-bold text-th-text-primary flex items-center gap-3">
+                                    <span className="text-th-text-primary">
                                         {isUsingRealData ? activeGameData?.name : `${gameInfo?.name} Analytics`}
                                     </span>
                                     {isUsingRealData ? (
@@ -324,7 +324,7 @@ function OverviewPage() {
                                         </motion.span>
                                     )}
                                 </h1>
-                                <p className="text-sm text-slate-500 mt-1">
+                                <p className="text-sm text-th-text-muted mt-1">
                                     {isUsingRealData
                                         ? `Analyzing ${activeGameData?.rowCount?.toLocaleString() || activeGameData?.rawData?.length?.toLocaleString() || 0} rows of data`
                                         : gameInfo?.description
@@ -434,16 +434,13 @@ function ChartContainer({
             className="relative group"
         >
             {/* Hover glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-[#DA7756]/10 transition-colors duration-300 overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
+            <div className="relative bg-th-bg-surface  rounded-2xl border border-th-border group-hover:border-th-accent-primary/20 transition-colors duration-300 overflow-hidden shadow-theme-sm">
                 {/* Header */}
-                <div className="relative px-5 py-4 border-b border-white/[0.04]">
-                    <h3 className="text-sm font-semibold text-white">{title}</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>
+                <div className="relative px-5 py-4 border-b border-th-border-subtle">
+                    <h3 className="text-sm font-semibold text-th-text-primary">{title}</h3>
+                    <p className="text-xs text-th-text-muted mt-0.5">{subtitle}</p>
                 </div>
 
                 {/* Chart content */}
@@ -494,20 +491,17 @@ function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
     return (
         <div className="relative group">
             {/* Subtle hover effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
+            <div className="relative bg-th-bg-surface  rounded-2xl border border-th-border overflow-hidden shadow-theme-sm">
                 {/* Header */}
-                <div className="relative px-6 py-4 border-b border-white/[0.04] flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
+                <div className="relative px-6 py-4 border-b border-th-border-subtle flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-th-accent-primary" />
                     </div>
                     <div>
-                        <h2 id="insights-heading" className="text-base font-semibold text-white">AI Insights</h2>
-                        <p className="text-xs text-slate-500">Auto-generated recommendations based on your data</p>
+                        <h2 id="insights-heading" className="text-base font-semibold text-th-text-primary">AI Insights</h2>
+                        <p className="text-xs text-th-text-muted">Auto-generated recommendations based on your data</p>
                     </div>
                 </div>
 
@@ -573,7 +567,7 @@ function InsightCard({
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 300 }}
             whileHover={{ x: 4 }}
-            className={`p-4 rounded-xl border ${bg} ${border} backdrop-blur-sm group cursor-pointer transition-colors duration-200 hover:bg-white/[0.02]`}
+            className={`p-4 rounded-xl border ${bg} ${border}  group cursor-pointer transition-colors duration-200 hover:bg-th-interactive-hover`}
             role="listitem"
         >
             <div className="flex items-start gap-3">
@@ -582,12 +576,12 @@ function InsightCard({
                 </div>
                 <div className="flex-1">
                     <span className="sr-only">{label}: </span>
-                    <p className="text-sm text-slate-300 leading-relaxed">{message}</p>
+                    <p className="text-sm text-th-text-secondary leading-relaxed">{message}</p>
                 </div>
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileHover={{ opacity: 1 }}
-                    className="text-slate-600 group-hover:text-slate-400 transition-colors"
+                    className="text-th-text-disabled group-hover:text-th-text-muted transition-colors"
                 >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -605,18 +599,18 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
     return (
         <div className="space-y-6">
             <header className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-white">{title}</h1>
+                <h1 className="text-2xl font-bold text-th-text-primary">{title}</h1>
                 {badge && (
-                    <span className="text-xs font-semibold text-[#DA7756] bg-[#DA7756]/10 border border-[#DA7756]/20 px-2 py-1 rounded">
+                    <span className="text-xs font-semibold text-th-accent-primary bg-th-accent-primary-muted border border-th-accent-primary/20 px-2 py-1 rounded">
                         {badge}
                     </span>
                 )}
             </header>
-            <p className="text-slate-400">{description ?? 'This section is under development'}</p>
-            <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-white/[0.08] flex flex-col items-center justify-center text-center">
+            <p className="text-th-text-secondary">{description ?? 'This section is under development'}</p>
+            <div className="bg-th-bg-surface  rounded-2xl p-12 border border-th-border flex flex-col items-center justify-center text-center shadow-theme-sm">
                 <span className="text-4xl mb-4" aria-hidden="true">🚧</span>
-                <p className="text-slate-300 font-medium">Coming soon...</p>
-                <p className="text-slate-500 text-sm mt-2">Check back for updates</p>
+                <p className="text-th-text-secondary font-medium">Coming soon...</p>
+                <p className="text-th-text-muted text-sm mt-2">Check back for updates</p>
             </div>
         </div>
     );
@@ -683,7 +677,7 @@ function AppContent() {
             {/* Skip Link for Keyboard Navigation */}
             <SkipLink />
 
-            <div className="min-h-screen bg-slate-950 flex">
+            <div className="min-h-screen bg-th-bg-base flex">
                 {/* Sidebar Navigation */}
                 <Sidebar />
 

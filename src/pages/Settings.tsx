@@ -10,9 +10,10 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
-import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield, Zap, Gauge } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield, Zap, Gauge, Sun, Moon, Monitor } from 'lucide-react';
 import { usePerformance } from '../context/PerformanceContext';
+import { useTheme } from '../context/ThemeContext';
 import { validateApiKey } from '../services/openai';
 import { AnomalyConfigPanel } from '../components/settings';
 import { languages, changeLanguage, type LanguageCode } from '../i18n';
@@ -53,6 +54,7 @@ const itemVariants = {
 export function SettingsPage() {
     const { t, i18n } = useTranslation();
     const { mode, setMode, fps, isLowEndDevice, enableBlur, enableAnimations } = usePerformance();
+    const { theme, setTheme, resolvedTheme } = useTheme();
     const [apiKey, setApiKey] = useState('');
     const [showKey, setShowKey] = useState(false);
     const [status, setStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
@@ -110,17 +112,96 @@ export function SettingsPage() {
                     transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                     className="relative"
                 >
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                        <Settings className="w-6 h-6 text-[#DA7756]" />
+                    <div className="absolute inset-0 bg-th-accent-primary/20 rounded-2xl" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <Settings className="w-6 h-6 text-th-accent-primary" />
                     </div>
                 </motion.div>
                 <div>
-                    <h1 className="text-2xl font-display font-bold text-white">
+                    <h1 className="text-2xl font-display font-bold text-th-text-primary">
                         {t('pages.settings.title')}
                     </h1>
-                    <p className="text-sm text-slate-500 mt-0.5">{t('pages.settings.subtitle')}</p>
+                    <p className="text-sm text-th-text-muted mt-0.5">{t('pages.settings.subtitle')}</p>
                 </div>
+            </motion.div>
+
+            {/* Appearance Section - Theme Toggle */}
+            <motion.div variants={itemVariants}>
+                <SettingsCard
+                    icon={Sun}
+                    iconColor="orange"
+                    title="Appearance"
+                    description="Choose your preferred color theme"
+                >
+                    <div className="space-y-4">
+                        {/* Theme Mode Selector */}
+                        <div className="grid grid-cols-3 gap-2">
+                            {[
+                                { value: 'light', label: 'Light', icon: Sun, desc: 'Cream backgrounds' },
+                                { value: 'dark', label: 'Dark', icon: Moon, desc: 'Slate backgrounds' },
+                                { value: 'system', label: 'System', icon: Monitor, desc: 'Match OS setting' },
+                            ].map((option) => {
+                                const isSelected = theme === option.value;
+                                const IconComponent = option.icon;
+                                return (
+                                    <button
+                                        key={option.value}
+                                        onClick={() => setTheme(option.value as 'light' | 'dark' | 'system')}
+                                        className={`relative p-4 rounded-xl text-left transition-all duration-200 ${
+                                            isSelected
+                                                ? 'bg-th-accent-primary-muted border border-th-accent-primary/30'
+                                                : 'bg-th-bg-elevated border border-th-border hover:bg-th-bg-surface-hover'
+                                        }`}
+                                    >
+                                        <div className="flex flex-col items-center gap-2">
+                                            <div className={`p-2 rounded-lg ${isSelected ? 'bg-th-accent-primary/20' : 'bg-th-bg-surface'}`}>
+                                                <IconComponent className={`w-5 h-5 ${isSelected ? 'text-th-accent-primary' : 'text-th-text-muted'}`} />
+                                            </div>
+                                            <div className={`text-sm font-medium ${isSelected ? 'text-th-accent-primary' : 'text-th-text-secondary'}`}>
+                                                {option.label}
+                                            </div>
+                                            <div className="text-[10px] text-th-text-muted text-center">{option.desc}</div>
+                                        </div>
+                                        {isSelected && (
+                                            <Check className="absolute top-2 right-2 w-4 h-4 text-th-accent-primary" />
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Current Theme Preview */}
+                        <div className="flex items-center justify-between p-3 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
+                            <div className="flex items-center gap-3">
+                                <AnimatePresence mode="wait">
+                                    {resolvedTheme === 'dark' ? (
+                                        <motion.div
+                                            key="moon-icon"
+                                            initial={{ rotate: -90, opacity: 0 }}
+                                            animate={{ rotate: 0, opacity: 1 }}
+                                            exit={{ rotate: 90, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Moon className="w-4 h-4 text-th-text-secondary" />
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="sun-icon"
+                                            initial={{ rotate: 90, opacity: 0 }}
+                                            animate={{ rotate: 0, opacity: 1 }}
+                                            exit={{ rotate: -90, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Sun className="w-4 h-4 text-th-accent-primary" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                                <span className="text-sm text-th-text-secondary">Current theme</span>
+                            </div>
+                            <span className="text-sm font-medium text-th-text-primary capitalize">{resolvedTheme}</span>
+                        </div>
+                    </div>
+                </SettingsCard>
             </motion.div>
 
             {/* Language Selection Section */}
@@ -143,14 +224,14 @@ export function SettingsPage() {
                                     onClick={() => handleLanguageChange(lang.code)}
                                     className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                                         isSelected
-                                            ? 'text-white bg-[#DA7756]/20 border border-[#DA7756]/30'
-                                            : 'text-slate-400 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05] hover:text-slate-200'
+                                            ? 'text-th-text-primary bg-th-accent-primary-muted border border-th-accent-primary/30'
+                                            : 'text-th-text-secondary bg-th-bg-elevated border border-th-border hover:bg-th-bg-surface-hover hover:text-th-text-primary'
                                     }`}
                                 >
                                     {isSelected && (
                                         <motion.div
                                             layoutId="langSelector"
-                                            className="absolute inset-0 bg-[#DA7756]/10 rounded-xl"
+                                            className="absolute inset-0 bg-th-accent-primary/10 rounded-xl"
                                             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                         />
                                     )}
@@ -172,20 +253,20 @@ export function SettingsPage() {
                 >
                     <div className="space-y-4">
                         {/* FPS & Device Info */}
-                        <div className="flex items-center justify-between p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
+                        <div className="flex items-center justify-between p-3 bg-th-bg-elevated rounded-xl border border-th-border-subtle">
                             <div className="flex items-center gap-3">
-                                <Zap className={`w-4 h-4 ${fps >= 45 ? 'text-[#DA7756]' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`} />
-                                <span className="text-sm text-slate-400">Current FPS</span>
+                                <Zap className={`w-4 h-4 ${fps >= 45 ? 'text-th-success' : fps >= 30 ? 'text-th-warning' : 'text-th-error'}`} />
+                                <span className="text-sm text-th-text-secondary">Current FPS</span>
                             </div>
-                            <span className={`font-mono text-sm font-semibold ${fps >= 45 ? 'text-[#DA7756]' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`}>
+                            <span className={`font-mono text-sm font-semibold ${fps >= 45 ? 'text-th-success' : fps >= 30 ? 'text-th-warning' : 'text-th-error'}`}>
                                 {fps}
                             </span>
                         </div>
 
                         {isLowEndDevice && (
-                            <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
-                                <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                                <span className="text-xs text-amber-300">Low-end device detected. Consider using Lite mode.</span>
+                            <div className="flex items-center gap-2 p-3 bg-th-warning-muted border border-th-warning/20 rounded-xl">
+                                <AlertCircle className="w-4 h-4 text-th-warning flex-shrink-0" />
+                                <span className="text-xs text-th-warning">Low-end device detected. Consider using Lite mode.</span>
                             </div>
                         )}
 
@@ -202,25 +283,25 @@ export function SettingsPage() {
                                     onClick={() => setMode(option.value as 'auto' | 'full' | 'balanced' | 'lite')}
                                     className={`relative p-3 rounded-xl text-left transition-all duration-200 ${
                                         mode === option.value
-                                            ? 'bg-[#DA7756]/20 border border-[#DA7756]/30'
-                                            : 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
+                                            ? 'bg-th-accent-primary-muted border border-th-accent-primary/30'
+                                            : 'bg-th-bg-elevated border border-th-border hover:bg-th-bg-surface-hover'
                                     }`}
                                 >
-                                    <div className={`text-sm font-medium ${mode === option.value ? 'text-[#DA7756]' : 'text-slate-300'}`}>
+                                    <div className={`text-sm font-medium ${mode === option.value ? 'text-th-accent-primary' : 'text-th-text-secondary'}`}>
                                         {option.label}
                                     </div>
-                                    <div className="text-[10px] text-slate-500 mt-0.5">{option.desc}</div>
+                                    <div className="text-[10px] text-th-text-muted mt-0.5">{option.desc}</div>
                                     {mode === option.value && (
-                                        <Check className="absolute top-2 right-2 w-3 h-3 text-[#DA7756]" />
+                                        <Check className="absolute top-2 right-2 w-3 h-3 text-th-accent-primary" />
                                     )}
                                 </button>
                             ))}
                         </div>
 
                         {/* Current Status */}
-                        <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-white/[0.04]">
-                            <span>Blur effects: <span className={enableBlur ? 'text-[#DA7756]' : 'text-slate-400'}>{enableBlur ? 'On' : 'Off'}</span></span>
-                            <span>Animations: <span className={enableAnimations ? 'text-[#DA7756]' : 'text-slate-400'}>{enableAnimations ? 'On' : 'Off'}</span></span>
+                        <div className="flex items-center justify-between text-xs text-th-text-muted pt-2 border-t border-th-border-subtle">
+                            <span>Blur effects: <span className={enableBlur ? 'text-th-accent-primary' : 'text-th-text-secondary'}>{enableBlur ? 'On' : 'Off'}</span></span>
+                            <span>Animations: <span className={enableAnimations ? 'text-th-accent-primary' : 'text-th-text-secondary'}>{enableAnimations ? 'On' : 'Off'}</span></span>
                         </div>
                     </div>
                 </SettingsCard>
@@ -245,7 +326,7 @@ export function SettingsPage() {
                                     setStatus('idle');
                                 }}
                                 placeholder={t('pages.settings.openai.placeholder')}
-                                className="w-full px-4 py-3 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all font-mono text-sm"
+                                className="w-full px-4 py-3 pr-12 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-disabled focus:outline-none focus:border-th-accent-primary/50 focus:bg-th-bg-surface-hover transition-all font-mono text-sm"
                             />
                             <button
                                 onClick={() => setShowKey(!showKey)}
@@ -286,7 +367,7 @@ export function SettingsPage() {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleValidate}
                                 disabled={!apiKey || status === 'validating'}
-                                className="px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-slate-300 hover:bg-white/[0.06] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                                className="px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-slate-300 hover:bg-white/[0.06] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                                 {t('actions.validate')}
                             </motion.button>
@@ -313,7 +394,7 @@ export function SettingsPage() {
                     </div>
 
                     {/* Info Box */}
-                    <div className="mt-6 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                    <div className="mt-6 p-4 rounded-xl bg-white/[0.02] border border-slate-800">
                         <div className="flex items-start gap-3">
                             <Shield className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
                             <div>
@@ -363,21 +444,18 @@ function SettingsCard({
     children: React.ReactNode;
 }) {
     const colorClasses = {
-        orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
-        blue: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
-        violet: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
-        amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+        orange: 'bg-th-accent-primary-muted text-th-accent-primary border-th-accent-primary/20',
+        blue: 'bg-th-info-muted text-th-info border-th-info/20',
+        violet: 'bg-th-accent-secondary/10 text-th-accent-secondary border-th-accent-secondary/20',
+        amber: 'bg-th-warning-muted text-th-warning border-th-warning/20',
     };
 
     return (
         <div className="relative group">
             {/* Subtle glow on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-th-accent-primary/0 via-th-accent-primary/5 to-th-accent-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] overflow-hidden">
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
+            <div className="relative bg-th-bg-surface  rounded-2xl p-6 border border-th-border overflow-hidden shadow-theme-sm">
                 <div className="relative">
                     {/* Header */}
                     <div className="flex items-center gap-3 mb-6">
@@ -385,8 +463,8 @@ function SettingsCard({
                             <Icon className="w-5 h-5" />
                         </div>
                         <div>
-                            <h3 className="text-base font-semibold text-white">{title}</h3>
-                            <p className="text-xs text-slate-500">{description}</p>
+                            <h3 className="text-base font-semibold text-th-text-primary">{title}</h3>
+                            <p className="text-xs text-th-text-muted">{description}</p>
                         </div>
                     </div>
 

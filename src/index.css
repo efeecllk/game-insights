@@ -94,11 +94,11 @@
    Claude Light Theme - Warm cream/beige inspired by Claude AI (Pampas)
    ============================================================================ */
 [data-theme="light"] {
-  /* Background Hierarchy - Warm cream tones (Pampas) */
-  --color-bg-base: #F4F3EE;
-  --color-bg-subtle: #EAE8E1;
+  /* Background Hierarchy - Warm cream tones matching user request */
+  --color-bg-base: #F5F5F0;
+  --color-bg-subtle: #FAF9F7;
   --color-bg-surface: #FFFFFF;
-  --color-bg-surface-hover: #FAF9F6;
+  --color-bg-surface-hover: #F8F7F4;
   --color-bg-elevated: #FFFFFF;
   --color-bg-overlay: rgba(26, 25, 24, 0.4);
 
