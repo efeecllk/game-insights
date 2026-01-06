@@ -1,10 +1,14 @@
 /**
- * Help Tooltip
- * Contextual help tooltips with metric explanations
- * Phase 8: Usability & Accessibility
+ * Help Tooltip - Obsidian Analytics Design
+ *
+ * Contextual help tooltips with:
+ * - Glassmorphism containers
+ * - Animated reveal
+ * - Metric explanations
  */
 
 import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle, ExternalLink } from 'lucide-react';
 
 // ============================================================================
@@ -156,69 +160,77 @@ export function HelpTooltip({ term, children }: HelpTooltipProps) {
     return (
         <span className="relative inline-flex items-center">
             {children}
-            <button
+            <motion.button
                 ref={buttonRef}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="ml-1 p-0.5 rounded-full hover:bg-th-bg-elevated transition-colors focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                className="ml-1 p-0.5 rounded-full hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                 aria-label={`Help for ${info.name}`}
                 aria-expanded={isOpen}
             >
-                <HelpCircle className="w-3.5 h-3.5 text-th-text-secondary hover:text-th-accent-primary" />
-            </button>
+                <HelpCircle className="w-3.5 h-3.5 text-slate-400 hover:text-emerald-400 transition-colors" />
+            </motion.button>
 
-            {isOpen && (
-                <div
-                    ref={tooltipRef}
-                    role="tooltip"
-                    className="absolute z-50 left-0 top-full mt-2 w-72 p-4 bg-th-bg-card border border-th-border rounded-xl shadow-xl"
-                >
-                    {/* Arrow */}
-                    <div className="absolute -top-2 left-4 w-4 h-4 bg-th-bg-card border-l border-t border-th-border transform rotate-45" />
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        ref={tooltipRef}
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        role="tooltip"
+                        className="absolute z-50 left-0 top-full mt-2 w-72 p-4 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl"
+                    >
+                        {/* Arrow */}
+                        <div className="absolute -top-2 left-4 w-4 h-4 bg-slate-900 border-l border-t border-white/[0.08] transform rotate-45" />
 
-                    {/* Content */}
-                    <div className="relative">
-                        <h4 className="font-semibold text-th-text-primary text-sm mb-2">
-                            {info.name}
-                        </h4>
-                        <p className="text-sm text-th-text-secondary mb-3">
-                            {info.description}
-                        </p>
+                        {/* Content */}
+                        <div className="relative">
+                            <h4 className="font-semibold text-white text-sm mb-2">
+                                {info.name}
+                            </h4>
+                            <p className="text-sm text-slate-300 mb-3">
+                                {info.description}
+                            </p>
 
-                        {info.formula && (
-                            <div className="mb-3">
-                                <span className="text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Formula
-                                </span>
-                                <p className="text-xs text-th-text-primary font-mono bg-th-bg-elevated px-2 py-1 rounded mt-1">
-                                    {info.formula}
-                                </p>
-                            </div>
-                        )}
+                            {info.formula && (
+                                <div className="mb-3">
+                                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                                        Formula
+                                    </span>
+                                    <p className="text-xs text-white font-mono bg-white/[0.03] border border-white/[0.06] px-2 py-1 rounded-lg mt-1">
+                                        {info.formula}
+                                    </p>
+                                </div>
+                            )}
 
-                        {info.benchmark && (
-                            <div className="mb-3">
-                                <span className="text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Benchmark
-                                </span>
-                                <p className="text-xs text-th-text-primary mt-1">
-                                    {info.benchmark}
-                                </p>
-                            </div>
-                        )}
+                            {info.benchmark && (
+                                <div className="mb-3">
+                                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
+                                        Benchmark
+                                    </span>
+                                    <p className="text-xs text-white mt-1">
+                                        {info.benchmark}
+                                    </p>
+                                </div>
+                            )}
 
-                        {info.learnMoreUrl && (
-                            <a
-                                href={info.learnMoreUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-xs text-th-accent-primary hover:underline"
-                            >
-                                Learn more <ExternalLink className="w-3 h-3" />
-                            </a>
-                        )}
-                    </div>
-                </div>
-            )}
+                            {info.learnMoreUrl && (
+                                <a
+                                    href={info.learnMoreUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline transition-colors"
+                                >
+                                    Learn more <ExternalLink className="w-3 h-3" />
+                                </a>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </span>
     );
 }
@@ -234,7 +246,7 @@ export function InlineHelp({ term }: { term: string }) {
 
     return (
         <span
-            className="text-th-text-secondary hover:text-th-accent-primary cursor-help border-b border-dotted border-current"
+            className="text-slate-300 hover:text-emerald-400 cursor-help border-b border-dotted border-current transition-colors"
             title={info.description}
         >
             {info.name}

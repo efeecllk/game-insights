@@ -1,11 +1,15 @@
 /**
- * Welcome Flow
- * Onboarding experience for new users
- * Phase 8: Usability & Accessibility
+ * Welcome Flow - Obsidian Analytics Design
+ *
+ * Premium onboarding experience with:
+ * - Glassmorphism containers
+ * - Animated transitions
+ * - Emerald accent theme
  */
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Upload,
     Play,
@@ -27,6 +31,33 @@ interface WelcomeFlowProps {
 }
 
 type Step = 'welcome' | 'choose-path' | 'game-type' | 'complete';
+
+// ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: {
+        opacity: 0,
+        y: -20,
+        transition: { duration: 0.2 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
 
 // ============================================================================
 // Welcome Flow Component
@@ -71,34 +102,76 @@ export function WelcomeFlow({ onComplete, onSkip }: WelcomeFlowProps) {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-th-bg-darkest">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
             {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-violet-900/20 via-transparent to-indigo-900/20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-transparent to-teal-900/20" />
 
             {/* Animated background shapes */}
             <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+                <motion.div
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1] }}
+                    transition={{ duration: 8, repeat: Infinity }}
+                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"
+                />
+                <motion.div
+                    animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.15, 0.1] }}
+                    transition={{ duration: 8, repeat: Infinity, delay: 4 }}
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl"
+                />
             </div>
 
             {/* Content */}
             <div className="relative w-full max-w-2xl mx-4">
-                {step === 'welcome' && (
-                    <WelcomeStep onNext={() => setStep('choose-path')} onSkip={onSkip} />
-                )}
-                {step === 'choose-path' && (
-                    <ChoosePathStep onUpload={handleUploadPath} onDemo={handleDemoPath} onBack={() => setStep('welcome')} />
-                )}
-                {step === 'game-type' && (
-                    <GameTypeStep onSelect={handleGameTypeSelect} onBack={() => setStep('choose-path')} />
-                )}
-                {step === 'complete' && (
-                    <CompleteStep
-                        path={selectedPath}
-                        gameType={selectedGameType}
-                        onComplete={handleComplete}
-                    />
-                )}
+                <AnimatePresence mode="wait">
+                    {step === 'welcome' && (
+                        <motion.div
+                            key="welcome"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <WelcomeStep onNext={() => setStep('choose-path')} onSkip={onSkip} />
+                        </motion.div>
+                    )}
+                    {step === 'choose-path' && (
+                        <motion.div
+                            key="choose-path"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <ChoosePathStep onUpload={handleUploadPath} onDemo={handleDemoPath} onBack={() => setStep('welcome')} />
+                        </motion.div>
+                    )}
+                    {step === 'game-type' && (
+                        <motion.div
+                            key="game-type"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <GameTypeStep onSelect={handleGameTypeSelect} onBack={() => setStep('choose-path')} />
+                        </motion.div>
+                    )}
+                    {step === 'complete' && (
+                        <motion.div
+                            key="complete"
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <CompleteStep
+                                path={selectedPath}
+                                gameType={selectedGameType}
+                                onComplete={handleComplete}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     );
@@ -111,52 +184,74 @@ export function WelcomeFlow({ onComplete, onSkip }: WelcomeFlowProps) {
 function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => void }) {
     return (
         <div className="text-center">
-            <div className="mb-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25">
-                    <Gamepad2 className="w-10 h-10 text-white" />
+            <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="mb-8"
+            >
+                <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/25 flex items-center justify-center">
+                        <Gamepad2 className="w-10 h-10 text-white" />
+                    </div>
                 </div>
                 <h1 className="text-4xl font-bold text-white mb-4">
                     Welcome to Game Insights
                 </h1>
-                <p className="text-lg text-th-text-secondary max-w-lg mx-auto">
+                <p className="text-lg text-slate-300 max-w-lg mx-auto">
                     Zero-config analytics for indie game developers.
                     Understand your players, improve retention, and grow revenue.
                 </p>
-            </div>
+            </motion.div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={onNext}
-                    className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-violet-500/25 transition-all"
+                    className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all"
                 >
                     Get Started
                     <ChevronRight className="w-5 h-5" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={onSkip}
-                    className="px-8 py-3 text-th-text-secondary hover:text-white transition-colors"
+                    className="px-8 py-3 text-slate-400 hover:text-white transition-colors"
                 >
                     Skip for now
-                </button>
+                </motion.button>
             </div>
 
-            <div className="mt-12 grid grid-cols-3 gap-6 max-w-lg mx-auto">
+            <motion.div
+                variants={{
+                    visible: { transition: { staggerChildren: 0.1 } },
+                }}
+                initial="hidden"
+                animate="visible"
+                className="mt-12 grid grid-cols-3 gap-6 max-w-lg mx-auto"
+            >
                 <Feature icon={Zap} label="Zero Config" />
                 <Feature icon={BarChart3} label="AI Analytics" />
                 <Feature icon={Sparkles} label="Instant Insights" />
-            </div>
+            </motion.div>
         </div>
     );
 }
 
 function Feature({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
     return (
-        <div className="text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 mb-2 rounded-xl bg-white/5 border border-white/10">
-                <Icon className="w-6 h-6 text-violet-400" />
+        <motion.div
+            variants={itemVariants}
+            className="text-center"
+        >
+            <div className="inline-flex items-center justify-center w-12 h-12 mb-2 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                <Icon className="w-6 h-6 text-emerald-400" />
             </div>
-            <div className="text-sm text-th-text-secondary">{label}</div>
-        </div>
+            <div className="text-sm text-slate-400">{label}</div>
+        </motion.div>
     );
 }
 
@@ -173,7 +268,7 @@ function ChoosePathStep({
         <div>
             <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-white mb-2">How would you like to start?</h2>
-                <p className="text-th-text-secondary">Choose your path to get the most out of Game Insights</p>
+                <p className="text-slate-400">Choose your path to get the most out of Game Insights</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -193,12 +288,13 @@ function ChoosePathStep({
             </div>
 
             <div className="text-center">
-                <button
+                <motion.button
+                    whileHover={{ x: -4 }}
                     onClick={onBack}
-                    className="text-sm text-th-text-secondary hover:text-white transition-colors"
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
                 >
                     ← Back
-                </button>
+                </motion.button>
             </div>
 
             <StepIndicator current={1} total={3} />
@@ -220,25 +316,27 @@ function PathOption({
     primary?: boolean;
 }) {
     return (
-        <button
+        <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             onClick={onClick}
             className={`group p-6 rounded-xl border text-left transition-all ${
                 primary
-                    ? 'bg-gradient-to-br from-violet-500/10 to-indigo-500/10 border-violet-500/30 hover:border-violet-400/50'
-                    : 'bg-th-bg-card border-th-border hover:border-th-border-hover'
+                    ? 'bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/30 hover:border-emerald-400/50'
+                    : 'bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border-white/[0.08] hover:border-white/[0.15]'
             }`}
         >
             <div className={`inline-flex items-center justify-center w-12 h-12 mb-4 rounded-xl ${
-                primary ? 'bg-violet-500/20' : 'bg-th-bg-elevated'
+                primary ? 'bg-emerald-500/20' : 'bg-white/[0.03]'
             }`}>
-                <Icon className={`w-6 h-6 ${primary ? 'text-violet-400' : 'text-th-text-secondary'}`} />
+                <Icon className={`w-6 h-6 ${primary ? 'text-emerald-400' : 'text-slate-400'}`} />
             </div>
             <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
-            <p className="text-sm text-th-text-secondary">{description}</p>
-            <div className={`mt-4 text-sm font-medium ${primary ? 'text-violet-400' : 'text-th-text-secondary'} group-hover:translate-x-1 transition-transform inline-flex items-center gap-1`}>
+            <p className="text-sm text-slate-400">{description}</p>
+            <div className={`mt-4 text-sm font-medium ${primary ? 'text-emerald-400' : 'text-slate-400'} group-hover:translate-x-1 transition-transform inline-flex items-center gap-1`}>
                 Get started <ChevronRight className="w-4 h-4" />
             </div>
-        </button>
+        </motion.button>
     );
 }
 
@@ -262,29 +360,38 @@ function GameTypeStep({
         <div>
             <div className="text-center mb-8">
                 <h2 className="text-2xl font-bold text-white mb-2">What type of game are you making?</h2>
-                <p className="text-th-text-secondary">We'll customize the demo data and insights for your genre</p>
+                <p className="text-slate-400">We'll customize the demo data and insights for your genre</p>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+            <motion.div
+                variants={{ visible: { transition: { staggerChildren: 0.05 } } }}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8"
+            >
                 {gameTypes.map((type) => (
-                    <button
+                    <motion.button
                         key={type.id}
+                        variants={itemVariants}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => onSelect(type.id)}
-                        className="p-4 bg-th-bg-card border border-th-border hover:border-violet-500/50 rounded-xl text-center transition-all group"
+                        className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border border-white/[0.08] hover:border-emerald-500/50 rounded-xl text-center transition-all group"
                     >
                         <span className="text-3xl mb-2 block">{type.emoji}</span>
-                        <span className="text-sm text-white group-hover:text-violet-400 transition-colors">{type.name}</span>
-                    </button>
+                        <span className="text-sm text-white group-hover:text-emerald-400 transition-colors">{type.name}</span>
+                    </motion.button>
                 ))}
-            </div>
+            </motion.div>
 
             <div className="text-center">
-                <button
+                <motion.button
+                    whileHover={{ x: -4 }}
                     onClick={onBack}
-                    className="text-sm text-th-text-secondary hover:text-white transition-colors"
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
                 >
                     ← Back
-                </button>
+                </motion.button>
             </div>
 
             <StepIndicator current={2} total={3} />
@@ -303,23 +410,33 @@ function CompleteStep({
 }) {
     return (
         <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 mb-6 rounded-full bg-green-500/20 border-2 border-green-500/50">
-                <Check className="w-8 h-8 text-green-400" />
-            </div>
+            <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                className="relative inline-flex items-center justify-center w-16 h-16 mb-6"
+            >
+                <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl" />
+                <div className="relative w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500/50 flex items-center justify-center">
+                    <Check className="w-8 h-8 text-emerald-400" />
+                </div>
+            </motion.div>
             <h2 className="text-2xl font-bold text-white mb-2">You're all set!</h2>
-            <p className="text-th-text-secondary mb-8">
+            <p className="text-slate-400 mb-8">
                 {path === 'upload'
                     ? "Let's upload your game data and start analyzing."
                     : `Explore Game Insights with our ${gameType || 'sample'} demo data.`}
             </p>
 
-            <button
+            <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={onComplete}
-                className="flex items-center gap-2 mx-auto px-8 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-violet-500/25 transition-all"
+                className="flex items-center gap-2 mx-auto px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all"
             >
                 {path === 'upload' ? 'Upload Data' : 'Start Exploring'}
                 <ChevronRight className="w-5 h-5" />
-            </button>
+            </motion.button>
 
             <StepIndicator current={3} total={3} />
         </div>
@@ -330,13 +447,16 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
     return (
         <div className="flex items-center justify-center gap-2 mt-12">
             {Array.from({ length: total }).map((_, i) => (
-                <div
+                <motion.div
                     key={i}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: i * 0.1 }}
                     className={`w-2 h-2 rounded-full transition-colors ${
                         i + 1 === current
-                            ? 'bg-violet-400'
+                            ? 'bg-emerald-400'
                             : i + 1 < current
-                            ? 'bg-violet-400/50'
+                            ? 'bg-emerald-400/50'
                             : 'bg-white/20'
                     }`}
                 />

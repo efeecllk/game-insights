@@ -1,10 +1,14 @@
 /**
- * Data Quality Badge
- * Displays data quality score with issue details on hover
- * Phase 1: Core Data Integration
+ * Data Quality Badge - Obsidian Analytics Design
+ *
+ * Premium quality indicators with:
+ * - Glassmorphism tooltips
+ * - Animated color transitions
+ * - Score-based styling
  */
 
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle, AlertTriangle, Info, X } from 'lucide-react';
 import { QualityIssue } from '../../hooks/useGameData';
 
@@ -24,10 +28,10 @@ export function DataQualityBadge({
     const [showTooltip, setShowTooltip] = useState(false);
 
     const getScoreColor = () => {
-        if (score >= 90) return 'green';
-        if (score >= 70) return 'yellow';
+        if (score >= 90) return 'emerald';
+        if (score >= 70) return 'amber';
         if (score >= 50) return 'orange';
-        return 'red';
+        return 'rose';
     };
 
     const color = getScoreColor();
@@ -35,10 +39,10 @@ export function DataQualityBadge({
     const warningIssues = issues.filter(i => i.severity === 'warning');
 
     const colorClasses = {
-        green: 'bg-green-500/10 text-green-400 border-green-500/20',
-        yellow: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
-        orange: 'bg-orange-500/10 text-orange-400 border-orange-500/20',
-        red: 'bg-red-500/10 text-red-400 border-red-500/20',
+        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/15',
+        amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/15',
+        orange: 'bg-orange-500/10 text-orange-400 border-orange-500/20 hover:bg-orange-500/15',
+        rose: 'bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/15',
     };
 
     const sizeClasses = {
@@ -55,8 +59,10 @@ export function DataQualityBadge({
 
     return (
         <div className="relative inline-block">
-            <button
-                className={`inline-flex items-center rounded-md border font-medium cursor-help ${colorClasses[color]} ${sizeClasses[size]}`}
+            <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className={`inline-flex items-center rounded-lg border font-medium cursor-help transition-colors ${colorClasses[color]} ${sizeClasses[size]}`}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
                 onClick={() => setShowTooltip(!showTooltip)}
@@ -71,74 +77,84 @@ export function DataQualityBadge({
                 )}
                 {showLabel && <span>{score}% Quality</span>}
                 {!showLabel && <span>{score}%</span>}
-            </button>
+            </motion.button>
 
             {/* Tooltip */}
-            {showTooltip && issues.length > 0 && (
-                <div
-                    className="absolute z-50 top-full left-0 mt-2 w-72 bg-th-bg-surface border border-th-border-subtle rounded-lg shadow-lg p-3"
-                    role="tooltip"
-                >
-                    <div className="flex items-center justify-between mb-2">
-                        <h4 className="text-sm font-medium text-th-text-primary">Data Quality Issues</h4>
-                        <button
-                            onClick={() => setShowTooltip(false)}
-                            className="text-th-text-muted hover:text-th-text-primary"
-                            aria-label="Close"
-                        >
-                            <X className="w-3.5 h-3.5" />
-                        </button>
-                    </div>
-
-                    <div className="space-y-2 max-h-48 overflow-y-auto">
-                        {issues.map((issue) => (
-                            <div
-                                key={issue.id}
-                                className="flex items-start gap-2 text-xs"
+            <AnimatePresence>
+                {showTooltip && issues.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                        className="absolute z-50 top-full left-0 mt-2 w-72 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl p-3"
+                        role="tooltip"
+                    >
+                        <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-sm font-medium text-white">Data Quality Issues</h4>
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => setShowTooltip(false)}
+                                className="text-slate-500 hover:text-white transition-colors"
+                                aria-label="Close"
                             >
-                                {issue.severity === 'critical' && (
-                                    <AlertCircle className="w-3.5 h-3.5 text-red-400 flex-shrink-0 mt-0.5" />
-                                )}
-                                {issue.severity === 'warning' && (
-                                    <AlertTriangle className="w-3.5 h-3.5 text-yellow-400 flex-shrink-0 mt-0.5" />
-                                )}
-                                {issue.severity === 'info' && (
-                                    <Info className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
-                                )}
-                                <div>
-                                    <p className="text-th-text-secondary">{issue.message}</p>
-                                    {issue.column && (
-                                        <p className="text-th-text-muted">Column: {issue.column}</p>
-                                    )}
-                                    {issue.affectedRows && (
-                                        <p className="text-th-text-muted">
-                                            Affected rows: {issue.affectedRows.toLocaleString()}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                                <X className="w-3.5 h-3.5" />
+                            </motion.button>
+                        </div>
 
-                    {issues.length === 0 && (
-                        <p className="text-xs text-th-text-muted">No issues found</p>
-                    )}
+                        <div className="space-y-2 max-h-48 overflow-y-auto">
+                            {issues.map((issue) => (
+                                <motion.div
+                                    key={issue.id}
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="flex items-start gap-2 text-xs"
+                                >
+                                    {issue.severity === 'critical' && (
+                                        <AlertCircle className="w-3.5 h-3.5 text-rose-400 flex-shrink-0 mt-0.5" />
+                                    )}
+                                    {issue.severity === 'warning' && (
+                                        <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
+                                    )}
+                                    {issue.severity === 'info' && (
+                                        <Info className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
+                                    )}
+                                    <div>
+                                        <p className="text-slate-300">{issue.message}</p>
+                                        {issue.column && (
+                                            <p className="text-slate-500">Column: {issue.column}</p>
+                                        )}
+                                        {issue.affectedRows && (
+                                            <p className="text-slate-500">
+                                                Affected rows: {issue.affectedRows.toLocaleString()}
+                                            </p>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
 
-                    <div className="mt-3 pt-2 border-t border-th-border-subtle flex items-center justify-between text-xs">
-                        <span className="text-th-text-muted">
-                            {criticalIssues.length} critical, {warningIssues.length} warnings
-                        </span>
-                        <span className={`font-medium ${
-                            score >= 90 ? 'text-green-400' :
-                            score >= 70 ? 'text-yellow-400' :
-                            score >= 50 ? 'text-orange-400' :
-                            'text-red-400'
-                        }`}>
-                            Score: {score}%
-                        </span>
-                    </div>
-                </div>
-            )}
+                        {issues.length === 0 && (
+                            <p className="text-xs text-slate-500">No issues found</p>
+                        )}
+
+                        <div className="mt-3 pt-2 border-t border-white/[0.06] flex items-center justify-between text-xs">
+                            <span className="text-slate-500">
+                                {criticalIssues.length} critical, {warningIssues.length} warnings
+                            </span>
+                            <span className={`font-medium ${
+                                score >= 90 ? 'text-emerald-400' :
+                                score >= 70 ? 'text-amber-400' :
+                                score >= 50 ? 'text-orange-400' :
+                                'text-rose-400'
+                            }`}>
+                                Score: {score}%
+                            </span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -147,13 +163,15 @@ export function DataQualityBadge({
  * Compact version for inline use
  */
 export function DataQualityDot({ score }: { score: number }) {
-    const color = score >= 90 ? 'bg-green-400' :
-                  score >= 70 ? 'bg-yellow-400' :
+    const color = score >= 90 ? 'bg-emerald-400' :
+                  score >= 70 ? 'bg-amber-400' :
                   score >= 50 ? 'bg-orange-400' :
-                  'bg-red-400';
+                  'bg-rose-400';
 
     return (
-        <span
+        <motion.span
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
             className={`inline-block w-2 h-2 rounded-full ${color}`}
             title={`Data quality: ${score}%`}
             aria-label={`Data quality: ${score}%`}
@@ -177,36 +195,38 @@ export function DataQualityBar({
     const warningCount = issues.filter(i => i.severity === 'warning').length;
     const infoCount = issues.filter(i => i.severity === 'info').length;
 
-    const barColor = score >= 90 ? 'bg-green-500' :
-                     score >= 70 ? 'bg-yellow-500' :
+    const barColor = score >= 90 ? 'bg-emerald-500' :
+                     score >= 70 ? 'bg-amber-500' :
                      score >= 50 ? 'bg-orange-500' :
-                     'bg-red-500';
+                     'bg-rose-500';
 
     return (
         <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-                <span className="text-th-text-muted">Data Quality</span>
-                <span className="font-medium text-th-text-primary">{score}%</span>
+                <span className="text-slate-500">Data Quality</span>
+                <span className="font-medium text-white">{score}%</span>
             </div>
 
-            <div className="h-1.5 bg-th-bg-elevated rounded-full overflow-hidden">
-                <div
-                    className={`h-full ${barColor} transition-all duration-300`}
-                    style={{ width: `${score}%` }}
+            <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${score}%` }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                    className={`h-full ${barColor}`}
                 />
             </div>
 
             {showDetails && issues.length > 0 && (
-                <div className="flex items-center gap-3 text-xs text-th-text-muted">
+                <div className="flex items-center gap-3 text-xs text-slate-500">
                     {criticalCount > 0 && (
                         <span className="flex items-center gap-1">
-                            <AlertCircle className="w-3 h-3 text-red-400" />
+                            <AlertCircle className="w-3 h-3 text-rose-400" />
                             {criticalCount} critical
                         </span>
                     )}
                     {warningCount > 0 && (
                         <span className="flex items-center gap-1">
-                            <AlertTriangle className="w-3 h-3 text-yellow-400" />
+                            <AlertTriangle className="w-3 h-3 text-amber-400" />
                             {warningCount} warnings
                         </span>
                     )}
