@@ -162,17 +162,14 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                         className="relative w-full max-w-md mx-4 max-h-[85vh] flex flex-col"
                     >
                         {/* Modal container */}
-                        <div className="relative rounded-2xl overflow-hidden bg-slate-900  border border-slate-700 shadow-lg shadow-black/40">
-                            {/* Noise texture */}
-                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
+                        <div className="relative rounded-2xl overflow-hidden bg-th-bg-surface border border-th-border shadow-theme-lg">
                             {/* Header */}
-                            <div className="relative flex items-center justify-between p-5 border-b border-slate-800">
+                            <div className="relative flex items-center justify-between p-5 border-b border-th-border">
                                 <div>
-                                    <h2 className="text-lg font-semibold text-white">
+                                    <h2 className="text-lg font-semibold text-th-text-primary">
                                         Customize Sidebar
                                     </h2>
-                                    <p className="text-sm text-slate-400 mt-0.5">
+                                    <p className="text-sm text-th-text-muted mt-0.5">
                                         Reorder navigation items
                                     </p>
                                 </div>
@@ -180,7 +177,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                                     whileHover={{ scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     onClick={onClose}
-                                    className="p-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.05] text-slate-400 hover:text-white transition-colors"
+                                    className="p-2 rounded-xl bg-th-bg-elevated hover:bg-th-bg-surface-hover border border-th-border text-th-text-muted hover:text-th-text-primary transition-colors"
                                     aria-label="Close modal"
                                 >
                                     <X className="w-4 h-4" />
@@ -188,13 +185,13 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                             </div>
 
                             {/* Toggle section */}
-                            <div className="relative p-4 border-b border-slate-800">
+                            <div className="relative p-4 border-b border-th-border">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <span className="text-sm font-medium text-white">
+                                        <span className="text-sm font-medium text-th-text-primary">
                                             Use custom order
                                         </span>
-                                        <p className="text-xs text-slate-500 mt-0.5">
+                                        <p className="text-xs text-th-text-muted mt-0.5">
                                             {useCustomOrder
                                                 ? 'Using your custom order'
                                                 : 'Using game-type default order'}
@@ -208,8 +205,8 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                                         className={`
                                             p-1 rounded-lg transition-colors
                                             ${useCustomOrder
-                                                ? 'text-[#DA7756]'
-                                                : 'text-slate-500 hover:text-slate-400'}
+                                                ? 'text-th-accent-primary'
+                                                : 'text-th-text-muted hover:text-th-text-secondary'}
                                         `}
                                         aria-label={useCustomOrder ? 'Disable custom order' : 'Enable custom order'}
                                     >
@@ -223,9 +220,9 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                             </div>
 
                             {/* Item list */}
-                            <div className="relative overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                            <div className="relative overflow-y-auto max-h-[400px] scrollbar-thin scrollbar-thumb-th-border scrollbar-track-transparent">
                                 {loading ? (
-                                    <div className="p-8 text-center text-slate-500">
+                                    <div className="p-8 text-center text-th-text-muted">
                                         Loading...
                                     </div>
                                 ) : useCustomOrder ? (
@@ -274,7 +271,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                             </div>
 
                             {/* Footer */}
-                            <div className="relative p-4 border-t border-slate-800 flex items-center justify-between">
+                            <div className="relative p-4 border-t border-th-border flex items-center justify-between">
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -329,15 +326,15 @@ function SidebarItem({
             layout
             className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-xl
-                bg-white/[0.02] border border-slate-800
-                ${disabled ? 'opacity-50' : 'hover:bg-white/[0.04] hover:border-slate-700'}
+                bg-th-bg-elevated border border-th-border
+                ${disabled ? 'opacity-50' : 'hover:bg-th-bg-surface-hover hover:border-th-border-strong'}
                 transition-colors
             `}
         >
             {/* Drag handle indicator */}
             <GripVertical
                 className={`w-4 h-4 flex-shrink-0 ${
-                    disabled ? 'text-slate-700' : 'text-slate-500'
+                    disabled ? 'text-th-text-disabled' : 'text-th-text-muted'
                 }`}
             />
 
@@ -346,15 +343,15 @@ function SidebarItem({
                 className={`
                     w-6 h-6 flex items-center justify-center rounded-md text-xs font-medium flex-shrink-0
                     ${index < 6
-                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/20'
-                        : 'bg-white/[0.05] text-slate-500 border border-white/[0.05]'}
+                        ? 'bg-th-accent-primary-muted text-th-accent-primary border border-th-accent-primary/20'
+                        : 'bg-th-bg-elevated text-th-text-muted border border-th-border'}
                 `}
             >
                 {index + 1}
             </span>
 
             {/* Label */}
-            <span className="flex-1 text-sm text-slate-300 truncate">{label}</span>
+            <span className="flex-1 text-sm text-th-text-secondary truncate">{label}</span>
 
             {/* Move buttons */}
             <div className="flex items-center gap-1">
@@ -366,8 +363,8 @@ function SidebarItem({
                     className={`
                         p-1.5 rounded-lg transition-colors
                         ${disabled || isFirst
-                            ? 'text-slate-700 cursor-not-allowed'
-                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                            ? 'text-th-text-disabled cursor-not-allowed'
+                            : 'text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover'}
                     `}
                     aria-label={`Move ${label} up`}
                 >
@@ -381,8 +378,8 @@ function SidebarItem({
                     className={`
                         p-1.5 rounded-lg transition-colors
                         ${disabled || isLast
-                            ? 'text-slate-700 cursor-not-allowed'
-                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                            ? 'text-th-text-disabled cursor-not-allowed'
+                            : 'text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover'}
                     `}
                     aria-label={`Move ${label} down`}
                 >
@@ -422,20 +419,19 @@ function DraggableSidebarItem({
             onDragEnd={onDragEnd}
             className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-xl
-                bg-white/[0.02] border border-slate-800
-                hover:bg-white/[0.04] hover:border-slate-700
+                bg-th-bg-elevated border border-th-border
+                hover:bg-th-bg-surface-hover hover:border-th-border-strong
                 transition-colors cursor-grab active:cursor-grabbing
                 select-none
             `}
             whileDrag={{
                 scale: 1.02,
-                boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
-                backgroundColor: 'rgba(255,255,255,0.05)',
+                boxShadow: '0 8px 20px var(--shadow-color)',
             }}
         >
             {/* Drag handle indicator */}
             <GripVertical
-                className="w-4 h-4 flex-shrink-0 text-slate-500 cursor-grab active:cursor-grabbing"
+                className="w-4 h-4 flex-shrink-0 text-th-text-muted cursor-grab active:cursor-grabbing"
             />
 
             {/* Index badge */}
@@ -443,15 +439,15 @@ function DraggableSidebarItem({
                 className={`
                     w-6 h-6 flex items-center justify-center rounded-md text-xs font-medium flex-shrink-0
                     ${index < 6
-                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/20'
-                        : 'bg-white/[0.05] text-slate-500 border border-white/[0.05]'}
+                        ? 'bg-th-accent-primary-muted text-th-accent-primary border border-th-accent-primary/20'
+                        : 'bg-th-bg-elevated text-th-text-muted border border-th-border'}
                 `}
             >
                 {index + 1}
             </span>
 
             {/* Label */}
-            <span className="flex-1 text-sm text-slate-300 truncate">{label}</span>
+            <span className="flex-1 text-sm text-th-text-secondary truncate">{label}</span>
 
             {/* Move buttons */}
             <div className="flex items-center gap-1">
@@ -466,8 +462,8 @@ function DraggableSidebarItem({
                     className={`
                         p-1.5 rounded-lg transition-colors
                         ${isFirst
-                            ? 'text-slate-700 cursor-not-allowed'
-                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                            ? 'text-th-text-disabled cursor-not-allowed'
+                            : 'text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover'}
                     `}
                     aria-label={`Move ${label} up`}
                 >
@@ -484,8 +480,8 @@ function DraggableSidebarItem({
                     className={`
                         p-1.5 rounded-lg transition-colors
                         ${isLast
-                            ? 'text-slate-700 cursor-not-allowed'
-                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                            ? 'text-th-text-disabled cursor-not-allowed'
+                            : 'text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover'}
                     `}
                     aria-label={`Move ${label} down`}
                 >
