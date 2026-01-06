@@ -24,7 +24,7 @@ import {
   MetricDefinition,
   FunnelTemplate,
 } from '../industry/types';
-import { IndustryRegistry, getIndustryRegistry } from '../industry/IndustryRegistry';
+import { getIndustryRegistry } from '../industry/IndustryRegistry';
 import { registerBuiltInPacks } from '../industry/packs';
 import { useData } from './DataContext';
 

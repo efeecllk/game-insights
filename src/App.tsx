@@ -20,7 +20,8 @@
 
 import { useMemo, useState, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
 import { IntegrationProvider } from './context/IntegrationContext';
@@ -133,10 +134,40 @@ const iconMap: Record<string, typeof Users> = {
 };
 
 /**
- * Overview Dashboard Page
- * Dynamically renders charts based on selected game type
- * Uses real uploaded data when available, falls back to demo data
+ * Overview Dashboard Page - Obsidian Analytics Design
+ *
+ * Premium dashboard with:
+ * - Cinematic entrance animations
+ * - Glassmorphism containers
+ * - Luminous accent effects
+ * - Refined typography hierarchy
  */
+
+// Animation variants for staggered entrance
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.1,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+        },
+    },
+};
+
 function OverviewPage() {
     const { selectedGame, setSelectedGame } = useGame();
     const { activeGameData } = useData();
@@ -197,41 +228,91 @@ function OverviewPage() {
     }, [selectedGame]);
 
     return (
-        <div className="space-y-6">
-            {/* Page Header */}
-            <header className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
-                        <span aria-hidden="true">{gameInfo?.icon}</span>
-                        {isUsingRealData ? activeGameData?.name : `${gameInfo?.name} Analytics`}
-                        {isUsingRealData && (
-                            <span className="text-xs font-medium bg-green-500/10 text-green-400 px-2 py-1 rounded-full">
-                                Your Data
-                            </span>
-                        )}
-                        {!isUsingRealData && (
-                            <span className="text-xs font-medium bg-amber-500/10 text-amber-400 px-2 py-1 rounded-full">
-                                Demo
-                            </span>
-                        )}
-                    </h1>
-                    <p className="text-th-text-muted mt-1">
-                        {isUsingRealData
-                            ? `Analyzing ${activeGameData?.rowCount?.toLocaleString() || activeGameData?.rawData?.length?.toLocaleString() || 0} rows of data`
-                            : gameInfo?.description
-                        }
-                    </p>
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
+            {/* Page Header - Premium gradient styling */}
+            <motion.header variants={itemVariants} className="relative">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <div className="flex items-center gap-4">
+                            {/* Animated icon container */}
+                            <motion.div
+                                initial={{ scale: 0, rotate: -180 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                                className="relative"
+                            >
+                                <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                                <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                    <span className="text-2xl" aria-hidden="true">{gameInfo?.icon}</span>
+                                </div>
+                            </motion.div>
+
+                            <div>
+                                <h1 className="text-2xl font-display font-bold text-white flex items-center gap-3">
+                                    <span className="bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        {isUsingRealData ? activeGameData?.name : `${gameInfo?.name} Analytics`}
+                                    </span>
+                                    {isUsingRealData ? (
+                                        <motion.span
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ type: 'spring', delay: 0.4 }}
+                                            className="text-[10px] font-semibold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20"
+                                        >
+                                            Your Data
+                                        </motion.span>
+                                    ) : (
+                                        <motion.span
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ type: 'spring', delay: 0.4 }}
+                                            className="text-[10px] font-semibold uppercase tracking-wider bg-amber-500/15 text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/20"
+                                        >
+                                            Demo
+                                        </motion.span>
+                                    )}
+                                </h1>
+                                <p className="text-sm text-slate-500 mt-1">
+                                    {isUsingRealData
+                                        ? `Analyzing ${activeGameData?.rowCount?.toLocaleString() || activeGameData?.rawData?.length?.toLocaleString() || 0} rows of data`
+                                        : gameInfo?.description
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Live indicator */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20"
+                    >
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                        </span>
+                        <span className="text-[11px] font-medium text-emerald-400 uppercase tracking-wider">Live</span>
+                    </motion.div>
                 </div>
-            </header>
+            </motion.header>
 
             {/* Game Type Selector */}
-            <GameSelector selected={selectedGame} onChange={setSelectedGame} />
+            <motion.div variants={itemVariants}>
+                <GameSelector selected={selectedGame} onChange={setSelectedGame} />
+            </motion.div>
 
             {/* KPI Grid */}
             <section aria-labelledby="kpi-heading">
                 <h2 id="kpi-heading" className="sr-only">Key Performance Indicators</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {kpiData.map((kpi) => (
+                    {kpiData.map((kpi, index) => (
                         <KPICard
                             key={kpi.label}
                             icon={iconMap[kpi.label] ?? Users}
@@ -239,6 +320,7 @@ function OverviewPage() {
                             value={kpi.value}
                             change={kpi.change}
                             changeType={kpi.changeType}
+                            index={index}
                         />
                     ))}
                 </div>
@@ -246,122 +328,236 @@ function OverviewPage() {
 
             {/* ML Insights Panel - Only shown when ML is ready */}
             {isUsingRealData && (
-                <section aria-labelledby="ml-insights-heading">
+                <motion.section variants={itemVariants} aria-labelledby="ml-insights-heading">
                     <h2 id="ml-insights-heading" className="sr-only">Machine Learning Insights</h2>
                     <MLInsightsPanel compact />
-                </section>
+                </motion.section>
             )}
 
             {/* Charts Row 1 */}
-            <section aria-labelledby="charts-heading-1">
+            <motion.section variants={itemVariants} aria-labelledby="charts-heading-1">
                 <h2 id="charts-heading-1" className="sr-only">Retention and Funnel Charts</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <RetentionCurve data={retentionData} />
-                    <FunnelChart data={funnelData} config={chartConfigs.funnel} />
+                    <ChartContainer title="Retention Curve" subtitle="User retention over time">
+                        <RetentionCurve data={retentionData} />
+                    </ChartContainer>
+                    <ChartContainer title={chartConfigs.funnel.title} subtitle={chartConfigs.funnel.subtitle}>
+                        <FunnelChart data={funnelData} config={chartConfigs.funnel} />
+                    </ChartContainer>
                 </div>
-            </section>
+            </motion.section>
 
             {/* Charts Row 2 */}
-            <section aria-labelledby="charts-heading-2">
+            <motion.section variants={itemVariants} aria-labelledby="charts-heading-2">
                 <h2 id="charts-heading-2" className="sr-only">Revenue and Segment Charts</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <RevenueChart data={revenueData} />
-                    <SegmentChart data={segmentData} config={chartConfigs.segment} />
+                    <ChartContainer title="Revenue Trends" subtitle="Daily revenue breakdown">
+                        <RevenueChart data={revenueData} />
+                    </ChartContainer>
+                    <ChartContainer title={chartConfigs.segment.title} subtitle={chartConfigs.segment.subtitle}>
+                        <SegmentChart data={segmentData} config={chartConfigs.segment} />
+                    </ChartContainer>
                 </div>
-            </section>
+            </motion.section>
 
-            {/* AI Insights */}
-            <section 
-                aria-labelledby="insights-heading"
-                className="bg-th-bg-surface rounded-card p-6 border border-th-border-subtle"
-            >
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted flex items-center justify-center" aria-hidden="true">
-                        <span className="text-xl">🧠</span>
-                    </div>
+            {/* AI Insights - Premium Section */}
+            <motion.section variants={itemVariants} aria-labelledby="insights-heading">
+                <AIInsightsSection selectedGame={selectedGame} />
+            </motion.section>
+        </motion.div>
+    );
+}
+
+/**
+ * Premium Chart Container with glassmorphism
+ */
+function ChartContainer({
+    title,
+    subtitle,
+    children,
+}: {
+    title: string;
+    subtitle: string;
+    children: React.ReactNode;
+}) {
+    return (
+        <motion.div
+            whileHover={{ y: -2 }}
+            transition={{ type: 'spring', stiffness: 400 }}
+            className="relative group"
+        >
+            {/* Hover glow */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-emerald-500/10 transition-colors duration-300 overflow-hidden">
+                {/* Noise texture */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                {/* Header */}
+                <div className="relative px-5 py-4 border-b border-white/[0.04]">
+                    <h3 className="text-sm font-semibold text-white">{title}</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>
+                </div>
+
+                {/* Chart content */}
+                <div className="relative p-4">
+                    {children}
+                </div>
+            </div>
+        </motion.div>
+    );
+}
+
+/**
+ * AI Insights Section with premium styling
+ */
+function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
+    const insights = useMemo(() => {
+        switch (selectedGame) {
+            case 'puzzle':
+                return [
+                    { type: 'warning' as const, message: 'Level 15 has 72% failure rate. Consider adding hints or reducing difficulty.' },
+                    { type: 'opportunity' as const, message: 'Booster usage correlates with 2.3x higher D7 retention. Promote early booster trial.' },
+                ];
+            case 'idle':
+                return [
+                    { type: 'info' as const, message: '85% of players never prestige. Add tutorial showing prestige benefits.' },
+                    { type: 'opportunity' as const, message: 'Peak engagement at 8am and 6pm. Schedule push notifications 30min before.' },
+                ];
+            case 'battle_royale':
+                return [
+                    { type: 'warning' as const, message: 'Bottom 50% players in first 3 matches have 68% churn. Improve skill-based matchmaking.' },
+                    { type: 'info' as const, message: 'Squad players have 2.1x higher retention than solo. Promote squad features.' },
+                ];
+            case 'match3_meta':
+                return [
+                    { type: 'opportunity' as const, message: 'Players who decorate in first session have 2.5x higher D7 retention.' },
+                    { type: 'warning' as const, message: 'Chapter 5-7 has 45% story drop-off. Content refresh needed.' },
+                ];
+            case 'gacha_rpg':
+                return [
+                    { type: 'critical' as const, message: '8 whale users inactive for 3+ days. Trigger personalized re-engagement.' },
+                    { type: 'info' as const, message: 'Limited banners generate 3.2x revenue. Optimal frequency: every 3 weeks.' },
+                ];
+            default:
+                return [];
+        }
+    }, [selectedGame]);
+
+    return (
+        <div className="relative group">
+            {/* Subtle glow */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/0 via-violet-500/5 to-violet-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
+                {/* Noise texture */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                {/* Header */}
+                <div className="relative px-6 py-4 border-b border-white/[0.04] flex items-center gap-4">
+                    <motion.div
+                        animate={{
+                            boxShadow: [
+                                '0 0 20px rgba(139, 92, 246, 0.2)',
+                                '0 0 30px rgba(139, 92, 246, 0.3)',
+                                '0 0 20px rgba(139, 92, 246, 0.2)',
+                            ],
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 flex items-center justify-center"
+                    >
+                        <Sparkles className="w-5 h-5 text-violet-400" />
+                    </motion.div>
                     <div>
-                        <h2 id="insights-heading" className="text-lg font-semibold text-th-text-primary">AI Insights</h2>
-                        <p className="text-sm text-th-text-muted">Auto-generated recommendations</p>
+                        <h2 id="insights-heading" className="text-base font-semibold text-white">AI Insights</h2>
+                        <p className="text-xs text-slate-500">Auto-generated recommendations based on your data</p>
                     </div>
                 </div>
-                <div className="space-y-3" role="list" aria-label="AI-generated insights">
-                    {selectedGame === 'puzzle' && (
-                        <>
-                            <InsightCard type="warning" message="Level 15 has 72% failure rate. Consider adding hints or reducing difficulty." />
-                            <InsightCard type="opportunity" message="Booster usage correlates with 2.3x higher D7 retention. Promote early booster trial." />
-                        </>
-                    )}
-                    {selectedGame === 'idle' && (
-                        <>
-                            <InsightCard type="info" message="85% of players never prestige. Add tutorial showing prestige benefits." />
-                            <InsightCard type="opportunity" message="Peak engagement at 8am and 6pm. Schedule push notifications 30min before." />
-                        </>
-                    )}
-                    {selectedGame === 'battle_royale' && (
-                        <>
-                            <InsightCard type="warning" message="Bottom 50% players in first 3 matches have 68% churn. Improve skill-based matchmaking." />
-                            <InsightCard type="info" message="Squad players have 2.1x higher retention than solo. Promote squad features." />
-                        </>
-                    )}
-                    {selectedGame === 'match3_meta' && (
-                        <>
-                            <InsightCard type="opportunity" message="Players who decorate in first session have 2.5x higher D7 retention." />
-                            <InsightCard type="warning" message="Chapter 5-7 has 45% story drop-off. Content refresh needed." />
-                        </>
-                    )}
-                    {selectedGame === 'gacha_rpg' && (
-                        <>
-                            <InsightCard type="critical" message="8 whale users inactive for 3+ days. Trigger personalized re-engagement." />
-                            <InsightCard type="info" message="Limited banners generate 3.2x revenue. Optimal frequency: every 3 weeks." />
-                        </>
-                    )}
+
+                {/* Insights list */}
+                <div className="relative p-4 space-y-3" role="list" aria-label="AI-generated insights">
+                    {insights.map((insight, index) => (
+                        <InsightCard key={index} type={insight.type} message={insight.message} index={index} />
+                    ))}
                 </div>
-            </section>
+            </div>
         </div>
     );
 }
 
 /**
- * Insight Card Component
+ * Insight Card Component - Premium styling with animations
  */
 function InsightCard({
     type,
-    message
+    message,
+    index = 0,
 }: {
     type: 'warning' | 'opportunity' | 'info' | 'critical';
     message: string;
+    index?: number;
 }) {
-    const styles = {
-        warning: 'bg-th-warning-muted border-th-warning/20 text-th-warning',
-        opportunity: 'bg-th-success-muted border-th-success/20 text-th-success',
-        info: 'bg-th-info-muted border-th-info/20 text-th-info',
-        critical: 'bg-th-error-muted border-th-error/20 text-th-error',
+    const config = {
+        warning: {
+            bg: 'bg-amber-500/5',
+            border: 'border-amber-500/20',
+            icon: AlertTriangle,
+            iconColor: 'text-amber-400',
+            label: 'Warning',
+        },
+        opportunity: {
+            bg: 'bg-emerald-500/5',
+            border: 'border-emerald-500/20',
+            icon: Lightbulb,
+            iconColor: 'text-emerald-400',
+            label: 'Opportunity',
+        },
+        info: {
+            bg: 'bg-blue-500/5',
+            border: 'border-blue-500/20',
+            icon: Info,
+            iconColor: 'text-blue-400',
+            label: 'Information',
+        },
+        critical: {
+            bg: 'bg-rose-500/5',
+            border: 'border-rose-500/20',
+            icon: AlertCircle,
+            iconColor: 'text-rose-400',
+            label: 'Critical alert',
+        },
     };
 
-    const icons = {
-        warning: '⚠️',
-        opportunity: '💡',
-        info: 'ℹ️',
-        critical: '🚨',
-    };
-
-    const labels = {
-        warning: 'Warning',
-        opportunity: 'Opportunity',
-        info: 'Information',
-        critical: 'Critical alert',
-    };
+    const { bg, border, icon: IconComponent, iconColor, label } = config[type];
 
     return (
-        <div className={`p-4 rounded-xl border ${styles[type]}`} role="listitem">
+        <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1, type: 'spring', stiffness: 300 }}
+            whileHover={{ x: 4 }}
+            className={`p-4 rounded-xl border ${bg} ${border} backdrop-blur-sm group cursor-pointer transition-colors duration-200 hover:bg-white/[0.02]`}
+            role="listitem"
+        >
             <div className="flex items-start gap-3">
-                <span className="text-lg" aria-hidden="true">{icons[type]}</span>
-                <div>
-                    <span className="sr-only">{labels[type]}: </span>
-                    <p className="text-sm text-th-text-secondary">{message}</p>
+                <div className={`p-2 rounded-lg ${bg} border ${border}`}>
+                    <IconComponent className={`w-4 h-4 ${iconColor}`} aria-hidden="true" />
                 </div>
+                <div className="flex-1">
+                    <span className="sr-only">{label}: </span>
+                    <p className="text-sm text-slate-300 leading-relaxed">{message}</p>
+                </div>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    className="text-slate-600 group-hover:text-slate-400 transition-colors"
+                >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -455,9 +651,9 @@ function AppContent() {
                 <Sidebar />
 
                 {/* Main Content Area */}
-                <main 
-                    id="main-content" 
-                    className="flex-1 ml-[200px] p-6"
+                <main
+                    id="main-content"
+                    className="flex-1 ml-[220px] p-6"
                     tabIndex={-1}
                     aria-label={pageTitle + ' - Main content'}
                 >

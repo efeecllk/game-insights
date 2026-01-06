@@ -65,7 +65,6 @@ export function IndustrySelector({
     isAutoDetected,
     detectionConfidence,
     setIndustry,
-    setSubCategory,
     setAutoDetect,
     currentPack,
     availableIndustries,
@@ -73,7 +72,6 @@ export function IndustrySelector({
   } = useProduct();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [showSubCategories, setShowSubCategories] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -81,7 +79,6 @@ export function IndustrySelector({
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
-        setShowSubCategories(false);
       }
     }
 
@@ -223,11 +220,12 @@ function IndustryDropdown({
   availableIndustries,
   getPack,
   onSelectIndustry,
-  onClose,
+  onClose: _onClose,
   showAutoDetect,
   isAutoDetected,
   onToggleAutoDetect,
 }: IndustryDropdownProps) {
+  void _onClose; // Reserved for future use
   const [expandedIndustry, setExpandedIndustry] = useState<IndustryType | null>(null);
 
   return (

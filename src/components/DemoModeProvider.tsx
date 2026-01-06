@@ -5,7 +5,7 @@
  * across the application.
  */
 
-import React, {
+import {
   createContext,
   useContext,
   useState,

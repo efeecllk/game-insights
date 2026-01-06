@@ -1,8 +1,14 @@
 /**
- * KPI Card Component - Design System v2
- * Theme-aware with glassmorphism effects and animations
+ * KPI Card Component - Obsidian Analytics Design
+ *
+ * Premium glassmorphism cards with:
+ * - Layered depth and subtle gradients
+ * - Luminous accent glows on hover
+ * - Micro-interaction animations
+ * - Refined typography hierarchy
  */
 
+import { motion } from 'framer-motion';
 import { LucideIcon, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface KPICardProps {
@@ -11,9 +17,23 @@ interface KPICardProps {
     value: string | number;
     change?: number;
     changeType: 'up' | 'down' | 'neutral';
-    animate?: boolean;
-    staggerIndex?: number;
+    index?: number;
 }
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    visible: (index: number) => ({
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+            delay: index * 0.08,
+        },
+    }),
+};
 
 export function KPICard({
     icon: Icon,
@@ -21,64 +41,92 @@ export function KPICard({
     value,
     change,
     changeType,
-    animate = true,
-    staggerIndex = 0,
+    index = 0,
 }: KPICardProps) {
     const TrendIcon = changeType === 'up' ? TrendingUp : changeType === 'down' ? TrendingDown : Minus;
 
-    const trendStyles = {
-        up: 'bg-th-success-muted text-th-success',
-        down: 'bg-th-error-muted text-th-error',
-        neutral: 'bg-th-bg-elevated text-th-text-muted',
-    };
-
     return (
-        <div
-            className={`
-                bg-th-bg-surface rounded-2xl p-5
-                border border-th-border
-                hover:border-th-accent-primary/30
-                transition-all duration-250
-                group
-                hover:shadow-[0_0_20px_rgba(167,139,250,0.1)]
-                hover:-translate-y-0.5
-                ${animate ? `animate-fade-in-up stagger-${staggerIndex}` : ''}
-            `}
+        <motion.div
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            custom={index}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            className="relative group"
         >
-            <div className="flex items-start justify-between">
-                {/* Icon container with glow effect on hover */}
-                <div className="w-11 h-11 rounded-xl bg-th-accent-primary-muted flex items-center justify-center group-hover:shadow-[0_0_16px_rgba(167,139,250,0.2)] transition-shadow duration-300">
-                    <Icon className="w-5 h-5 text-th-accent-primary" aria-hidden="true" />
+            {/* Glow effect on hover */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+
+            {/* Card container */}
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-5 border border-white/[0.06] group-hover:border-emerald-500/20 transition-all duration-300 overflow-hidden">
+                {/* Noise texture overlay */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                {/* Gradient shine on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative flex items-start justify-between">
+                    {/* Icon with glow */}
+                    <motion.div
+                        className="relative"
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ type: 'spring', stiffness: 400 }}
+                    >
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="relative w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <Icon className="w-5 h-5 text-emerald-400" aria-hidden="true" />
+                        </div>
+                    </motion.div>
+
+                    {/* Trend badge */}
+                    {change !== undefined && (
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ delay: index * 0.08 + 0.2, type: 'spring' }}
+                            className={`flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full backdrop-blur-sm ${
+                                changeType === 'up'
+                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    : changeType === 'down'
+                                    ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                    : 'bg-slate-500/10 text-slate-400 border border-slate-500/20'
+                            }`}
+                        >
+                            <TrendIcon className="w-3 h-3" aria-hidden="true" />
+                            <span className="font-mono text-[11px]">
+                                {changeType === 'up' ? '+' : ''}{change}%
+                            </span>
+                        </motion.div>
+                    )}
                 </div>
 
-                {/* Change badge */}
-                {change !== undefined && (
-                    <div className={`flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full ${trendStyles[changeType]}`}>
-                        <TrendIcon className="w-3 h-3" aria-hidden="true" />
-                        <span className="font-mono">
-                            {changeType === 'up' ? '+' : ''}{change}%
-                        </span>
-                    </div>
-                )}
-            </div>
+                <div className="relative mt-4">
+                    <p className="text-xs uppercase tracking-wider text-slate-500 font-medium">{label}</p>
+                    <motion.p
+                        className="text-2xl font-display font-bold text-white mt-1.5 tracking-tight"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.08 + 0.1 }}
+                    >
+                        {value}
+                    </motion.p>
+                </div>
 
-            <div className="mt-4">
-                <p className="text-sm text-th-text-muted font-medium">{label}</p>
-                <p className="text-2xl font-display font-semibold text-th-text-primary mt-1 kpi-value">
-                    {value}
-                </p>
+                {/* Bottom accent line */}
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-        </div>
+        </motion.div>
     );
 }
 
-// Compact variant for grids
+// Compact variant for dense grids
 interface KPICardCompactProps {
     label: string;
     value: string | number;
     change?: number;
     changeType?: 'up' | 'down' | 'neutral';
     icon?: LucideIcon;
+    index?: number;
 }
 
 export function KPICardCompact({
@@ -87,29 +135,35 @@ export function KPICardCompact({
     change,
     changeType = 'neutral',
     icon: Icon,
+    index = 0,
 }: KPICardCompactProps) {
     const TrendIcon = changeType === 'up' ? TrendingUp : changeType === 'down' ? TrendingDown : Minus;
 
     return (
-        <div className="p-4 hover:bg-th-interactive-hover transition-colors cursor-pointer rounded-xl">
-            <div className="flex items-center gap-2 text-sm text-th-text-muted mb-2">
-                {Icon && <Icon className="w-4 h-4" aria-hidden="true" />}
-                <span>{label}</span>
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 300 }}
+            className="p-4 hover:bg-white/[0.02] transition-colors cursor-pointer rounded-xl group"
+        >
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-slate-500 mb-2">
+                {Icon && <Icon className="w-3.5 h-3.5 text-slate-600 group-hover:text-emerald-500/60 transition-colors" aria-hidden="true" />}
+                <span className="font-medium">{label}</span>
             </div>
-            <div className="text-2xl font-display font-bold text-th-text-primary kpi-value">{value}</div>
+            <div className="text-2xl font-display font-bold text-white tracking-tight">{value}</div>
             {change !== undefined && (
-                <div className={`flex items-center gap-1 text-sm mt-1 ${
-                    changeType === 'up' ? 'text-th-success' :
-                    changeType === 'down' ? 'text-th-error' :
-                    'text-th-text-muted'
+                <div className={`flex items-center gap-1 text-sm mt-1.5 ${
+                    changeType === 'up' ? 'text-emerald-400' :
+                    changeType === 'down' ? 'text-rose-400' :
+                    'text-slate-500'
                 }`}>
                     <TrendIcon className="w-3 h-3" aria-hidden="true" />
-                    <span className="font-mono text-xs">
+                    <span className="font-mono text-[11px]">
                         {change > 0 ? '+' : ''}{change.toFixed(2)}%
                     </span>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 

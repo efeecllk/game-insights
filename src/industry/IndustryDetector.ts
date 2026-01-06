@@ -10,7 +10,6 @@ import {
   DetectionResult,
   ColumnMeaning,
   IndustryPack,
-  DetectionIndicator,
 } from './types';
 import { IndustryRegistry } from './IndustryRegistry';
 
