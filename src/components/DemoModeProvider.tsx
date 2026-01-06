@@ -1,8 +1,9 @@
 /**
- * DemoModeProvider - Context for managing demo mode state
+ * DemoModeProvider - Obsidian Analytics Design
  *
- * Provides synthetic data generation and demo mode status
- * across the application.
+ * Context provider for demo mode with:
+ * - Synthetic data generation
+ * - Industry-specific demo datasets
  */
 
 import {

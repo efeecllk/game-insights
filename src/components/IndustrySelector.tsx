@@ -1,8 +1,10 @@
 /**
- * IndustrySelector - Component for selecting industry and sub-category
+ * IndustrySelector - Obsidian Analytics Design
  *
- * Displays available industries with icons and allows selection.
- * Shows detection confidence and auto-detect status.
+ * Premium industry selection with:
+ * - Icon-based industry cards
+ * - Auto-detection with confidence display
+ * - Sub-category expansion
  */
 
 import { useState, useRef, useEffect } from 'react';
