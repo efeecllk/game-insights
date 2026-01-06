@@ -5,8 +5,13 @@
  * - Warm gradient color scheme (Claude palette)
  * - Refined tooltip design
  * - Drop-off indicators with premium styling
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary re-renders
+ * - Only re-renders when data or config actually changes
  */
 
+import { memo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { FunnelStep, ChartConfig } from '../../types';
@@ -30,7 +35,7 @@ const FUNNEL_COLORS = [
     ['#B89B7D', '#9A8167'], // light brown
 ];
 
-export function FunnelChart({ data, config, className, bare = false }: FunnelChartProps) {
+function FunnelChartComponent({ data, config, className, bare = false }: FunnelChartProps) {
     const option: EChartsOption = {
         backgroundColor: 'transparent',
         tooltip: {
@@ -46,15 +51,15 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
             formatter: (params: unknown) => {
                 const p = params as { name: string; value: number; data: FunnelStep };
                 return `
-                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p.name}</div>
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #8F8B82; margin-bottom: 8px;">${p.name}</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                         <span style="color: #DA7756; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">${p.data.percentage}%</span>
-                        <span style="color: #94a3b8;">of users</span>
+                        <span style="color: #C8C4BA;">of users</span>
                     </div>
                     ${p.data.dropOff ? `
                         <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1);">
-                            <span style="color: #f87171;">↓ ${p.data.dropOff}%</span>
-                            <span style="color: #64748b; font-size: 11px;">drop-off</span>
+                            <span style="color: #E25C5C;">↓ ${p.data.dropOff}%</span>
+                            <span style="color: #8F8B82; font-size: 11px;">drop-off</span>
                         </div>
                     ` : ''}
                 `;
@@ -158,7 +163,7 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
                         </div>
                         <p className="text-xl font-bold text-white font-mono tracking-tight">{step.percentage}%</p>
                         {step.dropOff !== undefined && step.dropOff > 0 && (
-                            <p className="text-[11px] text-rose-400 mt-0.5 font-medium">
+                            <p className="text-[11px] text-[#E25C5C] mt-0.5 font-medium">
                                 <span className="opacity-60">↓</span> {step.dropOff}% drop
                             </p>
                         )}
@@ -202,6 +207,10 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
         </div>
     );
 }
+
+// Memoized component to prevent unnecessary re-renders
+// Only re-renders when data, config, className, or bare props change
+export const FunnelChart = memo(FunnelChartComponent);
 
 // Register chart
 ChartRegistry.register('level_funnel', FunnelChart as React.ComponentType<BaseChartProps<unknown>>, {

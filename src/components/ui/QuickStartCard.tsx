@@ -1,11 +1,10 @@
 /**
  * Quick Start Card - First-time User Experience
  *
- * A prominent card that appears when users have no data,
- * guiding them through the initial setup process.
+ * A clean, focused card that guides new users through setup.
+ * Simple design with clear calls to action.
  */
 
-import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
     Upload,
@@ -13,7 +12,6 @@ import {
     ArrowRight,
     Play,
     BarChart3,
-    Zap,
     Shield,
 } from 'lucide-react';
 import { Button } from './Button';
@@ -28,20 +26,13 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
 
     if (compact) {
         return (
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="relative bg-slate-900  rounded-2xl p-6 border border-slate-700 overflow-hidden"
-            >
-                {/* Background texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-                <div className="relative flex flex-col items-center text-center">
-                    <div className="w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center mb-4">
-                        <Upload className="w-6 h-6 text-[#DA7756]" />
+            <div className="bg-th-bg-surface rounded-xl p-6 border border-th-border-subtle">
+                <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center mb-4">
+                        <Upload className="w-6 h-6 text-th-accent-primary" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Get Started</h3>
-                    <p className="text-sm text-slate-400 mb-4">
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-2">Get Started</h3>
+                    <p className="text-sm text-th-text-muted mb-4">
                         Upload your data or explore with a demo
                     </p>
                     <div className="flex gap-3">
@@ -65,99 +56,76 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
                         )}
                     </div>
                 </div>
-            </motion.div>
+            </div>
         );
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="relative bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
-        >
-            {/* Background texture */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-            {/* Decorative gradient orbs */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#DA7756]/10 rounded-full" />
-            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#C15F3C]/10 rounded-full" />
-
-            <div className="relative p-8">
+        <div className="bg-th-bg-surface rounded-xl border border-th-border-subtle overflow-hidden">
+            <div className="p-8">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 mb-4"
-                    >
-                        <Zap className="w-4 h-4 text-[#DA7756]" />
-                        <span className="text-sm font-medium text-[#DA7756]">Get Started in 30 Seconds</span>
-                    </motion.div>
-                    <h2 className="text-2xl font-bold text-white mb-2">
+                    <h2 className="text-2xl font-bold text-th-text-primary mb-2">
                         Welcome to Game Insights
                     </h2>
-                    <p className="text-slate-400 max-w-md mx-auto">
+                    <p className="text-th-text-secondary max-w-md mx-auto">
                         Upload your game analytics data and get AI-powered insights instantly.
                         No configuration needed.
                     </p>
                 </div>
 
-                {/* Two Column Layout */}
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
-                    {/* Upload Option */}
-                    <motion.button
-                        whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
+                {/* Two Column Layout - Clear options */}
+                <div className="grid md:grid-cols-2 gap-4 mb-8">
+                    {/* Upload Option - Primary action */}
+                    <button
                         onClick={() => navigate('/upload')}
-                        className="group relative text-left p-6 rounded-xl bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5 border border-[#DA7756]/20 hover:border-[#DA7756]/40 transition-colors"
+                        className="group text-left p-6 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/30 hover:border-th-accent-primary/50 transition-colors"
                     >
-                        <div className="w-12 h-12 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <Upload className="w-6 h-6 text-[#DA7756]" />
+                        <div className="w-12 h-12 rounded-xl bg-th-accent-primary/20 border border-th-accent-primary/30 flex items-center justify-center mb-4">
+                            <Upload className="w-6 h-6 text-th-accent-primary" />
                         </div>
-                        <h3 className="text-lg font-semibold text-white mb-2">Upload Your Data</h3>
-                        <p className="text-sm text-slate-400 mb-4">
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">Upload Your Data</h3>
+                        <p className="text-sm text-th-text-secondary mb-4">
                             CSV, JSON, Excel, or SQLite. We auto-detect columns and game type.
                         </p>
-                        <span className="inline-flex items-center text-sm font-medium text-[#DA7756] group-hover:gap-2 transition-all">
+                        <span className="inline-flex items-center text-sm font-medium text-th-accent-primary">
                             Start uploading <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </span>
-                    </motion.button>
+                    </button>
 
-                    {/* Demo Option */}
-                    <motion.button
-                        whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
+                    {/* Demo Option - Secondary action */}
+                    <button
                         onClick={onTryDemo}
-                        className="group relative text-left p-6 rounded-xl bg-white/[0.02] border border-slate-700 hover:border-[#A68B5B]/30 transition-colors"
+                        className="group text-left p-6 rounded-xl bg-th-bg-elevated border border-th-border-subtle hover:border-th-border-default transition-colors"
                     >
-                        <div className="w-12 h-12 rounded-xl bg-[#A68B5B]/10 border border-[#A68B5B]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <Sparkles className="w-6 h-6 text-[#A68B5B]" />
+                        <div className="w-12 h-12 rounded-xl bg-th-bg-surface border border-th-border-subtle flex items-center justify-center mb-4">
+                            <Sparkles className="w-6 h-6 text-th-text-muted" />
                         </div>
-                        <h3 className="text-lg font-semibold text-white mb-2">Explore with Demo Data</h3>
-                        <p className="text-sm text-slate-400 mb-4">
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">Explore with Demo Data</h3>
+                        <p className="text-sm text-th-text-secondary mb-4">
                             See how it works with realistic sample data. No signup required.
                         </p>
-                        <span className="inline-flex items-center text-sm font-medium text-[#A68B5B] group-hover:gap-2 transition-all">
+                        <span className="inline-flex items-center text-sm font-medium text-th-text-secondary group-hover:text-th-text-primary">
                             Try demo <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </span>
-                    </motion.button>
+                    </button>
                 </div>
 
-                {/* Features */}
-                <div className="flex flex-wrap justify-center gap-6 pt-6 border-t border-slate-800">
+                {/* Features - Simple list */}
+                <div className="flex flex-wrap justify-center gap-6 pt-6 border-t border-th-border-subtle">
                     <Feature icon={BarChart3} label="Auto-detect game type" />
                     <Feature icon={Sparkles} label="AI-powered insights" />
                     <Feature icon={Shield} label="100% local - your data stays private" />
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }
 
 function Feature({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
     return (
-        <div className="flex items-center gap-2 text-sm text-slate-400">
-            <Icon className="w-4 h-4 text-slate-500" />
+        <div className="flex items-center gap-2 text-sm text-th-text-muted">
+            <Icon className="w-4 h-4 text-th-text-disabled" />
             <span>{label}</span>
         </div>
     );

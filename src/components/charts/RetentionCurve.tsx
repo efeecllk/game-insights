@@ -5,8 +5,13 @@
  * - Warm gradient line styling (Claude palette)
  * - Refined tooltip design
  * - Smooth animations
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary re-renders
+ * - Only re-renders when data or config actually changes
  */
 
+import { memo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { RetentionData, ChartConfig } from '../../types';
@@ -20,7 +25,7 @@ interface RetentionCurveProps {
     bare?: boolean;
 }
 
-export function RetentionCurve({ data, config, className, bare = false }: RetentionCurveProps) {
+function RetentionCurveComponent({ data, config, className, bare = false }: RetentionCurveProps) {
     const option: EChartsOption = {
         backgroundColor: 'transparent',
         tooltip: {
@@ -45,8 +50,8 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                     </div>
                     ${benchmarkPoint ? `
                         <div style="display: flex; align-items: center; gap: 8px;">
-                            <span style="width: 8px; height: 8px; border-radius: 2px; background: #475569;"></span>
-                            <span style="color: #94a3b8;">Benchmark: <span style="font-family: 'JetBrains Mono', monospace;">${benchmarkPoint.value}%</span></span>
+                            <span style="width: 8px; height: 8px; border-radius: 2px; background: #8F8B82;"></span>
+                            <span style="color: #8F8B82;">Benchmark: <span style="font-family: 'JetBrains Mono', monospace;">${benchmarkPoint.value}%</span></span>
                         </div>
                     ` : ''}
                 `;
@@ -146,7 +151,7 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                 lineStyle: {
                     width: 2,
                     type: 'dashed' as const,
-                    color: '#475569',
+                    color: '#8F8B82',
                 },
             }] : []),
         ],
@@ -169,26 +174,23 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
 
     // Standalone mode with its own container
     return (
-        <div className={`relative bg-slate-900  rounded-2xl p-5 border border-slate-800 overflow-hidden ${className ?? ''}`}>
-            {/* Noise texture */}
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
+        <div className={`relative bg-th-bg-surface rounded-2xl p-5 border border-th-border overflow-hidden ${className ?? ''}`}>
             <div className="relative">
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-th-text-primary">
                             {config?.title ?? 'User Retention'}
                         </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-th-text-muted mt-0.5">
                             {config?.subtitle ?? 'Track how users return over time'}
                         </p>
                     </div>
-                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20">
+                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-th-accent-primary-muted border border-th-accent-primary/20">
                         <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8957A] opacity-75" />
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#DA7756]" />
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-th-accent-primary opacity-75" />
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-th-accent-primary" />
                         </span>
-                        <span className="text-[10px] font-medium text-[#E8957A] uppercase tracking-wider">Live</span>
+                        <span className="text-[10px] font-medium text-th-accent-primary uppercase tracking-wider">Live</span>
                     </div>
                 </div>
 
@@ -197,6 +199,10 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
         </div>
     );
 }
+
+// Memoized component to prevent unnecessary re-renders
+// Only re-renders when data, config, className, or bare props change
+export const RetentionCurve = memo(RetentionCurveComponent);
 
 // Register chart in registry
 ChartRegistry.register('retention_curve', RetentionCurve as React.ComponentType<BaseChartProps<unknown>>, {

@@ -5,9 +5,14 @@
  * - Risk level badges
  * - Prevention action buttons
  * - Expandable user details
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary row re-renders
+ * - Row expansion state managed at table level
+ * - Virtualization-ready with maxRows prop
  */
 
-import { useState } from 'react';
+import { useState, memo, useCallback } from 'react';
 import { AlertTriangle, ChevronDown, ChevronUp, User, Clock, TrendingDown } from 'lucide-react';
 import type { ChurnPredictionResult } from '../../ai/ml/MLService';
 
@@ -17,11 +22,16 @@ interface ChurnRiskTableProps {
     maxRows?: number;
 }
 
-export function ChurnRiskTable({ users, onActionClick, maxRows = 10 }: ChurnRiskTableProps) {
+function ChurnRiskTableComponent({ users, onActionClick, maxRows = 10 }: ChurnRiskTableProps) {
     const [expandedUser, setExpandedUser] = useState<string | null>(null);
     const [showAll, setShowAll] = useState(false);
 
     const displayUsers = showAll ? users : users.slice(0, maxRows);
+
+    // Memoized toggle handler to prevent unnecessary re-renders
+    const handleToggle = useCallback((userId: string) => {
+        setExpandedUser(prev => prev === userId ? null : userId);
+    }, []);
 
     if (users.length === 0) {
         return (
@@ -43,15 +53,13 @@ export function ChurnRiskTable({ users, onActionClick, maxRows = 10 }: ChurnRisk
                 <span>Sorted by risk level</span>
             </div>
 
-            {/* User rows */}
+            {/* User rows - memoized for performance */}
             {displayUsers.map(user => (
                 <ChurnUserRow
                     key={user.userId}
                     user={user}
                     isExpanded={expandedUser === user.userId}
-                    onToggle={() => setExpandedUser(
-                        expandedUser === user.userId ? null : user.userId
-                    )}
+                    onToggle={handleToggle}
                     onActionClick={onActionClick}
                 />
             ))}
@@ -69,14 +77,18 @@ export function ChurnRiskTable({ users, onActionClick, maxRows = 10 }: ChurnRisk
     );
 }
 
+// Memoized table component
+export const ChurnRiskTable = memo(ChurnRiskTableComponent);
+
 interface ChurnUserRowProps {
     user: ChurnPredictionResult;
     isExpanded: boolean;
-    onToggle: () => void;
+    onToggle: (userId: string) => void;
     onActionClick?: (userId: string, action: string) => void;
 }
 
-function ChurnUserRow({ user, isExpanded, onToggle, onActionClick }: ChurnUserRowProps) {
+// Memoized row component - only re-renders when this specific user's data changes
+const ChurnUserRow = memo(function ChurnUserRow({ user, isExpanded, onToggle, onActionClick }: ChurnUserRowProps) {
     const riskColors = {
         critical: 'bg-red-500/20 text-red-400 border-red-500/30',
         high: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
@@ -90,7 +102,7 @@ function ChurnUserRow({ user, isExpanded, onToggle, onActionClick }: ChurnUserRo
         <div className={`rounded-lg border ${riskColor} transition-all`}>
             {/* Main row */}
             <button
-                onClick={onToggle}
+                onClick={() => onToggle(user.userId)}
                 className="w-full flex items-center justify-between p-3 text-left"
             >
                 <div className="flex items-center gap-3">
@@ -195,6 +207,6 @@ function ChurnUserRow({ user, isExpanded, onToggle, onActionClick }: ChurnUserRo
             )}
         </div>
     );
-}
+});
 
 export default ChurnRiskTable;

@@ -5,8 +5,12 @@
  * - Warm color palette (Claude palette)
  * - Refined legend and tooltips
  * - Glow effects on hover
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary re-renders
  */
 
+import { memo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { SegmentData, ChartConfig } from '../../types';
@@ -30,7 +34,7 @@ const SEGMENT_COLORS = [
     '#B89B7D', // light brown
 ];
 
-export function SegmentChart({ data, config, className, bare = false }: SegmentChartProps) {
+function SegmentChartComponent({ data, config, className, bare = false }: SegmentChartProps) {
     const option: EChartsOption = {
         backgroundColor: 'transparent',
         tooltip: {
@@ -60,7 +64,7 @@ export function SegmentChart({ data, config, className, bare = false }: SegmentC
             right: '5%',
             top: 'center',
             textStyle: {
-                color: '#94a3b8',
+                color: '#C8C4BA',
                 fontSize: 11,
                 fontFamily: 'DM Sans, system-ui, sans-serif',
             },
@@ -158,6 +162,9 @@ function adjustColor(hex: string, percent: number): string {
     const b = Math.min(255, Math.max(0, (num & 0x0000ff) + percent));
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
 }
+
+// Memoized component to prevent unnecessary re-renders
+export const SegmentChart = memo(SegmentChartComponent);
 
 // Register chart
 ChartRegistry.register('spender_segments', SegmentChart as React.ComponentType<BaseChartProps<unknown>>, {

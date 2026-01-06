@@ -2,14 +2,15 @@
  * Sidebar Customizer - Obsidian Analytics Design System
  *
  * Modal component for customizing sidebar navigation order with:
- * - Drag-and-drop reordering via up/down arrow buttons
+ * - True drag-and-drop reordering
+ * - Up/down arrow buttons for fine control
  * - Toggle between custom and game-type default order
  * - Reset to default functionality
  * - Glassmorphism modal design
  */
 
-import { useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useState, useRef } from 'react';
+import { motion, AnimatePresence, Reorder } from 'framer-motion';
 import {
     X,
     ChevronUp,
@@ -75,8 +76,19 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
         customOrder,
         setUseCustomOrder,
         moveItem,
+        reorderItems,
         resetToDefault,
     } = useSidebarSettings();
+
+    // Local state for drag-and-drop (to allow smooth animations before persisting)
+    const [localOrder, setLocalOrder] = useState<string[]>(customOrder);
+    const isDragging = useRef(false);
+
+    // Sync local order with store when customOrder changes (and not dragging)
+    // This ensures the local state stays in sync when using arrow buttons
+    if (!isDragging.current && JSON.stringify(localOrder) !== JSON.stringify(customOrder)) {
+        setLocalOrder(customOrder);
+    }
 
     const handleMoveUp = useCallback(
         (index: number) => {
@@ -102,6 +114,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
 
     const handleReset = useCallback(async () => {
         await resetToDefault();
+        setLocalOrder(DEFAULT_SIDEBAR_ORDER);
     }, [resetToDefault]);
 
     const handleOverlayClick = useCallback(
@@ -113,8 +126,22 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
         [onClose]
     );
 
+    // Handle reorder from drag-and-drop
+    const handleReorder = useCallback((newOrder: string[]) => {
+        setLocalOrder(newOrder);
+        isDragging.current = true;
+    }, []);
+
+    // Persist the order when drag ends
+    const handleDragEnd = useCallback(() => {
+        if (isDragging.current) {
+            reorderItems(localOrder);
+            isDragging.current = false;
+        }
+    }, [localOrder, reorderItems]);
+
     // Get the display order based on current settings
-    const displayOrder = useCustomOrder ? customOrder : DEFAULT_SIDEBAR_ORDER;
+    const displayOrder = useCustomOrder ? (isDragging.current ? localOrder : customOrder) : DEFAULT_SIDEBAR_ORDER;
 
     return (
         <AnimatePresence>
@@ -201,7 +228,29 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                                     <div className="p-8 text-center text-slate-500">
                                         Loading...
                                     </div>
+                                ) : useCustomOrder ? (
+                                    // Draggable list when custom order is enabled
+                                    <Reorder.Group
+                                        axis="y"
+                                        values={localOrder}
+                                        onReorder={handleReorder}
+                                        className="p-3 space-y-1"
+                                    >
+                                        {localOrder.map((label, index) => (
+                                            <DraggableSidebarItem
+                                                key={label}
+                                                label={label}
+                                                index={index}
+                                                isFirst={index === 0}
+                                                isLast={index === localOrder.length - 1}
+                                                onMoveUp={() => handleMoveUp(index)}
+                                                onMoveDown={() => handleMoveDown(index)}
+                                                onDragEnd={handleDragEnd}
+                                            />
+                                        ))}
+                                    </Reorder.Group>
                                 ) : (
+                                    // Static list when using default order
                                     <motion.ul
                                         variants={listVariants}
                                         initial="hidden"
@@ -217,7 +266,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                                                 isLast={index === displayOrder.length - 1}
                                                 onMoveUp={() => handleMoveUp(index)}
                                                 onMoveDown={() => handleMoveDown(index)}
-                                                disabled={!useCustomOrder}
+                                                disabled={true}
                                             />
                                         ))}
                                     </motion.ul>
@@ -341,6 +390,109 @@ function SidebarItem({
                 </motion.button>
             </div>
         </motion.li>
+    );
+}
+
+// ============================================================================
+// Draggable Item (uses Framer Motion Reorder)
+// ============================================================================
+
+interface DraggableSidebarItemProps {
+    label: string;
+    index: number;
+    isFirst: boolean;
+    isLast: boolean;
+    onMoveUp: () => void;
+    onMoveDown: () => void;
+    onDragEnd: () => void;
+}
+
+function DraggableSidebarItem({
+    label,
+    index,
+    isFirst,
+    isLast,
+    onMoveUp,
+    onMoveDown,
+    onDragEnd,
+}: DraggableSidebarItemProps) {
+    return (
+        <Reorder.Item
+            value={label}
+            onDragEnd={onDragEnd}
+            className={`
+                flex items-center gap-3 px-3 py-2.5 rounded-xl
+                bg-white/[0.02] border border-slate-800
+                hover:bg-white/[0.04] hover:border-slate-700
+                transition-colors cursor-grab active:cursor-grabbing
+                select-none
+            `}
+            whileDrag={{
+                scale: 1.02,
+                boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
+                backgroundColor: 'rgba(255,255,255,0.05)',
+            }}
+        >
+            {/* Drag handle indicator */}
+            <GripVertical
+                className="w-4 h-4 flex-shrink-0 text-slate-500 cursor-grab active:cursor-grabbing"
+            />
+
+            {/* Index badge */}
+            <span
+                className={`
+                    w-6 h-6 flex items-center justify-center rounded-md text-xs font-medium flex-shrink-0
+                    ${index < 6
+                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/20'
+                        : 'bg-white/[0.05] text-slate-500 border border-white/[0.05]'}
+                `}
+            >
+                {index + 1}
+            </span>
+
+            {/* Label */}
+            <span className="flex-1 text-sm text-slate-300 truncate">{label}</span>
+
+            {/* Move buttons */}
+            <div className="flex items-center gap-1">
+                <motion.button
+                    whileHover={isFirst ? undefined : { scale: 1.1 }}
+                    whileTap={isFirst ? undefined : { scale: 0.9 }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onMoveUp();
+                    }}
+                    disabled={isFirst}
+                    className={`
+                        p-1.5 rounded-lg transition-colors
+                        ${isFirst
+                            ? 'text-slate-700 cursor-not-allowed'
+                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                    `}
+                    aria-label={`Move ${label} up`}
+                >
+                    <ChevronUp className="w-4 h-4" />
+                </motion.button>
+                <motion.button
+                    whileHover={isLast ? undefined : { scale: 1.1 }}
+                    whileTap={isLast ? undefined : { scale: 0.9 }}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onMoveDown();
+                    }}
+                    disabled={isLast}
+                    className={`
+                        p-1.5 rounded-lg transition-colors
+                        ${isLast
+                            ? 'text-slate-700 cursor-not-allowed'
+                            : 'text-slate-500 hover:text-white hover:bg-white/[0.08]'}
+                    `}
+                    aria-label={`Move ${label} down`}
+                >
+                    <ChevronDown className="w-4 h-4" />
+                </motion.button>
+            </div>
+        </Reorder.Item>
     );
 }
 

@@ -11,7 +11,7 @@
  * - Automatic cleanup on unmount to prevent zombie processes
  */
 
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity,
@@ -129,11 +129,11 @@ const EVENT_STYLES: Record<EventType, { icon: typeof Activity; color: string; bg
     session_start: { icon: Play, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
     session_end: { icon: Pause, color: 'text-slate-400', bg: 'bg-slate-500/10' },
     level_start: { icon: Gamepad2, color: 'text-[#8F8B82]', bg: 'bg-[#8F8B82]/10' },
-    level_complete: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-    level_fail: { icon: X, color: 'text-rose-400', bg: 'bg-rose-500/10' },
+    level_complete: { icon: Zap, color: 'text-[#E5A84B]', bg: 'bg-[#E5A84B]/10' },
+    level_fail: { icon: X, color: 'text-[#E25C5C]', bg: 'bg-[#E25C5C]/10' },
     purchase: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
     ad_view: { icon: Activity, color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10' },
-    achievement: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
+    achievement: { icon: Zap, color: 'text-[#E5A84B]', bg: 'bg-[#E5A84B]/10' },
     tutorial_step: { icon: User, color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10' },
     custom: { icon: Activity, color: 'text-slate-400', bg: 'bg-slate-500/10' },
 };
@@ -344,18 +344,17 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
 }
 
 // ============================================================================
-// Event Row Component
+// Event Row Component - Memoized for performance
 // ============================================================================
 
-function EventRow({
-    event,
-    isSelected,
-    onClick,
-}: {
+interface EventRowProps {
     event: GameEvent;
     isSelected: boolean;
     onClick: () => void;
-}) {
+}
+
+// Memoized EventRow to prevent re-renders when other events change
+const EventRow = memo(function EventRow({ event, isSelected, onClick }: EventRowProps) {
     const style = EVENT_STYLES[event.type] || EVENT_STYLES.custom;
     const Icon = style.icon;
     const time = new Date(event.timestamp);
@@ -407,6 +406,6 @@ function EventRow({
             </div>
         </motion.button>
     );
-}
+});
 
 export default EventStream;

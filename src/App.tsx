@@ -318,7 +318,7 @@ function OverviewPage() {
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1 }}
                                             transition={{ type: 'spring', delay: 0.4 }}
-                                            className="text-[10px] font-semibold uppercase tracking-wider bg-amber-500/15 text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/20"
+                                            className="text-[10px] font-semibold uppercase tracking-wider bg-[#E5A84B]/15 text-[#E5A84B] px-2.5 py-1 rounded-full border border-[#E5A84B]/20"
                                         >
                                             Demo
                                         </motion.span>
@@ -416,7 +416,7 @@ function OverviewPage() {
 }
 
 /**
- * Premium Chart Container with glassmorphism
+ * Chart Container - Clean, simple styling
  */
 function ChartContainer({
     title,
@@ -428,32 +428,23 @@ function ChartContainer({
     children: React.ReactNode;
 }) {
     return (
-        <motion.div
-            whileHover={{ y: -2 }}
-            transition={{ type: 'spring', stiffness: 400 }}
-            className="relative group"
-        >
-            {/* Hover glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="relative bg-th-bg-surface  rounded-2xl border border-th-border group-hover:border-th-accent-primary/20 transition-colors duration-300 overflow-hidden shadow-theme-sm">
-                {/* Header */}
-                <div className="relative px-5 py-4 border-b border-th-border-subtle">
-                    <h3 className="text-sm font-semibold text-th-text-primary">{title}</h3>
-                    <p className="text-xs text-th-text-muted mt-0.5">{subtitle}</p>
-                </div>
-
-                {/* Chart content */}
-                <div className="relative p-4">
-                    {children}
-                </div>
+        <div className="bg-th-bg-surface rounded-xl border border-th-border-subtle overflow-hidden">
+            {/* Header */}
+            <div className="px-5 py-4 border-b border-th-border-subtle">
+                <h3 className="text-sm font-semibold text-th-text-primary">{title}</h3>
+                <p className="text-xs text-th-text-muted mt-0.5">{subtitle}</p>
             </div>
-        </motion.div>
+
+            {/* Chart content */}
+            <div className="p-4">
+                {children}
+            </div>
+        </div>
     );
 }
 
 /**
- * AI Insights Section with premium styling
+ * AI Insights Section - Clean styling
  */
 function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
     const insights = useMemo(() => {
@@ -489,72 +480,65 @@ function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
     }, [selectedGame]);
 
     return (
-        <div className="relative group">
-            {/* Subtle hover effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            <div className="relative bg-th-bg-surface  rounded-2xl border border-th-border overflow-hidden shadow-theme-sm">
-                {/* Header */}
-                <div className="relative px-6 py-4 border-b border-th-border-subtle flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-th-accent-primary" />
-                    </div>
-                    <div>
-                        <h2 id="insights-heading" className="text-base font-semibold text-th-text-primary">AI Insights</h2>
-                        <p className="text-xs text-th-text-muted">Auto-generated recommendations based on your data</p>
-                    </div>
+        <div className="bg-th-bg-surface rounded-xl border border-th-border-subtle overflow-hidden">
+            {/* Header */}
+            <div className="px-6 py-4 border-b border-th-border-subtle flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-th-accent-primary" />
                 </div>
-
-                {/* Insights list */}
-                <div className="relative p-4 space-y-3" role="list" aria-label="AI-generated insights">
-                    {insights.map((insight, index) => (
-                        <InsightCard key={index} type={insight.type} message={insight.message} index={index} />
-                    ))}
+                <div>
+                    <h2 id="insights-heading" className="text-base font-semibold text-th-text-primary">AI Insights</h2>
+                    <p className="text-xs text-th-text-muted">Auto-generated recommendations based on your data</p>
                 </div>
+            </div>
+
+            {/* Insights list */}
+            <div className="p-4 space-y-3" role="list" aria-label="AI-generated insights">
+                {insights.map((insight, index) => (
+                    <InsightCard key={index} type={insight.type} message={insight.message} />
+                ))}
             </div>
         </div>
     );
 }
 
 /**
- * Insight Card Component - Premium styling with animations
+ * Insight Card Component - Simple styling
  */
 function InsightCard({
     type,
     message,
-    index = 0,
 }: {
     type: 'warning' | 'opportunity' | 'info' | 'critical';
     message: string;
-    index?: number;
 }) {
     const config = {
         warning: {
-            bg: 'bg-amber-500/5',
-            border: 'border-amber-500/20',
+            bg: 'bg-th-warning-muted',
+            border: 'border-th-warning/20',
             icon: AlertTriangle,
-            iconColor: 'text-amber-400',
+            iconColor: 'text-th-warning',
             label: 'Warning',
         },
         opportunity: {
-            bg: 'bg-[#DA7756]/5',
-            border: 'border-[#DA7756]/20',
+            bg: 'bg-th-accent-primary-muted',
+            border: 'border-th-accent-primary/20',
             icon: Lightbulb,
-            iconColor: 'text-[#DA7756]',
+            iconColor: 'text-th-accent-primary',
             label: 'Opportunity',
         },
         info: {
-            bg: 'bg-[#8F8B82]/5',
-            border: 'border-[#8F8B82]/20',
+            bg: 'bg-th-info-muted',
+            border: 'border-th-info/20',
             icon: Info,
-            iconColor: 'text-[#8F8B82]',
+            iconColor: 'text-th-info',
             label: 'Information',
         },
         critical: {
-            bg: 'bg-rose-500/5',
-            border: 'border-rose-500/20',
+            bg: 'bg-th-error-muted',
+            border: 'border-th-error/20',
             icon: AlertCircle,
-            iconColor: 'text-rose-400',
+            iconColor: 'text-th-error',
             label: 'Critical alert',
         },
     };
@@ -562,12 +546,8 @@ function InsightCard({
     const { bg, border, icon: IconComponent, iconColor, label } = config[type];
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1, type: 'spring', stiffness: 300 }}
-            whileHover={{ x: 4 }}
-            className={`p-4 rounded-xl border ${bg} ${border}  group cursor-pointer transition-colors duration-200 hover:bg-th-interactive-hover`}
+        <div
+            className={`p-4 rounded-lg border ${bg} ${border} hover:bg-th-interactive-hover transition-colors`}
             role="listitem"
         >
             <div className="flex items-start gap-3">
@@ -578,17 +558,8 @@ function InsightCard({
                     <span className="sr-only">{label}: </span>
                     <p className="text-sm text-th-text-secondary leading-relaxed">{message}</p>
                 </div>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: 1 }}
-                    className="text-th-text-disabled group-hover:text-th-text-muted transition-colors"
-                >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                </motion.div>
             </div>
-        </motion.div>
+        </div>
     );
 }
 

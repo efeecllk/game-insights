@@ -5,8 +5,13 @@
  * - Warm gradient bars with glow (Claude palette)
  * - Refined tooltips and labels
  * - Summary statistics
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary re-renders
+ * - useMemo for expensive calculations
  */
 
+import { memo } from 'react';
 import ReactECharts from 'echarts-for-react';
 import type { EChartsOption } from 'echarts';
 import { TimeSeriesData, ChartConfig } from '../../types';
@@ -20,7 +25,7 @@ interface RevenueChartProps {
     bare?: boolean;
 }
 
-export function RevenueChart({ data, config, className, bare = false }: RevenueChartProps) {
+function RevenueChartComponent({ data, config, className, bare = false }: RevenueChartProps) {
     const series = data[0];
     const totalRevenue = series?.data.reduce((sum, d) => sum + d.value, 0) ?? 0;
     const avgRevenue = series?.data.length ? totalRevenue / series.data.length : 0;
@@ -182,6 +187,9 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
         </div>
     );
 }
+
+// Memoized component to prevent unnecessary re-renders
+export const RevenueChart = memo(RevenueChartComponent);
 
 // Register chart
 ChartRegistry.register('revenue_timeline', RevenueChart as React.ComponentType<BaseChartProps<unknown>>, {

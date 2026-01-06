@@ -1,14 +1,14 @@
 /**
- * Upload Zone Component - Obsidian Analytics Design
+ * Upload Zone Component - Simplified Design
  *
- * Premium upload experience with:
- * - Multi-format support (CSV, JSON, Excel, SQLite)
- * - Streaming for large files (1GB+)
- * - Drag & drop with visual feedback
+ * Clean upload experience with:
+ * - File upload as the primary action (most common)
+ * - Advanced options hidden by default
+ * - Clear feedback and guidance
  */
 
 import { useState, useCallback, DragEvent, ChangeEvent } from 'react';
-import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard, FolderOpen, HardDrive } from 'lucide-react';
+import { Upload, FileText, AlertCircle, CheckCircle, Loader2, FileSpreadsheet, Database, Globe, Clipboard, FolderOpen, HardDrive, ChevronDown } from 'lucide-react';
 import { importFile, getSupportedExtensions, isFormatSupported, type ImportResult, type FolderImportProgress, detectFileFormat } from '../../lib/importers';
 import { folderImporter, type MergeStrategy, type FolderImportResult } from '../../lib/importers/folderImporter';
 import { urlImporter } from '../../lib/importers/urlImporter';
@@ -334,57 +334,11 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
         { icon: Database, label: 'SQLite', ext: '.db' },
     ];
 
+    const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+
     return (
         <div className="w-full space-y-4">
-            {/* Mode Tabs */}
-            <div className="flex gap-2">
-                <button
-                    onClick={() => setMode('file')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                        mode === 'file'
-                            ? 'bg-accent-primary text-white'
-                            : 'bg-bg-elevated text-zinc-400 hover:text-white'
-                    }`}
-                >
-                    <Upload className="w-4 h-4" />
-                    File Upload
-                </button>
-                <button
-                    onClick={() => setMode('folder')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                        mode === 'folder'
-                            ? 'bg-accent-primary text-white'
-                            : 'bg-bg-elevated text-zinc-400 hover:text-white'
-                    }`}
-                >
-                    <FolderOpen className="w-4 h-4" />
-                    Folder
-                </button>
-                <button
-                    onClick={() => setMode('url')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                        mode === 'url'
-                            ? 'bg-accent-primary text-white'
-                            : 'bg-bg-elevated text-zinc-400 hover:text-white'
-                    }`}
-                >
-                    <Globe className="w-4 h-4" />
-                    Import URL
-                </button>
-                <button
-                    onClick={() => setMode('paste')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                        mode === 'paste'
-                            ? 'bg-accent-primary text-white'
-                            : 'bg-bg-elevated text-zinc-400 hover:text-white'
-                    }`}
-                >
-                    <Clipboard className="w-4 h-4" />
-                    Paste Data
-                </button>
-            </div>
-
-            {/* File Upload Mode */}
+            {/* Primary: File Upload - Always visible as the main action */}
             {mode === 'file' && (
                 <label
                     onDragOver={handleDragOver}
@@ -493,9 +447,59 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                 </label>
             )}
 
+            {/* Advanced Import Options - Progressive Disclosure */}
+            {mode === 'file' && (
+                <div className="border-t border-th-border-subtle pt-4">
+                    <button
+                        onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+                        className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
+                    >
+                        <ChevronDown className={`w-4 h-4 transition-transform ${showAdvancedOptions ? 'rotate-180' : ''}`} />
+                        <span>{showAdvancedOptions ? 'Hide other import options' : 'More import options'}</span>
+                    </button>
+
+                    {showAdvancedOptions && (
+                        <div className="mt-4 grid grid-cols-3 gap-3">
+                            <button
+                                onClick={() => setMode('folder')}
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
+                            >
+                                <FolderOpen className="w-5 h-5 text-th-text-muted" />
+                                <span className="text-sm font-medium text-th-text-secondary">Import Folder</span>
+                                <span className="text-xs text-th-text-muted">Multiple files</span>
+                            </button>
+                            <button
+                                onClick={() => setMode('url')}
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
+                            >
+                                <Globe className="w-5 h-5 text-th-text-muted" />
+                                <span className="text-sm font-medium text-th-text-secondary">Import URL</span>
+                                <span className="text-xs text-th-text-muted">Google Sheets, etc</span>
+                            </button>
+                            <button
+                                onClick={() => setMode('paste')}
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
+                            >
+                                <Clipboard className="w-5 h-5 text-th-text-muted" />
+                                <span className="text-sm font-medium text-th-text-secondary">Paste Data</span>
+                                <span className="text-xs text-th-text-muted">From spreadsheet</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+
             {/* Folder Upload Mode */}
             {mode === 'folder' && (
-                folderPreview ? (
+                <div className="space-y-4">
+                    <button
+                        onClick={() => { setMode('file'); setFolderPreview(null); }}
+                        className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
+                    >
+                        <ChevronDown className="w-4 h-4 rotate-90" />
+                        <span>Back to file upload</span>
+                    </button>
+                    {folderPreview ? (
                     <FolderUploadPreview
                         files={folderPreview.files.map(f => ({
                             ...f,
@@ -573,103 +577,120 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             )}
                         </div>
                     </label>
-                )
+                    )}
+                </div>
             )}
 
             {/* URL Import Mode */}
             {mode === 'url' && (
-                <div className="bg-bg-card rounded-card p-6 border border-slate-800">
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-zinc-300 mb-2">
-                                Data URL
-                            </label>
-                            <input
-                                type="url"
-                                value={urlInput}
-                                onChange={(e) => setUrlInput(e.target.value)}
-                                placeholder="https://example.com/data.csv or Google Sheets URL"
-                                className="w-full px-4 py-3 bg-bg-elevated border border-white/[0.1] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-accent-primary"
-                                disabled={loading}
-                            />
-                        </div>
-                        <div className="flex items-center gap-4 text-xs text-zinc-500">
-                            <span>Supports:</span>
-                            <span>CSV/JSON URLs</span>
-                            <span>Google Sheets</span>
-                            <span>Dropbox</span>
-                            <span>Google Drive</span>
-                        </div>
-                        {error && (
-                            <div className="flex items-center gap-2 text-red-500 text-sm">
-                                <AlertCircle className="w-4 h-4" />
-                                {error}
+                <div className="space-y-4">
+                    <button
+                        onClick={() => setMode('file')}
+                        className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
+                    >
+                        <ChevronDown className="w-4 h-4 rotate-90" />
+                        <span>Back to file upload</span>
+                    </button>
+                    <div className="bg-th-bg-surface rounded-xl p-6 border border-th-border-subtle">
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                                    Data URL
+                                </label>
+                                <input
+                                    type="url"
+                                    value={urlInput}
+                                    onChange={(e) => setUrlInput(e.target.value)}
+                                    placeholder="https://example.com/data.csv or Google Sheets URL"
+                                    className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary"
+                                    disabled={loading}
+                                />
                             </div>
-                        )}
-                        <button
-                            onClick={handleUrlImport}
-                            disabled={loading || !urlInput.trim()}
-                            className="w-full px-4 py-3 bg-accent-primary hover:bg-accent-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                    Importing...
-                                </>
-                            ) : (
-                                <>
-                                    <Globe className="w-4 h-4" />
-                                    Import from URL
-                                </>
+                            <div className="flex items-center gap-4 text-xs text-th-text-muted">
+                                <span>Supports:</span>
+                                <span>CSV/JSON URLs</span>
+                                <span>Google Sheets</span>
+                            </div>
+                            {error && (
+                                <div className="flex items-center gap-2 text-th-error text-sm">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {error}
+                                </div>
                             )}
-                        </button>
+                            <button
+                                onClick={handleUrlImport}
+                                disabled={loading || !urlInput.trim()}
+                                className="w-full px-4 py-3 bg-th-accent-primary hover:bg-th-accent-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-th-text-inverse font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                            >
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Importing...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Globe className="w-4 h-4" />
+                                        Import from URL
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
 
             {/* Paste Mode */}
             {mode === 'paste' && (
-                <div className="bg-bg-card rounded-card p-6 border border-slate-800">
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-zinc-300 mb-2">
-                                Paste your data
-                            </label>
-                            <textarea
-                                value={pasteInput}
-                                onChange={(e) => setPasteInput(e.target.value)}
-                                placeholder="Paste CSV, TSV (from spreadsheet), or JSON data here..."
-                                className="w-full h-48 px-4 py-3 bg-bg-elevated border border-white/[0.1] rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-accent-primary font-mono text-sm resize-none"
-                                disabled={loading}
-                            />
-                        </div>
-                        <div className="flex items-center gap-4 text-xs text-zinc-500">
-                            <span>Tip:</span>
-                            <span>Copy from Excel/Sheets and paste directly</span>
-                        </div>
-                        {error && (
-                            <div className="flex items-center gap-2 text-red-500 text-sm">
-                                <AlertCircle className="w-4 h-4" />
-                                {error}
+                <div className="space-y-4">
+                    <button
+                        onClick={() => setMode('file')}
+                        className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
+                    >
+                        <ChevronDown className="w-4 h-4 rotate-90" />
+                        <span>Back to file upload</span>
+                    </button>
+                    <div className="bg-th-bg-surface rounded-xl p-6 border border-th-border-subtle">
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-th-text-secondary mb-2">
+                                    Paste your data
+                                </label>
+                                <textarea
+                                    value={pasteInput}
+                                    onChange={(e) => setPasteInput(e.target.value)}
+                                    placeholder="Paste CSV, TSV (from spreadsheet), or JSON data here..."
+                                    className="w-full h-48 px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary font-mono text-sm resize-none"
+                                    disabled={loading}
+                                />
                             </div>
-                        )}
-                        <button
-                            onClick={handlePasteImport}
-                            disabled={loading || !pasteInput.trim()}
-                            className="w-full px-4 py-3 bg-accent-primary hover:bg-accent-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
-                        >
-                            {loading ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                    Processing...
-                                </>
-                            ) : (
-                                <>
-                                    <Clipboard className="w-4 h-4" />
-                                    Import Pasted Data
-                                </>
+                            <div className="flex items-center gap-4 text-xs text-th-text-muted">
+                                <span>Tip:</span>
+                                <span>Copy from Excel/Sheets and paste directly</span>
+                            </div>
+                            {error && (
+                                <div className="flex items-center gap-2 text-th-error text-sm">
+                                    <AlertCircle className="w-4 h-4" />
+                                    {error}
+                                </div>
                             )}
-                        </button>
+                            <button
+                                onClick={handlePasteImport}
+                                disabled={loading || !pasteInput.trim()}
+                                className="w-full px-4 py-3 bg-th-accent-primary hover:bg-th-accent-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-th-text-inverse font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                            >
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Processing...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Clipboard className="w-4 h-4" />
+                                        Import Pasted Data
+                                    </>
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

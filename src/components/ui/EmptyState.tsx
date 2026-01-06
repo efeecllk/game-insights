@@ -1,15 +1,12 @@
 /**
- * Empty State Component - Obsidian Analytics Design
+ * Empty State Component - Simplified Design
  *
- * Premium empty state with:
- * - Glassmorphism icon container
- * - Orange accent styling
- * - Animated entrance with Framer Motion
+ * Clean empty state with:
+ * - Clear icon and messaging
+ * - Obvious call to action
  * - Consistent with design system
- * - Optional sample data loading
  */
 
-import { motion } from 'framer-motion';
 import { Upload, Database, BarChart3, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
@@ -43,90 +40,53 @@ export function EmptyState({
 
     if (compact) {
         return (
-            <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col items-center justify-center py-8 text-center"
-            >
-                <div className="w-10 h-10 rounded-xl bg-slate-800/50 border border-slate-800 flex items-center justify-center mb-3">
-                    <Icon className="w-5 h-5 text-slate-500" />
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+                <div className="w-10 h-10 rounded-xl bg-th-bg-elevated border border-th-border-subtle flex items-center justify-center mb-3">
+                    <Icon className="w-5 h-5 text-th-text-muted" />
                 </div>
-                <p className="text-sm text-slate-500">{title}</p>
+                <p className="text-sm text-th-text-muted">{title}</p>
                 <div className="flex items-center gap-3 mt-3">
                     {showUploadButton && (
-                        <motion.button
+                        <button
                             onClick={() => navigate('/upload')}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="text-xs text-[#DA7756] hover:text-[#DA7756]/80 transition-colors"
+                            className="text-xs text-th-accent-primary hover:text-th-accent-primary-hover transition-colors"
                         >
                             Upload data
-                        </motion.button>
+                        </button>
                     )}
                     {showDemoButton && onTryDemo && (
                         <>
-                            <span className="text-slate-600">or</span>
-                            <motion.button
+                            <span className="text-th-text-disabled">or</span>
+                            <button
                                 onClick={onTryDemo}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="text-xs text-[#A68B5B] hover:text-[#A68B5B]/80 transition-colors"
+                                className="text-xs text-th-text-secondary hover:text-th-text-primary transition-colors"
                             >
                                 Try demo
-                            </motion.button>
+                            </button>
                         </>
                     )}
                 </div>
-            </motion.div>
+            </div>
         );
     }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="flex flex-col items-center justify-center py-12 text-center"
-        >
-            {/* Icon container with glow */}
-            <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
-                className="relative mb-6"
-            >
-                <div className="absolute inset-0 bg-[#DA7756]/10 rounded-2xl" />
-                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 flex items-center justify-center">
-                    <Icon className="w-8 h-8 text-slate-400" />
-                </div>
-            </motion.div>
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+            {/* Icon container - simple */}
+            <div className="w-16 h-16 rounded-xl bg-th-bg-elevated border border-th-border-subtle flex items-center justify-center mb-6">
+                <Icon className="w-8 h-8 text-th-text-muted" />
+            </div>
 
             {/* Title and description */}
-            <motion.h3
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="text-lg font-semibold text-white mb-2"
-            >
+            <h3 className="text-lg font-semibold text-th-text-primary mb-2">
                 {title}
-            </motion.h3>
-            <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-sm text-slate-500 max-w-sm mb-6"
-            >
+            </h3>
+            <p className="text-sm text-th-text-muted max-w-sm mb-6">
                 {description}
-            </motion.p>
+            </p>
 
             {/* Action buttons */}
-            <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 }}
-                className="flex items-center gap-3"
-            >
+            <div className="flex items-center gap-3">
                 {showUploadButton && (
                     <Button
                         variant="primary"
@@ -145,20 +105,15 @@ export function EmptyState({
                         Try Demo
                     </Button>
                 )}
-            </motion.div>
+            </div>
 
             {/* Privacy note for first-time users */}
             {showUploadButton && (
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-xs text-slate-600 mt-6"
-                >
+                <p className="text-xs text-th-text-disabled mt-6">
                     Your data stays private - everything runs locally in your browser.
-                </motion.p>
+                </p>
             )}
-        </motion.div>
+        </div>
     );
 }
 

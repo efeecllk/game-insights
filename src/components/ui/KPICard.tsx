@@ -1,13 +1,17 @@
 /**
- * KPI Card Component - Obsidian Analytics Design
+ * KPI Card Component - Clean Analytics Design
  *
- * Premium glassmorphism cards with:
- * - Layered depth and subtle gradients
- * - Luminous accent glows on hover
- * - Micro-interaction animations
+ * Simple, refined cards with:
+ * - Clean borders and subtle shadows
+ * - Minimal hover states
  * - Refined typography hierarchy
+ *
+ * Performance Optimizations:
+ * - React.memo to prevent unnecessary re-renders
+ * - Cards only re-render when their specific data changes
  */
 
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
@@ -35,7 +39,7 @@ const cardVariants = {
     }),
 };
 
-export function KPICard({
+function KPICardComponent({
     icon: Icon,
     label,
     value,
@@ -54,26 +58,13 @@ export function KPICard({
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             className="relative group"
         >
-            {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
             {/* Card container */}
-            <div className="relative bg-th-bg-surface  rounded-2xl p-5 border border-th-border group-hover:border-th-accent-primary/20 transition-all duration-300 overflow-hidden shadow-theme-sm">
-                {/* Gradient shine on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-th-interactive-hover to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="relative flex items-start justify-between">
-                    {/* Icon with glow */}
-                    <motion.div
-                        className="relative"
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ type: 'spring', stiffness: 400 }}
-                    >
-                        <div className="absolute inset-0 bg-th-accent-primary/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <div className="relative w-11 h-11 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
-                            <Icon className="w-5 h-5 text-th-accent-primary" aria-hidden="true" />
-                        </div>
-                    </motion.div>
+            <div className="relative bg-th-bg-surface rounded-2xl p-5 border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
+                <div className="flex items-start justify-between">
+                    {/* Icon */}
+                    <div className="w-11 h-11 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <Icon className="w-5 h-5 text-th-accent-primary" aria-hidden="true" />
+                    </div>
 
                     {/* Trend badge */}
                     {change !== undefined && (
@@ -97,7 +88,7 @@ export function KPICard({
                     )}
                 </div>
 
-                <div className="relative mt-4">
+                <div className="mt-4">
                     <p className="text-xs uppercase tracking-wider text-th-text-muted font-medium">{label}</p>
                     <motion.p
                         className="text-2xl font-display font-bold text-th-text-primary mt-1.5 tracking-tight"
@@ -108,9 +99,6 @@ export function KPICard({
                         {value}
                     </motion.p>
                 </div>
-
-                {/* Bottom accent line */}
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-[#DA7756]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
         </motion.div>
     );
@@ -126,7 +114,10 @@ interface KPICardCompactProps {
     index?: number;
 }
 
-export function KPICardCompact({
+// Memoized KPICard - only re-renders when props actually change
+export const KPICard = memo(KPICardComponent);
+
+function KPICardCompactComponent({
     label,
     value,
     change,
@@ -163,5 +154,8 @@ export function KPICardCompact({
         </motion.div>
     );
 }
+
+// Memoized KPICardCompact - only re-renders when props actually change
+export const KPICardCompact = memo(KPICardCompactComponent);
 
 export default KPICard;
