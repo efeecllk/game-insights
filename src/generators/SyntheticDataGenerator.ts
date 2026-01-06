@@ -463,6 +463,162 @@ export class EcommerceDataGenerator extends SyntheticDataGenerator {
 }
 
 /**
+ * Fintech industry data generator
+ */
+export class FintechDataGenerator extends SyntheticDataGenerator {
+  private transactionTypes = ['deposit', 'withdrawal', 'transfer', 'payment', 'trade', 'fee'];
+  private transactionStatuses = ['success', 'pending', 'failed', 'cancelled'];
+  private currencies = ['USD', 'EUR', 'GBP', 'BTC', 'ETH'];
+  private kycStatuses = ['pending', 'submitted', 'verified', 'rejected'];
+  private accountTypes = ['checking', 'savings', 'investment', 'crypto'];
+  private paymentCategories = ['groceries', 'dining', 'shopping', 'utilities', 'travel', 'entertainment', 'healthcare'];
+  private merchants = ['Amazon', 'Uber', 'Netflix', 'Spotify', 'Starbucks', 'Walmart', 'Target', 'Shell', 'AT&T'];
+  private symbols = ['AAPL', 'GOOGL', 'MSFT', 'AMZN', 'TSLA', 'BTC', 'ETH', 'SPY', 'QQQ'];
+  private eventTypes = [
+    'transaction',
+    'login',
+    'kyc_update',
+    'deposit',
+    'withdrawal',
+    'trade',
+    'transfer',
+    'card_payment',
+  ];
+
+  generate(): Record<string, unknown>[] {
+    const data: Record<string, unknown>[] = [];
+    const userCount = this.config.userCount || Math.ceil(this.config.rowCount / 15);
+
+    // Generate users
+    const users = Array.from({ length: userCount }, (_, i) => {
+      const signupDate = this.randomDate(this.config.dateRange.start, this.config.dateRange.end);
+      const kycStatus = this.weightedChoice(this.kycStatuses, [10, 15, 70, 5]);
+
+      return {
+        userId: `user_${(i + 1).toString().padStart(6, '0')}`,
+        signupDate,
+        kycStatus,
+        kycLevel: kycStatus === 'verified' ? this.randomInt(1, 3) : 0,
+        accountType: this.randomChoice(this.accountTypes),
+        accountBalance: this.randomFloat(0, 50000),
+        creditScore: this.randomInt(300, 850),
+        riskLevel: this.weightedChoice(['low', 'medium', 'high'], [70, 25, 5]),
+        country: this.randomChoice(['US', 'UK', 'DE', 'FR', 'CA', 'AU', 'SG', 'JP']),
+        isActive: this.random() > 0.1, // 90% active
+      };
+    });
+
+    // Generate events/transactions
+    for (let i = 0; i < this.config.rowCount; i++) {
+      const user = this.randomChoice(users);
+      const eventDate = this.randomDateWithBias(user.signupDate, this.config.dateRange.end);
+      const eventType = this.weightedChoice(
+        this.eventTypes,
+        [30, 10, 5, 15, 10, 10, 10, 10]
+      );
+
+      const event: Record<string, unknown> = {
+        event_id: this.generateUUID(),
+        user_id: user.userId,
+        account_id: `acc_${user.userId.slice(5)}`,
+        event_type: eventType,
+        timestamp: eventDate.toISOString(),
+        kyc_status: user.kycStatus,
+        kyc_level: user.kycLevel,
+        country: user.country,
+        risk_level: user.riskLevel,
+      };
+
+      // Transaction-based events
+      if (['transaction', 'deposit', 'withdrawal', 'trade', 'transfer', 'card_payment'].includes(eventType)) {
+        const txnType = eventType === 'transaction'
+          ? this.randomChoice(this.transactionTypes)
+          : eventType === 'card_payment' ? 'payment' : eventType;
+
+        event.transaction_id = this.generateId('txn_');
+        event.transaction_type = txnType;
+        event.transaction_status = this.weightedChoice(this.transactionStatuses, [85, 8, 5, 2]);
+        event.currency = this.randomChoice(this.currencies);
+
+        // Amount varies by transaction type
+        switch (txnType) {
+          case 'deposit':
+            event.transaction_amount = this.randomFloat(100, 10000);
+            break;
+          case 'withdrawal':
+            event.transaction_amount = this.randomFloat(50, Math.min(5000, user.accountBalance));
+            break;
+          case 'trade':
+            event.transaction_amount = this.randomFloat(50, 25000);
+            event.symbol = this.randomChoice(this.symbols);
+            event.trade_side = this.randomChoice(['buy', 'sell']);
+            event.trade_price = this.randomFloat(10, 500);
+            event.trade_volume = this.randomFloat(0.1, 100);
+            break;
+          case 'transfer':
+            event.transaction_amount = this.randomFloat(10, 5000);
+            event.recipient_id = `user_${this.randomInt(1, userCount).toString().padStart(6, '0')}`;
+            break;
+          case 'payment':
+            event.transaction_amount = this.randomFloat(5, 500);
+            event.merchant = this.randomChoice(this.merchants);
+            event.category = this.randomChoice(this.paymentCategories);
+            break;
+          case 'fee':
+            event.transaction_amount = this.randomFloat(0.5, 25);
+            break;
+          default:
+            event.transaction_amount = this.randomFloat(10, 1000);
+        }
+
+        // Add fee for certain transactions
+        if (['trade', 'withdrawal', 'transfer'].includes(txnType)) {
+          event.fee_amount = this.randomFloat(0.1, Math.max(1, (event.transaction_amount as number) * 0.01));
+        }
+
+        // Fraud detection
+        const isSuspicious = this.random() < 0.02; // 2% suspicious
+        event.fraud_flag = isSuspicious;
+        event.fraud_score = isSuspicious ? this.randomFloat(0.7, 1) : this.randomFloat(0, 0.3);
+      }
+
+      // Login events
+      if (eventType === 'login') {
+        event.login_method = this.randomChoice(['password', 'biometric', 'sso', '2fa']);
+        event.device_type = this.randomChoice(['mobile', 'desktop', 'tablet']);
+        event.login_success = this.random() > 0.05; // 95% success
+      }
+
+      // KYC events
+      if (eventType === 'kyc_update') {
+        event.kyc_previous_status = this.randomChoice(this.kycStatuses);
+        event.kyc_new_status = user.kycStatus;
+        event.verification_method = this.randomChoice(['document', 'selfie', 'address', 'income']);
+      }
+
+      // Add balance snapshot
+      event.account_balance = user.accountBalance + this.randomFloat(-1000, 1000);
+      if ((event.account_balance as number) < 0) event.account_balance = 0;
+
+      // Days since signup
+      const daysSinceSignup = Math.floor(
+        (eventDate.getTime() - user.signupDate.getTime()) / (1000 * 60 * 60 * 24)
+      );
+      event.days_since_signup = daysSinceSignup;
+
+      // First transaction tracking
+      if (daysSinceSignup <= 7 && ['deposit', 'trade', 'transfer'].includes(eventType)) {
+        event.is_first_transaction = this.random() < 0.3;
+      }
+
+      data.push(event);
+    }
+
+    return data;
+  }
+}
+
+/**
  * Factory for creating data generators
  */
 export function createDataGenerator(config: GeneratorConfig): SyntheticDataGenerator {
@@ -473,6 +629,8 @@ export function createDataGenerator(config: GeneratorConfig): SyntheticDataGener
       return new SaaSDataGenerator(config);
     case 'ecommerce':
       return new EcommerceDataGenerator(config);
+    case 'fintech':
+      return new FintechDataGenerator(config);
     default:
       throw new Error(`No generator available for industry: ${config.industry}`);
   }
@@ -506,4 +664,5 @@ export default {
   GamingDataGenerator,
   SaaSDataGenerator,
   EcommerceDataGenerator,
+  FintechDataGenerator,
 };

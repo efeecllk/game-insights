@@ -13,11 +13,15 @@ export { SaaSPack, loadSaaSPack } from './saas';
 // E-commerce Pack
 export { EcommercePack, loadEcommercePack } from './ecommerce';
 
+// Fintech Pack
+export { FintechPack, loadFintechPack } from './fintech';
+
 // Initialize all built-in packs
 import { IndustryRegistry } from '../IndustryRegistry';
 import { GamingPack } from './gaming';
 import { SaaSPack } from './saas';
 import { EcommercePack } from './ecommerce';
+import { FintechPack } from './fintech';
 
 /**
  * Register all built-in industry packs
@@ -37,11 +41,15 @@ export function registerBuiltInPacks(): void {
   if (!registry.hasPack('ecommerce')) {
     registry.registerPack(EcommercePack);
   }
+
+  if (!registry.hasPack('fintech')) {
+    registry.registerPack(FintechPack);
+  }
 }
 
 /**
  * Get all built-in packs
  */
 export function getBuiltInPacks() {
-  return [GamingPack, SaaSPack, EcommercePack];
+  return [GamingPack, SaaSPack, EcommercePack, FintechPack];
 }

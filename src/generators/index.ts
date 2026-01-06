@@ -7,6 +7,7 @@ export {
   GamingDataGenerator,
   SaaSDataGenerator,
   EcommerceDataGenerator,
+  FintechDataGenerator,
   createDataGenerator,
   generateSampleData,
 } from './SyntheticDataGenerator';
