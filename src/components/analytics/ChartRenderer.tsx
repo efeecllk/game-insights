@@ -1,6 +1,10 @@
 /**
- * ChartRenderer Component
- * Renders charts based on ChartRecommendation from AI
+ * ChartRenderer Component - Obsidian Analytics Design
+ *
+ * Premium chart rendering with:
+ * - Dark theme with emerald accents
+ * - Glassmorphism containers
+ * - Refined tooltips and labels
  */
 
 import ReactECharts from 'echarts-for-react';
@@ -17,15 +21,36 @@ interface ChartRendererProps {
     className?: string;
 }
 
-// Chart colors from theme
+// Obsidian chart colors - emerald/teal palette
 const CHART_COLORS = [
-    '#8b5cf6', // violet
-    '#6366f1', // indigo
-    '#ec4899', // pink
+    '#10b981', // emerald
+    '#14b8a6', // teal
     '#06b6d4', // cyan
-    '#10b981', // green
-    '#f97316', // orange
+    '#8b5cf6', // violet
+    '#f472b6', // pink
+    '#fb923c', // orange
 ];
+
+// Common tooltip styling for dark theme
+const TOOLTIP_STYLE = {
+    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    borderColor: 'rgba(255, 255, 255, 0.08)',
+    borderWidth: 1,
+    textStyle: {
+        color: '#f1f5f9',
+        fontFamily: 'DM Sans',
+    },
+    padding: [12, 16],
+    extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);',
+};
+
+// Common axis styling for dark theme
+const AXIS_STYLE = {
+    axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+    axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'DM Sans' },
+    axisTick: { show: false },
+    splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } },
+};
 
 function buildLineOrAreaChart(
     recommendation: ChartRecommendation,
@@ -36,7 +61,6 @@ function buildLineOrAreaChart(
     const xCol = recommendation.columns[0];
     const yCol = recommendation.columns[1] || recommendation.columns[0];
 
-    // Get x-axis values
     const xValues = data.rows.map(row => String(row[xCol] ?? ''));
     const yValues = data.rows.map(row => {
         const val = row[yCol];
@@ -44,44 +68,41 @@ function buildLineOrAreaChart(
     });
 
     return {
-        tooltip: {
-            trigger: 'axis',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
-        },
+        tooltip: { ...TOOLTIP_STYLE, trigger: 'axis' },
         grid: { left: 50, right: 20, top: 20, bottom: 30 },
         xAxis: {
             type: 'category',
-            data: xValues.slice(0, 50), // Limit for performance
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
-            axisLabel: { color: '#6b7280', fontSize: 11, rotate: xValues.length > 10 ? 45 : 0 },
-            axisTick: { show: false },
+            data: xValues.slice(0, 50),
+            ...AXIS_STYLE,
+            axisLabel: { ...AXIS_STYLE.axisLabel, rotate: xValues.length > 10 ? 45 : 0 },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#6b7280', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
             name: recommendation.title,
             type: 'line',
             data: yValues.slice(0, 50),
-            smooth: true,
+            smooth: 0.3,
             symbol: 'circle',
             symbolSize: 6,
             lineStyle: { color: CHART_COLORS[0], width: 2 },
-            itemStyle: { color: CHART_COLORS[0] },
+            itemStyle: {
+                color: CHART_COLORS[0],
+                borderColor: '#0f172a',
+                borderWidth: 2,
+            },
             ...(isArea ? {
                 areaStyle: {
                     color: {
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(139, 92, 246, 0.2)' },
-                            { offset: 1, color: 'rgba(139, 92, 246, 0)' },
+                            { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
+                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
                         ],
                     },
                 },
@@ -97,7 +118,6 @@ function buildBarChart(
     const xCol = recommendation.columns[0];
     const yCol = recommendation.columns[1] || recommendation.columns[0];
 
-    // Aggregate data if needed
     const aggregated = new Map<string, number>();
     for (const row of data.rows) {
         const key = String(row[xCol] ?? 'Unknown');
@@ -109,26 +129,19 @@ function buildBarChart(
     const values = categories.map(k => aggregated.get(k) || 0);
 
     return {
-        tooltip: {
-            trigger: 'axis',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
-        },
+        tooltip: { ...TOOLTIP_STYLE, trigger: 'axis' },
         grid: { left: 50, right: 20, top: 20, bottom: 60 },
         xAxis: {
             type: 'category',
             data: categories,
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
-            axisLabel: { color: '#6b7280', fontSize: 11, rotate: categories.length > 5 ? 45 : 0 },
-            axisTick: { show: false },
+            ...AXIS_STYLE,
+            axisLabel: { ...AXIS_STYLE.axisLabel, rotate: categories.length > 5 ? 45 : 0 },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#6b7280', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
             name: recommendation.title,
@@ -146,6 +159,12 @@ function buildBarChart(
                 },
                 borderRadius: [4, 4, 0, 0],
             },
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 12,
+                    shadowColor: 'rgba(16, 185, 129, 0.4)',
+                },
+            },
         }],
     };
 }
@@ -158,11 +177,10 @@ function buildPieOrDonutChart(
     const categoryCol = recommendation.columns[0];
     const valueCol = recommendation.columns[1] || recommendation.columns[0];
 
-    // Aggregate by category
     const aggregated = new Map<string, number>();
     for (const row of data.rows) {
         const key = String(row[categoryCol] ?? 'Unknown');
-        const val = typeof row[valueCol] === 'number' ? row[valueCol] : 1; // Count if no value
+        const val = typeof row[valueCol] === 'number' ? row[valueCol] : 1;
         aggregated.set(key, (aggregated.get(key) || 0) + val);
     }
 
@@ -173,18 +191,15 @@ function buildPieOrDonutChart(
 
     return {
         tooltip: {
+            ...TOOLTIP_STYLE,
             trigger: 'item',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
             formatter: '{b}: {c} ({d}%)',
         },
         legend: {
             orient: 'vertical',
             right: 10,
             top: 'center',
-            textStyle: { color: '#6b7280', fontSize: 11 },
+            textStyle: { color: '#94a3b8', fontSize: 11, fontFamily: 'DM Sans' },
         },
         series: [{
             type: 'pie',
@@ -193,14 +208,14 @@ function buildPieOrDonutChart(
             data: pieData,
             emphasis: {
                 itemStyle: {
-                    shadowBlur: 10,
+                    shadowBlur: 20,
                     shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.2)',
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
                 },
             },
             itemStyle: {
                 borderRadius: 4,
-                borderColor: '#fff',
+                borderColor: '#0f172a',
                 borderWidth: 2,
             },
             label: { show: false },
@@ -216,7 +231,6 @@ function buildFunnelChart(
     const stepCol = recommendation.columns[0];
     const valueCol = recommendation.columns[1] || recommendation.columns[0];
 
-    // Aggregate by step
     const aggregated = new Map<string, number>();
     for (const row of data.rows) {
         const key = String(row[stepCol] ?? 'Unknown');
@@ -230,11 +244,8 @@ function buildFunnelChart(
 
     return {
         tooltip: {
+            ...TOOLTIP_STYLE,
             trigger: 'item',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
             formatter: '{b}: {c}',
         },
         series: [{
@@ -252,9 +263,10 @@ function buildFunnelChart(
                 position: 'inside',
                 color: '#fff',
                 fontSize: 12,
+                fontFamily: 'DM Sans',
             },
             itemStyle: {
-                borderColor: '#fff',
+                borderColor: '#0f172a',
                 borderWidth: 1,
             },
             emphasis: {
@@ -282,7 +294,6 @@ function buildHistogramChart(
         return buildBarChart(recommendation, data);
     }
 
-    // Create histogram bins
     const min = Math.min(...values);
     const max = Math.max(...values);
     const binCount = Math.min(20, Math.ceil(Math.sqrt(values.length)));
@@ -301,26 +312,19 @@ function buildHistogramChart(
     });
 
     return {
-        tooltip: {
-            trigger: 'axis',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
-        },
+        tooltip: { ...TOOLTIP_STYLE, trigger: 'axis' },
         grid: { left: 50, right: 20, top: 20, bottom: 60 },
         xAxis: {
             type: 'category',
             data: categories,
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
-            axisLabel: { color: '#6b7280', fontSize: 10, rotate: 45 },
-            axisTick: { show: false },
+            ...AXIS_STYLE,
+            axisLabel: { ...AXIS_STYLE.axisLabel, fontSize: 10, rotate: 45 },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#6b7280', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
             name: 'Count',
@@ -349,29 +353,28 @@ function buildScatterChart(
             return [x, y];
         })
         .filter(([x, y]) => !isNaN(x) && !isNaN(y))
-        .slice(0, 500); // Limit for performance
+        .slice(0, 500);
 
     return {
         tooltip: {
+            ...TOOLTIP_STYLE,
             trigger: 'item',
-            backgroundColor: '#fff',
-            borderColor: '#e5e7eb',
-            borderWidth: 1,
-            textStyle: { color: '#374151' },
-            formatter: (params: any) => `${xCol}: ${params.data[0]}<br/>${yCol}: ${params.data[1]}`,
+            formatter: (params: unknown) => {
+                const p = params as { data: [number, number] };
+                return `${xCol}: ${p.data[0]}<br/>${yCol}: ${p.data[1]}`;
+            },
         },
         grid: { left: 50, right: 20, top: 20, bottom: 30 },
         xAxis: {
             type: 'value',
-            axisLine: { lineStyle: { color: '#e5e7eb' } },
-            axisLabel: { color: '#6b7280', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            ...AXIS_STYLE,
+            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: '#6b7280', fontSize: 11 },
-            splitLine: { lineStyle: { color: '#f3f4f6' } },
+            axisLabel: { color: '#64748b', fontSize: 11, fontFamily: 'JetBrains Mono' },
+            splitLine: AXIS_STYLE.splitLine,
         },
         series: [{
             type: 'scatter',
@@ -379,7 +382,13 @@ function buildScatterChart(
             symbolSize: 8,
             itemStyle: {
                 color: CHART_COLORS[0],
-                opacity: 0.7,
+                opacity: 0.8,
+            },
+            emphasis: {
+                itemStyle: {
+                    shadowBlur: 10,
+                    shadowColor: 'rgba(16, 185, 129, 0.5)',
+                },
             },
         }],
     };
@@ -422,17 +431,31 @@ export function ChartRenderer({
     const option = buildChartOption(recommendation, data, columnMeanings);
 
     return (
-        <div className={`bg-white rounded-xl border border-gray-200 ${className ?? ''}`}>
-            <div className="p-4 border-b border-gray-100">
-                <h3 className="font-semibold text-gray-900">{recommendation.title}</h3>
-                <p className="text-sm text-gray-500 mt-0.5">{recommendation.description}</p>
-            </div>
-            <div className="p-4">
-                <ReactECharts
-                    option={option}
-                    style={{ height, width: '100%' }}
-                    opts={{ renderer: 'canvas' }}
-                />
+        <div className={`relative group ${className ?? ''}`}>
+            {/* Glow effect on hover */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
+
+            {/* Card container */}
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
+                {/* Noise texture */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                <div className="relative">
+                    {/* Header */}
+                    <div className="p-4 border-b border-white/[0.04]">
+                        <h3 className="font-display font-semibold text-white">{recommendation.title}</h3>
+                        <p className="text-sm text-slate-500 mt-0.5">{recommendation.description}</p>
+                    </div>
+
+                    {/* Chart */}
+                    <div className="p-4">
+                        <ReactECharts
+                            option={option}
+                            style={{ height, width: '100%' }}
+                            opts={{ renderer: 'canvas' }}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

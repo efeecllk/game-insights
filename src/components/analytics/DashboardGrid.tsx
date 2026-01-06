@@ -1,6 +1,10 @@
 /**
- * DashboardGrid Component
- * Layout container for auto-generated dashboard
+ * DashboardGrid Component - Obsidian Analytics Design
+ *
+ * Layout container for auto-generated dashboard with:
+ * - Responsive grid layout
+ * - Coordinated component spacing
+ * - Logical section ordering
  */
 
 import { ChartRecommendation } from '../../ai/ChartSelector';

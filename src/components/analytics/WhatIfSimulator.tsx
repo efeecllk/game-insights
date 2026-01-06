@@ -1,7 +1,10 @@
 /**
- * What-If Simulator Component
- * Interactive UI for scenario simulation
- * Phase 5: Advanced AI & Automation
+ * What-If Simulator Component - Obsidian Analytics Design
+ *
+ * Interactive scenario simulation with:
+ * - Parameter sliders with real-time feedback
+ * - Revenue projection charts
+ * - Impact comparison cards
  */
 
 import { useState, useMemo, useCallback } from 'react';

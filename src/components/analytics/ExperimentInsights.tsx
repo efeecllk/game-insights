@@ -1,6 +1,10 @@
 /**
- * ExperimentInsights Component
- * Displays AI-powered insights, risk analysis, and recommendations for A/B experiments
+ * ExperimentInsights Component - Obsidian Analytics Design
+ *
+ * AI-powered experiment analysis with:
+ * - Health scores and risk assessments
+ * - Smart recommendations
+ * - Aggregate insights for multiple experiments
  */
 
 import { useMemo } from 'react';
