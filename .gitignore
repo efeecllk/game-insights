@@ -15,7 +15,6 @@ build/
 *.swp
 *.swo
 *~
-.DS_Store
 
 # Environment
 .env
@@ -26,13 +25,9 @@ build/
 Thumbs.db
 .DS_Store
 
-# Screenshots/Media
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.mov
-*.mp4
+# Screenshots/Media (kept in root during development)
+Screenshot*.png
+Screenshot*.jpg
 
 # Misc
 .cache/
@@ -41,8 +36,29 @@ Thumbs.db
 # Coverage reports
 coverage/
 
-*storybook.log
-storybook-static
-
 # Storybook
+*storybook.log
 storybook-static/
+
+# Test outputs
+test-results/
+playwright-report/
+
+# Claude Code local settings
+.claude/
+
+# Internal planning documents (development only)
+1-phase.md
+2-phase.md
+3-phase.md
+docs/phases/
+docs/research/
+plan-*/
+pivot-*/
+
+# Development testing files
+test-ai-analysis.ts
+game-insights-docs/
+
+# Data directory (user data - not tracked)
+data/

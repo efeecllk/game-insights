@@ -4,9 +4,11 @@
 
 Upload your game data, get instant insights. No data engineering required.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 ---
 
-## The Problem
+## Why Game Insights?
 
 Indie developers are at a massive disadvantage when it comes to analytics:
 
@@ -23,8 +25,11 @@ Indie developers are at a massive disadvantage when it comes to analytics:
 
 ### Universal Data Import
 - **CSV/JSON upload** with AI-powered column detection
-- **Excel, SQLite, Google Sheets** support (coming soon)
-- **Game engine templates** for Unity, Godot, Unreal
+- **Google Sheets** integration
+- **Firebase Analytics** connection
+- **Supabase / PostgreSQL** support
+- **PlayFab** integration
+- **Unity SDK** adapter
 
 ### Zero-Config Analytics
 - **Auto-detect game type** (puzzle, idle, RPG, battle royale, etc.)
@@ -36,15 +41,31 @@ Indie developers are at a massive disadvantage when it comes to analytics:
 - **Data quality scoring** with auto-fix suggestions
 - **Retention, monetization, engagement** metrics calculated
 
-### Tailored for Games
-- Puzzle games: Level funnels, booster analysis
-- Idle games: Prestige tracking, offline rewards
-- Battle royale: Weapon meta, skill distribution
-- Gacha RPG: Banner analysis, spender tiers
+### Game-Specific Dashboards
+| Game Type | Key Metrics |
+|-----------|-------------|
+| Puzzle | Level funnels, booster usage, difficulty curves |
+| Idle | Prestige tracking, offline rewards, progression speed |
+| Battle Royale | Weapon meta, skill distribution, match balance |
+| Match-3 | Lives economy, hard level analysis, boosters |
+| Gacha RPG | Banner analysis, spender tiers, pity tracking |
+
+### Advanced AI Features
+- **Predictive Analytics**: Retention, churn, LTV, revenue forecasting
+- **Anomaly Detection**: Automatic alerts for unusual patterns
+- **User Segmentation**: K-means clustering and behavior-based segments
+- **Intelligent Alerting**: Rule-based notifications with severity levels
 
 ---
 
 ## Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended) or npm
+
+### Installation
 
 ```bash
 # Clone the repository
@@ -58,75 +79,41 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:5173 and upload a CSV to get started.
+Open [http://localhost:5173](http://localhost:5173) and upload a CSV to get started.
+
+### Try with Sample Data
+
+Sample datasets are included in `/sample-data/`:
+
+```
+sample-data/
+├── puzzle_game_events.csv     # Puzzle game level completions
+├── battle_royale_matches.json # Match results with player stats
+├── gacha_rpg_pulls.json       # Gacha pull and banner data
+└── iap_transactions.csv       # In-app purchase events
+```
 
 ---
 
-## Sample Data
+## Project Structure
 
-Try with the sample data in `/sample-data/`:
-- `puzzle_game_events.csv` - Puzzle game level completions
-- `battle_royale_matches.json` - Match results
-- `gacha_rpg_pulls.json` - Gacha pull data
-- `iap_transactions.csv` - Purchase events
-
----
-
-## Tech Stack
-
-- **React 18** + TypeScript
-- **Vite** for fast development
-- **Tailwind CSS** with dark theme
-- **ECharts** for visualizations
-- **IndexedDB** for local data persistence
-
----
-
-## Roadmap
-
-| Phase | Focus | Status |
-|-------|-------|--------|
-| **Phase 1** | Universal Data Import | ✅ Complete |
-| **Phase 2** | Zero-Config Analytics | ✅ Complete |
-| **Phase 3** | One-Click Integrations | ✅ Complete |
-| **Phase 4** | Community & Ecosystem | ✅ Complete |
-| **Phase 5** | Advanced AI & Predictions | ✅ Complete |
-
-See [docs/phases/](./docs/phases/) for detailed roadmap.
-
-### Implemented Features
-- Google Sheets integration
-- Firebase Analytics connection
-- Supabase / PostgreSQL support
-- PlayFab integration
-- Unity SDK adapter
-- Template marketplace
-- Plugin system
-- Predictive analytics (Retention, Churn, LTV, Revenue forecasting)
-- Anomaly detection
-- User segmentation
-- Intelligent alerting system
-
----
-
-## Contributing
-
-We welcome contributions! Here's how you can help:
-
-- **Phase 1**: File parsers, game engine templates
-- **Phase 2**: AI improvements, metric calculations
-- **Phase 3**: New adapter implementations
-- **Phase 4**: Templates, documentation
-- **Phase 5**: ML models, predictions
-
-### Development
-
-```bash
-pnpm dev          # Start dev server
-pnpm build        # Production build
-pnpm lint         # Run ESLint
-pnpm preview      # Preview production build
-pnpm test         # Run tests
+```
+game-insights/
+├── src/
+│   ├── adapters/        # Data source connectors (CSV, API, SQL, etc.)
+│   ├── ai/              # AI pipeline (schema analysis, game detection, ML models)
+│   ├── components/      # Reusable UI components
+│   ├── context/         # React context providers
+│   ├── hooks/           # Custom React hooks
+│   ├── lib/             # Utilities, data providers, chart registry
+│   ├── pages/           # Page components (Dashboard, Funnels, etc.)
+│   ├── plugins/         # Plugin system for extensibility
+│   └── types/           # TypeScript type definitions
+├── sample-data/         # Example datasets for testing
+├── docs/                # Documentation
+│   ├── ARCHITECTURE.md  # System architecture overview
+│   └── plans/           # Feature implementation plans
+└── tests/               # Test suites (Vitest + Playwright)
 ```
 
 ---
@@ -137,11 +124,71 @@ pnpm test         # Run tests
 Data Source → Adapter → Normalizer → AI Pipeline → Dashboard
 ```
 
-- **Adapters** - Unified interface for all data sources
-- **AI Pipeline** - Schema analysis, game detection, cleaning
-- **Dashboard** - Auto-generated visualizations
+1. **Adapters** (`src/adapters/`): Unified interface for data sources. All extend `BaseAdapter` with `connect()`, `fetchSchema()`, `fetchData()`.
 
-See [CLAUDE.md](./CLAUDE.md) for detailed architecture.
+2. **AI Pipeline** (`src/ai/`): Orchestrates analysis:
+   - `SchemaAnalyzer` → Semantic column detection (40+ types)
+   - `GameTypeDetector` → Game classification
+   - `DataCleaner` → Quality issues and cleaning plans
+   - `ChartSelector` → Visualization recommendations
+   - `InsightGenerator` → AI-driven insights
+   - ML Models → Retention, churn, LTV predictions
+
+3. **Dashboard** (`src/pages/`): Auto-generated visualizations based on detected game type.
+
+See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for detailed architecture.
+
+---
+
+## Available Commands
+
+```bash
+# Development
+pnpm dev              # Start dev server (http://localhost:5173)
+pnpm build            # TypeScript check + production build
+pnpm preview          # Preview production build
+
+# Code Quality
+pnpm lint             # Run ESLint
+pnpm format           # Format with Prettier
+
+# Testing
+pnpm test             # Run unit tests
+pnpm test:coverage    # Run tests with coverage report
+```
+
+---
+
+## Tech Stack
+
+- **React 18** + TypeScript
+- **Vite** for fast development
+- **Tailwind CSS** with custom dark theme
+- **ECharts** for visualizations
+- **IndexedDB** for local data persistence
+- **Zustand** for state management
+
+---
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+### Areas for Contribution
+
+- **Data Adapters**: Add support for new data sources
+- **AI Improvements**: Better game detection, more semantic types
+- **Visualizations**: New chart types, dashboard layouts
+- **Documentation**: Tutorials, examples, translations
+
+---
+
+## Design Principles
+
+1. **Zero-Config First** - Works for 90% of users without configuration
+2. **Progressive Disclosure** - Simple by default, power features available
+3. **Local-First** - Your data stays on your machine unless explicitly shared
+4. **Game Developer Focus** - Every feature designed for game analytics
 
 ---
 
