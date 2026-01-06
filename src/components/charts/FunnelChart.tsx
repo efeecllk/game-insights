@@ -20,14 +20,14 @@ interface FunnelChartProps {
     bare?: boolean;
 }
 
-// Warm gradient color palette (Claude palette)
+// Warm gradient color palette (terracotta theme)
 const FUNNEL_COLORS = [
-    ['#DA7756', '#B84E32'], // warm orange
-    ['#C15F3C', '#A34D2A'], // deep terracotta
-    ['#5B9BD5', '#4A89C2'], // soft blue
-    ['#0ea5e9', '#0284c7'], // sky-500 to sky-600
-    ['#3b82f6', '#2563eb'], // blue-500 to blue-600
-    ['#6366f1', '#4f46e5'], // indigo-500 to indigo-600
+    ['#DA7756', '#B84E32'], // terracotta - primary
+    ['#C15F3C', '#A34D2A'], // darker terracotta
+    ['#E5A84B', '#C4903A'], // amber/gold
+    ['#A68B5B', '#8A7349'], // warm tan
+    ['#8B7355', '#715D45'], // brown
+    ['#B89B7D', '#9A8167'], // light brown
 ];
 
 export function FunnelChart({ data, config, className, bare = false }: FunnelChartProps) {

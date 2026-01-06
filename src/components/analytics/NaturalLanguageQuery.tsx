@@ -64,8 +64,8 @@ async function processQuery(query: string): Promise<QueryResult> {
                 data: [
                     { name: 'United States', value: 2450, color: '#DA7756' },
                     { name: 'United Kingdom', value: 890, color: '#C15F3C' },
-                    { name: 'Germany', value: 670, color: '#06b6d4' },
-                    { name: 'Japan', value: 520, color: '#8b5cf6' },
+                    { name: 'Germany', value: 670, color: '#A68B5B' },
+                    { name: 'Japan', value: 520, color: '#E5A84B' },
                     { name: 'Others', value: 920, color: '#64748b' },
                 ],
                 confidence: 0.95,

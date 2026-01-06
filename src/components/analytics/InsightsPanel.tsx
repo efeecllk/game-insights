@@ -75,17 +75,17 @@ const INSIGHT_STYLES: Record<InsightType, {
     },
     opportunity: {
         icon: Lightbulb,
-        bg: 'from-violet-500/10 to-violet-500/5',
-        border: 'border-violet-500/20',
-        iconBg: 'bg-violet-500/10',
-        iconColor: 'text-violet-400',
+        bg: 'from-[#C15F3C]/10 to-[#C15F3C]/5',
+        border: 'border-[#C15F3C]/20',
+        iconBg: 'bg-[#C15F3C]/10',
+        iconColor: 'text-[#C15F3C]',
     },
     neutral: {
         icon: Info,
-        bg: 'from-blue-500/10 to-blue-500/5',
-        border: 'border-blue-500/20',
-        iconBg: 'bg-blue-500/10',
-        iconColor: 'text-blue-400',
+        bg: 'from-[#8F8B82]/10 to-[#8F8B82]/5',
+        border: 'border-[#8F8B82]/20',
+        iconBg: 'bg-[#8F8B82]/10',
+        iconColor: 'text-[#8F8B82]',
     },
 };
 
@@ -143,7 +143,7 @@ function InsightCard({ insight, index }: { insight: Insight; index: number }) {
                     )}
                 </div>
                 {insight.source === 'llm' && (
-                    <span className="flex-shrink-0 px-2 py-0.5 text-xs bg-violet-500/10 text-violet-400 border border-violet-500/20 rounded-full font-medium">
+                    <span className="flex-shrink-0 px-2 py-0.5 text-xs bg-[#C15F3C]/10 text-[#C15F3C] border border-[#C15F3C]/20 rounded-full font-medium">
                         AI
                     </span>
                 )}
@@ -174,9 +174,9 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
             badge: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
         },
         low: {
-            bg: 'from-blue-500/10 to-blue-500/5',
-            border: 'border-blue-500/30',
-            badge: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+            bg: 'from-[#8F8B82]/10 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/30',
+            badge: 'bg-[#8F8B82]/20 text-[#8F8B82] border-[#8F8B82]/30',
         },
     };
 
@@ -322,8 +322,8 @@ export function InsightsPanel({
                         >
                             {sortedInsights.length === 0 ? (
                                 <div className="text-center py-8">
-                                    <div className="w-12 h-12 bg-violet-500/10 border border-violet-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                        <Sparkles className="w-6 h-6 text-violet-400" />
+                                    <div className="w-12 h-12 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                        <Sparkles className="w-6 h-6 text-[#C15F3C]" />
                                     </div>
                                     <p className="text-slate-400">
                                         No insights generated yet. Try uploading more data.
@@ -376,17 +376,17 @@ export function InsightsPanel({
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 border border-violet-500/20 rounded-xl p-4"
+                                    className="bg-gradient-to-br from-[#C15F3C]/10 to-[#C15F3C]/5 border border-[#C15F3C]/20 rounded-xl p-4"
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className="w-9 h-9 bg-violet-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <div className="w-9 h-9 bg-[#C15F3C] rounded-lg flex items-center justify-center flex-shrink-0">
                                             <Sparkles className="w-4 h-4 text-white" />
                                         </div>
                                         <div>
                                             <p className="text-sm text-slate-400 mb-1">{qaResult.question.text}</p>
                                             <p className="text-white">{qaResult.answer.text}</p>
                                             {qaResult.answer.value !== undefined && (
-                                                <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-violet-500/10 border border-violet-500/20 rounded-lg text-sm font-medium text-violet-400">
+                                                <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-lg text-sm font-medium text-[#C15F3C]">
                                                     {String(qaResult.answer.value)}
                                                 </div>
                                             )}

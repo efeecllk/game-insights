@@ -132,7 +132,7 @@ function ThresholdSlider({
     onChange,
 }: ThresholdSliderProps) {
     const severityColors: Record<string, string> = {
-        low: 'bg-blue-500',
+        low: 'bg-[#8F8B82]',
         medium: 'bg-amber-500',
         high: 'bg-orange-500',
         critical: 'bg-rose-500',

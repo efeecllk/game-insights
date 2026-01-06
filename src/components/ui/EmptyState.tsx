@@ -71,7 +71,7 @@ export function EmptyState({
                                 onClick={onTryDemo}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
+                                className="text-xs text-[#A68B5B] hover:text-[#A68B5B]/80 transition-colors"
                             >
                                 Try demo
                             </motion.button>

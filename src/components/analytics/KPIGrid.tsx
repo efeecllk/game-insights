@@ -58,11 +58,11 @@ const COLOR_STYLES = {
         hoverBorder: 'hover:border-[#5B9BD5]/40',
     },
     violet: {
-        bg: 'from-violet-500/20 to-violet-500/5',
-        border: 'border-violet-500/20',
-        icon: 'text-violet-400',
-        glow: 'bg-violet-500/20',
-        hoverBorder: 'hover:border-violet-500/40',
+        bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+        border: 'border-[#C15F3C]/20',
+        icon: 'text-[#C15F3C]',
+        glow: 'bg-[#C15F3C]/20',
+        hoverBorder: 'hover:border-[#C15F3C]/40',
     },
     amber: {
         bg: 'from-[#E5A84B]/20 to-[#E5A84B]/5',
@@ -154,7 +154,7 @@ function KPICard({ label, value, change, icon, tooltip, color = 'primary', index
                             transition={{ delay: index * 0.1 + 0.2 }}
                             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                                 isPositive
-                                    ? 'bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20'
+                                    ? 'bg-[#7A8B5B]/10 text-[#7A8B5B] border border-[#7A8B5B]/20'
                                     : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                             }`}
                         >

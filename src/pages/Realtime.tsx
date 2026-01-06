@@ -64,10 +64,10 @@ function generateLiveData(base: number, variance: number) {
 const liveCharts = [
     { id: 'newUsers', title: 'New Users', icon: UserPlus, color: '#DA7756', baseValue: 280, variance: 100 },
     { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#C15F3C', baseValue: 420, variance: 150 },
-    { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#5B9BD5', baseValue: 180, variance: 80 },
+    { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#A68B5B', baseValue: 180, variance: 80 },
     { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#DA7756', baseValue: 150, variance: 100, prefix: '$' },
     { id: 'transactions', title: 'Transactions', icon: Activity, color: '#f59e0b', baseValue: 28, variance: 15 },
-    { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#8b5cf6', baseValue: 850, variance: 200 },
+    { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#DA7756', baseValue: 850, variance: 200 },
 ];
 
 export function RealtimePage() {
@@ -218,11 +218,11 @@ export function RealtimePage() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                     >
-                        <Card variant="default" padding="md" className="border-blue-500/20 bg-blue-500/5">
+                        <Card variant="default" padding="md" className="border-[#8F8B82]/20 bg-[#8F8B82]/5">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                        <Link className="w-5 h-5 text-blue-400" />
+                                    <div className="w-10 h-10 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center">
+                                        <Link className="w-5 h-5 text-[#8F8B82]" />
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-white">Connect a live data source for real-time analytics</p>
@@ -476,7 +476,7 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
             axisLabel: { show: false }
         },
         series: [
-            { name: 'info', type: 'line', stack: 'errors', data: errorData.info, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#3b82f6' } },
+            { name: 'info', type: 'line', stack: 'errors', data: errorData.info, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#8F8B82' } },
             { name: 'warning', type: 'line', stack: 'errors', data: errorData.warning, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#f59e0b' } },
             { name: 'error', type: 'line', stack: 'errors', data: errorData.error, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#ef4444' } },
             { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#64748b' } },
@@ -548,16 +548,16 @@ function SDKStatusTab() {
             glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-blue-500/20 to-blue-500/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400',
-            glow: 'bg-blue-500/20',
+            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82]',
+            glow: 'bg-[#8F8B82]/20',
         },
         violet: {
-            bg: 'from-violet-500/20 to-violet-500/5',
-            border: 'border-violet-500/20',
-            icon: 'text-violet-400',
-            glow: 'bg-violet-500/20',
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
     };
 

@@ -201,8 +201,8 @@ export function WhatIfSimulator({
                 type: 'line',
                 data: modifiedResult.projections.map(p => p.revenue),
                 smooth: true,
-                lineStyle: { color: '#8b5cf6', width: 2 },
-                areaStyle: { color: 'rgba(139, 92, 246, 0.1)' },
+                lineStyle: { color: '#DA7756', width: 2 },
+                areaStyle: { color: 'rgba(218, 119, 86, 0.1)' },
             },
         ],
     }), [baselineResult, modifiedResult]);
@@ -284,7 +284,7 @@ export function WhatIfSimulator({
                                     <span className="text-sm font-medium text-white">{slider.label}</span>
                                 </div>
                                 <span className={`text-sm font-mono ${
-                                    value > 0 ? 'text-green-400' :
+                                    value > 0 ? 'text-[#7A8B5B]' :
                                     value < 0 ? 'text-red-400' : 'text-zinc-400'
                                 }`}>
                                     {slider.format(value)}
@@ -413,7 +413,7 @@ interface ImpactCardProps {
 
 function ImpactCard({ label, value, change, type = 'neutral', subtext }: ImpactCardProps) {
     const Icon = type === 'positive' ? TrendingUp : type === 'negative' ? TrendingDown : Minus;
-    const colorClass = type === 'positive' ? 'text-green-400' :
+    const colorClass = type === 'positive' ? 'text-[#7A8B5B]' :
                        type === 'negative' ? 'text-red-400' : 'text-zinc-400';
 
     return (

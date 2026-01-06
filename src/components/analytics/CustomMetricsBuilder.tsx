@@ -318,8 +318,8 @@ function MetricCard({
     onDuplicate: () => void;
 }) {
     const formatConfig = {
-        number: { icon: Hash, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-        percent: { icon: Percent, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+        number: { icon: Hash, color: 'text-[#8F8B82]', bg: 'bg-[#8F8B82]/10' },
+        percent: { icon: Percent, color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10' },
         currency: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
         duration: { icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     }[metric.format];

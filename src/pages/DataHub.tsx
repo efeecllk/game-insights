@@ -255,7 +255,7 @@ export function DataHubPage() {
             {gameDataList.length > 0 && (
                 <motion.div variants={itemVariants} className="space-y-4">
                     <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                        <FileSpreadsheet className="w-5 h-5 text-blue-400" />
+                        <FileSpreadsheet className="w-5 h-5 text-[#8F8B82]" />
                         Uploaded Data
                     </h2>
                     <div className="space-y-3">
@@ -368,10 +368,10 @@ function StatCard({
             glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-blue-500/20 to-blue-500/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400',
-            glow: 'bg-blue-500/20',
+            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82]',
+            glow: 'bg-[#8F8B82]/20',
         },
         deepOrange: {
             bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
@@ -440,14 +440,14 @@ function QuickAction({
 }) {
     const colorStyles = {
         orange: 'from-[#DA7756]/20 to-[#DA7756]/5 border-[#DA7756]/20 hover:border-[#DA7756]/40',
-        blue: 'from-blue-500/20 to-blue-500/5 border-blue-500/20 hover:border-blue-500/40',
-        violet: 'from-violet-500/20 to-violet-500/5 border-violet-500/20 hover:border-violet-500/40',
+        blue: 'from-[#8F8B82]/20 to-[#8F8B82]/5 border-[#8F8B82]/20 hover:border-[#8F8B82]/40',
+        violet: 'from-[#C15F3C]/20 to-[#C15F3C]/5 border-[#C15F3C]/20 hover:border-[#C15F3C]/40',
     };
 
     const iconColors = {
         orange: 'text-[#DA7756]',
-        blue: 'text-blue-400',
-        violet: 'text-violet-400',
+        blue: 'text-[#8F8B82]',
+        violet: 'text-[#C15F3C]',
     };
 
     const content = (
@@ -498,8 +498,8 @@ function IntegrationCard({
     const [showHealth, setShowHealth] = useState(false);
 
     const statusColors = {
-        connected: 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20',
-        syncing: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        connected: 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20',
+        syncing: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
         error: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
         paused: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
         disconnected: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
@@ -564,7 +564,7 @@ function IntegrationCard({
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={onResume}
-                                className="p-2 rounded-lg text-slate-500 hover:text-[#6BBF59] hover:bg-[#6BBF59]/10 transition-colors"
+                                className="p-2 rounded-lg text-slate-500 hover:text-[#7A8B5B] hover:bg-[#7A8B5B]/10 transition-colors"
                                 title="Resume sync"
                             >
                                 <Play className="w-4 h-4" />
@@ -650,8 +650,8 @@ function UploadedDataCard({
             <Link to={`/analytics`}>
                 <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all cursor-pointer">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                            <FileSpreadsheet className="w-6 h-6 text-blue-400" />
+                        <div className="w-12 h-12 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center">
+                            <FileSpreadsheet className="w-6 h-6 text-[#8F8B82]" />
                         </div>
 
                         <div className="flex-1 min-w-0">
@@ -671,7 +671,7 @@ function UploadedDataCard({
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 text-xs rounded-full bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 flex items-center gap-1">
+                            <span className="px-2 py-0.5 text-xs rounded-full bg-[#7A8B5B]/10 text-[#7A8B5B] border border-[#7A8B5B]/20 flex items-center gap-1">
                                 <Check className="w-3 h-3" />
                                 Ready
                             </span>
@@ -774,9 +774,9 @@ function AddIntegrationModal({
                                     <h3 className="font-semibold text-white">{item.name}</h3>
                                     <span className={`px-2 py-0.5 text-xs rounded-full border ${
                                         item.complexity === 'low'
-                                            ? 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20'
+                                            ? 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20'
                                             : item.complexity === 'medium'
-                                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                            ? 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20'
                                             : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                     }`}>
                                         {item.complexity}

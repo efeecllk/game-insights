@@ -31,18 +31,18 @@ export function getChartTheme(isDark: boolean): ChartThemeColors {
         text: '#f4f4f5',
       },
       series: [
-        '#a78bfa', // primary violet
-        '#818cf8', // indigo
-        '#f472b6', // pink
-        '#5B9BD5', // Claude blue
-        '#DA7756', // Claude orange
-        '#C15F3C', // Claude secondary
-        '#f87171', // red
-        '#c084fc', // purple
+        '#DA7756', // terracotta - primary
+        '#C15F3C', // darker terracotta
+        '#E5A84B', // amber/gold
+        '#A68B5B', // warm tan
+        '#8B7355', // brown
+        '#B89B7D', // light brown
+        '#E25C5C', // warm red
+        '#8F8B82', // warm gray
       ],
       area: [
-        { offset: 0, color: 'rgba(167, 139, 250, 0.15)' },
-        { offset: 1, color: 'rgba(167, 139, 250, 0)' },
+        { offset: 0, color: 'rgba(218, 119, 86, 0.15)' },
+        { offset: 1, color: 'rgba(218, 119, 86, 0)' },
       ],
     };
   }
@@ -57,18 +57,18 @@ export function getChartTheme(isDark: boolean): ChartThemeColors {
       text: '#374151',
     },
     series: [
-      '#8b5cf6', // primary violet
-      '#6366f1', // indigo
-      '#ec4899', // pink
-      '#5B9BD5', // Claude blue
-      '#DA7756', // Claude orange
-      '#C15F3C', // Claude secondary
-      '#ef4444', // red
-      '#a855f7', // purple
+      '#DA7756', // terracotta - primary
+      '#C15F3C', // darker terracotta
+      '#E5A84B', // amber/gold
+      '#A68B5B', // warm tan
+      '#8B7355', // brown
+      '#B89B7D', // light brown
+      '#E25C5C', // warm red
+      '#8F8B82', // warm gray
     ],
     area: [
-      { offset: 0, color: 'rgba(139, 92, 246, 0.1)' },
-      { offset: 1, color: 'rgba(139, 92, 246, 0)' },
+      { offset: 0, color: 'rgba(218, 119, 86, 0.1)' },
+      { offset: 1, color: 'rgba(218, 119, 86, 0)' },
     ],
   };
 }

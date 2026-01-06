@@ -16,11 +16,11 @@ export function DataModeIndicator() {
 
     if (hasRealData && activeGameData) {
         return (
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <Database className="w-4 h-4 text-green-400" />
+            <div className="flex items-center gap-2 px-3 py-2 bg-[#7A8B5B]/10 border border-[#7A8B5B]/20 rounded-lg">
+                <Database className="w-4 h-4 text-[#7A8B5B]" />
                 <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-green-400">Your Data</p>
-                    <p className="text-xs text-green-400/70 truncate">{activeGameData.name}</p>
+                    <p className="text-xs font-medium text-[#7A8B5B]">Your Data</p>
+                    <p className="text-xs text-[#7A8B5B]/70 truncate">{activeGameData.name}</p>
                 </div>
             </div>
         );

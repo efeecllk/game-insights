@@ -94,7 +94,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                                 className={`flex items-start gap-3 p-3 rounded-lg ${
                                     issue.severity === 'high' ? 'bg-red-500/10 border border-red-500/20' :
                                     issue.severity === 'medium' ? 'bg-yellow-500/10 border border-yellow-500/20' :
-                                    'bg-blue-500/10 border border-blue-500/20'
+                                    'bg-[#8F8B82]/10 border border-[#8F8B82]/20'
                                 }`}
                             >
                                 {issue.severity === 'high' ? (
@@ -102,12 +102,12 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                                 ) : issue.severity === 'medium' ? (
                                     <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
                                 ) : (
-                                    <Info className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                                    <Info className="w-4 h-4 text-[#8F8B82] flex-shrink-0 mt-0.5" />
                                 )}
                                 <div className="flex-1 min-w-0">
                                     <p className={`text-sm font-medium ${
                                         issue.severity === 'high' ? 'text-red-400' :
-                                        issue.severity === 'medium' ? 'text-yellow-400' : 'text-blue-400'
+                                        issue.severity === 'medium' ? 'text-yellow-400' : 'text-[#8F8B82]'
                                     }`}>
                                         {issue.column}
                                     </p>

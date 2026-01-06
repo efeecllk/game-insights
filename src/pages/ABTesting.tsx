@@ -383,16 +383,16 @@ function StatCard({
             glow: 'bg-[#DA7756]/20',
         },
         success: {
-            bg: 'from-[#6BBF59]/20 to-[#6BBF59]/5',
-            border: 'border-[#6BBF59]/20',
-            icon: 'text-[#6BBF59]',
-            glow: 'bg-[#6BBF59]/20',
+            bg: 'from-[#7A8B5B]/20 to-[#7A8B5B]/5',
+            border: 'border-[#7A8B5B]/20',
+            icon: 'text-[#7A8B5B]',
+            glow: 'bg-[#7A8B5B]/20',
         },
         blue: {
-            bg: 'from-blue-500/20 to-blue-500/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400',
-            glow: 'bg-blue-500/20',
+            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82]',
+            glow: 'bg-[#8F8B82]/20',
         },
         amber: {
             bg: 'from-amber-500/20 to-amber-500/5',
@@ -519,9 +519,9 @@ function ExperimentCard({
 }) {
     const statusConfig = {
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
-        running: { color: 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20', icon: Play, label: 'Running' },
+        running: { color: 'bg-[#7A8B5B]/10 text-[#7A8B5B] border-[#7A8B5B]/20', icon: Play, label: 'Running' },
         paused: { color: 'bg-amber-500/10 text-amber-400 border-amber-500/20', icon: Pause, label: 'Paused' },
-        completed: { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', icon: CheckCircle, label: 'Completed' },
+        completed: { color: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20', icon: CheckCircle, label: 'Completed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Archive, label: 'Archived' },
     };
 
@@ -629,7 +629,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onStart(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 hover:bg-[#6BBF59]/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#7A8B5B]/10 text-[#7A8B5B] border border-[#7A8B5B]/20 hover:bg-[#7A8B5B]/20 transition-colors text-sm"
                             >
                                 <Play className="w-4 h-4" />
                                 Start
@@ -660,7 +660,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onComplete(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#8F8B82]/10 text-[#8F8B82] border border-[#8F8B82]/20 hover:bg-[#8F8B82]/20 transition-colors text-sm"
                             >
                                 <CheckCircle className="w-4 h-4" />
                                 Complete
@@ -673,7 +673,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onStart(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 hover:bg-[#6BBF59]/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#7A8B5B]/10 text-[#7A8B5B] border border-[#7A8B5B]/20 hover:bg-[#7A8B5B]/20 transition-colors text-sm"
                             >
                                 <Play className="w-4 h-4" />
                                 Resume
@@ -682,7 +682,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onComplete(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 hover:bg-blue-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#8F8B82]/10 text-[#8F8B82] border border-[#8F8B82]/20 hover:bg-[#8F8B82]/20 transition-colors text-sm"
                             >
                                 <CheckCircle className="w-4 h-4" />
                                 Complete

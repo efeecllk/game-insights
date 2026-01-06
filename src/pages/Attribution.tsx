@@ -81,7 +81,7 @@ const CHANNELS: Channel[] = [
         id: 'facebook',
         name: 'Facebook Ads',
         icon: '📘',
-        color: '#3b82f6',
+        color: '#8F8B82',
         installs: 8200,
         cost: 12300,
         revenue: 24600,
@@ -103,7 +103,7 @@ const CHANNELS: Channel[] = [
         id: 'apple_search',
         name: 'Apple Search Ads',
         icon: '🍎',
-        color: '#6366f1',
+        color: '#C15F3C',
         installs: 4500,
         cost: 6750,
         revenue: 11250,
@@ -125,7 +125,7 @@ const CHANNELS: Channel[] = [
         id: 'referral',
         name: 'Referral',
         icon: '🤝',
-        color: '#8b5cf6',
+        color: '#DA7756',
         installs: 2800,
         cost: 1400,
         revenue: 8400,
@@ -136,7 +136,7 @@ const CHANNELS: Channel[] = [
         id: 'email',
         name: 'Email',
         icon: '📧',
-        color: '#5B9BD5',
+        color: '#A68B5B',
         installs: 1500,
         cost: 750,
         revenue: 4500,
@@ -200,15 +200,15 @@ export function AttributionPage() {
 
             const channelColors: Record<string, string> = {
                 organic: '#DA7756',
-                facebook: '#3b82f6',
+                facebook: '#8F8B82',
                 google: '#ef4444',
-                apple: '#6366f1',
+                apple: '#C15F3C',
                 influencer: '#f59e0b',
-                referral: '#8b5cf6',
-                email: '#5B9BD5',
+                referral: '#DA7756',
+                email: '#A68B5B',
                 direct: '#94a3b8',
                 tiktok: '#000000',
-                twitter: '#1da1f2',
+                twitter: '#A68B5B',
             };
 
             return realChannels.map((ch, idx) => {
@@ -563,8 +563,8 @@ export function AttributionPage() {
                 <motion.div variants={itemVariants}>
                     <Card variant="default" padding="lg">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                <BarChart3 className="w-5 h-5 text-blue-400" />
+                            <div className="w-10 h-10 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center">
+                                <BarChart3 className="w-5 h-5 text-[#8F8B82]" />
                             </div>
                             <h3 className="text-lg font-semibold text-white">ROAS by Channel</h3>
                         </div>
@@ -577,8 +577,8 @@ export function AttributionPage() {
                 <motion.div variants={itemVariants}>
                     <Card variant="default" padding="lg">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                                <GitBranch className="w-5 h-5 text-violet-400" />
+                            <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                                <GitBranch className="w-5 h-5 text-[#C15F3C]" />
                             </div>
                             <h3 className="text-lg font-semibold text-white">Top Converting Paths</h3>
                         </div>
@@ -736,10 +736,10 @@ function KPICard({
             glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-blue-500/20 to-blue-500/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400',
-            glow: 'bg-blue-500/20',
+            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82]',
+            glow: 'bg-[#8F8B82]/20',
         },
         warmOrange: {
             bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
@@ -748,10 +748,10 @@ function KPICard({
             glow: 'bg-[#C15F3C]/20',
         },
         violet: {
-            bg: 'from-violet-500/20 to-violet-500/5',
-            border: 'border-violet-500/20',
-            icon: 'text-violet-400',
-            glow: 'bg-violet-500/20',
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
     };
 

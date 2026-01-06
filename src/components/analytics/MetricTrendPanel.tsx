@@ -52,9 +52,9 @@ interface MetricItem {
 // Category colors - Obsidian theme
 const CATEGORY_COLORS: Record<MetricCategory, { bg: string; text: string; chart: string; border: string }> = {
     retention: { bg: 'bg-[#DA7756]/10', text: 'text-[#DA7756]', chart: '#DA7756', border: 'border-[#DA7756]/20' },
-    engagement: { bg: 'bg-blue-500/10', text: 'text-blue-400', chart: '#3b82f6', border: 'border-blue-500/20' },
+    engagement: { bg: 'bg-[#8F8B82]/10', text: 'text-[#8F8B82]', chart: '#8F8B82', border: 'border-[#8F8B82]/20' },
     monetization: { bg: 'bg-amber-500/10', text: 'text-amber-400', chart: '#f59e0b', border: 'border-amber-500/20' },
-    progression: { bg: 'bg-violet-500/10', text: 'text-violet-400', chart: '#8b5cf6', border: 'border-violet-500/20' },
+    progression: { bg: 'bg-[#C15F3C]/10', text: 'text-[#C15F3C]', chart: '#C15F3C', border: 'border-[#C15F3C]/20' },
     all: { bg: 'bg-slate-500/10', text: 'text-slate-400', chart: '#64748b', border: 'border-slate-500/20' },
 };
 
@@ -207,7 +207,7 @@ function MetricCard({
                                 {benchmarkStatus && (
                                     <span className={`px-2 py-0.5 text-xs rounded-full ${
                                         benchmarkStatus === 'great' ? 'bg-[#DA7756]/10 text-[#DA7756]' :
-                                        benchmarkStatus === 'good' ? 'bg-blue-500/10 text-blue-400' :
+                                        benchmarkStatus === 'good' ? 'bg-[#8F8B82]/10 text-[#8F8B82]' :
                                         'bg-amber-500/10 text-amber-400'
                                     }`}>
                                         {benchmarkStatus === 'great' ? 'Great' :
@@ -413,7 +413,7 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
             data: levels.map(l => ({
                 value: l.rate,
                 itemStyle: {
-                    color: progression.difficultySpikes.includes(l.name) ? '#f43f5e' : '#8b5cf6',
+                    color: progression.difficultySpikes.includes(l.name) ? '#f43f5e' : '#C15F3C',
                 },
             })),
             barMaxWidth: 40,
@@ -438,8 +438,8 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
         >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                        <Layers className="w-5 h-5 text-violet-400" />
+                    <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                        <Layers className="w-5 h-5 text-[#C15F3C]" />
                     </div>
                     <h3 className="font-semibold text-white">Level Progression</h3>
                 </div>
@@ -531,7 +531,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'number',
                 category: 'engagement',
                 icon: Users,
-                color: '#3b82f6',
+                color: '#8F8B82',
                 description: 'Average number of unique users active per day',
             });
             items.push({
@@ -541,7 +541,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'number',
                 category: 'engagement',
                 icon: Users,
-                color: '#3b82f6',
+                color: '#8F8B82',
                 description: 'Unique users active in the last 30 days',
             });
             items.push({
@@ -551,7 +551,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'percent',
                 category: 'engagement',
                 icon: Zap,
-                color: '#3b82f6',
+                color: '#8F8B82',
                 description: 'How frequently users return. Higher is better.',
             });
             if (metrics.engagement.avgSessionsPerUser > 0) {
@@ -562,7 +562,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                     format: 'number',
                     category: 'engagement',
                     icon: Activity,
-                    color: '#3b82f6',
+                    color: '#8F8B82',
                     description: 'Average number of sessions per user',
                 });
             }
@@ -631,7 +631,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'number',
                 category: 'progression',
                 icon: Layers,
-                color: '#8b5cf6',
+                color: '#C15F3C',
                 description: 'Average level reached by all users',
             });
             items.push({
@@ -641,7 +641,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'number',
                 category: 'progression',
                 icon: Target,
-                color: '#8b5cf6',
+                color: '#C15F3C',
                 description: 'Highest level any user has reached',
             });
         }

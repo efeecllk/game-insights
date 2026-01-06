@@ -72,11 +72,11 @@ const TOAST_STYLES: Record<ToastType, {
         glow: 'shadow-amber-500/20',
     },
     info: {
-        container: 'border-blue-500/30',
-        icon: 'text-blue-400',
-        title: 'text-blue-400',
-        progress: 'bg-blue-500',
-        glow: 'shadow-blue-500/20',
+        container: 'border-[#8F8B82]/30',
+        icon: 'text-[#8F8B82]',
+        title: 'text-[#8F8B82]',
+        progress: 'bg-[#8F8B82]',
+        glow: 'shadow-[#8F8B82]/20',
     },
 };
 

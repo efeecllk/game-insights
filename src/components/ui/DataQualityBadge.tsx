@@ -118,7 +118,7 @@ export function DataQualityBadge({
                                         <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
                                     )}
                                     {issue.severity === 'info' && (
-                                        <Info className="w-3.5 h-3.5 text-blue-400 flex-shrink-0 mt-0.5" />
+                                        <Info className="w-3.5 h-3.5 text-[#8F8B82] flex-shrink-0 mt-0.5" />
                                     )}
                                     <div>
                                         <p className="text-slate-300">{issue.message}</p>
@@ -232,7 +232,7 @@ export function DataQualityBar({
                     )}
                     {infoCount > 0 && (
                         <span className="flex items-center gap-1">
-                            <Info className="w-3 h-3 text-blue-400" />
+                            <Info className="w-3 h-3 text-[#8F8B82]" />
                             {infoCount} info
                         </span>
                     )}

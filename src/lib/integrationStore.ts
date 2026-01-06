@@ -369,10 +369,10 @@ export function formatLastSync(lastSyncAt?: string): string {
 
 export function getStatusColor(status: IntegrationStatus): string {
     switch (status) {
-        case 'connected': return 'text-green-500';
-        case 'syncing': return 'text-blue-500';
-        case 'paused': return 'text-yellow-500';
-        case 'error': return 'text-red-500';
+        case 'connected': return 'text-[#7A8B5B]';
+        case 'syncing': return 'text-[#DA7756]';
+        case 'paused': return 'text-[#E5A84B]';
+        case 'error': return 'text-[#E25C5C]';
         case 'disconnected': return 'text-zinc-500';
         default: return 'text-zinc-500';
     }

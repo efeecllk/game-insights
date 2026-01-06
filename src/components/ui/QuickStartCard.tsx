@@ -128,16 +128,16 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
                     <motion.button
                         whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
                         onClick={onTryDemo}
-                        className="group relative text-left p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-violet-500/30 transition-colors"
+                        className="group relative text-left p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#A68B5B]/30 transition-colors"
                     >
-                        <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <Sparkles className="w-6 h-6 text-violet-400" />
+                        <div className="w-12 h-12 rounded-xl bg-[#A68B5B]/10 border border-[#A68B5B]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <Sparkles className="w-6 h-6 text-[#A68B5B]" />
                         </div>
                         <h3 className="text-lg font-semibold text-white mb-2">Explore with Demo Data</h3>
                         <p className="text-sm text-slate-400 mb-4">
                             See how it works with realistic sample data. No signup required.
                         </p>
-                        <span className="inline-flex items-center text-sm font-medium text-violet-400 group-hover:gap-2 transition-all">
+                        <span className="inline-flex items-center text-sm font-medium text-[#A68B5B] group-hover:gap-2 transition-all">
                             Try demo <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </span>
                     </motion.button>

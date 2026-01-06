@@ -188,16 +188,16 @@ const StatCard: React.FC<{
             glow: 'bg-amber-500/20',
         },
         sky: {
-            bg: 'from-sky-500/20 to-sky-500/5',
-            border: 'border-sky-500/20 group-hover:border-sky-500/30',
-            icon: 'text-sky-400',
-            glow: 'bg-sky-500/20',
+            bg: 'from-[#A68B5B]/20 to-[#A68B5B]/5',
+            border: 'border-[#A68B5B]/20 group-hover:border-[#A68B5B]/30',
+            icon: 'text-[#A68B5B]',
+            glow: 'bg-[#A68B5B]/20',
         },
         violet: {
-            bg: 'from-violet-500/20 to-violet-500/5',
-            border: 'border-violet-500/20 group-hover:border-violet-500/30',
-            icon: 'text-violet-400',
-            glow: 'bg-violet-500/20',
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20 group-hover:border-[#C15F3C]/30',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
     };
 
@@ -379,9 +379,9 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
             icon: <Lightbulb className="w-4 h-4 text-yellow-400" />,
         },
         low: {
-            border: 'border-sky-500/30',
-            bg: 'bg-sky-500/5',
-            icon: <Target className="w-4 h-4 text-sky-400" />,
+            border: 'border-[#A68B5B]/30',
+            bg: 'bg-[#A68B5B]/5',
+            icon: <Target className="w-4 h-4 text-[#A68B5B]" />,
         },
     };
 
@@ -389,8 +389,8 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
         <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                        <Lightbulb className="w-4 h-4 text-violet-400" />
+                    <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                        <Lightbulb className="w-4 h-4 text-[#C15F3C]" />
                     </div>
                     <div>
                         <h3 className="font-display font-semibold text-white">AI Recommendations</h3>
@@ -446,7 +446,7 @@ const AlertsPanel: React.FC<{ alerts: Alert[] }> = ({ alerts }) => {
     const alertStyles = {
         warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
         opportunity: { icon: Lightbulb, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20' },
-        info: { icon: Bell, color: 'text-sky-400', bg: 'bg-sky-500/10', border: 'border-sky-500/20' },
+        info: { icon: Bell, color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10', border: 'border-[#A68B5B]/20' },
     };
 
     return (
@@ -504,8 +504,8 @@ const WhatIfAnalysis: React.FC = () => {
     return (
         <Card variant="default" padding="lg">
             <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                    <Brain className="w-4 h-4 text-violet-400" />
+                <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                    <Brain className="w-4 h-4 text-[#C15F3C]" />
                 </div>
                 <h3 className="font-display font-semibold text-white">What-If Analysis</h3>
             </div>
@@ -667,9 +667,9 @@ export const PredictionsPage: React.FC = () => {
                         transition={{ repeat: Infinity, duration: 1.5 }}
                         className="relative"
                     >
-                        <div className="absolute inset-0 bg-violet-500/30 rounded-2xl blur-xl" />
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 rounded-2xl flex items-center justify-center">
-                            <Brain className="w-8 h-8 text-violet-400" />
+                        <div className="absolute inset-0 bg-[#C15F3C]/30 rounded-2xl blur-xl" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/30 rounded-2xl flex items-center justify-center">
+                            <Brain className="w-8 h-8 text-[#C15F3C]" />
                         </div>
                     </motion.div>
                     <div className="text-center">
@@ -715,9 +715,9 @@ export const PredictionsPage: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-violet-500/30 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 flex items-center justify-center">
-                                    <Brain className="w-6 h-6 text-violet-400" />
+                                <div className="absolute inset-0 bg-[#C15F3C]/30 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/30 flex items-center justify-center">
+                                    <Brain className="w-6 h-6 text-[#C15F3C]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -736,7 +736,7 @@ export const PredictionsPage: React.FC = () => {
                                             : 'AI-powered insights and forecasts (demo data)'}
                                 </p>
                                 {useMLPredictions && (
-                                    <div className="flex items-center gap-2 mt-1 text-xs text-violet-400">
+                                    <div className="flex items-center gap-2 mt-1 text-xs text-[#C15F3C]">
                                         <Brain className="w-3.5 h-3.5" />
                                         ML models trained on {mlStatus.dataPointsUsed.toLocaleString()} data points
                                     </div>
@@ -807,11 +807,11 @@ export const PredictionsPage: React.FC = () => {
                         {useMLPredictions && mlRevenueForecast.length > 0 ? (
                             <Card variant="default" padding="lg">
                                 <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                                        <Brain className="w-4 h-4 text-violet-400" />
+                                    <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                                        <Brain className="w-4 h-4 text-[#C15F3C]" />
                                     </div>
                                     <h3 className="font-display font-semibold text-white">ML Revenue Forecast</h3>
-                                    <span className="px-2 py-0.5 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs rounded-full">
+                                    <span className="px-2 py-0.5 bg-[#C15F3C]/10 border border-[#C15F3C]/20 text-[#C15F3C] text-xs rounded-full">
                                         ML Powered
                                     </span>
                                 </div>
@@ -843,7 +843,7 @@ export const PredictionsPage: React.FC = () => {
                                         <AlertTriangle className="w-4 h-4 text-rose-400" />
                                     </div>
                                     <h3 className="font-display font-semibold text-white">ML Churn Risk</h3>
-                                    <span className="px-2 py-0.5 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs rounded-full">
+                                    <span className="px-2 py-0.5 bg-[#C15F3C]/10 border border-[#C15F3C]/20 text-[#C15F3C] text-xs rounded-full">
                                         ML Powered
                                     </span>
                                 </div>

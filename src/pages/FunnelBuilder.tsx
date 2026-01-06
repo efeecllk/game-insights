@@ -711,7 +711,7 @@ function ResultCard({
 }) {
     const colors = {
         orange: 'from-[#DA7756]/20 to-[#C15F3C]/10 border-[#DA7756]/20 text-[#DA7756]',
-        blue: 'from-blue-500/20 to-indigo-500/10 border-blue-500/20 text-blue-400',
+        blue: 'from-[#8F8B82]/20 to-[#A68B5B]/10 border-[#8F8B82]/20 text-[#8F8B82]',
         orangeLight: 'from-[#C15F3C]/20 to-[#DA7756]/10 border-[#C15F3C]/20 text-[#C15F3C]',
     };
 

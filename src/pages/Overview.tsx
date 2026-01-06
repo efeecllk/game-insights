@@ -367,12 +367,12 @@ function ActiveUsersChart({
 
 function IntegrationTab() {
     const eventTypes = [
-        { name: 'Resource events', count: 988, color: 'bg-sky-500' },
+        { name: 'Resource events', count: 988, color: 'bg-[#A68B5B]' },
         { name: 'Progression events', count: 563634, color: 'bg-[#DA7756]' },
         { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-slate-600' },
         { name: 'Design events', count: 286378, color: 'bg-[#C15F3C]' },
         { name: 'Business events', count: 229, color: 'bg-amber-500' },
-        { name: 'Ad events', count: 5264, color: 'bg-violet-500' },
+        { name: 'Ad events', count: 5264, color: 'bg-[#C15F3C]' },
         { name: 'Impression events', count: 511, color: 'bg-rose-500' },
     ];
 

@@ -111,7 +111,7 @@ export function MLInsightsPanel({ compact = false }: MLInsightsPanelProps) {
         return (
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                    <Loader2 className="w-5 h-5 text-purple-500 animate-spin" />
+                    <Loader2 className="w-5 h-5 text-[#DA7756] animate-spin" />
                     <div>
                         <div className="font-medium text-white">Training ML Models</div>
                         <div className="text-sm text-zinc-500">
@@ -145,7 +145,7 @@ export function MLInsightsPanel({ compact = false }: MLInsightsPanelProps) {
         return (
             <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
                 <div className="flex items-center gap-3">
-                    <Brain className="w-5 h-5 text-green-500" />
+                    <Brain className="w-5 h-5 text-[#7A8B5B]" />
                     <div>
                         <div className="font-medium text-white">All Clear</div>
                         <div className="text-sm text-zinc-500">
@@ -162,11 +162,11 @@ export function MLInsightsPanel({ compact = false }: MLInsightsPanelProps) {
         return (
             <button
                 onClick={() => setIsExpanded(true)}
-                className="w-full bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-left hover:bg-purple-500/15 transition-colors"
+                className="w-full bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl p-4 text-left hover:bg-[#DA7756]/15 transition-colors"
             >
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <Brain className="w-5 h-5 text-purple-500" />
+                        <Brain className="w-5 h-5 text-[#DA7756]" />
                         <div>
                             <div className="font-medium text-white">
                                 {insights.length} ML Insights
@@ -187,9 +187,9 @@ export function MLInsightsPanel({ compact = false }: MLInsightsPanelProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-zinc-800">
                 <div className="flex items-center gap-2">
-                    <Brain className="w-5 h-5 text-purple-500" />
+                    <Brain className="w-5 h-5 text-[#DA7756]" />
                     <span className="font-medium text-white">ML Insights</span>
-                    <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded-full">
+                    <span className="px-2 py-0.5 bg-[#DA7756]/20 text-[#DA7756] text-xs rounded-full">
                         {insights.length}
                     </span>
                 </div>
@@ -229,7 +229,7 @@ function InsightRow({ insight }: InsightRowProps) {
 
     const colors = {
         warning: 'text-orange-400 bg-orange-500/10',
-        positive: 'text-green-400 bg-green-500/10',
+        positive: 'text-[#7A8B5B] bg-[#7A8B5B]/10',
         alert: 'text-red-400 bg-red-500/10',
     };
 

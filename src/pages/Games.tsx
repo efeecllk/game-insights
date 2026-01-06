@@ -283,7 +283,7 @@ function StatCard({
         orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
         amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
         orangeDark: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
-        blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        blue: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
     };
 
     return (

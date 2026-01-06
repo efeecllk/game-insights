@@ -71,10 +71,10 @@ export function ContextualHint({
 
     const variantStyles = {
         info: {
-            bg: 'from-blue-500/10 to-blue-600/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-            text: 'text-blue-300',
+            bg: 'from-[#8F8B82]/10 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82] bg-[#8F8B82]/10 border-[#8F8B82]/20',
+            text: 'text-[#8F8B82]',
         },
         tip: {
             bg: 'from-[#DA7756]/10 to-[#C15F3C]/5',
@@ -83,10 +83,10 @@ export function ContextualHint({
             text: 'text-[#DA7756]',
         },
         warning: {
-            bg: 'from-amber-500/10 to-amber-600/5',
-            border: 'border-amber-500/20',
-            icon: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-            text: 'text-amber-300',
+            bg: 'from-[#E5A84B]/10 to-[#E5A84B]/5',
+            border: 'border-[#E5A84B]/20',
+            icon: 'text-[#E5A84B] bg-[#E5A84B]/10 border-[#E5A84B]/20',
+            text: 'text-[#E5A84B]',
         },
     };
 

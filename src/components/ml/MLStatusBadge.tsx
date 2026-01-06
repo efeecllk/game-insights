@@ -31,7 +31,7 @@ export function MLStatusBadge({ className = '' }: MLStatusBadgeProps) {
     // Training in progress
     if (ml.isTraining) {
         return (
-            <div className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium bg-blue-500/20 text-blue-400 ${className}`}>
+            <div className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium bg-[#8F8B82]/20 text-[#8F8B82] ${className}`}>
                 <Loader2 className="w-3 h-3 animate-spin" />
                 <span>Training...</span>
             </div>
@@ -51,7 +51,7 @@ export function MLStatusBadge({ className = '' }: MLStatusBadgeProps) {
     // Ready
     if (ml.isReady) {
         return (
-            <div className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium bg-green-500/20 text-green-400 ${className}`}>
+            <div className={`flex items-center gap-1.5 px-2 py-1 rounded text-xs font-medium bg-[#7A8B5B]/20 text-[#7A8B5B] ${className}`}>
                 <Brain className="w-3 h-3" />
                 <span>ML Ready</span>
             </div>

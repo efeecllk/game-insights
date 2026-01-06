@@ -128,13 +128,13 @@ function generateMockEvent(): GameEvent {
 const EVENT_STYLES: Record<EventType, { icon: typeof Activity; color: string; bg: string }> = {
     session_start: { icon: Play, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
     session_end: { icon: Pause, color: 'text-slate-400', bg: 'bg-slate-500/10' },
-    level_start: { icon: Gamepad2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+    level_start: { icon: Gamepad2, color: 'text-[#8F8B82]', bg: 'bg-[#8F8B82]/10' },
     level_complete: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     level_fail: { icon: X, color: 'text-rose-400', bg: 'bg-rose-500/10' },
     purchase: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
-    ad_view: { icon: Activity, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+    ad_view: { icon: Activity, color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10' },
     achievement: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-    tutorial_step: { icon: User, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
+    tutorial_step: { icon: User, color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10' },
     custom: { icon: Activity, color: 'text-slate-400', bg: 'bg-slate-500/10' },
 };
 

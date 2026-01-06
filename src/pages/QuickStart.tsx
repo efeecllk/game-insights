@@ -73,12 +73,12 @@ const COLOR_CLASSES = {
     glow: 'group-hover:shadow-[#DA7756]/10',
   },
   blue: {
-    border: 'border-blue-500/20 hover:border-blue-500/40',
-    bg: 'hover:bg-blue-500/5',
-    icon: 'text-blue-400',
-    iconBg: 'bg-blue-500/10 border-blue-500/20',
-    button: 'bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 border-blue-500/30',
-    glow: 'group-hover:shadow-blue-500/10',
+    border: 'border-[#8F8B82]/20 hover:border-[#8F8B82]/40',
+    bg: 'hover:bg-[#8F8B82]/5',
+    icon: 'text-[#8F8B82]',
+    iconBg: 'bg-[#8F8B82]/10 border-[#8F8B82]/20',
+    button: 'bg-[#8F8B82]/20 hover:bg-[#8F8B82]/30 text-[#8F8B82] border-[#8F8B82]/30',
+    glow: 'group-hover:shadow-[#8F8B82]/10',
   },
   amber: {
     border: 'border-amber-500/20 hover:border-amber-500/40',
@@ -209,18 +209,18 @@ export default function QuickStart() {
             onClick={() => navigate('/data-sources')}
             className="group relative text-left"
           >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-blue-500/30 transition-all overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#8F8B82]/0 via-[#8F8B82]/10 to-[#8F8B82]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-[#8F8B82]/30 transition-all overflow-hidden">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
               <div className="relative">
-                <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Database className="w-7 h-7 text-blue-400" />
+                <div className="w-14 h-14 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Database className="w-7 h-7 text-[#8F8B82]" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">Connect Live Source</h3>
                 <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                   PostgreSQL, Supabase, Firebase, Google Sheets, or REST API integration.
                 </p>
-                <div className="flex items-center text-blue-400 text-sm font-medium">
+                <div className="flex items-center text-[#8F8B82] text-sm font-medium">
                   Browse sources <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -234,14 +234,14 @@ export default function QuickStart() {
           >
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
             <div className="relative">
-              <div className="w-14 h-14 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center mb-4">
-                <Sparkles className="w-7 h-7 text-violet-400" />
+              <div className="w-14 h-14 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center mb-4">
+                <Sparkles className="w-7 h-7 text-[#C15F3C]" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">Try Demo Mode</h3>
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                 Explore with realistic sample data. No signup required.
               </p>
-              <div className="flex items-center text-violet-400 text-sm font-medium">
+              <div className="flex items-center text-[#C15F3C] text-sm font-medium">
                 Select industry below <ArrowRight className="w-4 h-4 ml-1 animate-bounce-x" />
               </div>
             </div>
@@ -257,8 +257,8 @@ export default function QuickStart() {
 
           <div className="relative">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-violet-400" />
+              <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-[#C15F3C]" />
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-white">Quick Demo</h3>

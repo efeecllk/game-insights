@@ -509,7 +509,7 @@ function StatCard({ icon: Icon, label, value, color, index }: {
         orange: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'text-[#DA7756]', glow: 'bg-[#DA7756]/20' },
         amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'text-amber-400', glow: 'bg-amber-500/20' },
         orangeDark: { bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5', border: 'border-[#C15F3C]/20', icon: 'text-[#C15F3C]', glow: 'bg-[#C15F3C]/20' },
-        blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'text-blue-400', glow: 'bg-blue-500/20' },
+        blue: { bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5', border: 'border-[#8F8B82]/20', icon: 'text-[#8F8B82]', glow: 'bg-[#8F8B82]/20' },
     };
 
     const style = colorStyles[color];
@@ -566,7 +566,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
         >
             <Card variant="default" padding="none" className="overflow-hidden group hover:border-white/[0.12] transition-all">
                 {/* Preview Header */}
-                <div className="h-32 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-blue-500/30 p-4 relative">
+                <div className="h-32 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-[#A68B5B]/30 p-4 relative">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-2">
                             {template.featured && (
@@ -740,7 +740,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
                 {/* Header */}
-                <div className="h-40 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-blue-500/30 p-6 relative">
+                <div className="h-40 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-[#A68B5B]/30 p-6 relative">
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}

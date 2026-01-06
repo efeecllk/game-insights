@@ -108,8 +108,8 @@ export function IntegrationsPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#C15F3C]/5 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#C15F3C]/5 rounded-full blur-3xl" />
             </div>
 
@@ -129,12 +129,12 @@ export function IntegrationsPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                            className="p-3 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/10 border border-cyan-500/20"
+                            className="p-3 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20"
                         >
-                            <Database className="w-6 h-6 text-cyan-400" />
+                            <Database className="w-6 h-6 text-[#DA7756]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-200 via-blue-200 to-[#DA7756] bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
                                 Data Sources
                             </h1>
                             <p className="text-slate-400 text-sm">Connect to your data and sync automatically</p>
@@ -288,8 +288,8 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
             className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-white/[0.06] text-center"
             style={{ backgroundImage: noiseTexture }}
         >
-            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-500/10 border border-cyan-500/20 flex items-center justify-center">
-                <Link2 className="w-8 h-8 text-cyan-400" />
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                <Link2 className="w-8 h-8 text-[#DA7756]" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">No data sources connected</h3>
             <p className="text-slate-500 mb-6 max-w-md mx-auto">
@@ -370,7 +370,7 @@ function IntegrationCard({
                         whileTap={{ scale: 0.9 }}
                         onClick={onRefresh}
                         disabled={integration.status === 'syncing'}
-                        className="p-2 text-slate-400 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all disabled:opacity-50"
+                        className="p-2 text-slate-400 hover:text-[#DA7756] hover:bg-[#DA7756]/10 rounded-lg transition-all disabled:opacity-50"
                         title="Refresh"
                     >
                         <RefreshCw className={`w-5 h-5 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
@@ -523,8 +523,8 @@ function AddIntegrationModal({
                 {/* Header */}
                 <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/10 border border-cyan-500/20 flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-cyan-400" />
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Sparkles className="w-5 h-5 text-[#DA7756]" />
                         </div>
                         <div>
                             <h2 className="text-xl font-bold text-white">
@@ -789,10 +789,10 @@ function ConfigurationForm({
                     <FormField label="Table Name">
                         <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events (optional - can select later)" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
                     </FormField>
-                    <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+                    <div className="p-4 bg-[#8F8B82]/10 border border-[#8F8B82]/20 rounded-xl">
                         <div className="flex items-start gap-3">
-                            <Database className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                            <div className="text-sm text-blue-200">
+                            <Database className="w-5 h-5 text-[#8F8B82] flex-shrink-0 mt-0.5" />
+                            <div className="text-sm text-[#B89B7D]">
                                 Connection is read-only for safety. Credentials are encrypted locally.
                             </div>
                         </div>

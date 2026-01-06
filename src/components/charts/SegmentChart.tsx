@@ -20,14 +20,14 @@ interface SegmentChartProps {
     bare?: boolean;
 }
 
-// Warm color palette (Claude palette)
+// Warm color palette (terracotta theme)
 const SEGMENT_COLORS = [
-    '#DA7756', // warm orange
-    '#C15F3C', // deep terracotta
-    '#5B9BD5', // soft blue
-    '#0ea5e9', // sky-500
-    '#6366f1', // indigo-500
-    '#8b5cf6', // violet-500
+    '#DA7756', // terracotta - primary
+    '#C15F3C', // darker terracotta
+    '#E5A84B', // amber/gold
+    '#A68B5B', // warm tan
+    '#8B7355', // brown
+    '#B89B7D', // light brown
 ];
 
 export function SegmentChart({ data, config, className, bare = false }: SegmentChartProps) {

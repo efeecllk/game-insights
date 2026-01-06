@@ -33,10 +33,10 @@ const CANONICAL_OPTIONS = [
 ];
 
 const ROLE_COLORS: Record<string, string> = {
-    identifier: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    timestamp: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-    metric: 'bg-[#6BBF59]/20 text-[#6BBF59] border-[#6BBF59]/30',
-    dimension: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
+    identifier: 'bg-[#8F8B82]/20 text-[#8F8B82] border-[#8F8B82]/30',
+    timestamp: 'bg-[#C15F3C]/20 text-[#C15F3C] border-[#C15F3C]/30',
+    metric: 'bg-[#7A8B5B]/20 text-[#7A8B5B] border-[#7A8B5B]/30',
+    dimension: 'bg-[#A68B5B]/20 text-[#A68B5B] border-[#A68B5B]/30',
     noise: 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30',
     unknown: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
 };

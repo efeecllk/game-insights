@@ -111,8 +111,8 @@ function CohortSummaryCard({
 }) {
     const colorStyles = {
         primary: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'bg-[#DA7756]' },
-        blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'bg-blue-500' },
-        violet: { bg: 'from-violet-500/20 to-violet-500/5', border: 'border-violet-500/20', icon: 'bg-violet-500' },
+        blue: { bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5', border: 'border-[#8F8B82]/20', icon: 'bg-[#8F8B82]' },
+        violet: { bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5', border: 'border-[#C15F3C]/20', icon: 'bg-[#C15F3C]' },
         amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'bg-amber-500' },
     };
 
@@ -313,8 +313,8 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
             >
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                            <Users className="w-5 h-5 text-violet-400" />
+                        <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                            <Users className="w-5 h-5 text-[#C15F3C]" />
                         </div>
                         <div>
                             <p className="font-medium text-white">{cohort.value}</p>
@@ -530,8 +530,8 @@ export function CohortDashboard({
                 className={`bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-8 ${className ?? ''}`}
             >
                 <div className="text-center">
-                    <div className="w-16 h-16 bg-violet-500/10 border border-violet-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Users className="w-8 h-8 text-violet-400" />
+                    <div className="w-16 h-16 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <Users className="w-8 h-8 text-[#C15F3C]" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">No Cohort Data</h3>
                     <p className="text-slate-400">
@@ -555,7 +555,7 @@ export function CohortDashboard({
             {/* Header with dimension selector */}
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#DA7756] to-[#C15F3C] rounded-xl flex items-center justify-center shadow-lg shadow-[#DA7756]/20">
                         <Users className="w-6 h-6 text-white" />
                     </div>
                     <div>

@@ -413,12 +413,12 @@ export async function contributeMetrics(contribution: Omit<UserContribution, 'id
  */
 export function getRatingColor(rating: BenchmarkComparison['rating']): string {
     switch (rating) {
-        case 'excellent': return 'text-green-500';
-        case 'good': return 'text-blue-500';
-        case 'average': return 'text-yellow-500';
-        case 'below_average': return 'text-orange-500';
-        case 'poor': return 'text-red-500';
-        default: return 'text-gray-500';
+        case 'excellent': return 'text-[#7A8B5B]';
+        case 'good': return 'text-[#DA7756]';
+        case 'average': return 'text-[#E5A84B]';
+        case 'below_average': return 'text-[#C15F3C]';
+        case 'poor': return 'text-[#E25C5C]';
+        default: return 'text-[#8F8B82]';
     }
 }
 

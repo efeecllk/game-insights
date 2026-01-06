@@ -176,8 +176,8 @@ export function RevenueForecastChart({
                         </div>
                     </div>
                     <div className={`flex items-center gap-1 px-3 py-1.5 rounded-lg ${
-                        trend === 'growing' ? 'bg-[#6BBF59]/20 text-[#6BBF59]' :
-                        trend === 'declining' ? 'bg-red-500/20 text-red-400' :
+                        trend === 'growing' ? 'bg-[#E5A84B]/20 text-[#E5A84B]' :
+                        trend === 'declining' ? 'bg-[#E25C5C]/20 text-[#E25C5C]' :
                         'bg-zinc-700 text-zinc-400'
                     }`}>
                         {trend === 'growing' ? <TrendingUp className="w-4 h-4" /> :
@@ -203,8 +203,8 @@ export function RevenueForecastChart({
                                 key={i}
                                 className={`px-2 py-1 rounded text-xs ${
                                     factor.impact > 0
-                                        ? 'bg-[#6BBF59]/10 text-[#6BBF59]'
-                                        : 'bg-red-500/10 text-red-400'
+                                        ? 'bg-[#E5A84B]/10 text-[#E5A84B]'
+                                        : 'bg-[#E25C5C]/10 text-[#E25C5C]'
                                 }`}
                             >
                                 {factor.name}: {factor.description}

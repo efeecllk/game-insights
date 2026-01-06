@@ -297,8 +297,8 @@ export function MonetizationPage() {
                 <motion.div variants={itemVariants}>
                     <Card variant="default" padding="lg">
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                                <Users className="w-4 h-4 text-violet-400" />
+                            <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                                <Users className="w-4 h-4 text-[#C15F3C]" />
                             </div>
                             <h3 className="font-display font-semibold text-white">Spender Tiers</h3>
                         </div>
@@ -392,16 +392,16 @@ function KPICard({
             glow: 'bg-[#DA7756]/20',
         },
         sky: {
-            bg: 'from-sky-500/20 to-sky-500/5',
-            border: 'border-sky-500/20 group-hover:border-sky-500/30',
-            icon: 'text-sky-400',
-            glow: 'bg-sky-500/20',
+            bg: 'from-[#A68B5B]/20 to-[#A68B5B]/5',
+            border: 'border-[#A68B5B]/20 group-hover:border-[#A68B5B]/30',
+            icon: 'text-[#A68B5B]',
+            glow: 'bg-[#A68B5B]/20',
         },
         violet: {
-            bg: 'from-violet-500/20 to-violet-500/5',
-            border: 'border-violet-500/20 group-hover:border-violet-500/30',
-            icon: 'text-violet-400',
-            glow: 'bg-violet-500/20',
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20 group-hover:border-[#C15F3C]/30',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
         amber: {
             bg: 'from-amber-500/20 to-amber-500/5',

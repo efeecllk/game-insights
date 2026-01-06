@@ -364,8 +364,8 @@ function SettingsCard({
 }) {
     const colorClasses = {
         orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
-        blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-        violet: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+        blue: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
+        violet: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
         amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     };
 

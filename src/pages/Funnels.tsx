@@ -104,8 +104,8 @@ interface ManualFunnelStep {
 const FUNNEL_TYPE_COLORS: Record<DetectedFunnel['type'], string[]> = {
     progression: ['#DA7756', '#C15F3C', '#B35435', '#A0492E', '#8D3E27'],
     conversion: ['#C15F3C', '#B35435', '#A0492E', '#8D3E27', '#7A3420'],
-    onboarding: ['#5B9BD5', '#4A8AC4', '#3979B3', '#2868A2', '#175791'],
-    custom: ['#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'],
+    onboarding: ['#A68B5B', '#9A7F4F', '#8E7343', '#826737', '#765B2B'],
+    custom: ['#C15F3C', '#B35435', '#A5492E', '#973E27', '#893320'],
 };
 
 const FUNNEL_TYPE_LABELS: Record<DetectedFunnel['type'], string> = {
@@ -452,10 +452,10 @@ function StatsCard({
             glow: 'bg-[#DA7756]/20',
         },
         blue: {
-            bg: 'from-blue-500/20 to-blue-500/5',
-            border: 'border-blue-500/20',
-            icon: 'text-blue-400',
-            glow: 'bg-blue-500/20',
+            bg: 'from-[#8F8B82]/20 to-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
+            icon: 'text-[#8F8B82]',
+            glow: 'bg-[#8F8B82]/20',
         },
         warmOrange: {
             bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',

@@ -40,13 +40,13 @@ const INDUSTRY_ICONS: Record<IndustryType, React.ElementType> = {
 
 // Industry colors
 const INDUSTRY_COLORS: Record<IndustryType, string> = {
-  gaming: 'text-purple-400',
-  saas: 'text-blue-400',
-  ecommerce: 'text-green-400',
-  edtech: 'text-yellow-400',
-  media: 'text-red-400',
-  fintech: 'text-[#DA7756]',
-  healthcare: 'text-pink-400',
+  gaming: 'text-[#DA7756]',
+  saas: 'text-[#8F8B82]',
+  ecommerce: 'text-[#7A8B5B]',
+  edtech: 'text-[#E5A84B]',
+  media: 'text-rose-400',
+  fintech: 'text-[#C15F3C]',
+  healthcare: 'text-rose-300',
   custom: 'text-gray-400',
 };
 

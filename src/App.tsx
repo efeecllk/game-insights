@@ -493,8 +493,8 @@ function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
 
     return (
         <div className="relative group">
-            {/* Subtle glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-violet-500/0 via-violet-500/5 to-violet-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            {/* Subtle hover effect */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
 
             <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
                 {/* Noise texture */}
@@ -502,19 +502,9 @@ function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
 
                 {/* Header */}
                 <div className="relative px-6 py-4 border-b border-white/[0.04] flex items-center gap-4">
-                    <motion.div
-                        animate={{
-                            boxShadow: [
-                                '0 0 20px rgba(139, 92, 246, 0.2)',
-                                '0 0 30px rgba(139, 92, 246, 0.3)',
-                                '0 0 20px rgba(139, 92, 246, 0.2)',
-                            ],
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                        className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 flex items-center justify-center"
-                    >
-                        <Sparkles className="w-5 h-5 text-violet-400" />
-                    </motion.div>
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
+                    </div>
                     <div>
                         <h2 id="insights-heading" className="text-base font-semibold text-white">AI Insights</h2>
                         <p className="text-xs text-slate-500">Auto-generated recommendations based on your data</p>
@@ -560,10 +550,10 @@ function InsightCard({
             label: 'Opportunity',
         },
         info: {
-            bg: 'bg-blue-500/5',
-            border: 'border-blue-500/20',
+            bg: 'bg-[#8F8B82]/5',
+            border: 'border-[#8F8B82]/20',
             icon: Info,
-            iconColor: 'text-blue-400',
+            iconColor: 'text-[#8F8B82]',
             label: 'Information',
         },
         critical: {

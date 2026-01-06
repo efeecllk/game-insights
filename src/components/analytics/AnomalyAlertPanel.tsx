@@ -84,11 +84,11 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
     },
     low: {
         label: 'Low',
-        bgColor: 'bg-blue-500/10',
-        borderColor: 'border-blue-500/30',
-        textColor: 'text-blue-400',
-        badgeBg: 'bg-blue-500',
-        glowColor: 'shadow-blue-500/20',
+        bgColor: 'bg-[#8F8B82]/10',
+        borderColor: 'border-[#8F8B82]/30',
+        textColor: 'text-[#8F8B82]',
+        badgeBg: 'bg-[#8F8B82]',
+        glowColor: 'shadow-[#8F8B82]/20',
         icon: Activity,
     },
 };

@@ -21,14 +21,14 @@ interface ChartRendererProps {
     className?: string;
 }
 
-// Obsidian chart colors - warm orange palette
+// Obsidian chart colors - warm terracotta palette
 const CHART_COLORS = [
-    '#DA7756', // warm orange
-    '#C15F3C', // deep orange
-    '#06b6d4', // cyan
-    '#8b5cf6', // violet
-    '#f472b6', // pink
-    '#fb923c', // orange
+    '#DA7756', // terracotta - primary
+    '#C15F3C', // darker terracotta
+    '#E5A84B', // amber/gold
+    '#A68B5B', // warm tan
+    '#8B7355', // brown
+    '#B89B7D', // light brown
 ];
 
 // Common tooltip styling for dark theme

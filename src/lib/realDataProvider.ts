@@ -349,7 +349,7 @@ export class RealDataProvider implements IDataProvider {
             return [{
                 name: 'Revenue',
                 data,
-                color: '#8b5cf6',
+                color: '#DA7756',
             }];
         }
 
@@ -358,7 +358,7 @@ export class RealDataProvider implements IDataProvider {
         return [{
             name: 'Revenue',
             data: [{ timestamp: 'Total', value: Math.round(total), label: '$' + this.formatNumber(Math.round(total)) }],
-            color: '#8b5cf6',
+            color: '#DA7756',
         }];
     }
 
@@ -552,7 +552,7 @@ export class RealDataProvider implements IDataProvider {
         }
 
         const total = Array.from(counts.values()).reduce((a, b) => a + b, 0);
-        const colors = ['#8b5cf6', '#6366f1', '#ec4899', '#DA7756', '#C15F3C', '#5B9BD5'];
+        const colors = ['#DA7756', '#C15F3C', '#E5A84B', '#A68B5B', '#8B7355', '#B89B7D'];
 
         return Array.from(counts.entries())
             .sort((a, b) => b[1] - a[1])

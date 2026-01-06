@@ -113,7 +113,7 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                         colorStops: [
                             { offset: 0, color: '#DA7756' },
                             { offset: 0.5, color: '#C15F3C' },
-                            { offset: 1, color: '#5B9BD5' },
+                            { offset: 1, color: '#E5A84B' },
                         ],
                     },
                     shadowColor: 'rgba(218, 119, 86, 0.3)',

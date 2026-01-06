@@ -151,9 +151,9 @@ export function MLStudioPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#C15F3C]/5 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#DA7756]/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#A68B5B]/5 rounded-full blur-3xl" />
             </div>
 
             <motion.div
@@ -172,12 +172,12 @@ export function MLStudioPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                            className="p-3 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/20"
+                            className="p-3 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/20"
                         >
-                            <Brain className="w-6 h-6 text-violet-400" />
+                            <Brain className="w-6 h-6 text-[#C15F3C]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-violet-200 via-purple-200 to-indigo-200 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
                                 ML Studio
                             </h1>
                             <p className="text-slate-400 text-sm">Train, evaluate, and deploy machine learning models</p>
@@ -190,7 +190,7 @@ export function MLStudioPage() {
                             onClick={() => setView('models')}
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${
                                 view === 'models'
-                                    ? 'bg-gradient-to-r from-violet-600 to-violet-500 text-white border-violet-500 shadow-lg shadow-violet-500/20'
+                                    ? 'bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white border-[#C15F3C] shadow-lg shadow-[#C15F3C]/20'
                                     : 'bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border-white/[0.08] text-slate-300 hover:border-white/[0.12]'
                             }`}
                             style={view !== 'models' ? { backgroundImage: noiseTexture } : undefined}
@@ -199,10 +199,10 @@ export function MLStudioPage() {
                             Models ({models.length})
                         </motion.button>
                         <motion.button
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)' }}
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setView('create')}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-500 text-white hover:from-violet-500 hover:to-violet-400 transition-all shadow-lg shadow-violet-500/20"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
                         >
                             <Plus className="w-4 h-4" />
                             New Training Job
@@ -213,7 +213,7 @@ export function MLStudioPage() {
                 {/* Stats Cards */}
                 {stats && (
                     <motion.div variants={itemVariants} className="grid grid-cols-4 gap-4">
-                        <StatsCard label="Training Jobs" value={stats.totalJobs} icon={Activity} color="violet" />
+                        <StatsCard label="Training Jobs" value={stats.totalJobs} icon={Activity} color="orange" />
                         <StatsCard label="Completed" value={stats.completedJobs} icon={CheckCircle} color="orange" />
                         <StatsCard label="Deployed Models" value={stats.totalModels} icon={Zap} color="blue" />
                         <StatsCard label="Total Predictions" value={stats.totalPredictions} icon={Target} color="amber" />
@@ -231,8 +231,8 @@ export function MLStudioPage() {
                             className="flex items-center justify-center h-64"
                         >
                             <div className="relative">
-                                <div className="w-12 h-12 border-2 border-violet-500/20 rounded-full" />
-                                <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-violet-400 rounded-full animate-spin" />
+                                <div className="w-12 h-12 border-2 border-[#DA7756]/20 rounded-full" />
+                                <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-[#DA7756] rounded-full animate-spin" />
                             </div>
                         </motion.div>
                     ) : view === 'jobs' ? (
@@ -274,10 +274,10 @@ function StatsCard({
     color?: 'violet' | 'orange' | 'blue' | 'amber';
 }) {
     const colors = {
-        violet: 'from-violet-500/20 to-purple-500/10 border-violet-500/20 text-violet-400',
+        violet: 'from-[#C15F3C]/20 to-[#DA7756]/10 border-[#C15F3C]/20 text-[#C15F3C]',
         orange: 'from-[#DA7756]/20 to-[#C15F3C]/10 border-[#DA7756]/20 text-[#DA7756]',
-        blue: 'from-blue-500/20 to-indigo-500/10 border-blue-500/20 text-blue-400',
-        amber: 'from-amber-500/20 to-orange-500/10 border-amber-500/20 text-amber-400',
+        blue: 'from-[#8F8B82]/20 to-[#A68B5B]/10 border-[#8F8B82]/20 text-[#8F8B82]',
+        amber: 'from-amber-500/20 to-[#E5A84B]/10 border-amber-500/20 text-amber-400',
     };
 
     return (
@@ -332,10 +332,10 @@ function JobList({
 
     const statusConfig = {
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
-        training: { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', icon: RefreshCw, label: 'Training' },
+        training: { color: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20', icon: RefreshCw, label: 'Training' },
         completed: { color: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20', icon: CheckCircle, label: 'Completed' },
         failed: { color: 'bg-rose-500/10 text-rose-400 border-rose-500/20', icon: AlertCircle, label: 'Failed' },
-        deployed: { color: 'bg-violet-500/10 text-violet-400 border-violet-500/20', icon: Zap, label: 'Deployed' },
+        deployed: { color: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20', icon: Zap, label: 'Deployed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Clock, label: 'Archived' },
     };
 
@@ -399,13 +399,13 @@ function JobList({
                                         <span className="text-slate-400">
                                             Epoch {job.currentEpoch || 0} / {job.totalEpochs || 100}
                                         </span>
-                                        <span className="text-blue-400">{job.progress}%</span>
+                                        <span className="text-[#8F8B82]">{job.progress}%</span>
                                     </div>
                                     <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${job.progress}%` }}
-                                            className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"
+                                            className="h-full bg-gradient-to-r from-[#8F8B82] to-[#A68B5B] rounded-full"
                                         />
                                     </div>
                                 </div>
@@ -419,7 +419,7 @@ function JobList({
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={(e) => { e.stopPropagation(); onDeploy(job); }}
-                                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-violet-500/10 text-violet-400 hover:bg-violet-500/20 transition-colors text-sm border border-violet-500/20"
+                                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#C15F3C]/10 text-[#C15F3C] hover:bg-[#C15F3C]/20 transition-colors text-sm border border-[#C15F3C]/20"
                                 >
                                     <Upload className="w-4 h-4" />
                                     Deploy
@@ -505,7 +505,7 @@ function ModelList({
                                     <div>
                                         <div className="flex items-center gap-3 mb-2">
                                             <h3 className="text-lg font-semibold text-white">{model.name}</h3>
-                                            <span className="text-xs px-2 py-0.5 rounded-lg bg-violet-500/20 text-violet-400 border border-violet-500/20">
+                                            <span className="text-xs px-2 py-0.5 rounded-lg bg-[#C15F3C]/20 text-[#C15F3C] border border-[#C15F3C]/20">
                                                 v{model.version}
                                             </span>
                                             {model.isActive && (
@@ -597,10 +597,10 @@ function JobDetail({
                 </div>
                 {job.status === 'completed' && (
                     <motion.button
-                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)' }}
+                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onDeploy}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-500 text-white hover:from-violet-500 hover:to-violet-400 transition-all shadow-lg shadow-violet-500/20"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
                     >
                         <Upload className="w-4 h-4" />
                         Deploy Model
@@ -616,7 +616,7 @@ function JobDetail({
                     style={{ backgroundImage: noiseTexture }}
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-violet-400" />
+                        <BarChart3 className="w-5 h-5 text-[#C15F3C]" />
                         Training Metrics
                     </h3>
                     <div className="grid grid-cols-5 gap-4">
@@ -672,7 +672,7 @@ function JobDetail({
                     style={{ backgroundImage: noiseTexture }}
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <Layers className="w-5 h-5 text-violet-400" />
+                        <Layers className="w-5 h-5 text-[#C15F3C]" />
                         Feature Importance
                     </h3>
                     <div className="space-y-3">
@@ -697,7 +697,7 @@ function JobDetail({
                                             initial={{ width: 0 }}
                                             animate={{ width: `${(feature.importance || 0) * 100}%` }}
                                             transition={{ duration: 0.5, delay: index * 0.05 }}
-                                            className="h-full bg-gradient-to-r from-violet-600 to-violet-400 rounded-full"
+                                            className="h-full bg-gradient-to-r from-[#C15F3C] to-[#DA7756] rounded-full"
                                         />
                                     </div>
                                 </motion.div>
@@ -714,7 +714,7 @@ function JobDetail({
                     style={{ backgroundImage: noiseTexture }}
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <Activity className="w-5 h-5 text-violet-400" />
+                        <Activity className="w-5 h-5 text-[#C15F3C]" />
                         Training Logs
                     </h3>
                     <div className="space-y-2 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
@@ -794,8 +794,8 @@ function CreateJobWizard({
                 style={{ backgroundImage: noiseTexture }}
             >
                 <div className="p-6 border-b border-white/[0.06] flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/20 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-violet-400" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/20 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-[#C15F3C]" />
                     </div>
                     <div>
                         <h2 className="text-xl font-semibold text-white">Create New Training Job</h2>
@@ -814,7 +814,7 @@ function CreateJobWizard({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50 transition-colors"
+                            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             placeholder="e.g., Churn Prediction v2"
                         />
                     </div>
@@ -839,7 +839,7 @@ function CreateJobWizard({
                                         }}
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             modelType === type
-                                                ? 'border-violet-500/50 bg-violet-500/10 shadow-lg shadow-violet-500/10'
+                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
                                                 : 'border-white/[0.08] bg-slate-800/30 hover:border-white/[0.12]'
                                         }`}
                                     >
@@ -868,7 +868,7 @@ function CreateJobWizard({
                                         onClick={() => setAlgorithm(algo)}
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             algorithm === algo
-                                                ? 'border-violet-500/50 bg-violet-500/10 shadow-lg shadow-violet-500/10'
+                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
                                                 : 'border-white/[0.08] bg-slate-800/30 hover:border-white/[0.12]'
                                         }`}
                                     >
@@ -893,10 +893,10 @@ function CreateJobWizard({
                         </motion.button>
                         <motion.button
                             type="submit"
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)' }}
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                             whileTap={{ scale: 0.98 }}
                             disabled={!name}
-                            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-violet-500 text-white hover:from-violet-500 hover:to-violet-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-violet-500/20"
+                            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#DA7756]/20"
                         >
                             Create Job
                         </motion.button>

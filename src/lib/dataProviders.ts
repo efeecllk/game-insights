@@ -226,15 +226,15 @@ export class PuzzleGameDataProvider extends BaseDataProvider {
                 { timestamp: 'Sat', value: 3800, label: '$3.8K' },
                 { timestamp: 'Sun', value: 3500, label: '$3.5K' },
             ],
-            color: '#8b5cf6',
+            color: '#DA7756',
         }];
     }
 
     getSegmentData(): SegmentData[] {
         return [
-            { name: 'Color Bomb', value: 45, percentage: 45, color: '#8b5cf6' },
-            { name: 'Extra Moves', value: 32, percentage: 32, color: '#6366f1' },
-            { name: 'Rainbow', value: 23, percentage: 23, color: '#ec4899' },
+            { name: 'Color Bomb', value: 45, percentage: 45, color: '#DA7756' },
+            { name: 'Extra Moves', value: 32, percentage: 32, color: '#C15F3C' },
+            { name: 'Rainbow', value: 23, percentage: 23, color: '#E5A84B' },
         ];
     }
 }
@@ -284,8 +284,8 @@ export class IdleGameDataProvider extends BaseDataProvider {
 
     getSegmentData(): SegmentData[] {
         return [
-            { name: 'Offline (78%)', value: 78, percentage: 78, color: '#6366f1' },
-            { name: 'Online (22%)', value: 22, percentage: 22, color: '#8b5cf6' },
+            { name: 'Offline (78%)', value: 78, percentage: 78, color: '#DA7756' },
+            { name: 'Online (22%)', value: 22, percentage: 22, color: '#E5A84B' },
         ];
     }
 }
@@ -379,16 +379,16 @@ export class Match3MetaDataProvider extends BaseDataProvider {
                     { timestamp: 'Sat', value: 14500 },
                     { timestamp: 'Sun', value: 12800 },
                 ],
-                color: '#ec4899',
+                color: '#E5A84B',
             },
         ];
     }
 
     getSegmentData(): SegmentData[] {
         return [
-            { name: 'Modern Style', value: 45, percentage: 45, color: '#8b5cf6' },
-            { name: 'Classic Style', value: 30, percentage: 30, color: '#6366f1' },
-            { name: 'Cozy Style', value: 25, percentage: 25, color: '#ec4899' },
+            { name: 'Modern Style', value: 45, percentage: 45, color: '#DA7756' },
+            { name: 'Classic Style', value: 30, percentage: 30, color: '#C15F3C' },
+            { name: 'Cozy Style', value: 25, percentage: 25, color: '#E5A84B' },
         ];
     }
 }
@@ -428,16 +428,16 @@ export class GachaRPGDataProvider extends BaseDataProvider {
                     { timestamp: 'Nova Banner', value: 28000 },
                     { timestamp: 'Limited Collab', value: 78000 },
                 ],
-                color: '#8b5cf6',
+                color: '#DA7756',
             },
         ];
     }
 
     getSegmentData(): SegmentData[] {
         return [
-            { name: 'Limited Banner', value: 55, percentage: 55, color: '#8b5cf6' },
-            { name: 'Battle Pass', value: 25, percentage: 25, color: '#6366f1' },
-            { name: 'Direct Packs', value: 20, percentage: 20, color: '#5B9BD5' },
+            { name: 'Limited Banner', value: 55, percentage: 55, color: '#DA7756' },
+            { name: 'Battle Pass', value: 25, percentage: 25, color: '#C15F3C' },
+            { name: 'Direct Packs', value: 20, percentage: 20, color: '#E5A84B' },
         ];
     }
 }
