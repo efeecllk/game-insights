@@ -1,6 +1,10 @@
 /**
- * Segment Chart Component (Pie/Donut)
- * Shows distribution of segments/categories
+ * Segment Chart (Donut) - Obsidian Analytics Design
+ *
+ * Premium donut chart with:
+ * - Emerald-teal color palette
+ * - Refined legend and tooltips
+ * - Glow effects on hover
  */
 
 import ReactECharts from 'echarts-for-react';
@@ -12,57 +16,80 @@ interface SegmentChartProps {
     data: SegmentData[];
     config?: Partial<ChartConfig>;
     className?: string;
+    /** When true, renders without container (for use inside ChartContainer) */
+    bare?: boolean;
 }
 
-export function SegmentChart({ data, config, className }: SegmentChartProps) {
-    const defaultColors = ['#8b5cf6', '#6366f1', '#ec4899', '#22d3ee', '#f97316', '#22c55e'];
+// Obsidian Analytics color palette
+const SEGMENT_COLORS = [
+    '#10b981', // emerald-500
+    '#14b8a6', // teal-500
+    '#06b6d4', // cyan-500
+    '#0ea5e9', // sky-500
+    '#6366f1', // indigo-500
+    '#8b5cf6', // violet-500
+];
 
+export function SegmentChart({ data, config, className, bare = false }: SegmentChartProps) {
     const option: EChartsOption = {
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'item',
-            backgroundColor: '#252532',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(16, 185, 129, 0.2)',
             borderWidth: 1,
-            textStyle: { color: '#fff' },
-            formatter: (params: unknown) => {
-                const p = params as { name: string; value: number; percent: number };
-                return `
-          <div style="padding: 8px;">
-            <div style="font-weight: 600;">${p.name}</div>
-            <div style="color: #8b5cf6;">${p.percent.toFixed(1)}%</div>
-          </div>
-        `;
+            padding: [12, 16],
+            textStyle: {
+                color: '#e2e8f0',
+                fontFamily: 'DM Sans, system-ui, sans-serif',
             },
+            formatter: (params: unknown) => {
+                const p = params as { name: string; value: number; percent: number; color: string };
+                return `
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p.name}</div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="width: 8px; height: 8px; border-radius: 2px; background: ${p.color};"></span>
+                        <span style="color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-weight: 600;">${p.percent.toFixed(1)}%</span>
+                    </div>
+                `;
+            },
+            extraCssText: 'box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); border-radius: 12px;',
         },
         legend: {
             orient: 'vertical',
             right: '5%',
             top: 'center',
-            textStyle: { color: '#a1a1aa', fontSize: 12 },
-            itemGap: 12,
+            textStyle: {
+                color: '#94a3b8',
+                fontSize: 11,
+                fontFamily: 'DM Sans, system-ui, sans-serif',
+            },
+            itemGap: 16,
+            itemWidth: 12,
+            itemHeight: 12,
+            icon: 'roundRect',
         },
         series: [
             {
                 name: 'Segments',
                 type: 'pie',
-                radius: ['50%', '75%'],
+                radius: ['55%', '80%'],
                 center: ['35%', '50%'],
                 avoidLabelOverlap: false,
                 itemStyle: {
-                    borderRadius: 8,
-                    borderColor: '#1a1a24',
-                    borderWidth: 2,
+                    borderRadius: 6,
+                    borderColor: 'rgba(15, 23, 42, 0.9)',
+                    borderWidth: 3,
                 },
                 label: {
                     show: false,
                 },
                 emphasis: {
                     scale: true,
-                    scaleSize: 10,
+                    scaleSize: 8,
                     itemStyle: {
-                        shadowBlur: 20,
-                        shadowColor: 'rgba(139, 92, 246, 0.5)',
+                        shadowBlur: 30,
+                        shadowColor: 'rgba(16, 185, 129, 0.4)',
                     },
                 },
                 labelLine: {
@@ -72,33 +99,64 @@ export function SegmentChart({ data, config, className }: SegmentChartProps) {
                     name: segment.name,
                     value: segment.value,
                     itemStyle: {
-                        color: segment.color ?? defaultColors[index % defaultColors.length],
+                        color: {
+                            type: 'linear',
+                            x: 0, y: 0, x2: 1, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: SEGMENT_COLORS[index % SEGMENT_COLORS.length] },
+                                { offset: 1, color: adjustColor(SEGMENT_COLORS[index % SEGMENT_COLORS.length], -20) },
+                            ],
+                        },
                     },
                 })),
             },
         ],
-        animationDuration: 1500,
+        animationDuration: 1200,
         animationEasing: 'cubicOut',
     };
 
-    return (
-        <div className={`bg-bg-card rounded-card p-6 border border-white/[0.06] ${className ?? ''}`}>
-            <div className="mb-4">
-                <h3 className="text-lg font-semibold text-white">
-                    {config?.title ?? 'Distribution'}
-                </h3>
-                <p className="text-sm text-zinc-500 mt-1">
-                    {config?.subtitle ?? 'Segment breakdown'}
-                </p>
-            </div>
+    const chart = (
+        <ReactECharts
+            option={option}
+            style={{ height: config?.height ?? 220, width: '100%' }}
+            opts={{ renderer: 'canvas' }}
+        />
+    );
 
-            <ReactECharts
-                option={option}
-                style={{ height: config?.height ?? 250, width: '100%' }}
-                opts={{ renderer: 'canvas' }}
-            />
+    // Bare mode for use inside ChartContainer
+    if (bare) {
+        return chart;
+    }
+
+    // Standalone mode with its own container
+    return (
+        <div className={`relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-5 border border-white/[0.06] overflow-hidden ${className ?? ''}`}>
+            {/* Noise texture */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+            <div className="relative">
+                <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-white">
+                        {config?.title ?? 'Distribution'}
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                        {config?.subtitle ?? 'Segment breakdown'}
+                    </p>
+                </div>
+
+                {chart}
+            </div>
         </div>
     );
+}
+
+// Helper to darken/lighten hex color
+function adjustColor(hex: string, percent: number): string {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const r = Math.min(255, Math.max(0, (num >> 16) + percent));
+    const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00ff) + percent));
+    const b = Math.min(255, Math.max(0, (num & 0x0000ff) + percent));
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
 }
 
 // Register chart

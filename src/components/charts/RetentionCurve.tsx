@@ -1,6 +1,10 @@
 /**
- * Base Chart Component - Implements Liskov Substitution Principle
- * All chart components can be used interchangeably
+ * Retention Curve Chart - Obsidian Analytics Design
+ *
+ * Premium line chart with:
+ * - Emerald gradient line styling
+ * - Refined tooltip design
+ * - Smooth animations
  */
 
 import ReactECharts from 'echarts-for-react';
@@ -12,37 +16,56 @@ interface RetentionCurveProps {
     data: RetentionData;
     config?: Partial<ChartConfig>;
     className?: string;
+    /** When true, renders without container (for use inside ChartContainer) */
+    bare?: boolean;
 }
 
-export function RetentionCurve({ data, config, className }: RetentionCurveProps) {
+export function RetentionCurve({ data, config, className, bare = false }: RetentionCurveProps) {
     const option: EChartsOption = {
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'axis',
-            backgroundColor: '#252532',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(16, 185, 129, 0.2)',
             borderWidth: 1,
-            textStyle: { color: '#fff' },
+            padding: [12, 16],
+            textStyle: {
+                color: '#e2e8f0',
+                fontFamily: 'DM Sans, system-ui, sans-serif',
+            },
             formatter: (params: unknown) => {
-                const p = params as Array<{ name: string; value: number }>;
+                const p = params as Array<{ name: string; value: number; seriesName: string }>;
                 const dataPoint = p[0];
                 const benchmarkPoint = p[1];
                 return `
-          <div style="padding: 8px;">
-            <div style="font-weight: 600; margin-bottom: 8px;">${dataPoint.name}</div>
-            <div style="display: flex; justify-content: space-between; gap: 16px;">
-              <span style="color: #8b5cf6;">Your Game: ${dataPoint.value}%</span>
-            </div>
-            ${benchmarkPoint ? `<div style="color: #71717a; margin-top: 4px;">Benchmark: ${benchmarkPoint.value}%</div>` : ''}
-          </div>
-        `;
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${dataPoint.name}</div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <span style="width: 8px; height: 8px; border-radius: 2px; background: linear-gradient(135deg, #10b981, #14b8a6);"></span>
+                        <span style="color: #e2e8f0; font-weight: 500;">Retention: <span style="color: #10b981; font-family: 'JetBrains Mono', monospace;">${dataPoint.value}%</span></span>
+                    </div>
+                    ${benchmarkPoint ? `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="width: 8px; height: 8px; border-radius: 2px; background: #475569;"></span>
+                            <span style="color: #94a3b8;">Benchmark: <span style="font-family: 'JetBrains Mono', monospace;">${benchmarkPoint.value}%</span></span>
+                        </div>
+                    ` : ''}
+                `;
             },
+            extraCssText: 'box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); border-radius: 12px;',
         },
         legend: {
             show: config?.showLegend ?? true,
             top: 0,
             right: 0,
-            textStyle: { color: '#a1a1aa' },
+            textStyle: {
+                color: '#64748b',
+                fontFamily: 'DM Sans, system-ui, sans-serif',
+                fontSize: 11,
+            },
+            icon: 'roundRect',
+            itemWidth: 12,
+            itemHeight: 4,
+            itemGap: 16,
         },
         grid: {
             left: '3%',
@@ -54,23 +77,32 @@ export function RetentionCurve({ data, config, className }: RetentionCurveProps)
         xAxis: {
             type: 'category',
             data: data.days,
-            axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-            axisLabel: { color: '#71717a', fontSize: 12 },
+            axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'JetBrains Mono, monospace',
+            },
             axisTick: { show: false },
         },
         yAxis: {
             type: 'value',
             max: 100,
             axisLine: { show: false },
-            axisLabel: { color: '#71717a', fontSize: 12, formatter: '{value}%' },
-            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'JetBrains Mono, monospace',
+                formatter: '{value}%',
+            },
+            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } },
         },
         series: [
             {
                 name: 'Retention',
                 type: 'line',
                 data: data.values,
-                smooth: true,
+                smooth: 0.4,
                 symbol: 'circle',
                 symbolSize: 8,
                 lineStyle: {
@@ -79,14 +111,18 @@ export function RetentionCurve({ data, config, className }: RetentionCurveProps)
                         type: 'linear',
                         x: 0, y: 0, x2: 1, y2: 0,
                         colorStops: [
-                            { offset: 0, color: '#8b5cf6' },
-                            { offset: 1, color: '#6366f1' },
+                            { offset: 0, color: '#10b981' },
+                            { offset: 0.5, color: '#14b8a6' },
+                            { offset: 1, color: '#06b6d4' },
                         ],
                     },
+                    shadowColor: 'rgba(16, 185, 129, 0.3)',
+                    shadowBlur: 10,
+                    shadowOffsetY: 4,
                 },
                 itemStyle: {
-                    color: '#8b5cf6',
-                    borderColor: '#1a1a24',
+                    color: '#10b981',
+                    borderColor: '#0f172a',
                     borderWidth: 3,
                 },
                 areaStyle: {
@@ -94,8 +130,9 @@ export function RetentionCurve({ data, config, className }: RetentionCurveProps)
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(139, 92, 246, 0.3)' },
-                            { offset: 1, color: 'rgba(139, 92, 246, 0)' },
+                            { offset: 0, color: 'rgba(16, 185, 129, 0.2)' },
+                            { offset: 0.5, color: 'rgba(16, 185, 129, 0.05)' },
+                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
                         ],
                     },
                 },
@@ -104,41 +141,59 @@ export function RetentionCurve({ data, config, className }: RetentionCurveProps)
                 name: 'Benchmark',
                 type: 'line' as const,
                 data: data.benchmark,
-                smooth: true,
+                smooth: 0.4,
                 symbol: 'none',
                 lineStyle: {
                     width: 2,
                     type: 'dashed' as const,
-                    color: '#71717a',
+                    color: '#475569',
                 },
             }] : []),
         ],
-        animationDuration: 1500,
+        animationDuration: 1200,
         animationEasing: 'cubicOut',
     };
 
-    return (
-        <div className={`bg-bg-card rounded-card p-6 border border-white/[0.06] ${className ?? ''}`}>
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h3 className="text-lg font-semibold text-white">
-                        {config?.title ?? 'User Retention'}
-                    </h3>
-                    <p className="text-sm text-zinc-500 mt-1">
-                        {config?.subtitle ?? 'Track how players return over time'}
-                    </p>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="text-sm text-zinc-400">vs Benchmark</span>
-                    <div className="w-2 h-2 rounded-full bg-accent-primary animate-pulse" />
-                </div>
-            </div>
+    const chart = (
+        <ReactECharts
+            option={option}
+            style={{ height: config?.height ?? 280, width: '100%' }}
+            opts={{ renderer: 'canvas' }}
+        />
+    );
 
-            <ReactECharts
-                option={option}
-                style={{ height: config?.height ?? 300, width: '100%' }}
-                opts={{ renderer: 'canvas' }}
-            />
+    // Bare mode for use inside ChartContainer
+    if (bare) {
+        return chart;
+    }
+
+    // Standalone mode with its own container
+    return (
+        <div className={`relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-5 border border-white/[0.06] overflow-hidden ${className ?? ''}`}>
+            {/* Noise texture */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+            <div className="relative">
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 className="text-sm font-semibold text-white">
+                            {config?.title ?? 'User Retention'}
+                        </h3>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                            {config?.subtitle ?? 'Track how users return over time'}
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                        <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                        </span>
+                        <span className="text-[10px] font-medium text-emerald-400 uppercase tracking-wider">Live</span>
+                    </div>
+                </div>
+
+                {chart}
+            </div>
         </div>
     );
 }

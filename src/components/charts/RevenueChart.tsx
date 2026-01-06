@@ -1,6 +1,10 @@
 /**
- * Revenue Timeline Chart Component
- * Shows revenue over time with area gradient
+ * Revenue Chart - Obsidian Analytics Design
+ *
+ * Premium bar chart with:
+ * - Emerald gradient bars with glow
+ * - Refined tooltips and labels
+ * - Summary statistics
  */
 
 import ReactECharts from 'echarts-for-react';
@@ -12,9 +16,11 @@ interface RevenueChartProps {
     data: TimeSeriesData[];
     config?: Partial<ChartConfig>;
     className?: string;
+    /** When true, renders without container (for use inside ChartContainer) */
+    bare?: boolean;
 }
 
-export function RevenueChart({ data, config, className }: RevenueChartProps) {
+export function RevenueChart({ data, config, className, bare = false }: RevenueChartProps) {
     const series = data[0];
     const totalRevenue = series?.data.reduce((sum, d) => sum + d.value, 0) ?? 0;
     const avgRevenue = series?.data.length ? totalRevenue / series.data.length : 0;
@@ -23,19 +29,22 @@ export function RevenueChart({ data, config, className }: RevenueChartProps) {
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'axis',
-            backgroundColor: '#252532',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(16, 185, 129, 0.2)',
             borderWidth: 1,
-            textStyle: { color: '#fff' },
+            padding: [12, 16],
+            textStyle: {
+                color: '#e2e8f0',
+                fontFamily: 'DM Sans, system-ui, sans-serif',
+            },
             formatter: (params: unknown) => {
                 const p = params as Array<{ name: string; value: number }>;
                 return `
-          <div style="padding: 8px;">
-            <div style="font-weight: 600; margin-bottom: 4px;">${p[0].name}</div>
-            <div style="color: #22c55e;">$${p[0].value.toLocaleString()}</div>
-          </div>
-        `;
+                    <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p[0].name}</div>
+                    <div style="color: #10b981; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">$${p[0].value.toLocaleString()}</div>
+                `;
             },
+            extraCssText: 'box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); border-radius: 12px;',
         },
         grid: {
             left: '3%',
@@ -47,36 +56,45 @@ export function RevenueChart({ data, config, className }: RevenueChartProps) {
         xAxis: {
             type: 'category',
             data: series?.data.map((d) => d.timestamp) ?? [],
-            axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.1)' } },
-            axisLabel: { color: '#71717a', fontSize: 12 },
+            axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'JetBrains Mono, monospace',
+            },
             axisTick: { show: false },
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
             axisLabel: {
-                color: '#71717a',
-                fontSize: 12,
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'JetBrains Mono, monospace',
                 formatter: (value: number) => `$${(value / 1000).toFixed(0)}K`,
             },
-            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } },
         },
         series: [
             {
                 name: series?.name ?? 'Revenue',
                 type: 'bar',
                 data: series?.data.map((d) => d.value) ?? [],
-                barWidth: '60%',
+                barWidth: '55%',
                 itemStyle: {
                     borderRadius: [6, 6, 0, 0],
                     color: {
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: '#22c55e' },
-                            { offset: 1, color: 'rgba(34, 197, 94, 0.3)' },
+                            { offset: 0, color: '#10b981' },
+                            { offset: 0.7, color: '#059669' },
+                            { offset: 1, color: 'rgba(5, 150, 105, 0.3)' },
                         ],
                     },
+                    shadowColor: 'rgba(16, 185, 129, 0.3)',
+                    shadowBlur: 8,
+                    shadowOffsetY: 4,
                 },
                 emphasis: {
                     itemStyle: {
@@ -84,44 +102,83 @@ export function RevenueChart({ data, config, className }: RevenueChartProps) {
                             type: 'linear',
                             x: 0, y: 0, x2: 0, y2: 1,
                             colorStops: [
-                                { offset: 0, color: '#4ade80' },
-                                { offset: 1, color: 'rgba(74, 222, 128, 0.5)' },
+                                { offset: 0, color: '#34d399' },
+                                { offset: 1, color: 'rgba(52, 211, 153, 0.5)' },
                             ],
                         },
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(16, 185, 129, 0.5)',
                     },
                 },
             },
         ],
-        animationDuration: 1500,
+        animationDuration: 1200,
         animationEasing: 'cubicOut',
     };
 
-    return (
-        <div className={`bg-bg-card rounded-card p-6 border border-white/[0.06] ${className ?? ''}`}>
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h3 className="text-lg font-semibold text-white">
-                        {config?.title ?? 'Revenue'}
-                    </h3>
-                    <p className="text-sm text-zinc-500 mt-1">
-                        {config?.subtitle ?? 'Track earnings over time'}
-                    </p>
-                </div>
-                <div className="text-right">
-                    <p className="text-2xl font-bold text-green-500">
-                        ${totalRevenue.toLocaleString()}
-                    </p>
-                    <p className="text-xs text-zinc-500">
-                        Avg: ${avgRevenue.toLocaleString()}/day
-                    </p>
-                </div>
-            </div>
+    const chart = (
+        <ReactECharts
+            option={option}
+            style={{ height: config?.height ?? 220, width: '100%' }}
+            opts={{ renderer: 'canvas' }}
+        />
+    );
 
-            <ReactECharts
-                option={option}
-                style={{ height: config?.height ?? 250, width: '100%' }}
-                opts={{ renderer: 'canvas' }}
-            />
+    const stats = (
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.04]">
+            <div>
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Total Revenue</p>
+                <p className="text-xl font-bold text-emerald-400 font-mono tracking-tight">
+                    ${totalRevenue.toLocaleString()}
+                </p>
+            </div>
+            <div className="text-right">
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Daily Average</p>
+                <p className="text-sm font-semibold text-slate-300 font-mono">
+                    ${avgRevenue.toLocaleString()}/day
+                </p>
+            </div>
+        </div>
+    );
+
+    // Bare mode for use inside ChartContainer
+    if (bare) {
+        return (
+            <div>
+                {chart}
+                {stats}
+            </div>
+        );
+    }
+
+    // Standalone mode with its own container
+    return (
+        <div className={`relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-5 border border-white/[0.06] overflow-hidden ${className ?? ''}`}>
+            {/* Noise texture */}
+            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+            <div className="relative">
+                <div className="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 className="text-sm font-semibold text-white">
+                            {config?.title ?? 'Revenue'}
+                        </h3>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                            {config?.subtitle ?? 'Track earnings over time'}
+                        </p>
+                    </div>
+                    <div className="text-right">
+                        <p className="text-lg font-bold text-emerald-400 font-mono">
+                            ${totalRevenue.toLocaleString()}
+                        </p>
+                        <p className="text-[10px] text-slate-500 font-medium">
+                            Avg: ${avgRevenue.toLocaleString()}/day
+                        </p>
+                    </div>
+                </div>
+
+                {chart}
+            </div>
         </div>
     );
 }
