@@ -28,28 +28,25 @@ const SETTINGS_ID = 'default';
 /**
  * Default sidebar order - prioritizes user workflow with Upload Data first
  * First-time users need to upload data before they can use the dashboard
- * This order reflects the simplified navigation structure with sections
+ * Simplified navigation structure (reduced from 17 to 14 items)
  */
 export const DEFAULT_SIDEBAR_ORDER: string[] = [
-    // Primary nav items - Upload first for new user workflow
+    // Primary nav items (4) - Always visible, essential features
     'Upload Data',
     'Dashboard',
-    'AI Analytics',
+    'Analytics',
+    'Revenue',
+    // More analytics (4) - Collapsed by default
     'Funnels',
-    'Monetization',
-    // More analytics
     'Realtime',
     'Dashboards',
-    'Engagement',
     'Attribution',
-    'User Analysis',
-    // Advanced tools
+    // Advanced tools (4) - Collapsed by default
     'Predictions',
     'A/B Testing',
     'What-If',
     'ML Studio',
-    // Settings
-    'Games',
+    // Settings (2) - Minimal
     'Templates',
     'Settings',
 ];

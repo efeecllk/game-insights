@@ -66,10 +66,10 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h2 className="text-2xl font-bold text-th-text-primary mb-2">
-                        Welcome to Game Insights
+                        Welcome to Insights
                     </h2>
                     <p className="text-th-text-secondary max-w-md mx-auto">
-                        Upload your game analytics data and get AI-powered insights instantly.
+                        Upload your data and get AI-powered insights instantly.
                         No configuration needed.
                     </p>
                 </div>

@@ -74,23 +74,20 @@ export function MLProvider({ children }: MLProviderProps) {
     const [predictions, setPredictions] = useState<MLPredictions | null>(null);
     const [status, setStatus] = useState<ModelStatus>(mlService.getStatus());
 
-    // Auto-train when data changes
+    // Check for existing training when data changes - DO NOT auto-train
+    // Auto-training was causing performance issues on data load
+    // Users can manually trigger training via the ML Studio page
     useEffect(() => {
         if (!dataIsReady || !activeGameData) return;
 
-        // Check if we need to train (data changed or not trained yet)
+        // Check if already trained on this data
         const currentStatus = mlService.getStatus();
         if (currentStatus.lastTrainedDataId === activeGameData.id) {
             // Already trained on this data, just refresh predictions
             setPredictions(mlService.getAllPredictions());
             setStatus(currentStatus);
-            return;
         }
-
-        // Need minimum data for training
-        if (activeGameData.rawData.length >= 100) {
-            trainModels();
-        }
+        // Note: Removed auto-training - user must trigger manually for performance
     }, [activeGameData?.id, dataIsReady]);
 
     // Train models on current data

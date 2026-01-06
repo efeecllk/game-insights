@@ -23,56 +23,56 @@ export interface ChartThemeColors {
 
 export function getChartTheme(isDark: boolean): ChartThemeColors {
   if (isDark) {
-    // Dark mode: warm dark backgrounds (#1A1918, #262524)
+    // Dark mode: Exact Claude dark theme colors
     return {
-      text: '#C8C4BA', // --color-text-secondary in dark
-      textMuted: '#8F8B82', // --color-text-muted in dark
-      grid: 'rgba(250, 249, 246, 0.04)', // subtle warm white grid
+      text: '#b8b5ad', // --color-text-secondary (Claude dark)
+      textMuted: '#9a9893', // --color-text-muted (Claude dark)
+      grid: 'rgba(255, 255, 255, 0.05)', // Very subtle grid
       tooltip: {
-        bg: '#262524', // --color-bg-surface in dark
-        border: 'rgba(250, 249, 246, 0.08)', // --color-border-default in dark
-        text: '#FAF9F6', // --color-text-primary in dark
+        bg: '#1f1e1b', // --color-bg-surface (Claude dark)
+        border: 'rgba(255, 255, 255, 0.1)', // --color-border-default
+        text: '#eeeeee', // --color-text-primary (Claude dark)
       },
       series: [
-        '#DA7756', // terracotta - primary
-        '#C15F3C', // darker terracotta
-        '#E5A84B', // amber/gold
-        '#A68B5B', // warm tan
-        '#8B7355', // brown
-        '#B89B7D', // light brown
-        '#E25C5C', // warm red
-        '#8F8B82', // warm gray
+        '#ae5630', // Claude orange - primary
+        '#C15F3C', // Crail
+        '#c9a554', // Warm gold
+        '#a68b5b', // Tan
+        '#8b7355', // Brown
+        '#b89b7d', // Light brown
+        '#c25d5d', // Muted red
+        '#9a9893', // Warm gray
       ],
       area: [
-        { offset: 0, color: 'rgba(218, 119, 86, 0.15)' },
-        { offset: 1, color: 'rgba(218, 119, 86, 0)' },
+        { offset: 0, color: 'rgba(174, 86, 48, 0.12)' },
+        { offset: 1, color: 'rgba(174, 86, 48, 0)' },
       ],
     };
   }
 
-  // Light mode: warm cream backgrounds (#F5F5F0, #FAF9F7)
+  // Light mode: Exact Claude light theme colors
   return {
-    text: '#4A4641', // --color-text-secondary in light
-    textMuted: '#8F8B82', // --color-text-muted in light
-    grid: '#EAE8E1', // --color-border-subtle in light
+    text: '#4a4845', // --color-text-secondary (Claude light)
+    textMuted: '#6b6a68', // --color-text-muted (Claude light)
+    grid: 'rgba(0, 0, 0, 0.06)', // Very subtle grid
     tooltip: {
-      bg: '#FFFFFF', // --color-bg-surface in light
-      border: '#DBD8CE', // --color-border-default in light
-      text: '#1A1918', // --color-text-primary in light
+      bg: '#FFFFFF', // --color-bg-surface (Claude light)
+      border: 'rgba(0, 0, 0, 0.1)', // --color-border-default
+      text: '#1a1a18', // --color-text-primary (Claude light)
     },
     series: [
-      '#C15F3C', // darker terracotta for better contrast on light
-      '#DA7756', // terracotta
-      '#C98A2E', // darker amber for light mode
-      '#8B7355', // brown
-      '#A68B5B', // warm tan
-      '#B89B7D', // light brown
-      '#C94141', // warm red (light mode version)
-      '#6B7280', // neutral gray
+      '#ae5630', // Claude orange - primary
+      '#9a4a2a', // Darker orange
+      '#b08d3e', // Warm gold
+      '#8b7355', // Brown
+      '#6b5d4a', // Dark brown
+      '#a08970', // Tan
+      '#b54a4a', // Muted red
+      '#6b6a68', // Warm gray
     ],
     area: [
-      { offset: 0, color: 'rgba(193, 95, 60, 0.1)' },
-      { offset: 1, color: 'rgba(193, 95, 60, 0)' },
+      { offset: 0, color: 'rgba(174, 86, 48, 0.08)' },
+      { offset: 1, color: 'rgba(174, 86, 48, 0)' },
     ],
   };
 }
@@ -147,7 +147,7 @@ export function createLineChartOptions(
     },
     itemStyle: {
       color: theme.series[seriesIndex],
-      borderColor: isDark ? '#1A1918' : '#FFFFFF',
+      borderColor: isDark ? '#2b2a27' : '#FFFFFF',
       borderWidth: 2,
     },
     ...(showArea && {

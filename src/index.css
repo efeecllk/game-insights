@@ -3,172 +3,174 @@
 @tailwind utilities;
 
 /* ============================================================================
-   Claude Dark Theme - Warm, sophisticated dark theme inspired by Claude AI
+   Claude Dark Theme - Exact Claude AI UI colors
+   Simple, warm, muted. No gradients, no shine, no blue/green.
    ============================================================================ */
 :root {
-  /* Background Hierarchy - Warm dark tones */
-  --color-bg-base: #1A1918;
-  --color-bg-subtle: #211F1E;
-  --color-bg-surface: #292725;
-  --color-bg-surface-hover: #33302D;
-  --color-bg-elevated: #3D3935;
-  --color-bg-overlay: rgba(26, 25, 24, 0.85);
+  /* Background Hierarchy - Exact Claude dark mode */
+  --color-bg-base: #2b2a27;           /* Main page background */
+  --color-bg-subtle: #343330;         /* Slightly elevated */
+  --color-bg-surface: #1f1e1b;        /* Cards, input areas (darker) */
+  --color-bg-surface-hover: #393937;  /* Hover state */
+  --color-bg-elevated: #3d3a37;       /* Elevated elements */
+  --color-bg-overlay: rgba(43, 42, 39, 0.9);
 
-  /* Text Hierarchy - Warm whites and grays */
-  --color-text-primary: #FAF9F6;
-  --color-text-secondary: #C8C4BA;
-  --color-text-muted: #8F8B82;
-  --color-text-disabled: #5C5954;
-  --color-text-inverse: #1A1918;
+  /* Text Hierarchy - Claude's warm text colors */
+  --color-text-primary: #eeeeee;      /* Off-white, not pure white */
+  --color-text-secondary: #b8b5ad;    /* Warm gray */
+  --color-text-muted: #9a9893;        /* Muted warm gray */
+  --color-text-disabled: #6b6967;     /* Disabled state */
+  --color-text-inverse: #1a1a18;      /* For light backgrounds */
 
-  /* Border Colors - Subtle warm borders */
-  --color-border-subtle: rgba(250, 249, 246, 0.04);
-  --color-border-default: rgba(250, 249, 246, 0.08);
-  --color-border-strong: rgba(250, 249, 246, 0.15);
-  --color-border-focus: #DA7756;
+  /* Border Colors - Subtle, barely visible */
+  --color-border-subtle: rgba(255, 255, 255, 0.05);
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-strong: rgba(255, 255, 255, 0.15);
+  --color-border-focus: #ae5630;
 
-  /* Accent Colors - Claude's warm orange (Crail) */
-  --color-accent-primary: #DA7756;
-  --color-accent-primary-hover: #E8916F;
-  --color-accent-primary-muted: rgba(218, 119, 86, 0.15);
-  --color-accent-secondary: #C15F3C;
-  --color-accent-secondary-hover: #D4735A;
+  /* Accent Colors - Claude Orange (exact) */
+  --color-accent-primary: #ae5630;    /* Claude's exact orange */
+  --color-accent-primary-hover: #c4643a;
+  --color-accent-primary-muted: rgba(174, 86, 48, 0.15);
+  --color-accent-secondary: #C15F3C;  /* Crail - brand color */
+  --color-accent-secondary-hover: #d4735a;
 
-  /* Semantic Colors - Warm-tinted (NO blue, NO bright green) */
-  --color-success: #7A8B5B;
-  --color-success-muted: rgba(122, 139, 91, 0.12);
-  --color-warning: #E5A84B;
-  --color-warning-muted: rgba(229, 168, 75, 0.12);
-  --color-error: #E25C5C;
-  --color-error-muted: rgba(226, 92, 92, 0.12);
-  --color-info: #8F8B82;
-  --color-info-muted: rgba(143, 139, 130, 0.12);
+  /* Semantic Colors - Warm-tinted, muted (NO blue, NO bright green) */
+  --color-success: #7d8b6a;           /* Muted olive */
+  --color-success-muted: rgba(125, 139, 106, 0.12);
+  --color-warning: #c9a554;           /* Muted gold */
+  --color-warning-muted: rgba(201, 165, 84, 0.12);
+  --color-error: #c25d5d;             /* Muted red */
+  --color-error-muted: rgba(194, 93, 93, 0.12);
+  --color-info: #9a9893;              /* Warm gray for info */
+  --color-info-muted: rgba(154, 152, 147, 0.12);
 
-  /* Chart Colors - Warm, earthy palette ONLY (NO blue, green, purple) */
-  --color-chart-1: #DA7756;
-  --color-chart-2: #C15F3C;
-  --color-chart-3: #E5A84B;
-  --color-chart-4: #A68B5B;
-  --color-chart-5: #8B7355;
-  --color-chart-6: #B89B7D;
-  --color-chart-7: #E25C5C;
-  --color-chart-8: #8F8B82;
+  /* Chart Colors - Warm, earthy, muted (NO blue, green, purple) */
+  --color-chart-1: #ae5630;           /* Claude orange */
+  --color-chart-2: #C15F3C;           /* Crail */
+  --color-chart-3: #c9a554;           /* Warm gold */
+  --color-chart-4: #a68b5b;           /* Tan */
+  --color-chart-5: #8b7355;           /* Brown */
+  --color-chart-6: #b89b7d;           /* Light brown */
+  --color-chart-7: #c25d5d;           /* Muted red */
+  --color-chart-8: #9a9893;           /* Warm gray */
 
-  /* Interactive States */
-  --color-interactive-hover: rgba(250, 249, 246, 0.04);
-  --color-interactive-active: rgba(250, 249, 246, 0.06);
-  --color-interactive-selected: rgba(218, 119, 86, 0.15);
+  /* Interactive States - Very subtle */
+  --color-interactive-hover: rgba(255, 255, 255, 0.04);
+  --color-interactive-active: rgba(255, 255, 255, 0.06);
+  --color-interactive-selected: rgba(174, 86, 48, 0.15);
 
-  /* Shadows - Subtle and warm-tinted */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-subtle: 0 0 12px rgba(218, 119, 86, 0.1);
-  --shadow-subtle-success: 0 0 12px rgba(122, 139, 91, 0.1);
-  --shadow-subtle-error: 0 0 12px rgba(226, 92, 92, 0.1);
+  /* Shadows - Simple, no glow effects */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.35);
+  --shadow-subtle: none;              /* No glow effects */
+  --shadow-subtle-success: none;
+  --shadow-subtle-error: none;
 
-  /* Glassmorphism - Warmer glass effect */
-  --glass-bg: rgba(41, 39, 37, 0.8);
-  --glass-border: rgba(250, 249, 246, 0.08);
-  --glass-blur: 12px;
+  /* No glassmorphism - simple solid backgrounds */
+  --glass-bg: #1f1e1b;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 0px;                  /* No blur */
 
-  /* Gradients - Warm orange gradient (subtle) */
-  --gradient-brand: linear-gradient(135deg, #DA7756 0%, #C15F3C 100%);
-  --gradient-surface: linear-gradient(180deg, rgba(250, 249, 246, 0.02) 0%, transparent 100%);
+  /* No gradients - solid colors only */
+  --gradient-brand: #ae5630;
+  --gradient-surface: transparent;
 
   /* Animation timing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
   --duration-fast: 150ms;
-  --duration-normal: 250ms;
-  --duration-slow: 400ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
 
   /* Scrollbar */
-  --color-scrollbar-track: #211F1E;
-  --color-scrollbar-thumb: #3D3935;
-  --color-scrollbar-thumb-hover: #DA7756;
+  --color-scrollbar-track: #2b2a27;
+  --color-scrollbar-thumb: #4a4744;
+  --color-scrollbar-thumb-hover: #ae5630;
 }
 
 /* ============================================================================
-   Claude Light Theme - Warm cream/beige inspired by Claude AI (Pampas)
+   Claude Light Theme - Exact Claude AI light mode colors
+   Simple, warm cream. No gradients, no shine.
    ============================================================================ */
 [data-theme="light"] {
-  /* Background Hierarchy - Warm cream tones matching user request */
-  --color-bg-base: #F5F5F0;
-  --color-bg-subtle: #FAF9F7;
-  --color-bg-surface: #FFFFFF;
-  --color-bg-surface-hover: #F8F7F4;
-  --color-bg-elevated: #FFFFFF;
-  --color-bg-overlay: rgba(26, 25, 24, 0.4);
+  /* Background Hierarchy - Exact Claude light mode */
+  --color-bg-base: #F5F5F0;           /* Warm beige page background */
+  --color-bg-subtle: #FAF9F7;         /* Slightly lighter */
+  --color-bg-surface: #FFFFFF;        /* White cards and inputs */
+  --color-bg-surface-hover: #F4F3EE;  /* Pampas - Claude's signature cream */
+  --color-bg-elevated: #FFFFFF;       /* Elevated elements */
+  --color-bg-overlay: rgba(26, 26, 24, 0.4);
 
-  /* Text Hierarchy - Warm dark browns */
-  --color-text-primary: #1A1918;
-  --color-text-secondary: #4A4641;
-  --color-text-muted: #8F8B82;
-  --color-text-disabled: #B1ADA1;
-  --color-text-inverse: #FAF9F6;
+  /* Text Hierarchy - Claude's warm dark text */
+  --color-text-primary: #1a1a18;      /* Near-black with warm undertone */
+  --color-text-secondary: #4a4845;    /* Warm dark gray */
+  --color-text-muted: #6b6a68;        /* Claude's exact muted */
+  --color-text-disabled: #a8a5a0;     /* Light disabled */
+  --color-text-inverse: #eeeeee;      /* For dark backgrounds */
 
-  /* Border Colors - Warm subtle borders */
-  --color-border-subtle: #EAE8E1;
-  --color-border-default: #DBD8CE;
-  --color-border-strong: #B1ADA1;
-  --color-border-focus: #C15F3C;
+  /* Border Colors - Very subtle, barely visible */
+  --color-border-subtle: rgba(0, 0, 0, 0.06);
+  --color-border-default: rgba(0, 0, 0, 0.1);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+  --color-border-focus: #ae5630;
 
-  /* Accent Colors - Claude's Crail orange */
-  --color-accent-primary: #C15F3C;
-  --color-accent-primary-hover: #A94D2D;
-  --color-accent-primary-muted: rgba(193, 95, 60, 0.1);
-  --color-accent-secondary: #DA7756;
-  --color-accent-secondary-hover: #C15F3C;
+  /* Accent Colors - Claude Orange (same as dark mode) */
+  --color-accent-primary: #ae5630;    /* Claude's exact orange */
+  --color-accent-primary-hover: #9a4a2a;
+  --color-accent-primary-muted: rgba(174, 86, 48, 0.1);
+  --color-accent-secondary: #C15F3C;  /* Crail */
+  --color-accent-secondary-hover: #a94d2d;
 
-  /* Semantic Colors - Warm-tinted for light mode (NO blue, NO bright green) */
-  --color-success: #7A8B5B;
-  --color-success-muted: rgba(122, 139, 91, 0.1);
-  --color-warning: #C98A2E;
-  --color-warning-muted: rgba(201, 138, 46, 0.1);
-  --color-error: #C94141;
-  --color-error-muted: rgba(201, 65, 65, 0.1);
-  --color-info: #6B7280;
-  --color-info-muted: rgba(107, 114, 128, 0.1);
+  /* Semantic Colors - Muted, warm-tinted (NO blue, NO bright green) */
+  --color-success: #6b7d5a;           /* Muted olive */
+  --color-success-muted: rgba(107, 125, 90, 0.1);
+  --color-warning: #b08d3e;           /* Muted gold */
+  --color-warning-muted: rgba(176, 141, 62, 0.1);
+  --color-error: #b54a4a;             /* Muted red */
+  --color-error-muted: rgba(181, 74, 74, 0.1);
+  --color-info: #6b6a68;              /* Warm gray for info */
+  --color-info-muted: rgba(107, 106, 104, 0.1);
 
-  /* Chart Colors - Warm palette for light mode (NO blue, green, purple) */
-  --color-chart-1: #DA7756;
-  --color-chart-2: #C15F3C;
-  --color-chart-3: #E5A84B;
-  --color-chart-4: #A68B5B;
-  --color-chart-5: #8B7355;
-  --color-chart-6: #B89B7D;
-  --color-chart-7: #C94141;
-  --color-chart-8: #8F8B82;
+  /* Chart Colors - Warm palette, better contrast for light mode */
+  --color-chart-1: #ae5630;           /* Claude orange */
+  --color-chart-2: #9a4a2a;           /* Darker orange */
+  --color-chart-3: #b08d3e;           /* Warm gold */
+  --color-chart-4: #8b7355;           /* Brown */
+  --color-chart-5: #6b5d4a;           /* Dark brown */
+  --color-chart-6: #a08970;           /* Tan */
+  --color-chart-7: #b54a4a;           /* Muted red */
+  --color-chart-8: #6b6a68;           /* Warm gray */
 
-  /* Interactive States */
-  --color-interactive-hover: rgba(26, 25, 24, 0.04);
-  --color-interactive-active: rgba(26, 25, 24, 0.06);
-  --color-interactive-selected: rgba(193, 95, 60, 0.1);
+  /* Interactive States - Very subtle */
+  --color-interactive-hover: rgba(0, 0, 0, 0.03);
+  --color-interactive-active: rgba(0, 0, 0, 0.05);
+  --color-interactive-selected: rgba(174, 86, 48, 0.1);
 
-  /* Shadows for light mode - subtle and warm tint */
-  --shadow-sm: 0 1px 2px rgba(26, 25, 24, 0.06);
-  --shadow-md: 0 4px 12px rgba(26, 25, 24, 0.08);
-  --shadow-lg: 0 8px 24px rgba(26, 25, 24, 0.1);
-  --shadow-xl: 0 16px 48px rgba(26, 25, 24, 0.12);
-  --shadow-subtle: 0 0 12px rgba(193, 95, 60, 0.08);
-  --shadow-subtle-success: 0 0 12px rgba(122, 139, 91, 0.08);
-  --shadow-subtle-error: 0 0 12px rgba(201, 65, 65, 0.08);
+  /* Shadows - Simple, no glow effects */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: none;              /* No glow effects */
+  --shadow-subtle-success: none;
+  --shadow-subtle-error: none;
 
-  /* Glassmorphism for light mode */
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(26, 25, 24, 0.06);
-  --glass-blur: 12px;
+  /* No glassmorphism - simple solid backgrounds */
+  --glass-bg: #FFFFFF;
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-blur: 0px;                  /* No blur */
 
-  /* Gradients - Warm orange gradient (subtle) */
-  --gradient-brand: linear-gradient(135deg, #C15F3C 0%, #DA7756 100%);
-  --gradient-surface: linear-gradient(180deg, rgba(26, 25, 24, 0.02) 0%, transparent 100%);
+  /* No gradients - solid colors only */
+  --gradient-brand: #ae5630;
+  --gradient-surface: transparent;
 
   /* Scrollbar */
-  --color-scrollbar-track: #EAE8E1;
-  --color-scrollbar-thumb: #B1ADA1;
-  --color-scrollbar-thumb-hover: #C15F3C;
+  --color-scrollbar-track: #F5F5F0;
+  --color-scrollbar-thumb: #c5c2ba;
+  --color-scrollbar-thumb-hover: #ae5630;
 }
 
 * {

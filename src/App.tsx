@@ -192,12 +192,12 @@ function OverviewPage() {
     // Get game metadata
     const gameInfo = gameCategories.find((g) => g.id === selectedGame);
 
-    // Fetch data from provider
-    const retentionData = dataProvider.getRetentionData();
-    const funnelData = dataProvider.getFunnelData();
-    const kpiData = dataProvider.getKPIData();
-    const revenueData = dataProvider.getRevenueData();
-    const segmentData = dataProvider.getSegmentData();
+    // Fetch data from provider - memoized to prevent recalculation every render
+    const retentionData = useMemo(() => dataProvider.getRetentionData(), [dataProvider]);
+    const funnelData = useMemo(() => dataProvider.getFunnelData(), [dataProvider]);
+    const kpiData = useMemo(() => dataProvider.getKPIData(), [dataProvider]);
+    const revenueData = useMemo(() => dataProvider.getRevenueData(), [dataProvider]);
+    const segmentData = useMemo(() => dataProvider.getSegmentData(), [dataProvider]);
 
     // Handler for demo mode
     const handleTryDemo = () => {
@@ -564,30 +564,6 @@ function InsightCard({
 }
 
 /**
- * Placeholder page for other routes
- */
-function PlaceholderPage({ title, description, badge }: { title: string; description?: string; badge?: string }) {
-    return (
-        <div className="space-y-6">
-            <header className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-th-text-primary">{title}</h1>
-                {badge && (
-                    <span className="text-xs font-semibold text-th-accent-primary bg-th-accent-primary-muted border border-th-accent-primary/20 px-2 py-1 rounded">
-                        {badge}
-                    </span>
-                )}
-            </header>
-            <p className="text-th-text-secondary">{description ?? 'This section is under development'}</p>
-            <div className="bg-th-bg-surface  rounded-2xl p-12 border border-th-border flex flex-col items-center justify-center text-center shadow-theme-sm">
-                <span className="text-4xl mb-4" aria-hidden="true">🚧</span>
-                <p className="text-th-text-secondary font-medium">Coming soon...</p>
-                <p className="text-th-text-muted text-sm mt-2">Check back for updates</p>
-            </div>
-        </div>
-    );
-}
-
-/**
  * Get page title based on current route
  */
 function getPageTitle(pathname: string): string {
@@ -716,7 +692,6 @@ function AppContent() {
                                 <DashboardBuilderPage />
                             </Suspense>
                         } />
-                        <Route path="/explore" element={<PlaceholderPage title="Explore" description="Query builder and data exploration" />} />
                         <Route path="/funnels" element={
                             <Suspense fallback={<PageLoader />}>
                                 <FunnelsPage />
@@ -727,21 +702,16 @@ function AppContent() {
                                 <FunnelBuilderPage />
                             </Suspense>
                         } />
-                        <Route path="/engagement" element={<PlaceholderPage title="Engagement" description="User engagement metrics" />} />
-                        <Route path="/distributions" element={<PlaceholderPage title="Distributions" description="Data distribution analysis" badge="Beta" />} />
-                        <Route path="/health" element={<PlaceholderPage title="Health" description="SDK health and error tracking" />} />
                         <Route path="/monetization" element={
                             <Suspense fallback={<PageLoader />}>
                                 <MonetizationPage />
                             </Suspense>
                         } />
-                        <Route path="/user-analysis" element={<PlaceholderPage title="User Analysis" description="Cohort and segment analysis" />} />
                         <Route path="/attribution" element={
                             <Suspense fallback={<PageLoader />}>
                                 <AttributionPage />
                             </Suspense>
                         } />
-                        <Route path="/remote-configs" element={<PlaceholderPage title="Remote Configs" description="Feature flags and configuration" />} />
                         <Route path="/ab-testing" element={
                             <Suspense fallback={<PageLoader />}>
                                 <ABTestingPage />

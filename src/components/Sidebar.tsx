@@ -19,14 +19,11 @@ import {
     BarChart2,
     LayoutGrid,
     Filter,
-    TrendingUp,
     DollarSign,
-    Users,
     Zap,
     Database,
     Settings,
     ExternalLink,
-    Gamepad2,
     Sparkles,
     Package,
     Brain,
@@ -58,25 +55,23 @@ interface NavItemType {
 }
 
 // Primary nav items - always visible (essential features)
-// Order prioritizes user workflow: Upload first (new users need data), then Dashboard, then Analytics
+// Simplified: Only 4 core items for cleaner UX
 const primaryNavItems: NavItemType[] = [
     { icon: Database, labelKey: 'navigation.upload', label: 'Upload Data', path: '/upload' },
     { icon: Home, labelKey: 'navigation.dashboard', label: 'Dashboard', path: '/' },
-    { icon: Sparkles, labelKey: 'navigation.aiAnalytics', label: 'AI Analytics', path: '/analytics' },
-    { icon: Filter, labelKey: 'navigation.funnels', label: 'Funnels', path: '/funnels' },
-    { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Monetization', path: '/monetization' },
+    { icon: Sparkles, labelKey: 'navigation.aiAnalytics', label: 'Analytics', path: '/analytics' },
+    { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Revenue', path: '/monetization' },
 ];
 
-// More analytics - secondary features
+// More analytics - shown after user has data
 const moreAnalyticsItems: NavItemType[] = [
+    { icon: Filter, labelKey: 'navigation.funnels', label: 'Funnels', path: '/funnels' },
     { icon: BarChart2, labelKey: 'navigation.realtime', label: 'Realtime', path: '/realtime' },
     { icon: LayoutGrid, labelKey: 'navigation.dashboards', label: 'Dashboards', path: '/dashboards' },
-    { icon: TrendingUp, labelKey: 'navigation.engagement', label: 'Engagement', path: '/engagement' },
     { icon: Target, labelKey: 'navigation.attribution', label: 'Attribution', path: '/attribution' },
-    { icon: Users, labelKey: 'navigation.userAnalysis', label: 'User Analysis', path: '/user-analysis', external: true },
 ];
 
-// Advanced tools - power user features
+// Advanced tools - power user features (collapsed by default)
 const advancedItems: NavItemType[] = [
     { icon: Brain, labelKey: 'navigation.predictions', label: 'Predictions', path: '/predictions', badge: 'AI' },
     { icon: Zap, labelKey: 'navigation.abTesting', label: 'A/B Testing', path: '/ab-testing' },
@@ -84,10 +79,9 @@ const advancedItems: NavItemType[] = [
     { icon: FlaskConical, labelKey: 'navigation.mlStudio', label: 'ML Studio', path: '/ml-studio' },
 ];
 
-// Settings items
+// Settings items - minimal
 const settingsItems: NavItemType[] = [
-    { icon: Gamepad2, labelKey: 'navigation.games', label: 'Games', path: '/games' },
-    { icon: Package, labelKey: 'navigation.templates', label: 'Templates', path: '/templates', badge: 'New' },
+    { icon: Package, labelKey: 'navigation.templates', label: 'Templates', path: '/templates' },
     { icon: Settings, labelKey: 'navigation.settings', label: 'Settings', path: '/settings' },
 ];
 
@@ -145,10 +139,10 @@ const navItemMap = new Map<string, NavItemType>(
 );
 
 // Define section boundaries based on default order
-const primaryLabels = new Set(['Upload Data', 'Dashboard', 'AI Analytics', 'Funnels', 'Monetization']);
-const moreAnalyticsLabels = new Set(['Realtime', 'Dashboards', 'Engagement', 'Attribution', 'User Analysis']);
+const primaryLabels = new Set(['Upload Data', 'Dashboard', 'Analytics', 'Revenue']);
+const moreAnalyticsLabels = new Set(['Funnels', 'Realtime', 'Dashboards', 'Attribution']);
 const advancedLabels = new Set(['Predictions', 'A/B Testing', 'What-If', 'ML Studio']);
-const settingsLabels = new Set(['Games', 'Templates', 'Settings']);
+const settingsLabels = new Set(['Templates', 'Settings']);
 
 export function Sidebar() {
     const { selectedGame } = useGame();
@@ -227,9 +221,9 @@ export function Sidebar() {
                     className="h-16 flex items-center px-3 relative"
                 >
                     <div className="flex items-center gap-3 group cursor-pointer">
-                        {/* Logo without glow - clean like Claude */}
+                        {/* Logo - clean like Claude */}
                         <div className="relative w-10 h-10 rounded-xl bg-th-accent-primary flex items-center justify-center flex-shrink-0">
-                            <Gamepad2 className="w-5 h-5 text-th-text-inverse" />
+                            <BarChart2 className="w-5 h-5 text-th-text-inverse" />
                         </div>
                         <AnimatePresence>
                             {!collapsed && (
@@ -241,10 +235,10 @@ export function Sidebar() {
                                     className="flex flex-col overflow-hidden"
                                 >
                                     <span className="font-display font-bold text-th-text-primary text-sm tracking-tight whitespace-nowrap">
-                                        Game Insights
+                                        Insights
                                     </span>
-                                    <span className="text-[10px] text-th-accent-primary font-medium tracking-wider uppercase whitespace-nowrap">
-                                        Analytics
+                                    <span className="text-[10px] text-th-text-muted font-medium tracking-wider uppercase whitespace-nowrap">
+                                        Analytics Studio
                                     </span>
                                 </motion.div>
                             )}
@@ -466,20 +460,6 @@ export function Sidebar() {
                         </motion.button>
                     </div>
 
-                    {/* Active Game Display - only in expanded mode */}
-                    {!collapsed && (
-                        <div className="p-3 rounded-xl bg-th-bg-surface border border-th-border-subtle">
-                            <div className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium mb-1.5">
-                                {t('sidebar.activeGame')}
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm font-semibold text-th-text-primary capitalize">
-                                    {selectedGame.replace('_', ' ')}
-                                </span>
-                                <ChevronRight className="w-4 h-4 text-th-text-muted" />
-                            </div>
-                        </div>
-                    )}
                 </motion.div>
             </div>
 
