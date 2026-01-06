@@ -1,10 +1,15 @@
 /**
- * Custom Metrics Builder
- * Create and manage custom KPIs
- * Phase 9: Advanced Features
+ * Custom Metrics Builder - Obsidian Analytics Design
+ *
+ * Premium KPI builder with:
+ * - Glassmorphism containers
+ * - Emerald accent colors
+ * - Framer Motion animations
+ * - Animated metric cards
  */
 
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calculator,
     Plus,
@@ -17,6 +22,9 @@ import {
     Percent,
     Hash,
     AlertCircle,
+    X,
+    TrendingUp,
+    Sparkles,
 } from 'lucide-react';
 
 // ============================================================================
@@ -114,6 +122,41 @@ const SAMPLE_METRICS: CustomMetric[] = [
 ];
 
 // ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const editorVariants = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+        opacity: 1,
+        height: 'auto',
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: {
+        opacity: 0,
+        height: 0,
+        transition: { duration: 0.2 },
+    },
+};
+
+// ============================================================================
 // Custom Metrics Builder Component
 // ============================================================================
 
@@ -148,62 +191,114 @@ export function CustomMetricsBuilder() {
     };
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary/20 flex items-center justify-center">
-                        <Calculator className="w-5 h-5 text-th-accent-primary" />
+            <motion.div
+                variants={itemVariants}
+                className="flex items-center justify-between"
+            >
+                <div className="flex items-center gap-4">
+                    {/* Icon with glow */}
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <Calculator className="w-6 h-6 text-emerald-400" />
+                        </div>
                     </div>
                     <div>
-                        <h3 className="font-semibold text-th-text-primary">Custom Metrics</h3>
-                        <p className="text-sm text-th-text-secondary">Create and manage your own KPIs</p>
+                        <h3 className="font-semibold text-white text-lg">Custom Metrics</h3>
+                        <p className="text-sm text-slate-400">Create and manage your own KPIs</p>
                     </div>
                 </div>
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 transition-colors"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Create Metric
-                </button>
-            </div>
+                </motion.button>
+            </motion.div>
 
             {/* Metric Editor */}
-            {(isCreating || editingMetric) && (
-                <MetricEditor
-                    metric={editingMetric}
-                    onSave={handleSave}
-                    onCancel={() => {
-                        setIsCreating(false);
-                        setEditingMetric(null);
-                    }}
-                />
-            )}
+            <AnimatePresence>
+                {(isCreating || editingMetric) && (
+                    <motion.div
+                        variants={editorVariants}
+                        initial="hidden"
+                        animate="visible"
+                        exit="exit"
+                    >
+                        <MetricEditor
+                            metric={editingMetric}
+                            onSave={handleSave}
+                            onCancel={() => {
+                                setIsCreating(false);
+                                setEditingMetric(null);
+                            }}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Metrics List */}
-            <div className="bg-th-bg-card rounded-xl border border-th-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-th-border">
-                    <h4 className="font-medium text-th-text-primary">Your Metrics ({metrics.length})</h4>
+            <motion.div
+                variants={itemVariants}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            >
+                {/* List Header */}
+                <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                    <div className="flex items-center gap-3">
+                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <h4 className="font-medium text-white">Your Metrics</h4>
+                        <span className="px-2 py-0.5 bg-white/[0.06] rounded-full text-xs text-slate-400">
+                            {metrics.length}
+                        </span>
+                    </div>
                 </div>
-                <div className="divide-y divide-th-border">
-                    {metrics.map((metric) => (
-                        <MetricCard
-                            key={metric.id}
-                            metric={metric}
-                            onEdit={() => setEditingMetric(metric)}
-                            onDelete={() => handleDelete(metric.id)}
-                            onDuplicate={() => handleDuplicate(metric)}
-                        />
-                    ))}
+
+                {/* Metric Cards */}
+                <div className="divide-y divide-white/[0.06]">
+                    <AnimatePresence>
+                        {metrics.map((metric, index) => (
+                            <motion.div
+                                key={metric.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ delay: index * 0.05 }}
+                            >
+                                <MetricCard
+                                    metric={metric}
+                                    onEdit={() => setEditingMetric(metric)}
+                                    onDelete={() => handleDelete(metric.id)}
+                                    onDuplicate={() => handleDuplicate(metric)}
+                                />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                     {metrics.length === 0 && (
-                        <div className="px-6 py-12 text-center text-th-text-secondary">
-                            No custom metrics yet. Create your first one!
-                        </div>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="px-6 py-16 text-center"
+                        >
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center">
+                                <Calculator className="w-8 h-8 text-slate-600" />
+                            </div>
+                            <p className="text-slate-400">No custom metrics yet.</p>
+                            <p className="text-sm text-slate-500 mt-1">Create your first one to get started!</p>
+                        </motion.div>
                     )}
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -222,14 +317,14 @@ function MetricCard({
     onDelete: () => void;
     onDuplicate: () => void;
 }) {
-    const formatIcon = {
-        number: Hash,
-        percent: Percent,
-        currency: DollarSign,
-        duration: Clock,
+    const formatConfig = {
+        number: { icon: Hash, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+        percent: { icon: Percent, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+        currency: { icon: DollarSign, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+        duration: { icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     }[metric.format];
 
-    const Icon = formatIcon;
+    const Icon = formatConfig.icon;
 
     // Mock current value
     const mockValue = useMemo(() => {
@@ -241,40 +336,62 @@ function MetricCard({
         }
     }, [metric.format, metric.decimals]);
 
+    const changePercent = (Math.random() * 20 - 5).toFixed(1);
+    const isPositive = parseFloat(changePercent) >= 0;
+
     return (
-        <div className="flex items-center gap-4 px-6 py-4 hover:bg-th-bg-elevated transition-colors">
-            <div className="w-10 h-10 rounded-lg bg-th-bg-elevated flex items-center justify-center flex-shrink-0">
-                <Icon className="w-5 h-5 text-th-text-secondary" />
+        <motion.div
+            whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.02)' }}
+            className="flex items-center gap-4 px-6 py-4 transition-colors"
+        >
+            {/* Format Icon */}
+            <div className={`w-10 h-10 rounded-xl ${formatConfig.bg} border border-white/[0.06] flex items-center justify-center flex-shrink-0`}>
+                <Icon className={`w-5 h-5 ${formatConfig.color}`} />
             </div>
+
+            {/* Metric Info */}
             <div className="flex-1 min-w-0">
-                <div className="font-medium text-th-text-primary">{metric.name}</div>
-                <div className="text-sm text-th-text-secondary truncate">{metric.description}</div>
+                <div className="font-medium text-white">{metric.name}</div>
+                <div className="text-sm text-slate-400 truncate">{metric.description}</div>
             </div>
-            <div className="text-right flex-shrink-0">
-                <div className="font-semibold text-th-text-primary">{mockValue}</div>
-                <div className="text-xs text-green-400">+5.2%</div>
+
+            {/* Value & Change */}
+            <div className="text-right flex-shrink-0 mr-4">
+                <div className="font-semibold text-white">{mockValue}</div>
+                <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <TrendingUp className={`w-3 h-3 ${!isPositive && 'rotate-180'}`} />
+                    {isPositive ? '+' : ''}{changePercent}%
+                </div>
             </div>
+
+            {/* Actions */}
             <div className="flex items-center gap-1 flex-shrink-0">
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={onEdit}
-                    className="p-2 hover:bg-th-bg-card rounded-lg transition-colors"
+                    className="p-2 hover:bg-white/[0.06] rounded-lg transition-colors group"
                 >
-                    <Edit3 className="w-4 h-4 text-th-text-secondary" />
-                </button>
-                <button
+                    <Edit3 className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={onDuplicate}
-                    className="p-2 hover:bg-th-bg-card rounded-lg transition-colors"
+                    className="p-2 hover:bg-white/[0.06] rounded-lg transition-colors group"
                 >
-                    <Copy className="w-4 h-4 text-th-text-secondary" />
-                </button>
-                <button
+                    <Copy className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={onDelete}
-                    className="p-2 hover:bg-th-bg-card rounded-lg transition-colors"
+                    className="p-2 hover:bg-rose-500/10 rounded-lg transition-colors group"
                 >
-                    <Trash2 className="w-4 h-4 text-th-text-secondary hover:text-red-400" />
-                </button>
+                    <Trash2 className="w-4 h-4 text-slate-500 group-hover:text-rose-400 transition-colors" />
+                </motion.button>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -328,22 +445,46 @@ function MetricEditor({
     };
 
     return (
-        <div className="bg-th-bg-card rounded-xl border border-th-border p-6">
-            <h4 className="font-semibold text-th-text-primary mb-4">
-                {metric ? 'Edit Metric' : 'Create New Metric'}
-            </h4>
-
-            {error && (
-                <div className="flex items-center gap-2 p-3 mb-4 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
-                    <AlertCircle className="w-4 h-4" />
-                    {error}
+        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        {metric ? <Edit3 className="w-5 h-5 text-emerald-400" /> : <Plus className="w-5 h-5 text-emerald-400" />}
+                    </div>
+                    <h4 className="font-semibold text-white">
+                        {metric ? 'Edit Metric' : 'Create New Metric'}
+                    </h4>
                 </div>
-            )}
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={onCancel}
+                    className="p-2 hover:bg-white/[0.06] rounded-lg transition-colors"
+                >
+                    <X className="w-4 h-4 text-slate-400" />
+                </motion.button>
+            </div>
 
-            <div className="space-y-4">
+            {/* Error Message */}
+            <AnimatePresence>
+                {error && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="flex items-center gap-2 p-3 mb-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-sm text-rose-400"
+                    >
+                        <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                        {error}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <div className="space-y-5">
                 {/* Name */}
                 <div>
-                    <label className="block text-sm font-medium text-th-text-primary mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Metric Name
                     </label>
                     <input
@@ -351,13 +492,13 @@ function MetricEditor({
                         value={name}
                         onChange={(e) => { setName(e.target.value); setError(''); }}
                         placeholder="e.g., ARPDAU"
-                        className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                     />
                 </div>
 
                 {/* Description */}
                 <div>
-                    <label className="block text-sm font-medium text-th-text-primary mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Description
                     </label>
                     <input
@@ -365,35 +506,37 @@ function MetricEditor({
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="What does this metric measure?"
-                        className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                     />
                 </div>
 
                 {/* Formula */}
                 <div>
-                    <label className="block text-sm font-medium text-th-text-primary mb-2">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Formula
                     </label>
                     <div className="flex items-center gap-3">
                         <select
                             value={numerator}
                             onChange={(e) => { setNumerator(e.target.value); setError(''); }}
-                            className="flex-1 px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
                         >
-                            <option value="">Select metric...</option>
+                            <option value="" className="bg-slate-900">Select metric...</option>
                             {BASE_METRICS.map(m => (
-                                <option key={m.id} value={m.id}>{m.name}</option>
+                                <option key={m.id} value={m.id} className="bg-slate-900">{m.name}</option>
                             ))}
                         </select>
-                        <span className="text-th-text-secondary font-medium">÷</span>
+                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+                            <span className="text-emerald-400 font-semibold">÷</span>
+                        </div>
                         <select
                             value={denominator}
                             onChange={(e) => setDenominator(e.target.value)}
-                            className="flex-1 px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
                         >
-                            <option value="">(optional)</option>
+                            <option value="" className="bg-slate-900">(optional)</option>
                             {BASE_METRICS.map(m => (
-                                <option key={m.id} value={m.id}>{m.name}</option>
+                                <option key={m.id} value={m.id} className="bg-slate-900">{m.name}</option>
                             ))}
                         </select>
                     </div>
@@ -402,52 +545,56 @@ function MetricEditor({
                 {/* Format Options */}
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-th-text-primary mb-1">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Format
                         </label>
                         <select
                             value={format}
                             onChange={(e) => setFormat(e.target.value as MetricFormat)}
-                            className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
                         >
-                            <option value="number">Number</option>
-                            <option value="percent">Percentage</option>
-                            <option value="currency">Currency</option>
-                            <option value="duration">Duration</option>
+                            <option value="number" className="bg-slate-900">Number</option>
+                            <option value="percent" className="bg-slate-900">Percentage</option>
+                            <option value="currency" className="bg-slate-900">Currency</option>
+                            <option value="duration" className="bg-slate-900">Duration</option>
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-th-text-primary mb-1">
+                        <label className="block text-sm font-medium text-slate-300 mb-2">
                             Decimal Places
                         </label>
                         <select
                             value={decimals}
                             onChange={(e) => setDecimals(parseInt(e.target.value))}
-                            className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary focus:outline-none"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
                         >
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="0" className="bg-slate-900">0</option>
+                            <option value="1" className="bg-slate-900">1</option>
+                            <option value="2" className="bg-slate-900">2</option>
+                            <option value="3" className="bg-slate-900">3</option>
                         </select>
                     </div>
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-th-border">
-                    <button
+                <div className="flex items-center justify-end gap-3 pt-5 border-t border-white/[0.06]">
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={onCancel}
-                        className="px-4 py-2 text-sm text-th-text-secondary hover:text-th-text-primary transition-colors"
+                        className="px-5 py-2.5 text-sm text-slate-400 hover:text-white transition-colors"
                     >
                         Cancel
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={handleSave}
-                        className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 transition-colors"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium transition-all"
                     >
                         <Save className="w-4 h-4" />
                         Save Metric
-                    </button>
+                    </motion.button>
                 </div>
             </div>
         </div>

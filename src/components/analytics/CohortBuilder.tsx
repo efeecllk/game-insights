@@ -1,10 +1,15 @@
 /**
- * Cohort Builder
- * Visual cohort creation with rule builder
- * Phase 9: Advanced Features
+ * Cohort Builder - Obsidian Analytics Design
+ *
+ * Visual cohort creation with:
+ * - Glassmorphism containers
+ * - Emerald accent colors
+ * - Framer Motion animations
+ * - Animated rule builder
  */
 
 import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Users,
     Plus,
@@ -19,6 +24,8 @@ import {
     Globe,
     Smartphone,
     ChevronDown,
+    X,
+    Sparkles,
 } from 'lucide-react';
 
 // ============================================================================
@@ -54,7 +61,7 @@ export interface CohortRule {
     property: RuleProperty;
     operator: RuleOperator;
     value: string | number | string[];
-    secondValue?: string | number; // For "between" operator
+    secondValue?: string | number;
 }
 
 export interface RuleGroup {
@@ -193,6 +200,47 @@ function createEmptyGroup(): RuleGroup {
 }
 
 // ============================================================================
+// Animation Variants
+// ============================================================================
+
+const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+};
+
+const groupVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: {
+        opacity: 0,
+        scale: 0.95,
+        transition: { duration: 0.2 },
+    },
+};
+
+const ruleVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { type: 'spring', stiffness: 300, damping: 30 },
+    },
+    exit: {
+        opacity: 0,
+        x: 20,
+        transition: { duration: 0.2 },
+    },
+};
+
+// ============================================================================
 // Cohort Builder Component
 // ============================================================================
 
@@ -212,24 +260,20 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
     const [estimatedSize, setEstimatedSize] = useState<number | null>(null);
     const [isCalculating, setIsCalculating] = useState(false);
 
-    // Add a new group
     const addGroup = useCallback(() => {
         setGroups(prev => [...prev, createEmptyGroup()]);
     }, []);
 
-    // Remove a group
     const removeGroup = useCallback((groupId: string) => {
         setGroups(prev => prev.filter(g => g.id !== groupId));
     }, []);
 
-    // Update group logic
     const updateGroupLogic = useCallback((groupId: string, logic: 'AND' | 'OR') => {
         setGroups(prev => prev.map(g =>
             g.id === groupId ? { ...g, logic } : g
         ));
     }, []);
 
-    // Add rule to group
     const addRule = useCallback((groupId: string) => {
         setGroups(prev => prev.map(g =>
             g.id === groupId
@@ -238,7 +282,6 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
         ));
     }, []);
 
-    // Remove rule from group
     const removeRule = useCallback((groupId: string, ruleId: string) => {
         setGroups(prev => prev.map(g =>
             g.id === groupId
@@ -247,7 +290,6 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
         ));
     }, []);
 
-    // Update rule
     const updateRule = useCallback((groupId: string, ruleId: string, updates: Partial<CohortRule>) => {
         setGroups(prev => prev.map(g =>
             g.id === groupId
@@ -261,16 +303,13 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
         ));
     }, []);
 
-    // Calculate estimated size (mock)
     const calculateSize = useCallback(async () => {
         setIsCalculating(true);
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         setEstimatedSize(Math.floor(Math.random() * 50000) + 1000);
         setIsCalculating(false);
     }, []);
 
-    // Save cohort
     const handleSave = useCallback(() => {
         if (!name.trim()) return;
 
@@ -289,42 +328,54 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
     }, [name, description, groups, groupLogic, estimatedSize, initialCohort, onSave]);
 
     return (
-        <div className="bg-th-bg-card rounded-xl border border-th-border overflow-hidden">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-th-border">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary/20 flex items-center justify-center">
-                        <Users className="w-5 h-5 text-th-accent-primary" />
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <Users className="w-6 h-6 text-emerald-400" />
+                        </div>
                     </div>
                     <div>
-                        <h2 className="font-semibold text-th-text-primary">Cohort Builder</h2>
-                        <p className="text-sm text-th-text-secondary">Define user segments with rules</p>
+                        <h2 className="font-semibold text-white text-lg">Cohort Builder</h2>
+                        <p className="text-sm text-slate-400">Define user segments with rules</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                     {onCancel && (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={onCancel}
-                            className="px-4 py-2 text-sm text-th-text-secondary hover:text-th-text-primary transition-colors"
+                            className="px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors"
                         >
                             Cancel
-                        </button>
+                        </motion.button>
                     )}
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={handleSave}
                         disabled={!name.trim()}
-                        className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                         <Save className="w-4 h-4" />
                         Save Cohort
-                    </button>
+                    </motion.button>
                 </div>
             </div>
 
             {/* Cohort Info */}
-            <div className="px-6 py-4 border-b border-th-border space-y-4">
+            <div className="px-6 py-5 border-b border-white/[0.06] space-y-4">
                 <div>
-                    <label className="block text-sm font-medium text-th-text-primary mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Cohort Name
                     </label>
                     <input
@@ -332,11 +383,11 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g., High-Value Players"
-                        className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary placeholder:text-th-text-secondary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                     />
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-th-text-primary mb-1">
+                    <label className="block text-sm font-medium text-slate-300 mb-2">
                         Description (optional)
                     </label>
                     <textarea
@@ -344,87 +395,111 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Describe this cohort..."
                         rows={2}
-                        className="w-full px-3 py-2 bg-th-bg-elevated border border-th-border rounded-lg text-th-text-primary placeholder:text-th-text-secondary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50 resize-none"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 resize-none transition-all"
                     />
                 </div>
             </div>
 
             {/* Rule Groups */}
-            <div className="px-6 py-4 space-y-4">
+            <div className="px-6 py-5 space-y-4">
                 <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-th-text-primary">Filter Rules</h3>
+                    <div className="flex items-center gap-3">
+                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <h3 className="font-medium text-white">Filter Rules</h3>
+                    </div>
                     <div className="flex items-center gap-2 text-sm">
-                        <span className="text-th-text-secondary">Match</span>
+                        <span className="text-slate-400">Match</span>
                         <select
                             value={groupLogic}
                             onChange={(e) => setGroupLogic(e.target.value as 'AND' | 'OR')}
-                            className="px-2 py-1 bg-th-bg-elevated border border-th-border rounded text-th-text-primary focus:outline-none"
+                            className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                         >
-                            <option value="AND">ALL</option>
-                            <option value="OR">ANY</option>
+                            <option value="AND" className="bg-slate-900">ALL</option>
+                            <option value="OR" className="bg-slate-900">ANY</option>
                         </select>
-                        <span className="text-th-text-secondary">of the following groups</span>
+                        <span className="text-slate-400">of the following groups</span>
                     </div>
                 </div>
 
-                {groups.map((group, groupIndex) => (
-                    <div key={group.id}>
-                        {groupIndex > 0 && (
-                            <div className="flex items-center justify-center py-2">
-                                <span className="px-3 py-1 bg-th-bg-elevated rounded-full text-xs font-medium text-th-text-secondary">
-                                    {groupLogic}
-                                </span>
-                            </div>
-                        )}
-                        <RuleGroupEditor
-                            group={group}
-                            canDelete={groups.length > 1}
-                            onUpdateLogic={(logic) => updateGroupLogic(group.id, logic)}
-                            onAddRule={() => addRule(group.id)}
-                            onRemoveRule={(ruleId) => removeRule(group.id, ruleId)}
-                            onUpdateRule={(ruleId, updates) => updateRule(group.id, ruleId, updates)}
-                            onDelete={() => removeGroup(group.id)}
-                        />
-                    </div>
-                ))}
+                <AnimatePresence>
+                    {groups.map((group, groupIndex) => (
+                        <motion.div
+                            key={group.id}
+                            variants={groupVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            {groupIndex > 0 && (
+                                <div className="flex items-center justify-center py-3">
+                                    <span className="px-4 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-medium text-emerald-400">
+                                        {groupLogic}
+                                    </span>
+                                </div>
+                            )}
+                            <RuleGroupEditor
+                                group={group}
+                                canDelete={groups.length > 1}
+                                onUpdateLogic={(logic) => updateGroupLogic(group.id, logic)}
+                                onAddRule={() => addRule(group.id)}
+                                onRemoveRule={(ruleId) => removeRule(group.id, ruleId)}
+                                onUpdateRule={(ruleId, updates) => updateRule(group.id, ruleId, updates)}
+                                onDelete={() => removeGroup(group.id)}
+                            />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
 
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.01, borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={addGroup}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-th-border rounded-xl text-sm text-th-text-secondary hover:text-th-text-primary hover:border-th-accent-primary/50 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-white/[0.08] rounded-xl text-sm text-slate-400 hover:text-emerald-400 transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Add Group
-                </button>
+                </motion.button>
             </div>
 
             {/* Estimate Footer */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-th-border bg-th-bg-elevated">
+            <div className="flex items-center justify-between px-6 py-4 border-t border-white/[0.06] bg-white/[0.02]">
                 <div className="flex items-center gap-4">
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={calculateSize}
                         disabled={isCalculating}
-                        className="flex items-center gap-2 px-4 py-2 bg-th-bg-card border border-th-border rounded-lg text-sm text-th-text-primary hover:bg-th-bg-elevated transition-colors disabled:opacity-50"
+                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-white disabled:opacity-50 transition-all"
                     >
-                        <Play className="w-4 h-4" />
+                        <Play className={`w-4 h-4 ${isCalculating ? 'animate-spin' : ''}`} />
                         {isCalculating ? 'Calculating...' : 'Calculate Size'}
-                    </button>
-                    {estimatedSize !== null && !isCalculating && (
-                        <div className="text-sm">
-                            <span className="text-th-text-secondary">Estimated size: </span>
-                            <span className="font-semibold text-th-text-primary">
-                                {estimatedSize.toLocaleString()} users
-                            </span>
-                        </div>
-                    )}
+                    </motion.button>
+                    <AnimatePresence>
+                        {estimatedSize !== null && !isCalculating && (
+                            <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                className="text-sm"
+                            >
+                                <span className="text-slate-400">Estimated size: </span>
+                                <span className="font-semibold text-emerald-400">
+                                    {estimatedSize.toLocaleString()} users
+                                </span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
-                <button
-                    className="flex items-center gap-2 text-sm text-th-text-secondary hover:text-th-text-primary transition-colors"
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors"
                 >
                     <Copy className="w-4 h-4" />
                     Duplicate
-                </button>
+                </motion.button>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -452,56 +527,68 @@ function RuleGroupEditor({
     onDelete,
 }: RuleGroupEditorProps) {
     return (
-        <div className="border border-th-border rounded-xl overflow-hidden">
+        <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-white/[0.01]">
             {/* Group Header */}
-            <div className="flex items-center justify-between px-4 py-2 bg-th-bg-elevated border-b border-th-border">
+            <div className="flex items-center justify-between px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
                 <div className="flex items-center gap-2 text-sm">
-                    <span className="text-th-text-secondary">Match</span>
+                    <span className="text-slate-400">Match</span>
                     <select
                         value={group.logic}
                         onChange={(e) => onUpdateLogic(e.target.value as 'AND' | 'OR')}
-                        className="px-2 py-1 bg-th-bg-card border border-th-border rounded text-th-text-primary focus:outline-none"
+                        className="px-2 py-1 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none"
                     >
-                        <option value="AND">ALL</option>
-                        <option value="OR">ANY</option>
+                        <option value="AND" className="bg-slate-900">ALL</option>
+                        <option value="OR" className="bg-slate-900">ANY</option>
                     </select>
-                    <span className="text-th-text-secondary">of the following</span>
+                    <span className="text-slate-400">of the following</span>
                 </div>
                 {canDelete && (
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={onDelete}
-                        className="p-1 text-th-text-secondary hover:text-red-400 transition-colors"
+                        className="p-1.5 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors"
                     >
-                        <Trash2 className="w-4 h-4" />
-                    </button>
+                        <X className="w-4 h-4" />
+                    </motion.button>
                 )}
             </div>
 
             {/* Rules */}
             <div className="p-4 space-y-2">
-                {group.rules.map((rule, index) => (
-                    <div key={rule.id}>
-                        {index > 0 && (
-                            <div className="flex items-center justify-center py-1">
-                                <span className="text-xs text-th-text-secondary">{group.logic}</span>
-                            </div>
-                        )}
-                        <RuleEditor
-                            rule={rule}
-                            canDelete={group.rules.length > 1}
-                            onUpdate={(updates) => onUpdateRule(rule.id, updates)}
-                            onDelete={() => onRemoveRule(rule.id)}
-                        />
-                    </div>
-                ))}
+                <AnimatePresence>
+                    {group.rules.map((rule, index) => (
+                        <motion.div
+                            key={rule.id}
+                            variants={ruleVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            {index > 0 && (
+                                <div className="flex items-center justify-center py-1">
+                                    <span className="text-xs text-slate-500 font-medium">{group.logic}</span>
+                                </div>
+                            )}
+                            <RuleEditor
+                                rule={rule}
+                                canDelete={group.rules.length > 1}
+                                onUpdate={(updates) => onUpdateRule(rule.id, updates)}
+                                onDelete={() => onRemoveRule(rule.id)}
+                            />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
 
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={onAddRule}
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs text-th-accent-primary hover:bg-th-accent-primary/10 rounded transition-colors"
+                    className="flex items-center gap-1 px-3 py-1.5 text-xs text-emerald-400 rounded-lg transition-all"
                 >
                     <Plus className="w-3 h-3" />
                     Add Rule
-                </button>
+                </motion.button>
             </div>
         </div>
     );
@@ -523,7 +610,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
     const Icon = config.icon;
 
     return (
-        <div className="flex items-center gap-2 p-2 bg-th-bg-elevated rounded-lg">
+        <div className="flex items-center gap-2 p-3 bg-white/[0.02] border border-white/[0.06] rounded-xl">
             {/* Property */}
             <div className="relative">
                 <select
@@ -537,24 +624,24 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                             value: newConfig.type === 'number' ? 0 : '',
                         });
                     }}
-                    className="pl-8 pr-8 py-1.5 bg-th-bg-card border border-th-border rounded text-sm text-th-text-primary focus:outline-none appearance-none cursor-pointer"
+                    className="pl-8 pr-8 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 appearance-none cursor-pointer"
                 >
                     {Object.entries(PROPERTY_CONFIG).map(([key, { label }]) => (
-                        <option key={key} value={key}>{label}</option>
+                        <option key={key} value={key} className="bg-slate-900">{label}</option>
                     ))}
                 </select>
-                <Icon className="absolute left-2 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-secondary pointer-events-none" />
-                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-th-text-secondary pointer-events-none" />
+                <Icon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+                <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400 pointer-events-none" />
             </div>
 
             {/* Operator */}
             <select
                 value={rule.operator}
                 onChange={(e) => onUpdate({ operator: e.target.value as RuleOperator })}
-                className="px-3 py-1.5 bg-th-bg-card border border-th-border rounded text-sm text-th-text-primary focus:outline-none"
+                className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
             >
                 {config.operators.map(op => (
-                    <option key={op} value={op}>{OPERATOR_LABELS[op]}</option>
+                    <option key={op} value={op} className="bg-slate-900">{OPERATOR_LABELS[op]}</option>
                 ))}
             </select>
 
@@ -563,10 +650,10 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                 <select
                     value={rule.value as string}
                     onChange={(e) => onUpdate({ value: e.target.value })}
-                    className="px-3 py-1.5 bg-th-bg-card border border-th-border rounded text-sm text-th-text-primary focus:outline-none"
+                    className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                 >
                     {config.options.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
+                        <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
                     ))}
                 </select>
             ) : (
@@ -576,33 +663,35 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                     onChange={(e) => onUpdate({
                         value: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                     })}
-                    className="w-24 px-3 py-1.5 bg-th-bg-card border border-th-border rounded text-sm text-th-text-primary focus:outline-none"
+                    className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                 />
             )}
 
             {/* Between second value */}
             {rule.operator === 'between' && (
                 <>
-                    <span className="text-xs text-th-text-secondary">and</span>
+                    <span className="text-xs text-slate-400">and</span>
                     <input
                         type={config.type === 'number' ? 'number' : config.type === 'date' ? 'date' : 'text'}
                         value={rule.secondValue || ''}
                         onChange={(e) => onUpdate({
                             secondValue: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                         })}
-                        className="w-24 px-3 py-1.5 bg-th-bg-card border border-th-border rounded text-sm text-th-text-primary focus:outline-none"
+                        className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                     />
                 </>
             )}
 
             {/* Delete */}
             {canDelete && (
-                <button
+                <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                     onClick={onDelete}
-                    className="p-1 text-th-text-secondary hover:text-red-400 transition-colors ml-auto"
+                    className="p-1.5 hover:bg-rose-500/10 rounded-lg text-slate-400 hover:text-rose-400 transition-colors ml-auto"
                 >
                     <Trash2 className="w-4 h-4" />
-                </button>
+                </motion.button>
             )}
         </div>
     );

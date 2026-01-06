@@ -1,10 +1,14 @@
 /**
- * Natural Language Query Interface
- * Ask questions about your data in plain English
- * Phase 9: Advanced Features
+ * Natural Language Query Interface - Obsidian Analytics Design
+ *
+ * AI-powered data queries with:
+ * - Glassmorphism containers
+ * - Animated query results
+ * - Premium emerald accents
  */
 
 import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactECharts from 'echarts-for-react';
 import {
     MessageSquare,
@@ -58,11 +62,11 @@ async function processQuery(query: string): Promise<QueryResult> {
                 summary: 'Here\'s the revenue breakdown by country for the last 30 days. The United States leads with 45% of total revenue, followed by the UK at 16%.',
                 chartType: 'pie',
                 data: [
-                    { name: 'United States', value: 2450, color: '#8b5cf6' },
-                    { name: 'United Kingdom', value: 890, color: '#6366f1' },
-                    { name: 'Germany', value: 670, color: '#ec4899' },
-                    { name: 'Japan', value: 520, color: '#06b6d4' },
-                    { name: 'Others', value: 920, color: '#10b981' },
+                    { name: 'United States', value: 2450, color: '#10b981' },
+                    { name: 'United Kingdom', value: 890, color: '#14b8a6' },
+                    { name: 'Germany', value: 670, color: '#06b6d4' },
+                    { name: 'Japan', value: 520, color: '#8b5cf6' },
+                    { name: 'Others', value: 920, color: '#64748b' },
                 ],
                 confidence: 0.95,
             },
@@ -228,50 +232,66 @@ export function NaturalLanguageQuery() {
     }, [results]);
 
     return (
-        <div className="bg-th-bg-card rounded-xl border border-th-border overflow-hidden h-[600px] flex flex-col">
+        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden h-[600px] flex flex-col">
             {/* Header */}
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-th-border">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-violet-400" />
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.06]">
+                <div className="relative w-10 h-10">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
+                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/20 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-emerald-400" />
+                    </div>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-th-text-primary">Ask Game Insights</h3>
-                    <p className="text-sm text-th-text-secondary">Query your data in plain English</p>
+                    <h3 className="font-semibold text-white">Ask Game Insights</h3>
+                    <p className="text-sm text-slate-400">Query your data in plain English</p>
                 </div>
             </div>
 
             {/* Results Area */}
             <div ref={resultsRef} className="flex-1 overflow-y-auto p-6">
                 {showExamples && results.length === 0 ? (
-                    <div className="h-full flex flex-col items-center justify-center text-center">
-                        <MessageSquare className="w-12 h-12 text-th-text-secondary/50 mb-4" />
-                        <h4 className="text-lg font-medium text-th-text-primary mb-2">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="h-full flex flex-col items-center justify-center text-center"
+                    >
+                        <MessageSquare className="w-12 h-12 text-slate-600 mb-4" />
+                        <h4 className="text-lg font-medium text-white mb-2">
                             Ask anything about your game
                         </h4>
-                        <p className="text-sm text-th-text-secondary mb-6 max-w-md">
+                        <p className="text-sm text-slate-400 mb-6 max-w-md">
                             Try asking about revenue, retention, user behavior, or any metric you're curious about.
                         </p>
                         <div className="grid grid-cols-2 gap-2 max-w-lg">
                             {exampleQueries.map((example) => (
-                                <button
+                                <motion.button
                                     key={example}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                     onClick={() => handleExampleClick(example)}
-                                    className="flex items-center gap-2 px-3 py-2 text-left text-sm text-th-text-secondary bg-th-bg-elevated hover:bg-th-bg-elevated/80 rounded-lg transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-left text-sm text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] rounded-xl transition-colors"
                                 >
-                                    <ChevronRight className="w-3 h-3 text-th-accent-primary flex-shrink-0" />
+                                    <ChevronRight className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                                     <span className="truncate">{example}</span>
-                                </button>
+                                </motion.button>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
                 ) : (
                     <div className="space-y-6">
-                        {isLoading && (
-                            <div className="flex items-center gap-3 p-4 bg-th-bg-elevated rounded-xl">
-                                <Loader2 className="w-5 h-5 text-th-accent-primary animate-spin" />
-                                <span className="text-sm text-th-text-secondary">Analyzing your data...</span>
-                            </div>
-                        )}
+                        <AnimatePresence>
+                            {isLoading && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0 }}
+                                    className="flex items-center gap-3 p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl"
+                                >
+                                    <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
+                                    <span className="text-sm text-slate-400">Analyzing your data...</span>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                         {results.map((result) => (
                             <QueryResultCard
                                 key={result.id}
@@ -284,7 +304,7 @@ export function NaturalLanguageQuery() {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSubmit} className="p-4 border-t border-th-border">
+            <form onSubmit={handleSubmit} className="p-4 border-t border-white/[0.06]">
                 <div className="flex items-center gap-3">
                     <div className="flex-1 relative">
                         <input
@@ -294,19 +314,21 @@ export function NaturalLanguageQuery() {
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Ask a question about your game data..."
                             disabled={isLoading}
-                            className="w-full pl-4 pr-12 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder:text-th-text-secondary focus:outline-none focus:ring-2 focus:ring-th-accent-primary/50 disabled:opacity-50"
+                            className="w-full pl-4 pr-12 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 disabled:opacity-50 transition-all"
                         />
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             type="submit"
                             disabled={!query.trim() || isLoading}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
                                 <Send className="w-4 h-4" />
                             )}
-                        </button>
+                        </motion.button>
                     </div>
                 </div>
             </form>
@@ -328,15 +350,19 @@ function QueryResultCard({
     const time = new Date(result.timestamp);
 
     return (
-        <div className="space-y-4">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-4"
+        >
             {/* Query */}
             <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-th-bg-elevated flex items-center justify-center flex-shrink-0">
-                    <MessageSquare className="w-4 h-4 text-th-text-secondary" />
+                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="w-4 h-4 text-slate-400" />
                 </div>
                 <div className="flex-1">
-                    <p className="text-th-text-primary">{result.query}</p>
-                    <span className="text-xs text-th-text-secondary">
+                    <p className="text-white">{result.query}</p>
+                    <span className="text-xs text-slate-500">
                         {time.toLocaleTimeString()}
                     </span>
                 </div>
@@ -344,15 +370,15 @@ function QueryResultCard({
 
             {/* Response */}
             <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-violet-400" />
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-4 h-4 text-emerald-400" />
                 </div>
                 <div className="flex-1 space-y-3">
-                    <p className="text-th-text-primary">{result.response.summary}</p>
+                    <p className="text-white">{result.response.summary}</p>
 
                     {/* Chart Visualization */}
                     {result.response.type === 'chart' && result.response.data !== undefined && (
-                        <div className="bg-th-bg-elevated rounded-xl p-4">
+                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
                             <ResultChart
                                 type={result.response.chartType!}
                                 data={result.response.data}
@@ -368,25 +394,41 @@ function QueryResultCard({
                     {/* Confidence & Actions */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <span className="text-xs text-th-text-secondary">
+                            <span className="text-xs text-slate-500">
                                 {Math.round(result.response.confidence * 100)}% confidence
                             </span>
                             <div className="flex items-center gap-1">
-                                <button className="p-1 hover:bg-th-bg-elevated rounded transition-colors">
-                                    <ThumbsUp className="w-3.5 h-3.5 text-th-text-secondary hover:text-green-400" />
-                                </button>
-                                <button className="p-1 hover:bg-th-bg-elevated rounded transition-colors">
-                                    <ThumbsDown className="w-3.5 h-3.5 text-th-text-secondary hover:text-red-400" />
-                                </button>
+                                <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="p-1 hover:bg-white/[0.06] rounded transition-colors"
+                                >
+                                    <ThumbsUp className="w-3.5 h-3.5 text-slate-500 hover:text-emerald-400" />
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    className="p-1 hover:bg-white/[0.06] rounded transition-colors"
+                                >
+                                    <ThumbsDown className="w-3.5 h-3.5 text-slate-500 hover:text-rose-400" />
+                                </motion.button>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
-                            <button className="p-1.5 hover:bg-th-bg-elevated rounded-lg transition-colors">
-                                <Download className="w-4 h-4 text-th-text-secondary" />
-                            </button>
-                            <button className="p-1.5 hover:bg-th-bg-elevated rounded-lg transition-colors">
-                                <Share2 className="w-4 h-4 text-th-text-secondary" />
-                            </button>
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors"
+                            >
+                                <Download className="w-4 h-4 text-slate-500" />
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors"
+                            >
+                                <Share2 className="w-4 h-4 text-slate-500" />
+                            </motion.button>
                         </div>
                     </div>
 
@@ -394,19 +436,21 @@ function QueryResultCard({
                     {result.suggestions.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                             {result.suggestions.map((suggestion) => (
-                                <button
+                                <motion.button
                                     key={suggestion}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
                                     onClick={() => onSuggestionClick(suggestion)}
-                                    className="px-3 py-1.5 text-xs text-th-text-secondary bg-th-bg-elevated hover:bg-th-bg-card rounded-full transition-colors"
+                                    className="px-3 py-1.5 text-xs text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] rounded-full transition-colors"
                                 >
                                     {suggestion}
-                                </button>
+                                </motion.button>
                             ))}
                         </div>
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -427,7 +471,7 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                         value: d.value,
                         itemStyle: { color: d.color },
                     })),
-                    label: { color: '#a0a0b0', fontSize: 11 },
+                    label: { color: '#94a3b8', fontSize: 11 },
                 }],
             };
         }
@@ -440,20 +484,20 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                 xAxis: {
                     type: 'category',
                     data: d.dates,
-                    axisLabel: { color: '#a0a0b0', fontSize: 10 },
+                    axisLabel: { color: '#64748b', fontSize: 10 },
                 },
                 yAxis: {
                     type: 'value',
-                    axisLabel: { color: '#a0a0b0', formatter: '{value}%' },
-                    splitLine: { lineStyle: { color: '#333' } },
+                    axisLabel: { color: '#64748b', formatter: '{value}%' },
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
                 },
                 series: [{
                     type: 'line',
                     data: d.values,
                     smooth: true,
-                    areaStyle: { color: 'rgba(139, 92, 246, 0.1)' },
-                    lineStyle: { color: '#8b5cf6' },
-                    itemStyle: { color: '#8b5cf6' },
+                    areaStyle: { color: 'rgba(16, 185, 129, 0.1)' },
+                    lineStyle: { color: '#10b981' },
+                    itemStyle: { color: '#10b981' },
                 }],
             };
         }
@@ -466,18 +510,18 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                 xAxis: {
                     type: 'category',
                     data: d.levels,
-                    axisLabel: { color: '#a0a0b0', fontSize: 10 },
+                    axisLabel: { color: '#64748b', fontSize: 10 },
                 },
                 yAxis: {
                     type: 'value',
-                    axisLabel: { color: '#a0a0b0', formatter: '{value}%' },
-                    splitLine: { lineStyle: { color: '#333' } },
+                    axisLabel: { color: '#64748b', formatter: '{value}%' },
+                    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
                 },
                 series: [{
                     type: 'bar',
                     data: d.failRates.map((v) => ({
                         value: v,
-                        itemStyle: { color: v > 60 ? '#ef4444' : v > 50 ? '#f59e0b' : '#10b981' },
+                        itemStyle: { color: v > 60 ? '#f43f5e' : v > 50 ? '#f59e0b' : '#10b981' },
                     })),
                     barWidth: '50%',
                 }],
@@ -497,17 +541,17 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
 function MixedContent({ data }: { data: { atRisk: number; percentage: number; topReasons: string[] } }) {
     return (
         <div className="grid grid-cols-2 gap-4">
-            <div className="bg-th-bg-elevated rounded-xl p-4">
-                <div className="text-3xl font-bold text-red-400">{data.atRisk.toLocaleString()}</div>
-                <div className="text-sm text-th-text-secondary">Users at Risk</div>
-                <div className="text-xs text-red-400 mt-1">{data.percentage}% of active users</div>
+            <div className="bg-white/[0.02] border border-rose-500/20 rounded-xl p-4">
+                <div className="text-3xl font-bold text-rose-400">{data.atRisk.toLocaleString()}</div>
+                <div className="text-sm text-slate-400">Users at Risk</div>
+                <div className="text-xs text-rose-400 mt-1">{data.percentage}% of active users</div>
             </div>
-            <div className="bg-th-bg-elevated rounded-xl p-4">
-                <div className="text-sm font-medium text-th-text-primary mb-2">Top Risk Factors</div>
+            <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                <div className="text-sm font-medium text-white mb-2">Top Risk Factors</div>
                 <ul className="space-y-1">
                     {data.topReasons.map((reason, i) => (
-                        <li key={i} className="text-xs text-th-text-secondary flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                        <li key={i} className="text-xs text-slate-400 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
                             {reason}
                         </li>
                     ))}
