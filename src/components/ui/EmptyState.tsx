@@ -1,10 +1,17 @@
 /**
- * Empty State Component
- * Shows when no data is available for a section
+ * Empty State Component - Obsidian Analytics Design
+ *
+ * Premium empty state with:
+ * - Glassmorphism icon container
+ * - Emerald accent styling
+ * - Animated entrance with Framer Motion
+ * - Consistent with design system
  */
 
+import { motion } from 'framer-motion';
 import { Upload, Database, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from './Button';
 
 interface EmptyStateProps {
     title?: string;
@@ -31,38 +38,85 @@ export function EmptyState({
 
     if (compact) {
         return (
-            <div className="flex flex-col items-center justify-center py-8 text-center">
-                <Icon className="w-8 h-8 text-th-text-muted mb-2" />
-                <p className="text-sm text-th-text-muted">{title}</p>
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center justify-center py-8 text-center"
+            >
+                <div className="w-10 h-10 rounded-xl bg-slate-800/50 border border-white/[0.06] flex items-center justify-center mb-3">
+                    <Icon className="w-5 h-5 text-slate-500" />
+                </div>
+                <p className="text-sm text-slate-500">{title}</p>
                 {showUploadButton && (
-                    <button
+                    <motion.button
                         onClick={() => navigate('/upload')}
-                        className="mt-2 text-xs text-th-accent-primary hover:underline"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
                     >
                         Upload data
-                    </button>
+                    </motion.button>
                 )}
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-th-bg-elevated flex items-center justify-center mb-4">
-                <Icon className="w-8 h-8 text-th-text-muted" />
-            </div>
-            <h3 className="text-lg font-medium text-th-text-primary mb-1">{title}</h3>
-            <p className="text-sm text-th-text-muted max-w-sm mb-4">{description}</p>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="flex flex-col items-center justify-center py-12 text-center"
+        >
+            {/* Icon container with glow */}
+            <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
+                className="relative mb-6"
+            >
+                <div className="absolute inset-0 bg-emerald-500/10 rounded-2xl blur-xl" />
+                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] flex items-center justify-center">
+                    <Icon className="w-8 h-8 text-slate-400" />
+                </div>
+            </motion.div>
+
+            {/* Title and description */}
+            <motion.h3
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="text-lg font-semibold text-white mb-2"
+            >
+                {title}
+            </motion.h3>
+            <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="text-sm text-slate-500 max-w-sm mb-6"
+            >
+                {description}
+            </motion.p>
+
+            {/* Upload button */}
             {showUploadButton && (
-                <button
-                    onClick={() => navigate('/upload')}
-                    className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary hover:bg-th-accent-primary-hover text-white text-sm font-medium rounded-lg transition-colors"
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.25 }}
                 >
-                    <Upload className="w-4 h-4" />
-                    Upload Data
-                </button>
+                    <Button
+                        variant="primary"
+                        icon={<Upload className="w-4 h-4" />}
+                        onClick={() => navigate('/upload')}
+                    >
+                        Upload Data
+                    </Button>
+                </motion.div>
             )}
-        </div>
+        </motion.div>
     );
 }
 
