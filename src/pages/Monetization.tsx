@@ -1,15 +1,22 @@
 /**
- * Monetization Page - Revenue Analytics
- * Revenue charts, ARPU, spender tiers
- * Phase 2: Page-by-Page Functionality
+ * Monetization Page - Obsidian Analytics Design
+ *
+ * Premium revenue analytics with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Enhanced chart styling
+ * - Noise texture backgrounds
  */
 
 import { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import ReactECharts from 'echarts-for-react';
-import { DollarSign, TrendingUp, Users, CreditCard, Calendar } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, CreditCard, Calendar, Sparkles } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useGameData } from '../hooks/useGameData';
 import DataModeIndicator from '../components/ui/DataModeIndicator';
+import { Card } from '../components/ui/Card';
 
 // Sample revenue data by game type
 const revenueData = {
@@ -20,8 +27,8 @@ const revenueData = {
         conversionRate: 5.3,
         whales: 42,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 85000, color: 'var(--color-border-subtle)' },
-            { tier: '$1-10', users: 4200, color: '#86efac' },
+            { tier: '$0 (F2P)', users: 85000, color: '#475569' },
+            { tier: '$1-10', users: 4200, color: '#10b981' },
             { tier: '$10-50', users: 850, color: '#fbbf24' },
             { tier: '$50-100', users: 180, color: '#f97316' },
             { tier: '$100+', users: 42, color: '#ef4444' },
@@ -41,8 +48,8 @@ const revenueData = {
         conversionRate: 6.2,
         whales: 180,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 120000, color: 'var(--color-border-subtle)' },
-            { tier: '$1-50', users: 8500, color: '#86efac' },
+            { tier: '$0 (F2P)', users: 120000, color: '#475569' },
+            { tier: '$1-50', users: 8500, color: '#10b981' },
             { tier: '$50-200', users: 2100, color: '#fbbf24' },
             { tier: '$200-500', users: 650, color: '#f97316' },
             { tier: '$500+', users: 180, color: '#ef4444' },
@@ -62,8 +69,8 @@ const revenueData = {
         conversionRate: 5.7,
         whales: 95,
         spenderTiers: [
-            { tier: '$0 (F2P)', users: 180000, color: 'var(--color-border-subtle)' },
-            { tier: '$1-20', users: 12000, color: '#86efac' },
+            { tier: '$0 (F2P)', users: 180000, color: '#475569' },
+            { tier: '$1-20', users: 12000, color: '#10b981' },
             { tier: '$20-50', users: 3500, color: '#fbbf24' },
             { tier: '$50-100', users: 850, color: '#f97316' },
             { tier: '$100+', users: 95, color: '#ef4444' },
@@ -75,6 +82,29 @@ const revenueData = {
             { name: 'Emote Pack', revenue: 5400, sales: 1080 },
             { name: 'XP Boost', revenue: 3200, sales: 640 },
         ]
+    },
+};
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.08,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+        },
     },
 };
 
@@ -115,7 +145,7 @@ export function MonetizationPage() {
         const realPayerConversion = dataProvider.getPayerConversion() * 100;
 
         // Transform spender tiers for chart
-        const tierColors = ['var(--color-border-subtle)', '#86efac', '#fbbf24', '#f97316', '#ef4444'];
+        const tierColors = ['#475569', '#10b981', '#fbbf24', '#f97316', '#ef4444'];
         const transformedTiers = realSpenderTiers.map((tier, index) => ({
             tier: tier.tier,
             users: tier.users,
@@ -160,24 +190,49 @@ export function MonetizationPage() {
     }, [selectedGame, hasRealData, dataProvider]);
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
-                            <DollarSign className="w-6 h-6 text-th-success" />
-                            Monetization
-                        </h1>
-                        <DataModeIndicator />
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            {/* Icon with glow */}
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-emerald-500/30 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center">
+                                    <DollarSign className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <div className="flex items-center gap-3">
+                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        Monetization
+                                    </h1>
+                                    <DataModeIndicator />
+                                </div>
+                                <p className="text-slate-500 text-sm mt-0.5">Revenue and transaction analytics</p>
+                            </div>
+                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                        >
+                            <Calendar className="w-4 h-4" />
+                            Last 14 days
+                        </motion.button>
                     </div>
-                    <p className="text-th-text-muted mt-1">Revenue and transaction analytics</p>
-                </div>
-                <button className="px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated rounded-lg hover:bg-th-interactive-hover flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Last 14 days
-                </button>
-            </div>
+                </Card>
+            </motion.div>
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -186,103 +241,207 @@ export function MonetizationPage() {
                     value={`$${totalRevenue.toLocaleString()}`}
                     subtitle="Last 14 days"
                     icon={DollarSign}
-                    color="text-th-success"
+                    color="emerald"
+                    index={0}
                 />
                 <KPICard
                     title="Avg Daily"
                     value={`$${avgDaily.toFixed(0)}`}
                     subtitle="Per day"
                     icon={TrendingUp}
-                    color="text-blue-600"
+                    color="sky"
+                    index={1}
                 />
                 <KPICard
                     title="ARPU"
                     value={`$${data.arpu}`}
                     subtitle="All users"
                     icon={Users}
-                    color="text-th-accent-primary"
+                    color="violet"
+                    index={2}
                 />
                 <KPICard
                     title="ARPPU"
                     value={`$${data.arppu}`}
                     subtitle="Paying users"
                     icon={CreditCard}
-                    color="text-orange-600"
+                    color="amber"
+                    index={3}
                 />
                 <KPICard
                     title="Conversion"
                     value={`${data.conversionRate}%`}
                     subtitle="Payer rate"
-                    icon={TrendingUp}
-                    color="text-emerald-600"
+                    icon={Sparkles}
+                    color="teal"
+                    index={4}
                 />
             </div>
 
             {/* Revenue Chart */}
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                <h3 className="font-medium text-th-text-primary mb-4">Daily Revenue</h3>
-                <RevenueChart dates={dates} values={data.daily} />
-            </div>
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="lg">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <TrendingUp className="w-4 h-4 text-emerald-400" />
+                        </div>
+                        <h3 className="font-display font-semibold text-white">Daily Revenue</h3>
+                    </div>
+                    <RevenueChart dates={dates} values={data.daily} />
+                </Card>
+            </motion.div>
 
             {/* Bottom Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Spender Tiers */}
-                <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                    <h3 className="font-medium text-th-text-primary mb-4">Spender Tiers</h3>
-                    <SpenderTiersChart data={data.spenderTiers} />
-                </div>
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                                <Users className="w-4 h-4 text-violet-400" />
+                            </div>
+                            <h3 className="font-display font-semibold text-white">Spender Tiers</h3>
+                        </div>
+                        <SpenderTiersChart data={data.spenderTiers} />
+                    </Card>
+                </motion.div>
 
                 {/* Top Products */}
-                <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                    <h3 className="font-medium text-th-text-primary mb-4">Top Products</h3>
-                    <div className="space-y-3">
-                        {data.topProducts.map((product, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm font-medium text-th-text-muted w-5">{index + 1}</span>
-                                    <span className="text-sm text-th-text-primary">{product.name}</span>
-                                </div>
-                                <div className="text-right">
-                                    <div className="text-sm font-medium text-th-text-primary">${product.revenue.toLocaleString()}</div>
-                                    <div className="text-xs text-th-text-muted">{product.sales.toLocaleString()} sales</div>
-                                </div>
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+                                <CreditCard className="w-4 h-4 text-amber-400" />
                             </div>
-                        ))}
-                    </div>
-                </div>
+                            <h3 className="font-display font-semibold text-white">Top Products</h3>
+                        </div>
+                        <div className="space-y-3">
+                            {data.topProducts.map((product, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                    className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.02] transition-colors group"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/20 transition-colors">
+                                            {index + 1}
+                                        </span>
+                                        <span className="text-sm text-slate-300">{product.name}</span>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="text-sm font-medium text-white">${product.revenue.toLocaleString()}</div>
+                                        <div className="text-xs text-slate-500">{product.sales.toLocaleString()} sales</div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </Card>
+                </motion.div>
             </div>
 
             {/* Whale Alert */}
-            <div className="bg-th-error-muted rounded-card border border-th-error/20 p-6">
-                <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">🐋</span>
-                    <h3 className="font-medium text-th-text-primary">Whale Watch</h3>
-                </div>
-                <p className="text-th-text-secondary">
-                    You have <span className="font-bold text-th-error">{data.whales}</span> whale users ($100+ spent).
-                    They contribute approximately <span className="font-bold">{((data.whales * 150) / totalRevenue * 100).toFixed(0)}%</span> of total revenue.
-                </p>
-            </div>
-        </div>
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="lg" className="border-rose-500/20 bg-gradient-to-br from-rose-500/5 to-transparent">
+                    <div className="flex items-center gap-3 mb-3">
+                        <motion.span
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', delay: 0.3 }}
+                            className="text-3xl"
+                        >
+                            🐋
+                        </motion.span>
+                        <h3 className="font-display font-semibold text-white">Whale Watch</h3>
+                    </div>
+                    <p className="text-slate-400">
+                        You have{' '}
+                        <span className="font-bold text-rose-400">{data.whales}</span>{' '}
+                        whale users ($100+ spent). They contribute approximately{' '}
+                        <span className="font-bold text-white">
+                            {((data.whales * 150) / totalRevenue * 100).toFixed(0)}%
+                        </span>{' '}
+                        of total revenue.
+                    </p>
+                </Card>
+            </motion.div>
+        </motion.div>
     );
 }
 
-function KPICard({ title, value, subtitle, icon: Icon, color }: {
+function KPICard({
+    title,
+    value,
+    subtitle,
+    icon: Icon,
+    color,
+}: {
     title: string;
     value: string;
     subtitle: string;
     icon: typeof DollarSign;
-    color: string;
+    color: 'emerald' | 'sky' | 'violet' | 'amber' | 'teal';
+    index?: number;
 }) {
+    const colorStyles = {
+        emerald: {
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20 group-hover:border-emerald-500/30',
+            icon: 'text-emerald-400',
+            glow: 'bg-emerald-500/20',
+        },
+        sky: {
+            bg: 'from-sky-500/20 to-sky-500/5',
+            border: 'border-sky-500/20 group-hover:border-sky-500/30',
+            icon: 'text-sky-400',
+            glow: 'bg-sky-500/20',
+        },
+        violet: {
+            bg: 'from-violet-500/20 to-violet-500/5',
+            border: 'border-violet-500/20 group-hover:border-violet-500/30',
+            icon: 'text-violet-400',
+            glow: 'bg-violet-500/20',
+        },
+        amber: {
+            bg: 'from-amber-500/20 to-amber-500/5',
+            border: 'border-amber-500/20 group-hover:border-amber-500/30',
+            icon: 'text-amber-400',
+            glow: 'bg-amber-500/20',
+        },
+        teal: {
+            bg: 'from-teal-500/20 to-teal-500/5',
+            border: 'border-teal-500/20 group-hover:border-teal-500/30',
+            icon: 'text-teal-400',
+            glow: 'bg-teal-500/20',
+        },
+    };
+
+    const styles = colorStyles[color];
+
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
-            <div className="flex items-center gap-2 mb-2">
-                <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-sm text-th-text-muted">{title}</span>
+        <motion.div
+            variants={itemVariants}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            className="relative group"
+        >
+            {/* Glow effect */}
+            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
+
+            <div className={`relative bg-gradient-to-br ${styles.bg} backdrop-blur-xl rounded-2xl p-4 border ${styles.border} transition-all duration-300 overflow-hidden`}>
+                {/* Noise texture */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                <div className="relative">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Icon className={`w-4 h-4 ${styles.icon}`} />
+                        <span className="text-sm text-slate-500">{title}</span>
+                    </div>
+                    <div className="text-2xl font-display font-bold text-white">{value}</div>
+                    <div className="text-xs text-slate-600 mt-1">{subtitle}</div>
+                </div>
             </div>
-            <div className="text-2xl font-bold text-th-text-primary">{value}</div>
-            <div className="text-xs text-th-text-muted mt-1">{subtitle}</div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -290,22 +449,41 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
     const option = {
         tooltip: {
             trigger: 'axis',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(255, 255, 255, 0.08)',
+            borderWidth: 1,
+            textStyle: {
+                color: '#f1f5f9',
+                fontFamily: 'DM Sans',
+            },
+            padding: [12, 16],
+            extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
             formatter: (params: Array<{ name: string; value: number }>) =>
-                `${params[0].name}<br/>Revenue: $${params[0].value.toLocaleString()}`
+                `<div style="font-weight: 500">${params[0].name}</div><div style="color: #10b981; margin-top: 4px">$${params[0].value.toLocaleString()}</div>`
         },
-        grid: { left: 60, right: 20, top: 20, bottom: 40 },
+        grid: { left: 60, right: 20, top: 20, bottom: 50 },
         xAxis: {
             type: 'category',
             data: dates,
-            axisLine: { lineStyle: { color: 'var(--color-border-subtle)' } },
-            axisLabel: { color: 'var(--color-text-muted)', fontSize: 11, rotate: 45 },
+            axisLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.06)' } },
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'DM Sans',
+                rotate: 45,
+            },
             axisTick: { show: false }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            axisLabel: { color: 'var(--color-text-muted)', formatter: (val: number) => `$${val / 1000}k` },
-            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } }
+            axisLabel: {
+                color: '#64748b',
+                fontSize: 11,
+                fontFamily: 'JetBrains Mono',
+                formatter: (val: number) => `$${val / 1000}k`,
+            },
+            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.04)' } }
         },
         series: [{
             type: 'bar',
@@ -319,9 +497,20 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                         { offset: 1, color: '#059669' }
                     ]
                 },
-                borderRadius: [4, 4, 0, 0]
+                borderRadius: [6, 6, 0, 0]
             },
-            emphasis: { itemStyle: { color: '#047857' } }
+            emphasis: {
+                itemStyle: {
+                    color: {
+                        type: 'linear',
+                        x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [
+                            { offset: 0, color: '#34d399' },
+                            { offset: 1, color: '#10b981' }
+                        ]
+                    }
+                }
+            }
         }]
     };
 
@@ -332,17 +521,51 @@ function SpenderTiersChart({ data }: { data: Array<{ tier: string; users: number
     const option = {
         tooltip: {
             trigger: 'item',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(255, 255, 255, 0.08)',
+            borderWidth: 1,
+            textStyle: {
+                color: '#f1f5f9',
+                fontFamily: 'DM Sans',
+            },
+            padding: [12, 16],
+            extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
             formatter: (params: { name: string; value: number; percent: number }) =>
-                `${params.name}<br/>Users: ${params.value.toLocaleString()}<br/>Percent: ${params.percent}%`
+                `<div style="font-weight: 500">${params.name}</div><div style="margin-top: 4px">${params.value.toLocaleString()} users</div><div style="color: #10b981">${params.percent.toFixed(1)}%</div>`
         },
-        legend: { orient: 'vertical', right: 10, top: 'center', textStyle: { fontSize: 11 } },
+        legend: {
+            orient: 'vertical',
+            right: 10,
+            top: 'center',
+            textStyle: {
+                fontSize: 11,
+                color: '#94a3b8',
+                fontFamily: 'DM Sans',
+            },
+            itemWidth: 12,
+            itemHeight: 12,
+            itemGap: 12,
+        },
         series: [{
             type: 'pie',
             radius: ['40%', '70%'],
             center: ['35%', '50%'],
             avoidLabelOverlap: false,
             label: { show: false },
-            emphasis: { label: { show: true, fontSize: 14, fontWeight: 'bold' } },
+            emphasis: {
+                label: {
+                    show: true,
+                    fontSize: 14,
+                    fontWeight: 'bold',
+                    color: '#fff',
+                },
+                scaleSize: 8,
+            },
+            itemStyle: {
+                borderRadius: 4,
+                borderColor: '#0f172a',
+                borderWidth: 2,
+            },
             data: data.map(d => ({
                 name: d.tier,
                 value: d.users,

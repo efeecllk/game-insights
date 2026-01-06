@@ -1,10 +1,16 @@
 /**
- * Predictions Dashboard
- * AI-powered predictive analytics and recommendations
- * Phase 2: Page-by-Page Functionality (updated)
+ * Predictions Dashboard - Obsidian Analytics Design
+ *
+ * Premium AI-powered analytics with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Enhanced chart styling
+ * - Noise texture backgrounds
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import {
     TrendingUp,
     TrendingDown,
@@ -26,6 +32,8 @@ import { useGameData } from '../hooks/useGameData';
 import { useML } from '../context/MLContext';
 import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { ChurnRiskTable, RevenueForecastChart, MLStatusBadge } from '../components/ml';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
 
 // Types
 interface RevenueForecast {
@@ -60,6 +68,29 @@ interface Alert {
     message: string;
     timestamp: string;
 }
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.08,
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 260,
+            damping: 20,
+        },
+    },
+};
 
 // Mock data generators
 const generateChurnRiskUsers = (): ChurnRiskUser[] => [
@@ -140,40 +171,87 @@ const StatCard: React.FC<{
     value: string;
     change?: number;
     sublabel?: string;
-    color?: string;
-}> = ({ icon: Icon, label, value, change, sublabel, color = 'violet' }) => (
-    <div className="bg-card rounded-card p-5 border border-white/5">
-        <div className="flex items-start justify-between mb-3">
-            <div className={`p-2 rounded-lg bg-${color}-500/20`}>
-                <Icon className={`w-5 h-5 text-${color}-400`} />
-            </div>
-            {change !== undefined && (
-                <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                    {change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-                    {Math.abs(change)}%
+    color?: 'emerald' | 'amber' | 'sky' | 'violet';
+    index?: number;
+}> = ({ icon: Icon, label, value, change, sublabel, color = 'emerald' }) => {
+    const colorStyles = {
+        emerald: {
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20 group-hover:border-emerald-500/30',
+            icon: 'text-emerald-400',
+            glow: 'bg-emerald-500/20',
+        },
+        amber: {
+            bg: 'from-amber-500/20 to-amber-500/5',
+            border: 'border-amber-500/20 group-hover:border-amber-500/30',
+            icon: 'text-amber-400',
+            glow: 'bg-amber-500/20',
+        },
+        sky: {
+            bg: 'from-sky-500/20 to-sky-500/5',
+            border: 'border-sky-500/20 group-hover:border-sky-500/30',
+            icon: 'text-sky-400',
+            glow: 'bg-sky-500/20',
+        },
+        violet: {
+            bg: 'from-violet-500/20 to-violet-500/5',
+            border: 'border-violet-500/20 group-hover:border-violet-500/30',
+            icon: 'text-violet-400',
+            glow: 'bg-violet-500/20',
+        },
+    };
+
+    const styles = colorStyles[color];
+
+    return (
+        <motion.div
+            variants={itemVariants}
+            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+            className="relative group"
+        >
+            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
+            <div className={`relative bg-gradient-to-br ${styles.bg} backdrop-blur-xl rounded-2xl p-5 border ${styles.border} transition-all duration-300 overflow-hidden`}>
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+                <div className="relative">
+                    <div className="flex items-start justify-between mb-3">
+                        <div className={`p-2 rounded-lg bg-white/[0.05] border border-white/[0.08]`}>
+                            <Icon className={`w-5 h-5 ${styles.icon}`} />
+                        </div>
+                        {change !== undefined && (
+                            <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                {change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                                {Math.abs(change)}%
+                            </div>
+                        )}
+                    </div>
+                    <div className="text-2xl font-display font-bold text-white mb-1">{value}</div>
+                    <div className="text-sm text-slate-400">{label}</div>
+                    {sublabel && <div className="text-xs text-slate-600 mt-1">{sublabel}</div>}
                 </div>
-            )}
-        </div>
-        <div className="text-2xl font-bold text-white mb-1">{value}</div>
-        <div className="text-sm text-gray-400">{label}</div>
-        {sublabel && <div className="text-xs text-gray-500 mt-1">{sublabel}</div>}
-    </div>
-);
+            </div>
+        </motion.div>
+    );
+};
 
 const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
     const maxValue = Math.max(...data.map(d => d.high));
     const total = data.reduce((sum, d) => sum + d.projected, 0);
 
     return (
-        <div className="bg-card rounded-card p-5 border border-white/5">
+        <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
-                <div>
-                    <h3 className="text-lg font-semibold text-white">Revenue Forecast</h3>
-                    <p className="text-sm text-gray-400">Next 30 days projection</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div>
+                        <h3 className="font-display font-semibold text-white">Revenue Forecast</h3>
+                        <p className="text-sm text-slate-500">Next 30 days projection</p>
+                    </div>
                 </div>
                 <div className="text-right">
-                    <div className="text-xl font-bold text-white">${(total / 1000).toFixed(1)}K</div>
-                    <div className="text-sm text-gray-400">Projected total</div>
+                    <div className="text-xl font-display font-bold text-white">${(total / 1000).toFixed(1)}K</div>
+                    <div className="text-sm text-slate-500">Projected total</div>
                 </div>
             </div>
 
@@ -183,182 +261,236 @@ const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
                     const isWeekend = new Date(day.date).getDay() % 6 === 0;
 
                     return (
-                        <div
+                        <motion.div
                             key={i}
+                            initial={{ height: 0 }}
+                            animate={{ height: `${height}%` }}
+                            transition={{ delay: i * 0.02, type: 'spring', stiffness: 300, damping: 20 }}
                             className="flex-1 flex flex-col justify-end"
                             title={`${day.date}: $${day.projected}`}
                         >
                             <div
-                                className={`rounded-t transition-all ${isWeekend ? 'bg-violet-500/80' : 'bg-violet-500/50'
-                                    } hover:bg-violet-400`}
-                                style={{ height: `${height}%` }}
+                                className={`w-full rounded-t transition-all cursor-pointer ${
+                                    isWeekend
+                                        ? 'bg-emerald-500/80 hover:bg-emerald-400'
+                                        : 'bg-emerald-500/50 hover:bg-emerald-500/70'
+                                }`}
+                                style={{ height: '100%' }}
                             />
-                        </div>
+                        </motion.div>
                     );
                 })}
             </div>
 
-            <div className="flex justify-between mt-2 text-xs text-gray-500">
+            <div className="flex justify-between mt-2 text-xs text-slate-600">
                 <span>Today</span>
                 <span>+15 days</span>
                 <span>+30 days</span>
             </div>
 
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/5">
+            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-violet-500/50" />
-                    <span className="text-xs text-gray-400">Weekday</span>
+                    <div className="w-3 h-3 rounded bg-emerald-500/50" />
+                    <span className="text-xs text-slate-500">Weekday</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-violet-500/80" />
-                    <span className="text-xs text-gray-400">Weekend (higher)</span>
+                    <div className="w-3 h-3 rounded bg-emerald-500/80" />
+                    <span className="text-xs text-slate-500">Weekend (higher)</span>
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 
 const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
-    <div className="bg-card rounded-card p-5 border border-white/5">
+    <Card variant="default" padding="lg">
         <div className="flex items-center justify-between mb-4">
-            <div>
-                <h3 className="text-lg font-semibold text-white">Churn Risk Users</h3>
-                <p className="text-sm text-gray-400">High probability to churn</p>
+            <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
+                    <Users className="w-4 h-4 text-rose-400" />
+                </div>
+                <div>
+                    <h3 className="font-display font-semibold text-white">Churn Risk Users</h3>
+                    <p className="text-sm text-slate-500">High probability to churn</p>
+                </div>
             </div>
-            <button className="text-sm text-violet-400 hover:text-violet-300 flex items-center gap-1">
+            <motion.button
+                whileHover={{ x: 4 }}
+                className="text-sm text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+            >
                 View All <ChevronRight className="w-4 h-4" />
-            </button>
+            </motion.button>
         </div>
 
         <div className="space-y-3">
-            {users.map(user => (
-                <div key={user.id} className="p-3 bg-dark rounded-lg border border-white/5">
+            {users.map((user, index) => (
+                <motion.div
+                    key={user.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    className="p-3 bg-slate-900/50 rounded-xl border border-white/[0.04] hover:border-white/[0.08] transition-colors"
+                >
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-white font-medium">{user.name}</span>
                         <div className="flex items-center gap-2">
-                            <div className="text-sm text-gray-400">{user.lastSeen}</div>
-                            <div className={`px-2 py-0.5 rounded text-xs font-medium ${user.riskScore >= 0.8
-                                    ? 'bg-red-500/20 text-red-400'
-                                    : 'bg-orange-500/20 text-orange-400'
-                                }`}>
+                            <div className="text-sm text-slate-500">{user.lastSeen}</div>
+                            <div className={`px-2 py-0.5 rounded text-xs font-medium ${
+                                user.riskScore >= 0.8
+                                    ? 'bg-rose-500/20 text-rose-400 border border-rose-500/20'
+                                    : 'bg-amber-500/20 text-amber-400 border border-amber-500/20'
+                            }`}>
                                 {(user.riskScore * 100).toFixed(0)}% risk
                             </div>
                         </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {user.factors.map((factor, i) => (
-                            <span key={i} className="text-xs px-2 py-1 bg-white/5 rounded text-gray-400">
+                            <span key={i} className="text-xs px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded-lg text-slate-400">
                                 {factor}
                             </span>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             ))}
         </div>
 
-        <button className="w-full mt-4 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-sm font-medium transition-colors">
+        <Button variant="primary" fullWidth className="mt-4">
             Launch Re-engagement Campaign
-        </button>
-    </div>
+        </Button>
+    </Card>
 );
 
 const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({ recommendations }) => {
-    const priorityColors = {
-        critical: 'border-red-500 bg-red-500/10',
-        high: 'border-orange-500 bg-orange-500/10',
-        medium: 'border-yellow-500 bg-yellow-500/10',
-        low: 'border-blue-500 bg-blue-500/10',
-    };
-
-    const priorityIcons = {
-        critical: <Zap className="w-4 h-4 text-red-400" />,
-        high: <AlertTriangle className="w-4 h-4 text-orange-400" />,
-        medium: <Lightbulb className="w-4 h-4 text-yellow-400" />,
-        low: <Target className="w-4 h-4 text-blue-400" />,
+    const priorityStyles = {
+        critical: {
+            border: 'border-rose-500/30',
+            bg: 'bg-rose-500/5',
+            icon: <Zap className="w-4 h-4 text-rose-400" />,
+        },
+        high: {
+            border: 'border-amber-500/30',
+            bg: 'bg-amber-500/5',
+            icon: <AlertTriangle className="w-4 h-4 text-amber-400" />,
+        },
+        medium: {
+            border: 'border-yellow-500/30',
+            bg: 'bg-yellow-500/5',
+            icon: <Lightbulb className="w-4 h-4 text-yellow-400" />,
+        },
+        low: {
+            border: 'border-sky-500/30',
+            bg: 'bg-sky-500/5',
+            icon: <Target className="w-4 h-4 text-sky-400" />,
+        },
     };
 
     return (
-        <div className="bg-card rounded-card p-5 border border-white/5">
+        <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
-                <div>
-                    <h3 className="text-lg font-semibold text-white">AI Recommendations</h3>
-                    <p className="text-sm text-gray-400">Actionable insights</p>
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                        <Lightbulb className="w-4 h-4 text-violet-400" />
+                    </div>
+                    <div>
+                        <h3 className="font-display font-semibold text-white">AI Recommendations</h3>
+                        <p className="text-sm text-slate-500">Actionable insights</p>
+                    </div>
                 </div>
-                <button className="p-2 hover:bg-white/5 rounded-lg transition-colors" title="Refresh">
-                    <RefreshCw className="w-4 h-4 text-gray-400" />
-                </button>
+                <motion.button
+                    whileHover={{ rotate: 180 }}
+                    transition={{ duration: 0.3 }}
+                    className="p-2 hover:bg-white/[0.05] rounded-lg transition-colors"
+                    title="Refresh"
+                >
+                    <RefreshCw className="w-4 h-4 text-slate-500" />
+                </motion.button>
             </div>
 
             <div className="space-y-3">
-                {recommendations.map(rec => (
-                    <div
-                        key={rec.id}
-                        className={`p-4 rounded-lg border-l-4 ${priorityColors[rec.priority]}`}
-                    >
-                        <div className="flex items-start gap-3">
-                            <div className="mt-0.5">{priorityIcons[rec.priority]}</div>
-                            <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                    <span className="text-xs px-2 py-0.5 bg-white/10 rounded text-gray-400">
-                                        {rec.category}
-                                    </span>
-                                </div>
-                                <h4 className="text-white font-medium mb-1">{rec.title}</h4>
-                                <p className="text-sm text-gray-400 mb-2">{rec.description}</p>
-                                <div className="flex items-center gap-4 text-xs">
-                                    <span className="text-green-400">Impact: {rec.impact}</span>
-                                    <span className="text-gray-500">Effort: {rec.effort}</span>
+                {recommendations.map((rec, index) => {
+                    const style = priorityStyles[rec.priority];
+                    return (
+                        <motion.div
+                            key={rec.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className={`p-4 rounded-xl border-l-4 ${style.border} ${style.bg}`}
+                        >
+                            <div className="flex items-start gap-3">
+                                <div className="mt-0.5">{style.icon}</div>
+                                <div className="flex-1">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className="text-xs px-2 py-0.5 bg-white/[0.05] border border-white/[0.08] rounded text-slate-400">
+                                            {rec.category}
+                                        </span>
+                                    </div>
+                                    <h4 className="text-white font-medium mb-1">{rec.title}</h4>
+                                    <p className="text-sm text-slate-400 mb-2">{rec.description}</p>
+                                    <div className="flex items-center gap-4 text-xs">
+                                        <span className="text-emerald-400">Impact: {rec.impact}</span>
+                                        <span className="text-slate-600">Effort: {rec.effort}</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                ))}
+                        </motion.div>
+                    );
+                })}
             </div>
-        </div>
+        </Card>
     );
 };
 
 const AlertsPanel: React.FC<{ alerts: Alert[] }> = ({ alerts }) => {
     const alertStyles = {
-        warning: { icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/10' },
-        opportunity: { icon: Lightbulb, color: 'text-green-400', bg: 'bg-green-500/10' },
-        info: { icon: Bell, color: 'text-blue-400', bg: 'bg-blue-500/10' },
+        warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+        opportunity: { icon: Lightbulb, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+        info: { icon: Bell, color: 'text-sky-400', bg: 'bg-sky-500/10', border: 'border-sky-500/20' },
     };
 
     return (
-        <div className="bg-card rounded-card p-5 border border-white/5">
+        <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                    <Bell className="w-5 h-5 text-violet-400" />
-                    <h3 className="text-lg font-semibold text-white">Intelligent Alerts</h3>
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        <Bell className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <h3 className="font-display font-semibold text-white">Intelligent Alerts</h3>
                 </div>
-                <span className="text-xs px-2 py-1 bg-violet-500/20 text-violet-400 rounded">
+                <span className="text-xs px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full">
                     {alerts.length} active
                 </span>
             </div>
 
             <div className="space-y-3">
-                {alerts.map(alert => {
+                {alerts.map((alert, index) => {
                     const style = alertStyles[alert.type];
                     const Icon = style.icon;
 
                     return (
-                        <div key={alert.id} className={`p-3 rounded-lg ${style.bg}`}>
+                        <motion.div
+                            key={alert.id}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.05 }}
+                            className={`p-3 rounded-xl ${style.bg} border ${style.border}`}
+                        >
                             <div className="flex items-start gap-3">
                                 <Icon className={`w-5 h-5 ${style.color} mt-0.5`} />
                                 <div className="flex-1">
                                     <div className="flex items-center justify-between mb-1">
                                         <h4 className="text-white font-medium">{alert.title}</h4>
-                                        <span className="text-xs text-gray-500">{alert.timestamp}</span>
+                                        <span className="text-xs text-slate-600">{alert.timestamp}</span>
                                     </div>
-                                    <p className="text-sm text-gray-400">{alert.message}</p>
+                                    <p className="text-sm text-slate-400">{alert.message}</p>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     );
                 })}
             </div>
-        </div>
+        </Card>
     );
 };
 
@@ -370,16 +502,18 @@ const WhatIfAnalysis: React.FC = () => {
     const projectedRevenue = baseRevenue * 30 * (1 + projectedChange);
 
     return (
-        <div className="bg-card rounded-card p-5 border border-white/5">
-            <div className="flex items-center gap-2 mb-4">
-                <Brain className="w-5 h-5 text-violet-400" />
-                <h3 className="text-lg font-semibold text-white">What-If Analysis</h3>
+        <Card variant="default" padding="lg">
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                    <Brain className="w-4 h-4 text-violet-400" />
+                </div>
+                <h3 className="font-display font-semibold text-white">What-If Analysis</h3>
             </div>
 
             <div className="space-y-4">
                 <div>
-                    <label className="text-sm text-gray-400 mb-2 block">
-                        DAU Change: {dauChange > 0 ? '+' : ''}{dauChange}%
+                    <label className="text-sm text-slate-400 mb-2 block">
+                        DAU Change: <span className="text-emerald-400">{dauChange > 0 ? '+' : ''}{dauChange}%</span>
                     </label>
                     <input
                         type="range"
@@ -387,13 +521,13 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={dauChange}
                         onChange={(e) => setDauChange(Number(e.target.value))}
-                        className="w-full accent-violet-500"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-emerald-500"
                     />
                 </div>
 
                 <div>
-                    <label className="text-sm text-gray-400 mb-2 block">
-                        ARPU Change: {arpuChange > 0 ? '+' : ''}{arpuChange}%
+                    <label className="text-sm text-slate-400 mb-2 block">
+                        ARPU Change: <span className="text-emerald-400">{arpuChange > 0 ? '+' : ''}{arpuChange}%</span>
                     </label>
                     <input
                         type="range"
@@ -401,26 +535,26 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={arpuChange}
                         onChange={(e) => setArpuChange(Number(e.target.value))}
-                        className="w-full accent-violet-500"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-emerald-500"
                     />
                 </div>
 
-                <div className="p-4 bg-dark rounded-lg border border-white/5">
-                    <div className="text-sm text-gray-400 mb-1">Projected 30-Day Revenue</div>
+                <div className="p-4 bg-slate-900/50 rounded-xl border border-white/[0.04]">
+                    <div className="text-sm text-slate-400 mb-1">Projected 30-Day Revenue</div>
                     <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-bold text-white">
+                        <span className="text-2xl font-display font-bold text-white">
                             ${(projectedRevenue / 1000).toFixed(1)}K
                         </span>
-                        <span className={`text-sm ${projectedChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        <span className={`text-sm ${projectedChange >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                             {projectedChange >= 0 ? '+' : ''}{(projectedChange * 100).toFixed(1)}%
                         </span>
                     </div>
-                    <div className="text-xs text-gray-500 mt-1">
+                    <div className="text-xs text-slate-600 mt-1">
                         vs baseline ${(baseRevenue * 30 / 1000).toFixed(1)}K
                     </div>
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 
@@ -441,20 +575,14 @@ export const PredictionsPage: React.FC = () => {
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Use ML predictions when available
     const useMLPredictions = mlReady && hasRealData;
 
-    // Generate forecast based on real or demo data
     const generateRealDataForecast = useMemo((): RevenueForecast[] => {
         const forecast: RevenueForecast[] = [];
         const today = new Date();
-
-        // Base revenue from real data or fallback to demo
         const baseRevenue = hasRealData
-            ? dataProvider.getTotalRevenue() / 30 // Approximate daily revenue
+            ? dataProvider.getTotalRevenue() / 30
             : 3500;
-
-        // Growth rate from real data history or demo
         const growthRate = hasRealData
             ? dataProvider.getHistoricalGrowthRate() / 100
             : 0.003;
@@ -476,7 +604,6 @@ export const PredictionsPage: React.FC = () => {
         return forecast;
     }, [hasRealData, dataProvider]);
 
-    // Convert ML churn predictions to UI format
     const mlChurnUsersFormatted = useMemo((): ChurnRiskUser[] => {
         if (!mlReady || mlAtRiskUsers.length === 0) return [];
         return mlAtRiskUsers.slice(0, 5).map(prediction => ({
@@ -491,7 +618,6 @@ export const PredictionsPage: React.FC = () => {
     }, [mlReady, mlAtRiskUsers]);
 
     useEffect(() => {
-        // Simulate data loading
         const loadData = async () => {
             setIsLoading(true);
             await new Promise(resolve => setTimeout(resolve, 500));
@@ -505,20 +631,17 @@ export const PredictionsPage: React.FC = () => {
     }, [generateRealDataForecast, useMLPredictions, mlChurnUsersFormatted]);
 
     const stats = useMemo(() => {
-        // Use ML-based stats when available
         const totalForecast = useMLPredictions && mlRevenueForecast.length > 0
             ? mlRevenueForecast.reduce((sum, d) => sum + d.value, 0)
             : forecast.reduce((sum, d) => sum + d.projected, 0);
 
-        // Calculate stats from ML or real data
         const atRiskCount = useMLPredictions
             ? churnPredictions.filter(p => p.riskLevel === 'high' || p.riskLevel === 'critical').length
             : hasRealData ? Math.round(dataProvider.getDAU() * 0.0156) : 156;
 
         const dau = hasRealData ? dataProvider.getDAU() : 10000;
-        const opportunities = Math.round(dau * 0.0089); // ~0.89% opportunities
+        const opportunities = Math.round(dau * 0.0089);
 
-        // Model accuracy from ML status
         const accuracy = mlStatus.modelMetrics.churn?.accuracy
             ? Math.round(mlStatus.modelMetrics.churn.accuracy * 100)
             : 87;
@@ -531,73 +654,117 @@ export const PredictionsPage: React.FC = () => {
         };
     }, [forecast, hasRealData, dataProvider, useMLPredictions, mlRevenueForecast, churnPredictions, mlStatus]);
 
-    // Show training progress
     if (isTraining) {
         return (
-            <div className="flex items-center justify-center h-64">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center h-64"
+            >
                 <div className="flex flex-col items-center gap-4">
-                    <Brain className="w-12 h-12 text-violet-500 animate-pulse" />
+                    <motion.div
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                        className="relative"
+                    >
+                        <div className="absolute inset-0 bg-violet-500/30 rounded-2xl blur-xl" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 rounded-2xl flex items-center justify-center">
+                            <Brain className="w-8 h-8 text-violet-400" />
+                        </div>
+                    </motion.div>
                     <div className="text-center">
                         <div className="text-lg font-medium text-white">Training ML Models</div>
-                        <div className="text-gray-400">Analyzing your data for predictions...</div>
+                        <div className="text-slate-500">Analyzing your data for predictions...</div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-64">
-                <div className="flex items-center gap-3 text-gray-400">
-                    <RefreshCw className="w-5 h-5 animate-spin" />
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-center h-64"
+            >
+                <div className="flex items-center gap-3 text-slate-500">
+                    <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
+                        <RefreshCw className="w-5 h-5" />
+                    </motion.div>
                     <span>Loading predictions...</span>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-white">Predictions</h1>
-                        <DataModeIndicator />
-                        <MLStatusBadge />
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-violet-500/30 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/30 flex items-center justify-center">
+                                    <Brain className="w-6 h-6 text-violet-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <div className="flex items-center gap-3">
+                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        Predictions
+                                    </h1>
+                                    <DataModeIndicator />
+                                    <MLStatusBadge />
+                                </div>
+                                <p className="text-slate-500 text-sm mt-0.5">
+                                    {useMLPredictions
+                                        ? 'ML-powered forecasts from trained models'
+                                        : hasRealData
+                                            ? 'AI-powered forecasts based on your data'
+                                            : 'AI-powered insights and forecasts (demo data)'}
+                                </p>
+                                {useMLPredictions && (
+                                    <div className="flex items-center gap-2 mt-1 text-xs text-violet-400">
+                                        <Brain className="w-3.5 h-3.5" />
+                                        ML models trained on {mlStatus.dataPointsUsed.toLocaleString()} data points
+                                    </div>
+                                )}
+                                {hasRealData && !useMLPredictions && (
+                                    <div className="flex items-center gap-2 mt-1 text-xs text-emerald-400">
+                                        <Database className="w-3.5 h-3.5" />
+                                        Predictions generated from your uploaded data
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                            >
+                                <Clock className="w-4 h-4" />
+                                <span>Last updated: {mlStatus.lastTrainedAt ? new Date(mlStatus.lastTrainedAt).toLocaleTimeString() : '5 min ago'}</span>
+                            </motion.button>
+                            <Button variant="primary" icon={<RefreshCw className="w-4 h-4" />}>
+                                Refresh
+                            </Button>
+                        </div>
                     </div>
-                    <p className="text-gray-400 mt-1">
-                        {useMLPredictions
-                            ? 'ML-powered forecasts from trained models'
-                            : hasRealData
-                                ? 'AI-powered forecasts based on your data'
-                                : 'AI-powered insights and forecasts (demo data)'}
-                    </p>
-                    {useMLPredictions && (
-                        <div className="flex items-center gap-2 mt-1 text-xs text-purple-400">
-                            <Brain className="w-3.5 h-3.5" />
-                            ML models trained on {mlStatus.dataPointsUsed.toLocaleString()} data points
-                        </div>
-                    )}
-                    {hasRealData && !useMLPredictions && (
-                        <div className="flex items-center gap-2 mt-1 text-xs text-green-400">
-                            <Database className="w-3.5 h-3.5" />
-                            Predictions generated from your uploaded data
-                        </div>
-                    )}
-                </div>
-                <div className="flex items-center gap-2">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 transition-colors">
-                        <Clock className="w-4 h-4" />
-                        <span>Last updated: {mlStatus.lastTrainedAt ? new Date(mlStatus.lastTrainedAt).toLocaleTimeString() : '5 min ago'}</span>
-                    </button>
-                    <button className="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg text-white transition-colors">
-                        <RefreshCw className="w-4 h-4" />
-                        <span>Refresh</span>
-                    </button>
-                </div>
-            </div>
+                </Card>
+            </motion.div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -607,21 +774,21 @@ export const PredictionsPage: React.FC = () => {
                     value={`$${(stats.revenue30d / 1000).toFixed(1)}K`}
                     change={12}
                     sublabel="High confidence"
-                    color="green"
+                    color="emerald"
                 />
                 <StatCard
                     icon={Users}
                     label="At-Risk Users"
                     value={stats.atRiskUsers.toString()}
                     sublabel=">70% churn probability"
-                    color="orange"
+                    color="amber"
                 />
                 <StatCard
                     icon={Target}
                     label="Conversion Opportunities"
                     value={stats.opportunities.toString()}
                     sublabel="High-intent non-payers"
-                    color="blue"
+                    color="sky"
                 />
                 <StatCard
                     icon={BarChart3}
@@ -636,55 +803,62 @@ export const PredictionsPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Left Column - Forecast */}
                 <div className="lg:col-span-2 space-y-6">
-                    {/* Use ML RevenueForecastChart when available */}
-                    {useMLPredictions && mlRevenueForecast.length > 0 ? (
-                        <div className="bg-card rounded-card p-5 border border-white/5">
-                            <div className="flex items-center gap-2 mb-4">
-                                <Brain className="w-5 h-5 text-purple-400" />
-                                <h3 className="text-lg font-semibold text-white">ML Revenue Forecast</h3>
-                                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">
-                                    ML Powered
-                                </span>
-                            </div>
-                            <RevenueForecastChart
-                                forecast={mlRevenueForecast}
-                                showConfidenceInterval
-                                height={280}
-                            />
-                        </div>
-                    ) : (
-                        <ForecastChart data={forecast} />
-                    )}
-                    <RecommendationsPanel recommendations={recommendations} />
+                    <motion.div variants={itemVariants}>
+                        {useMLPredictions && mlRevenueForecast.length > 0 ? (
+                            <Card variant="default" padding="lg">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                                        <Brain className="w-4 h-4 text-violet-400" />
+                                    </div>
+                                    <h3 className="font-display font-semibold text-white">ML Revenue Forecast</h3>
+                                    <span className="px-2 py-0.5 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs rounded-full">
+                                        ML Powered
+                                    </span>
+                                </div>
+                                <RevenueForecastChart
+                                    forecast={mlRevenueForecast}
+                                    showConfidenceInterval
+                                    height={280}
+                                />
+                            </Card>
+                        ) : (
+                            <ForecastChart data={forecast} />
+                        )}
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        <RecommendationsPanel recommendations={recommendations} />
+                    </motion.div>
                 </div>
 
                 {/* Right Column - Alerts & Actions */}
                 <div className="space-y-6">
-                    <AlertsPanel alerts={alerts} />
-
-                    {/* Use ML ChurnRiskTable when available */}
-                    {useMLPredictions && mlAtRiskUsers.length > 0 ? (
-                        <div className="bg-card rounded-card p-5 border border-white/5">
-                            <div className="flex items-center gap-2 mb-4">
-                                <AlertTriangle className="w-5 h-5 text-orange-400" />
-                                <h3 className="text-lg font-semibold text-white">ML Churn Risk</h3>
-                                <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">
-                                    ML Powered
-                                </span>
-                            </div>
-                            <ChurnRiskTable
-                                users={mlAtRiskUsers}
-                                maxRows={5}
-                            />
-                        </div>
-                    ) : (
-                        <ChurnRiskPanel users={churnUsers} />
-                    )}
-
-                    <WhatIfAnalysis />
+                    <motion.div variants={itemVariants}>
+                        <AlertsPanel alerts={alerts} />
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        {useMLPredictions && mlAtRiskUsers.length > 0 ? (
+                            <Card variant="default" padding="lg">
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="w-8 h-8 rounded-lg bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
+                                        <AlertTriangle className="w-4 h-4 text-rose-400" />
+                                    </div>
+                                    <h3 className="font-display font-semibold text-white">ML Churn Risk</h3>
+                                    <span className="px-2 py-0.5 bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs rounded-full">
+                                        ML Powered
+                                    </span>
+                                </div>
+                                <ChurnRiskTable users={mlAtRiskUsers} maxRows={5} />
+                            </Card>
+                        ) : (
+                            <ChurnRiskPanel users={churnUsers} />
+                        )}
+                    </motion.div>
+                    <motion.div variants={itemVariants}>
+                        <WhatIfAnalysis />
+                    </motion.div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
