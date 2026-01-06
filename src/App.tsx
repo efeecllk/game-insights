@@ -28,6 +28,7 @@ import { IntegrationProvider } from './context/IntegrationContext';
 import { MLProvider } from './context/MLContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
+import { PerformanceProvider } from './context/PerformanceContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Components (always loaded - core UI)
@@ -762,17 +763,19 @@ function App() {
     return (
         <ErrorBoundary>
             <ThemeProvider>
-                <ToastProvider position="bottom-right" maxToasts={5}>
-                    <DataProvider>
-                        <MLProvider>
-                            <IntegrationProvider>
-                                <GameProvider>
-                                    <AppContent />
-                                </GameProvider>
-                            </IntegrationProvider>
-                        </MLProvider>
-                    </DataProvider>
-                </ToastProvider>
+                <PerformanceProvider>
+                    <ToastProvider position="bottom-right" maxToasts={5}>
+                        <DataProvider>
+                            <MLProvider>
+                                <IntegrationProvider>
+                                    <GameProvider>
+                                        <AppContent />
+                                    </GameProvider>
+                                </IntegrationProvider>
+                            </MLProvider>
+                        </DataProvider>
+                    </ToastProvider>
+                </PerformanceProvider>
             </ThemeProvider>
         </ErrorBoundary>
     );

@@ -11,7 +11,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield } from 'lucide-react';
+import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield, Zap, Gauge } from 'lucide-react';
+import { usePerformance } from '../context/PerformanceContext';
 import { validateApiKey } from '../services/openai';
 import { AnomalyConfigPanel } from '../components/settings';
 import { languages, changeLanguage, type LanguageCode } from '../i18n';
@@ -51,6 +52,7 @@ const itemVariants = {
 
 export function SettingsPage() {
     const { t, i18n } = useTranslation();
+    const { mode, setMode, fps, isLowEndDevice, enableBlur, enableAnimations } = usePerformance();
     const [apiKey, setApiKey] = useState('');
     const [showKey, setShowKey] = useState(false);
     const [status, setStatus] = useState<'idle' | 'validating' | 'valid' | 'invalid'>('idle');
@@ -156,6 +158,70 @@ export function SettingsPage() {
                                 </motion.button>
                             );
                         })}
+                    </div>
+                </SettingsCard>
+            </motion.div>
+
+            {/* Performance Mode Section */}
+            <motion.div variants={itemVariants}>
+                <SettingsCard
+                    icon={Gauge}
+                    iconColor="amber"
+                    title="Performance Mode"
+                    description="Optimize visual effects for better performance"
+                >
+                    <div className="space-y-4">
+                        {/* FPS & Device Info */}
+                        <div className="flex items-center justify-between p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
+                            <div className="flex items-center gap-3">
+                                <Zap className={`w-4 h-4 ${fps >= 45 ? 'text-emerald-400' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`} />
+                                <span className="text-sm text-slate-400">Current FPS</span>
+                            </div>
+                            <span className={`font-mono text-sm font-semibold ${fps >= 45 ? 'text-emerald-400' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`}>
+                                {fps}
+                            </span>
+                        </div>
+
+                        {isLowEndDevice && (
+                            <div className="flex items-center gap-2 p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+                                <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0" />
+                                <span className="text-xs text-amber-300">Low-end device detected. Consider using Lite mode.</span>
+                            </div>
+                        )}
+
+                        {/* Mode Selector */}
+                        <div className="grid grid-cols-2 gap-2">
+                            {[
+                                { value: 'auto', label: 'Auto', desc: 'Adapts to your device' },
+                                { value: 'full', label: 'Full', desc: 'All visual effects' },
+                                { value: 'balanced', label: 'Balanced', desc: 'No blur effects' },
+                                { value: 'lite', label: 'Lite', desc: 'Minimal animations' },
+                            ].map((option) => (
+                                <button
+                                    key={option.value}
+                                    onClick={() => setMode(option.value as 'auto' | 'full' | 'balanced' | 'lite')}
+                                    className={`relative p-3 rounded-xl text-left transition-all duration-200 ${
+                                        mode === option.value
+                                            ? 'bg-emerald-500/20 border border-emerald-500/30'
+                                            : 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
+                                    }`}
+                                >
+                                    <div className={`text-sm font-medium ${mode === option.value ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                        {option.label}
+                                    </div>
+                                    <div className="text-[10px] text-slate-500 mt-0.5">{option.desc}</div>
+                                    {mode === option.value && (
+                                        <Check className="absolute top-2 right-2 w-3 h-3 text-emerald-400" />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Current Status */}
+                        <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-white/[0.04]">
+                            <span>Blur effects: <span className={enableBlur ? 'text-emerald-400' : 'text-slate-400'}>{enableBlur ? 'On' : 'Off'}</span></span>
+                            <span>Animations: <span className={enableAnimations ? 'text-emerald-400' : 'text-slate-400'}>{enableAnimations ? 'On' : 'Off'}</span></span>
+                        </div>
                     </div>
                 </SettingsCard>
             </motion.div>
