@@ -1,10 +1,15 @@
 /**
- * Attribution Analytics Page
- * User acquisition source tracking and modeling
- * Phase 2: Page-by-Page Functionality (updated)
+ * Attribution Analytics Page - Obsidian Analytics Design
+ *
+ * Premium attribution dashboard with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Enhanced data visualizations
  */
 
 import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ReactECharts from 'echarts-for-react';
 import {
     Target,
@@ -13,9 +18,30 @@ import {
     Users,
     ArrowRight,
     Database,
+    ChevronDown,
+    Sparkles,
+    BarChart3,
+    GitBranch,
 } from 'lucide-react';
 import { useGameData } from '../hooks/useGameData';
-import DataModeIndicator from '../components/ui/DataModeIndicator';
+import { Card } from '../components/ui/Card';
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
 
 // ============================================================================
 // Types
@@ -150,15 +176,14 @@ export function AttributionPage() {
     const { dataProvider, hasRealData } = useGameData();
     const [selectedModel, setSelectedModel] = useState<AttributionModel>('linear');
     const [dateRange, setDateRange] = useState('30d');
+    const [showDatePicker, setShowDatePicker] = useState(false);
 
     // Generate channels from real data or use demo data
     const channels = useMemo((): Channel[] => {
         if (!hasRealData) return CHANNELS;
 
-        // Get attribution data from the provider
         const realChannels = dataProvider.getAttributionChannels();
 
-        // If we have real channel data, transform it
         if (realChannels.length > 0) {
             const channelIcons: Record<string, string> = {
                 organic: '🔍',
@@ -196,9 +221,9 @@ export function AttributionPage() {
                     icon: channelIcons[baseKey] || '📊',
                     color: channelColors[baseKey] || `hsl(${idx * 45}, 70%, 50%)`,
                     installs: ch.users,
-                    cost: Math.round(ch.revenue * 0.3), // Estimated ad spend
+                    cost: Math.round(ch.revenue * 0.3),
                     revenue: ch.revenue,
-                    conversions: Math.round(ch.users * 0.05), // Estimated conversions
+                    conversions: Math.round(ch.users * 0.05),
                     attribution: {
                         first_touch: ch.percentage,
                         last_touch: ch.percentage * 0.9,
@@ -238,6 +263,9 @@ export function AttributionPage() {
         tooltip: {
             trigger: 'item',
             formatter: '{b}: {d}%',
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            textStyle: { color: '#e2e8f0' },
         },
         series: [
             {
@@ -246,13 +274,24 @@ export function AttributionPage() {
                 avoidLabelOverlap: true,
                 itemStyle: {
                     borderRadius: 8,
-                    borderColor: '#1a1a2e',
-                    borderWidth: 2,
+                    borderColor: '#0f172a',
+                    borderWidth: 3,
                 },
                 label: {
                     show: true,
-                    color: '#a0a0b0',
+                    color: '#94a3b8',
                     fontSize: 11,
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 14,
+                        fontWeight: 'bold',
+                    },
+                    itemStyle: {
+                        shadowBlur: 20,
+                        shadowColor: 'rgba(16, 185, 129, 0.3)',
+                    },
                 },
                 data: sortedChannels.map(ch => ({
                     name: ch.name,
@@ -268,67 +307,132 @@ export function AttributionPage() {
         tooltip: {
             trigger: 'axis',
             axisPointer: { type: 'shadow' },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            textStyle: { color: '#e2e8f0' },
         },
         grid: { left: 60, right: 20, top: 20, bottom: 40 },
         xAxis: {
             type: 'category',
             data: channels.filter(ch => ch.cost > 0).map(ch => ch.name),
-            axisLabel: { color: '#a0a0b0', fontSize: 10, rotate: 15 },
-            axisLine: { lineStyle: { color: '#333' } },
+            axisLabel: { color: '#64748b', fontSize: 10, rotate: 15 },
+            axisLine: { lineStyle: { color: 'rgba(255,255,255,0.1)' } },
         },
         yAxis: {
             type: 'value',
-            axisLabel: { color: '#a0a0b0', formatter: '{value}x' },
-            splitLine: { lineStyle: { color: '#333' } },
+            axisLabel: { color: '#64748b', formatter: '{value}x' },
+            splitLine: { lineStyle: { color: 'rgba(255,255,255,0.06)' } },
         },
         series: [
             {
                 type: 'bar',
                 data: channels.filter(ch => ch.cost > 0).map(ch => ({
                     value: (ch.revenue / ch.cost).toFixed(2),
-                    itemStyle: { color: ch.color },
+                    itemStyle: {
+                        color: {
+                            type: 'linear',
+                            x: 0, y: 0, x2: 0, y2: 1,
+                            colorStops: [
+                                { offset: 0, color: ch.color },
+                                { offset: 1, color: `${ch.color}66` },
+                            ],
+                        },
+                        borderRadius: [6, 6, 0, 0],
+                    },
                 })),
                 barWidth: '50%',
             },
         ],
     }), [channels]);
 
+    const dateRangeLabel: Record<string, string> = {
+        '7d': 'Last 7 days',
+        '30d': 'Last 30 days',
+        '90d': 'Last 90 days',
+    };
+
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-3">
-                            <Target className="w-7 h-7 text-th-accent-primary" />
-                            Attribution Analytics
-                        </h1>
-                        <DataModeIndicator />
-                    </div>
-                    <p className="text-th-text-secondary mt-1">
-                        {hasRealData
-                            ? 'Attribution analysis from your uploaded data'
-                            : 'Understand where your users come from and which channels drive value'}
-                    </p>
-                    {hasRealData && (
-                        <div className="flex items-center gap-2 mt-1 text-xs text-green-400">
-                            <Database className="w-3.5 h-3.5" />
-                            Channel data derived from your uploaded dataset
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                                    <Target className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        Attribution Analytics
+                                    </h1>
+                                    {hasRealData && (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full">
+                                            <Database className="w-3 h-3" />
+                                            Live
+                                        </span>
+                                    )}
+                                </div>
+                                <p className="text-slate-500 text-sm mt-0.5">
+                                    {hasRealData
+                                        ? 'Attribution analysis from your uploaded data'
+                                        : 'Understand where your users come from and which channels drive value'}
+                                </p>
+                            </div>
                         </div>
-                    )}
-                </div>
-                <div className="flex items-center gap-3">
-                    <select
-                        value={dateRange}
-                        onChange={(e) => setDateRange(e.target.value)}
-                        className="px-3 py-2 bg-th-bg-card border border-th-border rounded-lg text-sm text-th-text-primary"
-                    >
-                        <option value="7d">Last 7 days</option>
-                        <option value="30d">Last 30 days</option>
-                        <option value="90d">Last 90 days</option>
-                    </select>
-                </div>
-            </div>
+
+                        {/* Date Range Selector */}
+                        <div className="relative">
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => setShowDatePicker(!showDatePicker)}
+                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                            >
+                                {dateRangeLabel[dateRange]}
+                                <ChevronDown className={`w-4 h-4 transition-transform ${showDatePicker ? 'rotate-180' : ''}`} />
+                            </motion.button>
+                            <AnimatePresence>
+                                {showDatePicker && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        className="absolute right-0 mt-2 w-44 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                    >
+                                        {Object.entries(dateRangeLabel).map(([value, label]) => (
+                                            <button
+                                                key={value}
+                                                onClick={() => {
+                                                    setDateRange(value);
+                                                    setShowDatePicker(false);
+                                                }}
+                                                className={`w-full text-left px-4 py-2.5 text-sm hover:bg-white/[0.05] transition-colors ${
+                                                    dateRange === value ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+                                                }`}
+                                            >
+                                                {label}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
+                </Card>
+            </motion.div>
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -338,6 +442,8 @@ export function AttributionPage() {
                     value={totals.installs.toLocaleString()}
                     change="+12.5%"
                     positive
+                    color="emerald"
+                    index={0}
                 />
                 <KPICard
                     icon={DollarSign}
@@ -345,6 +451,8 @@ export function AttributionPage() {
                     value={`$${(totals.cost / 1000).toFixed(1)}K`}
                     change="+8.2%"
                     positive={false}
+                    color="blue"
+                    index={1}
                 />
                 <KPICard
                     icon={TrendingUp}
@@ -352,6 +460,8 @@ export function AttributionPage() {
                     value={`$${(totals.revenue / 1000).toFixed(1)}K`}
                     change="+15.3%"
                     positive
+                    color="teal"
+                    index={2}
                 />
                 <KPICard
                     icon={Target}
@@ -359,199 +469,241 @@ export function AttributionPage() {
                     value={`${(totals.revenue / totals.cost).toFixed(2)}x`}
                     change="+6.7%"
                     positive
+                    color="violet"
+                    index={3}
                 />
             </div>
 
             {/* Attribution Model Selector */}
-            <div className="bg-th-bg-card rounded-xl border border-th-border p-6">
-                <div className="flex items-center justify-between mb-6">
-                    <div>
-                        <h3 className="text-lg font-semibold text-th-text-primary">Attribution Model</h3>
-                        <p className="text-sm text-th-text-secondary mt-1">
-                            {MODEL_INFO[selectedModel].description}
-                        </p>
-                    </div>
-                    <div className="flex items-center gap-2 bg-th-bg-elevated rounded-lg p-1">
-                        {(Object.keys(MODEL_INFO) as AttributionModel[]).map((model) => (
-                            <button
-                                key={model}
-                                onClick={() => setSelectedModel(model)}
-                                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                                    selectedModel === model
-                                        ? 'bg-th-accent-primary text-white'
-                                        : 'text-th-text-secondary hover:text-th-text-primary'
-                                }`}
-                            >
-                                {MODEL_INFO[model].name}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Attribution Pie Chart */}
-                    <div>
-                        <h4 className="text-sm font-medium text-th-text-secondary mb-4">Credit Distribution</h4>
-                        <ReactECharts option={pieChartOption} style={{ height: 280 }} />
-                    </div>
-
-                    {/* Channel Table */}
-                    <div>
-                        <h4 className="text-sm font-medium text-th-text-secondary mb-4">Channel Breakdown</h4>
-                        <div className="space-y-2">
-                            {sortedChannels.map((channel) => (
-                                <div
-                                    key={channel.id}
-                                    className="flex items-center gap-3 p-3 bg-th-bg-elevated rounded-lg"
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="lg">
+                    <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                <Sparkles className="w-5 h-5 text-emerald-400" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-white">Attribution Model</h3>
+                                <p className="text-sm text-slate-500 mt-0.5">
+                                    {MODEL_INFO[selectedModel].description}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl">
+                            {(Object.keys(MODEL_INFO) as AttributionModel[]).map((model) => (
+                                <motion.button
+                                    key={model}
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => setSelectedModel(model)}
+                                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                                        selectedModel === model
+                                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                            : 'text-slate-400 hover:text-slate-300 hover:bg-white/[0.03]'
+                                    }`}
                                 >
-                                    <span className="text-xl">{channel.icon}</span>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="font-medium text-th-text-primary text-sm">
-                                            {channel.name}
-                                        </div>
-                                        <div className="text-xs text-th-text-secondary">
-                                            {channel.installs.toLocaleString()} installs
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="font-semibold text-th-text-primary">
-                                            {channel.attribution[selectedModel]}%
-                                        </div>
-                                        <div className="w-20 h-1.5 bg-th-bg-card rounded-full overflow-hidden">
-                                            <div
-                                                className="h-full rounded-full"
-                                                style={{
-                                                    width: `${channel.attribution[selectedModel]}%`,
-                                                    backgroundColor: channel.color,
-                                                }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                    {MODEL_INFO[model].name}
+                                </motion.button>
                             ))}
                         </div>
                     </div>
-                </div>
-            </div>
 
-            {/* ROAS by Channel */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-th-bg-card rounded-xl border border-th-border p-6">
-                    <h3 className="text-lg font-semibold text-th-text-primary mb-4">ROAS by Channel</h3>
-                    <ReactECharts option={roasChartOption} style={{ height: 250 }} />
-                </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Attribution Pie Chart */}
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                            <h4 className="text-sm font-medium text-slate-400 mb-4">Credit Distribution</h4>
+                            <ReactECharts option={pieChartOption} style={{ height: 280 }} />
+                        </div>
 
-                {/* Top Converting Paths */}
-                <div className="bg-th-bg-card rounded-xl border border-th-border p-6">
-                    <h3 className="text-lg font-semibold text-th-text-primary mb-4">Top Converting Paths</h3>
-                    <div className="space-y-3">
-                        <ConversionPath
-                            path={['Google Ads', 'Organic', 'Direct']}
-                            conversions={245}
-                            percentage={18.5}
-                        />
-                        <ConversionPath
-                            path={['Facebook Ads', 'Influencer', 'Direct']}
-                            conversions={198}
-                            percentage={14.9}
-                        />
-                        <ConversionPath
-                            path={['Organic']}
-                            conversions={156}
-                            percentage={11.8}
-                        />
-                        <ConversionPath
-                            path={['Apple Search', 'Direct']}
-                            conversions={134}
-                            percentage={10.1}
-                        />
-                        <ConversionPath
-                            path={['Referral', 'Organic', 'Direct']}
-                            conversions={112}
-                            percentage={8.4}
-                        />
+                        {/* Channel Table */}
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                            <h4 className="text-sm font-medium text-slate-400 mb-4">Channel Breakdown</h4>
+                            <div className="space-y-2">
+                                {sortedChannels.map((channel, index) => (
+                                    <motion.div
+                                        key={channel.id}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: index * 0.05 }}
+                                        className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors group"
+                                    >
+                                        <span className="text-xl">{channel.icon}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-medium text-white text-sm">
+                                                {channel.name}
+                                            </div>
+                                            <div className="text-xs text-slate-500">
+                                                {channel.installs.toLocaleString()} installs
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <div className="font-semibold text-white">
+                                                {channel.attribution[selectedModel]}%
+                                            </div>
+                                            <div className="w-20 h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
+                                                <motion.div
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${channel.attribution[selectedModel]}%` }}
+                                                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                                                    className="h-full rounded-full"
+                                                    style={{ backgroundColor: channel.color }}
+                                                />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </Card>
+            </motion.div>
+
+            {/* ROAS by Channel & Top Converting Paths */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                                <BarChart3 className="w-5 h-5 text-blue-400" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-white">ROAS by Channel</h3>
+                        </div>
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                            <ReactECharts option={roasChartOption} style={{ height: 250 }} />
+                        </div>
+                    </Card>
+                </motion.div>
+
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+                                <GitBranch className="w-5 h-5 text-violet-400" />
+                            </div>
+                            <h3 className="text-lg font-semibold text-white">Top Converting Paths</h3>
+                        </div>
+                        <div className="space-y-3">
+                            <ConversionPath
+                                path={['Google Ads', 'Organic', 'Direct']}
+                                conversions={245}
+                                percentage={18.5}
+                                index={0}
+                            />
+                            <ConversionPath
+                                path={['Facebook Ads', 'Influencer', 'Direct']}
+                                conversions={198}
+                                percentage={14.9}
+                                index={1}
+                            />
+                            <ConversionPath
+                                path={['Organic']}
+                                conversions={156}
+                                percentage={11.8}
+                                index={2}
+                            />
+                            <ConversionPath
+                                path={['Apple Search', 'Direct']}
+                                conversions={134}
+                                percentage={10.1}
+                                index={3}
+                            />
+                            <ConversionPath
+                                path={['Referral', 'Organic', 'Direct']}
+                                conversions={112}
+                                percentage={8.4}
+                                index={4}
+                            />
+                        </div>
+                    </Card>
+                </motion.div>
             </div>
 
             {/* Channel Performance Table */}
-            <div className="bg-th-bg-card rounded-xl border border-th-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-th-border">
-                    <h3 className="text-lg font-semibold text-th-text-primary">Channel Performance</h3>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead>
-                            <tr className="bg-th-bg-elevated">
-                                <th className="px-6 py-3 text-left text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Channel
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Installs
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Cost
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Revenue
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    CPI
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    ROAS
-                                </th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-th-text-secondary uppercase tracking-wider">
-                                    Conv. Rate
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-th-border">
-                            {channels.map((channel) => (
-                                <tr key={channel.id} className="hover:bg-th-bg-elevated transition-colors">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="flex items-center gap-2">
-                                            <span>{channel.icon}</span>
-                                            <span className="font-medium text-th-text-primary">{channel.name}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-th-text-primary">
-                                        {channel.installs.toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-th-text-primary">
-                                        {channel.cost > 0 ? `$${channel.cost.toLocaleString()}` : '-'}
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-th-text-primary">
-                                        ${channel.revenue.toLocaleString()}
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-th-text-primary">
-                                        {channel.cost > 0 ? `$${(channel.cost / channel.installs).toFixed(2)}` : '-'}
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        {channel.cost > 0 ? (
-                                            <span className={`font-medium ${
-                                                channel.revenue / channel.cost >= 2
-                                                    ? 'text-green-400'
-                                                    : channel.revenue / channel.cost >= 1
-                                                    ? 'text-yellow-400'
-                                                    : 'text-red-400'
-                                            }`}>
-                                                {(channel.revenue / channel.cost).toFixed(2)}x
-                                            </span>
-                                        ) : (
-                                            <span className="text-green-400">∞</span>
-                                        )}
-                                    </td>
-                                    <td className="px-6 py-4 text-right text-th-text-primary">
-                                        {((channel.conversions / channel.installs) * 100).toFixed(1)}%
-                                    </td>
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="none" className="overflow-hidden">
+                    <div className="px-6 py-4 border-b border-white/[0.06]">
+                        <h3 className="text-lg font-semibold text-white">Channel Performance</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="w-full">
+                            <thead>
+                                <tr className="bg-white/[0.02]">
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        Channel
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        Installs
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        Cost
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        Revenue
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        CPI
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        ROAS
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                        Conv. Rate
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                            </thead>
+                            <tbody className="divide-y divide-white/[0.04]">
+                                {channels.map((channel, index) => (
+                                    <motion.tr
+                                        key={channel.id}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: index * 0.03 }}
+                                        className="hover:bg-white/[0.02] transition-colors"
+                                    >
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center gap-2">
+                                                <span>{channel.icon}</span>
+                                                <span className="font-medium text-white">{channel.name}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-right text-slate-300">
+                                            {channel.installs.toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-right text-slate-300">
+                                            {channel.cost > 0 ? `$${channel.cost.toLocaleString()}` : '-'}
+                                        </td>
+                                        <td className="px-6 py-4 text-right text-slate-300">
+                                            ${channel.revenue.toLocaleString()}
+                                        </td>
+                                        <td className="px-6 py-4 text-right text-slate-300">
+                                            {channel.cost > 0 ? `$${(channel.cost / channel.installs).toFixed(2)}` : '-'}
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            {channel.cost > 0 ? (
+                                                <span className={`font-medium px-2 py-0.5 rounded-full text-sm ${
+                                                    channel.revenue / channel.cost >= 2
+                                                        ? 'bg-emerald-500/10 text-emerald-400'
+                                                        : channel.revenue / channel.cost >= 1
+                                                        ? 'bg-amber-500/10 text-amber-400'
+                                                        : 'bg-rose-500/10 text-rose-400'
+                                                }`}>
+                                                    {(channel.revenue / channel.cost).toFixed(2)}x
+                                                </span>
+                                            ) : (
+                                                <span className="text-emerald-400">∞</span>
+                                            )}
+                                        </td>
+                                        <td className="px-6 py-4 text-right text-slate-300">
+                                            {((channel.conversions / channel.installs) * 100).toFixed(1)}%
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </Card>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -565,28 +717,74 @@ function KPICard({
     value,
     change,
     positive,
+    color,
+    index,
 }: {
     icon: typeof Users;
     label: string;
     value: string;
     change: string;
     positive: boolean;
+    color: 'emerald' | 'blue' | 'teal' | 'violet';
+    index: number;
 }) {
+    const colorStyles = {
+        emerald: {
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20',
+            icon: 'text-emerald-400',
+            glow: 'bg-emerald-500/20',
+        },
+        blue: {
+            bg: 'from-blue-500/20 to-blue-500/5',
+            border: 'border-blue-500/20',
+            icon: 'text-blue-400',
+            glow: 'bg-blue-500/20',
+        },
+        teal: {
+            bg: 'from-teal-500/20 to-teal-500/5',
+            border: 'border-teal-500/20',
+            icon: 'text-teal-400',
+            glow: 'bg-teal-500/20',
+        },
+        violet: {
+            bg: 'from-violet-500/20 to-violet-500/5',
+            border: 'border-violet-500/20',
+            icon: 'text-violet-400',
+            glow: 'bg-violet-500/20',
+        },
+    };
+
+    const style = colorStyles[color];
+
     return (
-        <div className="bg-th-bg-card rounded-xl border border-th-border p-4">
-            <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-lg bg-th-accent-primary/20 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-th-accent-primary" />
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center gap-3 mb-3">
+                    <div className="relative">
+                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
+                        <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
+                            <Icon className={`w-5 h-5 ${style.icon}`} />
+                        </div>
+                    </div>
+                    <span className="text-sm text-slate-500">{label}</span>
                 </div>
-                <span className="text-sm text-th-text-secondary">{label}</span>
-            </div>
-            <div className="flex items-end justify-between">
-                <span className="text-2xl font-bold text-th-text-primary">{value}</span>
-                <span className={`text-sm font-medium ${positive ? 'text-green-400' : 'text-red-400'}`}>
-                    {change}
-                </span>
-            </div>
-        </div>
+                <div className="flex items-end justify-between">
+                    <span className="text-2xl font-bold text-white">{value}</span>
+                    <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
+                        positive
+                            ? 'bg-emerald-500/10 text-emerald-400'
+                            : 'bg-rose-500/10 text-rose-400'
+                    }`}>
+                        {change}
+                    </span>
+                </div>
+            </Card>
+        </motion.div>
     );
 }
 
@@ -594,30 +792,37 @@ function ConversionPath({
     path,
     conversions,
     percentage,
+    index,
 }: {
     path: string[];
     conversions: number;
     percentage: number;
+    index: number;
 }) {
     return (
-        <div className="flex items-center gap-3 p-3 bg-th-bg-elevated rounded-lg">
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors group"
+        >
             <div className="flex-1 flex items-center gap-2 overflow-x-auto">
                 {path.map((step, i) => (
                     <span key={i} className="flex items-center gap-2">
-                        <span className="px-2 py-1 bg-th-bg-card rounded text-xs font-medium text-th-text-primary whitespace-nowrap">
+                        <span className="px-2 py-1 bg-white/[0.05] border border-white/[0.08] rounded-lg text-xs font-medium text-slate-300 whitespace-nowrap group-hover:border-emerald-500/20 transition-colors">
                             {step}
                         </span>
                         {i < path.length - 1 && (
-                            <ArrowRight className="w-3 h-3 text-th-text-secondary flex-shrink-0" />
+                            <ArrowRight className="w-3 h-3 text-slate-600 flex-shrink-0" />
                         )}
                     </span>
                 ))}
             </div>
             <div className="text-right flex-shrink-0">
-                <div className="font-medium text-th-text-primary">{conversions}</div>
-                <div className="text-xs text-th-text-secondary">{percentage}%</div>
+                <div className="font-medium text-white">{conversions}</div>
+                <div className="text-xs text-slate-500">{percentage}%</div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

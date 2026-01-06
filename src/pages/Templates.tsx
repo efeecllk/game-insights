@@ -1,13 +1,17 @@
 /**
- * Template Marketplace Page
- * Browse, preview, and use dashboard templates
- * Phase 4: Community & Ecosystem
+ * Template Marketplace Page - Obsidian Analytics Design
+ *
+ * Premium template marketplace with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Refined template cards
  */
 
 import { useState, useEffect, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search,
-    Filter,
     Download,
     Star,
     CheckCircle,
@@ -21,6 +25,9 @@ import {
     Plus,
     Upload,
     X,
+    Grid3X3,
+    List,
+    Sparkles,
 } from 'lucide-react';
 import type { DashboardTemplate, TemplateCategory } from '../lib/templateStore';
 import {
@@ -35,6 +42,25 @@ import {
 } from '../lib/templateStore';
 import { STARTER_TEMPLATES, initializeStarterTemplates } from '../lib/starterTemplates';
 import type { GameCategory } from '../types';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
 
 // ============================================================================
 // Types
@@ -68,13 +94,13 @@ export function TemplatesPage() {
     const [selectedTemplate, setSelectedTemplate] = useState<DashboardTemplate | null>(null);
     const [showImportModal, setShowImportModal] = useState(false);
     const [starredTemplates, setStarredTemplates] = useState<Set<string>>(new Set());
+    const [showSortDropdown, setShowSortDropdown] = useState(false);
 
     // Load templates
     useEffect(() => {
         async function loadTemplates() {
             setLoading(true);
             try {
-                // Initialize starter templates
                 await initializeStarterTemplates();
                 const all = await getAllTemplates();
                 setTemplates(all.length > 0 ? all : STARTER_TEMPLATES);
@@ -92,7 +118,6 @@ export function TemplatesPage() {
     const filteredTemplates = useMemo(() => {
         let result = [...templates];
 
-        // Apply filters
         if (filters.category !== 'all') {
             result = result.filter(t => t.category === filters.category);
         }
@@ -111,7 +136,6 @@ export function TemplatesPage() {
             );
         }
 
-        // Sort
         switch (sortBy) {
             case 'popular':
                 result.sort((a, b) => b.downloads - a.downloads);
@@ -141,7 +165,6 @@ export function TemplatesPage() {
     // Handlers
     const handleUseTemplate = async (template: DashboardTemplate) => {
         await incrementDownloads(template.id);
-        // In a real app, this would apply the template to the current dashboard
         alert(`Template "${template.name}" applied! (Demo - actual implementation would configure dashboard)`);
         setSelectedTemplate(null);
     };
@@ -158,7 +181,6 @@ export function TemplatesPage() {
             await incrementStars(templateId);
             setStarredTemplates(prev => new Set(prev).add(templateId));
         }
-        // Refresh templates
         const updated = await getAllTemplates();
         setTemplates(updated.length > 0 ? updated : STARTER_TEMPLATES);
     };
@@ -195,150 +217,228 @@ export function TemplatesPage() {
         }
     };
 
+    const sortLabels: Record<SortOption, string> = {
+        popular: 'Most Popular',
+        recent: 'Most Recent',
+        stars: 'Most Stars',
+        name: 'Name A-Z',
+    };
+
     if (loading) {
         return (
-            <div className="p-6 flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-th-accent-primary" />
+            <div className="flex items-center justify-center h-64">
+                <div className="relative">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
+                    <div className="relative w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin" />
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-th-text-primary">Template Marketplace</h1>
-                    <p className="text-th-text-muted mt-1">
-                        Discover and use community dashboard templates
-                    </p>
-                </div>
-                <div className="flex items-center gap-3">
-                    <button
-                        onClick={() => setShowImportModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover transition-colors"
-                    >
-                        <Upload className="w-4 h-4" />
-                        Import
-                    </button>
-                    <button
-                        className="flex items-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover transition-colors"
-                    >
-                        <Plus className="w-4 h-4" />
-                        Create Template
-                    </button>
-                </div>
-            </div>
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                                    <Package className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    Template Marketplace
+                                </h1>
+                                <p className="text-slate-500 text-sm mt-0.5">
+                                    Discover and use community dashboard templates
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Button
+                                variant="secondary"
+                                icon={<Upload className="w-4 h-4" />}
+                                onClick={() => setShowImportModal(true)}
+                            >
+                                Import
+                            </Button>
+                            <Button
+                                variant="primary"
+                                icon={<Plus className="w-4 h-4" />}
+                            >
+                                Create Template
+                            </Button>
+                        </div>
+                    </div>
+                </Card>
+            </motion.div>
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatCard icon={Package} label="Templates" value={stats.total} color="violet" />
-                <StatCard icon={Star} label="Featured" value={stats.featured} color="yellow" />
-                <StatCard icon={CheckCircle} label="Verified" value={stats.verified} color="green" />
-                <StatCard icon={Download} label="Total Downloads" value={formatNumber(stats.downloads)} color="blue" />
+                <StatCard icon={Package} label="Templates" value={stats.total} color="emerald" index={0} />
+                <StatCard icon={Star} label="Featured" value={stats.featured} color="amber" index={1} />
+                <StatCard icon={CheckCircle} label="Verified" value={stats.verified} color="teal" index={2} />
+                <StatCard icon={Download} label="Total Downloads" value={formatNumber(stats.downloads)} color="blue" index={3} />
             </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap items-center gap-4">
-                {/* Search */}
-                <div className="relative flex-1 min-w-[200px] max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted" />
-                    <input
-                        type="text"
-                        placeholder="Search templates..."
-                        value={filters.search}
-                        onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary focus:border-transparent bg-th-bg-surface text-th-text-primary"
-                    />
-                </div>
+            <motion.div variants={itemVariants}>
+                <Card variant="default" padding="md">
+                    <div className="flex flex-wrap items-center gap-4">
+                        {/* Search */}
+                        <div className="relative flex-1 min-w-[200px] max-w-md">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+                            <input
+                                type="text"
+                                placeholder="Search templates..."
+                                value={filters.search}
+                                onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            />
+                        </div>
 
-                {/* Category Filter */}
-                <div className="relative">
-                    <select
-                        value={filters.category}
-                        onChange={e => setFilters(prev => ({ ...prev, category: e.target.value as TemplateCategory | 'all' }))}
-                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
-                    >
-                        <option value="all">All Categories</option>
-                        <option value="retention">Retention</option>
-                        <option value="monetization">Monetization</option>
-                        <option value="engagement">Engagement</option>
-                        <option value="progression">Progression</option>
-                        <option value="acquisition">Acquisition</option>
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
-                </div>
+                        {/* Category Filter */}
+                        <div className="relative">
+                            <select
+                                value={filters.category}
+                                onChange={e => setFilters(prev => ({ ...prev, category: e.target.value as TemplateCategory | 'all' }))}
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all cursor-pointer"
+                            >
+                                <option value="all">All Categories</option>
+                                <option value="retention">Retention</option>
+                                <option value="monetization">Monetization</option>
+                                <option value="engagement">Engagement</option>
+                                <option value="progression">Progression</option>
+                                <option value="acquisition">Acquisition</option>
+                            </select>
+                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                        </div>
 
-                {/* Game Type Filter */}
-                <div className="relative">
-                    <select
-                        value={filters.gameType}
-                        onChange={e => setFilters(prev => ({ ...prev, gameType: e.target.value as GameCategory | 'all' }))}
-                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
-                    >
-                        <option value="all">All Game Types</option>
-                        <option value="puzzle">Puzzle</option>
-                        <option value="idle">Idle</option>
-                        <option value="battle_royale">Battle Royale</option>
-                        <option value="match3_meta">Match-3 Meta</option>
-                        <option value="gacha_rpg">Gacha RPG</option>
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
-                </div>
+                        {/* Game Type Filter */}
+                        <div className="relative">
+                            <select
+                                value={filters.gameType}
+                                onChange={e => setFilters(prev => ({ ...prev, gameType: e.target.value as GameCategory | 'all' }))}
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all cursor-pointer"
+                            >
+                                <option value="all">All Game Types</option>
+                                <option value="puzzle">Puzzle</option>
+                                <option value="idle">Idle</option>
+                                <option value="battle_royale">Battle Royale</option>
+                                <option value="match3_meta">Match-3 Meta</option>
+                                <option value="gacha_rpg">Gacha RPG</option>
+                            </select>
+                            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+                        </div>
 
-                {/* Verified Filter */}
-                <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        checked={filters.verified}
-                        onChange={e => setFilters(prev => ({ ...prev, verified: e.target.checked }))}
-                        className="w-4 h-4 rounded border-th-border text-th-accent-primary focus:ring-th-accent-primary"
-                    />
-                    <span className="text-sm text-th-text-secondary">Verified only</span>
-                </label>
+                        {/* Verified Filter */}
+                        <label className="flex items-center gap-2 cursor-pointer group">
+                            <input
+                                type="checkbox"
+                                checked={filters.verified}
+                                onChange={e => setFilters(prev => ({ ...prev, verified: e.target.checked }))}
+                                className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500/50"
+                            />
+                            <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Verified only</span>
+                        </label>
 
-                {/* Sort */}
-                <div className="relative ml-auto">
-                    <select
-                        value={sortBy}
-                        onChange={e => setSortBy(e.target.value as SortOption)}
-                        className="appearance-none pl-3 pr-10 py-2 border border-th-border rounded-lg focus:ring-2 focus:ring-th-accent-primary bg-th-bg-surface text-th-text-primary"
-                    >
-                        <option value="popular">Most Popular</option>
-                        <option value="recent">Most Recent</option>
-                        <option value="stars">Most Stars</option>
-                        <option value="name">Name A-Z</option>
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted pointer-events-none" />
-                </div>
+                        {/* Sort */}
+                        <div className="relative ml-auto">
+                            <button
+                                onClick={() => setShowSortDropdown(!showSortDropdown)}
+                                className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:bg-white/[0.06] transition-colors"
+                            >
+                                {sortLabels[sortBy]}
+                                <ChevronDown className={`w-4 h-4 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
+                            </button>
+                            <AnimatePresence>
+                                {showSortDropdown && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                                        className="absolute right-0 mt-2 w-40 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                    >
+                                        {(Object.keys(sortLabels) as SortOption[]).map((option) => (
+                                            <button
+                                                key={option}
+                                                onClick={() => {
+                                                    setSortBy(option);
+                                                    setShowSortDropdown(false);
+                                                }}
+                                                className={`w-full text-left px-4 py-2.5 text-sm hover:bg-white/[0.05] transition-colors ${
+                                                    sortBy === option ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+                                                }`}
+                                            >
+                                                {sortLabels[option]}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
-                {/* View Mode */}
-                <div className="flex items-center gap-1 border border-th-border rounded-lg p-1">
-                    <button
-                        onClick={() => setViewMode('grid')}
-                        className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-th-accent-primary-muted text-th-accent-primary' : 'text-th-text-muted hover:text-th-text-secondary'}`}
-                    >
-                        <Layout className="w-4 h-4" />
-                    </button>
-                    <button
-                        onClick={() => setViewMode('list')}
-                        className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-th-accent-primary-muted text-th-accent-primary' : 'text-th-text-muted hover:text-th-text-secondary'}`}
-                    >
-                        <Filter className="w-4 h-4" />
-                    </button>
-                </div>
-            </div>
+                        {/* View Mode */}
+                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl">
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`p-2 rounded-lg transition-colors ${
+                                    viewMode === 'grid'
+                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        : 'text-slate-500 hover:text-slate-300'
+                                }`}
+                            >
+                                <Grid3X3 className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`p-2 rounded-lg transition-colors ${
+                                    viewMode === 'list'
+                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        : 'text-slate-500 hover:text-slate-300'
+                                }`}
+                            >
+                                <List className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                </Card>
+            </motion.div>
 
             {/* Templates Grid/List */}
             {filteredTemplates.length === 0 ? (
-                <div className="text-center py-12 bg-th-bg-surface rounded-card border border-th-border">
-                    <Package className="w-12 h-12 text-th-text-muted mx-auto mb-4" />
-                    <h3 className="text-lg font-medium text-th-text-primary">No templates found</h3>
-                    <p className="text-th-text-muted mt-1">Try adjusting your filters or search query</p>
-                </div>
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg" className="text-center">
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', delay: 0.2 }}
+                            className="relative inline-block mb-4"
+                        >
+                            <div className="absolute inset-0 bg-slate-500/20 rounded-xl blur-xl" />
+                            <div className="relative w-16 h-16 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center mx-auto">
+                                <Package className="w-8 h-8 text-slate-500" />
+                            </div>
+                        </motion.div>
+                        <h3 className="text-lg font-semibold text-white">No templates found</h3>
+                        <p className="text-slate-500 mt-1">Try adjusting your filters or search query</p>
+                    </Card>
+                </motion.div>
             ) : viewMode === 'grid' ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredTemplates.map(template => (
+                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredTemplates.map((template, index) => (
                         <TemplateCard
                             key={template.id}
                             template={template}
@@ -347,12 +447,13 @@ export function TemplatesPage() {
                             onStar={() => handleToggleStar(template.id)}
                             onUse={() => handleUseTemplate(template)}
                             onExport={() => handleExportTemplate(template)}
+                            index={index}
                         />
                     ))}
-                </div>
+                </motion.div>
             ) : (
-                <div className="space-y-3">
-                    {filteredTemplates.map(template => (
+                <motion.div variants={itemVariants} className="space-y-3">
+                    {filteredTemplates.map((template, index) => (
                         <TemplateListItem
                             key={template.id}
                             template={template}
@@ -360,31 +461,36 @@ export function TemplatesPage() {
                             onView={() => setSelectedTemplate(template)}
                             onStar={() => handleToggleStar(template.id)}
                             onUse={() => handleUseTemplate(template)}
+                            index={index}
                         />
                     ))}
-                </div>
+                </motion.div>
             )}
 
             {/* Template Detail Modal */}
-            {selectedTemplate && (
-                <TemplateDetailModal
-                    template={selectedTemplate}
-                    isStarred={starredTemplates.has(selectedTemplate.id)}
-                    onClose={() => setSelectedTemplate(null)}
-                    onUse={() => handleUseTemplate(selectedTemplate)}
-                    onStar={() => handleToggleStar(selectedTemplate.id)}
-                    onExport={() => handleExportTemplate(selectedTemplate)}
-                />
-            )}
+            <AnimatePresence>
+                {selectedTemplate && (
+                    <TemplateDetailModal
+                        template={selectedTemplate}
+                        isStarred={starredTemplates.has(selectedTemplate.id)}
+                        onClose={() => setSelectedTemplate(null)}
+                        onUse={() => handleUseTemplate(selectedTemplate)}
+                        onStar={() => handleToggleStar(selectedTemplate.id)}
+                        onExport={() => handleExportTemplate(selectedTemplate)}
+                    />
+                )}
+            </AnimatePresence>
 
             {/* Import Modal */}
-            {showImportModal && (
-                <ImportModal
-                    onClose={() => setShowImportModal(false)}
-                    onImport={handleImportTemplate}
-                />
-            )}
-        </div>
+            <AnimatePresence>
+                {showImportModal && (
+                    <ImportModal
+                        onClose={() => setShowImportModal(false)}
+                        onImport={handleImportTemplate}
+                    />
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
@@ -392,41 +498,55 @@ export function TemplatesPage() {
 // Sub-Components
 // ============================================================================
 
-function StatCard({ icon: Icon, label, value, color }: {
+function StatCard({ icon: Icon, label, value, color, index }: {
     icon: React.ElementType;
     label: string;
     value: string | number;
-    color: 'violet' | 'yellow' | 'green' | 'blue';
+    color: 'emerald' | 'amber' | 'teal' | 'blue';
+    index: number;
 }) {
-    const colorClasses = {
-        violet: 'bg-th-accent-primary-muted text-th-accent-primary',
-        yellow: 'bg-yellow-500/10 text-yellow-400',
-        green: 'bg-th-success-muted text-th-success',
-        blue: 'bg-th-info-muted text-th-info',
+    const colorStyles = {
+        emerald: { bg: 'from-emerald-500/20 to-emerald-500/5', border: 'border-emerald-500/20', icon: 'text-emerald-400', glow: 'bg-emerald-500/20' },
+        amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'text-amber-400', glow: 'bg-amber-500/20' },
+        teal: { bg: 'from-teal-500/20 to-teal-500/5', border: 'border-teal-500/20', icon: 'text-teal-400', glow: 'bg-teal-500/20' },
+        blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'text-blue-400', glow: 'bg-blue-500/20' },
     };
 
+    const style = colorStyles[color];
+
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 flex items-center gap-4">
-            <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
-                <Icon className="w-5 h-5" />
-            </div>
-            <div>
-                <p className="text-2xl font-bold text-th-text-primary">{value}</p>
-                <p className="text-sm text-th-text-muted">{label}</p>
-            </div>
-        </div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
+                        <div className={`relative w-12 h-12 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
+                            <Icon className={`w-6 h-6 ${style.icon}`} />
+                        </div>
+                    </div>
+                    <div>
+                        <p className="text-2xl font-bold text-white">{value}</p>
+                        <p className="text-sm text-slate-500">{label}</p>
+                    </div>
+                </div>
+            </Card>
+        </motion.div>
     );
 }
 
-function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _onExport }: {
+function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _onExport, index }: {
     template: DashboardTemplate;
     isStarred: boolean;
     onView: () => void;
     onStar: () => void;
     onUse: () => void;
     onExport: () => void;
+    index: number;
 }) {
-    // _onExport available for future context menu
     const categoryIcon = {
         retention: TrendingUp,
         monetization: BarChart3,
@@ -439,149 +559,162 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
     const CategoryIcon = categoryIcon;
 
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border overflow-hidden hover:shadow-theme-lg transition-shadow">
-            {/* Preview Header */}
-            <div className="h-32 bg-gradient-to-br from-violet-500 to-indigo-600 p-4 relative">
-                <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-2">
-                        {template.featured && (
-                            <span className="px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs font-medium rounded-full">
-                                Featured
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="none" className="overflow-hidden group hover:border-white/[0.12] transition-all">
+                {/* Preview Header */}
+                <div className="h-32 bg-gradient-to-br from-emerald-500/30 via-teal-500/20 to-blue-500/30 p-4 relative">
+                    <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-2">
+                            {template.featured && (
+                                <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-medium rounded-full">
+                                    Featured
+                                </span>
+                            )}
+                            {template.verified && (
+                                <span className="px-2 py-0.5 bg-emerald-400 text-emerald-900 text-xs font-medium rounded-full flex items-center gap-1">
+                                    <CheckCircle className="w-3 h-3" /> Verified
+                                </span>
+                            )}
+                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={e => { e.stopPropagation(); onStar(); }}
+                            className={`p-1.5 rounded-full ${
+                                isStarred
+                                    ? 'bg-amber-400 text-amber-900'
+                                    : 'bg-white/20 text-white hover:bg-white/30'
+                            }`}
+                        >
+                            <Star className="w-4 h-4" fill={isStarred ? 'currentColor' : 'none'} />
+                        </motion.button>
+                    </div>
+
+                    {/* Chart preview placeholder */}
+                    <div className="absolute bottom-2 left-4 right-4 flex gap-1">
+                        <div className="flex-1 h-8 bg-white/20 rounded-lg" />
+                        <div className="flex-1 h-8 bg-white/20 rounded-lg" />
+                        <div className="flex-1 h-8 bg-white/20 rounded-lg" />
+                    </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-4">
+                    <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                            <CategoryIcon className="w-5 h-5 text-emerald-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-white truncate">{template.name}</h3>
+                            <p className="text-sm text-slate-500 line-clamp-2 mt-0.5">{template.description}</p>
+                        </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1 mt-3">
+                        {template.tags.slice(0, 3).map(tag => (
+                            <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] text-slate-400 text-xs rounded-full">
+                                {tag}
+                            </span>
+                        ))}
+                        {template.tags.length > 3 && (
+                            <span className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] text-slate-500 text-xs rounded-full">
+                                +{template.tags.length - 3}
                             </span>
                         )}
-                        {template.verified && (
-                            <span className="px-2 py-0.5 bg-green-400 text-green-900 text-xs font-medium rounded-full flex items-center gap-1">
-                                <CheckCircle className="w-3 h-3" /> Verified
-                            </span>
-                        )}
                     </div>
-                    <button
-                        onClick={e => { e.stopPropagation(); onStar(); }}
-                        className={`p-1.5 rounded-full ${isStarred ? 'bg-yellow-400 text-yellow-900' : 'bg-white/20 text-white hover:bg-white/30'}`}
-                    >
-                        <Star className="w-4 h-4" fill={isStarred ? 'currentColor' : 'none'} />
-                    </button>
-                </div>
 
-                {/* Chart preview placeholder */}
-                <div className="absolute bottom-2 left-4 right-4 flex gap-1">
-                    <div className="flex-1 h-8 bg-white/20 rounded" />
-                    <div className="flex-1 h-8 bg-white/20 rounded" />
-                    <div className="flex-1 h-8 bg-white/20 rounded" />
-                </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-4">
-                <div className="flex items-start gap-3">
-                    <div className="p-2 bg-th-accent-primary-muted text-th-accent-primary rounded-lg">
-                        <CategoryIcon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-th-text-primary truncate">{template.name}</h3>
-                        <p className="text-sm text-th-text-muted line-clamp-2 mt-0.5">{template.description}</p>
-                    </div>
-                </div>
-
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1 mt-3">
-                    {template.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="px-2 py-0.5 bg-th-bg-elevated text-th-text-secondary text-xs rounded-full">
-                            {tag}
+                    {/* Stats */}
+                    <div className="flex items-center gap-4 mt-4 pt-3 border-t border-white/[0.06] text-sm text-slate-500">
+                        <span className="flex items-center gap-1">
+                            <Download className="w-4 h-4" /> {formatNumber(template.downloads)}
                         </span>
-                    ))}
-                    {template.tags.length > 3 && (
-                        <span className="px-2 py-0.5 bg-th-bg-elevated text-th-text-secondary text-xs rounded-full">
-                            +{template.tags.length - 3}
+                        <span className="flex items-center gap-1">
+                            <Star className="w-4 h-4" /> {template.stars}
                         </span>
-                    )}
-                </div>
+                        <span className="text-slate-600">by {template.author}</span>
+                    </div>
 
-                {/* Stats */}
-                <div className="flex items-center gap-4 mt-4 pt-3 border-t border-th-border-subtle text-sm text-th-text-muted">
-                    <span className="flex items-center gap-1">
-                        <Download className="w-4 h-4" /> {formatNumber(template.downloads)}
-                    </span>
-                    <span className="flex items-center gap-1">
-                        <Star className="w-4 h-4" /> {template.stars}
-                    </span>
-                    <span className="text-th-text-muted">by {template.author}</span>
+                    {/* Actions */}
+                    <div className="flex gap-2 mt-4">
+                        <Button variant="secondary" size="sm" onClick={onView} className="flex-1">
+                            <Eye className="w-4 h-4 mr-1" /> Preview
+                        </Button>
+                        <Button variant="primary" size="sm" onClick={onUse} className="flex-1">
+                            <Download className="w-4 h-4 mr-1" /> Use
+                        </Button>
+                    </div>
                 </div>
-
-                {/* Actions */}
-                <div className="flex gap-2 mt-4">
-                    <button
-                        onClick={onView}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover text-sm font-medium"
-                    >
-                        <Eye className="w-4 h-4" /> Preview
-                    </button>
-                    <button
-                        onClick={onUse}
-                        className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover text-sm font-medium"
-                    >
-                        <Download className="w-4 h-4" /> Use
-                    </button>
-                </div>
-            </div>
-        </div>
+            </Card>
+        </motion.div>
     );
 }
 
-function TemplateListItem({ template, isStarred, onView, onStar, onUse }: {
+function TemplateListItem({ template, isStarred, onView, onStar, onUse, index }: {
     template: DashboardTemplate;
     isStarred: boolean;
     onView: () => void;
     onStar: () => void;
     onUse: () => void;
+    index: number;
 }): React.ReactElement {
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 flex items-center gap-4 hover:shadow-theme-sm transition-shadow">
-            <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-lg flex items-center justify-center text-white">
-                <Layout className="w-6 h-6" />
-            </div>
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.03 }}
+        >
+            <Card variant="default" padding="md" className="flex items-center gap-4 hover:border-white/[0.12] transition-all">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20">
+                    <Layout className="w-6 h-6 text-emerald-400" />
+                </div>
 
-            <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-white">{template.name}</h3>
+                        {template.verified && (
+                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                        )}
+                        {template.featured && (
+                            <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs font-medium rounded-full">
+                                Featured
+                            </span>
+                        )}
+                    </div>
+                    <p className="text-sm text-slate-500 line-clamp-1">{template.description}</p>
+                    <div className="flex items-center gap-3 mt-1 text-xs text-slate-600">
+                        <span>by {template.author}</span>
+                        <span>{formatNumber(template.downloads)} downloads</span>
+                        <span>{template.stars} stars</span>
+                    </div>
+                </div>
+
                 <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-th-text-primary">{template.name}</h3>
-                    {template.verified && (
-                        <CheckCircle className="w-4 h-4 text-th-success" />
-                    )}
-                    {template.featured && (
-                        <span className="px-2 py-0.5 bg-yellow-500/10 text-yellow-400 text-xs font-medium rounded-full">
-                            Featured
-                        </span>
-                    )}
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={onStar}
+                        className={`p-2 rounded-xl ${
+                            isStarred
+                                ? 'bg-amber-500/10 text-amber-400'
+                                : 'text-slate-500 hover:text-slate-300 hover:bg-white/[0.05]'
+                        } transition-colors`}
+                    >
+                        <Star className="w-5 h-5" fill={isStarred ? 'currentColor' : 'none'} />
+                    </motion.button>
+                    <Button variant="secondary" size="sm" onClick={onView}>
+                        Preview
+                    </Button>
+                    <Button variant="primary" size="sm" onClick={onUse}>
+                        Use Template
+                    </Button>
                 </div>
-                <p className="text-sm text-th-text-muted line-clamp-1">{template.description}</p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-th-text-muted">
-                    <span>by {template.author}</span>
-                    <span>{formatNumber(template.downloads)} downloads</span>
-                    <span>{template.stars} stars</span>
-                </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-                <button
-                    onClick={onStar}
-                    className={`p-2 rounded-lg ${isStarred ? 'bg-yellow-500/10 text-yellow-400' : 'hover:bg-th-interactive-hover text-th-text-muted'}`}
-                >
-                    <Star className="w-5 h-5" fill={isStarred ? 'currentColor' : 'none'} />
-                </button>
-                <button
-                    onClick={onView}
-                    className="px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover text-sm font-medium"
-                >
-                    Preview
-                </button>
-                <button
-                    onClick={onUse}
-                    className="px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover text-sm font-medium"
-                >
-                    Use Template
-                </button>
-            </div>
-        </div>
+            </Card>
+        </motion.div>
     );
 }
 
@@ -594,25 +727,37 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
     onExport: () => void;
 }) {
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-th-bg-surface rounded-card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        >
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            >
                 {/* Header */}
-                <div className="h-40 bg-gradient-to-br from-violet-500 to-indigo-600 p-6 relative">
-                    <button
+                <div className="h-40 bg-gradient-to-br from-emerald-500/30 via-teal-500/20 to-blue-500/30 p-6 relative">
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={onClose}
-                        className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full text-white"
+                        className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-xl text-white transition-colors"
                     >
                         <X className="w-5 h-5" />
-                    </button>
+                    </motion.button>
 
                     <div className="flex items-start gap-2">
                         {template.featured && (
-                            <span className="px-2 py-0.5 bg-yellow-400 text-yellow-900 text-xs font-medium rounded-full">
+                            <span className="px-2 py-0.5 bg-amber-400 text-amber-900 text-xs font-medium rounded-full">
                                 Featured
                             </span>
                         )}
                         {template.verified && (
-                            <span className="px-2 py-0.5 bg-green-400 text-green-900 text-xs font-medium rounded-full flex items-center gap-1">
+                            <span className="px-2 py-0.5 bg-emerald-400 text-emerald-900 text-xs font-medium rounded-full flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3" /> Verified
                             </span>
                         )}
@@ -627,30 +772,30 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 {/* Content */}
                 <div className="p-6 space-y-6">
                     {/* Description */}
-                    <p className="text-th-text-secondary">{template.description}</p>
+                    <p className="text-slate-400">{template.description}</p>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-6 py-4 border-y border-th-border-subtle">
+                    <div className="flex items-center gap-6 py-4 border-y border-white/[0.06]">
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-th-text-primary">{formatNumber(template.downloads)}</p>
-                            <p className="text-sm text-th-text-muted">Downloads</p>
+                            <p className="text-2xl font-bold text-white">{formatNumber(template.downloads)}</p>
+                            <p className="text-sm text-slate-500">Downloads</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-th-text-primary">{template.stars}</p>
-                            <p className="text-sm text-th-text-muted">Stars</p>
+                            <p className="text-2xl font-bold text-white">{template.stars}</p>
+                            <p className="text-sm text-slate-500">Stars</p>
                         </div>
                         <div className="text-center">
-                            <p className="text-2xl font-bold text-th-text-primary">v{template.version}</p>
-                            <p className="text-sm text-th-text-muted">Version</p>
+                            <p className="text-2xl font-bold text-white">v{template.version}</p>
+                            <p className="text-sm text-slate-500">Version</p>
                         </div>
                     </div>
 
                     {/* Game Types */}
                     <div>
-                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Compatible Game Types</h3>
+                        <h3 className="text-sm font-medium text-white mb-2">Compatible Game Types</h3>
                         <div className="flex flex-wrap gap-2">
                             {template.gameTypes.map(type => (
-                                <span key={type} className="px-3 py-1 bg-th-accent-primary-muted text-th-accent-primary rounded-full text-sm">
+                                <span key={type} className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-sm">
                                     {formatGameType(type)}
                                 </span>
                             ))}
@@ -659,14 +804,14 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 
                     {/* Required Columns */}
                     <div>
-                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Required Data Columns</h3>
+                        <h3 className="text-sm font-medium text-white mb-2">Required Data Columns</h3>
                         <div className="space-y-2">
                             {template.requiredColumns.map(col => (
                                 <div key={col.semantic} className="flex items-center gap-2 text-sm">
-                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-th-text-muted' : 'bg-th-accent-primary'}`} />
-                                    <span className="font-mono text-th-text-secondary">{col.semantic}</span>
-                                    {col.optional && <span className="text-th-text-muted">(optional)</span>}
-                                    {col.description && <span className="text-th-text-muted">- {col.description}</span>}
+                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-slate-500' : 'bg-emerald-400'}`} />
+                                    <span className="font-mono text-slate-400">{col.semantic}</span>
+                                    {col.optional && <span className="text-slate-600">(optional)</span>}
+                                    {col.description && <span className="text-slate-600">- {col.description}</span>}
                                 </div>
                             ))}
                         </div>
@@ -674,18 +819,18 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
 
                     {/* Layout Preview */}
                     <div>
-                        <h3 className="text-sm font-medium text-th-text-primary mb-2">Dashboard Layout</h3>
-                        <div className="bg-th-bg-base rounded-lg p-4 space-y-3">
-                            <div className="text-xs text-th-text-muted">
-                                <strong>{template.layout.kpis.length}</strong> KPIs,{' '}
-                                <strong>{template.layout.mainCharts.length}</strong> main charts,{' '}
-                                <strong>{template.layout.sideCharts.length}</strong> side charts
+                        <h3 className="text-sm font-medium text-white mb-2">Dashboard Layout</h3>
+                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-3">
+                            <div className="text-xs text-slate-500">
+                                <strong className="text-slate-400">{template.layout.kpis.length}</strong> KPIs,{' '}
+                                <strong className="text-slate-400">{template.layout.mainCharts.length}</strong> main charts,{' '}
+                                <strong className="text-slate-400">{template.layout.sideCharts.length}</strong> side charts
                             </div>
                             <div className="grid grid-cols-4 gap-2">
                                 {template.layout.kpis.map(kpi => (
-                                    <div key={kpi.id} className="bg-th-bg-surface rounded p-2 text-center text-xs">
-                                        <div className="font-medium text-th-text-primary">{kpi.name}</div>
-                                        <div className="text-th-text-muted">{kpi.format}</div>
+                                    <div key={kpi.id} className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-2 text-center text-xs">
+                                        <div className="font-medium text-white">{kpi.name}</div>
+                                        <div className="text-slate-500">{kpi.format}</div>
                                     </div>
                                 ))}
                             </div>
@@ -695,7 +840,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
                         {template.tags.map(tag => (
-                            <span key={tag} className="px-3 py-1 bg-th-bg-elevated text-th-text-secondary rounded-full text-sm">
+                            <span key={tag} className="px-3 py-1 bg-white/[0.03] border border-white/[0.06] text-slate-400 rounded-full text-sm">
                                 {tag}
                             </span>
                         ))}
@@ -703,35 +848,32 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-th-border-subtle flex items-center gap-3">
-                    <button
+                <div className="p-6 border-t border-white/[0.06] flex items-center gap-3">
+                    <Button
+                        variant={isStarred ? 'primary' : 'secondary'}
                         onClick={onStar}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-                            isStarred
-                                ? 'bg-yellow-500/10 border-yellow-500/20 text-yellow-400'
-                                : 'border-th-border text-th-text-secondary hover:bg-th-interactive-hover'
-                        }`}
+                        icon={<Star className="w-4 h-4" fill={isStarred ? 'currentColor' : 'none'} />}
                     >
-                        <Star className="w-4 h-4" fill={isStarred ? 'currentColor' : 'none'} />
                         {isStarred ? 'Starred' : 'Star'}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="secondary"
                         onClick={onExport}
-                        className="flex items-center gap-2 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover"
+                        icon={<Download className="w-4 h-4" />}
                     >
-                        <Download className="w-4 h-4" />
                         Export JSON
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="primary"
                         onClick={onUse}
-                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-th-accent-primary text-white rounded-lg hover:bg-th-accent-primary-hover font-medium"
+                        icon={<Sparkles className="w-4 h-4" />}
+                        className="flex-1"
                     >
-                        <Download className="w-4 h-4" />
                         Use This Template
-                    </button>
+                    </Button>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
@@ -747,23 +889,43 @@ function ImportModal({ onClose, onImport }: {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-th-bg-surface rounded-card max-w-md w-full p-6">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        >
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-md w-full p-6 shadow-2xl"
+            >
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-xl font-bold text-th-text-primary">Import Template</h2>
-                    <button onClick={onClose} className="p-2 hover:bg-th-interactive-hover rounded-lg">
+                    <h2 className="text-xl font-bold text-white">Import Template</h2>
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={onClose}
+                        className="p-2 hover:bg-white/[0.05] rounded-xl transition-colors text-slate-400 hover:text-white"
+                    >
                         <X className="w-5 h-5" />
-                    </button>
+                    </motion.button>
                 </div>
 
-                <p className="text-th-text-secondary mb-6">
+                <p className="text-slate-500 mb-6">
                     Import a template from a JSON file exported from Game Insights.
                 </p>
 
-                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-th-border rounded-xl hover:border-th-accent-primary cursor-pointer transition-colors">
-                    <Upload className="w-10 h-10 text-th-text-muted mb-3" />
-                    <span className="text-th-text-secondary font-medium">Click to select file</span>
-                    <span className="text-th-text-muted text-sm mt-1">or drag and drop</span>
+                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/[0.1] rounded-xl hover:border-emerald-500/30 hover:bg-emerald-500/5 cursor-pointer transition-all group">
+                    <div className="relative mb-3">
+                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative w-12 h-12 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center group-hover:border-emerald-500/30 transition-colors">
+                            <Upload className="w-6 h-6 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                        </div>
+                    </div>
+                    <span className="text-white font-medium">Click to select file</span>
+                    <span className="text-slate-500 text-sm mt-1">or drag and drop</span>
                     <input
                         type="file"
                         accept=".json"
@@ -773,15 +935,12 @@ function ImportModal({ onClose, onImport }: {
                 </label>
 
                 <div className="flex gap-3 mt-6">
-                    <button
-                        onClick={onClose}
-                        className="flex-1 px-4 py-2 border border-th-border rounded-lg hover:bg-th-interactive-hover"
-                    >
+                    <Button variant="secondary" onClick={onClose} fullWidth>
                         Cancel
-                    </button>
+                    </Button>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }
 
