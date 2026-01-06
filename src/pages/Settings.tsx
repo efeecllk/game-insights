@@ -1,10 +1,17 @@
 /**
- * Settings Page - API key and analytics configuration
+ * Settings Page - Obsidian Analytics Design
+ *
+ * Premium settings page with:
+ * - Glassmorphism cards
+ * - Animated section reveals
+ * - Refined form inputs
+ * - Status indicators with emerald theme
  */
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield } from 'lucide-react';
 import { validateApiKey } from '../services/openai';
 import { AnomalyConfigPanel } from '../components/settings';
 import { languages, changeLanguage, type LanguageCode } from '../i18n';
@@ -23,6 +30,24 @@ function setStoredApiKey(key: string): void {
         localStorage.removeItem(API_KEY_STORAGE);
     }
 }
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
 
 export function SettingsPage() {
     const { t, i18n } = useTranslation();
@@ -69,137 +94,240 @@ export function SettingsPage() {
     };
 
     return (
-        <div className="space-y-6 max-w-2xl">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6 max-w-2xl"
+        >
             {/* Page Header */}
-            <div>
-                <h1 className="text-2xl font-bold text-th-text-primary">{t('pages.settings.title')}</h1>
-                <p className="text-th-text-muted mt-1">{t('pages.settings.subtitle')}</p>
-            </div>
+            <motion.div variants={itemVariants} className="flex items-center gap-4">
+                <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+                    className="relative"
+                >
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
+                        <Settings className="w-6 h-6 text-emerald-400" />
+                    </div>
+                </motion.div>
+                <div>
+                    <h1 className="text-2xl font-display font-bold text-white">
+                        {t('pages.settings.title')}
+                    </h1>
+                    <p className="text-sm text-slate-500 mt-0.5">{t('pages.settings.subtitle')}</p>
+                </div>
+            </motion.div>
 
             {/* Language Selection Section */}
-            <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center">
-                        <Globe className="w-5 h-5 text-accent-primary" />
+            <motion.div variants={itemVariants}>
+                <SettingsCard
+                    icon={Globe}
+                    iconColor="blue"
+                    title={t('common.language')}
+                    description={t('common.languageSelector')}
+                >
+                    <div className="flex gap-2 flex-wrap">
+                        {languages.map((lang, index) => {
+                            const isSelected = i18n.language === lang.code;
+                            return (
+                                <motion.button
+                                    key={lang.code}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: index * 0.05 + 0.3, type: 'spring' }}
+                                    onClick={() => handleLanguageChange(lang.code)}
+                                    className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                                        isSelected
+                                            ? 'text-white bg-emerald-500/20 border border-emerald-500/30'
+                                            : 'text-slate-400 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05] hover:text-slate-200'
+                                    }`}
+                                >
+                                    {isSelected && (
+                                        <motion.div
+                                            layoutId="langSelector"
+                                            className="absolute inset-0 bg-emerald-500/10 rounded-xl"
+                                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                                        />
+                                    )}
+                                    <span className="relative">{lang.nativeName}</span>
+                                </motion.button>
+                            );
+                        })}
                     </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-white">{t('common.language')}</h3>
-                        <p className="text-sm text-zinc-500">{t('common.languageSelector')}</p>
-                    </div>
-                </div>
-
-                <div className="flex gap-3 flex-wrap">
-                    {languages.map((lang) => (
-                        <button
-                            key={lang.code}
-                            onClick={() => handleLanguageChange(lang.code)}
-                            className={`px-4 py-2 rounded-xl border transition-colors ${
-                                i18n.language === lang.code
-                                    ? 'bg-accent-primary text-white border-accent-primary'
-                                    : 'bg-bg-elevated border-white/[0.1] text-zinc-300 hover:bg-bg-card-hover'
-                            }`}
-                        >
-                            {lang.nativeName}
-                        </button>
-                    ))}
-                </div>
-            </div>
+                </SettingsCard>
+            </motion.div>
 
             {/* OpenAI API Key Section */}
-            <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl bg-accent-primary/10 flex items-center justify-center">
-                        <Key className="w-5 h-5 text-accent-primary" />
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold text-white">{t('pages.settings.openai.title')}</h3>
-                        <p className="text-sm text-zinc-500">{t('pages.settings.openai.subtitle')}</p>
-                    </div>
-                </div>
-
-                {/* API Key Input */}
-                <div className="space-y-4">
-                    <div className="relative">
-                        <input
-                            type={showKey ? 'text' : 'password'}
-                            value={apiKey}
-                            onChange={(e) => {
-                                setApiKey(e.target.value);
-                                setStatus('idle');
-                            }}
-                            placeholder={t('pages.settings.openai.placeholder')}
-                            className="w-full px-4 py-3 pr-12 bg-bg-elevated border border-white/[0.1] rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:border-accent-primary transition-colors"
-                        />
-                        <button
-                            onClick={() => setShowKey(!showKey)}
-                            className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
-                        >
-                            {showKey ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                        </button>
-                    </div>
-
-                    {/* Status Indicator */}
-                    {status !== 'idle' && (
-                        <div className={`flex items-center gap-2 text-sm ${status === 'valid' ? 'text-green-500' :
-                            status === 'invalid' ? 'text-red-500' :
-                                'text-zinc-400'
-                            }`}>
-                            {status === 'validating' && <Loader2 className="w-4 h-4 animate-spin" />}
-                            {status === 'valid' && <Check className="w-4 h-4" />}
-                            {status === 'invalid' && <AlertCircle className="w-4 h-4" />}
-                            <span>
-                                {status === 'validating' && t('pages.settings.openai.status.validating')}
-                                {status === 'valid' && t('pages.settings.openai.status.valid')}
-                                {status === 'invalid' && t('pages.settings.openai.status.invalid')}
-                            </span>
-                        </div>
-                    )}
-
-                    {/* Actions */}
-                    <div className="flex gap-3">
-                        <button
-                            onClick={handleValidate}
-                            disabled={!apiKey || status === 'validating'}
-                            className="px-4 py-2 bg-bg-elevated border border-white/[0.1] rounded-xl text-zinc-300 hover:bg-bg-card-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                            {t('actions.validate')}
-                        </button>
-                        <button
-                            onClick={handleSave}
-                            disabled={status !== 'valid'}
-                            className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/90 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                            {saved ? t('actions.saved') : t('actions.saveKey')}
-                        </button>
-                        {apiKey && (
+            <motion.div variants={itemVariants}>
+                <SettingsCard
+                    icon={Key}
+                    iconColor="violet"
+                    title={t('pages.settings.openai.title')}
+                    description={t('pages.settings.openai.subtitle')}
+                >
+                    <div className="space-y-4">
+                        {/* API Key Input */}
+                        <div className="relative group">
+                            <input
+                                type={showKey ? 'text' : 'password'}
+                                value={apiKey}
+                                onChange={(e) => {
+                                    setApiKey(e.target.value);
+                                    setStatus('idle');
+                                }}
+                                placeholder={t('pages.settings.openai.placeholder')}
+                                className="w-full px-4 py-3 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all font-mono text-sm"
+                            />
                             <button
-                                onClick={handleClear}
-                                className="px-4 py-2 text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                                onClick={() => setShowKey(!showKey)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors"
                             >
-                                {t('actions.clear')}
+                                {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
-                        )}
-                    </div>
-                </div>
+                        </div>
 
-                {/* Info */}
-                <div className="mt-6 p-4 bg-bg-elevated rounded-xl">
-                    <p className="text-sm text-zinc-400">
-                        <span className="text-zinc-300 font-medium">{t('pages.settings.openai.info.title')}</span> {t('pages.settings.openai.info.description')}
-                    </p>
-                    <a
-                        href="https://platform.openai.com/api-keys"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-block mt-2 text-sm text-accent-primary hover:underline"
-                    >
-                        {t('pages.settings.openai.info.link')} -&gt;
-                    </a>
-                </div>
-            </div>
+                        {/* Status Indicator */}
+                        {status !== 'idle' && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${
+                                    status === 'valid'
+                                        ? 'bg-emerald-500/10 text-emerald-400'
+                                        : status === 'invalid'
+                                        ? 'bg-rose-500/10 text-rose-400'
+                                        : 'bg-white/[0.03] text-slate-400'
+                                }`}
+                            >
+                                {status === 'validating' && <Loader2 className="w-4 h-4 animate-spin" />}
+                                {status === 'valid' && <Check className="w-4 h-4" />}
+                                {status === 'invalid' && <AlertCircle className="w-4 h-4" />}
+                                <span className="font-medium">
+                                    {status === 'validating' && t('pages.settings.openai.status.validating')}
+                                    {status === 'valid' && t('pages.settings.openai.status.valid')}
+                                    {status === 'invalid' && t('pages.settings.openai.status.invalid')}
+                                </span>
+                            </motion.div>
+                        )}
+
+                        {/* Actions */}
+                        <div className="flex gap-3">
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={handleValidate}
+                                disabled={!apiKey || status === 'validating'}
+                                className="px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-slate-300 hover:bg-white/[0.06] hover:text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                            >
+                                {t('actions.validate')}
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={handleSave}
+                                disabled={status !== 'valid'}
+                                className="px-4 py-2.5 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                            >
+                                {saved ? t('actions.saved') : t('actions.saveKey')}
+                            </motion.button>
+                            {apiKey && (
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={handleClear}
+                                    className="px-4 py-2.5 text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all text-sm font-medium"
+                                >
+                                    {t('actions.clear')}
+                                </motion.button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Info Box */}
+                    <div className="mt-6 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                        <div className="flex items-start gap-3">
+                            <Shield className="w-4 h-4 text-slate-500 mt-0.5 flex-shrink-0" />
+                            <div>
+                                <p className="text-sm text-slate-400">
+                                    <span className="text-slate-300 font-medium">{t('pages.settings.openai.info.title')}</span>{' '}
+                                    {t('pages.settings.openai.info.description')}
+                                </p>
+                                <a
+                                    href="https://platform.openai.com/api-keys"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-1 mt-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                                >
+                                    {t('pages.settings.openai.info.link')}
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </SettingsCard>
+            </motion.div>
 
             {/* Anomaly Detection Configuration */}
-            <AnomalyConfigPanel />
+            <motion.div variants={itemVariants}>
+                <AnomalyConfigPanel />
+            </motion.div>
+        </motion.div>
+    );
+}
+
+/**
+ * Reusable Settings Card with glassmorphism
+ */
+function SettingsCard({
+    icon: Icon,
+    iconColor,
+    title,
+    description,
+    children,
+}: {
+    icon: React.ElementType;
+    iconColor: 'emerald' | 'blue' | 'violet' | 'amber';
+    title: string;
+    description: string;
+    children: React.ReactNode;
+}) {
+    const colorClasses = {
+        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        violet: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+        amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    };
+
+    return (
+        <div className="relative group">
+            {/* Subtle glow on hover */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] overflow-hidden">
+                {/* Noise texture */}
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+
+                <div className="relative">
+                    {/* Header */}
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className={`w-10 h-10 rounded-xl ${colorClasses[iconColor]} border flex items-center justify-center`}>
+                            <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                            <h3 className="text-base font-semibold text-white">{title}</h3>
+                            <p className="text-xs text-slate-500">{description}</p>
+                        </div>
+                    </div>
+
+                    {/* Content */}
+                    {children}
+                </div>
+            </div>
         </div>
     );
 }
