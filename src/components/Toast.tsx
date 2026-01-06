@@ -51,11 +51,11 @@ const TOAST_STYLES: Record<ToastType, {
     glow: string;
 }> = {
     success: {
-        container: 'border-emerald-500/30',
-        icon: 'text-emerald-400',
-        title: 'text-emerald-400',
-        progress: 'bg-emerald-500',
-        glow: 'shadow-emerald-500/20',
+        container: 'border-[#DA7756]/30',
+        icon: 'text-[#DA7756]',
+        title: 'text-[#DA7756]',
+        progress: 'bg-[#DA7756]',
+        glow: 'shadow-[#DA7756]/20',
     },
     error: {
         container: 'border-rose-500/30',
@@ -200,7 +200,7 @@ export function Toast({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={handleDismiss}
-                            className="flex-shrink-0 p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                            className="flex-shrink-0 p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                             aria-label="Dismiss notification"
                         >
                             <X className="w-4 h-4" />

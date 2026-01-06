@@ -63,7 +63,7 @@ export function RevenueForecastChart({
                 return `
                     <div style="padding: 4px 0">
                         <div style="font-weight: 600; margin-bottom: 4px">${point.name}</div>
-                        <div style="color: #10b981">Forecast: $${point.value.toLocaleString()}</div>
+                        <div style="color: #DA7756">Forecast: $${point.value.toLocaleString()}</div>
                         ${forecastData?.range ? `
                             <div style="color: #6b7280; font-size: 11px">
                                 Range: $${forecastData.range.low.toLocaleString()} - $${forecastData.range.high.toLocaleString()}
@@ -120,8 +120,8 @@ export function RevenueForecastChart({
                             type: 'linear',
                             x: 0, y: 0, x2: 0, y2: 1,
                             colorStops: [
-                                { offset: 0, color: 'rgba(16, 185, 129, 0.1)' },
-                                { offset: 1, color: 'rgba(16, 185, 129, 0.02)' },
+                                { offset: 0, color: 'rgba(218, 119, 86, 0.1)' },
+                                { offset: 1, color: 'rgba(218, 119, 86, 0.02)' },
                             ],
                         },
                     },
@@ -138,17 +138,17 @@ export function RevenueForecastChart({
                 symbol: 'circle',
                 symbolSize: 4,
                 lineStyle: {
-                    color: '#10b981',
+                    color: '#DA7756',
                     width: 2,
                 },
-                itemStyle: { color: '#10b981' },
+                itemStyle: { color: '#DA7756' },
                 areaStyle: {
                     color: {
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
-                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+                            { offset: 0, color: 'rgba(218, 119, 86, 0.3)' },
+                            { offset: 1, color: 'rgba(218, 119, 86, 0)' },
                         ],
                     },
                 },
@@ -176,7 +176,7 @@ export function RevenueForecastChart({
                         </div>
                     </div>
                     <div className={`flex items-center gap-1 px-3 py-1.5 rounded-lg ${
-                        trend === 'growing' ? 'bg-green-500/20 text-green-400' :
+                        trend === 'growing' ? 'bg-[#6BBF59]/20 text-[#6BBF59]' :
                         trend === 'declining' ? 'bg-red-500/20 text-red-400' :
                         'bg-zinc-700 text-zinc-400'
                     }`}>
@@ -203,7 +203,7 @@ export function RevenueForecastChart({
                                 key={i}
                                 className={`px-2 py-1 rounded text-xs ${
                                     factor.impact > 0
-                                        ? 'bg-green-500/10 text-green-400'
+                                        ? 'bg-[#6BBF59]/10 text-[#6BBF59]'
                                         : 'bg-red-500/10 text-red-400'
                                 }`}
                             >

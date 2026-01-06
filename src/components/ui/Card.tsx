@@ -5,7 +5,7 @@
  * - Glassmorphism effects
  * - Multiple variants (default, elevated, interactive, glass)
  * - Noise texture backgrounds
- * - Emerald accent hover states
+ * - Orange accent hover states
  * - Framer Motion animations
  */
 
@@ -37,7 +37,7 @@ const variantStyles: Record<CardVariant, string> = {
     elevated:
         'bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/20',
     interactive:
-        'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl border border-white/[0.06] hover:border-emerald-500/20 hover:shadow-lg hover:shadow-emerald-500/5 cursor-pointer',
+        'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl border border-white/[0.06] hover:border-[#DA7756]/20 hover:shadow-lg hover:shadow-[#DA7756]/5 cursor-pointer',
     glass: 'glass-card bg-white/[0.02] backdrop-blur-xl border border-white/[0.06]',
     'gradient-border':
         'relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl',
@@ -81,7 +81,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         if (variant === 'gradient-border') {
             return (
                 <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-emerald-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/20 via-[#C15F3C]/20 to-[#DA7756]/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
                     <motion.div
                         ref={ref}
                         className={`relative rounded-2xl overflow-hidden ${variantStyles[variant]} ${paddingStyles[padding]} ${className}`}
@@ -130,7 +130,7 @@ export function CardHeader({ title, action, subtitle, icon, className = '', ...p
         <div className={`flex items-center justify-between pb-4 border-b border-white/[0.04] ${className}`} {...props}>
             <div className="flex items-center gap-3">
                 {icon && (
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                         {icon}
                     </div>
                 )}

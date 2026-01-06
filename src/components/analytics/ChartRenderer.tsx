@@ -2,7 +2,7 @@
  * ChartRenderer Component - Obsidian Analytics Design
  *
  * Premium chart rendering with:
- * - Dark theme with emerald accents
+ * - Dark theme with Claude warm orange accents
  * - Glassmorphism containers
  * - Refined tooltips and labels
  */
@@ -21,10 +21,10 @@ interface ChartRendererProps {
     className?: string;
 }
 
-// Obsidian chart colors - emerald/teal palette
+// Obsidian chart colors - warm orange palette
 const CHART_COLORS = [
-    '#10b981', // emerald
-    '#14b8a6', // teal
+    '#DA7756', // warm orange
+    '#C15F3C', // deep orange
     '#06b6d4', // cyan
     '#8b5cf6', // violet
     '#f472b6', // pink
@@ -101,8 +101,8 @@ function buildLineOrAreaChart(
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
-                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+                            { offset: 0, color: 'rgba(218, 119, 86, 0.3)' },
+                            { offset: 1, color: 'rgba(218, 119, 86, 0)' },
                         ],
                     },
                 },
@@ -162,7 +162,7 @@ function buildBarChart(
             emphasis: {
                 itemStyle: {
                     shadowBlur: 12,
-                    shadowColor: 'rgba(16, 185, 129, 0.4)',
+                    shadowColor: 'rgba(218, 119, 86, 0.4)',
                 },
             },
         }],
@@ -387,7 +387,7 @@ function buildScatterChart(
             emphasis: {
                 itemStyle: {
                     shadowBlur: 10,
-                    shadowColor: 'rgba(16, 185, 129, 0.5)',
+                    shadowColor: 'rgba(218, 119, 86, 0.5)',
                 },
             },
         }],
@@ -433,7 +433,7 @@ export function ChartRenderer({
     return (
         <div className={`relative group ${className ?? ''}`}>
             {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
 
             {/* Card container */}
             <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">

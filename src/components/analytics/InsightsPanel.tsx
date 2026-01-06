@@ -54,10 +54,10 @@ const INSIGHT_STYLES: Record<InsightType, {
 }> = {
     positive: {
         icon: TrendingUp,
-        bg: 'from-emerald-500/10 to-emerald-500/5',
-        border: 'border-emerald-500/20',
-        iconBg: 'bg-emerald-500/10',
-        iconColor: 'text-emerald-400',
+        bg: 'from-[#DA7756]/10 to-[#DA7756]/5',
+        border: 'border-[#DA7756]/20',
+        iconBg: 'bg-[#DA7756]/10',
+        iconColor: 'text-[#DA7756]',
     },
     negative: {
         icon: TrendingDown,
@@ -207,7 +207,7 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
                 </span>
                 <span className={`px-2 py-1 rounded-lg border ${
                     anomaly.percentChange > 0
-                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                        ? 'bg-[#DA7756]/10 border-[#DA7756]/20 text-[#DA7756]'
                         : 'bg-rose-500/10 border-rose-500/20 text-rose-400'
                 }`}>
                     {anomaly.percentChange > 0 ? '+' : ''}{anomaly.percentChange.toFixed(1)}%
@@ -275,7 +275,7 @@ export function InsightsPanel({
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`relative py-3 px-4 text-sm font-medium transition-colors flex items-center gap-2 ${
                                     isActive
-                                        ? 'text-emerald-400'
+                                        ? 'text-[#DA7756]'
                                         : 'text-slate-400 hover:text-slate-200'
                                 }`}
                             >
@@ -284,7 +284,7 @@ export function InsightsPanel({
                                 {tab.count !== undefined && (
                                     <span className={`ml-1 px-1.5 py-0.5 text-xs rounded-full ${
                                         isActive
-                                            ? 'bg-emerald-500/20 text-emerald-400'
+                                            ? 'bg-[#DA7756]/20 text-[#DA7756]'
                                             : 'bg-white/[0.05] text-slate-400'
                                     }`}>
                                         {tab.count}
@@ -298,7 +298,7 @@ export function InsightsPanel({
                                 {isActive && (
                                     <motion.div
                                         layoutId="activeTab"
-                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-500"
+                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#DA7756]"
                                         transition={{ type: 'spring', stiffness: 500, damping: 30 }}
                                     />
                                 )}
@@ -348,8 +348,8 @@ export function InsightsPanel({
                         >
                             {!anomalies || anomalies.length === 0 ? (
                                 <div className="text-center py-8">
-                                    <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                                        <AlertTriangle className="w-6 h-6 text-emerald-400" />
+                                    <div className="w-12 h-12 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                                        <AlertTriangle className="w-6 h-6 text-[#DA7756]" />
                                     </div>
                                     <p className="text-slate-400">
                                         No anomalies detected in your data.
@@ -403,7 +403,7 @@ export function InsightsPanel({
                                     onChange={(e) => setQuestion(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
                                     placeholder="Ask a question about your data..."
-                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                     disabled={isAsking}
                                 />
                                 <motion.button
@@ -411,7 +411,7 @@ export function InsightsPanel({
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleAsk}
                                     disabled={!question.trim() || isAsking}
-                                    className="px-4 py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     {isAsking ? (
                                         <Loader2 className="w-5 h-5 animate-spin" />

@@ -29,7 +29,7 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 
 const variantStyles: Record<ButtonVariant, string> = {
     primary:
-        'bg-emerald-500/20 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 hover:border-emerald-500/40 focus:ring-emerald-500/20',
+        'bg-[#DA7756]/20 border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 hover:border-[#DA7756]/40 focus:ring-[#DA7756]/20',
     secondary:
         'bg-white/[0.03] border-white/[0.08] text-slate-300 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white focus:ring-white/10',
     ghost:

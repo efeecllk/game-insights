@@ -4,7 +4,7 @@
  * AI-powered data queries with:
  * - Glassmorphism containers
  * - Animated query results
- * - Premium emerald accents
+ * - Premium orange accents
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -62,8 +62,8 @@ async function processQuery(query: string): Promise<QueryResult> {
                 summary: 'Here\'s the revenue breakdown by country for the last 30 days. The United States leads with 45% of total revenue, followed by the UK at 16%.',
                 chartType: 'pie',
                 data: [
-                    { name: 'United States', value: 2450, color: '#10b981' },
-                    { name: 'United Kingdom', value: 890, color: '#14b8a6' },
+                    { name: 'United States', value: 2450, color: '#DA7756' },
+                    { name: 'United Kingdom', value: 890, color: '#C15F3C' },
                     { name: 'Germany', value: 670, color: '#06b6d4' },
                     { name: 'Japan', value: 520, color: '#8b5cf6' },
                     { name: 'Others', value: 920, color: '#64748b' },
@@ -236,9 +236,9 @@ export function NaturalLanguageQuery() {
             {/* Header */}
             <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.06]">
                 <div className="relative w-10 h-10">
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/20 flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-emerald-400" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/20 border border-[#DA7756]/20 flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
                     </div>
                 </div>
                 <div>
@@ -271,7 +271,7 @@ export function NaturalLanguageQuery() {
                                     onClick={() => handleExampleClick(example)}
                                     className="flex items-center gap-2 px-3 py-2 text-left text-sm text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] rounded-xl transition-colors"
                                 >
-                                    <ChevronRight className="w-3 h-3 text-emerald-400 flex-shrink-0" />
+                                    <ChevronRight className="w-3 h-3 text-[#DA7756] flex-shrink-0" />
                                     <span className="truncate">{example}</span>
                                 </motion.button>
                             ))}
@@ -287,7 +287,7 @@ export function NaturalLanguageQuery() {
                                     exit={{ opacity: 0 }}
                                     className="flex items-center gap-3 p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl"
                                 >
-                                    <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
+                                    <Loader2 className="w-5 h-5 text-[#DA7756] animate-spin" />
                                     <span className="text-sm text-slate-400">Analyzing your data...</span>
                                 </motion.div>
                             )}
@@ -314,14 +314,14 @@ export function NaturalLanguageQuery() {
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Ask a question about your game data..."
                             disabled={isLoading}
-                            className="w-full pl-4 pr-12 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 disabled:opacity-50 transition-all"
+                            className="w-full pl-4 pr-12 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 disabled:opacity-50 transition-all"
                         />
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             type="submit"
                             disabled={!query.trim() || isLoading}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[#DA7756] text-white rounded-lg hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -370,8 +370,8 @@ function QueryResultCard({
 
             {/* Response */}
             <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                <div className="w-8 h-8 rounded-lg bg-[#DA7756]/20 border border-[#DA7756]/20 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-4 h-4 text-[#DA7756]" />
                 </div>
                 <div className="flex-1 space-y-3">
                     <p className="text-white">{result.response.summary}</p>
@@ -403,7 +403,7 @@ function QueryResultCard({
                                     whileTap={{ scale: 0.9 }}
                                     className="p-1 hover:bg-white/[0.06] rounded transition-colors"
                                 >
-                                    <ThumbsUp className="w-3.5 h-3.5 text-slate-500 hover:text-emerald-400" />
+                                    <ThumbsUp className="w-3.5 h-3.5 text-slate-500 hover:text-[#DA7756]" />
                                 </motion.button>
                                 <motion.button
                                     whileHover={{ scale: 1.1 }}
@@ -495,9 +495,9 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                     type: 'line',
                     data: d.values,
                     smooth: true,
-                    areaStyle: { color: 'rgba(16, 185, 129, 0.1)' },
-                    lineStyle: { color: '#10b981' },
-                    itemStyle: { color: '#10b981' },
+                    areaStyle: { color: 'rgba(218, 119, 86, 0.1)' },
+                    lineStyle: { color: '#DA7756' },
+                    itemStyle: { color: '#DA7756' },
                 }],
             };
         }
@@ -521,7 +521,7 @@ function ResultChart({ type, data }: { type: 'bar' | 'line' | 'pie' | 'area'; da
                     type: 'bar',
                     data: d.failRates.map((v) => ({
                         value: v,
-                        itemStyle: { color: v > 60 ? '#f43f5e' : v > 50 ? '#f59e0b' : '#10b981' },
+                        itemStyle: { color: v > 60 ? '#f43f5e' : v > 50 ? '#f59e0b' : '#DA7756' },
                     })),
                     barWidth: '50%',
                 }],

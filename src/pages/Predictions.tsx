@@ -3,7 +3,7 @@
  *
  * Premium AI-powered analytics with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Enhanced chart styling
  * - Noise texture backgrounds
@@ -171,15 +171,15 @@ const StatCard: React.FC<{
     value: string;
     change?: number;
     sublabel?: string;
-    color?: 'emerald' | 'amber' | 'sky' | 'violet';
+    color?: 'orange' | 'amber' | 'sky' | 'violet';
     index?: number;
-}> = ({ icon: Icon, label, value, change, sublabel, color = 'emerald' }) => {
+}> = ({ icon: Icon, label, value, change, sublabel, color = 'orange' }) => {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20 group-hover:border-emerald-500/30',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20 group-hover:border-[#DA7756]/30',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         amber: {
             bg: 'from-amber-500/20 to-amber-500/5',
@@ -218,7 +218,7 @@ const StatCard: React.FC<{
                             <Icon className={`w-5 h-5 ${styles.icon}`} />
                         </div>
                         {change !== undefined && (
-                            <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                            <div className={`flex items-center gap-1 text-sm ${change >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
                                 {change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                                 {Math.abs(change)}%
                             </div>
@@ -241,8 +241,8 @@ const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
         <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <TrendingUp className="w-4 h-4 text-[#DA7756]" />
                     </div>
                     <div>
                         <h3 className="font-display font-semibold text-white">Revenue Forecast</h3>
@@ -272,8 +272,8 @@ const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
                             <div
                                 className={`w-full rounded-t transition-all cursor-pointer ${
                                     isWeekend
-                                        ? 'bg-emerald-500/80 hover:bg-emerald-400'
-                                        : 'bg-emerald-500/50 hover:bg-emerald-500/70'
+                                        ? 'bg-[#DA7756]/80 hover:bg-[#DA7756]'
+                                        : 'bg-[#DA7756]/50 hover:bg-[#DA7756]/70'
                                 }`}
                                 style={{ height: '100%' }}
                             />
@@ -290,11 +290,11 @@ const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
 
             <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.04]">
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-emerald-500/50" />
+                    <div className="w-3 h-3 rounded bg-[#DA7756]/50" />
                     <span className="text-xs text-slate-500">Weekday</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-emerald-500/80" />
+                    <div className="w-3 h-3 rounded bg-[#DA7756]/80" />
                     <span className="text-xs text-slate-500">Weekend (higher)</span>
                 </div>
             </div>
@@ -316,7 +316,7 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
             </div>
             <motion.button
                 whileHover={{ x: 4 }}
-                className="text-sm text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                className="text-sm text-[#DA7756] hover:text-[#E08B6D] flex items-center gap-1"
             >
                 View All <ChevronRight className="w-4 h-4" />
             </motion.button>
@@ -429,7 +429,7 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
                                     <h4 className="text-white font-medium mb-1">{rec.title}</h4>
                                     <p className="text-sm text-slate-400 mb-2">{rec.description}</p>
                                     <div className="flex items-center gap-4 text-xs">
-                                        <span className="text-emerald-400">Impact: {rec.impact}</span>
+                                        <span className="text-[#DA7756]">Impact: {rec.impact}</span>
                                         <span className="text-slate-600">Effort: {rec.effort}</span>
                                     </div>
                                 </div>
@@ -445,7 +445,7 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
 const AlertsPanel: React.FC<{ alerts: Alert[] }> = ({ alerts }) => {
     const alertStyles = {
         warning: { icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
-        opportunity: { icon: Lightbulb, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+        opportunity: { icon: Lightbulb, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20' },
         info: { icon: Bell, color: 'text-sky-400', bg: 'bg-sky-500/10', border: 'border-sky-500/20' },
     };
 
@@ -453,12 +453,12 @@ const AlertsPanel: React.FC<{ alerts: Alert[] }> = ({ alerts }) => {
         <Card variant="default" padding="lg">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <Bell className="w-4 h-4 text-emerald-400" />
+                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <Bell className="w-4 h-4 text-[#DA7756]" />
                     </div>
                     <h3 className="font-display font-semibold text-white">Intelligent Alerts</h3>
                 </div>
-                <span className="text-xs px-2 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full">
+                <span className="text-xs px-2 py-1 bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full">
                     {alerts.length} active
                 </span>
             </div>
@@ -513,7 +513,7 @@ const WhatIfAnalysis: React.FC = () => {
             <div className="space-y-4">
                 <div>
                     <label className="text-sm text-slate-400 mb-2 block">
-                        DAU Change: <span className="text-emerald-400">{dauChange > 0 ? '+' : ''}{dauChange}%</span>
+                        DAU Change: <span className="text-[#DA7756]">{dauChange > 0 ? '+' : ''}{dauChange}%</span>
                     </label>
                     <input
                         type="range"
@@ -521,13 +521,13 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={dauChange}
                         onChange={(e) => setDauChange(Number(e.target.value))}
-                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-emerald-500"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-[#DA7756]"
                     />
                 </div>
 
                 <div>
                     <label className="text-sm text-slate-400 mb-2 block">
-                        ARPU Change: <span className="text-emerald-400">{arpuChange > 0 ? '+' : ''}{arpuChange}%</span>
+                        ARPU Change: <span className="text-[#DA7756]">{arpuChange > 0 ? '+' : ''}{arpuChange}%</span>
                     </label>
                     <input
                         type="range"
@@ -535,7 +535,7 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={arpuChange}
                         onChange={(e) => setArpuChange(Number(e.target.value))}
-                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-emerald-500"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-[#DA7756]"
                     />
                 </div>
 
@@ -545,7 +545,7 @@ const WhatIfAnalysis: React.FC = () => {
                         <span className="text-2xl font-display font-bold text-white">
                             ${(projectedRevenue / 1000).toFixed(1)}K
                         </span>
-                        <span className={`text-sm ${projectedChange >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <span className={`text-sm ${projectedChange >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
                             {projectedChange >= 0 ? '+' : ''}{(projectedChange * 100).toFixed(1)}%
                         </span>
                     </div>
@@ -742,7 +742,7 @@ export const PredictionsPage: React.FC = () => {
                                     </div>
                                 )}
                                 {hasRealData && !useMLPredictions && (
-                                    <div className="flex items-center gap-2 mt-1 text-xs text-emerald-400">
+                                    <div className="flex items-center gap-2 mt-1 text-xs text-[#DA7756]">
                                         <Database className="w-3.5 h-3.5" />
                                         Predictions generated from your uploaded data
                                     </div>
@@ -774,7 +774,7 @@ export const PredictionsPage: React.FC = () => {
                     value={`$${(stats.revenue30d / 1000).toFixed(1)}K`}
                     change={12}
                     sublabel="High confidence"
-                    color="emerald"
+                    color="orange"
                 />
                 <StatCard
                     icon={Users}

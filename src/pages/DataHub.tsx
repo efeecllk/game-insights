@@ -3,7 +3,7 @@
  *
  * Premium data connection hub with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Refined integration cards
  */
@@ -94,8 +94,8 @@ export function DataHubPage() {
         return (
             <div className="flex items-center justify-center h-64">
                 <div className="relative">
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
-                    <Loader2 className="w-8 h-8 text-emerald-400 animate-spin relative" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl animate-pulse" />
+                    <Loader2 className="w-8 h-8 text-[#DA7756] animate-spin relative" />
                 </div>
             </div>
         );
@@ -118,9 +118,9 @@ export function DataHubPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Database className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Database className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -149,7 +149,7 @@ export function DataHubPage() {
                     label="Connected"
                     value={connectedCount}
                     icon={Plug}
-                    color="emerald"
+                    color="orange"
                     index={0}
                 />
                 <StatCard
@@ -163,7 +163,7 @@ export function DataHubPage() {
                     label="Total Rows"
                     value={totalRows.toLocaleString()}
                     icon={Database}
-                    color="teal"
+                    color="deepOrange"
                     index={2}
                 />
                 <StatCard
@@ -182,7 +182,7 @@ export function DataHubPage() {
                     title="Upload File"
                     description="CSV, Excel, JSON"
                     to="/upload"
-                    color="emerald"
+                    color="orange"
                 />
                 <QuickAction
                     icon={Plug}
@@ -210,7 +210,7 @@ export function DataHubPage() {
                             placeholder="Search data sources..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </motion.div>
@@ -220,7 +220,7 @@ export function DataHubPage() {
             {integrations.length > 0 && (
                 <motion.div variants={itemVariants} className="space-y-4">
                     <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                        <CloudLightning className="w-5 h-5 text-emerald-400" />
+                        <CloudLightning className="w-5 h-5 text-[#DA7756]" />
                         Connected Integrations
                     </h2>
                     <div className="space-y-3">
@@ -282,9 +282,9 @@ export function DataHubPage() {
                             transition={{ type: 'spring', delay: 0.2 }}
                             className="relative inline-block mb-4"
                         >
-                            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-xl" />
-                            <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto">
-                                <Database className="w-8 h-8 text-emerald-400" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-xl" />
+                            <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center mx-auto">
+                                <Database className="w-8 h-8 text-[#DA7756]" />
                             </div>
                         </motion.div>
                         <h3 className="text-xl font-semibold text-white mb-2">No data sources yet</h3>
@@ -357,15 +357,15 @@ function StatCard({
     label: string;
     value: string | number;
     icon: typeof Database;
-    color: 'emerald' | 'blue' | 'teal' | 'rose' | 'slate';
+    color: 'orange' | 'blue' | 'deepOrange' | 'rose' | 'slate';
     index: number;
 }) {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         blue: {
             bg: 'from-blue-500/20 to-blue-500/5',
@@ -373,11 +373,11 @@ function StatCard({
             icon: 'text-blue-400',
             glow: 'bg-blue-500/20',
         },
-        teal: {
-            bg: 'from-teal-500/20 to-teal-500/5',
-            border: 'border-teal-500/20',
-            icon: 'text-teal-400',
-            glow: 'bg-teal-500/20',
+        deepOrange: {
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
         rose: {
             bg: 'from-rose-500/20 to-rose-500/5',
@@ -436,16 +436,16 @@ function QuickAction({
     description: string;
     to?: string;
     onClick?: () => void;
-    color: 'emerald' | 'blue' | 'violet';
+    color: 'orange' | 'blue' | 'violet';
 }) {
     const colorStyles = {
-        emerald: 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-500/40',
+        orange: 'from-[#DA7756]/20 to-[#DA7756]/5 border-[#DA7756]/20 hover:border-[#DA7756]/40',
         blue: 'from-blue-500/20 to-blue-500/5 border-blue-500/20 hover:border-blue-500/40',
         violet: 'from-violet-500/20 to-violet-500/5 border-violet-500/20 hover:border-violet-500/40',
     };
 
     const iconColors = {
-        emerald: 'text-emerald-400',
+        orange: 'text-[#DA7756]',
         blue: 'text-blue-400',
         violet: 'text-violet-400',
     };
@@ -498,7 +498,7 @@ function IntegrationCard({
     const [showHealth, setShowHealth] = useState(false);
 
     const statusColors = {
-        connected: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        connected: 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20',
         syncing: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
         error: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
         paused: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
@@ -554,7 +554,7 @@ function IntegrationCard({
                             whileTap={{ scale: 0.9 }}
                             onClick={onRefresh}
                             disabled={integration.status === 'syncing'}
-                            className="p-2 rounded-lg text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors disabled:opacity-50"
+                            className="p-2 rounded-lg text-slate-500 hover:text-[#DA7756] hover:bg-[#DA7756]/10 transition-colors disabled:opacity-50"
                             title="Refresh data"
                         >
                             <RefreshCw className={`w-4 h-4 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
@@ -564,7 +564,7 @@ function IntegrationCard({
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={onResume}
-                                className="p-2 rounded-lg text-slate-500 hover:text-green-400 hover:bg-green-500/10 transition-colors"
+                                className="p-2 rounded-lg text-slate-500 hover:text-[#6BBF59] hover:bg-[#6BBF59]/10 transition-colors"
                                 title="Resume sync"
                             >
                                 <Play className="w-4 h-4" />
@@ -671,11 +671,11 @@ function UploadedDataCard({
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                            <span className="px-2 py-0.5 text-xs rounded-full bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 flex items-center gap-1">
                                 <Check className="w-3 h-3" />
                                 Ready
                             </span>
-                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
+                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-[#DA7756] group-hover:translate-x-1 transition-all" />
                         </div>
                     </div>
                 </Card>
@@ -751,7 +751,7 @@ function AddIntegrationModal({
                             placeholder="Search integrations..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </div>
@@ -764,7 +764,7 @@ function AddIntegrationModal({
                             whileHover={{ scale: 1.01, x: 4 }}
                             whileTap={{ scale: 0.99 }}
                             onClick={() => onSelect(item.type)}
-                            className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left group"
+                            className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 transition-all text-left group"
                         >
                             <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl">
                                 {item.icon}
@@ -774,7 +774,7 @@ function AddIntegrationModal({
                                     <h3 className="font-semibold text-white">{item.name}</h3>
                                     <span className={`px-2 py-0.5 text-xs rounded-full border ${
                                         item.complexity === 'low'
-                                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                            ? 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20'
                                             : item.complexity === 'medium'
                                             ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
                                             : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
@@ -784,7 +784,7 @@ function AddIntegrationModal({
                                 </div>
                                 <p className="text-sm text-slate-500 truncate">{item.description}</p>
                             </div>
-                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-[#DA7756] transition-colors" />
                         </motion.button>
                     ))}
 
@@ -798,7 +798,7 @@ function AddIntegrationModal({
                 {/* Footer */}
                 <div className="p-4 border-t border-white/[0.06] flex items-center justify-between">
                     <p className="text-sm text-slate-500">
-                        Can't find your platform? <button className="text-emerald-400 hover:text-emerald-300">Request integration</button>
+                        Can't find your platform? <button className="text-[#DA7756] hover:text-[#C15F3C]">Request integration</button>
                     </p>
                     <Link to="/upload">
                         <Button variant="secondary" size="sm" icon={<Upload className="w-4 h-4" />}>

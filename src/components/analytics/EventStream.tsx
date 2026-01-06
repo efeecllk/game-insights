@@ -120,12 +120,12 @@ function generateMockEvent(): GameEvent {
 // ============================================================================
 
 const EVENT_STYLES: Record<EventType, { icon: typeof Activity; color: string; bg: string }> = {
-    session_start: { icon: Play, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    session_start: { icon: Play, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
     session_end: { icon: Pause, color: 'text-slate-400', bg: 'bg-slate-500/10' },
     level_start: { icon: Gamepad2, color: 'text-blue-400', bg: 'bg-blue-500/10' },
     level_complete: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     level_fail: { icon: X, color: 'text-rose-400', bg: 'bg-rose-500/10' },
-    purchase: { icon: DollarSign, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+    purchase: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
     ad_view: { icon: Activity, color: 'text-violet-400', bg: 'bg-violet-500/10' },
     achievement: { icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     tutorial_step: { icon: User, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
@@ -199,8 +199,8 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-lg ${isStreaming ? 'bg-emerald-500/20' : 'bg-white/[0.03]'} flex items-center justify-center`}>
-                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-emerald-400 animate-pulse' : 'text-slate-400'}`} />
+                    <div className={`w-8 h-8 rounded-lg ${isStreaming ? 'bg-[#DA7756]/20' : 'bg-white/[0.03]'} flex items-center justify-center`}>
+                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-[#DA7756] animate-pulse' : 'text-slate-400'}`} />
                     </div>
                     <div>
                         <h3 className="font-semibold text-white">Event Stream</h3>
@@ -219,7 +219,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search..."
-                            className="pl-8 pr-3 py-1.5 w-40 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                            className="pl-8 pr-3 py-1.5 w-40 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all"
                         />
                     </div>
 
@@ -227,7 +227,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                     <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value as EventType | 'all')}
-                        className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                        className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                     >
                         <option value="all">All Events</option>
                         {EVENT_TYPES.map(type => (
@@ -243,7 +243,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsStreaming(!isStreaming)}
                         className={`p-2 rounded-lg transition-colors ${
-                            isStreaming ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/[0.03] text-slate-400 hover:text-white'
+                            isStreaming ? 'bg-[#DA7756]/20 text-[#DA7756]' : 'bg-white/[0.03] text-slate-400 hover:text-white'
                         }`}
                         title={isStreaming ? 'Pause stream' : 'Resume stream'}
                     >
@@ -346,7 +346,7 @@ function EventRow({
             exit={{ opacity: 0, x: 20 }}
             onClick={onClick}
             className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
-                isSelected ? 'bg-emerald-500/10' : 'hover:bg-white/[0.02]'
+                isSelected ? 'bg-[#DA7756]/10' : 'hover:bg-white/[0.02]'
             }`}
         >
             <div className={`w-8 h-8 rounded-lg ${style.bg} flex items-center justify-center flex-shrink-0`}>
@@ -358,7 +358,7 @@ function EventRow({
                         {event.type.replace(/_/g, ' ')}
                     </span>
                     {event.type === 'purchase' && (
-                        <span className="text-xs text-emerald-400 font-medium">
+                        <span className="text-xs text-[#DA7756] font-medium">
                             ${String(event.properties.price)}
                         </span>
                     )}

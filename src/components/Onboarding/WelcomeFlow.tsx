@@ -4,7 +4,7 @@
  * Premium onboarding experience with:
  * - Glassmorphism containers
  * - Animated transitions
- * - Emerald accent theme
+ * - Warm orange accent theme
  */
 
 import { useState } from 'react';
@@ -104,19 +104,19 @@ export function WelcomeFlow({ onComplete, onSkip }: WelcomeFlowProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
             {/* Background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 via-transparent to-teal-900/20" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/20 via-transparent to-[#C15F3C]/20" />
 
             {/* Animated background shapes */}
             <div className="absolute inset-0 overflow-hidden">
                 <motion.div
                     animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1] }}
                     transition={{ duration: 8, repeat: Infinity }}
-                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"
+                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#DA7756]/10 rounded-full blur-3xl"
                 />
                 <motion.div
                     animate={{ scale: [1.1, 1, 1.1], opacity: [0.1, 0.15, 0.1] }}
                     transition={{ duration: 8, repeat: Infinity, delay: 4 }}
-                    className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl"
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#C15F3C]/10 rounded-full blur-3xl"
                 />
             </div>
 
@@ -191,8 +191,8 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
                 className="mb-8"
             >
                 <div className="relative inline-flex items-center justify-center w-20 h-20 mb-6">
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/25 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                    <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-[#DA7756] to-[#C15F3C] shadow-lg shadow-[#DA7756]/25 flex items-center justify-center">
                         <Gamepad2 className="w-10 h-10 text-white" />
                     </div>
                 </div>
@@ -210,7 +210,7 @@ function WelcomeStep({ onNext, onSkip }: { onNext: () => void; onSkip: () => voi
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onNext}
-                    className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all"
+                    className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-[#DA7756] to-[#C15F3C] hover:from-[#E88A6A] hover:to-[#DA7756] text-white font-medium rounded-xl shadow-lg shadow-[#DA7756]/25 transition-all"
                 >
                     Get Started
                     <ChevronRight className="w-5 h-5" />
@@ -248,7 +248,7 @@ function Feature({ icon: Icon, label }: { icon: React.ElementType; label: string
             className="text-center"
         >
             <div className="inline-flex items-center justify-center w-12 h-12 mb-2 rounded-xl bg-white/[0.03] border border-white/[0.08]">
-                <Icon className="w-6 h-6 text-emerald-400" />
+                <Icon className="w-6 h-6 text-[#DA7756]" />
             </div>
             <div className="text-sm text-slate-400">{label}</div>
         </motion.div>
@@ -322,18 +322,18 @@ function PathOption({
             onClick={onClick}
             className={`group p-6 rounded-xl border text-left transition-all ${
                 primary
-                    ? 'bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/30 hover:border-emerald-400/50'
+                    ? 'bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/10 border-[#DA7756]/30 hover:border-[#DA7756]/50'
                     : 'bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border-white/[0.08] hover:border-white/[0.15]'
             }`}
         >
             <div className={`inline-flex items-center justify-center w-12 h-12 mb-4 rounded-xl ${
-                primary ? 'bg-emerald-500/20' : 'bg-white/[0.03]'
+                primary ? 'bg-[#DA7756]/20' : 'bg-white/[0.03]'
             }`}>
-                <Icon className={`w-6 h-6 ${primary ? 'text-emerald-400' : 'text-slate-400'}`} />
+                <Icon className={`w-6 h-6 ${primary ? 'text-[#DA7756]' : 'text-slate-400'}`} />
             </div>
             <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
             <p className="text-sm text-slate-400">{description}</p>
-            <div className={`mt-4 text-sm font-medium ${primary ? 'text-emerald-400' : 'text-slate-400'} group-hover:translate-x-1 transition-transform inline-flex items-center gap-1`}>
+            <div className={`mt-4 text-sm font-medium ${primary ? 'text-[#DA7756]' : 'text-slate-400'} group-hover:translate-x-1 transition-transform inline-flex items-center gap-1`}>
                 Get started <ChevronRight className="w-4 h-4" />
             </div>
         </motion.button>
@@ -376,10 +376,10 @@ function GameTypeStep({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => onSelect(type.id)}
-                        className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border border-white/[0.08] hover:border-emerald-500/50 rounded-xl text-center transition-all group"
+                        className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border border-white/[0.08] hover:border-[#DA7756]/50 rounded-xl text-center transition-all group"
                     >
                         <span className="text-3xl mb-2 block">{type.emoji}</span>
-                        <span className="text-sm text-white group-hover:text-emerald-400 transition-colors">{type.name}</span>
+                        <span className="text-sm text-white group-hover:text-[#DA7756] transition-colors">{type.name}</span>
                     </motion.button>
                 ))}
             </motion.div>
@@ -416,9 +416,9 @@ function CompleteStep({
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 className="relative inline-flex items-center justify-center w-16 h-16 mb-6"
             >
-                <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl" />
-                <div className="relative w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500/50 flex items-center justify-center">
-                    <Check className="w-8 h-8 text-emerald-400" />
+                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl" />
+                <div className="relative w-16 h-16 rounded-full bg-[#DA7756]/20 border-2 border-[#DA7756]/50 flex items-center justify-center">
+                    <Check className="w-8 h-8 text-[#DA7756]" />
                 </div>
             </motion.div>
             <h2 className="text-2xl font-bold text-white mb-2">You're all set!</h2>
@@ -432,7 +432,7 @@ function CompleteStep({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onComplete}
-                className="flex items-center gap-2 mx-auto px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-medium rounded-xl shadow-lg shadow-emerald-500/25 transition-all"
+                className="flex items-center gap-2 mx-auto px-8 py-3 bg-gradient-to-r from-[#DA7756] to-[#C15F3C] hover:from-[#E88A6A] hover:to-[#DA7756] text-white font-medium rounded-xl shadow-lg shadow-[#DA7756]/25 transition-all"
             >
                 {path === 'upload' ? 'Upload Data' : 'Start Exploring'}
                 <ChevronRight className="w-5 h-5" />
@@ -454,9 +454,9 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
                     transition={{ delay: i * 0.1 }}
                     className={`w-2 h-2 rounded-full transition-colors ${
                         i + 1 === current
-                            ? 'bg-emerald-400'
+                            ? 'bg-[#DA7756]'
                             : i + 1 < current
-                            ? 'bg-emerald-400/50'
+                            ? 'bg-[#DA7756]/50'
                             : 'bg-white/20'
                     }`}
                 />

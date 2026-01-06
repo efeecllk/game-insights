@@ -194,8 +194,8 @@ export function FunnelBuilderPage() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
                 <div className="relative">
-                    <div className="w-12 h-12 border-2 border-emerald-500/20 rounded-full" />
-                    <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-emerald-400 rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-2 border-[#DA7756]/20 rounded-full" />
+                    <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-[#DA7756] rounded-full animate-spin" />
                 </div>
             </div>
         );
@@ -205,9 +205,9 @@ export function FunnelBuilderPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-teal-500/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
+                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#C15F3C]/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#DA7756]/5 rounded-full blur-3xl" />
             </div>
 
             <motion.div
@@ -226,12 +226,12 @@ export function FunnelBuilderPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                            className="p-3 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20"
+                            className="p-3 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20"
                         >
-                            <Filter className="w-6 h-6 text-emerald-400" />
+                            <Filter className="w-6 h-6 text-[#DA7756]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-200 via-teal-200 to-cyan-200 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E08B6D] to-[#C15F3C] bg-clip-text text-transparent">
                                 Funnel Builder
                             </h1>
                             <p className="text-slate-400 text-sm">Create and analyze custom conversion funnels</p>
@@ -260,10 +260,10 @@ export function FunnelBuilderPage() {
                                     Cancel
                                 </motion.button>
                                 <motion.button
-                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleSaveFunnel}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white hover:from-emerald-500 hover:to-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E08B6D] transition-all shadow-lg shadow-[#DA7756]/20"
                                 >
                                     <Check className="w-4 h-4" />
                                     Save
@@ -284,10 +284,10 @@ export function FunnelBuilderPage() {
                                     </motion.button>
                                 )}
                                 <motion.button
-                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => setShowCreateModal(true)}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white hover:from-emerald-500 hover:to-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E08B6D] transition-all shadow-lg shadow-[#DA7756]/20"
                                 >
                                     <Plus className="w-4 h-4" />
                                     New Funnel
@@ -357,7 +357,7 @@ export function FunnelBuilderPage() {
                                                             ...selectedFunnel,
                                                             name: e.target.value
                                                         })}
-                                                        className="text-xl font-semibold text-white bg-transparent border-b-2 border-emerald-500/30 focus:outline-none focus:border-emerald-500 pb-1"
+                                                        className="text-xl font-semibold text-white bg-transparent border-b-2 border-[#DA7756]/30 focus:outline-none focus:border-[#DA7756] pb-1"
                                                     />
                                                 ) : (
                                                     <h2 className="text-xl font-semibold text-white">
@@ -414,7 +414,7 @@ export function FunnelBuilderPage() {
                                             label="Overall Conversion"
                                             value={`${result.overallConversion.toFixed(1)}%`}
                                             icon={<TrendingDown className="w-5 h-5" />}
-                                            color="emerald"
+                                            color="orange"
                                         />
                                         <ResultCard
                                             label="Total Users"
@@ -426,7 +426,7 @@ export function FunnelBuilderPage() {
                                             label="Median Time"
                                             value={formatTime(result.medianTime)}
                                             icon={<Clock className="w-5 h-5" />}
-                                            color="teal"
+                                            color="orangeLight"
                                         />
                                     </motion.div>
                                 )}
@@ -490,7 +490,7 @@ function FunnelListItem({
             whileTap={{ scale: 0.98 }}
             className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                 isSelected
-                    ? 'bg-gradient-to-br from-emerald-500/15 to-teal-500/10 border border-emerald-500/30 shadow-lg shadow-emerald-500/5'
+                    ? 'bg-gradient-to-br from-[#DA7756]/15 to-[#C15F3C]/10 border border-[#DA7756]/30 shadow-lg shadow-[#DA7756]/5'
                     : 'bg-gradient-to-br from-slate-800/40 to-slate-900/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-white/[0.04] hover:border-white/[0.08]'
             }`}
             onClick={onSelect}
@@ -592,7 +592,7 @@ function FunnelStepCard({
                 {/* Step Number */}
                 <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-semibold text-sm"
+                    className="flex-shrink-0 w-9 h-9 rounded-full bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 text-[#DA7756] flex items-center justify-center font-semibold text-sm"
                 >
                     {index + 1}
                 </motion.div>
@@ -611,13 +611,13 @@ function FunnelStepCard({
                                 value={step.name}
                                 onChange={(e) => onUpdate({ name: e.target.value })}
                                 placeholder="Step name"
-                                className="flex-1 px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-colors"
+                                className="flex-1 px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             />
                             <div className="relative">
                                 <select
                                     value={step.event}
                                     onChange={(e) => onUpdate({ event: e.target.value })}
-                                    className="px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500/50 appearance-none pr-8 transition-colors"
+                                    className="px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 appearance-none pr-8 transition-colors"
                                 >
                                     {COMMON_EVENTS.map(event => (
                                         <option key={event.value} value={event.value}>
@@ -649,7 +649,7 @@ function FunnelStepCard({
                         </div>
                         <div className="text-right">
                             <p className={`text-lg font-semibold ${
-                                result.conversionRate > 50 ? 'text-emerald-400' :
+                                result.conversionRate > 50 ? 'text-[#DA7756]' :
                                 result.conversionRate > 20 ? 'text-amber-400' : 'text-rose-400'
                             }`}>
                                 {result.conversionRate.toFixed(1)}%
@@ -707,12 +707,12 @@ function ResultCard({
     label: string;
     value: string;
     icon: React.ReactNode;
-    color: 'emerald' | 'blue' | 'teal';
+    color: 'orange' | 'blue' | 'orangeLight';
 }) {
     const colors = {
-        emerald: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/20 text-emerald-400',
+        orange: 'from-[#DA7756]/20 to-[#C15F3C]/10 border-[#DA7756]/20 text-[#DA7756]',
         blue: 'from-blue-500/20 to-indigo-500/10 border-blue-500/20 text-blue-400',
-        teal: 'from-teal-500/20 to-cyan-500/10 border-teal-500/20 text-teal-400',
+        orangeLight: 'from-[#C15F3C]/20 to-[#DA7756]/10 border-[#C15F3C]/20 text-[#C15F3C]',
     };
 
     return (
@@ -766,8 +766,8 @@ function CreateFunnelModal({
             >
                 <div className="flex items-center justify-between p-5 border-b border-white/[0.06]">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <Sparkles className="w-5 h-5 text-emerald-400" />
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Sparkles className="w-5 h-5 text-[#DA7756]" />
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold text-white">New Funnel</h2>
@@ -794,7 +794,7 @@ function CreateFunnelModal({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g., New User Onboarding"
-                            className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                            className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             autoFocus
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') onCreate(name || 'New Funnel');
@@ -812,10 +812,10 @@ function CreateFunnelModal({
                             Cancel
                         </motion.button>
                         <motion.button
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => onCreate(name || 'New Funnel')}
-                            className="flex-1 py-3 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                            className="flex-1 py-3 bg-gradient-to-r from-[#C15F3C] to-[#DA7756] hover:from-[#DA7756] hover:to-[#E08B6D] text-white rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#DA7756]/20"
                         >
                             <Plus className="w-4 h-4" />
                             Create

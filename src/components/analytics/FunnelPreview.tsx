@@ -3,7 +3,7 @@
  *
  * Premium funnel visualization with:
  * - Glassmorphism container
- * - Emerald-teal gradient bars
+ * - Claude orange gradient bars
  * - Bottleneck highlighting
  * - Dark theme styling
  */
@@ -22,7 +22,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
     return (
         <div className={`relative group ${className ?? ''}`}>
             {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
 
             {/* Card container */}
             <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
@@ -38,7 +38,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                 <p className="text-sm text-slate-500 mt-0.5 capitalize">{funnel.type} funnel</p>
                             </div>
                             <div className="text-right">
-                                <div className="text-2xl font-display font-bold text-emerald-400">
+                                <div className="text-2xl font-display font-bold text-[#DA7756]">
                                     {(funnel.completionRate * 100).toFixed(1)}%
                                 </div>
                                 <div className="text-xs text-slate-500">completion rate</div>
@@ -59,7 +59,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                         <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                                             isBottleneck
                                                 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                                                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                                : 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20'
                                         }`}>
                                             {index + 1}
                                         </div>
@@ -83,7 +83,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                                     className={`h-full rounded-full transition-all ${
                                                         isBottleneck
                                                             ? 'bg-gradient-to-r from-amber-400 to-amber-500'
-                                                            : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+                                                            : 'bg-gradient-to-r from-[#DA7756] to-[#C15F3C]'
                                                     }`}
                                                     style={{ width: `${widthPercent}%` }}
                                                 />
@@ -108,8 +108,8 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                     {/* Bottleneck recommendations */}
                     {funnel.bottleneck && funnel.bottleneck.recommendations.length > 0 && (
                         <div className="px-4 pb-4">
-                            <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
-                                <div className="text-xs font-medium text-emerald-400 mb-1">Recommendation</div>
+                            <div className="p-3 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl">
+                                <div className="text-xs font-medium text-[#DA7756] mb-1">Recommendation</div>
                                 <p className="text-sm text-slate-300">{funnel.bottleneck.recommendations[0]}</p>
                             </div>
                         </div>

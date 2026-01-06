@@ -3,7 +3,7 @@
  *
  * Premium empty state with:
  * - Glassmorphism icon container
- * - Emerald accent styling
+ * - Orange accent styling
  * - Animated entrance with Framer Motion
  * - Consistent with design system
  */
@@ -53,7 +53,7 @@ export function EmptyState({
                         onClick={() => navigate('/upload')}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="mt-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                        className="mt-2 text-xs text-[#DA7756] hover:text-[#DA7756]/80 transition-colors"
                     >
                         Upload data
                     </motion.button>
@@ -76,7 +76,7 @@ export function EmptyState({
                 transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                 className="relative mb-6"
             >
-                <div className="absolute inset-0 bg-emerald-500/10 rounded-2xl blur-xl" />
+                <div className="absolute inset-0 bg-[#DA7756]/10 rounded-2xl blur-xl" />
                 <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] flex items-center justify-center">
                     <Icon className="w-8 h-8 text-slate-400" />
                 </div>

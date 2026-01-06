@@ -69,9 +69,9 @@ const itemVariants = {
 
 function getRetentionColor(value: number): string {
     if (value === 0) return 'bg-white/[0.03]';
-    if (value >= 40) return 'bg-emerald-500';
-    if (value >= 30) return 'bg-emerald-400';
-    if (value >= 20) return 'bg-teal-400';
+    if (value >= 40) return 'bg-[#DA7756]';
+    if (value >= 30) return 'bg-[#DA7756]/80';
+    if (value >= 20) return 'bg-[#C15F3C]';
     if (value >= 15) return 'bg-amber-400';
     if (value >= 10) return 'bg-orange-400';
     if (value >= 5) return 'bg-rose-400';
@@ -107,10 +107,10 @@ function CohortSummaryCard({
     value: string | number;
     subValue?: string;
     trend?: 'up' | 'down' | 'neutral';
-    color: 'emerald' | 'blue' | 'violet' | 'amber';
+    color: 'primary' | 'blue' | 'violet' | 'amber';
 }) {
     const colorStyles = {
-        emerald: { bg: 'from-emerald-500/20 to-emerald-500/5', border: 'border-emerald-500/20', icon: 'bg-emerald-500' },
+        primary: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'bg-[#DA7756]' },
         blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'bg-blue-500' },
         violet: { bg: 'from-violet-500/20 to-violet-500/5', border: 'border-violet-500/20', icon: 'bg-violet-500' },
         amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'bg-amber-500' },
@@ -134,7 +134,7 @@ function CohortSummaryCard({
                 </div>
                 {trend && (
                     <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
-                        trend === 'up' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                        trend === 'up' ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20' :
                         trend === 'down' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
                         'bg-white/[0.03] text-slate-400 border border-white/[0.06]'
                     }`}>
@@ -175,19 +175,19 @@ function CohortHighlight({
             className={`
                 rounded-xl border p-4
                 ${isBest
-                    ? 'bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-500/20'
+                    ? 'bg-gradient-to-br from-[#DA7756]/10 to-[#DA7756]/5 border-[#DA7756]/20'
                     : 'bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-500/20'
                 }
             `}
         >
             <div className="flex items-center gap-3">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    isBest ? 'bg-emerald-500/20' : 'bg-amber-500/20'
+                    isBest ? 'bg-[#DA7756]/20' : 'bg-amber-500/20'
                 }`}>
-                    <Icon className={`w-5 h-5 ${isBest ? 'text-emerald-400' : 'text-amber-400'}`} />
+                    <Icon className={`w-5 h-5 ${isBest ? 'text-[#DA7756]' : 'text-amber-400'}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${isBest ? 'text-emerald-400' : 'text-amber-400'}`}>
+                    <p className={`text-sm font-medium ${isBest ? 'text-[#DA7756]' : 'text-amber-400'}`}>
                         {isBest ? 'Top Performer' : 'Needs Attention'}
                     </p>
                     <p className="text-white font-semibold truncate">{cohort.name}</p>
@@ -277,8 +277,8 @@ function RetentionHeatmap({
                         { color: 'bg-rose-500', label: '<5%' },
                         { color: 'bg-orange-400', label: '5-10%' },
                         { color: 'bg-amber-400', label: '10-15%' },
-                        { color: 'bg-teal-400', label: '15-30%' },
-                        { color: 'bg-emerald-500', label: '>30%' },
+                        { color: 'bg-[#C15F3C]', label: '15-30%' },
+                        { color: 'bg-[#DA7756]', label: '>30%' },
                     ].map(({ color, label }) => (
                         <div key={label} className="flex items-center gap-1">
                             <div className={`w-4 h-4 rounded ${color}`} />
@@ -329,7 +329,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                         {performanceVsAvg !== 0 && (
                             <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                                 performanceVsAvg > 0
-                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20'
                                     : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                             }`}>
                                 {performanceVsAvg > 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
@@ -439,7 +439,7 @@ function DimensionSelector({
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white hover:bg-white/[0.06] hover:border-white/[0.12] transition-all"
             >
-                <Icon className="w-4 h-4 text-emerald-400" />
+                <Icon className="w-4 h-4 text-[#DA7756]" />
                 <span className="font-medium">{current.name}</span>
                 <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -464,11 +464,11 @@ function DimensionSelector({
                                         setIsOpen(false);
                                     }}
                                     className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-white/[0.05] transition-colors ${
-                                        isSelected ? 'bg-emerald-500/10' : ''
+                                        isSelected ? 'bg-[#DA7756]/10' : ''
                                     }`}
                                 >
-                                    <DimIcon className={`w-4 h-4 ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`} />
-                                    <span className={`font-medium ${isSelected ? 'text-emerald-400' : 'text-white'}`}>
+                                    <DimIcon className={`w-4 h-4 ${isSelected ? 'text-[#DA7756]' : 'text-slate-400'}`} />
+                                    <span className={`font-medium ${isSelected ? 'text-[#DA7756]' : 'text-white'}`}>
                                         {dim.name}
                                     </span>
                                 </button>
@@ -592,7 +592,7 @@ export function CohortDashboard({
                         label="Avg D7 Retention"
                         value={`${stats.avgD7Retention.toFixed(1)}%`}
                         trend={stats.retentionTrend}
-                        color="emerald"
+                        color="primary"
                     />
                     <CohortSummaryCard
                         icon={DollarSign}
@@ -626,7 +626,7 @@ export function CohortDashboard({
                     <ul className="space-y-2">
                         {comparison.insights.map((insight, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
-                                <span className="text-emerald-400 mt-0.5">•</span>
+                                <span className="text-[#DA7756] mt-0.5">•</span>
                                 {insight}
                             </li>
                         ))}
@@ -644,7 +644,7 @@ export function CohortDashboard({
                     {cohorts.length > 5 && (
                         <button
                             onClick={() => setShowAllCohorts(!showAllCohorts)}
-                            className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                            className="text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors"
                         >
                             {showAllCohorts ? 'Show Less' : `Show All (${cohorts.length})`}
                         </button>

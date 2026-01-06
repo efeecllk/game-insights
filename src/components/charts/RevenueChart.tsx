@@ -2,7 +2,7 @@
  * Revenue Chart - Obsidian Analytics Design
  *
  * Premium bar chart with:
- * - Emerald gradient bars with glow
+ * - Warm gradient bars with glow (Claude palette)
  * - Refined tooltips and labels
  * - Summary statistics
  */
@@ -30,7 +30,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
         tooltip: {
             trigger: 'axis',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            borderColor: 'rgba(16, 185, 129, 0.2)',
+            borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
@@ -41,7 +41,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
                 const p = params as Array<{ name: string; value: number }>;
                 return `
                     <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p[0].name}</div>
-                    <div style="color: #10b981; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">$${p[0].value.toLocaleString()}</div>
+                    <div style="color: #DA7756; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">$${p[0].value.toLocaleString()}</div>
                 `;
             },
             extraCssText: 'box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); border-radius: 12px;',
@@ -87,12 +87,12 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: '#10b981' },
-                            { offset: 0.7, color: '#059669' },
-                            { offset: 1, color: 'rgba(5, 150, 105, 0.3)' },
+                            { offset: 0, color: '#DA7756' },
+                            { offset: 0.7, color: '#B84E32' },
+                            { offset: 1, color: 'rgba(184, 78, 50, 0.3)' },
                         ],
                     },
-                    shadowColor: 'rgba(16, 185, 129, 0.3)',
+                    shadowColor: 'rgba(218, 119, 86, 0.3)',
                     shadowBlur: 8,
                     shadowOffsetY: 4,
                 },
@@ -102,12 +102,12 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
                             type: 'linear',
                             x: 0, y: 0, x2: 0, y2: 1,
                             colorStops: [
-                                { offset: 0, color: '#34d399' },
-                                { offset: 1, color: 'rgba(52, 211, 153, 0.5)' },
+                                { offset: 0, color: '#E8957A' },
+                                { offset: 1, color: 'rgba(232, 149, 122, 0.5)' },
                             ],
                         },
                         shadowBlur: 20,
-                        shadowColor: 'rgba(16, 185, 129, 0.5)',
+                        shadowColor: 'rgba(218, 119, 86, 0.5)',
                     },
                 },
             },
@@ -128,7 +128,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.04]">
             <div>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Total Revenue</p>
-                <p className="text-xl font-bold text-emerald-400 font-mono tracking-tight">
+                <p className="text-xl font-bold text-[#E8957A] font-mono tracking-tight">
                     ${totalRevenue.toLocaleString()}
                 </p>
             </div>
@@ -168,7 +168,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
                         </p>
                     </div>
                     <div className="text-right">
-                        <p className="text-lg font-bold text-emerald-400 font-mono">
+                        <p className="text-lg font-bold text-[#E8957A] font-mono">
                             ${totalRevenue.toLocaleString()}
                         </p>
                         <p className="text-[10px] text-slate-500 font-medium">

@@ -315,9 +315,9 @@ export function InlineUpload({
                             <div
                                 className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-colors ${
                                     currentStep === step
-                                        ? 'bg-emerald-500 text-white'
+                                        ? 'bg-[#DA7756] text-white'
                                         : ['dropzone', 'preview', 'mapping', 'complete'].indexOf(currentStep) > idx
-                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        ? 'bg-[#DA7756]/20 text-[#DA7756]'
                                         : 'bg-white/[0.06] text-slate-500'
                                 }`}
                             >
@@ -331,7 +331,7 @@ export function InlineUpload({
                                 <div
                                     className={`w-8 h-0.5 rounded-full transition-colors ${
                                         ['dropzone', 'preview', 'mapping', 'complete'].indexOf(currentStep) > idx
-                                            ? 'bg-emerald-500/50'
+                                            ? 'bg-[#DA7756]/50'
                                             : 'bg-white/[0.06]'
                                     }`}
                                 />
@@ -450,13 +450,13 @@ function DropZone({
                 whileHover={{ scale: 1.01 }}
                 className={`relative border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all ${
                     isDragging
-                        ? 'border-emerald-500 bg-emerald-500/5'
+                        ? 'border-[#DA7756] bg-[#DA7756]/5'
                         : 'border-white/[0.12] hover:border-white/[0.2] hover:bg-white/[0.02]'
                 }`}
             >
                 {isProcessing ? (
                     <div className="flex flex-col items-center">
-                        <Loader2 className="w-12 h-12 text-emerald-400 animate-spin mb-4" />
+                        <Loader2 className="w-12 h-12 text-[#DA7756] animate-spin mb-4" />
                         <p className="text-white font-medium">Processing file...</p>
                     </div>
                 ) : (
@@ -526,12 +526,12 @@ function PreviewStepContent({
             {/* File info */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-center gap-3 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl"
+                className="flex items-center gap-3 p-3 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl"
             >
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center">
-                    <Check className="w-4 h-4 text-emerald-400" />
+                <div className="w-8 h-8 rounded-lg bg-[#DA7756]/20 flex items-center justify-center">
+                    <Check className="w-4 h-4 text-[#DA7756]" />
                 </div>
-                <span className="text-sm text-emerald-400 font-medium">
+                <span className="text-sm text-[#DA7756] font-medium">
                     File loaded: {parsedFile.fileName}
                 </span>
             </motion.div>
@@ -546,7 +546,7 @@ function PreviewStepContent({
                     value={dataName}
                     onChange={(e) => onDataNameChange(e.target.value)}
                     placeholder="e.g., Player Events January 2025"
-                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                 />
             </motion.div>
 
@@ -614,7 +614,7 @@ function PreviewStepContent({
                     whileTap={{ scale: 0.98 }}
                     onClick={onContinue}
                     disabled={!dataName.trim()}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     Continue to Column Mapping
                     <ChevronRight className="w-4 h-4" />
@@ -642,9 +642,9 @@ function MappingStepContent({
     const getMeaning = (col: string) => columnMeanings.find((m) => m.column === col);
 
     const getConfidenceColor = (confidence: number) => {
-        if (confidence >= 0.9) return 'text-emerald-400';
+        if (confidence >= 0.9) return 'text-[#DA7756]';
         if (confidence >= 0.7) return 'text-amber-400';
-        return 'text-orange-400';
+        return 'text-[#C15F3C]';
     };
 
     const getConfidenceBar = (confidence: number) => {
@@ -657,10 +657,10 @@ function MappingStepContent({
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                     className={`h-full rounded-full ${
                         confidence >= 0.9
-                            ? 'bg-emerald-500'
+                            ? 'bg-[#DA7756]'
                             : confidence >= 0.7
                             ? 'bg-amber-500'
-                            : 'bg-orange-500'
+                            : 'bg-[#C15F3C]'
                     }`}
                 />
             </div>
@@ -808,7 +808,7 @@ function MappingStepContent({
                     whileTap={{ scale: 0.98 }}
                     onClick={onImport}
                     disabled={isProcessing}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isProcessing ? (
                         <>
@@ -854,9 +854,9 @@ function CompleteStepContent({
                 transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
                 className="relative w-16 h-16 mx-auto mb-4"
             >
-                <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                <div className="relative w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <Check className="w-8 h-8 text-emerald-400" />
+                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                <div className="relative w-16 h-16 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                    <Check className="w-8 h-8 text-[#DA7756]" />
                 </div>
             </motion.div>
 
@@ -912,7 +912,7 @@ function CompleteStepContent({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onViewAnalytics}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium shadow-lg shadow-emerald-500/20 transition-colors"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 transition-colors"
                     >
                         <Sparkles className="w-4 h-4" />
                         View Analytics

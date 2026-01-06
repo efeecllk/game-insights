@@ -3,7 +3,7 @@
  *
  * Premium analytics dashboard with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Noise texture backgrounds
  * - Refined data selector dropdown
@@ -117,9 +117,9 @@ export function AnalyticsPage() {
                         transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                         className="relative mb-6 inline-block"
                     >
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-2xl flex items-center justify-center">
-                            <BarChart3 className="w-8 h-8 text-emerald-400" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-2xl flex items-center justify-center">
+                            <BarChart3 className="w-8 h-8 text-[#DA7756]" />
                         </div>
                     </motion.div>
 
@@ -227,9 +227,9 @@ export function AnalyticsPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Sparkles className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Sparkles className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
 
@@ -238,7 +238,7 @@ export function AnalyticsPage() {
                                     <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
                                         {analytics.dataName}
                                     </h1>
-                                    <span className="px-2 py-0.5 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full capitalize">
+                                    <span className="px-2 py-0.5 text-xs bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full capitalize">
                                         {result.gameType.replace(/_/g, ' ')}
                                     </span>
                                 </div>
@@ -294,7 +294,7 @@ export function AnalyticsPage() {
                                                             setShowDataSelector(false);
                                                         }}
                                                         className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-white/[0.04] last:border-0 ${
-                                                            data.id === activeGameData?.id ? 'bg-emerald-500/10 border-l-2 border-l-emerald-500' : ''
+                                                            data.id === activeGameData?.id ? 'bg-[#DA7756]/10 border-l-2 border-l-[#DA7756]' : ''
                                                         }`}
                                                     >
                                                         <div className="font-medium text-white">{data.name}</div>
@@ -314,7 +314,7 @@ export function AnalyticsPage() {
                                 whileHover={{ scale: 1.1, rotate: 90 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => analytics.runAnalysis()}
-                                className="p-2 text-slate-500 hover:text-emerald-400 hover:bg-white/[0.05] rounded-lg transition-colors"
+                                className="p-2 text-slate-500 hover:text-[#DA7756] hover:bg-white/[0.05] rounded-lg transition-colors"
                                 title="Re-run analysis"
                             >
                                 <RefreshCw className="w-5 h-5" />
@@ -417,7 +417,7 @@ function StatItem({ icon: Icon, value, label, index }: StatItemProps) {
             className="text-center p-3 rounded-xl hover:bg-white/[0.02] transition-colors group cursor-default"
         >
             <div className="flex items-center justify-center gap-2 mb-1">
-                <Icon className="w-4 h-4 text-slate-600 group-hover:text-emerald-500/60 transition-colors" />
+                <Icon className="w-4 h-4 text-slate-600 group-hover:text-[#DA7756]/60 transition-colors" />
                 <span className="text-2xl font-display font-bold text-white">{value}</span>
             </div>
             <div className="text-xs text-slate-500">{label}</div>

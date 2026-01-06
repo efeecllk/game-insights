@@ -27,7 +27,7 @@ interface KPICardProps {
     change?: number;
     icon: React.ReactNode;
     tooltip?: string;
-    color?: 'emerald' | 'teal' | 'blue' | 'violet' | 'amber' | 'rose';
+    color?: 'primary' | 'secondary' | 'blue' | 'violet' | 'amber' | 'rose';
     index?: number;
 }
 
@@ -36,26 +36,26 @@ interface KPICardProps {
 // ============================================================================
 
 const COLOR_STYLES = {
-    emerald: {
-        bg: 'from-emerald-500/20 to-emerald-500/5',
-        border: 'border-emerald-500/20',
-        icon: 'text-emerald-400',
-        glow: 'bg-emerald-500/20',
-        hoverBorder: 'hover:border-emerald-500/40',
+    primary: {
+        bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+        border: 'border-[#DA7756]/20',
+        icon: 'text-[#DA7756]',
+        glow: 'bg-[#DA7756]/20',
+        hoverBorder: 'hover:border-[#DA7756]/40',
     },
-    teal: {
-        bg: 'from-teal-500/20 to-teal-500/5',
-        border: 'border-teal-500/20',
-        icon: 'text-teal-400',
-        glow: 'bg-teal-500/20',
-        hoverBorder: 'hover:border-teal-500/40',
+    secondary: {
+        bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+        border: 'border-[#C15F3C]/20',
+        icon: 'text-[#C15F3C]',
+        glow: 'bg-[#C15F3C]/20',
+        hoverBorder: 'hover:border-[#C15F3C]/40',
     },
     blue: {
-        bg: 'from-blue-500/20 to-blue-500/5',
-        border: 'border-blue-500/20',
-        icon: 'text-blue-400',
-        glow: 'bg-blue-500/20',
-        hoverBorder: 'hover:border-blue-500/40',
+        bg: 'from-[#5B9BD5]/20 to-[#5B9BD5]/5',
+        border: 'border-[#5B9BD5]/20',
+        icon: 'text-[#5B9BD5]',
+        glow: 'bg-[#5B9BD5]/20',
+        hoverBorder: 'hover:border-[#5B9BD5]/40',
     },
     violet: {
         bg: 'from-violet-500/20 to-violet-500/5',
@@ -65,11 +65,11 @@ const COLOR_STYLES = {
         hoverBorder: 'hover:border-violet-500/40',
     },
     amber: {
-        bg: 'from-amber-500/20 to-amber-500/5',
-        border: 'border-amber-500/20',
-        icon: 'text-amber-400',
-        glow: 'bg-amber-500/20',
-        hoverBorder: 'hover:border-amber-500/40',
+        bg: 'from-[#E5A84B]/20 to-[#E5A84B]/5',
+        border: 'border-[#E5A84B]/20',
+        icon: 'text-[#E5A84B]',
+        glow: 'bg-[#E5A84B]/20',
+        hoverBorder: 'hover:border-[#E5A84B]/40',
     },
     rose: {
         bg: 'from-rose-500/20 to-rose-500/5',
@@ -112,7 +112,7 @@ const cardVariants = {
 // KPI Card Component
 // ============================================================================
 
-function KPICard({ label, value, change, icon, tooltip, color = 'emerald', index = 0 }: KPICardProps) {
+function KPICard({ label, value, change, icon, tooltip, color = 'primary', index = 0 }: KPICardProps) {
     const isPositive = change !== undefined && change >= 0;
     const hasChange = change !== undefined && !isNaN(change);
     const styles = COLOR_STYLES[color];
@@ -154,7 +154,7 @@ function KPICard({ label, value, change, icon, tooltip, color = 'emerald', index
                             transition={{ delay: index * 0.1 + 0.2 }}
                             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                                 isPositive
-                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                    ? 'bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20'
                                     : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                             }`}
                         >
@@ -255,7 +255,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
                 value: formatNumber(metrics.engagement.dau),
                 icon: <Users className="w-5 h-5" />,
                 tooltip: 'Unique users active today',
-                color: 'emerald',
+                color: 'primary',
             });
         }
 
@@ -275,7 +275,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
                 value: metrics.engagement.avgSessionsPerUser.toFixed(1),
                 icon: <Repeat className="w-5 h-5" />,
                 tooltip: 'Average sessions per user',
-                color: 'teal',
+                color: 'secondary',
             });
         }
 
@@ -338,7 +338,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
                 value: metrics.progression.avgLevel.toFixed(1),
                 icon: <Target className="w-5 h-5" />,
                 tooltip: 'Average player level',
-                color: 'teal',
+                color: 'secondary',
             });
         }
 

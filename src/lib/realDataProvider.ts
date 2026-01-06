@@ -552,7 +552,7 @@ export class RealDataProvider implements IDataProvider {
         }
 
         const total = Array.from(counts.values()).reduce((a, b) => a + b, 0);
-        const colors = ['#8b5cf6', '#6366f1', '#ec4899', '#22c55e', '#f97316', '#06b6d4'];
+        const colors = ['#8b5cf6', '#6366f1', '#ec4899', '#DA7756', '#C15F3C', '#5B9BD5'];
 
         return Array.from(counts.entries())
             .sort((a, b) => b[1] - a[1])

@@ -3,7 +3,7 @@
  *
  * Premium funnel analysis with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Refined funnel visualizations
  */
@@ -51,18 +51,18 @@ const itemVariants = {
 // Sample funnel templates by game type (fallback when no data)
 const funnelTemplates = {
     puzzle: [
-        { step: 'Tutorial Start', users: 10000, color: '#10b981' },
-        { step: 'Tutorial Complete', users: 7800, color: '#059669' },
-        { step: 'Level 5', users: 5200, color: '#047857' },
-        { step: 'Level 10', users: 2800, color: '#065f46' },
-        { step: 'First Purchase', users: 420, color: '#064e3b' },
+        { step: 'Tutorial Start', users: 10000, color: '#DA7756' },
+        { step: 'Tutorial Complete', users: 7800, color: '#C15F3C' },
+        { step: 'Level 5', users: 5200, color: '#B35435' },
+        { step: 'Level 10', users: 2800, color: '#A0492E' },
+        { step: 'First Purchase', users: 420, color: '#8D3E27' },
     ],
     idle: [
-        { step: 'First Open', users: 10000, color: '#14b8a6' },
-        { step: 'First Upgrade', users: 8500, color: '#0d9488' },
-        { step: 'First Prestige', users: 2100, color: '#0f766e' },
-        { step: 'Second Prestige', users: 850, color: '#115e59' },
-        { step: 'VIP Purchase', users: 180, color: '#134e4a' },
+        { step: 'First Open', users: 10000, color: '#C15F3C' },
+        { step: 'First Upgrade', users: 8500, color: '#B35435' },
+        { step: 'First Prestige', users: 2100, color: '#A0492E' },
+        { step: 'Second Prestige', users: 850, color: '#8D3E27' },
+        { step: 'VIP Purchase', users: 180, color: '#7A3420' },
     ],
     battle_royale: [
         { step: 'First Match', users: 10000, color: '#ef4444' },
@@ -79,18 +79,18 @@ const funnelTemplates = {
         { step: 'Premium Decor', users: 280, color: '#78350f' },
     ],
     gacha_rpg: [
-        { step: 'First Login', users: 10000, color: '#10b981' },
-        { step: 'First Pull', users: 8200, color: '#059669' },
-        { step: 'SSR Obtained', users: 4100, color: '#047857' },
-        { step: 'First Purchase', users: 1200, color: '#065f46' },
-        { step: 'Whale ($100+)', users: 180, color: '#064e3b' },
+        { step: 'First Login', users: 10000, color: '#DA7756' },
+        { step: 'First Pull', users: 8200, color: '#C15F3C' },
+        { step: 'SSR Obtained', users: 4100, color: '#B35435' },
+        { step: 'First Purchase', users: 1200, color: '#A0492E' },
+        { step: 'Whale ($100+)', users: 180, color: '#8D3E27' },
     ],
     custom: [
-        { step: 'Step 1', users: 10000, color: '#10b981' },
-        { step: 'Step 2', users: 7500, color: '#059669' },
-        { step: 'Step 3', users: 4500, color: '#047857' },
-        { step: 'Step 4', users: 2000, color: '#065f46' },
-        { step: 'Step 5', users: 500, color: '#064e3b' },
+        { step: 'Step 1', users: 10000, color: '#DA7756' },
+        { step: 'Step 2', users: 7500, color: '#C15F3C' },
+        { step: 'Step 3', users: 4500, color: '#B35435' },
+        { step: 'Step 4', users: 2000, color: '#A0492E' },
+        { step: 'Step 5', users: 500, color: '#8D3E27' },
     ],
 };
 
@@ -100,11 +100,11 @@ interface ManualFunnelStep {
     color: string;
 }
 
-// Funnel type colors - Emerald theme
+// Funnel type colors - Warm orange theme
 const FUNNEL_TYPE_COLORS: Record<DetectedFunnel['type'], string[]> = {
-    progression: ['#10b981', '#059669', '#047857', '#065f46', '#064e3b'],
-    conversion: ['#14b8a6', '#0d9488', '#0f766e', '#115e59', '#134e4a'],
-    onboarding: ['#06b6d4', '#0891b2', '#0e7490', '#155e75', '#164e63'],
+    progression: ['#DA7756', '#C15F3C', '#B35435', '#A0492E', '#8D3E27'],
+    conversion: ['#C15F3C', '#B35435', '#A0492E', '#8D3E27', '#7A3420'],
+    onboarding: ['#5B9BD5', '#4A8AC4', '#3979B3', '#2868A2', '#175791'],
     custom: ['#6366f1', '#4f46e5', '#4338ca', '#3730a3', '#312e81'],
 };
 
@@ -203,18 +203,18 @@ function DetectedFunnelCard({
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center">
-                                    <Filter className="w-5 h-5 text-emerald-400" />
+                                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                                    <Filter className="w-5 h-5 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-2">
                                     <h3 className="font-semibold text-white">{funnel.name}</h3>
-                                    <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                                    <span className="px-2 py-0.5 text-xs rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756]">
                                         {FUNNEL_TYPE_LABELS[funnel.type]}
                                     </span>
-                                    <span className="px-2 py-0.5 text-xs rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center gap-1">
+                                    <span className="px-2 py-0.5 text-xs rounded-full bg-[#C15F3C]/10 border border-[#C15F3C]/20 text-[#C15F3C] flex items-center gap-1">
                                         <Sparkles className="w-3 h-3" />
                                         AI Detected
                                     </span>
@@ -355,7 +355,7 @@ function ManualFunnelBuilder({
         onStepsChange([...steps, {
             step: `New Step ${steps.length + 1}`,
             users: Math.floor(lastStep.users * 0.5),
-            color: '#10b981'
+            color: '#DA7756'
         }]);
     };
 
@@ -398,7 +398,7 @@ function ManualFunnelBuilder({
                                 newSteps[index].step = e.target.value;
                                 onStepsChange(newSteps);
                             }}
-                            className="flex-1 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="flex-1 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <input
                             type="number"
@@ -408,7 +408,7 @@ function ManualFunnelBuilder({
                                 newSteps[index].users = parseInt(e.target.value) || 0;
                                 onStepsChange(newSteps);
                             }}
-                            className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <button
                             onClick={() => handleRemoveStep(index)}
@@ -422,7 +422,7 @@ function ManualFunnelBuilder({
             </div>
             <button
                 onClick={handleAddStep}
-                className="mt-3 text-sm text-emerald-400 hover:text-emerald-300 flex items-center gap-1 transition-colors"
+                className="mt-3 text-sm text-[#DA7756] hover:text-[#C15F3C] flex items-center gap-1 transition-colors"
             >
                 <Plus className="w-4 h-4" /> Add Step
             </button>
@@ -441,15 +441,15 @@ function StatsCard({
     title: string;
     value: string;
     icon: typeof Users;
-    color: 'emerald' | 'blue' | 'teal' | 'amber';
+    color: 'orange' | 'blue' | 'warmOrange' | 'amber';
     index: number;
 }) {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         blue: {
             bg: 'from-blue-500/20 to-blue-500/5',
@@ -457,11 +457,11 @@ function StatsCard({
             icon: 'text-blue-400',
             glow: 'bg-blue-500/20',
         },
-        teal: {
-            bg: 'from-teal-500/20 to-teal-500/5',
-            border: 'border-teal-500/20',
-            icon: 'text-teal-400',
-            glow: 'bg-teal-500/20',
+        warmOrange: {
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
         amber: {
             bg: 'from-amber-500/20 to-amber-500/5',
@@ -608,9 +608,9 @@ export function FunnelsPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Filter className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Filter className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -648,7 +648,7 @@ export function FunnelsPage() {
                     title="Total Funnels"
                     value={stats.totalFunnels.toString()}
                     icon={Filter}
-                    color="emerald"
+                    color="orange"
                     index={0}
                 />
                 <StatsCard
@@ -662,7 +662,7 @@ export function FunnelsPage() {
                     title="Avg Completion"
                     value={`${stats.avgCompletion.toFixed(1)}%`}
                     icon={Target}
-                    color="teal"
+                    color="warmOrange"
                     index={2}
                 />
                 <StatsCard
@@ -678,7 +678,7 @@ export function FunnelsPage() {
             {hasDetectedFunnels && (
                 <motion.div variants={itemVariants} className="space-y-4">
                     <div className="flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-emerald-400" />
+                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
                         <h2 className="text-lg font-semibold text-white">AI-Detected Funnels</h2>
                     </div>
                     <div className="space-y-4">
@@ -774,9 +774,9 @@ export function FunnelsPage() {
                             transition={{ type: 'spring', delay: 0.2 }}
                             className="relative inline-block mb-4"
                         >
-                            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-xl" />
-                            <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto">
-                                <Filter className="w-6 h-6 text-emerald-400" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-xl" />
+                            <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center mx-auto">
+                                <Filter className="w-6 h-6 text-[#DA7756]" />
                             </div>
                         </motion.div>
                         <h3 className="text-lg font-semibold text-white mb-2">No Funnels Detected</h3>

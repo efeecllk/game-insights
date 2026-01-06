@@ -4,7 +4,7 @@
  * Premium onboarding experience with:
  * - Glassmorphism cards
  * - Animated entrance effects
- * - Emerald/teal accent theme
+ * - Claude warm orange accent theme
  */
 
 import { useState } from 'react';
@@ -34,7 +34,7 @@ const DEMO_OPTIONS: Array<{
   name: string;
   description: string;
   icon: React.ElementType;
-  color: 'emerald' | 'blue' | 'amber';
+  color: 'orange' | 'blue' | 'amber';
   metrics: string[];
 }> = [
   {
@@ -42,7 +42,7 @@ const DEMO_OPTIONS: Array<{
     name: 'Mobile Gaming',
     description: 'Puzzle game with retention, levels, and monetization data',
     icon: Gamepad2,
-    color: 'emerald',
+    color: 'orange',
     metrics: ['DAU/MAU', 'D1/D7 Retention', 'ARPDAU', 'Level Completion'],
   },
   {
@@ -64,13 +64,13 @@ const DEMO_OPTIONS: Array<{
 ];
 
 const COLOR_CLASSES = {
-  emerald: {
-    border: 'border-emerald-500/20 hover:border-emerald-500/40',
-    bg: 'hover:bg-emerald-500/5',
-    icon: 'text-emerald-400',
-    iconBg: 'bg-emerald-500/10 border-emerald-500/20',
-    button: 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border-emerald-500/30',
-    glow: 'group-hover:shadow-emerald-500/10',
+  orange: {
+    border: 'border-[#DA7756]/20 hover:border-[#DA7756]/40',
+    bg: 'hover:bg-[#DA7756]/5',
+    icon: 'text-[#DA7756]',
+    iconBg: 'bg-[#DA7756]/10 border-[#DA7756]/20',
+    button: 'bg-[#DA7756]/20 hover:bg-[#DA7756]/30 text-[#DA7756] border-[#DA7756]/30',
+    glow: 'group-hover:shadow-[#DA7756]/10',
   },
   blue: {
     border: 'border-blue-500/20 hover:border-blue-500/40',
@@ -147,8 +147,8 @@ export default function QuickStart() {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
       {/* Decorative glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C15F3C]/5 rounded-full blur-3xl" />
 
       <motion.div
         variants={containerVariants}
@@ -158,13 +158,13 @@ export default function QuickStart() {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
-            <Zap className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm font-medium text-emerald-400">AI-Powered Analytics</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 mb-6">
+            <Zap className="w-4 h-4 text-[#DA7756]" />
+            <span className="text-sm font-medium text-[#DA7756]">AI-Powered Analytics</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
             Welcome to{' '}
-            <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
               Game Insights
             </span>
           </h1>
@@ -183,19 +183,19 @@ export default function QuickStart() {
             onClick={() => navigate('/upload')}
             className="group relative text-left"
           >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-emerald-500/30 transition-all overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-[#DA7756]/30 transition-all overflow-hidden">
               <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
               <div className="relative">
-                <div className="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                  <Upload className="w-7 h-7 text-emerald-400" />
+                <div className="w-14 h-14 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Upload className="w-7 h-7 text-[#DA7756]" />
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">Upload Your Data</h3>
                 <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                   CSV, JSON, Excel, or SQLite file. We'll auto-detect your industry and
                   suggest visualizations.
                 </p>
-                <div className="flex items-center text-emerald-400 text-sm font-medium">
+                <div className="flex items-center text-[#DA7756] text-sm font-medium">
                   Get started <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>

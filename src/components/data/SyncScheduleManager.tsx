@@ -3,7 +3,7 @@
  *
  * Configure sync schedules with:
  * - Glassmorphism containers
- * - Emerald accent colors
+ * - Warm orange accent colors (#DA7756)
  * - Framer Motion animations
  * - Interactive schedule presets
  */
@@ -194,11 +194,11 @@ export function SyncScheduleManager() {
                     index={1}
                 />
                 <SyncTypeCard
-                    icon={<Zap className="w-5 h-5 text-emerald-400" />}
+                    icon={<Zap className="w-5 h-5 text-[#DA7756]" />}
                     label="Real-time"
                     count={groupedIntegrations.realtime.length}
                     description="Continuous sync"
-                    color="emerald"
+                    color="orange"
                     index={2}
                 />
                 <SyncTypeCard
@@ -219,8 +219,8 @@ export function SyncScheduleManager() {
                         className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
                     >
                         <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                                <History className="w-4 h-4 text-emerald-400" />
+                            <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 flex items-center justify-center">
+                                <History className="w-4 h-4 text-[#DA7756]" />
                             </div>
                             Upcoming Syncs
                         </h3>
@@ -277,35 +277,35 @@ export function SyncScheduleManager() {
             {/* Sync Tips */}
             <motion.div
                 variants={cardVariants}
-                className="bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-5"
+                className="bg-[#DA7756]/5 border border-[#DA7756]/10 rounded-2xl p-5"
             >
-                <h4 className="font-medium text-emerald-400 mb-4 flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                        <Info className="w-4 h-4 text-emerald-400" />
+                <h4 className="font-medium text-[#DA7756] mb-4 flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 flex items-center justify-center">
+                        <Info className="w-4 h-4 text-[#DA7756]" />
                     </div>
                     Sync Best Practices
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-[#DA7756] flex-shrink-0 mt-0.5" />
                         <span className="text-slate-300">
                             Use real-time sync for dashboards that need live data
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-[#DA7756] flex-shrink-0 mt-0.5" />
                         <span className="text-slate-300">
                             Schedule syncs during off-peak hours to reduce API usage
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-[#DA7756] flex-shrink-0 mt-0.5" />
                         <span className="text-slate-300">
                             Pause syncs for integrations you're not actively using
                         </span>
                     </div>
                     <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <Check className="w-4 h-4 text-[#DA7756] flex-shrink-0 mt-0.5" />
                         <span className="text-slate-300">
                             Use webhooks when available for instant updates
                         </span>
@@ -332,13 +332,13 @@ function SyncTypeCard({
     label: string;
     count: number;
     description: string;
-    color: 'slate' | 'blue' | 'emerald' | 'violet';
+    color: 'slate' | 'blue' | 'orange' | 'violet';
     index: number;
 }) {
     const colorMap = {
         slate: { bg: 'bg-slate-500/10', border: 'border-slate-500/20', glow: '' },
         blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', glow: 'shadow-blue-500/10' },
-        emerald: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', glow: 'shadow-emerald-500/10' },
+        orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20', glow: 'shadow-[#DA7756]/10' },
         violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', glow: 'shadow-violet-500/10' },
     };
 
@@ -402,7 +402,7 @@ function UpcomingSyncRow({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={onRefresh}
-                className="px-4 py-2 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm font-medium hover:bg-emerald-500/20 transition-colors"
+                className="px-4 py-2 bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 rounded-xl text-sm font-medium hover:bg-[#DA7756]/20 transition-colors"
             >
                 Sync Now
             </motion.button>
@@ -489,7 +489,7 @@ function ScheduleRow({
                                 e.stopPropagation();
                                 onResume();
                             }}
-                            className="p-2 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors"
+                            className="p-2 text-slate-500 hover:text-[#DA7756] hover:bg-[#DA7756]/10 rounded-lg transition-colors"
                             title="Resume"
                         >
                             <Play className="w-4 h-4" />
@@ -546,16 +546,16 @@ function ScheduleRow({
                                             whileTap={{ scale: 0.98 }}
                                             className={`p-3 rounded-xl border text-left transition-all ${
                                                 isActive
-                                                    ? 'border-emerald-500/30 bg-emerald-500/10 shadow-lg shadow-emerald-500/10'
+                                                    ? 'border-[#DA7756]/30 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
                                                     : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.04]'
                                             }`}
                                         >
                                             <div className="flex items-center gap-2 mb-1">
-                                                <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-400' : 'text-slate-500'}`} />
-                                                <span className={`font-medium ${isActive ? 'text-emerald-400' : 'text-white'}`}>
+                                                <Icon className={`w-4 h-4 ${isActive ? 'text-[#DA7756]' : 'text-slate-500'}`} />
+                                                <span className={`font-medium ${isActive ? 'text-[#DA7756]' : 'text-white'}`}>
                                                     {preset.name}
                                                 </span>
-                                                {isActive && <Check className="w-4 h-4 text-emerald-400 ml-auto" />}
+                                                {isActive && <Check className="w-4 h-4 text-[#DA7756] ml-auto" />}
                                             </div>
                                             <p className="text-xs text-slate-500">{preset.description}</p>
                                         </motion.button>
@@ -582,7 +582,7 @@ function ScheduleRow({
                                             step={5}
                                             value={integration.config.syncStrategy.intervalMinutes}
                                             readOnly
-                                            className="flex-1 h-2 bg-white/[0.06] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:shadow-emerald-500/30"
+                                            className="flex-1 h-2 bg-white/[0.06] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-[#DA7756] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:shadow-[#DA7756]/30"
                                         />
                                         <span className="text-sm font-medium text-white min-w-[80px] text-right">
                                             {formatInterval(integration.config.syncStrategy.intervalMinutes)}
@@ -645,7 +645,7 @@ function ScheduleBadge({ strategy }: { strategy: SyncStrategy }) {
             );
         case 'realtime':
             return (
-                <span className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 rounded-lg text-xs font-medium">
                     <Zap className="w-3 h-3" />
                     Real-time
                 </span>

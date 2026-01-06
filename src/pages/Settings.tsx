@@ -5,7 +5,7 @@
  * - Glassmorphism cards
  * - Animated section reveals
  * - Refined form inputs
- * - Status indicators with emerald theme
+ * - Status indicators with warm orange theme
  */
 
 import { useState, useEffect } from 'react';
@@ -110,9 +110,9 @@ export function SettingsPage() {
                     transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                     className="relative"
                 >
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <Settings className="w-6 h-6 text-emerald-400" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <Settings className="w-6 h-6 text-[#DA7756]" />
                     </div>
                 </motion.div>
                 <div>
@@ -143,14 +143,14 @@ export function SettingsPage() {
                                     onClick={() => handleLanguageChange(lang.code)}
                                     className={`relative px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                                         isSelected
-                                            ? 'text-white bg-emerald-500/20 border border-emerald-500/30'
+                                            ? 'text-white bg-[#DA7756]/20 border border-[#DA7756]/30'
                                             : 'text-slate-400 bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05] hover:text-slate-200'
                                     }`}
                                 >
                                     {isSelected && (
                                         <motion.div
                                             layoutId="langSelector"
-                                            className="absolute inset-0 bg-emerald-500/10 rounded-xl"
+                                            className="absolute inset-0 bg-[#DA7756]/10 rounded-xl"
                                             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                         />
                                     )}
@@ -174,10 +174,10 @@ export function SettingsPage() {
                         {/* FPS & Device Info */}
                         <div className="flex items-center justify-between p-3 bg-white/[0.02] rounded-xl border border-white/[0.04]">
                             <div className="flex items-center gap-3">
-                                <Zap className={`w-4 h-4 ${fps >= 45 ? 'text-emerald-400' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`} />
+                                <Zap className={`w-4 h-4 ${fps >= 45 ? 'text-[#DA7756]' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`} />
                                 <span className="text-sm text-slate-400">Current FPS</span>
                             </div>
-                            <span className={`font-mono text-sm font-semibold ${fps >= 45 ? 'text-emerald-400' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`}>
+                            <span className={`font-mono text-sm font-semibold ${fps >= 45 ? 'text-[#DA7756]' : fps >= 30 ? 'text-amber-400' : 'text-rose-400'}`}>
                                 {fps}
                             </span>
                         </div>
@@ -202,16 +202,16 @@ export function SettingsPage() {
                                     onClick={() => setMode(option.value as 'auto' | 'full' | 'balanced' | 'lite')}
                                     className={`relative p-3 rounded-xl text-left transition-all duration-200 ${
                                         mode === option.value
-                                            ? 'bg-emerald-500/20 border border-emerald-500/30'
+                                            ? 'bg-[#DA7756]/20 border border-[#DA7756]/30'
                                             : 'bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.05]'
                                     }`}
                                 >
-                                    <div className={`text-sm font-medium ${mode === option.value ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                    <div className={`text-sm font-medium ${mode === option.value ? 'text-[#DA7756]' : 'text-slate-300'}`}>
                                         {option.label}
                                     </div>
                                     <div className="text-[10px] text-slate-500 mt-0.5">{option.desc}</div>
                                     {mode === option.value && (
-                                        <Check className="absolute top-2 right-2 w-3 h-3 text-emerald-400" />
+                                        <Check className="absolute top-2 right-2 w-3 h-3 text-[#DA7756]" />
                                     )}
                                 </button>
                             ))}
@@ -219,8 +219,8 @@ export function SettingsPage() {
 
                         {/* Current Status */}
                         <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-white/[0.04]">
-                            <span>Blur effects: <span className={enableBlur ? 'text-emerald-400' : 'text-slate-400'}>{enableBlur ? 'On' : 'Off'}</span></span>
-                            <span>Animations: <span className={enableAnimations ? 'text-emerald-400' : 'text-slate-400'}>{enableAnimations ? 'On' : 'Off'}</span></span>
+                            <span>Blur effects: <span className={enableBlur ? 'text-[#DA7756]' : 'text-slate-400'}>{enableBlur ? 'On' : 'Off'}</span></span>
+                            <span>Animations: <span className={enableAnimations ? 'text-[#DA7756]' : 'text-slate-400'}>{enableAnimations ? 'On' : 'Off'}</span></span>
                         </div>
                     </div>
                 </SettingsCard>
@@ -245,7 +245,7 @@ export function SettingsPage() {
                                     setStatus('idle');
                                 }}
                                 placeholder={t('pages.settings.openai.placeholder')}
-                                className="w-full px-4 py-3 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all font-mono text-sm"
+                                className="w-full px-4 py-3 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all font-mono text-sm"
                             />
                             <button
                                 onClick={() => setShowKey(!showKey)}
@@ -262,7 +262,7 @@ export function SettingsPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${
                                     status === 'valid'
-                                        ? 'bg-emerald-500/10 text-emerald-400'
+                                        ? 'bg-[#DA7756]/10 text-[#DA7756]'
                                         : status === 'invalid'
                                         ? 'bg-rose-500/10 text-rose-400'
                                         : 'bg-white/[0.03] text-slate-400'
@@ -295,7 +295,7 @@ export function SettingsPage() {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleSave}
                                 disabled={status !== 'valid'}
-                                className="px-4 py-2.5 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
+                                className="px-4 py-2.5 bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 rounded-xl disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium"
                             >
                                 {saved ? t('actions.saved') : t('actions.saveKey')}
                             </motion.button>
@@ -325,7 +325,7 @@ export function SettingsPage() {
                                     href="https://platform.openai.com/api-keys"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 mt-2 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                                    className="inline-flex items-center gap-1 mt-2 text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors"
                                 >
                                     {t('pages.settings.openai.info.link')}
                                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -357,13 +357,13 @@ function SettingsCard({
     children,
 }: {
     icon: React.ElementType;
-    iconColor: 'emerald' | 'blue' | 'violet' | 'amber';
+    iconColor: 'orange' | 'blue' | 'violet' | 'amber';
     title: string;
     description: string;
     children: React.ReactNode;
 }) {
     const colorClasses = {
-        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
         blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
         violet: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
         amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
@@ -372,7 +372,7 @@ function SettingsCard({
     return (
         <div className="relative group">
             {/* Subtle glow on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
 
             <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] overflow-hidden">
                 {/* Noise texture */}

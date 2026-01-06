@@ -70,10 +70,10 @@ function getFormatColor(format: FileFormat): string {
     switch (format) {
         case 'csv':
         case 'tsv':
-            return 'text-green-400';
+            return 'text-[#DA7756]';
         case 'xlsx':
         case 'xls':
-            return 'text-emerald-400';
+            return 'text-[#DA7756]';
         case 'json':
         case 'ndjson':
             return 'text-yellow-400';
@@ -177,8 +177,8 @@ export function FolderUploadPreview({
                     <div className="flex items-center gap-2 mb-3">
                         {columnCompatibility.isFullyCompatible ? (
                             <>
-                                <CheckCircle className="w-5 h-5 text-green-500" />
-                                <span className="text-green-500 font-medium">
+                                <CheckCircle className="w-5 h-5 text-[#6BBF59]" />
+                                <span className="text-[#6BBF59] font-medium">
                                     All files have compatible columns
                                 </span>
                             </>
@@ -278,7 +278,7 @@ export function FolderUploadPreview({
                                     isProcessing ? (
                                         <Loader2 className="w-4 h-4 text-accent-primary animate-spin" />
                                     ) : isComplete ? (
-                                        <CheckCircle className="w-4 h-4 text-green-500" />
+                                        <CheckCircle className="w-4 h-4 text-[#6BBF59]" />
                                     ) : (
                                         <Icon className={`w-4 h-4 ${getFormatColor(file.format)}`} />
                                     )

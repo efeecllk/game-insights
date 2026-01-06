@@ -3,7 +3,7 @@
  *
  * Visual cohort creation with:
  * - Glassmorphism containers
- * - Emerald accent colors
+ * - Orange accent colors
  * - Framer Motion animations
  * - Animated rule builder
  */
@@ -338,9 +338,9 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <Users className="w-6 h-6 text-emerald-400" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Users className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </div>
                     <div>
@@ -364,7 +364,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         whileTap={{ scale: 0.98 }}
                         onClick={handleSave}
                         disabled={!name.trim()}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-[#DA7756]/20 hover:bg-[#DA7756]/30 border border-[#DA7756]/30 hover:border-[#DA7756]/40 text-[#DA7756] rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     >
                         <Save className="w-4 h-4" />
                         Save Cohort
@@ -383,7 +383,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g., High-Value Players"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
                 <div>
@@ -395,7 +395,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Describe this cohort..."
                         rows={2}
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 resize-none transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 resize-none transition-all"
                     />
                 </div>
             </div>
@@ -404,7 +404,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             <div className="px-6 py-5 space-y-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <Sparkles className="w-4 h-4 text-[#DA7756]" />
                         <h3 className="font-medium text-white">Filter Rules</h3>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
@@ -412,7 +412,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         <select
                             value={groupLogic}
                             onChange={(e) => setGroupLogic(e.target.value as 'AND' | 'OR')}
-                            className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                            className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                         >
                             <option value="AND" className="bg-slate-900">ALL</option>
                             <option value="OR" className="bg-slate-900">ANY</option>
@@ -432,7 +432,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         >
                             {groupIndex > 0 && (
                                 <div className="flex items-center justify-center py-3">
-                                    <span className="px-4 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-medium text-emerald-400">
+                                    <span className="px-4 py-1 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-full text-xs font-medium text-[#DA7756]">
                                         {groupLogic}
                                     </span>
                                 </div>
@@ -451,10 +451,10 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                 </AnimatePresence>
 
                 <motion.button
-                    whileHover={{ scale: 1.01, borderColor: 'rgba(16, 185, 129, 0.3)' }}
+                    whileHover={{ scale: 1.01, borderColor: 'rgba(218, 119, 86, 0.3)' }}
                     whileTap={{ scale: 0.99 }}
                     onClick={addGroup}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-white/[0.08] rounded-xl text-sm text-slate-400 hover:text-emerald-400 transition-all"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-white/[0.08] rounded-xl text-sm text-slate-400 hover:text-[#DA7756] transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Add Group
@@ -483,7 +483,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                                 className="text-sm"
                             >
                                 <span className="text-slate-400">Estimated size: </span>
-                                <span className="font-semibold text-emerald-400">
+                                <span className="font-semibold text-[#DA7756]">
                                     {estimatedSize.toLocaleString()} users
                                 </span>
                             </motion.div>
@@ -581,10 +581,10 @@ function RuleGroupEditor({
                 </AnimatePresence>
 
                 <motion.button
-                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
+                    whileHover={{ scale: 1.02, backgroundColor: 'rgba(218, 119, 86, 0.1)' }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onAddRule}
-                    className="flex items-center gap-1 px-3 py-1.5 text-xs text-emerald-400 rounded-lg transition-all"
+                    className="flex items-center gap-1 px-3 py-1.5 text-xs text-[#DA7756] rounded-lg transition-all"
                 >
                     <Plus className="w-3 h-3" />
                     Add Rule
@@ -624,7 +624,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                             value: newConfig.type === 'number' ? 0 : '',
                         });
                     }}
-                    className="pl-8 pr-8 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 appearance-none cursor-pointer"
+                    className="pl-8 pr-8 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 appearance-none cursor-pointer"
                 >
                     {Object.entries(PROPERTY_CONFIG).map(([key, { label }]) => (
                         <option key={key} value={key} className="bg-slate-900">{label}</option>
@@ -638,7 +638,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
             <select
                 value={rule.operator}
                 onChange={(e) => onUpdate({ operator: e.target.value as RuleOperator })}
-                className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
             >
                 {config.operators.map(op => (
                     <option key={op} value={op} className="bg-slate-900">{OPERATOR_LABELS[op]}</option>
@@ -650,7 +650,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                 <select
                     value={rule.value as string}
                     onChange={(e) => onUpdate({ value: e.target.value })}
-                    className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                    className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                 >
                     {config.options.map(opt => (
                         <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
@@ -663,7 +663,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                     onChange={(e) => onUpdate({
                         value: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                     })}
-                    className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                    className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                 />
             )}
 
@@ -677,7 +677,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                         onChange={(e) => onUpdate({
                             secondValue: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                         })}
-                        className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                        className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                     />
                 </>
             )}

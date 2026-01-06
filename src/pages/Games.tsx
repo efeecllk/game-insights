@@ -5,7 +5,7 @@
  * - Glassmorphism cards
  * - Animated grid layouts
  * - Premium modals
- * - Emerald accent theme
+ * - Warm orange accent theme
  */
 
 import { useState, useEffect } from 'react';
@@ -134,7 +134,7 @@ export function GamesPage() {
                 <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                    className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full"
+                    className="w-8 h-8 border-2 border-[#DA7756] border-t-transparent rounded-full"
                 />
             </div>
         );
@@ -156,9 +156,9 @@ export function GamesPage() {
                         transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                        <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <Gamepad2 className="w-6 h-6 text-emerald-400" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                        <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Gamepad2 className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </motion.div>
                     <div>
@@ -170,7 +170,7 @@ export function GamesPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowAddModal(true)}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/30 transition-colors text-sm font-medium"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 transition-colors text-sm font-medium"
                 >
                     <Plus className="w-4 h-4" />
                     Add Game
@@ -179,9 +179,9 @@ export function GamesPage() {
 
             {/* Stats */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <StatCard icon={Gamepad2} label="Total Games" value={games.length} color="emerald" />
+                <StatCard icon={Gamepad2} label="Total Games" value={games.length} color="orange" />
                 <StatCard icon={Star} label="Pinned" value={pinnedGames.length} color="amber" />
-                <StatCard icon={Check} label="Active" value={games.filter(g => g.isActive).length} color="teal" />
+                <StatCard icon={Check} label="Active" value={games.filter(g => g.isActive).length} color="orangeDark" />
                 <StatCard icon={Globe} label="Platforms" value={new Set(games.map(g => g.platform)).size} color="blue" />
             </motion.div>
 
@@ -277,12 +277,12 @@ function StatCard({
     icon: React.ElementType;
     label: string;
     value: number;
-    color: 'emerald' | 'amber' | 'teal' | 'blue';
+    color: 'orange' | 'amber' | 'orangeDark' | 'blue';
 }) {
     const colors = {
-        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
         amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-        teal: 'bg-teal-500/10 text-teal-400 border-teal-500/20',
+        orangeDark: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
         blue: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
     };
 
@@ -291,7 +291,7 @@ function StatCard({
             whileHover={{ y: -2 }}
             className="relative group"
         >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
             <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-4 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                 <div className="relative flex items-center gap-3">
@@ -341,9 +341,9 @@ function GameCard({
             onClick={onSelect}
         >
             {/* Glow effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-emerald-500/20 transition-colors overflow-hidden">
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-[#DA7756]/20 transition-colors overflow-hidden">
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
@@ -354,7 +354,7 @@ function GameCard({
                         <div className="flex-1 min-w-0">
                             <h3 className="text-base font-semibold text-white truncate">{game.name}</h3>
                             <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wider font-medium">
+                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 uppercase tracking-wider font-medium">
                                     {getGenreLabel(game.genre)}
                                 </span>
                                 <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.03] text-slate-500 border border-white/[0.06] uppercase tracking-wider">
@@ -444,7 +444,7 @@ function GameCard({
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={(e) => e.stopPropagation()}
-                                    className="text-[11px] text-slate-500 hover:text-emerald-400 flex items-center gap-1 transition-colors"
+                                    className="text-[11px] text-slate-500 hover:text-[#DA7756] flex items-center gap-1 transition-colors"
                                 >
                                     App Store <ExternalLink className="w-3 h-3" />
                                 </a>
@@ -455,7 +455,7 @@ function GameCard({
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={(e) => e.stopPropagation()}
-                                    className="text-[11px] text-slate-500 hover:text-emerald-400 flex items-center gap-1 transition-colors"
+                                    className="text-[11px] text-slate-500 hover:text-[#DA7756] flex items-center gap-1 transition-colors"
                                 >
                                     Play Store <ExternalLink className="w-3 h-3" />
                                 </a>
@@ -554,8 +554,8 @@ function GameModal({
                 {/* Header */}
                 <div className="relative flex items-center justify-between p-5 border-b border-white/[0.06]">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <Gamepad2 className="w-5 h-5 text-emerald-400" />
+                        <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Gamepad2 className="w-5 h-5 text-[#DA7756]" />
                         </div>
                         <div>
                             <h2 className="text-base font-semibold text-white">
@@ -587,7 +587,7 @@ function GameModal({
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="Enter game name"
                             required
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                         />
                     </div>
 
@@ -606,7 +606,7 @@ function GameModal({
                                     onClick={() => setFormData({ ...formData, genre: value })}
                                     className={`p-2.5 rounded-xl border text-left transition-all ${
                                         formData.genre === value
-                                            ? 'border-emerald-500/30 bg-emerald-500/10'
+                                            ? 'border-[#DA7756]/30 bg-[#DA7756]/10'
                                             : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02]'
                                     }`}
                                 >
@@ -625,7 +625,7 @@ function GameModal({
                         <select
                             value={formData.platform}
                             onChange={(e) => setFormData({ ...formData, platform: e.target.value as GamePlatform })}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                         >
                             {PLATFORM_OPTIONS.map(({ value, label }) => (
                                 <option key={value} value={value}>{label}</option>
@@ -643,7 +643,7 @@ function GameModal({
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             placeholder="Brief description of your game"
                             rows={2}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 resize-none transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 resize-none transition-all text-sm"
                         />
                     </div>
 
@@ -656,7 +656,7 @@ function GameModal({
                             <select
                                 value={formData.timezone}
                                 onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             >
                                 <option value="America/New_York">Eastern (ET)</option>
                                 <option value="America/Chicago">Central (CT)</option>
@@ -676,7 +676,7 @@ function GameModal({
                             <select
                                 value={formData.currency}
                                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             >
                                 <option value="USD">USD ($)</option>
                                 <option value="EUR">EUR</option>
@@ -697,14 +697,14 @@ function GameModal({
                                 value={formData.appStoreUrl}
                                 onChange={(e) => setFormData({ ...formData, appStoreUrl: e.target.value })}
                                 placeholder="App Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             />
                             <input
                                 type="url"
                                 value={formData.playStoreUrl}
                                 onChange={(e) => setFormData({ ...formData, playStoreUrl: e.target.value })}
                                 placeholder="Play Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 transition-all text-sm"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             />
                         </div>
                     </div>
@@ -724,7 +724,7 @@ function GameModal({
                             type="submit"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="flex-1 py-2.5 bg-emerald-500/20 border border-emerald-500/30 hover:bg-emerald-500/30 text-emerald-400 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm font-medium"
+                            className="flex-1 py-2.5 bg-[#DA7756]/20 border border-[#DA7756]/30 hover:bg-[#DA7756]/30 text-[#DA7756] rounded-xl transition-colors flex items-center justify-center gap-2 text-sm font-medium"
                         >
                             <Check className="w-4 h-4" />
                             {isEditing ? 'Save Changes' : 'Add Game'}

@@ -34,9 +34,9 @@ export function getChartTheme(isDark: boolean): ChartThemeColors {
         '#a78bfa', // primary violet
         '#818cf8', // indigo
         '#f472b6', // pink
-        '#22d3ee', // cyan
-        '#4ade80', // green
-        '#fb923c', // orange
+        '#5B9BD5', // Claude blue
+        '#DA7756', // Claude orange
+        '#C15F3C', // Claude secondary
         '#f87171', // red
         '#c084fc', // purple
       ],
@@ -60,9 +60,9 @@ export function getChartTheme(isDark: boolean): ChartThemeColors {
       '#8b5cf6', // primary violet
       '#6366f1', // indigo
       '#ec4899', // pink
-      '#06b6d4', // cyan
-      '#22c55e', // green
-      '#f97316', // orange
+      '#5B9BD5', // Claude blue
+      '#DA7756', // Claude orange
+      '#C15F3C', // Claude secondary
       '#ef4444', // red
       '#a855f7', // purple
     ],

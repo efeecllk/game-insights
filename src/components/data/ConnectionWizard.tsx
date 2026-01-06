@@ -4,7 +4,7 @@
  * Multi-step guided setup with:
  * - Glassmorphism containers
  * - Animated step transitions
- * - Emerald accent colors
+ * - Claude orange accent colors
  * - Premium form styling
  */
 
@@ -411,9 +411,9 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
                                         animate={{ scale: 1 }}
                                         className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
                                             index < currentStepIndex
-                                                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                                                ? 'bg-[#DA7756] text-white shadow-lg shadow-[#DA7756]/30'
                                                 : index === currentStepIndex
-                                                ? 'bg-emerald-500/20 text-emerald-400 border-2 border-emerald-500'
+                                                ? 'bg-[#DA7756]/20 text-[#DA7756] border-2 border-[#DA7756]'
                                                 : 'bg-white/[0.05] text-slate-500'
                                         }`}
                                     >
@@ -427,7 +427,7 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
                                         <div
                                             className={`w-12 h-0.5 mx-2 transition-colors ${
                                                 index < currentStepIndex
-                                                    ? 'bg-emerald-500'
+                                                    ? 'bg-[#DA7756]'
                                                     : 'bg-white/[0.08]'
                                             }`}
                                         />
@@ -502,7 +502,7 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleCreate}
                                 disabled={testStatus !== 'success' || isCreating}
-                                className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-emerald-500/20"
+                                className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-[#DA7756]/20"
                             >
                                 {isCreating ? (
                                     <>
@@ -522,7 +522,7 @@ export function ConnectionWizard({ initialType, onComplete, onCancel }: Connecti
                                 whileTap={{ scale: 0.98 }}
                                 onClick={goNext}
                                 disabled={!isStepValid()}
-                                className="flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-emerald-500/20"
+                                className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-[#DA7756]/20"
                             >
                                 Continue
                                 <ArrowRight className="w-4 h-4" />
@@ -554,7 +554,7 @@ function SelectStep({
         <div className="space-y-6">
             <div>
                 <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                    <Zap className="w-4 h-4 text-emerald-400" />
+                    <Zap className="w-4 h-4 text-[#DA7756]" />
                     Most Popular
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -622,7 +622,7 @@ function IntegrationOption({
             onClick={onSelect}
             className={`p-4 rounded-xl border-2 text-left transition-all ${
                 selected
-                    ? 'border-emerald-500 bg-emerald-500/10'
+                    ? 'border-[#DA7756] bg-[#DA7756]/10'
                     : 'border-white/[0.08] hover:border-white/[0.16] bg-white/[0.02] hover:bg-white/[0.04]'
             }`}
         >
@@ -636,7 +636,7 @@ function IntegrationOption({
                     <div className="flex items-center gap-2 mt-2">
                         <span className={`text-xs px-2 py-0.5 rounded-full border ${
                             item.complexity === 'low'
-                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                ? 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20'
                                 : item.complexity === 'medium'
                                 ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                                 : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
@@ -676,7 +676,7 @@ function AuthStep({
                     value={form.name}
                     onChange={e => updateForm('name', e.target.value)}
                     placeholder={`My ${catalogItem.name}`}
-                    className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                    className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                 />
             </div>
 
@@ -692,7 +692,7 @@ function AuthStep({
                                 onClick={() => updateForm('authMethod', method)}
                                 className={`px-4 py-2 rounded-lg border transition-all ${
                                     form.authMethod === method
-                                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                                        ? 'border-[#DA7756] bg-[#DA7756]/10 text-[#DA7756]'
                                         : 'border-white/[0.08] hover:border-white/[0.16] text-slate-400'
                                 }`}
                             >
@@ -714,7 +714,7 @@ function AuthStep({
                             value={form.apiKey}
                             onChange={e => updateForm('apiKey', e.target.value)}
                             placeholder="Enter your API key"
-                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
@@ -742,7 +742,7 @@ function AuthStep({
                             value={form.bearerToken}
                             onChange={e => updateForm('bearerToken', e.target.value)}
                             placeholder="Enter your bearer token"
-                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
@@ -766,7 +766,7 @@ function AuthStep({
                             value={form.username}
                             onChange={e => updateForm('username', e.target.value)}
                             placeholder="Enter username"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                     <div>
@@ -779,7 +779,7 @@ function AuthStep({
                                 value={form.password}
                                 onChange={e => updateForm('password', e.target.value)}
                                 placeholder="Enter password"
-                                className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                             <button
                                 type="button"
@@ -804,7 +804,7 @@ function AuthStep({
                             value={form.connectionString}
                             onChange={e => updateForm('connectionString', e.target.value)}
                             placeholder="postgresql://user:pass@host:5432/db"
-                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 pr-12 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                         <button
                             type="button"
@@ -825,7 +825,7 @@ function AuthStep({
                             <p className="text-sm text-slate-300">
                                 OAuth authentication will open a popup window to sign in with your {catalogItem.name} account.
                             </p>
-                            <button className="mt-3 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg text-sm font-medium transition-colors">
+                            <button className="mt-3 px-4 py-2 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-lg text-sm font-medium transition-colors">
                                 Sign in with {form.type === 'google_sheets' ? 'Google' : catalogItem.name}
                             </button>
                         </div>
@@ -834,8 +834,8 @@ function AuthStep({
             )}
 
             {form.authMethod === 'none' && (
-                <div className="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
-                    <div className="flex items-center gap-2 text-emerald-400">
+                <div className="p-4 bg-[#DA7756]/10 rounded-xl border border-[#DA7756]/20">
+                    <div className="flex items-center gap-2 text-[#DA7756]">
                         <Check className="w-5 h-5" />
                         <span className="text-sm font-medium">No authentication required</span>
                     </div>
@@ -865,7 +865,7 @@ function ConfigureStep({
                             value={form.spreadsheetId}
                             onChange={e => updateForm('spreadsheetId', extractSpreadsheetId(e.target.value))}
                             placeholder="https://docs.google.com/spreadsheets/d/..."
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <p className="text-xs text-slate-500 mt-1">
                             Paste the full URL or just the spreadsheet ID
@@ -881,7 +881,7 @@ function ConfigureStep({
                                 value={form.sheetName}
                                 onChange={e => updateForm('sheetName', e.target.value)}
                                 placeholder="Sheet1"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                         <div>
@@ -893,7 +893,7 @@ function ConfigureStep({
                                 value={form.range}
                                 onChange={e => updateForm('range', e.target.value)}
                                 placeholder="A1:Z1000"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                     </div>
@@ -902,7 +902,7 @@ function ConfigureStep({
                             type="checkbox"
                             checked={form.hasHeaderRow}
                             onChange={e => updateForm('hasHeaderRow', e.target.checked)}
-                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500"
+                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-[#DA7756] focus:ring-[#DA7756]"
                         />
                         <span className="text-sm text-slate-300">First row contains headers</span>
                     </label>
@@ -920,7 +920,7 @@ function ConfigureStep({
                             value={form.projectUrl}
                             onChange={e => updateForm('projectUrl', e.target.value)}
                             placeholder="https://xxxxx.supabase.co"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                     </div>
                     <div>
@@ -932,7 +932,7 @@ function ConfigureStep({
                             value={form.tableName}
                             onChange={e => updateForm('tableName', e.target.value)}
                             placeholder="game_events"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </>
@@ -948,7 +948,7 @@ function ConfigureStep({
                                 value={form.host}
                                 onChange={e => updateForm('host', e.target.value)}
                                 placeholder="localhost"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                         <div>
@@ -958,7 +958,7 @@ function ConfigureStep({
                                 value={form.port}
                                 onChange={e => updateForm('port', parseInt(e.target.value) || 5432)}
                                 placeholder={form.type === 'mysql' ? '3306' : '5432'}
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                     </div>
@@ -970,7 +970,7 @@ function ConfigureStep({
                                 value={form.database}
                                 onChange={e => updateForm('database', e.target.value)}
                                 placeholder="game_analytics"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                         <div>
@@ -980,7 +980,7 @@ function ConfigureStep({
                                 value={form.schema}
                                 onChange={e => updateForm('schema', e.target.value)}
                                 placeholder="public"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                     </div>
@@ -993,7 +993,7 @@ function ConfigureStep({
                             onChange={e => updateForm('query', e.target.value)}
                             placeholder="SELECT * FROM events WHERE created_at > NOW() - INTERVAL '7 days'"
                             rows={3}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all resize-none"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all resize-none"
                         />
                     </div>
                     <label className="flex items-center gap-3 cursor-pointer">
@@ -1001,7 +1001,7 @@ function ConfigureStep({
                             type="checkbox"
                             checked={form.ssl}
                             onChange={e => updateForm('ssl', e.target.checked)}
-                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500"
+                            className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-[#DA7756] focus:ring-[#DA7756]"
                         />
                         <span className="text-sm text-slate-300">Use SSL connection</span>
                     </label>
@@ -1021,11 +1021,11 @@ function ConfigureStep({
                                 value={form.endpointPath}
                                 onChange={e => updateForm('endpointPath', e.target.value)}
                                 placeholder="my-game-events"
-                                className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-r-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-r-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                         <p className="text-xs text-slate-500 mt-1">
-                            Your webhook URL will be: <code className="text-emerald-400">https://api.gameinsights.dev/webhook/{form.endpointPath || 'my-game-events'}</code>
+                            Your webhook URL will be: <code className="text-[#DA7756]">https://api.gameinsights.dev/webhook/{form.endpointPath || 'my-game-events'}</code>
                         </p>
                     </div>
                     <div>
@@ -1037,7 +1037,7 @@ function ConfigureStep({
                             value={form.secretKey}
                             onChange={e => updateForm('secretKey', e.target.value)}
                             placeholder="Auto-generated if empty"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                     </div>
                 </>
@@ -1052,7 +1052,7 @@ function ConfigureStep({
                             value={form.apiUrl}
                             onChange={e => updateForm('apiUrl', e.target.value)}
                             placeholder="https://api.example.com/v1/events"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                     <div>
@@ -1064,7 +1064,7 @@ function ConfigureStep({
                             value={form.dataPath}
                             onChange={e => updateForm('dataPath', e.target.value)}
                             placeholder="data.events"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <p className="text-xs text-slate-500 mt-1">
                             JSON path to the data array in the response (e.g., data.items)
@@ -1102,7 +1102,7 @@ function ConfigureStep({
                             value={form.connectionString}
                             onChange={e => updateForm('connectionString', e.target.value)}
                             placeholder="mongodb+srv://user:pass@cluster.mongodb.net/db"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 font-mono text-sm transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 font-mono text-sm transition-all"
                         />
                     </div>
                     <div>
@@ -1114,7 +1114,7 @@ function ConfigureStep({
                             value={form.tableName}
                             onChange={e => updateForm('tableName', e.target.value)}
                             placeholder="events"
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </>
@@ -1160,13 +1160,13 @@ function SyncStep({
                             onClick={() => updateForm('syncType', option.type)}
                             className={`p-4 rounded-xl border-2 text-left transition-all ${
                                 isSelected
-                                    ? 'border-emerald-500 bg-emerald-500/10'
+                                    ? 'border-[#DA7756] bg-[#DA7756]/10'
                                     : 'border-white/[0.08] hover:border-white/[0.16] bg-white/[0.02]'
                             }`}
                         >
                             <div className="flex items-center gap-3">
-                                <div className={`p-2 rounded-lg ${isSelected ? 'bg-emerald-500/20' : 'bg-white/[0.03]'}`}>
-                                    <Icon className={`w-5 h-5 ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`} />
+                                <div className={`p-2 rounded-lg ${isSelected ? 'bg-[#DA7756]/20' : 'bg-white/[0.03]'}`}>
+                                    <Icon className={`w-5 h-5 ${isSelected ? 'text-[#DA7756]' : 'text-slate-400'}`} />
                                 </div>
                                 <div>
                                     <div className="font-medium text-white">{option.title}</div>
@@ -1189,7 +1189,7 @@ function SyncStep({
                             step={5}
                             value={form.intervalMinutes}
                             onChange={e => updateForm('intervalMinutes', parseInt(e.target.value))}
-                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
+                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-[#DA7756] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
                         />
                         <span className="text-sm font-medium text-white min-w-[80px] text-right">
                             {formatInterval(form.intervalMinutes)}
@@ -1213,7 +1213,7 @@ function SyncStep({
                             step={5}
                             value={form.pollIntervalSeconds}
                             onChange={e => updateForm('pollIntervalSeconds', parseInt(e.target.value))}
-                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-emerald-500 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
+                            className="flex-1 h-2 bg-white/[0.1] rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-[#DA7756] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
                         />
                         <span className="text-sm font-medium text-white min-w-[60px] text-right">
                             {form.pollIntervalSeconds}s
@@ -1284,7 +1284,7 @@ function TestStep({
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={onTest}
-                            className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-medium transition-colors shadow-lg shadow-emerald-500/20"
+                            className="flex items-center gap-2 px-6 py-3 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium transition-colors shadow-lg shadow-[#DA7756]/20"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Test Connection
@@ -1294,8 +1294,8 @@ function TestStep({
 
                 {testStatus === 'testing' && (
                     <>
-                        <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
-                            <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" />
+                        <div className="w-16 h-16 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center mb-4">
+                            <Loader2 className="w-8 h-8 text-[#DA7756] animate-spin" />
                         </div>
                         <p className="text-slate-300">Testing connection...</p>
                         <p className="text-sm text-slate-500 mt-1">This may take a few seconds</p>
@@ -1308,11 +1308,11 @@ function TestStep({
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                            className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4"
+                            className="w-16 h-16 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center mb-4"
                         >
-                            <Check className="w-8 h-8 text-emerald-400" />
+                            <Check className="w-8 h-8 text-[#DA7756]" />
                         </motion.div>
-                        <p className="text-emerald-400 font-medium mb-2">Connection successful!</p>
+                        <p className="text-[#DA7756] font-medium mb-2">Connection successful!</p>
                         <p className="text-sm text-slate-400">Your data source is ready to use</p>
                     </>
                 )}

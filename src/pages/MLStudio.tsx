@@ -214,7 +214,7 @@ export function MLStudioPage() {
                 {stats && (
                     <motion.div variants={itemVariants} className="grid grid-cols-4 gap-4">
                         <StatsCard label="Training Jobs" value={stats.totalJobs} icon={Activity} color="violet" />
-                        <StatsCard label="Completed" value={stats.completedJobs} icon={CheckCircle} color="emerald" />
+                        <StatsCard label="Completed" value={stats.completedJobs} icon={CheckCircle} color="orange" />
                         <StatsCard label="Deployed Models" value={stats.totalModels} icon={Zap} color="blue" />
                         <StatsCard label="Total Predictions" value={stats.totalPredictions} icon={Target} color="amber" />
                     </motion.div>
@@ -271,11 +271,11 @@ function StatsCard({
     label: string;
     value: number;
     icon: typeof Brain;
-    color?: 'violet' | 'emerald' | 'blue' | 'amber';
+    color?: 'violet' | 'orange' | 'blue' | 'amber';
 }) {
     const colors = {
         violet: 'from-violet-500/20 to-purple-500/10 border-violet-500/20 text-violet-400',
-        emerald: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/20 text-emerald-400',
+        orange: 'from-[#DA7756]/20 to-[#C15F3C]/10 border-[#DA7756]/20 text-[#DA7756]',
         blue: 'from-blue-500/20 to-indigo-500/10 border-blue-500/20 text-blue-400',
         amber: 'from-amber-500/20 to-orange-500/10 border-amber-500/20 text-amber-400',
     };
@@ -333,7 +333,7 @@ function JobList({
     const statusConfig = {
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
         training: { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', icon: RefreshCw, label: 'Training' },
-        completed: { color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', icon: CheckCircle, label: 'Completed' },
+        completed: { color: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20', icon: CheckCircle, label: 'Completed' },
         failed: { color: 'bg-rose-500/10 text-rose-400 border-rose-500/20', icon: AlertCircle, label: 'Failed' },
         deployed: { color: 'bg-violet-500/10 text-violet-400 border-violet-500/20', icon: Zap, label: 'Deployed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Clock, label: 'Archived' },
@@ -375,7 +375,7 @@ function JobList({
                                             {job.features.length} features
                                         </span>
                                         {job.metrics?.accuracy !== undefined && (
-                                            <span className="flex items-center gap-1 text-emerald-400">
+                                            <span className="flex items-center gap-1 text-[#DA7756]">
                                                 <TrendingUp className="w-4 h-4" />
                                                 {(job.metrics.accuracy * 100).toFixed(1)}% accuracy
                                             </span>
@@ -430,7 +430,7 @@ function JobList({
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={(e) => { e.stopPropagation(); }}
-                                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors text-sm border border-emerald-500/20"
+                                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#DA7756]/10 text-[#DA7756] hover:bg-[#DA7756]/20 transition-colors text-sm border border-[#DA7756]/20"
                                 >
                                     <Play className="w-4 h-4" />
                                     Start Training
@@ -509,7 +509,7 @@ function ModelList({
                                                 v{model.version}
                                             </span>
                                             {model.isActive && (
-                                                <span className="text-xs px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/20">
+                                                <span className="text-xs px-2 py-0.5 rounded-lg bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/20">
                                                     Active
                                                 </span>
                                             )}

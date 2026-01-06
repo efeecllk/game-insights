@@ -5,7 +5,7 @@
  *
  * Premium modal with:
  * - Glassmorphism effects with depth
- * - Emerald accent theme
+ * - Warm orange accent theme (#DA7756)
  * - Animated transitions
  * - Noise texture backgrounds
  *
@@ -211,9 +211,9 @@ export function ExportModal({
                                     transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                                     className="relative"
                                 >
-                                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                        <Download className="w-5 h-5 text-emerald-400" />
+                                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                        <Download className="w-5 h-5 text-[#DA7756]" />
                                     </div>
                                 </motion.div>
                                 <div>
@@ -254,14 +254,14 @@ export function ExportModal({
                                 }}
                                 className={`relative flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                                     activeTab === 'download'
-                                        ? 'text-emerald-400'
+                                        ? 'text-[#DA7756]'
                                         : 'text-slate-500 hover:text-slate-300'
                                 }`}
                             >
                                 {activeTab === 'download' && (
                                     <motion.div
                                         layoutId="exportTabIndicator"
-                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-400"
+                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#DA7756]"
                                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                     />
                                 )}
@@ -284,14 +284,14 @@ export function ExportModal({
                                 }}
                                 className={`relative flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                                     activeTab === 'share'
-                                        ? 'text-emerald-400'
+                                        ? 'text-[#DA7756]'
                                         : 'text-slate-500 hover:text-slate-300'
                                 }`}
                             >
                                 {activeTab === 'share' && (
                                     <motion.div
                                         layoutId="exportTabIndicator"
-                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-emerald-400"
+                                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#DA7756]"
                                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                     />
                                 )}
@@ -330,14 +330,14 @@ export function ExportModal({
                                                     whileTap={{ scale: 0.98 }}
                                                     className={`p-3 rounded-xl border transition-all text-left ${
                                                         selectedFormat === format
-                                                            ? 'border-emerald-500/30 bg-emerald-500/10'
+                                                            ? 'border-[#DA7756]/30 bg-[#DA7756]/10'
                                                             : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02]'
                                                     }`}
                                                 >
                                                     <div className="flex items-center gap-2">
                                                         <Icon
                                                             className={`w-4 h-4 ${
-                                                                selectedFormat === format ? 'text-emerald-400' : 'text-slate-500'
+                                                                selectedFormat === format ? 'text-[#DA7756]' : 'text-slate-500'
                                                             }`}
                                                         />
                                                         <span
@@ -374,7 +374,7 @@ export function ExportModal({
                                         onClick={handleExport}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
-                                        className="w-full py-3 bg-emerald-500/20 border border-emerald-500/30 hover:bg-emerald-500/30 text-emerald-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                        className="w-full py-3 bg-[#DA7756]/20 border border-[#DA7756]/30 hover:bg-[#DA7756]/30 text-[#DA7756] font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                                     >
                                         <Download className="w-4 h-4" />
                                         Export as {selectedFormat.toUpperCase()}
@@ -408,7 +408,7 @@ export function ExportModal({
                                                                 expiresIn: Number(e.target.value),
                                                             }))
                                                         }
-                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all"
+                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
                                                     >
                                                         <option value={1}>1 hour</option>
                                                         <option value={24}>24 hours</option>
@@ -434,7 +434,7 @@ export function ExportModal({
                                                             }))
                                                         }
                                                         placeholder="Enter password"
-                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all"
+                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
                                                     />
                                                 </div>
                                             </div>
@@ -444,7 +444,7 @@ export function ExportModal({
                                                 onClick={handleCreateShareLink}
                                                 whileHover={{ scale: 1.02 }}
                                                 whileTap={{ scale: 0.98 }}
-                                                className="w-full py-3 bg-emerald-500/20 border border-emerald-500/30 hover:bg-emerald-500/30 text-emerald-400 font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                                className="w-full py-3 bg-[#DA7756]/20 border border-[#DA7756]/30 hover:bg-[#DA7756]/30 text-[#DA7756] font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                                             >
                                                 <Link2 className="w-4 h-4" />
                                                 Generate Share Link
@@ -455,11 +455,11 @@ export function ExportModal({
                                                 <motion.div
                                                     initial={{ opacity: 0, y: -10 }}
                                                     animate={{ opacity: 1, y: 0 }}
-                                                    className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20"
+                                                    className="p-3 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20"
                                                     role="status"
                                                     aria-live="polite"
                                                 >
-                                                    <p className="text-sm text-emerald-400 mb-2">Link created!</p>
+                                                    <p className="text-sm text-[#DA7756] mb-2">Link created!</p>
                                                     <div className="flex items-center gap-2">
                                                         <input
                                                             type="text"
@@ -476,7 +476,7 @@ export function ExportModal({
                                                             aria-label={copied ? 'Link copied' : 'Copy link to clipboard'}
                                                         >
                                                             {copied ? (
-                                                                <Check className="w-4 h-4 text-emerald-400" />
+                                                                <Check className="w-4 h-4 text-[#DA7756]" />
                                                             ) : (
                                                                 <Copy className="w-4 h-4 text-white" />
                                                             )}

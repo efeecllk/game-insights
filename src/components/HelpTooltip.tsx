@@ -165,11 +165,11 @@ export function HelpTooltip({ term, children }: HelpTooltipProps) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="ml-1 p-0.5 rounded-full hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                className="ml-1 p-0.5 rounded-full hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                 aria-label={`Help for ${info.name}`}
                 aria-expanded={isOpen}
             >
-                <HelpCircle className="w-3.5 h-3.5 text-slate-400 hover:text-emerald-400 transition-colors" />
+                <HelpCircle className="w-3.5 h-3.5 text-slate-400 hover:text-[#DA7756] transition-colors" />
             </motion.button>
 
             <AnimatePresence>
@@ -222,7 +222,7 @@ export function HelpTooltip({ term, children }: HelpTooltipProps) {
                                     href={info.learnMoreUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline transition-colors"
+                                    className="inline-flex items-center gap-1 text-xs text-[#DA7756] hover:underline transition-colors"
                                 >
                                     Learn more <ExternalLink className="w-3 h-3" />
                                 </a>
@@ -246,7 +246,7 @@ export function InlineHelp({ term }: { term: string }) {
 
     return (
         <span
-            className="text-slate-300 hover:text-emerald-400 cursor-help border-b border-dotted border-current transition-colors"
+            className="text-slate-300 hover:text-[#DA7756] cursor-help border-b border-dotted border-current transition-colors"
             title={info.description}
         >
             {info.name}

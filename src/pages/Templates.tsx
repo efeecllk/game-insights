@@ -3,7 +3,7 @@
  *
  * Premium template marketplace with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Refined template cards
  */
@@ -228,8 +228,8 @@ export function TemplatesPage() {
         return (
             <div className="flex items-center justify-center h-64">
                 <div className="relative">
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
-                    <div className="relative w-8 h-8 border-2 border-emerald-500/30 border-t-emerald-400 rounded-full animate-spin" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl animate-pulse" />
+                    <div className="relative w-8 h-8 border-2 border-[#DA7756]/30 border-t-[#DA7756] rounded-full animate-spin" />
                 </div>
             </div>
         );
@@ -252,9 +252,9 @@ export function TemplatesPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Package className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Package className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -287,9 +287,9 @@ export function TemplatesPage() {
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatCard icon={Package} label="Templates" value={stats.total} color="emerald" index={0} />
+                <StatCard icon={Package} label="Templates" value={stats.total} color="orange" index={0} />
                 <StatCard icon={Star} label="Featured" value={stats.featured} color="amber" index={1} />
-                <StatCard icon={CheckCircle} label="Verified" value={stats.verified} color="teal" index={2} />
+                <StatCard icon={CheckCircle} label="Verified" value={stats.verified} color="orangeDark" index={2} />
                 <StatCard icon={Download} label="Total Downloads" value={formatNumber(stats.downloads)} color="blue" index={3} />
             </div>
 
@@ -305,7 +305,7 @@ export function TemplatesPage() {
                                 placeholder="Search templates..."
                                 value={filters.search}
                                 onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
 
@@ -314,7 +314,7 @@ export function TemplatesPage() {
                             <select
                                 value={filters.category}
                                 onChange={e => setFilters(prev => ({ ...prev, category: e.target.value as TemplateCategory | 'all' }))}
-                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all cursor-pointer"
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
                             >
                                 <option value="all">All Categories</option>
                                 <option value="retention">Retention</option>
@@ -331,7 +331,7 @@ export function TemplatesPage() {
                             <select
                                 value={filters.gameType}
                                 onChange={e => setFilters(prev => ({ ...prev, gameType: e.target.value as GameCategory | 'all' }))}
-                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all cursor-pointer"
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
                             >
                                 <option value="all">All Game Types</option>
                                 <option value="puzzle">Puzzle</option>
@@ -349,7 +349,7 @@ export function TemplatesPage() {
                                 type="checkbox"
                                 checked={filters.verified}
                                 onChange={e => setFilters(prev => ({ ...prev, verified: e.target.checked }))}
-                                className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-emerald-500 focus:ring-emerald-500/50"
+                                className="w-4 h-4 rounded border-white/[0.2] bg-white/[0.03] text-[#DA7756] focus:ring-[#DA7756]/50"
                             />
                             <span className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">Verified only</span>
                         </label>
@@ -379,7 +379,7 @@ export function TemplatesPage() {
                                                     setShowSortDropdown(false);
                                                 }}
                                                 className={`w-full text-left px-4 py-2.5 text-sm hover:bg-white/[0.05] transition-colors ${
-                                                    sortBy === option ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+                                                    sortBy === option ? 'bg-[#DA7756]/10 text-[#DA7756]' : 'text-slate-300'
                                                 }`}
                                             >
                                                 {sortLabels[option]}
@@ -396,7 +396,7 @@ export function TemplatesPage() {
                                 onClick={() => setViewMode('grid')}
                                 className={`p-2 rounded-lg transition-colors ${
                                     viewMode === 'grid'
-                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        ? 'bg-[#DA7756]/20 text-[#DA7756]'
                                         : 'text-slate-500 hover:text-slate-300'
                                 }`}
                             >
@@ -406,7 +406,7 @@ export function TemplatesPage() {
                                 onClick={() => setViewMode('list')}
                                 className={`p-2 rounded-lg transition-colors ${
                                     viewMode === 'list'
-                                        ? 'bg-emerald-500/20 text-emerald-400'
+                                        ? 'bg-[#DA7756]/20 text-[#DA7756]'
                                         : 'text-slate-500 hover:text-slate-300'
                                 }`}
                             >
@@ -502,13 +502,13 @@ function StatCard({ icon: Icon, label, value, color, index }: {
     icon: React.ElementType;
     label: string;
     value: string | number;
-    color: 'emerald' | 'amber' | 'teal' | 'blue';
+    color: 'orange' | 'amber' | 'orangeDark' | 'blue';
     index: number;
 }) {
     const colorStyles = {
-        emerald: { bg: 'from-emerald-500/20 to-emerald-500/5', border: 'border-emerald-500/20', icon: 'text-emerald-400', glow: 'bg-emerald-500/20' },
+        orange: { bg: 'from-[#DA7756]/20 to-[#DA7756]/5', border: 'border-[#DA7756]/20', icon: 'text-[#DA7756]', glow: 'bg-[#DA7756]/20' },
         amber: { bg: 'from-amber-500/20 to-amber-500/5', border: 'border-amber-500/20', icon: 'text-amber-400', glow: 'bg-amber-500/20' },
-        teal: { bg: 'from-teal-500/20 to-teal-500/5', border: 'border-teal-500/20', icon: 'text-teal-400', glow: 'bg-teal-500/20' },
+        orangeDark: { bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5', border: 'border-[#C15F3C]/20', icon: 'text-[#C15F3C]', glow: 'bg-[#C15F3C]/20' },
         blue: { bg: 'from-blue-500/20 to-blue-500/5', border: 'border-blue-500/20', icon: 'text-blue-400', glow: 'bg-blue-500/20' },
     };
 
@@ -566,7 +566,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
         >
             <Card variant="default" padding="none" className="overflow-hidden group hover:border-white/[0.12] transition-all">
                 {/* Preview Header */}
-                <div className="h-32 bg-gradient-to-br from-emerald-500/30 via-teal-500/20 to-blue-500/30 p-4 relative">
+                <div className="h-32 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-blue-500/30 p-4 relative">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-2">
                             {template.featured && (
@@ -575,7 +575,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
                                 </span>
                             )}
                             {template.verified && (
-                                <span className="px-2 py-0.5 bg-emerald-400 text-emerald-900 text-xs font-medium rounded-full flex items-center gap-1">
+                                <span className="px-2 py-0.5 bg-[#DA7756] text-white text-xs font-medium rounded-full flex items-center gap-1">
                                     <CheckCircle className="w-3 h-3" /> Verified
                                 </span>
                             )}
@@ -605,8 +605,8 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
                 {/* Content */}
                 <div className="p-4">
                     <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <CategoryIcon className="w-5 h-5 text-emerald-400" />
+                        <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <CategoryIcon className="w-5 h-5 text-[#DA7756]" />
                         </div>
                         <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-white truncate">{template.name}</h3>
@@ -669,15 +669,15 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse, index }:
             transition={{ delay: index * 0.03 }}
         >
             <Card variant="default" padding="md" className="flex items-center gap-4 hover:border-white/[0.12] transition-all">
-                <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20">
-                    <Layout className="w-6 h-6 text-emerald-400" />
+                <div className="w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 rounded-xl flex items-center justify-center border border-[#DA7756]/20">
+                    <Layout className="w-6 h-6 text-[#DA7756]" />
                 </div>
 
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                         <h3 className="font-semibold text-white">{template.name}</h3>
                         {template.verified && (
-                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                            <CheckCircle className="w-4 h-4 text-[#DA7756]" />
                         )}
                         {template.featured && (
                             <span className="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-xs font-medium rounded-full">
@@ -740,7 +740,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             >
                 {/* Header */}
-                <div className="h-40 bg-gradient-to-br from-emerald-500/30 via-teal-500/20 to-blue-500/30 p-6 relative">
+                <div className="h-40 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-blue-500/30 p-6 relative">
                     <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -757,7 +757,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                             </span>
                         )}
                         {template.verified && (
-                            <span className="px-2 py-0.5 bg-emerald-400 text-emerald-900 text-xs font-medium rounded-full flex items-center gap-1">
+                            <span className="px-2 py-0.5 bg-[#DA7756] text-white text-xs font-medium rounded-full flex items-center gap-1">
                                 <CheckCircle className="w-3 h-3" /> Verified
                             </span>
                         )}
@@ -795,7 +795,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                         <h3 className="text-sm font-medium text-white mb-2">Compatible Game Types</h3>
                         <div className="flex flex-wrap gap-2">
                             {template.gameTypes.map(type => (
-                                <span key={type} className="px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full text-sm">
+                                <span key={type} className="px-3 py-1 bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full text-sm">
                                     {formatGameType(type)}
                                 </span>
                             ))}
@@ -808,7 +808,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                         <div className="space-y-2">
                             {template.requiredColumns.map(col => (
                                 <div key={col.semantic} className="flex items-center gap-2 text-sm">
-                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-slate-500' : 'bg-emerald-400'}`} />
+                                    <span className={`w-2 h-2 rounded-full ${col.optional ? 'bg-slate-500' : 'bg-[#DA7756]'}`} />
                                     <span className="font-mono text-slate-400">{col.semantic}</span>
                                     {col.optional && <span className="text-slate-600">(optional)</span>}
                                     {col.description && <span className="text-slate-600">- {col.description}</span>}
@@ -917,11 +917,11 @@ function ImportModal({ onClose, onImport }: {
                     Import a template from a JSON file exported from Game Insights.
                 </p>
 
-                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/[0.1] rounded-xl hover:border-emerald-500/30 hover:bg-emerald-500/5 cursor-pointer transition-all group">
+                <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/[0.1] rounded-xl hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 cursor-pointer transition-all group">
                     <div className="relative mb-3">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="relative w-12 h-12 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center group-hover:border-emerald-500/30 transition-colors">
-                            <Upload className="w-6 h-6 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="relative w-12 h-12 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center group-hover:border-[#DA7756]/30 transition-colors">
+                            <Upload className="w-6 h-6 text-slate-500 group-hover:text-[#DA7756] transition-colors" />
                         </div>
                     </div>
                     <span className="text-white font-medium">Click to select file</span>

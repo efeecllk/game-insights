@@ -3,7 +3,7 @@
  *
  * Step-by-step integration guides with:
  * - Glassmorphism containers
- * - Emerald accent colors
+ * - Warm orange accent colors (#DA7756)
  * - Framer Motion animations
  * - Interactive progress tracking
  */
@@ -140,8 +140,8 @@ export function IntegrationRecipes() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center animate-pulse">
-                    <Book className="w-6 h-6 text-emerald-400" />
+                <div className="w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center animate-pulse">
+                    <Book className="w-6 h-6 text-[#DA7756]" />
                 </div>
             </div>
         );
@@ -179,7 +179,7 @@ export function IntegrationRecipes() {
                         placeholder="Search recipes..."
                         value={filters.search}
                         onChange={(e) => setFilters(f => ({ ...f, search: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
                 <motion.button
@@ -188,14 +188,14 @@ export function IntegrationRecipes() {
                     onClick={() => setShowFilters(!showFilters)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
                         showFilters
-                            ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                            ? 'bg-[#DA7756]/20 border-[#DA7756]/30 text-[#DA7756]'
                             : 'bg-white/[0.03] border-white/[0.08] text-slate-400 hover:text-white'
                     }`}
                 >
                     <Filter className="w-4 h-4" />
                     Filters
                     {(filters.integrationType !== 'all' || filters.difficulty !== 'all') && (
-                        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                        <span className="w-2 h-2 rounded-full bg-[#DA7756]" />
                     )}
                 </motion.button>
             </motion.div>
@@ -217,7 +217,7 @@ export function IntegrationRecipes() {
                                 <select
                                     value={filters.integrationType}
                                     onChange={(e) => setFilters(f => ({ ...f, integrationType: e.target.value as IntegrationType | 'all' }))}
-                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                                 >
                                     <option value="all" className="bg-slate-900">All Integrations</option>
                                     {INTEGRATION_CATALOG.map(cat => (
@@ -232,7 +232,7 @@ export function IntegrationRecipes() {
                                 <select
                                     value={filters.difficulty}
                                     onChange={(e) => setFilters(f => ({ ...f, difficulty: e.target.value as RecipeDifficulty | 'all' }))}
-                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                                 >
                                     <option value="all" className="bg-slate-900">All Levels</option>
                                     <option value="beginner" className="bg-slate-900">Beginner</option>
@@ -340,7 +340,7 @@ function RecipeCard({
     const integrationIcon = integration ? getIntegrationIcon(recipe.integrationType) : null;
 
     const difficultyColors: Record<RecipeDifficulty, { bg: string; text: string; border: string }> = {
-        beginner: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+        beginner: { bg: 'bg-[#DA7756]/10', text: 'text-[#DA7756]', border: 'border-[#DA7756]/20' },
         intermediate: { bg: 'bg-amber-500/10', text: 'text-amber-400', border: 'border-amber-500/20' },
         advanced: { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20' },
     };
@@ -354,7 +354,7 @@ function RecipeCard({
     return (
         <motion.button
             onClick={onClick}
-            whileHover={{ scale: 1.01, borderColor: 'rgba(16, 185, 129, 0.3)' }}
+            whileHover={{ scale: 1.01, borderColor: 'rgba(218, 119, 86, 0.3)' }}
             whileTap={{ scale: 0.99 }}
             className="w-full text-left p-5 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl transition-all group"
         >
@@ -365,11 +365,11 @@ function RecipeCard({
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors truncate">
+                        <h3 className="font-semibold text-white group-hover:text-[#DA7756] transition-colors truncate">
                             {recipe.title}
                         </h3>
                         {recipe.verified && (
-                            <CheckCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-[#DA7756] flex-shrink-0" />
                         )}
                     </div>
                     <p className="text-sm text-slate-400 line-clamp-2">{recipe.description}</p>
@@ -378,7 +378,7 @@ function RecipeCard({
                     animate={{ x: 0 }}
                     whileHover={{ x: 4 }}
                 >
-                    <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 flex-shrink-0 transition-colors" />
+                    <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-[#DA7756] flex-shrink-0 transition-colors" />
                 </motion.div>
             </div>
 
@@ -507,7 +507,7 @@ function RecipeDetail({
                         <div className="flex items-center gap-2 mb-1">
                             <h1 className="text-xl font-semibold text-white">{recipe.title}</h1>
                             {recipe.verified && (
-                                <span className="flex items-center gap-1 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-xs text-emerald-400">
+                                <span className="flex items-center gap-1 px-2 py-0.5 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-lg text-xs text-[#DA7756]">
                                     <CheckCircle className="w-3.5 h-3.5" />
                                     Verified
                                 </span>
@@ -533,7 +533,7 @@ function RecipeDetail({
                     </div>
                     <div className="h-2 bg-white/[0.06] rounded-full overflow-hidden">
                         <motion.div
-                            className="h-full bg-emerald-500 rounded-full"
+                            className="h-full bg-[#DA7756] rounded-full"
                             initial={{ width: 0 }}
                             animate={{ width: `${progress}%` }}
                             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -566,7 +566,7 @@ function RecipeDetail({
             {/* Steps */}
             <motion.div variants={itemVariants} className="space-y-3">
                 <h2 className="font-semibold text-white flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <Sparkles className="w-4 h-4 text-[#DA7756]" />
                     Steps
                 </h2>
                 <AnimatePresence>
@@ -578,7 +578,7 @@ function RecipeDetail({
                             transition={{ delay: step.order * 0.05 }}
                             className={`border rounded-xl overflow-hidden transition-all ${
                                 completedSteps.has(step.order)
-                                    ? 'border-emerald-500/30 bg-emerald-500/5'
+                                    ? 'border-[#DA7756]/30 bg-[#DA7756]/5'
                                     : 'border-white/[0.08] bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95'
                             }`}
                         >
@@ -591,7 +591,7 @@ function RecipeDetail({
                                 <div
                                     className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm flex-shrink-0 transition-colors ${
                                         completedSteps.has(step.order)
-                                            ? 'bg-emerald-500 text-white'
+                                            ? 'bg-[#DA7756] text-white'
                                             : 'bg-white/[0.06] text-slate-400'
                                     }`}
                                 >
@@ -633,8 +633,8 @@ function RecipeDetail({
                                                     >
                                                         {copiedCode === step.order ? (
                                                             <>
-                                                                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                                                <span className="text-emerald-400">Copied</span>
+                                                                <Check className="w-3.5 h-3.5 text-[#DA7756]" />
+                                                                <span className="text-[#DA7756]">Copied</span>
                                                             </>
                                                         ) : (
                                                             <>
@@ -674,7 +674,7 @@ function RecipeDetail({
                                                 onClick={() => markComplete(step.order)}
                                                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                                                     completedSteps.has(step.order)
-                                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                                         : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
                                                 }`}
                                             >
@@ -734,10 +734,10 @@ function RecipeDetail({
                         disabled={voted !== null}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             voted === 'helpful'
-                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                 : voted
                                 ? 'bg-white/[0.02] text-slate-500 cursor-not-allowed'
-                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-emerald-500/10 hover:text-emerald-400'
+                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-[#DA7756]/10 hover:text-[#DA7756]'
                         }`}
                     >
                         <ThumbsUp className="w-4 h-4" />

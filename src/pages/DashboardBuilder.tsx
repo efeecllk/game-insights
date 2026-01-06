@@ -237,8 +237,8 @@ export function DashboardBuilderPage() {
             >
                 {/* Background decorations */}
                 <div className="fixed inset-0 pointer-events-none overflow-hidden">
-                    <div className="absolute top-20 right-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-3xl" />
-                    <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-3xl" />
+                    <div className="absolute top-20 right-1/4 w-[500px] h-[500px] bg-[#DA7756]/5 rounded-full blur-3xl" />
+                    <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-[#C15F3C]/5 rounded-full blur-3xl" />
                 </div>
 
                 {/* Header */}
@@ -253,13 +253,13 @@ export function DashboardBuilderPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/30 blur-xl rounded-full" />
-                                <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center">
-                                    <Grid3X3 className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/30 blur-xl rounded-full" />
+                                <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/20 border border-[#DA7756]/30 flex items-center justify-center">
+                                    <Grid3X3 className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
-                                <h1 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">
+                                <h1 className="text-3xl font-bold bg-gradient-to-r from-[#DA7756] via-[#C15F3C] to-[#DA7756] bg-clip-text text-transparent">
                                     Dashboard Builder
                                 </h1>
                                 <p className="text-slate-400 mt-1">Create custom dashboards with drag-and-drop widgets</p>
@@ -274,7 +274,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setShowWidgetPicker(true)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
                                 >
                                     <Plus className="w-4 h-4" />
                                     Add Widget
@@ -283,7 +283,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setIsEditing(false)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
                                 >
                                     <Eye className="w-4 h-4" />
                                     Preview
@@ -292,7 +292,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleSaveDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
                                 >
                                     <Save className="w-4 h-4" />
                                     Save
@@ -306,7 +306,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setShowExportModal(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
                                         >
                                             <Download className="w-4 h-4" />
                                             Export
@@ -315,7 +315,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setIsEditing(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-emerald-500/30 transition-all backdrop-blur-xl"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
                                         >
                                             <Edit3 className="w-4 h-4" />
                                             Edit
@@ -326,7 +326,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleCreateDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
                                 >
                                     <Plus className="w-4 h-4" />
                                     New Dashboard
@@ -343,9 +343,9 @@ export function DashboardBuilderPage() {
                         animate={{ opacity: 1 }}
                     >
                         <div className="relative">
-                            <div className="w-12 h-12 rounded-full border-2 border-emerald-500/20 border-t-emerald-500 animate-spin" />
+                            <div className="w-12 h-12 rounded-full border-2 border-[#DA7756]/20 border-t-[#DA7756] animate-spin" />
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <Sparkles className="w-5 h-5 text-emerald-500/50" />
+                                <Sparkles className="w-5 h-5 text-[#DA7756]/50" />
                             </div>
                         </div>
                     </motion.div>
@@ -364,7 +364,7 @@ export function DashboardBuilderPage() {
                                 <div className="relative border border-white/[0.06]">
                                     <div className="p-4 border-b border-white/[0.06]">
                                         <div className="flex items-center gap-2">
-                                            <LayoutDashboard className="w-4 h-4 text-emerald-400" />
+                                            <LayoutDashboard className="w-4 h-4 text-[#DA7756]" />
                                             <h3 className="text-sm font-semibold text-white">Your Dashboards</h3>
                                         </div>
                                     </div>
@@ -425,7 +425,7 @@ export function DashboardBuilderPage() {
                                             onClick={handleCreateDashboard}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 transition-all shadow-lg shadow-emerald-500/20"
+                                            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
                                         >
                                             Create Dashboard
                                         </motion.button>
@@ -509,7 +509,7 @@ function DashboardListItem({
         <motion.div
             className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                 isSelected
-                    ? 'bg-emerald-500/10 border border-emerald-500/30'
+                    ? 'bg-[#DA7756]/10 border border-[#DA7756]/30'
                     : 'hover:bg-white/[0.04] border border-transparent'
             }`}
             onClick={onSelect}
@@ -518,7 +518,7 @@ function DashboardListItem({
         >
             <span className="text-xl">{dashboard.icon}</span>
             <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium truncate ${isSelected ? 'text-emerald-300' : 'text-slate-300'}`}>
+                <p className={`text-sm font-medium truncate ${isSelected ? 'text-[#DA7756]' : 'text-slate-300'}`}>
                     {dashboard.name}
                 </p>
                 <p className="text-xs text-slate-500">{dashboard.widgets.length} widgets</p>
@@ -712,9 +712,9 @@ function WidgetRenderer({
             style={gridStyle}
             className={`relative rounded-xl border transition-all overflow-hidden ${
                 isSelected
-                    ? 'border-emerald-500/50 ring-2 ring-emerald-500/20 bg-emerald-500/[0.03]'
+                    ? 'border-[#DA7756]/50 ring-2 ring-[#DA7756]/20 bg-[#DA7756]/[0.03]'
                     : isEditing
-                    ? 'border-white/[0.08] hover:border-emerald-500/30 cursor-pointer bg-white/[0.02]'
+                    ? 'border-white/[0.08] hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
                     : 'border-white/[0.06] bg-white/[0.02]'
             }`}
             onClick={isEditing ? onSelect : undefined}
@@ -786,7 +786,7 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
             </p>
             <p className="text-3xl font-bold text-white mb-2">{formatValue(data.value)}</p>
             {widget.config.showTrend !== false && (
-                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
                     {data.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     <span className="font-medium">{data.change >= 0 ? '+' : ''}{data.change}%</span>
                     <span className="text-slate-500">vs last period</span>
@@ -817,7 +817,7 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
                             initial={{ height: 0 }}
                             animate={{ height: `${Math.max(10, height)}%` }}
                             transition={{ delay: i * 0.03, duration: 0.4 }}
-                            className="flex-1 bg-gradient-to-t from-emerald-500/40 to-emerald-500/10 rounded-t hover:from-emerald-500/60 hover:to-emerald-500/20 transition-colors cursor-pointer"
+                            className="flex-1 bg-gradient-to-t from-[#DA7756]/40 to-[#DA7756]/10 rounded-t hover:from-[#DA7756]/60 hover:to-[#DA7756]/20 transition-colors cursor-pointer"
                             title={`${d.date}: ${d.value.toLocaleString()}`}
                         />
                     );
@@ -847,7 +847,7 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
                                 initial={{ width: 0 }}
                                 animate={{ width: `${d.value}%` }}
                                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                                className="h-full bg-gradient-to-r from-emerald-500/60 to-teal-500/60 rounded-full"
+                                className="h-full bg-gradient-to-r from-[#DA7756]/60 to-[#C15F3C]/60 rounded-full"
                             />
                         </div>
                         <span className="text-xs text-slate-400 w-8">{d.value}%</span>
@@ -860,9 +860,9 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
 
 function PieChartWidget({ widget }: { widget: DashboardWidget }) {
     const mockData = [
-        { label: 'IAP', value: 60, color: '#10b981' },
-        { label: 'Ads', value: 25, color: '#14b8a6' },
-        { label: 'Subs', value: 15, color: '#06b6d4' },
+        { label: 'IAP', value: 60, color: '#DA7756' },
+        { label: 'Ads', value: 25, color: '#C15F3C' },
+        { label: 'Subs', value: 15, color: '#A84E2D' },
     ];
 
     return (
@@ -964,7 +964,7 @@ function FunnelWidget({ widget }: { widget: DashboardWidget }) {
                             initial={{ width: 0 }}
                             animate={{ width: `${d.percent}%` }}
                             transition={{ delay: i * 0.1, duration: 0.5 }}
-                            className="h-6 bg-gradient-to-r from-emerald-500/50 to-teal-500/50 rounded flex items-center justify-end pr-2"
+                            className="h-6 bg-gradient-to-r from-[#DA7756]/50 to-[#C15F3C]/50 rounded flex items-center justify-end pr-2"
                             style={{ minWidth: '40px' }}
                         >
                             <span className="text-xs text-white font-medium">{d.percent}%</span>
@@ -1010,7 +1010,7 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
                                         <div
                                             className="rounded text-center py-1 text-white transition-all hover:scale-105"
                                             style={{
-                                                backgroundColor: `rgba(16, 185, 129, ${val / 100})`,
+                                                backgroundColor: `rgba(218, 119, 86, ${val / 100})`,
                                             }}
                                         >
                                             {val}%
@@ -1068,8 +1068,8 @@ function WidgetPicker({
                 <div className="relative border border-white/[0.08]">
                     <div className="flex items-center justify-between p-6 border-b border-white/[0.08]">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <Plus className="w-5 h-5 text-emerald-400" />
+                            <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <Plus className="w-5 h-5 text-[#DA7756]" />
                             </div>
                             <h3 className="text-lg font-semibold text-white">Add Widget</h3>
                         </div>
@@ -1097,11 +1097,11 @@ function WidgetPicker({
                                     onClick={() => onSelect(type)}
                                     whileHover={{ scale: 1.02, y: -2 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-white/[0.08] hover:border-emerald-500/30 hover:bg-emerald-500/[0.05] transition-all text-center group"
+                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-white/[0.08] hover:border-[#DA7756]/30 hover:bg-[#DA7756]/[0.05] transition-all text-center group"
                                 >
                                     <span className="text-3xl group-hover:scale-110 transition-transform">{preset.icon}</span>
                                     <div>
-                                        <p className="text-white font-medium group-hover:text-emerald-300 transition-colors">{preset.name}</p>
+                                        <p className="text-white font-medium group-hover:text-[#DA7756] transition-colors">{preset.name}</p>
                                         <p className="text-xs text-slate-500 mt-0.5">{preset.description}</p>
                                     </div>
                                 </motion.button>
@@ -1161,7 +1161,7 @@ function WidgetConfigPanel({
                             type="text"
                             value={widget.config.title || ''}
                             onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
-                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all placeholder:text-slate-600"
+                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-slate-600"
                             placeholder="Widget title"
                         />
                     </div>
@@ -1173,7 +1173,7 @@ function WidgetConfigPanel({
                             <select
                                 value={widget.config.metric || 'dau'}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
                             >
                                 {METRIC_OPTIONS.map((opt) => (
                                     <option key={opt.value} value={opt.value} className="bg-slate-900">{opt.label}</option>
@@ -1189,7 +1189,7 @@ function WidgetConfigPanel({
                             <button
                                 onClick={() => onUpdate({ config: { ...widget.config, showTrend: !widget.config.showTrend } })}
                                 className={`w-10 h-5 rounded-full transition-colors ${
-                                    widget.config.showTrend !== false ? 'bg-emerald-500' : 'bg-white/10'
+                                    widget.config.showTrend !== false ? 'bg-[#DA7756]' : 'bg-white/10'
                                 }`}
                             >
                                 <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
@@ -1207,7 +1207,7 @@ function WidgetConfigPanel({
                                 value={widget.config.textContent || ''}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
                                 rows={4}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all resize-none placeholder:text-slate-600"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-slate-600"
                                 placeholder="Enter text content..."
                             />
                         </div>
@@ -1225,7 +1225,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={12}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                             <div>
@@ -1236,7 +1236,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={10}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-emerald-500/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                         </div>

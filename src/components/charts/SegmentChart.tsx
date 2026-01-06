@@ -2,7 +2,7 @@
  * Segment Chart (Donut) - Obsidian Analytics Design
  *
  * Premium donut chart with:
- * - Emerald-teal color palette
+ * - Warm color palette (Claude palette)
  * - Refined legend and tooltips
  * - Glow effects on hover
  */
@@ -20,11 +20,11 @@ interface SegmentChartProps {
     bare?: boolean;
 }
 
-// Obsidian Analytics color palette
+// Warm color palette (Claude palette)
 const SEGMENT_COLORS = [
-    '#10b981', // emerald-500
-    '#14b8a6', // teal-500
-    '#06b6d4', // cyan-500
+    '#DA7756', // warm orange
+    '#C15F3C', // deep terracotta
+    '#5B9BD5', // soft blue
     '#0ea5e9', // sky-500
     '#6366f1', // indigo-500
     '#8b5cf6', // violet-500
@@ -36,7 +36,7 @@ export function SegmentChart({ data, config, className, bare = false }: SegmentC
         tooltip: {
             trigger: 'item',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            borderColor: 'rgba(16, 185, 129, 0.2)',
+            borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
@@ -89,7 +89,7 @@ export function SegmentChart({ data, config, className, bare = false }: SegmentC
                     scaleSize: 8,
                     itemStyle: {
                         shadowBlur: 30,
-                        shadowColor: 'rgba(16, 185, 129, 0.4)',
+                        shadowColor: 'rgba(218, 119, 86, 0.4)',
                     },
                 },
                 labelLine: {

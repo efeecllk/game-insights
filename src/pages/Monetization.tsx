@@ -3,7 +3,7 @@
  *
  * Premium revenue analytics with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Enhanced chart styling
  * - Noise texture backgrounds
@@ -28,7 +28,7 @@ const revenueData = {
         whales: 42,
         spenderTiers: [
             { tier: '$0 (F2P)', users: 85000, color: '#475569' },
-            { tier: '$1-10', users: 4200, color: '#10b981' },
+            { tier: '$1-10', users: 4200, color: '#DA7756' },
             { tier: '$10-50', users: 850, color: '#fbbf24' },
             { tier: '$50-100', users: 180, color: '#f97316' },
             { tier: '$100+', users: 42, color: '#ef4444' },
@@ -49,7 +49,7 @@ const revenueData = {
         whales: 180,
         spenderTiers: [
             { tier: '$0 (F2P)', users: 120000, color: '#475569' },
-            { tier: '$1-50', users: 8500, color: '#10b981' },
+            { tier: '$1-50', users: 8500, color: '#DA7756' },
             { tier: '$50-200', users: 2100, color: '#fbbf24' },
             { tier: '$200-500', users: 650, color: '#f97316' },
             { tier: '$500+', users: 180, color: '#ef4444' },
@@ -70,7 +70,7 @@ const revenueData = {
         whales: 95,
         spenderTiers: [
             { tier: '$0 (F2P)', users: 180000, color: '#475569' },
-            { tier: '$1-20', users: 12000, color: '#10b981' },
+            { tier: '$1-20', users: 12000, color: '#DA7756' },
             { tier: '$20-50', users: 3500, color: '#fbbf24' },
             { tier: '$50-100', users: 850, color: '#f97316' },
             { tier: '$100+', users: 95, color: '#ef4444' },
@@ -145,7 +145,7 @@ export function MonetizationPage() {
         const realPayerConversion = dataProvider.getPayerConversion() * 100;
 
         // Transform spender tiers for chart
-        const tierColors = ['#475569', '#10b981', '#fbbf24', '#f97316', '#ef4444'];
+        const tierColors = ['#475569', '#DA7756', '#fbbf24', '#f97316', '#ef4444'];
         const transformedTiers = realSpenderTiers.map((tier, index) => ({
             tier: tier.tier,
             users: tier.users,
@@ -207,9 +207,9 @@ export function MonetizationPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-emerald-500/30 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center">
-                                    <DollarSign className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                                    <DollarSign className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -241,7 +241,7 @@ export function MonetizationPage() {
                     value={`$${totalRevenue.toLocaleString()}`}
                     subtitle="Last 14 days"
                     icon={DollarSign}
-                    color="emerald"
+                    color="orange"
                     index={0}
                 />
                 <KPICard
@@ -273,7 +273,7 @@ export function MonetizationPage() {
                     value={`${data.conversionRate}%`}
                     subtitle="Payer rate"
                     icon={Sparkles}
-                    color="teal"
+                    color="secondary"
                     index={4}
                 />
             </div>
@@ -282,8 +282,8 @@ export function MonetizationPage() {
             <motion.div variants={itemVariants}>
                 <Card variant="default" padding="lg">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <TrendingUp className="w-4 h-4 text-emerald-400" />
+                        <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <TrendingUp className="w-4 h-4 text-[#DA7756]" />
                         </div>
                         <h3 className="font-display font-semibold text-white">Daily Revenue</h3>
                     </div>
@@ -325,7 +325,7 @@ export function MonetizationPage() {
                                     className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.02] transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-emerald-400 group-hover:border-emerald-500/20 transition-colors">
+                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-[#DA7756] group-hover:border-[#DA7756]/20 transition-colors">
                                             {index + 1}
                                         </span>
                                         <span className="text-sm text-slate-300">{product.name}</span>
@@ -381,15 +381,15 @@ function KPICard({
     value: string;
     subtitle: string;
     icon: typeof DollarSign;
-    color: 'emerald' | 'sky' | 'violet' | 'amber' | 'teal';
+    color: 'orange' | 'sky' | 'violet' | 'amber' | 'secondary';
     index?: number;
 }) {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20 group-hover:border-emerald-500/30',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20 group-hover:border-[#DA7756]/30',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         sky: {
             bg: 'from-sky-500/20 to-sky-500/5',
@@ -409,11 +409,11 @@ function KPICard({
             icon: 'text-amber-400',
             glow: 'bg-amber-500/20',
         },
-        teal: {
-            bg: 'from-teal-500/20 to-teal-500/5',
-            border: 'border-teal-500/20 group-hover:border-teal-500/30',
-            icon: 'text-teal-400',
-            glow: 'bg-teal-500/20',
+        secondary: {
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20 group-hover:border-[#C15F3C]/30',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
     };
 
@@ -459,7 +459,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
             padding: [12, 16],
             extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
             formatter: (params: Array<{ name: string; value: number }>) =>
-                `<div style="font-weight: 500">${params[0].name}</div><div style="color: #10b981; margin-top: 4px">$${params[0].value.toLocaleString()}</div>`
+                `<div style="font-weight: 500">${params[0].name}</div><div style="color: #DA7756; margin-top: 4px">$${params[0].value.toLocaleString()}</div>`
         },
         grid: { left: 60, right: 20, top: 20, bottom: 50 },
         xAxis: {
@@ -493,8 +493,8 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                     type: 'linear',
                     x: 0, y: 0, x2: 0, y2: 1,
                     colorStops: [
-                        { offset: 0, color: '#10b981' },
-                        { offset: 1, color: '#059669' }
+                        { offset: 0, color: '#DA7756' },
+                        { offset: 1, color: '#C56545' }
                     ]
                 },
                 borderRadius: [6, 6, 0, 0]
@@ -505,8 +505,8 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: '#34d399' },
-                            { offset: 1, color: '#10b981' }
+                            { offset: 0, color: '#E8937A' },
+                            { offset: 1, color: '#DA7756' }
                         ]
                     }
                 }
@@ -531,7 +531,7 @@ function SpenderTiersChart({ data }: { data: Array<{ tier: string; users: number
             padding: [12, 16],
             extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
             formatter: (params: { name: string; value: number; percent: number }) =>
-                `<div style="font-weight: 500">${params.name}</div><div style="margin-top: 4px">${params.value.toLocaleString()} users</div><div style="color: #10b981">${params.percent.toFixed(1)}%</div>`
+                `<div style="font-weight: 500">${params.name}</div><div style="margin-top: 4px">${params.value.toLocaleString()} users</div><div style="color: #DA7756">${params.percent.toFixed(1)}%</div>`
         },
         legend: {
             orient: 'vertical',

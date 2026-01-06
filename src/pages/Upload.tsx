@@ -4,7 +4,7 @@
  * Premium upload experience with:
  * - Animated step indicators
  * - Glassmorphism cards
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Framer Motion transitions
  * - Enhanced error handling
  */
@@ -168,9 +168,9 @@ export function UploadPage() {
                     transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                     className="relative"
                 >
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <Upload className="w-6 h-6 text-emerald-400" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <Upload className="w-6 h-6 text-[#DA7756]" />
                     </div>
                 </motion.div>
                 <div>
@@ -197,7 +197,7 @@ export function UploadPage() {
                                 <p className="text-amber-400 font-medium">No API key configured</p>
                                 <p className="text-sm text-slate-400 mt-1">
                                     Add your OpenAI API key in{' '}
-                                    <a href="/settings" className="text-emerald-400 hover:text-emerald-300 transition-colors">
+                                    <a href="/settings" className="text-[#DA7756] hover:text-[#C15F3C] transition-colors">
                                         Settings
                                     </a>{' '}
                                     for better column detection. Without it, we'll use pattern matching only.
@@ -257,15 +257,15 @@ export function UploadPage() {
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="relative bg-gradient-to-br from-emerald-500/10 to-teal-500/5 backdrop-blur-xl rounded-2xl p-4 border border-emerald-500/20 overflow-hidden"
+                                className="relative bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5 backdrop-blur-xl rounded-2xl p-4 border border-[#DA7756]/20 overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                                 <div className="relative flex items-start gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/20 border border-[#DA7756]/30 flex items-center justify-center flex-shrink-0">
+                                        <Sparkles className="w-4 h-4 text-[#DA7756]" />
                                     </div>
                                     <div>
-                                        <p className="text-emerald-400 font-medium">Detected: {detectedTemplate}</p>
+                                        <p className="text-[#DA7756] font-medium">Detected: {detectedTemplate}</p>
                                         <p className="text-sm text-slate-400 mt-1">
                                             We recognized this format and will apply optimized column mappings.
                                         </p>
@@ -308,15 +308,15 @@ export function UploadPage() {
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                className="absolute inset-0 bg-emerald-500/30 rounded-2xl blur-xl"
+                                className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl blur-xl"
                             />
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center mb-6"
+                                className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center mb-6"
                             >
                                 <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                                    <Sparkles className="w-8 h-8 text-emerald-400" />
+                                    <Sparkles className="w-8 h-8 text-[#DA7756]" />
                                 </motion.div>
                             </motion.div>
                         </div>
@@ -346,16 +346,16 @@ export function UploadPage() {
                             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                             <div className="relative flex items-center justify-between">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                                        <Sparkles className="w-5 h-5 text-emerald-400" />
+                                    <div className="w-10 h-10 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 flex items-center justify-center">
+                                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
                                     </div>
                                     <div>
                                         <p className="text-white font-medium">
-                                            Detected: <span className="text-emerald-400">{analysisResult.gameType.replace('_', ' ')}</span> game
+                                            Detected: <span className="text-[#DA7756]">{analysisResult.gameType.replace('_', ' ')}</span> game
                                         </p>
                                         <p className="text-sm text-slate-500">
                                             {analysisResult.columns.length} columns • Data quality:{' '}
-                                            <span className="text-emerald-400 font-mono">{Math.round(analysisResult.dataQuality * 100)}%</span>
+                                            <span className="text-[#DA7756] font-mono">{Math.round(analysisResult.dataQuality * 100)}%</span>
                                         </p>
                                     </div>
                                 </div>
@@ -386,7 +386,7 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-emerald-500/20 overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
@@ -396,9 +396,9 @@ export function UploadPage() {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                                 className="relative"
                             >
-                                <div className="absolute inset-0 bg-emerald-500/30 rounded-2xl blur-xl" />
-                                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/30 to-teal-500/20 border border-emerald-500/40 flex items-center justify-center mb-6">
-                                    <CheckCircle className="w-8 h-8 text-emerald-400" />
+                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl blur-xl" />
+                                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 border border-[#DA7756]/40 flex items-center justify-center mb-6">
+                                    <CheckCircle className="w-8 h-8 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                         </div>
@@ -459,16 +459,16 @@ function StepIndicator({ number, label, active, complete }: { number: number; la
             <motion.div
                 animate={{
                     scale: active ? [1, 1.1, 1] : 1,
-                    boxShadow: active ? '0 0 20px rgba(16, 185, 129, 0.3)' : 'none',
+                    boxShadow: active ? '0 0 20px rgba(218, 119, 86, 0.3)' : 'none',
                 }}
                 transition={{ duration: 1.5, repeat: active ? Infinity : 0 }}
                 className={`
                     w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300
                     ${
                         active
-                            ? 'bg-emerald-500 text-white'
+                            ? 'bg-[#DA7756] text-white'
                             : complete
-                              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                              ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                               : 'bg-slate-800/50 text-slate-500 border border-white/[0.06]'
                     }
                 `}

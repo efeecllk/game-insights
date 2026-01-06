@@ -141,7 +141,7 @@ export function Sidebar() {
             {/* Layered background with depth */}
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-emerald-500/20 to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-[#DA7756]/20 to-transparent" />
 
             {/* Content */}
             <div className="relative flex flex-col h-full">
@@ -155,8 +155,8 @@ export function Sidebar() {
                     <div className="flex items-center gap-3 group cursor-pointer">
                         {/* Logo with glow effect */}
                         <div className="relative">
-                            <div className="absolute inset-0 bg-emerald-500/30 rounded-xl blur-xl group-hover:bg-emerald-400/40 transition-colors duration-500" />
-                            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25 group-hover:shadow-emerald-400/30 transition-shadow duration-300">
+                            <div className="absolute inset-0 bg-[#DA7756]/30 rounded-xl blur-xl group-hover:bg-[#DA7756]/40 transition-colors duration-500" />
+                            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756] via-[#DA7756] to-[#C15F3C] flex items-center justify-center shadow-lg shadow-[#DA7756]/25 group-hover:shadow-[#DA7756]/30 transition-shadow duration-300">
                                 <Gamepad2 className="w-5 h-5 text-white drop-shadow-sm" />
                             </div>
                         </div>
@@ -164,7 +164,7 @@ export function Sidebar() {
                             <span className="font-display font-bold text-white text-sm tracking-tight">
                                 Game Insights
                             </span>
-                            <span className="text-[10px] text-emerald-400/80 font-medium tracking-wider uppercase">
+                            <span className="text-[10px] text-[#DA7756]/80 font-medium tracking-wider uppercase">
                                 Analytics
                             </span>
                         </div>
@@ -293,13 +293,13 @@ function NavItemComponent({
                         {linkActive && (
                             <motion.div
                                 layoutId="activeIndicator"
-                                className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-emerald-400"
+                                className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-[#DA7756]"
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.8 }}
                                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
                             >
-                                <div className="absolute inset-0 bg-emerald-400 blur-sm" />
+                                <div className="absolute inset-0 bg-[#DA7756] blur-sm" />
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -318,17 +318,17 @@ function NavItemComponent({
                         `}
                     >
                         {/* Hover glow effect */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-emerald-500/[0.05] to-transparent" />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-[#DA7756]/[0.05] to-transparent" />
 
                         {/* Icon with subtle glow when active */}
                         <div className="relative">
                             {linkActive && (
-                                <div className="absolute inset-0 bg-emerald-400/30 blur-md" />
+                                <div className="absolute inset-0 bg-[#DA7756]/30 blur-md" />
                             )}
                             <Icon
                                 className={`w-4 h-4 flex-shrink-0 relative ${
                                     linkActive
-                                        ? 'text-emerald-400'
+                                        ? 'text-[#DA7756]'
                                         : isTop
                                             ? 'text-slate-400 group-hover:text-slate-300'
                                             : 'text-slate-600 group-hover:text-slate-500'
@@ -347,7 +347,7 @@ function NavItemComponent({
                                     text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded
                                     ${item.badge === 'AI'
                                         ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
-                                        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                                        : 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                     }
                                 `}
                             >

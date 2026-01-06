@@ -28,9 +28,9 @@ export function DataQualityBadge({
     const [showTooltip, setShowTooltip] = useState(false);
 
     const getScoreColor = () => {
-        if (score >= 90) return 'emerald';
+        if (score >= 90) return 'warmOrange';
         if (score >= 70) return 'amber';
-        if (score >= 50) return 'orange';
+        if (score >= 50) return 'deepOrange';
         return 'rose';
     };
 
@@ -39,9 +39,9 @@ export function DataQualityBadge({
     const warningIssues = issues.filter(i => i.severity === 'warning');
 
     const colorClasses = {
-        emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/15',
+        warmOrange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20 hover:bg-[#DA7756]/15',
         amber: 'bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/15',
-        orange: 'bg-orange-500/10 text-orange-400 border-orange-500/20 hover:bg-orange-500/15',
+        deepOrange: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20 hover:bg-[#C15F3C]/15',
         rose: 'bg-rose-500/10 text-rose-400 border-rose-500/20 hover:bg-rose-500/15',
     };
 
@@ -144,9 +144,9 @@ export function DataQualityBadge({
                                 {criticalIssues.length} critical, {warningIssues.length} warnings
                             </span>
                             <span className={`font-medium ${
-                                score >= 90 ? 'text-emerald-400' :
+                                score >= 90 ? 'text-[#DA7756]' :
                                 score >= 70 ? 'text-amber-400' :
-                                score >= 50 ? 'text-orange-400' :
+                                score >= 50 ? 'text-[#C15F3C]' :
                                 'text-rose-400'
                             }`}>
                                 Score: {score}%
@@ -163,9 +163,9 @@ export function DataQualityBadge({
  * Compact version for inline use
  */
 export function DataQualityDot({ score }: { score: number }) {
-    const color = score >= 90 ? 'bg-emerald-400' :
+    const color = score >= 90 ? 'bg-[#DA7756]' :
                   score >= 70 ? 'bg-amber-400' :
-                  score >= 50 ? 'bg-orange-400' :
+                  score >= 50 ? 'bg-[#C15F3C]' :
                   'bg-rose-400';
 
     return (
@@ -195,9 +195,9 @@ export function DataQualityBar({
     const warningCount = issues.filter(i => i.severity === 'warning').length;
     const infoCount = issues.filter(i => i.severity === 'info').length;
 
-    const barColor = score >= 90 ? 'bg-emerald-500' :
+    const barColor = score >= 90 ? 'bg-[#DA7756]' :
                      score >= 70 ? 'bg-amber-500' :
-                     score >= 50 ? 'bg-orange-500' :
+                     score >= 50 ? 'bg-[#C15F3C]' :
                      'bg-rose-500';
 
     return (

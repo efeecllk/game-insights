@@ -35,7 +35,7 @@ const CANONICAL_OPTIONS = [
 const ROLE_COLORS: Record<string, string> = {
     identifier: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
     timestamp: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-    metric: 'bg-green-500/20 text-green-400 border-green-500/30',
+    metric: 'bg-[#6BBF59]/20 text-[#6BBF59] border-[#6BBF59]/30',
     dimension: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
     noise: 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30',
     unknown: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
@@ -71,7 +71,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                     </p>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                    <span className="text-green-500">{highConfidence.length} confident</span>
+                    <span className="text-[#6BBF59]">{highConfidence.length} confident</span>
                     {lowConfidence.length > 0 && (
                         <span className="text-yellow-500">{lowConfidence.length} needs review</span>
                     )}
@@ -106,7 +106,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
             {/* High confidence columns */}
             <div className="bg-bg-card border border-white/[0.06] rounded-card p-4">
                 <div className="flex items-center gap-2 mb-3">
-                    <Check className="w-5 h-5 text-green-500" />
+                    <Check className="w-5 h-5 text-[#6BBF59]" />
                     <span className="text-zinc-300 font-medium">Auto-Detected</span>
                 </div>
                 <div className="space-y-2">
@@ -194,7 +194,7 @@ function ColumnRow({
 
             {/* Confidence */}
             <div className="w-16 text-right ml-4">
-                <span className={`text-xs ${column.confidence >= 0.8 ? 'text-green-500' : 'text-yellow-500'}`}>
+                <span className={`text-xs ${column.confidence >= 0.8 ? 'text-[#6BBF59]' : 'text-yellow-500'}`}>
                     {Math.round(column.confidence * 100)}%
                 </span>
             </div>

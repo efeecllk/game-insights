@@ -3,7 +3,7 @@
  *
  * Premium attribution dashboard with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Enhanced data visualizations
  */
@@ -70,7 +70,7 @@ const CHANNELS: Channel[] = [
         id: 'organic',
         name: 'Organic Search',
         icon: '🔍',
-        color: '#10b981',
+        color: '#DA7756',
         installs: 12500,
         cost: 0,
         revenue: 18750,
@@ -136,7 +136,7 @@ const CHANNELS: Channel[] = [
         id: 'email',
         name: 'Email',
         icon: '📧',
-        color: '#06b6d4',
+        color: '#5B9BD5',
         installs: 1500,
         cost: 750,
         revenue: 4500,
@@ -199,13 +199,13 @@ export function AttributionPage() {
             };
 
             const channelColors: Record<string, string> = {
-                organic: '#10b981',
+                organic: '#DA7756',
                 facebook: '#3b82f6',
                 google: '#ef4444',
                 apple: '#6366f1',
                 influencer: '#f59e0b',
                 referral: '#8b5cf6',
-                email: '#06b6d4',
+                email: '#5B9BD5',
                 direct: '#94a3b8',
                 tiktok: '#000000',
                 twitter: '#1da1f2',
@@ -290,7 +290,7 @@ export function AttributionPage() {
                     },
                     itemStyle: {
                         shadowBlur: 20,
-                        shadowColor: 'rgba(16, 185, 129, 0.3)',
+                        shadowColor: 'rgba(218, 119, 86, 0.3)',
                     },
                 },
                 data: sortedChannels.map(ch => ({
@@ -368,9 +368,9 @@ export function AttributionPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Target className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Target className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -379,7 +379,7 @@ export function AttributionPage() {
                                         Attribution Analytics
                                     </h1>
                                     {hasRealData && (
-                                        <span className="flex items-center gap-1 px-2 py-0.5 text-xs bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full">
+                                        <span className="flex items-center gap-1 px-2 py-0.5 text-xs bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full">
                                             <Database className="w-3 h-3" />
                                             Live
                                         </span>
@@ -420,7 +420,7 @@ export function AttributionPage() {
                                                     setShowDatePicker(false);
                                                 }}
                                                 className={`w-full text-left px-4 py-2.5 text-sm hover:bg-white/[0.05] transition-colors ${
-                                                    dateRange === value ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+                                                    dateRange === value ? 'bg-[#DA7756]/10 text-[#DA7756]' : 'text-slate-300'
                                                 }`}
                                             >
                                                 {label}
@@ -442,7 +442,7 @@ export function AttributionPage() {
                     value={totals.installs.toLocaleString()}
                     change="+12.5%"
                     positive
-                    color="emerald"
+                    color="orange"
                     index={0}
                 />
                 <KPICard
@@ -460,7 +460,7 @@ export function AttributionPage() {
                     value={`$${(totals.revenue / 1000).toFixed(1)}K`}
                     change="+15.3%"
                     positive
-                    color="teal"
+                    color="warmOrange"
                     index={2}
                 />
                 <KPICard
@@ -479,8 +479,8 @@ export function AttributionPage() {
                 <Card variant="default" padding="lg">
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <Sparkles className="w-5 h-5 text-emerald-400" />
+                            <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <Sparkles className="w-5 h-5 text-[#DA7756]" />
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold text-white">Attribution Model</h3>
@@ -498,7 +498,7 @@ export function AttributionPage() {
                                     onClick={() => setSelectedModel(model)}
                                     className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                                         selectedModel === model
-                                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                            ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                             : 'text-slate-400 hover:text-slate-300 hover:bg-white/[0.03]'
                                     }`}
                                 >
@@ -682,7 +682,7 @@ export function AttributionPage() {
                                             {channel.cost > 0 ? (
                                                 <span className={`font-medium px-2 py-0.5 rounded-full text-sm ${
                                                     channel.revenue / channel.cost >= 2
-                                                        ? 'bg-emerald-500/10 text-emerald-400'
+                                                        ? 'bg-[#DA7756]/10 text-[#DA7756]'
                                                         : channel.revenue / channel.cost >= 1
                                                         ? 'bg-amber-500/10 text-amber-400'
                                                         : 'bg-rose-500/10 text-rose-400'
@@ -690,7 +690,7 @@ export function AttributionPage() {
                                                     {(channel.revenue / channel.cost).toFixed(2)}x
                                                 </span>
                                             ) : (
-                                                <span className="text-emerald-400">∞</span>
+                                                <span className="text-[#DA7756]">∞</span>
                                             )}
                                         </td>
                                         <td className="px-6 py-4 text-right text-slate-300">
@@ -725,15 +725,15 @@ function KPICard({
     value: string;
     change: string;
     positive: boolean;
-    color: 'emerald' | 'blue' | 'teal' | 'violet';
+    color: 'orange' | 'blue' | 'warmOrange' | 'violet';
     index: number;
 }) {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         blue: {
             bg: 'from-blue-500/20 to-blue-500/5',
@@ -741,11 +741,11 @@ function KPICard({
             icon: 'text-blue-400',
             glow: 'bg-blue-500/20',
         },
-        teal: {
-            bg: 'from-teal-500/20 to-teal-500/5',
-            border: 'border-teal-500/20',
-            icon: 'text-teal-400',
-            glow: 'bg-teal-500/20',
+        warmOrange: {
+            bg: 'from-[#C15F3C]/20 to-[#C15F3C]/5',
+            border: 'border-[#C15F3C]/20',
+            icon: 'text-[#C15F3C]',
+            glow: 'bg-[#C15F3C]/20',
         },
         violet: {
             bg: 'from-violet-500/20 to-violet-500/5',
@@ -777,7 +777,7 @@ function KPICard({
                     <span className="text-2xl font-bold text-white">{value}</span>
                     <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
                         positive
-                            ? 'bg-emerald-500/10 text-emerald-400'
+                            ? 'bg-[#DA7756]/10 text-[#DA7756]'
                             : 'bg-rose-500/10 text-rose-400'
                     }`}>
                         {change}
@@ -809,7 +809,7 @@ function ConversionPath({
             <div className="flex-1 flex items-center gap-2 overflow-x-auto">
                 {path.map((step, i) => (
                     <span key={i} className="flex items-center gap-2">
-                        <span className="px-2 py-1 bg-white/[0.05] border border-white/[0.08] rounded-lg text-xs font-medium text-slate-300 whitespace-nowrap group-hover:border-emerald-500/20 transition-colors">
+                        <span className="px-2 py-1 bg-white/[0.05] border border-white/[0.08] rounded-lg text-xs font-medium text-slate-300 whitespace-nowrap group-hover:border-[#DA7756]/20 transition-colors">
                             {step}
                         </span>
                         {i < path.length - 1 && (

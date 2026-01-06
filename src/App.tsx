@@ -108,7 +108,7 @@ function PageLoader() {
     return (
         <div className="flex items-center justify-center min-h-[400px]" role="status" aria-live="polite">
             <div className="flex flex-col items-center gap-3">
-                <Loader2 className="w-8 h-8 text-emerald-400 animate-spin" aria-hidden="true" />
+                <Loader2 className="w-8 h-8 text-[#DA7756] animate-spin" aria-hidden="true" />
                 <p className="text-sm text-slate-400">Loading...</p>
             </div>
         </div>
@@ -247,8 +247,8 @@ function OverviewPage() {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                                 className="relative"
                             >
-                                <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
-                                <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
+                                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                                <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                     <span className="text-2xl" aria-hidden="true">{gameInfo?.icon}</span>
                                 </div>
                             </motion.div>
@@ -263,7 +263,7 @@ function OverviewPage() {
                                             initial={{ scale: 0 }}
                                             animate={{ scale: 1 }}
                                             transition={{ type: 'spring', delay: 0.4 }}
-                                            className="text-[10px] font-semibold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20"
+                                            className="text-[10px] font-semibold uppercase tracking-wider bg-[#DA7756]/15 text-[#DA7756] px-2.5 py-1 rounded-full border border-[#DA7756]/20"
                                         >
                                             Your Data
                                         </motion.span>
@@ -293,13 +293,13 @@ function OverviewPage() {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5 }}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20"
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20"
                     >
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DA7756] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DA7756]" />
                         </span>
-                        <span className="text-[11px] font-medium text-emerald-400 uppercase tracking-wider">Live</span>
+                        <span className="text-[11px] font-medium text-[#DA7756] uppercase tracking-wider">Live</span>
                     </motion.div>
                 </div>
             </motion.header>
@@ -388,9 +388,9 @@ function ChartContainer({
             className="relative group"
         >
             {/* Hover glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/0 via-emerald-500/5 to-emerald-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-emerald-500/10 transition-colors duration-300 overflow-hidden">
+            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-[#DA7756]/10 transition-colors duration-300 overflow-hidden">
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
@@ -507,10 +507,10 @@ function InsightCard({
             label: 'Warning',
         },
         opportunity: {
-            bg: 'bg-emerald-500/5',
-            border: 'border-emerald-500/20',
+            bg: 'bg-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
             icon: Lightbulb,
-            iconColor: 'text-emerald-400',
+            iconColor: 'text-[#DA7756]',
             label: 'Opportunity',
         },
         info: {
@@ -571,7 +571,7 @@ function PlaceholderPage({ title, description, badge }: { title: string; descrip
             <header className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold text-white">{title}</h1>
                 {badge && (
-                    <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-1 rounded">
+                    <span className="text-xs font-semibold text-[#DA7756] bg-[#DA7756]/10 border border-[#DA7756]/20 px-2 py-1 rounded">
                         {badge}
                     </span>
                 )}

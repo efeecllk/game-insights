@@ -32,7 +32,7 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
 
                 {/* Label */}
                 <p className="relative text-[10px] text-slate-500 uppercase tracking-[0.15em] font-medium mb-3 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/60" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756]/60" />
                     Demo Game Type
                 </p>
 
@@ -60,14 +60,14 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
                                     {isSelected && (
                                         <motion.div
                                             layoutId="gameSelector"
-                                            className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-emerald-500/15 to-teal-500/20 rounded-xl border border-emerald-500/30"
+                                            className="absolute inset-0 bg-gradient-to-r from-[#DA7756]/20 via-[#DA7756]/15 to-[#C15F3C]/20 rounded-xl border border-[#DA7756]/30"
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                         >
                                             {/* Glow effect */}
-                                            <div className="absolute inset-0 bg-emerald-500/10 rounded-xl blur-md" />
+                                            <div className="absolute inset-0 bg-[#DA7756]/10 rounded-xl blur-md" />
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
@@ -88,7 +88,7 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
                 </div>
 
                 {/* Decorative gradient line */}
-                <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent" />
+                <div className="absolute bottom-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-[#DA7756]/10 to-transparent" />
             </div>
         </motion.div>
     );

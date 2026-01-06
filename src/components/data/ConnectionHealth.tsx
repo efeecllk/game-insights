@@ -139,7 +139,7 @@ export function ConnectionHealth() {
                 className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
             >
                 <div className="relative w-16 h-16 mx-auto mb-4">
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
                     <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
                         <Activity className="w-8 h-8 text-slate-400" />
                     </div>
@@ -190,10 +190,10 @@ export function ConnectionHealth() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <HealthScoreCard score={overallHealth.score} status={overallHealth.status} />
                     <MetricCard
-                        icon={<CheckCircle className="w-5 h-5 text-emerald-400" />}
+                        icon={<CheckCircle className="w-5 h-5 text-[#DA7756]" />}
                         label="Healthy"
                         value={overallHealth.healthyCount ?? 0}
-                        color="emerald"
+                        color="orange"
                     />
                     <MetricCard
                         icon={<AlertCircle className="w-5 h-5 text-rose-400" />}
@@ -220,14 +220,14 @@ export function ConnectionHealth() {
                         onClick={() => setFilter(f)}
                         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             filter === f
-                                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-400'
+                                ? 'bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756]'
                                 : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06] hover:text-white'
                         }`}
                     >
                         {f.charAt(0).toUpperCase() + f.slice(1)}
                         {f !== 'all' && (
                             <span className={`ml-2 px-1.5 py-0.5 rounded text-xs ${
-                                filter === f ? 'bg-emerald-500/20' : 'bg-white/[0.06]'
+                                filter === f ? 'bg-[#DA7756]/20' : 'bg-white/[0.06]'
                             }`}>
                                 {f === 'healthy'
                                     ? integrations.filter(i => i.status === 'connected').length
@@ -282,11 +282,11 @@ export function ConnectionHealth() {
 function HealthScoreCard({ score, status }: { score: number; status: 'healthy' | 'warning' | 'error' }) {
     const colors = {
         healthy: {
-            ring: 'stroke-emerald-500',
-            text: 'text-emerald-400',
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            glow: 'shadow-emerald-500/20',
+            ring: 'stroke-[#DA7756]',
+            text: 'text-[#DA7756]',
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            glow: 'shadow-[#DA7756]/20',
         },
         warning: {
             ring: 'stroke-amber-500',
@@ -364,10 +364,10 @@ function MetricCard({
     icon: React.ReactNode;
     label: string;
     value: number;
-    color: 'emerald' | 'rose' | 'amber';
+    color: 'orange' | 'rose' | 'amber';
 }) {
     const colorStyles = {
-        emerald: 'from-emerald-500/10 to-emerald-500/5 border-emerald-500/20',
+        orange: 'from-[#DA7756]/10 to-[#DA7756]/5 border-[#DA7756]/20',
         rose: 'from-rose-500/10 to-rose-500/5 border-rose-500/20',
         amber: 'from-amber-500/10 to-amber-500/5 border-amber-500/20',
     };
@@ -452,7 +452,7 @@ function IntegrationHealthCard({
                 <div className="hidden md:flex items-center gap-6 text-sm">
                     <div className="text-center">
                         <div className="text-slate-500">Uptime</div>
-                        <div className={`font-medium ${health.uptime >= 95 ? 'text-emerald-400' : health.uptime >= 80 ? 'text-amber-400' : 'text-rose-400'}`}>
+                        <div className={`font-medium ${health.uptime >= 95 ? 'text-[#DA7756]' : health.uptime >= 80 ? 'text-amber-400' : 'text-rose-400'}`}>
                             {health.uptime.toFixed(1)}%
                         </div>
                     </div>
@@ -466,7 +466,7 @@ function IntegrationHealthCard({
                     </div>
                     <div className="text-center">
                         <div className="text-slate-500">Error Rate</div>
-                        <div className={`font-medium ${health.errorRate === 0 ? 'text-emerald-400' : health.errorRate < 5 ? 'text-amber-400' : 'text-rose-400'}`}>
+                        <div className={`font-medium ${health.errorRate === 0 ? 'text-[#DA7756]' : health.errorRate < 5 ? 'text-amber-400' : 'text-rose-400'}`}>
                             {health.errorRate.toFixed(1)}%
                         </div>
                     </div>
@@ -495,7 +495,7 @@ function IntegrationHealthCard({
                                 e.stopPropagation();
                                 onResume();
                             }}
-                            className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-colors"
+                            className="p-2 text-slate-400 hover:text-[#DA7756] hover:bg-[#DA7756]/10 rounded-lg transition-colors"
                             title="Resume"
                         >
                             <Zap className="w-4 h-4" />
@@ -596,7 +596,7 @@ function IntegrationHealthCard({
                                         className="flex items-center gap-3 p-2 bg-white/[0.02] border border-white/[0.06] rounded-xl text-sm"
                                     >
                                         {sync.success ? (
-                                            <CheckCircle className="w-4 h-4 text-emerald-400" />
+                                            <CheckCircle className="w-4 h-4 text-[#DA7756]" />
                                         ) : (
                                             <XCircle className="w-4 h-4 text-rose-400" />
                                         )}
@@ -660,7 +660,7 @@ function MetricTile({
                 <span className="text-lg font-semibold text-white">{value}</span>
                 {trend && (
                     <span>
-                        {trend === 'up' && <TrendingUp className="w-4 h-4 text-emerald-400" />}
+                        {trend === 'up' && <TrendingUp className="w-4 h-4 text-[#DA7756]" />}
                         {trend === 'down' && <TrendingDown className="w-4 h-4 text-rose-400" />}
                     </span>
                 )}
@@ -682,8 +682,8 @@ function getStatusConfig(status: IntegrationStatus): {
         case 'connected':
             return {
                 label: 'Healthy',
-                dotColor: 'bg-emerald-500',
-                badgeColor: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+                dotColor: 'bg-[#DA7756]',
+                badgeColor: 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20',
             };
         case 'syncing':
             return {

@@ -205,9 +205,9 @@ export function CustomMetricsBuilder() {
                 <div className="flex items-center gap-4">
                     {/* Icon with glow */}
                     <div className="relative">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <Calculator className="w-6 h-6 text-emerald-400" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Calculator className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </div>
                     <div>
@@ -219,7 +219,7 @@ export function CustomMetricsBuilder() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setIsCreating(true)}
-                    className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-[#DA7756]/20 hover:bg-[#DA7756]/30 border border-[#DA7756]/30 hover:border-[#DA7756]/40 text-[#DA7756] rounded-xl text-sm font-medium transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Create Metric
@@ -255,7 +255,7 @@ export function CustomMetricsBuilder() {
                 {/* List Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
                     <div className="flex items-center gap-3">
-                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                        <Sparkles className="w-4 h-4 text-[#DA7756]" />
                         <h4 className="font-medium text-white">Your Metrics</h4>
                         <span className="px-2 py-0.5 bg-white/[0.06] rounded-full text-xs text-slate-400">
                             {metrics.length}
@@ -320,7 +320,7 @@ function MetricCard({
     const formatConfig = {
         number: { icon: Hash, color: 'text-blue-400', bg: 'bg-blue-500/10' },
         percent: { icon: Percent, color: 'text-violet-400', bg: 'bg-violet-500/10' },
-        currency: { icon: DollarSign, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
+        currency: { icon: DollarSign, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
         duration: { icon: Clock, color: 'text-amber-400', bg: 'bg-amber-500/10' },
     }[metric.format];
 
@@ -358,7 +358,7 @@ function MetricCard({
             {/* Value & Change */}
             <div className="text-right flex-shrink-0 mr-4">
                 <div className="font-semibold text-white">{mockValue}</div>
-                <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-emerald-400' : 'text-rose-400'}`}>
+                <div className={`flex items-center gap-1 text-xs ${isPositive ? 'text-[#DA7756]' : 'text-rose-400'}`}>
                     <TrendingUp className={`w-3 h-3 ${!isPositive && 'rotate-180'}`} />
                     {isPositive ? '+' : ''}{changePercent}%
                 </div>
@@ -449,8 +449,8 @@ function MetricEditor({
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        {metric ? <Edit3 className="w-5 h-5 text-emerald-400" /> : <Plus className="w-5 h-5 text-emerald-400" />}
+                    <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        {metric ? <Edit3 className="w-5 h-5 text-[#DA7756]" /> : <Plus className="w-5 h-5 text-[#DA7756]" />}
                     </div>
                     <h4 className="font-semibold text-white">
                         {metric ? 'Edit Metric' : 'Create New Metric'}
@@ -492,7 +492,7 @@ function MetricEditor({
                         value={name}
                         onChange={(e) => { setName(e.target.value); setError(''); }}
                         placeholder="e.g., ARPDAU"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -506,7 +506,7 @@ function MetricEditor({
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="What does this metric measure?"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -519,7 +519,7 @@ function MetricEditor({
                         <select
                             value={numerator}
                             onChange={(e) => { setNumerator(e.target.value); setError(''); }}
-                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="" className="bg-slate-900">Select metric...</option>
                             {BASE_METRICS.map(m => (
@@ -527,12 +527,12 @@ function MetricEditor({
                             ))}
                         </select>
                         <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
-                            <span className="text-emerald-400 font-semibold">÷</span>
+                            <span className="text-[#DA7756] font-semibold">÷</span>
                         </div>
                         <select
                             value={denominator}
                             onChange={(e) => setDenominator(e.target.value)}
-                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="" className="bg-slate-900">(optional)</option>
                             {BASE_METRICS.map(m => (
@@ -551,7 +551,7 @@ function MetricEditor({
                         <select
                             value={format}
                             onChange={(e) => setFormat(e.target.value as MetricFormat)}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="number" className="bg-slate-900">Number</option>
                             <option value="percent" className="bg-slate-900">Percentage</option>
@@ -566,7 +566,7 @@ function MetricEditor({
                         <select
                             value={decimals}
                             onChange={(e) => setDecimals(parseInt(e.target.value))}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="0" className="bg-slate-900">0</option>
                             <option value="1" className="bg-slate-900">1</option>
@@ -590,7 +590,7 @@ function MetricEditor({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleSave}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 rounded-xl text-sm font-medium transition-all"
+                        className="flex items-center gap-2 px-5 py-2.5 bg-[#DA7756]/20 hover:bg-[#DA7756]/30 border border-[#DA7756]/30 hover:border-[#DA7756]/40 text-[#DA7756] rounded-xl text-sm font-medium transition-all"
                     >
                         <Save className="w-4 h-4" />
                         Save Metric

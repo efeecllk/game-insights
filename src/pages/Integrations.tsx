@@ -97,8 +97,8 @@ export function IntegrationsPage() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
                 <div className="relative">
-                    <div className="w-12 h-12 border-2 border-emerald-500/20 rounded-full" />
-                    <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-emerald-400 rounded-full animate-spin" />
+                    <div className="w-12 h-12 border-2 border-[#DA7756]/20 rounded-full" />
+                    <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-[#DA7756] rounded-full animate-spin" />
                 </div>
             </div>
         );
@@ -110,7 +110,7 @@ export function IntegrationsPage() {
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
                 <div className="absolute top-1/2 -left-32 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#C15F3C]/5 rounded-full blur-3xl" />
             </div>
 
             <motion.div
@@ -134,17 +134,17 @@ export function IntegrationsPage() {
                             <Database className="w-6 h-6 text-cyan-400" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-200 via-blue-200 to-teal-200 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-200 via-blue-200 to-[#DA7756] bg-clip-text text-transparent">
                                 Data Sources
                             </h1>
                             <p className="text-slate-400 text-sm">Connect to your data and sync automatically</p>
                         </div>
                     </div>
                     <motion.button
-                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setShowAddModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white hover:from-emerald-500 hover:to-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
                     >
                         <Plus className="w-5 h-5" />
                         Add Data Source
@@ -248,19 +248,19 @@ function StatCard({
     value,
     sublabel,
     highlight = false,
-    highlightColor = 'emerald',
+    highlightColor = 'orange',
 }: {
     icon: string;
     label: string;
     value: string | number;
     sublabel: string;
     highlight?: boolean;
-    highlightColor?: 'emerald' | 'rose';
+    highlightColor?: 'orange' | 'rose';
 }) {
     const highlightClass = highlight
         ? highlightColor === 'rose'
             ? 'border-rose-500/30 shadow-rose-500/5'
-            : 'border-emerald-500/30 shadow-emerald-500/5'
+            : 'border-[#DA7756]/30 shadow-[#DA7756]/5'
         : 'border-white/[0.06]';
 
     return (
@@ -296,10 +296,10 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
                 Connect to Google Sheets, Supabase, PostgreSQL, or receive real-time data via webhooks.
             </p>
             <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onAdd}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-500/20 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white shadow-lg shadow-[#DA7756]/20 transition-all"
             >
                 <Plus className="w-5 h-5" />
                 Add Your First Data Source
@@ -380,7 +380,7 @@ function IntegrationCard({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={onResume}
-                            className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 rounded-lg transition-all"
+                            className="p-2 text-slate-400 hover:text-[#DA7756] hover:bg-[#DA7756]/10 rounded-lg transition-all"
                             title="Resume"
                         >
                             <Play className="w-5 h-5" />
@@ -559,7 +559,7 @@ function AddIntegrationModal({
                                     value={searchQuery}
                                     onChange={e => onSearchChange(e.target.value)}
                                     placeholder="Search integrations..."
-                                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                                 />
                             </div>
 
@@ -609,20 +609,20 @@ function IntegrationGroup({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => onSelect(item.type)}
-                        className="flex items-center gap-4 p-4 bg-slate-800/40 hover:bg-slate-800/60 border border-white/[0.06] hover:border-emerald-500/30 rounded-xl text-left transition-all group"
+                        className="flex items-center gap-4 p-4 bg-slate-800/40 hover:bg-slate-800/60 border border-white/[0.06] hover:border-[#DA7756]/30 rounded-xl text-left transition-all group"
                     >
                         <div className="w-12 h-12 rounded-xl bg-slate-900/50 border border-white/[0.06] flex items-center justify-center text-2xl">
                             {item.icon}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <div className="font-medium text-white group-hover:text-emerald-400 transition-colors">
+                            <div className="font-medium text-white group-hover:text-[#DA7756] transition-colors">
                                 {item.name}
                             </div>
                             <div className="text-sm text-slate-500 truncate">
                                 {item.description}
                             </div>
                         </div>
-                        <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-emerald-400 transition-colors" />
+                        <ChevronRight className="w-5 h-5 text-slate-600 group-hover:text-[#DA7756] transition-colors" />
                     </motion.button>
                 ))}
             </div>
@@ -729,7 +729,7 @@ function ConfigurationForm({
                     value={name}
                     onChange={e => setName(e.target.value)}
                     placeholder="My Data Source"
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                     required
                 />
             </FormField>
@@ -738,13 +738,13 @@ function ConfigurationForm({
             {type === 'supabase' && (
                 <>
                     <FormField label="Project URL" required hint="Found in your Supabase project settings">
-                        <input type="url" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://xxx.supabase.co" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                        <input type="url" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://xxx.supabase.co" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <FormField label="API Key (anon or service role)" required>
-                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="eyJ..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="eyJ..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <FormField label="Table Name" required>
-                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                 </>
             )}
@@ -752,7 +752,7 @@ function ConfigurationForm({
             {type === 'google_sheets' && (
                 <>
                     <FormField label="Spreadsheet ID" required hint="The ID from the spreadsheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit">
-                        <input type="text" value={spreadsheetId} onChange={e => setSpreadsheetId(e.target.value)} placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                        <input type="text" value={spreadsheetId} onChange={e => setSpreadsheetId(e.target.value)} placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                         <div className="flex items-start gap-3">
@@ -769,25 +769,25 @@ function ConfigurationForm({
                 <>
                     <div className="grid grid-cols-2 gap-4">
                         <FormField label="Host" required>
-                            <input type="text" value={host} onChange={e => setHost(e.target.value)} placeholder="db.example.com" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                            <input type="text" value={host} onChange={e => setHost(e.target.value)} placeholder="db.example.com" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                         <FormField label="Port" required>
-                            <input type="number" value={port} onChange={e => setPort(e.target.value)} placeholder="5432" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                            <input type="number" value={port} onChange={e => setPort(e.target.value)} placeholder="5432" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                     </div>
                     <FormField label="Database" required>
-                        <input type="text" value={database} onChange={e => setDatabase(e.target.value)} placeholder="myapp_production" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                        <input type="text" value={database} onChange={e => setDatabase(e.target.value)} placeholder="myapp_production" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <div className="grid grid-cols-2 gap-4">
                         <FormField label="Username" required>
-                            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="postgres" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="postgres" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                         <FormField label="Password" required>
-                            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" required />
+                            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                     </div>
                     <FormField label="Table Name">
-                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events (optional - can select later)" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" />
+                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events (optional - can select later)" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
                     </FormField>
                     <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
                         <div className="flex items-start gap-3">
@@ -804,12 +804,12 @@ function ConfigurationForm({
                 <>
                     <div className="p-4 bg-slate-800/40 rounded-xl border border-white/[0.06]">
                         <div className="text-sm text-slate-400 mb-2">Your webhook URL will be:</div>
-                        <code className="text-emerald-400 text-sm break-all">
+                        <code className="text-[#DA7756] text-sm break-all">
                             https://your-domain.com/webhook/[unique-id]
                         </code>
                     </div>
                     <FormField label="Secret Key (optional)" hint="Used to validate incoming webhooks">
-                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="whsec_..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/50 transition-colors" />
+                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="whsec_..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
                     </FormField>
                 </>
             )}
@@ -819,20 +819,20 @@ function ConfigurationForm({
                 <FormField label="Sync Settings">
                     <div className="space-y-3">
                         <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-white/[0.04]">
-                            <input type="radio" name="syncType" value="manual" checked={syncType === 'manual'} onChange={() => setSyncType('manual')} className="text-emerald-500" />
+                            <input type="radio" name="syncType" value="manual" checked={syncType === 'manual'} onChange={() => setSyncType('manual')} className="text-[#DA7756] accent-[#DA7756]" />
                             <div>
                                 <div className="text-white">Manual</div>
                                 <div className="text-sm text-slate-500">Refresh data on demand</div>
                             </div>
                         </label>
                         <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-white/[0.04]">
-                            <input type="radio" name="syncType" value="scheduled" checked={syncType === 'scheduled'} onChange={() => setSyncType('scheduled')} className="text-emerald-500" />
+                            <input type="radio" name="syncType" value="scheduled" checked={syncType === 'scheduled'} onChange={() => setSyncType('scheduled')} className="text-[#DA7756] accent-[#DA7756]" />
                             <div className="flex-1">
                                 <div className="text-white">Scheduled</div>
                                 <div className="text-sm text-slate-500">Auto-refresh at intervals</div>
                             </div>
                             {syncType === 'scheduled' && (
-                                <select value={syncInterval} onChange={e => setSyncInterval(e.target.value)} className="px-3 py-1.5 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-emerald-500/50">
+                                <select value={syncInterval} onChange={e => setSyncInterval(e.target.value)} className="px-3 py-1.5 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50">
                                     <option value="5">Every 5 min</option>
                                     <option value="15">Every 15 min</option>
                                     <option value="60">Every hour</option>
@@ -865,10 +865,10 @@ function ConfigurationForm({
                 </motion.button>
                 <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' }}
+                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
                     whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 px-6 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white disabled:opacity-50 transition-all shadow-lg shadow-emerald-500/20"
+                    className="flex items-center gap-2 px-6 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white disabled:opacity-50 transition-all shadow-lg shadow-[#DA7756]/20"
                 >
                     {isSubmitting ? (
                         <>

@@ -277,7 +277,7 @@ export class IdleGameDataProvider extends BaseDataProvider {
                     { timestamp: '9pm', value: 2800 },
                     { timestamp: '12am', value: 1200 },
                 ],
-                color: '#22c55e',
+                color: '#DA7756',
             },
         ];
     }
@@ -336,7 +336,7 @@ export class BattleRoyaleDataProvider extends BaseDataProvider {
             { name: 'AK-47', value: 32, percentage: 32, color: '#ef4444' },
             { name: 'Shotgun', value: 28, percentage: 28, color: '#f97316' },
             { name: 'SMG', value: 22, percentage: 22, color: '#eab308' },
-            { name: 'Sniper', value: 18, percentage: 18, color: '#22c55e' },
+            { name: 'Sniper', value: 18, percentage: 18, color: '#DA7756' },
         ];
     }
 }
@@ -437,7 +437,7 @@ export class GachaRPGDataProvider extends BaseDataProvider {
         return [
             { name: 'Limited Banner', value: 55, percentage: 55, color: '#8b5cf6' },
             { name: 'Battle Pass', value: 25, percentage: 25, color: '#6366f1' },
-            { name: 'Direct Packs', value: 20, percentage: 20, color: '#22d3ee' },
+            { name: 'Direct Packs', value: 20, percentage: 20, color: '#5B9BD5' },
         ];
     }
 }

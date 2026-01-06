@@ -5,7 +5,7 @@
  *
  * Premium design with:
  * - Glassmorphism container
- * - Emerald accent theme
+ * - Warm orange accent theme (#DA7756)
  * - Animated transitions
  * - Noise texture background
  *
@@ -133,9 +133,9 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                                     transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                                     className="relative"
                                 >
-                                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                        <Keyboard className="w-5 h-5 text-emerald-400" />
+                                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                        <Keyboard className="w-5 h-5 text-[#DA7756]" />
                                     </div>
                                 </motion.div>
                                 <h2 id={dialogLabelId} className="text-lg font-semibold text-white">
@@ -175,7 +175,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                                 >
                                     <h3
                                         id={'section-' + section.category.toLowerCase()}
-                                        className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider mb-3"
+                                        className="text-[10px] font-semibold text-[#DA7756] uppercase tracking-wider mb-3"
                                     >
                                         {section.category}
                                     </h3>
@@ -208,7 +208,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                         {/* Footer */}
                         <div className="sticky bottom-0 px-6 py-3 border-t border-white/[0.06] bg-slate-900/80 backdrop-blur-xl text-xs text-slate-500 text-center">
                             Press{' '}
-                            <kbd className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06] text-emerald-400">
+                            <kbd className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06] text-[#DA7756]">
                                 ?
                             </kbd>{' '}
                             to toggle this dialog

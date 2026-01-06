@@ -208,7 +208,7 @@ function AnomalyCard({
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <span className={`text-sm font-semibold ${anomaly.percentChange > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    <span className={`text-sm font-semibold ${anomaly.percentChange > 0 ? 'text-[#DA7756]' : 'text-rose-400'}`}>
                         {anomaly.percentChange > 0 ? '+' : ''}{anomaly.percentChange.toFixed(1)}%
                     </span>
                     <motion.div animate={{ rotate: isExpanded ? 90 : 0 }}>
@@ -265,7 +265,7 @@ function AnomalyCard({
                                     <ul className="space-y-2">
                                         {anomaly.possibleCauses.map((cause, index) => (
                                             <li key={index} className="flex items-start gap-2 text-sm text-slate-400">
-                                                <span className="text-emerald-400 mt-1">•</span>
+                                                <span className="text-[#DA7756] mt-1">•</span>
                                                 {cause}
                                             </li>
                                         ))}
@@ -283,7 +283,7 @@ function AnomalyCard({
                                             e.stopPropagation();
                                             onAcknowledge();
                                         }}
-                                        className="flex items-center gap-2 px-4 py-2 text-sm bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl hover:bg-emerald-500/20 transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 text-sm bg-[#DA7756]/10 border border-[#DA7756]/30 text-[#DA7756] rounded-xl hover:bg-[#DA7756]/20 transition-colors"
                                     >
                                         <CheckCircle2 className="w-4 h-4" />
                                         Acknowledge
@@ -399,8 +399,8 @@ export function AnomalyAlertPanel({
                 className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 ${className ?? ''}`}
             >
                 <div className="text-center">
-                    <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle2 className="w-8 h-8 text-emerald-400" />
+                    <div className="w-16 h-16 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <CheckCircle2 className="w-8 h-8 text-[#DA7756]" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">No Anomalies Detected</h3>
                     <p className="text-slate-400">
@@ -446,7 +446,7 @@ export function AnomalyAlertPanel({
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setShowFilters(!showFilters)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all ${
-                            showFilters ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
+                            showFilters ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30' : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
                         }`}
                     >
                         <Filter className="w-4 h-4" />
@@ -486,7 +486,7 @@ export function AnomalyAlertPanel({
                                                 onClick={() => setFilterSeverity(severity)}
                                                 className={`px-3 py-1.5 text-sm rounded-lg transition-all ${
                                                     filterSeverity === severity
-                                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                                         : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                                                 }`}
                                             >
@@ -512,7 +512,7 @@ export function AnomalyAlertPanel({
                                                 onClick={() => setSortBy(option.value)}
                                                 className={`flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg transition-all ${
                                                     sortBy === option.value
-                                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                                        ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                                         : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                                                 }`}
                                             >
@@ -591,7 +591,7 @@ export function AnomalyAlertPanel({
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 onClick={() => setDismissedIds(new Set())}
-                                className="text-emerald-400 hover:text-emerald-300 transition-colors"
+                                className="text-[#DA7756] hover:text-[#C15F3C] transition-colors"
                             >
                                 Restore all dismissed
                             </motion.button>

@@ -3,7 +3,7 @@
  *
  * Premium experimentation platform with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme (Claude palette)
  * - Animated entrance effects
  * - Refined stat cards
  */
@@ -186,9 +186,9 @@ export function ABTestingPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <FlaskConical className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <FlaskConical className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -239,14 +239,14 @@ export function ABTestingPage() {
                     icon={FlaskConical}
                     active={statusFilter === 'all'}
                     onClick={() => setStatusFilter('all')}
-                    color="emerald"
+                    color="orange"
                     index={0}
                 />
                 <StatCard
                     label="Running"
                     value={stats.running}
                     icon={Play}
-                    color="green"
+                    color="success"
                     active={statusFilter === 'running'}
                     onClick={() => setStatusFilter('running')}
                     index={1}
@@ -282,8 +282,8 @@ export function ABTestingPage() {
                         className="flex items-center justify-center h-64"
                     >
                         <div className="relative">
-                            <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
-                            <div className="relative w-12 h-12 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl animate-pulse" />
+                            <div className="relative w-12 h-12 border-2 border-[#DA7756]/30 border-t-[#DA7756] rounded-full animate-spin" />
                         </div>
                     </motion.div>
                 ) : view === 'list' ? (
@@ -362,7 +362,7 @@ function StatCard({
     label,
     value,
     icon: Icon,
-    color = 'emerald',
+    color = 'orange',
     active,
     onClick,
     index,
@@ -370,23 +370,23 @@ function StatCard({
     label: string;
     value: number;
     icon: typeof FlaskConical;
-    color?: 'emerald' | 'green' | 'blue' | 'amber';
+    color?: 'orange' | 'success' | 'blue' | 'amber';
     active?: boolean;
     onClick?: () => void;
     index: number;
 }) {
     const colorStyles = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
-        green: {
-            bg: 'from-green-500/20 to-green-500/5',
-            border: 'border-green-500/20',
-            icon: 'text-green-400',
-            glow: 'bg-green-500/20',
+        success: {
+            bg: 'from-[#6BBF59]/20 to-[#6BBF59]/5',
+            border: 'border-[#6BBF59]/20',
+            icon: 'text-[#6BBF59]',
+            glow: 'bg-[#6BBF59]/20',
         },
         blue: {
             bg: 'from-blue-500/20 to-blue-500/5',
@@ -414,7 +414,7 @@ function StatCard({
             onClick={onClick}
             className={`relative overflow-hidden rounded-xl p-4 text-left transition-all ${
                 active
-                    ? 'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 border-emerald-500/50 ring-1 ring-emerald-500/20'
+                    ? 'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 border-[#DA7756]/50 ring-1 ring-[#DA7756]/20'
                     : 'bg-gradient-to-br from-slate-900/50 via-slate-900/30 to-slate-950/50 border-white/[0.06] hover:border-white/[0.12]'
             } border`}
         >
@@ -464,9 +464,9 @@ function ExperimentList({
                     transition={{ type: 'spring', delay: 0.2 }}
                     className="relative inline-block mb-4"
                 >
-                    <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-xl" />
-                    <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto">
-                        <FlaskConical className="w-6 h-6 text-emerald-400" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-xl" />
+                    <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center mx-auto">
+                        <FlaskConical className="w-6 h-6 text-[#DA7756]" />
                     </div>
                 </motion.div>
                 <h3 className="text-lg font-semibold text-white mb-2">No experiments yet</h3>
@@ -519,7 +519,7 @@ function ExperimentCard({
 }) {
     const statusConfig = {
         draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
-        running: { color: 'bg-green-500/10 text-green-400 border-green-500/20', icon: Play, label: 'Running' },
+        running: { color: 'bg-[#6BBF59]/10 text-[#6BBF59] border-[#6BBF59]/20', icon: Play, label: 'Running' },
         paused: { color: 'bg-amber-500/10 text-amber-400 border-amber-500/20', icon: Pause, label: 'Paused' },
         completed: { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', icon: CheckCircle, label: 'Completed' },
         archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Archive, label: 'Archived' },
@@ -581,7 +581,7 @@ function ExperimentCard({
                             </div>
                         </div>
 
-                        <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                        <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-[#DA7756] transition-colors" />
                     </div>
 
                     {experiment.status === 'running' && (
@@ -591,7 +591,7 @@ function ExperimentCard({
                                     {totalSamples.toLocaleString()} / {experiment.requiredSampleSize.toLocaleString()} samples
                                 </span>
                                 {leadingVariantName && leadingVariant && (
-                                    <span className="text-emerald-400 flex items-center gap-1">
+                                    <span className="text-[#DA7756] flex items-center gap-1">
                                         <TrendingUp className="w-4 h-4" />
                                         {leadingVariantName} leading (+{(leadingVariant.improvement * 100).toFixed(1)}%)
                                     </span>
@@ -602,7 +602,7 @@ function ExperimentCard({
                                     initial={{ width: 0 }}
                                     animate={{ width: `${progress}%` }}
                                     transition={{ duration: 0.5, ease: 'easeOut' }}
-                                    className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+                                    className="h-full bg-gradient-to-r from-[#DA7756] to-[#C15F3C] rounded-full"
                                 />
                             </div>
                         </div>
@@ -612,7 +612,7 @@ function ExperimentCard({
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="mt-4 flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-4 py-2"
+                            className="mt-4 flex items-center gap-2 text-[#DA7756] bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl px-4 py-2"
                         >
                             <Trophy className="w-4 h-4" />
                             <span className="text-sm font-medium">
@@ -629,7 +629,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onStart(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 hover:bg-[#6BBF59]/20 transition-colors text-sm"
                             >
                                 <Play className="w-4 h-4" />
                                 Start
@@ -673,7 +673,7 @@ function ExperimentCard({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={(e) => { e.stopPropagation(); onStart(); }}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500/10 text-green-400 border border-green-500/20 hover:bg-green-500/20 transition-colors text-sm"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#6BBF59]/10 text-[#6BBF59] border border-[#6BBF59]/20 hover:bg-[#6BBF59]/20 transition-colors text-sm"
                             >
                                 <Play className="w-4 h-4" />
                                 Resume
@@ -816,7 +816,7 @@ function ExperimentDetail({
                 <Card variant="default" padding="none">
                     <div className="p-6 border-b border-white/[0.06]">
                         <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                            <BarChart3 className="w-5 h-5 text-emerald-400" />
+                            <BarChart3 className="w-5 h-5 text-[#DA7756]" />
                             Results
                         </h3>
                     </div>
@@ -837,7 +837,7 @@ function ExperimentDetail({
                                         transition={{ delay: index * 0.1 }}
                                         className={`p-4 rounded-xl border transition-all cursor-pointer ${
                                             isWinner
-                                                ? 'border-emerald-500/50 bg-emerald-500/5'
+                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/5'
                                                 : 'border-white/[0.06] hover:border-white/[0.12]'
                                         }`}
                                         onClick={() => !experiment.winner && setSelectedWinner(variant.id)}
@@ -851,13 +851,13 @@ function ExperimentDetail({
                                                     </span>
                                                 )}
                                                 {isWinner && (
-                                                    <span className="px-2 py-0.5 rounded text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                                                    <span className="px-2 py-0.5 rounded text-xs bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/20 flex items-center gap-1">
                                                         <Trophy className="w-3 h-3" />
                                                         Winner
                                                     </span>
                                                 )}
                                                 {isLeading && !isWinner && (
-                                                    <span className="px-2 py-0.5 rounded text-xs bg-teal-500/20 text-teal-400 border border-teal-500/20">
+                                                    <span className="px-2 py-0.5 rounded text-xs bg-[#C15F3C]/20 text-[#C15F3C] border border-[#C15F3C]/20">
                                                         Leading
                                                     </span>
                                                 )}
@@ -877,7 +877,7 @@ function ExperimentDetail({
                                             <div>
                                                 <p className="text-sm text-slate-500 mb-1">Improvement</p>
                                                 <p className={`text-xl font-bold flex items-center gap-1 ${
-                                                    result.improvement > 0 ? 'text-emerald-400' :
+                                                    result.improvement > 0 ? 'text-[#DA7756]' :
                                                     result.improvement < 0 ? 'text-rose-400' : 'text-slate-400'
                                                 }`}>
                                                     {result.improvement > 0 ? <TrendingUp className="w-5 h-5" /> :
@@ -893,7 +893,7 @@ function ExperimentDetail({
                                             </div>
                                             <div>
                                                 <p className="text-sm text-slate-500 mb-1">Significant</p>
-                                                <p className={`text-xl font-bold ${result.isSignificant ? 'text-emerald-400' : 'text-slate-500'}`}>
+                                                <p className={`text-xl font-bold ${result.isSignificant ? 'text-[#DA7756]' : 'text-slate-500'}`}>
                                                     {result.isSignificant ? 'Yes' : 'No'}
                                                 </p>
                                             </div>
@@ -907,14 +907,14 @@ function ExperimentDetail({
                                             </div>
                                             <div className="h-2 bg-white/[0.05] rounded-full relative">
                                                 <div
-                                                    className="absolute h-full bg-emerald-500/30 rounded-full"
+                                                    className="absolute h-full bg-[#DA7756]/30 rounded-full"
                                                     style={{
                                                         left: `${Math.max(0, result.confidenceInterval[0] * 100 / 0.3)}%`,
                                                         width: `${Math.min(100, (result.confidenceInterval[1] - result.confidenceInterval[0]) * 100 / 0.3)}%`,
                                                     }}
                                                 />
                                                 <div
-                                                    className="absolute w-2 h-2 bg-emerald-500 rounded-full top-0"
+                                                    className="absolute w-2 h-2 bg-[#DA7756] rounded-full top-0"
                                                     style={{
                                                         left: `${Math.min(100, result.conversionRate * 100 / 0.3)}%`,
                                                         transform: 'translateX(-50%)',
@@ -932,7 +932,7 @@ function ExperimentDetail({
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.3 }}
-                                className="mt-6 p-4 bg-emerald-500/5 rounded-xl border border-emerald-500/20"
+                                className="mt-6 p-4 bg-[#DA7756]/5 rounded-xl border border-[#DA7756]/20"
                             >
                                 <h4 className="text-sm font-medium text-white mb-3">Bayesian Analysis</h4>
                                 <div className="flex items-center gap-4">
@@ -958,7 +958,7 @@ function ExperimentDetail({
                                                 <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${bayesian.treatmentProbability * 100}%` }}
-                                                    className="h-full bg-emerald-500 rounded-full"
+                                                    className="h-full bg-[#DA7756] rounded-full"
                                                 />
                                             </div>
                                             <span className="text-white font-medium text-sm">
@@ -1109,7 +1109,7 @@ function ExperimentCreate({
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 required
-                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                 placeholder="e.g., Onboarding Flow Test"
                             />
                         </div>
@@ -1120,7 +1120,7 @@ function ExperimentCreate({
                             <select
                                 value={targetAudience}
                                 onChange={(e) => setTargetAudience(e.target.value)}
-                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             >
                                 <option value="All Users">All Users</option>
                                 <option value="New Users">New Users</option>
@@ -1139,7 +1139,7 @@ function ExperimentCreate({
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             rows={2}
-                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
+                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all resize-none"
                             placeholder="What are you testing?"
                         />
                     </div>
@@ -1152,7 +1152,7 @@ function ExperimentCreate({
                             value={hypothesis}
                             onChange={(e) => setHypothesis(e.target.value)}
                             rows={2}
-                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all resize-none"
+                            className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all resize-none"
                             placeholder="What do you expect to happen?"
                         />
                     </div>
@@ -1163,7 +1163,7 @@ function ExperimentCreate({
                             <button
                                 type="button"
                                 onClick={addVariant}
-                                className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1"
+                                className="text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors flex items-center gap-1"
                             >
                                 <Plus className="w-4 h-4" />
                                 Add Variant
@@ -1183,7 +1183,7 @@ function ExperimentCreate({
                                         onChange={(e) => setVariants(variants.map(v =>
                                             v.id === variant.id ? { ...v, name: e.target.value } : v
                                         ))}
-                                        className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                        className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                         placeholder="Variant name"
                                     />
                                     <input
@@ -1192,7 +1192,7 @@ function ExperimentCreate({
                                         onChange={(e) => setVariants(variants.map(v =>
                                             v.id === variant.id ? { ...v, description: e.target.value } : v
                                         ))}
-                                        className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                        className="flex-1 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                         placeholder="Description"
                                     />
                                     <div className="flex items-center gap-2">
@@ -1202,7 +1202,7 @@ function ExperimentCreate({
                                             onChange={(e) => setVariants(variants.map(v =>
                                                 v.id === variant.id ? { ...v, trafficPercent: parseInt(e.target.value) || 0 } : v
                                             ))}
-                                            className="w-16 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-center focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                            className="w-16 px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.08] text-white text-center focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                             min={1}
                                             max={99}
                                         />
@@ -1239,7 +1239,7 @@ function ExperimentCreate({
                                 step={0.1}
                                 min={0.1}
                                 max={100}
-                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                         <div>
@@ -1253,7 +1253,7 @@ function ExperimentCreate({
                                 step={1}
                                 min={1}
                                 max={100}
-                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
                     </div>
@@ -1261,10 +1261,10 @@ function ExperimentCreate({
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="p-4 bg-emerald-500/5 rounded-xl border border-emerald-500/20"
+                        className="p-4 bg-[#DA7756]/5 rounded-xl border border-[#DA7756]/20"
                     >
                         <div className="flex items-center gap-3 mb-2">
-                            <Calculator className="w-5 h-5 text-emerald-400" />
+                            <Calculator className="w-5 h-5 text-[#DA7756]" />
                             <span className="text-white font-medium">Sample Size Required</span>
                         </div>
                         <p className="text-2xl font-bold text-white">
@@ -1328,7 +1328,7 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
             <Card variant="default" padding="none">
                 <div className="p-6 border-b border-white/[0.06]">
                     <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                        <Calculator className="w-5 h-5 text-emerald-400" />
+                        <Calculator className="w-5 h-5 text-[#DA7756]" />
                         Sample Size Calculator
                     </h2>
                     <p className="text-sm text-slate-500 mt-1">
@@ -1361,7 +1361,7 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
                                         min={item.min}
                                         max={item.max}
                                         step={item.step}
-                                        className="flex-1 accent-emerald-500"
+                                        className="flex-1 accent-[#DA7756]"
                                     />
                                     <span className="text-white font-medium w-16 text-right">{item.value}%</span>
                                 </div>
@@ -1377,7 +1377,7 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
                                 type="number"
                                 value={dailyTraffic}
                                 onChange={(e) => setDailyTraffic(parseInt(e.target.value) || 0)}
-                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                                className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                 placeholder="500"
                             />
                         </div>
@@ -1394,7 +1394,7 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
                                     min={10}
                                     max={100}
                                     step={5}
-                                    className="flex-1 accent-emerald-500"
+                                    className="flex-1 accent-[#DA7756]"
                                 />
                                 <span className="text-white font-medium w-16 text-right">{trafficAllocation}%</span>
                             </div>
@@ -1408,7 +1408,7 @@ function SampleSizeCalculator({ onBack }: { onBack: () => void }) {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="p-4 bg-emerald-500/10 rounded-xl border border-emerald-500/20"
+                            className="p-4 bg-[#DA7756]/10 rounded-xl border border-[#DA7756]/20"
                         >
                             <p className="text-sm text-slate-400 mb-1">Required Sample Size</p>
                             <p className="text-3xl font-bold text-white">

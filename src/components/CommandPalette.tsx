@@ -5,7 +5,7 @@
  *
  * Premium design with:
  * - Glassmorphism container
- * - Emerald accent theme
+ * - Warm orange accent theme (#DA7756)
  * - Animated transitions
  * - Noise texture background
  *
@@ -392,8 +392,8 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
 
                         {/* Search Input */}
                         <div className="flex items-center gap-3 px-4 py-4 border-b border-white/[0.06]">
-                            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <Search className="w-4 h-4 text-emerald-400" />
+                            <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <Search className="w-4 h-4 text-[#DA7756]" />
                             </div>
                             <input
                                 ref={inputRef}
@@ -455,14 +455,14 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                                         whileHover={{ x: 4 }}
                                                         className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
                                                             isSelected
-                                                                ? 'bg-emerald-500/10 border border-emerald-500/20'
+                                                                ? 'bg-[#DA7756]/10 border border-[#DA7756]/20'
                                                                 : 'border border-transparent hover:bg-white/[0.03]'
                                                         }`}
                                                     >
                                                         <div
                                                             className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                                                                 isSelected
-                                                                    ? 'bg-emerald-500/20 text-emerald-400'
+                                                                    ? 'bg-[#DA7756]/20 text-[#DA7756]'
                                                                     : 'bg-white/[0.03] text-slate-400'
                                                             }`}
                                                         >
@@ -484,7 +484,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                                             <kbd
                                                                 className={`hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border ${
                                                                     isSelected
-                                                                        ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
+                                                                        ? 'bg-[#DA7756]/10 border-[#DA7756]/20 text-[#DA7756]'
                                                                         : 'bg-white/[0.02] border-white/[0.06] text-slate-500'
                                                                 }`}
                                                                 aria-label={'Keyboard shortcut: ' + cmd.shortcut}

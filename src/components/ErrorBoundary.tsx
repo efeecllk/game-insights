@@ -163,7 +163,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
                         <button
                             onClick={this.handleRetry}
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 hover:border-emerald-500/40 text-emerald-400 font-medium rounded-xl transition-all"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#DA7756]/20 hover:bg-[#DA7756]/30 border border-[#DA7756]/30 hover:border-[#DA7756]/40 text-[#DA7756] font-medium rounded-xl transition-all"
                         >
                             <RefreshCw className="w-4 h-4" />
                             Try Again

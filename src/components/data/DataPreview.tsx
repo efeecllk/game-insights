@@ -195,9 +195,9 @@ export function DataPreview({
                 <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-4">
                         <div className="relative">
-                            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                            <div className="relative w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                <Table2 className="w-5 h-5 text-emerald-400" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                            <div className="relative w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <Table2 className="w-5 h-5 text-[#DA7756]" />
                             </div>
                         </div>
                         <div>
@@ -225,11 +225,11 @@ export function DataPreview({
                 {/* Quality Summary */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <QualityCard
-                        icon={<CheckCircle className="w-5 h-5 text-emerald-400" />}
+                        icon={<CheckCircle className="w-5 h-5 text-[#DA7756]" />}
                         label="Valid Rows"
                         value={totalRows - new Set(issues.map(i => i.row)).size}
                         total={totalRows}
-                        color="emerald"
+                        color="orange"
                     />
                     <QualityCard
                         icon={<AlertCircle className="w-5 h-5 text-rose-400" />}
@@ -265,7 +265,7 @@ export function DataPreview({
                             setCurrentPage(0);
                         }}
                         placeholder="Search data..."
-                        className="w-full pl-9 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        className="w-full pl-9 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -317,7 +317,7 @@ export function DataPreview({
                                             <ColumnTypeIcon type={col.type} />
                                             <span className="text-white">{col.name}</span>
                                             {sortColumn === col.name && (
-                                                <span className="text-emerald-400">
+                                                <span className="text-[#DA7756]">
                                                     {sortDirection === 'asc' ? '↑' : '↓'}
                                                 </span>
                                             )}
@@ -417,7 +417,7 @@ export function DataPreview({
                                         onClick={() => setCurrentPage(pageNum)}
                                         className={`w-8 h-8 rounded-lg text-sm font-medium transition-all ${
                                             currentPage === pageNum
-                                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                                ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                                 : 'text-slate-400 hover:bg-white/[0.06]'
                                         }`}
                                     >
@@ -447,8 +447,8 @@ export function DataPreview({
                 className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
             >
                 <h4 className="font-medium text-white mb-4 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <BarChart2 className="w-4 h-4 text-emerald-400" />
+                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                        <BarChart2 className="w-4 h-4 text-[#DA7756]" />
                     </div>
                     Column Statistics
                 </h4>
@@ -526,10 +526,10 @@ function QualityCard({
     value: number;
     total?: number;
     suffix?: string;
-    color: 'emerald' | 'rose' | 'amber' | 'blue';
+    color: 'orange' | 'rose' | 'amber' | 'blue';
 }) {
     const colorMap = {
-        emerald: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+        orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20' },
         rose: { bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
         amber: { bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
         blue: { bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
@@ -565,9 +565,9 @@ function ColumnTypeIcon({ type }: { type: ColumnStats['type'] }) {
         case 'date':
             return <Calendar className="w-4 h-4 text-violet-400" />;
         case 'boolean':
-            return <ToggleLeft className="w-4 h-4 text-emerald-400" />;
+            return <ToggleLeft className="w-4 h-4 text-[#DA7756]" />;
         case 'string':
-            return <Type className="w-4 h-4 text-orange-400" />;
+            return <Type className="w-4 h-4 text-[#C15F3C]" />;
         default:
             return <Info className="w-4 h-4 text-slate-400" />;
     }
@@ -606,7 +606,7 @@ function CellValue({
         case 'boolean':
             return (
                 <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                    value ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                    value ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                 }`}>
                     {value ? 'true' : 'false'}
                 </span>
@@ -650,7 +650,7 @@ function ColumnStatsCard({ column, totalRows }: { column: ColumnStats; totalRows
                                 initial={{ width: 0 }}
                                 animate={{ width: `${completeness}%` }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
-                                className={`h-full rounded-full ${completeness >= 95 ? 'bg-emerald-500' : completeness >= 80 ? 'bg-amber-500' : 'bg-rose-500'}`}
+                                className={`h-full rounded-full ${completeness >= 95 ? 'bg-[#DA7756]' : completeness >= 80 ? 'bg-amber-500' : 'bg-rose-500'}`}
                             />
                         </div>
                         <span className="text-xs font-medium text-white">{completeness}%</span>

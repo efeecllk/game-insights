@@ -2,79 +2,81 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Dark Theme (Default) - Gaming-Inspired Design System */
+/* ============================================================================
+   Claude Dark Theme - Warm, sophisticated dark theme inspired by Claude AI
+   ============================================================================ */
 :root {
-  /* Background Hierarchy - Deep space-like depth */
-  --color-bg-base: #08080c;
-  --color-bg-subtle: #0f0f15;
-  --color-bg-surface: #16161e;
-  --color-bg-surface-hover: #1e1e28;
-  --color-bg-elevated: #242430;
-  --color-bg-overlay: rgba(0, 0, 0, 0.75);
+  /* Background Hierarchy - Warm dark tones */
+  --color-bg-base: #1A1918;
+  --color-bg-subtle: #211F1E;
+  --color-bg-surface: #292725;
+  --color-bg-surface-hover: #33302D;
+  --color-bg-elevated: #3D3935;
+  --color-bg-overlay: rgba(26, 25, 24, 0.85);
 
-  /* Text Hierarchy - High contrast for gaming dashboards */
-  --color-text-primary: #f4f4f5;
-  --color-text-secondary: #a1a1aa;
-  --color-text-muted: #71717a;
-  --color-text-disabled: #52525b;
-  --color-text-inverse: #08080c;
+  /* Text Hierarchy - Warm whites and grays */
+  --color-text-primary: #FAF9F6;
+  --color-text-secondary: #C8C4BA;
+  --color-text-muted: #8F8B82;
+  --color-text-disabled: #5C5954;
+  --color-text-inverse: #1A1918;
 
-  /* Border Colors - Subtle glow effect */
-  --color-border-subtle: rgba(255, 255, 255, 0.04);
-  --color-border-default: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.12);
-  --color-border-focus: #a78bfa;
+  /* Border Colors - Subtle warm borders */
+  --color-border-subtle: rgba(250, 249, 246, 0.04);
+  --color-border-default: rgba(250, 249, 246, 0.08);
+  --color-border-strong: rgba(250, 249, 246, 0.15);
+  --color-border-focus: #DA7756;
 
-  /* Accent Colors - Vibrant gaming palette */
-  --color-accent-primary: #a78bfa;
-  --color-accent-primary-hover: #c4b5fd;
-  --color-accent-primary-muted: rgba(167, 139, 250, 0.12);
-  --color-accent-secondary: #818cf8;
-  --color-accent-secondary-hover: #a5b4fc;
+  /* Accent Colors - Claude's warm orange (Crail) */
+  --color-accent-primary: #DA7756;
+  --color-accent-primary-hover: #E8916F;
+  --color-accent-primary-muted: rgba(218, 119, 86, 0.15);
+  --color-accent-secondary: #C15F3C;
+  --color-accent-secondary-hover: #D4735A;
 
-  /* Semantic Colors - Neon-inspired */
-  --color-success: #4ade80;
-  --color-success-muted: rgba(74, 222, 128, 0.12);
-  --color-warning: #fbbf24;
-  --color-warning-muted: rgba(251, 191, 36, 0.12);
-  --color-error: #f87171;
-  --color-error-muted: rgba(248, 113, 113, 0.12);
-  --color-info: #60a5fa;
-  --color-info-muted: rgba(96, 165, 250, 0.12);
+  /* Semantic Colors - Warm-tinted */
+  --color-success: #6BBF59;
+  --color-success-muted: rgba(107, 191, 89, 0.12);
+  --color-warning: #E5A84B;
+  --color-warning-muted: rgba(229, 168, 75, 0.12);
+  --color-error: #E25C5C;
+  --color-error-muted: rgba(226, 92, 92, 0.12);
+  --color-info: #5B9BD5;
+  --color-info-muted: rgba(91, 155, 213, 0.12);
 
-  /* Chart Colors - Vibrant, distinguishable palette */
-  --color-chart-1: #a78bfa;
-  --color-chart-2: #818cf8;
-  --color-chart-3: #f472b6;
-  --color-chart-4: #22d3ee;
-  --color-chart-5: #4ade80;
-  --color-chart-6: #fb923c;
-  --color-chart-7: #f87171;
-  --color-chart-8: #c084fc;
+  /* Chart Colors - Warm, earthy palette */
+  --color-chart-1: #DA7756;
+  --color-chart-2: #C15F3C;
+  --color-chart-3: #E5A84B;
+  --color-chart-4: #6BBF59;
+  --color-chart-5: #5B9BD5;
+  --color-chart-6: #9B7ED9;
+  --color-chart-7: #E25C5C;
+  --color-chart-8: #B1ADA1;
 
   /* Interactive States */
-  --color-interactive-hover: rgba(255, 255, 255, 0.04);
-  --color-interactive-active: rgba(255, 255, 255, 0.06);
-  --color-interactive-selected: rgba(167, 139, 250, 0.15);
+  --color-interactive-hover: rgba(250, 249, 246, 0.04);
+  --color-interactive-active: rgba(250, 249, 246, 0.06);
+  --color-interactive-selected: rgba(218, 119, 86, 0.15);
 
-  /* Enhanced Shadows with color tinting */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 20px rgba(167, 139, 250, 0.15);
-  --shadow-glow-success: 0 0 20px rgba(74, 222, 128, 0.15);
-  --shadow-glow-error: 0 0 20px rgba(248, 113, 113, 0.15);
+  /* Enhanced Shadows with warm tinting */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 20px rgba(218, 119, 86, 0.2);
+  --shadow-glow-success: 0 0 20px rgba(107, 191, 89, 0.15);
+  --shadow-glow-error: 0 0 20px rgba(226, 92, 92, 0.15);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(22, 22, 30, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  /* Glassmorphism - Warmer glass effect */
+  --glass-bg: rgba(41, 39, 37, 0.8);
+  --glass-border: rgba(250, 249, 246, 0.08);
   --glass-blur: 12px;
 
-  /* Gradients */
-  --gradient-brand: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #60a5fa 100%);
-  --gradient-surface: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-  --gradient-glow: radial-gradient(ellipse at center, rgba(167, 139, 250, 0.15) 0%, transparent 70%);
+  /* Gradients - Warm orange gradient */
+  --gradient-brand: linear-gradient(135deg, #DA7756 0%, #C15F3C 50%, #A94D2D 100%);
+  --gradient-surface: linear-gradient(180deg, rgba(250, 249, 246, 0.02) 0%, transparent 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(218, 119, 86, 0.15) 0%, transparent 70%);
 
   /* Animation timing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -84,89 +86,91 @@
   --duration-slow: 400ms;
 
   /* Scrollbar */
-  --color-scrollbar-track: #0f0f15;
-  --color-scrollbar-thumb: #242430;
-  --color-scrollbar-thumb-hover: #a78bfa;
+  --color-scrollbar-track: #211F1E;
+  --color-scrollbar-thumb: #3D3935;
+  --color-scrollbar-thumb-hover: #DA7756;
 }
 
-/* Light Theme - Clean, professional variant */
+/* ============================================================================
+   Claude Light Theme - Warm cream/beige inspired by Claude AI (Pampas)
+   ============================================================================ */
 [data-theme="light"] {
-  /* Background Hierarchy */
-  --color-bg-base: #f8fafc;
-  --color-bg-subtle: #f1f5f9;
-  --color-bg-surface: #ffffff;
-  --color-bg-surface-hover: #f8fafc;
-  --color-bg-elevated: #ffffff;
-  --color-bg-overlay: rgba(15, 23, 42, 0.5);
+  /* Background Hierarchy - Warm cream tones (Pampas) */
+  --color-bg-base: #F4F3EE;
+  --color-bg-subtle: #EAE8E1;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-surface-hover: #FAF9F6;
+  --color-bg-elevated: #FFFFFF;
+  --color-bg-overlay: rgba(26, 25, 24, 0.4);
 
-  /* Text Hierarchy */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
-  --color-text-disabled: #cbd5e1;
-  --color-text-inverse: #ffffff;
+  /* Text Hierarchy - Warm dark browns */
+  --color-text-primary: #1A1918;
+  --color-text-secondary: #4A4641;
+  --color-text-muted: #8F8B82;
+  --color-text-disabled: #B1ADA1;
+  --color-text-inverse: #FAF9F6;
 
-  /* Border Colors */
-  --color-border-subtle: #f1f5f9;
-  --color-border-default: #e2e8f0;
-  --color-border-strong: #cbd5e1;
-  --color-border-focus: #8b5cf6;
+  /* Border Colors - Warm subtle borders */
+  --color-border-subtle: #EAE8E1;
+  --color-border-default: #DBD8CE;
+  --color-border-strong: #B1ADA1;
+  --color-border-focus: #C15F3C;
 
-  /* Accent Colors */
-  --color-accent-primary: #8b5cf6;
-  --color-accent-primary-hover: #7c3aed;
-  --color-accent-primary-muted: rgba(139, 92, 246, 0.08);
-  --color-accent-secondary: #6366f1;
-  --color-accent-secondary-hover: #4f46e5;
+  /* Accent Colors - Claude's Crail orange */
+  --color-accent-primary: #C15F3C;
+  --color-accent-primary-hover: #A94D2D;
+  --color-accent-primary-muted: rgba(193, 95, 60, 0.1);
+  --color-accent-secondary: #DA7756;
+  --color-accent-secondary-hover: #C15F3C;
 
-  /* Semantic Colors */
-  --color-success: #16a34a;
-  --color-success-muted: rgba(22, 163, 74, 0.08);
-  --color-warning: #d97706;
-  --color-warning-muted: rgba(217, 119, 6, 0.08);
-  --color-error: #dc2626;
-  --color-error-muted: rgba(220, 38, 38, 0.08);
-  --color-info: #2563eb;
-  --color-info-muted: rgba(37, 99, 235, 0.08);
+  /* Semantic Colors - Warm-tinted for light mode */
+  --color-success: #4A9F3D;
+  --color-success-muted: rgba(74, 159, 61, 0.1);
+  --color-warning: #C98A2E;
+  --color-warning-muted: rgba(201, 138, 46, 0.1);
+  --color-error: #C94141;
+  --color-error-muted: rgba(201, 65, 65, 0.1);
+  --color-info: #3A7BBF;
+  --color-info-muted: rgba(58, 123, 191, 0.1);
 
-  /* Chart Colors */
-  --color-chart-1: #8b5cf6;
-  --color-chart-2: #6366f1;
-  --color-chart-3: #ec4899;
-  --color-chart-4: #06b6d4;
-  --color-chart-5: #22c55e;
-  --color-chart-6: #f97316;
-  --color-chart-7: #ef4444;
-  --color-chart-8: #a855f7;
+  /* Chart Colors - Warm palette for light mode */
+  --color-chart-1: #C15F3C;
+  --color-chart-2: #DA7756;
+  --color-chart-3: #C98A2E;
+  --color-chart-4: #4A9F3D;
+  --color-chart-5: #3A7BBF;
+  --color-chart-6: #7B5CB8;
+  --color-chart-7: #C94141;
+  --color-chart-8: #8F8B82;
 
   /* Interactive States */
-  --color-interactive-hover: rgba(0, 0, 0, 0.03);
-  --color-interactive-active: rgba(0, 0, 0, 0.05);
-  --color-interactive-selected: rgba(139, 92, 246, 0.08);
+  --color-interactive-hover: rgba(26, 25, 24, 0.04);
+  --color-interactive-active: rgba(26, 25, 24, 0.06);
+  --color-interactive-selected: rgba(193, 95, 60, 0.1);
 
-  /* Enhanced Shadows for light mode */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.1);
-  --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.1);
-  --shadow-glow-success: 0 0 20px rgba(22, 163, 74, 0.1);
-  --shadow-glow-error: 0 0 20px rgba(220, 38, 38, 0.1);
+  /* Enhanced Shadows for light mode - warm tint */
+  --shadow-sm: 0 1px 2px rgba(26, 25, 24, 0.06);
+  --shadow-md: 0 4px 12px rgba(26, 25, 24, 0.08);
+  --shadow-lg: 0 8px 24px rgba(26, 25, 24, 0.1);
+  --shadow-xl: 0 16px 48px rgba(26, 25, 24, 0.12);
+  --shadow-glow: 0 0 20px rgba(193, 95, 60, 0.15);
+  --shadow-glow-success: 0 0 20px rgba(74, 159, 61, 0.1);
+  --shadow-glow-error: 0 0 20px rgba(201, 65, 65, 0.1);
 
   /* Glassmorphism for light mode */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(26, 25, 24, 0.06);
   --glass-blur: 12px;
 
-  /* Gradients */
-  --gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
-  --gradient-surface: linear-gradient(180deg, rgba(0,0,0,0.02) 0%, transparent 100%);
-  --gradient-glow: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+  /* Gradients - Warm orange gradient */
+  --gradient-brand: linear-gradient(135deg, #C15F3C 0%, #DA7756 50%, #E8916F 100%);
+  --gradient-surface: linear-gradient(180deg, rgba(26, 25, 24, 0.02) 0%, transparent 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(193, 95, 60, 0.1) 0%, transparent 70%);
 
   /* Scrollbar */
-  --color-scrollbar-track: #f1f5f9;
-  --color-scrollbar-thumb: #cbd5e1;
-  --color-scrollbar-thumb-hover: #8b5cf6;
+  --color-scrollbar-track: #EAE8E1;
+  --color-scrollbar-thumb: #B1ADA1;
+  --color-scrollbar-thumb-hover: #C15F3C;
 }
 
 * {

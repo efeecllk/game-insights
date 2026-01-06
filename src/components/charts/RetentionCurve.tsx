@@ -2,7 +2,7 @@
  * Retention Curve Chart - Obsidian Analytics Design
  *
  * Premium line chart with:
- * - Emerald gradient line styling
+ * - Warm gradient line styling (Claude palette)
  * - Refined tooltip design
  * - Smooth animations
  */
@@ -26,7 +26,7 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
         tooltip: {
             trigger: 'axis',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            borderColor: 'rgba(16, 185, 129, 0.2)',
+            borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
@@ -40,8 +40,8 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                 return `
                     <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${dataPoint.name}</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                        <span style="width: 8px; height: 8px; border-radius: 2px; background: linear-gradient(135deg, #10b981, #14b8a6);"></span>
-                        <span style="color: #e2e8f0; font-weight: 500;">Retention: <span style="color: #10b981; font-family: 'JetBrains Mono', monospace;">${dataPoint.value}%</span></span>
+                        <span style="width: 8px; height: 8px; border-radius: 2px; background: linear-gradient(135deg, #DA7756, #C15F3C);"></span>
+                        <span style="color: #e2e8f0; font-weight: 500;">Retention: <span style="color: #DA7756; font-family: 'JetBrains Mono', monospace;">${dataPoint.value}%</span></span>
                     </div>
                     ${benchmarkPoint ? `
                         <div style="display: flex; align-items: center; gap: 8px;">
@@ -111,17 +111,17 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                         type: 'linear',
                         x: 0, y: 0, x2: 1, y2: 0,
                         colorStops: [
-                            { offset: 0, color: '#10b981' },
-                            { offset: 0.5, color: '#14b8a6' },
-                            { offset: 1, color: '#06b6d4' },
+                            { offset: 0, color: '#DA7756' },
+                            { offset: 0.5, color: '#C15F3C' },
+                            { offset: 1, color: '#5B9BD5' },
                         ],
                     },
-                    shadowColor: 'rgba(16, 185, 129, 0.3)',
+                    shadowColor: 'rgba(218, 119, 86, 0.3)',
                     shadowBlur: 10,
                     shadowOffsetY: 4,
                 },
                 itemStyle: {
-                    color: '#10b981',
+                    color: '#DA7756',
                     borderColor: '#0f172a',
                     borderWidth: 3,
                 },
@@ -130,9 +130,9 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(16, 185, 129, 0.2)' },
-                            { offset: 0.5, color: 'rgba(16, 185, 129, 0.05)' },
-                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+                            { offset: 0, color: 'rgba(218, 119, 86, 0.2)' },
+                            { offset: 0.5, color: 'rgba(218, 119, 86, 0.05)' },
+                            { offset: 1, color: 'rgba(218, 119, 86, 0)' },
                         ],
                     },
                 },
@@ -183,12 +183,12 @@ export function RetentionCurve({ data, config, className, bare = false }: Retent
                             {config?.subtitle ?? 'Track how users return over time'}
                         </p>
                     </div>
-                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                    <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20">
                         <span className="relative flex h-1.5 w-1.5">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E8957A] opacity-75" />
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#DA7756]" />
                         </span>
-                        <span className="text-[10px] font-medium text-emerald-400 uppercase tracking-wider">Live</span>
+                        <span className="text-[10px] font-medium text-[#E8957A] uppercase tracking-wider">Live</span>
                     </div>
                 </div>
 

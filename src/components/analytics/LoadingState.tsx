@@ -4,7 +4,7 @@
  * Premium loading state with:
  * - Glassmorphism container
  * - Animated progress steps
- * - Emerald accent colors
+ * - Claude orange accent colors
  * - Smooth animations
  */
 
@@ -80,8 +80,8 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                     className="flex justify-center mb-6"
                 >
                     <div className="relative">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-pulse" />
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-2xl animate-pulse" />
+                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756] to-[#C15F3C] rounded-2xl flex items-center justify-center shadow-lg shadow-[#DA7756]/20">
                             <Loader2 className="w-8 h-8 text-white animate-spin" />
                         </div>
                     </div>
@@ -112,18 +112,18 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                 variants={itemVariants}
                                 className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
                                     isCurrent
-                                        ? 'bg-emerald-500/10 border border-emerald-500/30'
+                                        ? 'bg-[#DA7756]/10 border border-[#DA7756]/30'
                                         : isComplete
-                                        ? 'bg-teal-500/10 border border-teal-500/30'
+                                        ? 'bg-[#C15F3C]/10 border border-[#C15F3C]/30'
                                         : 'bg-white/[0.02] border border-white/[0.06]'
                                 }`}
                             >
                                 <div
                                     className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                                         isCurrent
-                                            ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                                            ? 'bg-[#DA7756] text-white shadow-lg shadow-[#DA7756]/30'
                                             : isComplete
-                                            ? 'bg-teal-500 text-white shadow-lg shadow-teal-500/30'
+                                            ? 'bg-[#C15F3C] text-white shadow-lg shadow-[#C15F3C]/30'
                                             : 'bg-white/[0.05] text-slate-500'
                                     }`}
                                 >
@@ -138,9 +138,9 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                 <span
                                     className={`text-sm font-medium transition-colors ${
                                         isCurrent
-                                            ? 'text-emerald-400'
+                                            ? 'text-[#DA7756]'
                                             : isComplete
-                                            ? 'text-teal-400'
+                                            ? 'text-[#C15F3C]'
                                             : 'text-slate-500'
                                     }`}
                                 >
@@ -162,7 +162,7 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.max(progress, 5)}%` }}
                             transition={{ duration: 0.5, ease: 'easeOut' }}
-                            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+                            className="h-full bg-gradient-to-r from-[#DA7756] to-[#C15F3C] rounded-full"
                         />
                     </div>
                 </motion.div>

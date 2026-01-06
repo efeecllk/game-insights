@@ -2,7 +2,7 @@
  * Funnel Chart - Obsidian Analytics Design
  *
  * Premium funnel visualization with:
- * - Emerald-teal gradient color scheme
+ * - Warm gradient color scheme (Claude palette)
  * - Refined tooltip design
  * - Drop-off indicators with premium styling
  */
@@ -20,11 +20,11 @@ interface FunnelChartProps {
     bare?: boolean;
 }
 
-// Emerald gradient color palette
+// Warm gradient color palette (Claude palette)
 const FUNNEL_COLORS = [
-    ['#10b981', '#059669'], // emerald-500 to emerald-600
-    ['#14b8a6', '#0d9488'], // teal-500 to teal-600
-    ['#06b6d4', '#0891b2'], // cyan-500 to cyan-600
+    ['#DA7756', '#B84E32'], // warm orange
+    ['#C15F3C', '#A34D2A'], // deep terracotta
+    ['#5B9BD5', '#4A89C2'], // soft blue
     ['#0ea5e9', '#0284c7'], // sky-500 to sky-600
     ['#3b82f6', '#2563eb'], // blue-500 to blue-600
     ['#6366f1', '#4f46e5'], // indigo-500 to indigo-600
@@ -36,7 +36,7 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
         tooltip: {
             trigger: 'item',
             backgroundColor: 'rgba(15, 23, 42, 0.95)',
-            borderColor: 'rgba(16, 185, 129, 0.2)',
+            borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
             textStyle: {
@@ -48,7 +48,7 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
                 return `
                     <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 8px;">${p.name}</div>
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                        <span style="color: #10b981; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">${p.data.percentage}%</span>
+                        <span style="color: #DA7756; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600;">${p.data.percentage}%</span>
                         <span style="color: #94a3b8;">of users</span>
                     </div>
                     ${p.data.dropOff ? `
@@ -107,7 +107,7 @@ export function FunnelChart({ data, config, className, bare = false }: FunnelCha
                     },
                     itemStyle: {
                         shadowBlur: 20,
-                        shadowColor: 'rgba(16, 185, 129, 0.3)',
+                        shadowColor: 'rgba(218, 119, 86, 0.3)',
                     },
                 },
                 data: data.map((step, index) => {

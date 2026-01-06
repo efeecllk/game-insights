@@ -619,7 +619,7 @@ export function ErrorResolutionGuide({
             {/* Resolution Steps */}
             <div className="p-4">
                 <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-emerald-400" />
+                    <CheckCircle className="w-4 h-4 text-[#DA7756]" />
                     Resolution Steps
                 </h4>
                 <div className="space-y-2">
@@ -631,7 +631,7 @@ export function ErrorResolutionGuide({
                             transition={{ delay: idx * 0.1 }}
                             className={`rounded-xl border transition-colors ${
                                 completedSteps.has(idx)
-                                    ? 'bg-emerald-500/5 border-emerald-500/20'
+                                    ? 'bg-[#DA7756]/5 border-[#DA7756]/20'
                                     : 'bg-white/[0.02] border-white/[0.06]'
                             }`}
                         >
@@ -648,14 +648,14 @@ export function ErrorResolutionGuide({
                                     }}
                                     className={`w-6 h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                                         completedSteps.has(idx)
-                                            ? 'bg-emerald-500 border-emerald-500 text-white'
-                                            : 'border-white/[0.2] hover:border-emerald-500/50'
+                                            ? 'bg-[#DA7756] border-[#DA7756] text-white'
+                                            : 'border-white/[0.2] hover:border-[#DA7756]/50'
                                     }`}
                                 >
                                     {completedSteps.has(idx) && <Check className="w-3 h-3" />}
                                 </motion.button>
                                 <div className="flex-1 min-w-0">
-                                    <span className={`font-medium ${completedSteps.has(idx) ? 'text-emerald-400' : 'text-white'}`}>
+                                    <span className={`font-medium ${completedSteps.has(idx) ? 'text-[#DA7756]' : 'text-white'}`}>
                                         Step {idx + 1}: {step.title}
                                     </span>
                                 </div>
@@ -698,8 +698,8 @@ export function ErrorResolutionGuide({
             {/* Prevention Tips */}
             {errorPattern.preventionTips && (
                 <div className="px-4 pb-4">
-                    <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-xl">
-                        <h4 className="text-sm font-medium text-emerald-400 mb-3 flex items-center gap-2">
+                    <div className="p-4 bg-[#DA7756]/5 border border-[#DA7756]/20 rounded-xl">
+                        <h4 className="text-sm font-medium text-[#DA7756] mb-3 flex items-center gap-2">
                             <Lightbulb className="w-4 h-4" />
                             Prevention Tips
                         </h4>
@@ -712,7 +712,7 @@ export function ErrorResolutionGuide({
                                     transition={{ delay: 0.3 + idx * 0.05 }}
                                     className="flex items-start gap-2 text-sm text-slate-400"
                                 >
-                                    <span className="text-emerald-500 mt-0.5">•</span>
+                                    <span className="text-[#DA7756] mt-0.5">•</span>
                                     {tip}
                                 </motion.li>
                             ))}
@@ -728,7 +728,7 @@ export function ErrorResolutionGuide({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onRetry}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-medium hover:bg-emerald-600 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-[#DA7756] text-white rounded-xl text-sm font-medium hover:bg-[#C15F3C] transition-colors"
                     >
                         <RefreshCw className="w-4 h-4" />
                         Retry Connection
@@ -798,8 +798,8 @@ function StepAction({
                 >
                     {copiedText === action.value ? (
                         <>
-                            <Check className="w-4 h-4 text-emerald-400" />
-                            <span className="text-emerald-400">Copied!</span>
+                            <Check className="w-4 h-4 text-[#DA7756]" />
+                            <span className="text-[#DA7756]">Copied!</span>
                         </>
                     ) : (
                         <>
@@ -816,7 +816,7 @@ function StepAction({
                     href={action.value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-emerald-400 hover:bg-white/[0.06] transition-colors"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-[#DA7756] hover:bg-white/[0.06] transition-colors"
                 >
                     <ExternalLink className="w-4 h-4" />
                     {action.label}
@@ -829,7 +829,7 @@ function StepAction({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={action.value === 'edit' ? onEditConnection : action.onClick}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-sm text-emerald-400 hover:bg-emerald-500/20 transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-lg text-sm text-[#DA7756] hover:bg-[#DA7756]/20 transition-colors"
                 >
                     {action.label}
                 </motion.button>
@@ -896,7 +896,7 @@ function GenericErrorGuide({
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={onRetry}
-                                className="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-medium hover:bg-emerald-600 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2.5 bg-[#DA7756] text-white rounded-xl text-sm font-medium hover:bg-[#C15F3C] transition-colors"
                             >
                                 <RefreshCw className="w-4 h-4" />
                                 Retry

@@ -3,7 +3,7 @@
  *
  * Displays metric trends with:
  * - Glassmorphism containers
- * - Emerald accent colors
+ * - Orange accent colors
  * - Framer Motion animations
  * - Premium chart styling
  */
@@ -51,7 +51,7 @@ interface MetricItem {
 
 // Category colors - Obsidian theme
 const CATEGORY_COLORS: Record<MetricCategory, { bg: string; text: string; chart: string; border: string }> = {
-    retention: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', chart: '#10b981', border: 'border-emerald-500/20' },
+    retention: { bg: 'bg-[#DA7756]/10', text: 'text-[#DA7756]', chart: '#DA7756', border: 'border-[#DA7756]/20' },
     engagement: { bg: 'bg-blue-500/10', text: 'text-blue-400', chart: '#3b82f6', border: 'border-blue-500/20' },
     monetization: { bg: 'bg-amber-500/10', text: 'text-amber-400', chart: '#f59e0b', border: 'border-amber-500/20' },
     progression: { bg: 'bg-violet-500/10', text: 'text-violet-400', chart: '#8b5cf6', border: 'border-violet-500/20' },
@@ -184,7 +184,7 @@ function MetricCard({
         <motion.div
             layout
             className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-xl border overflow-hidden transition-all ${
-                isExpanded ? 'border-emerald-500/30 ring-1 ring-emerald-500/20' : 'border-white/[0.08]'
+                isExpanded ? 'border-[#DA7756]/30 ring-1 ring-[#DA7756]/20' : 'border-white/[0.08]'
             }`}
         >
             {/* Header */}
@@ -206,7 +206,7 @@ function MetricCard({
                                 </span>
                                 {benchmarkStatus && (
                                     <span className={`px-2 py-0.5 text-xs rounded-full ${
-                                        benchmarkStatus === 'great' ? 'bg-emerald-500/10 text-emerald-400' :
+                                        benchmarkStatus === 'great' ? 'bg-[#DA7756]/10 text-[#DA7756]' :
                                         benchmarkStatus === 'good' ? 'bg-blue-500/10 text-blue-400' :
                                         'bg-amber-500/10 text-amber-400'
                                     }`}>
@@ -227,7 +227,7 @@ function MetricCard({
                             </p>
                             {metric.trend && (
                                 <div className={`flex items-center justify-end gap-1 text-xs ${
-                                    metric.trend === 'up' ? 'text-emerald-400' :
+                                    metric.trend === 'up' ? 'text-[#DA7756]' :
                                     metric.trend === 'down' ? 'text-rose-400' : 'text-slate-400'
                                 }`}>
                                     {metric.trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
@@ -324,15 +324,15 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
                 smooth: true,
                 symbol: 'circle',
                 symbolSize: 8,
-                lineStyle: { color: '#10b981', width: 3 },
-                itemStyle: { color: '#10b981' },
+                lineStyle: { color: '#DA7756', width: 3 },
+                itemStyle: { color: '#DA7756' },
                 areaStyle: {
                     color: {
                         type: 'linear',
                         x: 0, y: 0, x2: 0, y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(16, 185, 129, 0.3)' },
-                            { offset: 1, color: 'rgba(16, 185, 129, 0.05)' },
+                            { offset: 0, color: 'rgba(218, 119, 86, 0.3)' },
+                            { offset: 1, color: 'rgba(218, 119, 86, 0.05)' },
                         ],
                     },
                 },
@@ -344,8 +344,8 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
                 smooth: true,
                 symbol: 'diamond',
                 symbolSize: 8,
-                lineStyle: { color: '#14b8a6', width: 2, type: 'dashed' },
-                itemStyle: { color: '#14b8a6' },
+                lineStyle: { color: '#C15F3C', width: 2, type: 'dashed' },
+                itemStyle: { color: '#C15F3C' },
             },
         ],
         tooltip: {
@@ -362,19 +362,19 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
             className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
         >
             <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                    <Target className="w-5 h-5 text-emerald-400" />
+                <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                    <Target className="w-5 h-5 text-[#DA7756]" />
                 </div>
                 <h3 className="font-semibold text-white">Retention Curve</h3>
             </div>
             <ReactECharts option={option} style={{ height: 280 }} />
             <div className="mt-4 flex items-center justify-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                    <div className="w-3 h-3 rounded-full bg-[#DA7756]" />
                     <span className="text-slate-400">Classic (exact day)</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-teal-500" />
+                    <div className="w-3 h-3 rounded-full bg-[#C15F3C]" />
                     <span className="text-slate-400">Rolling (day or after)</span>
                 </div>
             </div>
@@ -482,7 +482,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                     format: 'percent',
                     category: 'retention',
                     icon: Target,
-                    color: '#10b981',
+                    color: '#DA7756',
                     description: 'Percentage of users who return exactly on day 1 after first activity',
                 });
             }
@@ -494,7 +494,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                     format: 'percent',
                     category: 'retention',
                     icon: Target,
-                    color: '#10b981',
+                    color: '#DA7756',
                     description: 'Percentage of users who return exactly on day 7 after first activity',
                 });
             }
@@ -506,7 +506,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                     format: 'percent',
                     category: 'retention',
                     icon: Target,
-                    color: '#10b981',
+                    color: '#DA7756',
                     description: 'Percentage of users who return exactly on day 30 after first activity',
                 });
             }
@@ -517,7 +517,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 format: 'percent',
                 category: 'retention',
                 icon: Activity,
-                color: '#10b981',
+                color: '#DA7756',
                 description: 'Percentage of users who returned at least once after first session',
             });
         }
@@ -666,8 +666,8 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
         return (
             <div className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 ${className ?? ''}`}>
                 <div className="text-center">
-                    <div className="w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <BarChart3 className="w-8 h-8 text-emerald-400" />
+                    <div className="w-16 h-16 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <BarChart3 className="w-8 h-8 text-[#DA7756]" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">No Metrics Available</h3>
                     <p className="text-slate-400">
@@ -689,9 +689,9 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                            <LineChart className="w-6 h-6 text-emerald-400" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
+                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <LineChart className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </div>
                     <div>
@@ -710,7 +710,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                             onClick={() => setSelectedCategory(cat)}
                             className={`px-4 py-2 text-sm rounded-lg transition-all ${
                                 selectedCategory === cat
-                                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                    ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                     : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                             }`}
                         >
@@ -733,7 +733,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             {/* Metric Cards */}
             <motion.div variants={itemVariants} className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                    <Sparkles className="w-4 h-4 text-[#DA7756]" />
                     <h3 className="font-semibold text-white">Detailed Metrics</h3>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -766,11 +766,11 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                     className="flex items-center justify-between text-sm text-slate-400 bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3"
                 >
                     <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-emerald-400" />
+                        <Calendar className="w-4 h-4 text-[#DA7756]" />
                         <span>Data range: {metrics.dataRange.start} to {metrics.dataRange.end}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <span>Confidence: <span className="text-emerald-400 font-medium">{(metrics.confidence * 100).toFixed(0)}%</span></span>
+                        <span>Confidence: <span className="text-[#DA7756] font-medium">{(metrics.confidence * 100).toFixed(0)}%</span></span>
                     </div>
                 </motion.div>
             )}

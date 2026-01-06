@@ -3,7 +3,7 @@
  *
  * Premium live analytics dashboard with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme
  * - Animated entrance effects
  * - Live pulse indicators
  */
@@ -53,12 +53,12 @@ function generateLiveData(base: number, variance: number) {
     return Math.floor(base + (Math.random() - 0.5) * variance);
 }
 
-// Live chart configurations with emerald theme
+// Live chart configurations with warm orange theme
 const liveCharts = [
-    { id: 'newUsers', title: 'New Users', icon: UserPlus, color: '#10b981', baseValue: 280, variance: 100 },
-    { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#14b8a6', baseValue: 420, variance: 150 },
-    { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#06b6d4', baseValue: 180, variance: 80 },
-    { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#22c55e', baseValue: 150, variance: 100, prefix: '$' },
+    { id: 'newUsers', title: 'New Users', icon: UserPlus, color: '#DA7756', baseValue: 280, variance: 100 },
+    { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#C15F3C', baseValue: 420, variance: 150 },
+    { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#5B9BD5', baseValue: 180, variance: 80 },
+    { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#DA7756', baseValue: 150, variance: 100, prefix: '$' },
     { id: 'transactions', title: 'Transactions', icon: Activity, color: '#f59e0b', baseValue: 28, variance: 15 },
     { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#8b5cf6', baseValue: 850, variance: 200 },
 ];
@@ -131,9 +131,9 @@ export function RealtimePage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
-                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
-                                    <Activity className="w-6 h-6 text-emerald-400" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center">
+                                    <Activity className="w-6 h-6 text-[#DA7756]" />
                                 </div>
                             </motion.div>
                             <div>
@@ -146,11 +146,11 @@ export function RealtimePage() {
                                         <motion.span
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full"
+                                            className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] rounded-full"
                                         >
                                             <span className="relative flex h-2 w-2">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DA7756] opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DA7756]"></span>
                                             </span>
                                             Live
                                         </motion.span>
@@ -167,7 +167,7 @@ export function RealtimePage() {
                             onClick={() => setIsLive(!isLive)}
                             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                                 isLive
-                                    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
+                                    ? 'bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] hover:bg-[#DA7756]/20'
                                     : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06]'
                             }`}
                         >
@@ -228,14 +228,14 @@ export function RealtimePage() {
                         {activeTab === tab && (
                             <motion.div
                                 layoutId="activeRealtimeTab"
-                                className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-lg"
+                                className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-lg"
                                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                             />
                         )}
                         <span className="relative flex items-center gap-2">
                             {tab === 'live' && (
                                 <>
-                                    <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-600'}`} />
+                                    <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-[#DA7756] animate-pulse' : 'bg-slate-600'}`} />
                                     Live Events
                                 </>
                             )}
@@ -363,9 +363,9 @@ function LiveChart({ title, icon: Icon, color, data, timestamps, isLive, index }
                             <motion.span
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
+                                className="text-[10px] bg-[#DA7756]/10 text-[#DA7756] px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
                             >
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756] animate-pulse" />
                                 Live
                             </motion.span>
                         )}
@@ -463,8 +463,8 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
                         </div>
                         <h3 className="font-medium text-white">Error Events</h3>
                         {isLive && (
-                            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="text-[10px] bg-[#DA7756]/10 text-[#DA7756] px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756] animate-pulse" />
                                 Live
                             </span>
                         )}
@@ -484,7 +484,7 @@ function SDKStatusTab() {
             value: '99.9%',
             subtitle: 'Uptime last 24h',
             icon: Wifi,
-            color: 'emerald',
+            color: 'orange',
             status: 'healthy',
         },
         {
@@ -504,11 +504,11 @@ function SDKStatusTab() {
     ];
 
     const colorStyles: Record<string, { bg: string; border: string; icon: string; glow: string }> = {
-        emerald: {
-            bg: 'from-emerald-500/20 to-emerald-500/5',
-            border: 'border-emerald-500/20',
-            icon: 'text-emerald-400',
-            glow: 'bg-emerald-500/20',
+        orange: {
+            bg: 'from-[#DA7756]/20 to-[#DA7756]/5',
+            border: 'border-[#DA7756]/20',
+            icon: 'text-[#DA7756]',
+            glow: 'bg-[#DA7756]/20',
         },
         blue: {
             bg: 'from-blue-500/20 to-blue-500/5',
@@ -545,7 +545,7 @@ function SDKStatusTab() {
                                 </div>
                                 <h3 className="font-medium text-white">{card.title}</h3>
                                 {card.status === 'healthy' && (
-                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                    <span className="w-2 h-2 rounded-full bg-[#DA7756] animate-pulse" />
                                 )}
                             </div>
                             <div className={`text-3xl font-bold ${style.icon}`}>{card.value}</div>

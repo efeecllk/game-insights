@@ -158,7 +158,7 @@ function ThresholdSlider({
                 step={step}
                 value={value}
                 onChange={(e) => onChange(parseFloat(e.target.value))}
-                className="w-full h-2 bg-white/[0.06] rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                className="w-full h-2 bg-white/[0.06] rounded-lg appearance-none cursor-pointer accent-[#DA7756]"
             />
             <p className="text-xs text-slate-500">{description}</p>
         </div>
@@ -394,7 +394,7 @@ export function AnomalyConfigPanel() {
                                             onClick={() => handleConfigChange('granularity', g)}
                                             className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                                                 config.granularity === g
-                                                    ? 'bg-emerald-500 text-white'
+                                                    ? 'bg-[#DA7756] text-white'
                                                     : 'bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] border border-white/[0.06]'
                                             }`}
                                         >
@@ -424,18 +424,18 @@ export function AnomalyConfigPanel() {
                                                 onClick={() => handleMetricToggle(metric.value)}
                                                 className={`p-3 rounded-xl border text-left transition-all ${
                                                     isSelected
-                                                        ? 'bg-emerald-500/10 border-emerald-500/30'
+                                                        ? 'bg-[#DA7756]/10 border-[#DA7756]/30'
                                                         : 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]'
                                                 }`}
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <span className={`text-sm font-medium ${
-                                                        isSelected ? 'text-emerald-400' : 'text-slate-300'
+                                                        isSelected ? 'text-[#DA7756]' : 'text-slate-300'
                                                     }`}>
                                                         {metric.label}
                                                     </span>
                                                     {isSelected && (
-                                                        <Check className="w-4 h-4 text-emerald-400" />
+                                                        <Check className="w-4 h-4 text-[#DA7756]" />
                                                     )}
                                                 </div>
                                                 <p className="text-xs text-slate-500 mt-1">
@@ -466,7 +466,7 @@ export function AnomalyConfigPanel() {
                                     disabled={!hasChanges}
                                     className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium transition-all ${
                                         hasChanges
-                                            ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+                                            ? 'bg-[#DA7756] text-white hover:bg-[#C15F3C]'
                                             : 'bg-white/[0.03] text-slate-600 cursor-not-allowed'
                                     }`}
                                 >

@@ -3,7 +3,7 @@
  *
  * Premium dashboard with:
  * - Glassmorphism containers
- * - Emerald accent theme
+ * - Warm orange accent theme (Claude brand colors)
  * - Animated tab indicator
  * - Staggered entrance animations
  * - Noise texture backgrounds
@@ -93,9 +93,9 @@ export function OverviewPage() {
                             whileHover={{ scale: 1.05 }}
                             transition={{ type: 'spring', stiffness: 400 }}
                         >
-                            <div className="absolute inset-0 bg-emerald-500/30 rounded-xl blur-lg" />
-                            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center">
-                                <Gamepad2 className="w-7 h-7 text-emerald-400" />
+                            <div className="absolute inset-0 bg-[#DA7756]/30 rounded-xl blur-lg" />
+                            <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center">
+                                <Gamepad2 className="w-7 h-7 text-[#DA7756]" />
                             </div>
                         </motion.div>
 
@@ -129,13 +129,13 @@ export function OverviewPage() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.3, type: 'spring' }}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full"
+                            className="flex items-center gap-2 px-3 py-1.5 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-full"
                         >
                             <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DA7756] opacity-75" />
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DA7756]" />
                             </span>
-                            <span className="text-xs font-medium text-emerald-400">Live</span>
+                            <span className="text-xs font-medium text-[#DA7756]">Live</span>
                         </motion.div>
                     </div>
                 </Card>
@@ -160,7 +160,7 @@ export function OverviewPage() {
                             {activeTab === tab && (
                                 <motion.div
                                     layoutId="activeTab"
-                                    className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-lg"
+                                    className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-lg"
                                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                 />
                             )}
@@ -189,8 +189,8 @@ export function OverviewPage() {
                         <Card variant="default" padding="none">
                             <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                                        <Zap className="w-4 h-4 text-emerald-400" />
+                                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                        <Zap className="w-4 h-4 text-[#DA7756]" />
                                     </div>
                                     <h2 className="font-display font-semibold text-white">
                                         {t('pages.overview.sections.overview')}
@@ -198,7 +198,7 @@ export function OverviewPage() {
                                 </div>
                                 <motion.button
                                     whileHover={{ x: 4 }}
-                                    className="flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                                    className="flex items-center gap-1 text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors"
                                 >
                                     {t('pages.overview.sections.explorer')}
                                     <ArrowUpRight className="w-4 h-4" />
@@ -233,12 +233,12 @@ export function OverviewPage() {
                                     >
                                         <Info className="w-4 h-4" />
                                     </motion.button>
-                                    <span className="flex items-center gap-1.5 px-2 py-0.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                                    <span className="flex items-center gap-1.5 px-2 py-0.5 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-full">
                                         <span className="relative flex h-1.5 w-1.5">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DA7756] opacity-75" />
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#DA7756]" />
                                         </span>
-                                        <span className="text-[10px] font-medium text-emerald-400 uppercase tracking-wide">
+                                        <span className="text-[10px] font-medium text-[#DA7756] uppercase tracking-wide">
                                             {t('common.live')}
                                         </span>
                                     </span>
@@ -325,11 +325,11 @@ function ActiveUsersChart({
                 symbol: 'circle',
                 symbolSize: 6,
                 lineStyle: {
-                    color: '#10b981',
+                    color: '#DA7756',
                     width: 2,
                 },
                 itemStyle: {
-                    color: '#10b981',
+                    color: '#DA7756',
                     borderColor: '#0f172a',
                     borderWidth: 2,
                 },
@@ -341,8 +341,8 @@ function ActiveUsersChart({
                         x2: 0,
                         y2: 1,
                         colorStops: [
-                            { offset: 0, color: 'rgba(16, 185, 129, 0.2)' },
-                            { offset: 1, color: 'rgba(16, 185, 129, 0)' },
+                            { offset: 0, color: 'rgba(218, 119, 86, 0.2)' },
+                            { offset: 1, color: 'rgba(218, 119, 86, 0)' },
                         ],
                     },
                 },
@@ -357,7 +357,7 @@ function ActiveUsersChart({
             </div>
             <div className="text-right pb-8">
                 <div className="flex items-center gap-2 text-sm text-slate-500">
-                    <span className="w-3 h-0.5 bg-emerald-500 rounded" aria-hidden="true" />
+                    <span className="w-3 h-0.5 bg-[#DA7756] rounded" aria-hidden="true" />
                     <span>{t('common.time')}</span>
                 </div>
             </div>
@@ -368,9 +368,9 @@ function ActiveUsersChart({
 function IntegrationTab() {
     const eventTypes = [
         { name: 'Resource events', count: 988, color: 'bg-sky-500' },
-        { name: 'Progression events', count: 563634, color: 'bg-emerald-500' },
+        { name: 'Progression events', count: 563634, color: 'bg-[#DA7756]' },
         { name: 'Health events', count: null, status: 'Not tracking', color: 'bg-slate-600' },
-        { name: 'Design events', count: 286378, color: 'bg-teal-500' },
+        { name: 'Design events', count: 286378, color: 'bg-[#C15F3C]' },
         { name: 'Business events', count: 229, color: 'bg-amber-500' },
         { name: 'Ad events', count: 5264, color: 'bg-violet-500' },
         { name: 'Impression events', count: 511, color: 'bg-rose-500' },
@@ -391,7 +391,7 @@ function IntegrationTab() {
                         </h3>
                         <motion.button
                             whileHover={{ x: 4 }}
-                            className="flex items-center gap-1 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+                            className="flex items-center gap-1 text-sm text-[#DA7756] hover:text-[#C15F3C] transition-colors"
                         >
                             Event types
                             <ArrowUpRight className="w-4 h-4" />
@@ -433,7 +433,7 @@ function IntegrationTab() {
                         className="py-8"
                     >
                         <div className="relative inline-block mb-4">
-                            <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
                             <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] flex items-center justify-center mx-auto">
                                 <span className="text-3xl" role="img" aria-label="Chart placeholder">
                                     📊

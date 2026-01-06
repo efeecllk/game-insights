@@ -256,7 +256,7 @@ export function WhatIfPage() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="mt-3 flex items-center gap-2 text-xs text-emerald-400"
+                        className="mt-3 flex items-center gap-2 text-xs text-[#DA7756]"
                     >
                         <Database className="w-3.5 h-3.5" />
                         Baseline metrics calculated from your uploaded data
@@ -449,7 +449,7 @@ function ScenarioCard({
                     {impact && (
                         <div className={`text-xs mt-1.5 flex items-center gap-1 ${
                             isNeutral ? 'text-slate-400' :
-                            isPositive ? 'text-emerald-400' : 'text-rose-400'
+                            isPositive ? 'text-[#DA7756]' : 'text-rose-400'
                         }`}>
                             {!isNeutral && (
                                 isPositive
