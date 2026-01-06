@@ -1,12 +1,16 @@
 /**
- * Data Hub Page
- * Unified data connection hub - the single entry point for all data import methods
- * Phase 3: Data Sources - Streamlined Data Connection & Management
- * Phase 8: Enhanced error handling with user-friendly messages
+ * Data Hub Page - Obsidian Analytics Design
+ *
+ * Premium data connection hub with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Refined integration cards
  */
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Upload,
     Plug,
@@ -26,7 +30,6 @@ import {
     FileSpreadsheet,
     CloudLightning,
     Check,
-    Settings,
     Activity,
 } from 'lucide-react';
 import { useIntegrations } from '../context/IntegrationContext';
@@ -36,12 +39,29 @@ import {
     Integration,
     IntegrationType,
     INTEGRATION_CATALOG,
-    IntegrationCatalogItem,
     formatLastSync,
-    getStatusIcon,
     getIntegrationIcon,
 } from '../lib/integrationStore';
-import { ConnectionWizard, ConnectionHealth } from '../components/data';
+import { ConnectionWizard } from '../components/data';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
 
 // ============================================================================
 // Main Page Component
@@ -73,298 +93,254 @@ export function DataHubPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" />
+                <div className="relative">
+                    <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl animate-pulse" />
+                    <Loader2 className="w-8 h-8 text-emerald-400 animate-spin relative" />
+                </div>
             </div>
         );
     }
 
-    const hasData = integrations.length > 0 || gameDataList.length > 0;
-
-    const handleBrowseSources = () => {
-        setShowAddModal(true);
-    };
-
     return (
-        <div className="space-y-8">
-            {/* Hero Section */}
-            <HeroSection onBrowseSources={handleBrowseSources} />
-
-            {/* Quick Stats */}
-            {hasData && (
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <StatCard
-                        icon={<Database className="w-5 h-5 text-indigo-400" />}
-                        label="Data Sources"
-                        value={integrations.length + gameDataList.length}
-                        bgColor="bg-indigo-500/10"
-                    />
-                    <StatCard
-                        icon={<Activity className="w-5 h-5 text-green-400" />}
-                        label="Connected"
-                        value={connectedCount + gameDataList.length}
-                        bgColor="bg-green-500/10"
-                    />
-                    <StatCard
-                        icon={<AlertCircle className="w-5 h-5 text-red-400" />}
-                        label="Errors"
-                        value={errorCount}
-                        bgColor="bg-red-500/10"
-                    />
-                    <StatCard
-                        icon={<FileSpreadsheet className="w-5 h-5 text-blue-400" />}
-                        label="Total Rows"
-                        value={totalRows.toLocaleString()}
-                        bgColor="bg-blue-500/10"
-                    />
-                </div>
-            )}
-
-            {/* Uploaded Files Section */}
-            {gameDataList.length > 0 && (
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-th-text-primary">Uploaded Files</h2>
-                        <Link
-                            to="/upload"
-                            className="text-sm text-th-accent-primary hover:underline flex items-center gap-1"
-                        >
-                            Upload more <ChevronRight className="w-4 h-4" />
-                        </Link>
-                    </div>
-                    <div className="grid gap-3">
-                        {gameDataList.map(data => (
-                            <UploadedFileCard key={data.id} data={data} />
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* Connection Health Dashboard */}
-            {integrations.length > 0 && (
-                <ConnectionHealth />
-            )}
-
-            {/* Connected Integrations Section (legacy list view) */}
-            {integrations.length > 0 && integrations.length <= 3 && (
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-th-text-primary">Connected Sources</h2>
-                        <button
-                            onClick={() => setShowAddModal(true)}
-                            className="text-sm text-th-accent-primary hover:underline flex items-center gap-1"
-                        >
-                            <Plus className="w-4 h-4" /> Add Source
-                        </button>
-                    </div>
-                    <div className="grid gap-3">
-                        {integrations.map(integration => (
-                            <IntegrationCard
-                                key={integration.id}
-                                integration={integration}
-                                onRefresh={async () => {
-                                    try {
-                                        await refreshIntegration(integration.id);
-                                        success('Sync complete', `${integration.config.name} refreshed`);
-                                    } catch (err) {
-                                        showError(err, () => refreshIntegration(integration.id));
-                                    }
-                                }}
-                                onPause={async () => {
-                                    try {
-                                        await pauseIntegration(integration.id);
-                                        warning('Sync paused', `${integration.config.name} will not auto-sync`);
-                                    } catch (err) {
-                                        showError(err);
-                                    }
-                                }}
-                                onResume={async () => {
-                                    try {
-                                        await resumeIntegration(integration.id);
-                                        success('Sync resumed', `${integration.config.name} will auto-sync`);
-                                    } catch (err) {
-                                        showError(err);
-                                    }
-                                }}
-                                onRemove={async () => {
-                                    try {
-                                        await removeIntegration(integration.id);
-                                        success('Connection removed', `${integration.config.name} disconnected`);
-                                    } catch (err) {
-                                        showError(err);
-                                    }
-                                }}
-                            />
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* Empty State (when nothing connected yet) */}
-            {!hasData && (
-                <EmptyStateGuide onConnectSource={handleBrowseSources} />
-            )}
-
-            {/* Add Integration Modal (catalog browser) */}
-            {showAddModal && (
-                <AddIntegrationModal
-                    onClose={() => {
-                        setShowAddModal(false);
-                    }}
-                    searchQuery={searchQuery}
-                    onSearchChange={setSearchQuery}
-                    onSelectType={(type) => {
-                        setShowAddModal(false);
-                        setWizardType(type);
-                        setShowWizard(true);
-                    }}
-                />
-            )}
-
-            {/* Connection Wizard (full wizard flow) */}
-            {showWizard && (
-                <ConnectionWizard
-                    initialType={wizardType || undefined}
-                    onComplete={() => {
-                        setShowWizard(false);
-                        setWizardType(null);
-                    }}
-                    onCancel={() => {
-                        setShowWizard(false);
-                        setWizardType(null);
-                    }}
-                />
-            )}
-        </div>
-    );
-}
-
-// ============================================================================
-// Hero Section
-// ============================================================================
-
-function HeroSection({
-    onBrowseSources,
-}: {
-    onBrowseSources: () => void;
-}) {
-    return (
-        <div className="bg-gradient-to-br from-th-bg-surface to-th-bg-elevated rounded-2xl border border-th-border p-8">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Database className="w-8 h-8 text-white" />
-                </div>
-                <h1 className="text-2xl font-bold text-th-text-primary mb-2">
-                    Connect Your Game Data
-                </h1>
-                <p className="text-th-text-muted max-w-lg mx-auto">
-                    Game Insights works best with your actual player data.
-                    Choose how you'd like to import your analytics:
-                </p>
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                                    <Database className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                    Data Hub
+                                </h1>
+                                <p className="text-slate-500 text-sm mt-0.5">
+                                    Connect, import, and manage your data sources
+                                </p>
+                            </div>
+                        </div>
+                        <Button
+                            variant="primary"
+                            icon={<Plus className="w-4 h-4" />}
+                            onClick={() => setShowAddModal(true)}
+                        >
+                            Add Source
+                        </Button>
+                    </div>
+                </Card>
+            </motion.div>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-4 gap-4">
+                <StatCard
+                    label="Connected"
+                    value={connectedCount}
+                    icon={Plug}
+                    color="emerald"
+                    index={0}
+                />
+                <StatCard
+                    label="Data Uploads"
+                    value={gameDataList.length}
+                    icon={FileSpreadsheet}
+                    color="blue"
+                    index={1}
+                />
+                <StatCard
+                    label="Total Rows"
+                    value={totalRows.toLocaleString()}
+                    icon={Database}
+                    color="teal"
+                    index={2}
+                />
+                <StatCard
+                    label="Issues"
+                    value={errorCount}
+                    icon={AlertCircle}
+                    color={errorCount > 0 ? 'rose' : 'slate'}
+                    index={3}
+                />
             </div>
 
-            {/* Import Options */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <ImportOptionCard
-                    icon={<Upload className="w-7 h-7" />}
+            {/* Quick Actions */}
+            <motion.div variants={itemVariants} className="grid grid-cols-3 gap-4">
+                <QuickAction
+                    icon={Upload}
                     title="Upload File"
-                    description="CSV, Excel, JSON files"
-                    benefits={['Quick analysis', 'One-time import', 'Historical data']}
-                    buttonLabel="Upload File"
-                    href="/upload"
-                    gradientFrom="from-blue-500"
-                    gradientTo="to-cyan-500"
+                    description="CSV, Excel, JSON"
+                    to="/upload"
+                    color="emerald"
                 />
-
-                <ImportOptionCard
-                    icon={<Plug className="w-7 h-7" />}
-                    title="Connect Live Source"
-                    description="Google Sheets, Firebase, databases"
-                    benefits={['Auto updates', 'Real-time sync', 'Always fresh']}
-                    buttonLabel="Browse Sources"
-                    onClick={onBrowseSources}
-                    gradientFrom="from-purple-500"
-                    gradientTo="to-indigo-500"
-                    featured
+                <QuickAction
+                    icon={Plug}
+                    title="Connect API"
+                    description="Real-time data sync"
+                    onClick={() => setShowAddModal(true)}
+                    color="blue"
                 />
-
-                <ImportOptionCard
-                    icon={<ClipboardPaste className="w-7 h-7" />}
+                <QuickAction
+                    icon={ClipboardPaste}
                     title="Paste Data"
-                    description="Copy from spreadsheet"
-                    benefits={['Quick test', 'Small data', 'No file needed']}
-                    buttonLabel="Coming Soon"
-                    gradientFrom="from-emerald-500"
-                    gradientTo="to-teal-500"
+                    description="Quick import"
+                    to="/upload?mode=paste"
+                    color="violet"
                 />
-            </div>
-        </div>
-    );
-}
+            </motion.div>
 
-function ImportOptionCard({
-    icon,
-    title,
-    description,
-    benefits,
-    buttonLabel,
-    href,
-    onClick,
-    gradientFrom,
-    gradientTo,
-    featured = false,
-}: {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    benefits: string[];
-    buttonLabel: string;
-    href?: string;
-    onClick?: () => void;
-    gradientFrom: string;
-    gradientTo: string;
-    featured?: boolean;
-}) {
-    const cardContent = (
-        <div className={`relative bg-th-bg-surface rounded-xl border p-6 h-full flex flex-col transition-all duration-200 hover:border-th-accent-primary hover:shadow-lg ${featured ? 'border-th-accent-primary/50 ring-1 ring-th-accent-primary/20' : 'border-th-border'}`}>
-            {featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-th-accent-primary text-white text-xs font-medium rounded-full">
-                    Recommended
-                </div>
+            {/* Search */}
+            {(integrations.length > 0 || gameDataList.length > 0) && (
+                <motion.div variants={itemVariants}>
+                    <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                        <input
+                            type="text"
+                            placeholder="Search data sources..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
+                        />
+                    </div>
+                </motion.div>
             )}
 
-            {/* Icon */}
-            <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${gradientFrom} ${gradientTo} flex items-center justify-center text-white mb-4`}>
-                {icon}
-            </div>
+            {/* Integrations List */}
+            {integrations.length > 0 && (
+                <motion.div variants={itemVariants} className="space-y-4">
+                    <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <CloudLightning className="w-5 h-5 text-emerald-400" />
+                        Connected Integrations
+                    </h2>
+                    <div className="space-y-3">
+                        {integrations
+                            .filter(i => i.config.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((integration, index) => (
+                                <IntegrationCard
+                                    key={integration.id}
+                                    integration={integration}
+                                    onRefresh={async () => {
+                                        try {
+                                            await refreshIntegration(integration.id);
+                                            success('Data refreshed successfully');
+                                        } catch (error) {
+                                            showError(error);
+                                        }
+                                    }}
+                                    onPause={() => pauseIntegration(integration.id)}
+                                    onResume={() => resumeIntegration(integration.id)}
+                                    onRemove={() => {
+                                        warning('Integration removed');
+                                        removeIntegration(integration.id);
+                                    }}
+                                    index={index}
+                                />
+                            ))}
+                    </div>
+                </motion.div>
+            )}
 
-            {/* Title & Description */}
-            <h3 className="text-lg font-semibold text-th-text-primary mb-1">{title}</h3>
-            <p className="text-sm text-th-text-muted mb-4">{description}</p>
+            {/* Uploaded Data List */}
+            {gameDataList.length > 0 && (
+                <motion.div variants={itemVariants} className="space-y-4">
+                    <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <FileSpreadsheet className="w-5 h-5 text-blue-400" />
+                        Uploaded Data
+                    </h2>
+                    <div className="space-y-3">
+                        {gameDataList
+                            .filter(g => g.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((data, index) => (
+                                <UploadedDataCard
+                                    key={data.id}
+                                    data={data}
+                                    index={index}
+                                />
+                            ))}
+                    </div>
+                </motion.div>
+            )}
 
-            {/* Benefits */}
-            <ul className="space-y-2 mb-6 flex-1">
-                {benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-sm text-th-text-secondary">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0" />
-                        {benefit}
-                    </li>
-                ))}
-            </ul>
+            {/* Empty State */}
+            {integrations.length === 0 && gameDataList.length === 0 && (
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg" className="text-center">
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', delay: 0.2 }}
+                            className="relative inline-block mb-4"
+                        >
+                            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl blur-xl" />
+                            <div className="relative w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto">
+                                <Database className="w-8 h-8 text-emerald-400" />
+                            </div>
+                        </motion.div>
+                        <h3 className="text-xl font-semibold text-white mb-2">No data sources yet</h3>
+                        <p className="text-slate-500 mb-6 max-w-md mx-auto">
+                            Connect your analytics platform, upload files, or paste data directly to start analyzing your game.
+                        </p>
+                        <div className="flex items-center justify-center gap-3">
+                            <Link to="/upload">
+                                <Button variant="primary" icon={<Upload className="w-4 h-4" />}>
+                                    Upload File
+                                </Button>
+                            </Link>
+                            <Button
+                                variant="secondary"
+                                icon={<Plug className="w-4 h-4" />}
+                                onClick={() => setShowAddModal(true)}
+                            >
+                                Connect API
+                            </Button>
+                        </div>
+                    </Card>
+                </motion.div>
+            )}
 
-            {/* Button */}
-            <button className="w-full py-2.5 px-4 bg-th-bg-elevated hover:bg-th-interactive-hover text-th-text-primary font-medium rounded-lg border border-th-border transition-colors flex items-center justify-center gap-2">
-                {buttonLabel}
-                <ChevronRight className="w-4 h-4" />
-            </button>
-        </div>
+            {/* Add Integration Modal */}
+            <AnimatePresence>
+                {showAddModal && (
+                    <AddIntegrationModal
+                        onClose={() => setShowAddModal(false)}
+                        onSelect={(type) => {
+                            setWizardType(type);
+                            setShowAddModal(false);
+                            setShowWizard(true);
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Connection Wizard */}
+            <AnimatePresence>
+                {showWizard && wizardType && (
+                    <ConnectionWizard
+                        initialType={wizardType}
+                        onComplete={() => {
+                            setShowWizard(false);
+                            setWizardType(null);
+                        }}
+                        onCancel={() => {
+                            setShowWizard(false);
+                            setWizardType(null);
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
-
-    if (href) {
-        return <Link to={href} className="block">{cardContent}</Link>;
-    }
-
-    return <div onClick={onClick} className="cursor-pointer">{cardContent}</div>;
 }
 
 // ============================================================================
@@ -372,83 +348,132 @@ function ImportOptionCard({
 // ============================================================================
 
 function StatCard({
-    icon,
     label,
     value,
-    bgColor,
+    icon: Icon,
+    color,
+    index,
 }: {
-    icon: React.ReactNode;
     label: string;
     value: string | number;
-    bgColor: string;
+    icon: typeof Database;
+    color: 'emerald' | 'blue' | 'teal' | 'rose' | 'slate';
+    index: number;
 }) {
+    const colorStyles = {
+        emerald: {
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20',
+            icon: 'text-emerald-400',
+            glow: 'bg-emerald-500/20',
+        },
+        blue: {
+            bg: 'from-blue-500/20 to-blue-500/5',
+            border: 'border-blue-500/20',
+            icon: 'text-blue-400',
+            glow: 'bg-blue-500/20',
+        },
+        teal: {
+            bg: 'from-teal-500/20 to-teal-500/5',
+            border: 'border-teal-500/20',
+            icon: 'text-teal-400',
+            glow: 'bg-teal-500/20',
+        },
+        rose: {
+            bg: 'from-rose-500/20 to-rose-500/5',
+            border: 'border-rose-500/20',
+            icon: 'text-rose-400',
+            glow: 'bg-rose-500/20',
+        },
+        slate: {
+            bg: 'from-slate-500/20 to-slate-500/5',
+            border: 'border-slate-500/20',
+            icon: 'text-slate-400',
+            glow: 'bg-slate-500/20',
+        },
+    };
+
+    const style = colorStyles[color];
+
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border p-4">
-            <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 rounded-xl ${bgColor} flex items-center justify-center`}>
-                    {icon}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center gap-3">
+                    <div className="relative">
+                        <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
+                        <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
+                            <Icon className={`w-5 h-5 ${style.icon}`} />
+                        </div>
+                    </div>
+                    <div>
+                        <p className="text-2xl font-bold text-white">{value}</p>
+                        <p className="text-sm text-slate-500">{label}</p>
+                    </div>
                 </div>
-                <div>
-                    <div className="text-2xl font-bold text-th-text-primary">{value}</div>
-                    <div className="text-sm text-th-text-muted">{label}</div>
-                </div>
-            </div>
-        </div>
+            </Card>
+        </motion.div>
     );
 }
 
 // ============================================================================
-// Uploaded File Card
+// Quick Action
 // ============================================================================
 
-function UploadedFileCard({ data }: { data: { id: string; name: string; fileName?: string; rowCount: number; uploadedAt?: string } }) {
-    return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border p-4">
+function QuickAction({
+    icon: Icon,
+    title,
+    description,
+    to,
+    onClick,
+    color,
+}: {
+    icon: typeof Upload;
+    title: string;
+    description: string;
+    to?: string;
+    onClick?: () => void;
+    color: 'emerald' | 'blue' | 'violet';
+}) {
+    const colorStyles = {
+        emerald: 'from-emerald-500/20 to-emerald-500/5 border-emerald-500/20 hover:border-emerald-500/40',
+        blue: 'from-blue-500/20 to-blue-500/5 border-blue-500/20 hover:border-blue-500/40',
+        violet: 'from-violet-500/20 to-violet-500/5 border-violet-500/20 hover:border-violet-500/40',
+    };
+
+    const iconColors = {
+        emerald: 'text-emerald-400',
+        blue: 'text-blue-400',
+        violet: 'text-violet-400',
+    };
+
+    const content = (
+        <motion.div
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className={`p-5 rounded-xl bg-gradient-to-br ${colorStyles[color]} border cursor-pointer transition-all group`}
+        >
             <div className="flex items-center gap-4">
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                    <FileSpreadsheet className="w-6 h-6 text-blue-400" />
+                <div className={`w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center ${iconColors[color]}`}>
+                    <Icon className="w-6 h-6" />
                 </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-th-text-primary truncate">{data.name}</h3>
-                        <span className="text-green-500 flex items-center gap-1 text-sm">
-                            <Check className="w-3.5 h-3.5" /> Ready
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
-                        {data.fileName && <span>{data.fileName}</span>}
-                        <span>{data.rowCount.toLocaleString()} rows</span>
-                        {data.uploadedAt && (
-                            <span className="flex items-center gap-1">
-                                <Clock className="w-3.5 h-3.5" />
-                                {new Date(data.uploadedAt).toLocaleDateString()}
-                            </span>
-                        )}
-                    </div>
+                <div className="flex-1">
+                    <h3 className="font-semibold text-white">{title}</h3>
+                    <p className="text-sm text-slate-500">{description}</p>
                 </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2">
-                    <Link
-                        to="/analytics"
-                        className="px-4 py-2 bg-th-accent-primary text-white rounded-lg text-sm font-medium hover:bg-th-accent-primary-hover transition-colors"
-                    >
-                        View Analytics
-                    </Link>
-                    <Link
-                        to="/upload"
-                        className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-th-interactive-hover rounded-lg transition-colors"
-                        title="Upload new version"
-                    >
-                        <Upload className="w-5 h-5" />
-                    </Link>
-                </div>
+                <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-white group-hover:translate-x-1 transition-all" />
             </div>
-        </div>
+        </motion.div>
     );
+
+    if (to) {
+        return <Link to={to}>{content}</Link>;
+    }
+
+    return <div onClick={onClick}>{content}</div>;
 }
 
 // ============================================================================
@@ -461,326 +486,328 @@ function IntegrationCard({
     onPause,
     onResume,
     onRemove,
+    index,
 }: {
     integration: Integration;
     onRefresh: () => void;
     onPause: () => void;
     onResume: () => void;
     onRemove: () => void;
+    index: number;
 }) {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const catalogItem = INTEGRATION_CATALOG.find(c => c.type === integration.config.type);
+    const [showHealth, setShowHealth] = useState(false);
 
-    const statusStyles: Record<string, string> = {
-        connected: 'text-green-500',
-        syncing: 'text-blue-500',
-        error: 'text-red-500',
-        paused: 'text-yellow-500',
+    const statusColors = {
+        connected: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+        syncing: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+        error: 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+        paused: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+        disconnected: 'bg-slate-500/10 text-slate-400 border-slate-500/20',
     };
 
+    const iconClass = getIntegrationIcon(integration.config.type);
+
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border overflow-hidden">
-            {/* Main Row */}
-            <div className="p-4 flex items-center gap-4">
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-th-bg-elevated flex items-center justify-center text-2xl">
-                    {getIntegrationIcon(integration.config.type)}
-                </div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl">
+                        {iconClass}
+                    </div>
 
-                {/* Info */}
-                <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-white truncate">{integration.config.name}</h3>
+                            <span className={`px-2 py-0.5 text-xs rounded-full border ${statusColors[integration.status]}`}>
+                                {integration.status === 'syncing' && <Loader2 className="w-3 h-3 inline mr-1 animate-spin" />}
+                                {integration.status.charAt(0).toUpperCase() + integration.status.slice(1)}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-slate-500">
+                            <span className="flex items-center gap-1">
+                                <Database className="w-3.5 h-3.5" />
+                                {(integration.metadata.rowCount || 0).toLocaleString()} rows
+                            </span>
+                            <span className="flex items-center gap-1">
+                                <Clock className="w-3.5 h-3.5" />
+                                {formatLastSync(integration.lastSyncAt)}
+                            </span>
+                        </div>
+                    </div>
+
                     <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-th-text-primary truncate">
-                            {integration.config.name}
-                        </h3>
-                        <span className={`text-sm flex items-center gap-1 ${statusStyles[integration.status] || 'text-th-text-muted'}`}>
-                            {getStatusIcon(integration.status)}
-                            <span className="capitalize">{integration.status}</span>
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
-                        <span>{catalogItem?.name || integration.config.type}</span>
-                        <span className="flex items-center gap-1">
-                            <Clock className="w-3.5 h-3.5" />
-                            {formatLastSync(integration.lastSyncAt)}
-                        </span>
-                        {integration.metadata.rowCount !== undefined && (
-                            <span>{integration.metadata.rowCount.toLocaleString()} rows</span>
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={() => setShowHealth(!showHealth)}
+                            className="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors"
+                            title="Connection health"
+                        >
+                            <Activity className="w-4 h-4" />
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.1, rotate: 90 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={onRefresh}
+                            disabled={integration.status === 'syncing'}
+                            className="p-2 rounded-lg text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors disabled:opacity-50"
+                            title="Refresh data"
+                        >
+                            <RefreshCw className={`w-4 h-4 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
+                        </motion.button>
+                        {integration.status === 'paused' ? (
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={onResume}
+                                className="p-2 rounded-lg text-slate-500 hover:text-green-400 hover:bg-green-500/10 transition-colors"
+                                title="Resume sync"
+                            >
+                                <Play className="w-4 h-4" />
+                            </motion.button>
+                        ) : (
+                            <motion.button
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={onPause}
+                                className="p-2 rounded-lg text-slate-500 hover:text-amber-400 hover:bg-amber-500/10 transition-colors"
+                                title="Pause sync"
+                            >
+                                <Pause className="w-4 h-4" />
+                            </motion.button>
                         )}
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={onRemove}
+                            className="p-2 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                            title="Remove integration"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </motion.button>
                     </div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex items-center gap-1">
-                    <button
-                        onClick={onRefresh}
-                        disabled={integration.status === 'syncing'}
-                        className="p-2 text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover rounded-lg transition-colors disabled:opacity-50"
-                        title="Sync Now"
-                    >
-                        <RefreshCw className={`w-5 h-5 ${integration.status === 'syncing' ? 'animate-spin' : ''}`} />
-                    </button>
-                    {integration.status === 'paused' ? (
-                        <button
-                            onClick={onResume}
-                            className="p-2 text-th-text-muted hover:text-green-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
-                            title="Resume"
+                <AnimatePresence>
+                    {showHealth && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
                         >
-                            <Play className="w-5 h-5" />
-                        </button>
-                    ) : (
-                        <button
-                            onClick={onPause}
-                            className="p-2 text-th-text-muted hover:text-yellow-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
-                            title="Pause"
-                        >
-                            <Pause className="w-5 h-5" />
-                        </button>
+                            <div className="pt-4 mt-4 border-t border-white/[0.06]">
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                        <p className="text-xs text-slate-500 mb-1">Status</p>
+                                        <p className="text-sm font-medium text-white capitalize">{integration.status}</p>
+                                    </div>
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                        <p className="text-xs text-slate-500 mb-1">Sync Duration</p>
+                                        <p className="text-sm font-medium text-white">{integration.metadata.syncDuration || 0}ms</p>
+                                    </div>
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                        <p className="text-xs text-slate-500 mb-1">Data Freshness</p>
+                                        <p className="text-sm font-medium text-white">{integration.metadata.dataFreshness ? formatLastSync(integration.metadata.dataFreshness) : 'N/A'}</p>
+                                    </div>
+                                </div>
+                                {integration.lastError && (
+                                    <div className="mt-3 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                                        <p className="text-xs text-rose-400 font-medium mb-1">Last Error</p>
+                                        <p className="text-sm text-rose-300">{integration.lastError}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
                     )}
-                    <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="p-2 text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover rounded-lg transition-colors"
-                        title="Settings"
-                    >
-                        <Settings className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={onRemove}
-                        className="p-2 text-th-text-muted hover:text-red-500 hover:bg-th-interactive-hover rounded-lg transition-colors"
-                        title="Remove"
-                    >
-                        <Trash2 className="w-5 h-5" />
-                    </button>
-                </div>
-            </div>
-
-            {/* Error Message */}
-            {integration.status === 'error' && integration.lastError && (
-                <div className="px-4 pb-4">
-                    <div className="flex items-start gap-3 p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
-                        <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                        <div className="flex-1">
-                            <p className="text-sm text-red-400">{integration.lastError}</p>
-                            <button className="text-sm text-red-400 hover:text-red-300 underline mt-1">
-                                Fix Connection
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Expanded Details */}
-            {isExpanded && (
-                <div className="px-4 pb-4 border-t border-th-border pt-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                        <div>
-                            <div className="text-th-text-muted mb-1">Type</div>
-                            <div className="text-th-text-primary">{catalogItem?.name}</div>
-                        </div>
-                        <div>
-                            <div className="text-th-text-muted mb-1">Created</div>
-                            <div className="text-th-text-primary">
-                                {new Date(integration.createdAt).toLocaleDateString()}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-th-text-muted mb-1">Sync Strategy</div>
-                            <div className="text-th-text-primary capitalize">
-                                {integration.config.syncStrategy.type}
-                                {integration.config.syncStrategy.type === 'scheduled' &&
-                                    ` (${integration.config.syncStrategy.intervalMinutes} min)`}
-                            </div>
-                        </div>
-                        <div>
-                            <div className="text-th-text-muted mb-1">Last Sync Duration</div>
-                            <div className="text-th-text-primary">
-                                {integration.metadata.syncDuration
-                                    ? `${(integration.metadata.syncDuration / 1000).toFixed(2)}s`
-                                    : 'N/A'}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+                </AnimatePresence>
+            </Card>
+        </motion.div>
     );
 }
 
 // ============================================================================
-// Empty State Guide
+// Uploaded Data Card
 // ============================================================================
 
-function EmptyStateGuide({
-    onConnectSource,
+function UploadedDataCard({
+    data,
+    index,
 }: {
-    onConnectSource: () => void;
+    data: { id: string; name: string; rowCount: number; uploadedAt?: string };
+    index: number;
 }) {
     return (
-        <div className="bg-th-bg-surface rounded-xl border border-th-border p-8 text-center">
-            <div className="w-16 h-16 bg-th-accent-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CloudLightning className="w-8 h-8 text-th-accent-primary" />
-            </div>
-            <h3 className="text-xl font-semibold text-th-text-primary mb-2">
-                Ready to analyze your game data?
-            </h3>
-            <p className="text-th-text-muted mb-6 max-w-md mx-auto">
-                Upload a file to get started instantly, or connect a live data source for automatic updates.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-                <Link
-                    to="/upload"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-th-accent-primary text-white rounded-xl font-medium hover:bg-th-accent-primary-hover transition-colors"
-                >
-                    <Upload className="w-5 h-5" />
-                    Upload Your First File
-                </Link>
-                <button
-                    onClick={onConnectSource}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-th-bg-elevated text-th-text-primary rounded-xl font-medium border border-th-border hover:bg-th-interactive-hover transition-colors"
-                >
-                    <Plug className="w-5 h-5" />
-                    Connect Data Source
-                </button>
-            </div>
-        </div>
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Link to={`/analytics`}>
+                <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all cursor-pointer">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                            <FileSpreadsheet className="w-6 h-6 text-blue-400" />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-white truncate">{data.name}</h3>
+                            <div className="flex items-center gap-4 text-sm text-slate-500">
+                                <span className="flex items-center gap-1">
+                                    <Database className="w-3.5 h-3.5" />
+                                    {data.rowCount.toLocaleString()} rows
+                                </span>
+                                {data.uploadedAt && (
+                                    <span className="flex items-center gap-1">
+                                        <Clock className="w-3.5 h-3.5" />
+                                        {new Date(data.uploadedAt).toLocaleDateString()}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                                <Check className="w-3 h-3" />
+                                Ready
+                            </span>
+                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 group-hover:translate-x-1 transition-all" />
+                        </div>
+                    </div>
+                </Card>
+            </Link>
+        </motion.div>
     );
 }
 
 // ============================================================================
-// Add Integration Modal (imported from original Integrations.tsx)
+// Add Integration Modal
 // ============================================================================
 
 function AddIntegrationModal({
     onClose,
-    searchQuery,
-    onSearchChange,
-    onSelectType,
+    onSelect,
 }: {
     onClose: () => void;
-    searchQuery: string;
-    onSearchChange: (query: string) => void;
-    onSelectType: (type: IntegrationType) => void;
+    onSelect: (type: IntegrationType) => void;
 }) {
+    const [searchQuery, setSearchQuery] = useState('');
+
     const filteredCatalog = INTEGRATION_CATALOG.filter(
-        item =>
+        (item) =>
             item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const groupedByTier = {
-        1: filteredCatalog.filter(i => i.tier === 1),
-        2: filteredCatalog.filter(i => i.tier === 2),
-        3: filteredCatalog.filter(i => i.tier >= 3),
-    };
-
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
-            <div className="bg-th-bg-surface rounded-2xl border border-th-border w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center"
+        >
+            {/* Backdrop */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={onClose}
+            />
+
+            {/* Modal */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border border-white/[0.08] shadow-2xl"
+            >
                 {/* Header */}
-                <div className="p-6 border-b border-th-border flex items-center justify-between">
+                <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
                     <div>
-                        <h2 className="text-xl font-bold text-th-text-primary">Add Data Source</h2>
-                        <p className="text-sm text-th-text-muted mt-1">
-                            Choose a data source to connect
-                        </p>
+                        <h2 className="text-xl font-semibold text-white">Add Data Source</h2>
+                        <p className="text-sm text-slate-500 mt-1">Connect to your analytics platform</p>
                     </div>
-                    <button
+                    <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                         onClick={onClose}
-                        className="p-2 text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover rounded-lg transition-colors"
+                        className="p-2 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors"
                     >
                         <X className="w-5 h-5" />
-                    </button>
+                    </motion.button>
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto p-6">
-                    {/* Search */}
-                    <div className="relative mb-6">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-th-text-muted" />
+                {/* Search */}
+                <div className="p-4 border-b border-white/[0.06]">
+                    <div className="relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                         <input
                             type="text"
-                            value={searchQuery}
-                            onChange={e => onSearchChange(e.target.value)}
                             placeholder="Search integrations..."
-                            className="w-full pl-10 pr-4 py-3 bg-th-bg-elevated border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary transition-colors"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all"
                         />
                     </div>
+                </div>
 
-                    {/* Tier 1 - Most Used */}
-                    {groupedByTier[1].length > 0 && (
-                        <IntegrationGroup
-                            title="Most Used"
-                            subtitle="80% of indie devs use these"
-                            items={groupedByTier[1]}
-                            onSelect={onSelectType}
-                        />
-                    )}
+                {/* Integration List */}
+                <div className="p-4 overflow-y-auto max-h-96 space-y-2">
+                    {filteredCatalog.map((item) => (
+                        <motion.button
+                            key={item.type}
+                            whileHover={{ scale: 1.01, x: 4 }}
+                            whileTap={{ scale: 0.99 }}
+                            onClick={() => onSelect(item.type)}
+                            className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all text-left group"
+                        >
+                            <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl">
+                                {item.icon}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                    <h3 className="font-semibold text-white">{item.name}</h3>
+                                    <span className={`px-2 py-0.5 text-xs rounded-full border ${
+                                        item.complexity === 'low'
+                                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                            : item.complexity === 'medium'
+                                            ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
+                                            : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                                    }`}>
+                                        {item.complexity}
+                                    </span>
+                                </div>
+                                <p className="text-sm text-slate-500 truncate">{item.description}</p>
+                            </div>
+                            <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
+                        </motion.button>
+                    ))}
 
-                    {/* Tier 2 - Common Backends */}
-                    {groupedByTier[2].length > 0 && (
-                        <IntegrationGroup
-                            title="Databases"
-                            subtitle="Connect to your backend"
-                            items={groupedByTier[2]}
-                            onSelect={onSelectType}
-                        />
-                    )}
-
-                    {/* Tier 3 - Game Platforms */}
-                    {groupedByTier[3].length > 0 && (
-                        <IntegrationGroup
-                            title="Game Platforms"
-                            subtitle="Gaming-specific services"
-                            items={groupedByTier[3]}
-                            onSelect={onSelectType}
-                        />
+                    {filteredCatalog.length === 0 && (
+                        <div className="text-center py-8">
+                            <p className="text-slate-500">No integrations found</p>
+                        </div>
                     )}
                 </div>
-            </div>
-        </div>
-    );
-}
 
-function IntegrationGroup({
-    title,
-    subtitle,
-    items,
-    onSelect,
-}: {
-    title: string;
-    subtitle: string;
-    items: IntegrationCatalogItem[];
-    onSelect: (type: IntegrationType) => void;
-}) {
-    return (
-        <div className="mb-8">
-            <div className="mb-4">
-                <h3 className="text-lg font-semibold text-th-text-primary">{title}</h3>
-                <p className="text-sm text-th-text-muted">{subtitle}</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {items.map(item => (
-                    <button
-                        key={item.type}
-                        onClick={() => onSelect(item.type)}
-                        className="flex items-center gap-4 p-4 bg-th-bg-elevated hover:bg-th-interactive-hover border border-th-border hover:border-th-accent-primary/50 rounded-xl text-left transition-colors group"
-                    >
-                        <div className="w-12 h-12 rounded-xl bg-th-bg-surface flex items-center justify-center text-2xl">
-                            {item.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <div className="font-medium text-th-text-primary group-hover:text-th-accent-primary transition-colors">
-                                {item.name}
-                            </div>
-                            <div className="text-sm text-th-text-muted truncate">
-                                {item.description}
-                            </div>
-                        </div>
-                        <ChevronRight className="w-5 h-5 text-th-text-muted group-hover:text-th-accent-primary transition-colors" />
-                    </button>
-                ))}
-            </div>
-        </div>
+                {/* Footer */}
+                <div className="p-4 border-t border-white/[0.06] flex items-center justify-between">
+                    <p className="text-sm text-slate-500">
+                        Can't find your platform? <button className="text-emerald-400 hover:text-emerald-300">Request integration</button>
+                    </p>
+                    <Link to="/upload">
+                        <Button variant="secondary" size="sm" icon={<Upload className="w-4 h-4" />}>
+                            Upload File Instead
+                        </Button>
+                    </Link>
+                </div>
+            </motion.div>
+        </motion.div>
     );
 }
 

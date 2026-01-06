@@ -1,29 +1,66 @@
 /**
- * Realtime Page - Live Analytics Dashboard
- * Shows live updating charts for real-time monitoring
- * Phase 2: Page-by-Page Functionality
+ * Realtime Page - Obsidian Analytics Design
+ *
+ * Premium live analytics dashboard with:
+ * - Glassmorphism containers
+ * - Emerald accent theme
+ * - Animated entrance effects
+ * - Live pulse indicators
  */
 
 import { useState, useEffect } from 'react';
 import ReactECharts from 'echarts-for-react';
-import { Activity, Users, UserPlus, DollarSign, Repeat, PlayCircle, AlertTriangle, RefreshCw, Link } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    Activity,
+    Users,
+    UserPlus,
+    DollarSign,
+    Repeat,
+    PlayCircle,
+    AlertTriangle,
+    RefreshCw,
+    Link,
+    Zap,
+    Wifi,
+    Clock,
+} from 'lucide-react';
 import { useGameData } from '../hooks/useGameData';
 import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { useNavigate } from 'react-router-dom';
+import { Card } from '../components/ui/Card';
+import { Button } from '../components/ui/Button';
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1 },
+    },
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 260, damping: 20 },
+    },
+};
 
 // Simulated live data generator
 function generateLiveData(base: number, variance: number) {
     return Math.floor(base + (Math.random() - 0.5) * variance);
 }
 
-// Live chart configurations
+// Live chart configurations with emerald theme
 const liveCharts = [
-    { id: 'newUsers', title: 'New Users', icon: UserPlus, color: '#8b5cf6', baseValue: 280, variance: 100 },
-    { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#6366f1', baseValue: 420, variance: 150 },
+    { id: 'newUsers', title: 'New Users', icon: UserPlus, color: '#10b981', baseValue: 280, variance: 100 },
+    { id: 'activeUsers', title: 'Active Users', icon: Users, color: '#14b8a6', baseValue: 420, variance: 150 },
     { id: 'returningUsers', title: 'Returning Users', icon: Repeat, color: '#06b6d4', baseValue: 180, variance: 80 },
-    { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#10b981', baseValue: 150, variance: 100, prefix: '$' },
+    { id: 'revenue', title: 'Revenue', icon: DollarSign, color: '#22c55e', baseValue: 150, variance: 100, prefix: '$' },
     { id: 'transactions', title: 'Transactions', icon: Activity, color: '#f59e0b', baseValue: 28, variance: 15 },
-    { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#ec4899', baseValue: 850, variance: 200 },
+    { id: 'sessions', title: 'Session Count', icon: PlayCircle, color: '#8b5cf6', baseValue: 850, variance: 200 },
 ];
 
 export function RealtimePage() {
@@ -35,8 +72,7 @@ export function RealtimePage() {
     const [isLive, setIsLive] = useState(true);
 
     // Note: Real-time data would require actual live data source integration
-    // For now, we use pattern-based simulation from the static data
-    void hasRealData; // Mark as used for future integration
+    void hasRealData;
 
     // Initialize chart data
     useEffect(() => {
@@ -79,101 +115,176 @@ export function RealtimePage() {
     }, [isLive]);
 
     return (
-        <div className="space-y-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-6"
+        >
             {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-2xl font-bold text-th-text-primary flex items-center gap-2">
-                            <Activity className="w-6 h-6 text-th-accent-primary" />
-                            Realtime
-                        </h1>
-                        <DataModeIndicator />
+            <motion.div variants={itemVariants}>
+                <Card variant="elevated" padding="md">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                            <motion.div
+                                className="relative"
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-teal-500/20 rounded-xl blur-lg" />
+                                <div className="relative w-12 h-12 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center">
+                                    <Activity className="w-6 h-6 text-emerald-400" />
+                                </div>
+                            </motion.div>
+                            <div>
+                                <div className="flex items-center gap-3">
+                                    <h1 className="text-xl font-display font-bold bg-gradient-to-r from-white via-white to-slate-400 bg-clip-text text-transparent">
+                                        Realtime
+                                    </h1>
+                                    <DataModeIndicator />
+                                    {isLive && (
+                                        <motion.span
+                                            initial={{ opacity: 0, scale: 0.8 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className="flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-full"
+                                        >
+                                            <span className="relative flex h-2 w-2">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                            </span>
+                                            Live
+                                        </motion.span>
+                                    )}
+                                </div>
+                                <p className="text-slate-500 text-sm mt-0.5">
+                                    {!hasRealData ? 'Simulated live data' : 'Pattern-based simulation from your data'}
+                                </p>
+                            </div>
+                        </div>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setIsLive(!isLive)}
+                            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                                isLive
+                                    ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
+                                    : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06]'
+                            }`}
+                        >
+                            <RefreshCw className={`w-4 h-4 ${isLive ? 'animate-spin' : ''}`} />
+                            {isLive ? 'Live' : 'Paused'}
+                        </motion.button>
                     </div>
-                    <p className="text-th-text-muted mt-1">
-                        {!hasRealData ? 'Simulated live data' : 'Pattern-based simulation from your data'}
-                    </p>
-                </div>
-                <button
-                    onClick={() => setIsLive(!isLive)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isLive
-                            ? 'bg-th-success-muted text-th-success hover:bg-th-success-muted'
-                            : 'bg-th-bg-elevated text-th-text-secondary hover:bg-th-bg-surface-hover'
-                        }`}
-                >
-                    <RefreshCw className={`w-4 h-4 ${isLive ? 'animate-spin' : ''}`} />
-                    {isLive ? 'Live' : 'Paused'}
-                </button>
-            </div>
+                </Card>
+            </motion.div>
 
             {/* Demo Mode Banner */}
-            {!hasRealData && (
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Link className="w-5 h-5 text-blue-400" />
-                        <div>
-                            <p className="text-sm font-medium text-th-text-primary">Connect a live data source for real-time analytics</p>
-                            <p className="text-xs text-th-text-muted">Currently showing simulated data</p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={() => navigate('/data-sources')}
-                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
+            <AnimatePresence>
+                {!hasRealData && (
+                    <motion.div
+                        variants={itemVariants}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
                     >
-                        Connect
-                    </button>
-                </div>
-            )}
+                        <Card variant="default" padding="md" className="border-blue-500/20 bg-blue-500/5">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                                        <Link className="w-5 h-5 text-blue-400" />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-medium text-white">Connect a live data source for real-time analytics</p>
+                                        <p className="text-xs text-slate-500">Currently showing simulated data</p>
+                                    </div>
+                                </div>
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => navigate('/data-sources')}
+                                >
+                                    Connect
+                                </Button>
+                            </div>
+                        </Card>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Tabs */}
-            <div className="border-b border-th-border">
-                <div className="flex gap-6">
-                    <button
-                        onClick={() => setActiveTab('live')}
-                        className={`pb-3 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${activeTab === 'live'
-                                ? 'border-th-accent-primary text-th-accent-primary'
-                                : 'border-transparent text-th-text-muted hover:text-th-text-primary'
-                            }`}
+            <motion.div variants={itemVariants} className="flex gap-2">
+                {(['live', 'sdk'] as const).map((tab) => (
+                    <motion.button
+                        key={tab}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setActiveTab(tab)}
+                        className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                            activeTab === tab
+                                ? 'text-white'
+                                : 'text-slate-500 hover:text-slate-300'
+                        }`}
                     >
-                        <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500 animate-pulse' : 'bg-th-text-muted'}`} />
-                        Live Events
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('sdk')}
-                        className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'sdk'
-                                ? 'border-th-accent-primary text-th-accent-primary'
-                                : 'border-transparent text-th-text-muted hover:text-th-text-primary'
-                            }`}
+                        {activeTab === tab && (
+                            <motion.div
+                                layoutId="activeRealtimeTab"
+                                className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 rounded-lg"
+                                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            />
+                        )}
+                        <span className="relative flex items-center gap-2">
+                            {tab === 'live' && (
+                                <>
+                                    <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-600'}`} />
+                                    Live Events
+                                </>
+                            )}
+                            {tab === 'sdk' && 'SDK Status'}
+                        </span>
+                    </motion.button>
+                ))}
+            </motion.div>
+
+            <AnimatePresence mode="wait">
+                {activeTab === 'live' && (
+                    <motion.div
+                        key="live"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     >
-                        SDK Status
-                    </button>
-                </div>
-            </div>
+                        {liveCharts.map((chart, index) => (
+                            <LiveChart
+                                key={chart.id}
+                                title={chart.title}
+                                icon={chart.icon}
+                                color={chart.color}
+                                data={chartData[chart.id] || []}
+                                timestamps={timestamps}
+                                prefix={chart.prefix}
+                                isLive={isLive}
+                                index={index}
+                            />
+                        ))}
 
-            {activeTab === 'live' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {liveCharts.map(chart => (
-                        <LiveChart
-                            key={chart.id}
-                            title={chart.title}
-                            icon={chart.icon}
-                            color={chart.color}
-                            data={chartData[chart.id] || []}
-                            timestamps={timestamps}
-                            prefix={chart.prefix}
-                            isLive={isLive}
-                        />
-                    ))}
+                        {/* Error Events - Special multi-line chart */}
+                        <ErrorEventsChart timestamps={timestamps} isLive={isLive} />
+                    </motion.div>
+                )}
 
-                    {/* Error Events - Special multi-line chart */}
-                    <ErrorEventsChart timestamps={timestamps} isLive={isLive} />
-                </div>
-            )}
-
-            {activeTab === 'sdk' && (
-                <SDKStatusTab />
-            )}
-        </div>
+                {activeTab === 'sdk' && (
+                    <motion.div
+                        key="sdk"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                    >
+                        <SDKStatusTab />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
     );
 }
 
@@ -185,28 +296,34 @@ interface LiveChartProps {
     timestamps: string[];
     prefix?: string;
     isLive: boolean;
+    index: number;
 }
 
-function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefix = '', isLive }: LiveChartProps) {
+function LiveChart({ title, icon: Icon, color, data, timestamps, isLive, index }: LiveChartProps) {
     const currentValue = data[data.length - 1] || 0;
     const uniqueUsers = Math.floor(currentValue * 12.5);
 
     const option = {
-        tooltip: { trigger: 'axis', backgroundColor: 'var(--color-bg-surface)', borderColor: 'var(--color-border-subtle)', textStyle: { color: 'var(--color-text-primary)' } },
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            textStyle: { color: '#fff' }
+        },
         grid: { left: 10, right: 10, top: 10, bottom: 20, containLabel: true },
         xAxis: {
             type: 'category',
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: 'var(--color-text-muted)', interval: 4 }
+            axisLabel: { fontSize: 10, color: '#64748b', interval: 4 }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
             axisTick: { show: false },
             axisLabel: { show: false },
-            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } }
+            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.05)' } }
         },
         series: [{
             type: 'line',
@@ -219,7 +336,7 @@ function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefi
                     type: 'linear',
                     x: 0, y: 0, x2: 0, y2: 1,
                     colorStops: [
-                        { offset: 0, color: `${color}20` },
+                        { offset: 0, color: `${color}30` },
                         { offset: 1, color: `${color}00` }
                     ]
                 }
@@ -230,22 +347,34 @@ function LiveChart({ title, icon: _Icon, color, data, timestamps, prefix: _prefi
     };
 
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border p-4">
-            <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                    <h3 className="font-medium text-th-text-primary">{title}</h3>
-                    <span className="text-xs text-th-text-muted">i</span>
-                    {isLive && (
-                        <span className="text-[10px] bg-th-success-muted text-th-success px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                            Live
-                        </span>
-                    )}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${color}20` }}>
+                            <Icon className="w-4 h-4" style={{ color }} />
+                        </div>
+                        <h3 className="font-medium text-white">{title}</h3>
+                        {isLive && (
+                            <motion.span
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
+                            >
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                Live
+                            </motion.span>
+                        )}
+                    </div>
+                    <span className="text-sm text-slate-500">Unique users {uniqueUsers.toLocaleString()}</span>
                 </div>
-                <span className="text-sm text-th-text-muted">Unique users {uniqueUsers.toLocaleString()}</span>
-            </div>
-            <ReactECharts option={option} style={{ height: 160 }} />
-        </div>
+                <ReactECharts option={option} style={{ height: 160 }} />
+            </Card>
+        </motion.div>
     );
 }
 
@@ -258,7 +387,6 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
     });
 
     useEffect(() => {
-        // Initialize with random data
         const initial = {
             info: Array(20).fill(0).map(() => generateLiveData(50, 20)),
             warning: Array(20).fill(0).map(() => generateLiveData(30, 15)),
@@ -282,79 +410,150 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
     }, [isLive]);
 
     const option = {
-        tooltip: { trigger: 'axis' },
-        legend: { data: ['info', 'warning', 'error', 'debug'], bottom: 0, textStyle: { fontSize: 10 } },
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            textStyle: { color: '#fff' }
+        },
+        legend: {
+            data: ['info', 'warning', 'error', 'debug'],
+            bottom: 0,
+            textStyle: { fontSize: 10, color: '#64748b' },
+            icon: 'circle',
+            itemWidth: 8,
+            itemHeight: 8,
+        },
         grid: { left: 10, right: 10, top: 10, bottom: 40, containLabel: true },
         xAxis: {
             type: 'category',
             data: timestamps,
             axisLine: { show: false },
             axisTick: { show: false },
-            axisLabel: { fontSize: 10, color: 'var(--color-text-muted)', interval: 4 }
+            axisLabel: { fontSize: 10, color: '#64748b', interval: 4 }
         },
         yAxis: {
             type: 'value',
             axisLine: { show: false },
-            splitLine: { lineStyle: { color: 'var(--color-border-subtle)' } },
+            splitLine: { lineStyle: { color: 'rgba(255, 255, 255, 0.05)' } },
             axisLabel: { show: false }
         },
         series: [
             { name: 'info', type: 'line', stack: 'errors', data: errorData.info, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#3b82f6' } },
             { name: 'warning', type: 'line', stack: 'errors', data: errorData.warning, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#f59e0b' } },
             { name: 'error', type: 'line', stack: 'errors', data: errorData.error, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#ef4444' } },
-            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: 'var(--color-text-secondary)' } },
+            { name: 'debug', type: 'line', stack: 'errors', data: errorData.debug, smooth: true, symbol: 'none', lineStyle: { width: 0 }, areaStyle: { color: '#64748b' } },
         ],
     };
 
     const totalErrors = errorData.error.reduce((a, b) => a + b, 0);
 
     return (
-        <div className="bg-th-bg-surface rounded-card border border-th-border p-4 md:col-span-2">
-            <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4 text-orange-500" />
-                    <h3 className="font-medium text-th-text-primary">Error Events</h3>
-                    {isLive && (
-                        <span className="text-[10px] bg-th-success-muted text-th-success px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                            Live
-                        </span>
-                    )}
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, type: 'spring', stiffness: 260, damping: 20 }}
+            className="md:col-span-2"
+        >
+            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
+                            <AlertTriangle className="w-4 h-4 text-amber-400" />
+                        </div>
+                        <h3 className="font-medium text-white">Error Events</h3>
+                        {isLive && (
+                            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                Live
+                            </span>
+                        )}
+                    </div>
+                    <span className="text-sm text-slate-500">Count {totalErrors.toLocaleString()}</span>
                 </div>
-                <span className="text-sm text-th-text-muted">Count {totalErrors.toLocaleString()}</span>
-            </div>
-            <ReactECharts option={option} style={{ height: 200 }} />
-        </div>
+                <ReactECharts option={option} style={{ height: 200 }} />
+            </Card>
+        </motion.div>
     );
 }
 
 function SDKStatusTab() {
+    const statusCards = [
+        {
+            title: 'SDK Health',
+            value: '99.9%',
+            subtitle: 'Uptime last 24h',
+            icon: Wifi,
+            color: 'emerald',
+            status: 'healthy',
+        },
+        {
+            title: 'Events/min',
+            value: '12.4K',
+            subtitle: 'Average throughput',
+            icon: Zap,
+            color: 'blue',
+        },
+        {
+            title: 'Latency',
+            value: '23ms',
+            subtitle: 'P95 response time',
+            icon: Clock,
+            color: 'violet',
+        },
+    ];
+
+    const colorStyles: Record<string, { bg: string; border: string; icon: string; glow: string }> = {
+        emerald: {
+            bg: 'from-emerald-500/20 to-emerald-500/5',
+            border: 'border-emerald-500/20',
+            icon: 'text-emerald-400',
+            glow: 'bg-emerald-500/20',
+        },
+        blue: {
+            bg: 'from-blue-500/20 to-blue-500/5',
+            border: 'border-blue-500/20',
+            icon: 'text-blue-400',
+            glow: 'bg-blue-500/20',
+        },
+        violet: {
+            bg: 'from-violet-500/20 to-violet-500/5',
+            border: 'border-violet-500/20',
+            icon: 'text-violet-400',
+            glow: 'bg-violet-500/20',
+        },
+    };
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                    <h3 className="font-medium text-th-text-primary">SDK Health</h3>
-                </div>
-                <div className="text-3xl font-bold text-th-success">99.9%</div>
-                <p className="text-sm text-th-text-muted mt-1">Uptime last 24h</p>
-            </div>
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-blue-500" />
-                    <h3 className="font-medium text-th-text-primary">Events/min</h3>
-                </div>
-                <div className="text-3xl font-bold text-blue-600">12.4K</div>
-                <p className="text-sm text-th-text-muted mt-1">Average throughput</p>
-            </div>
-            <div className="bg-th-bg-surface rounded-card border border-th-border p-6">
-                <div className="flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-violet-500" />
-                    <h3 className="font-medium text-th-text-primary">Latency</h3>
-                </div>
-                <div className="text-3xl font-bold text-th-accent-primary">23ms</div>
-                <p className="text-sm text-th-text-muted mt-1">P95 response time</p>
-            </div>
+            {statusCards.map((card, index) => {
+                const style = colorStyles[card.color];
+                return (
+                    <motion.div
+                        key={card.title}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
+                    >
+                        <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="relative">
+                                    <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
+                                    <div className={`relative w-10 h-10 rounded-xl bg-gradient-to-br ${style.bg} border ${style.border} flex items-center justify-center`}>
+                                        <card.icon className={`w-5 h-5 ${style.icon}`} />
+                                    </div>
+                                </div>
+                                <h3 className="font-medium text-white">{card.title}</h3>
+                                {card.status === 'healthy' && (
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                )}
+                            </div>
+                            <div className={`text-3xl font-bold ${style.icon}`}>{card.value}</div>
+                            <p className="text-sm text-slate-500 mt-1">{card.subtitle}</p>
+                        </Card>
+                    </motion.div>
+                );
+            })}
         </div>
     );
 }
