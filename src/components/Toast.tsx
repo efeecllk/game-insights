@@ -1,9 +1,15 @@
 /**
- * Toast Component
- * Phase 8: Accessible toast notifications with auto-dismiss
+ * Toast Component - Obsidian Analytics Design
+ *
+ * Premium toast notifications with:
+ * - Glassmorphism containers
+ * - Color-coded status variants
+ * - Animated entrance/exit
+ * - Progress bar countdown
  */
 
 import { useEffect, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react';
 
 // ============================================================================
@@ -42,30 +48,35 @@ const TOAST_STYLES: Record<ToastType, {
     icon: string;
     title: string;
     progress: string;
+    glow: string;
 }> = {
     success: {
-        container: 'bg-th-bg-surface border-green-500/30',
-        icon: 'text-green-500',
-        title: 'text-green-400',
-        progress: 'bg-green-500',
+        container: 'border-emerald-500/30',
+        icon: 'text-emerald-400',
+        title: 'text-emerald-400',
+        progress: 'bg-emerald-500',
+        glow: 'shadow-emerald-500/20',
     },
     error: {
-        container: 'bg-th-bg-surface border-red-500/30',
-        icon: 'text-red-500',
-        title: 'text-red-400',
-        progress: 'bg-red-500',
+        container: 'border-rose-500/30',
+        icon: 'text-rose-400',
+        title: 'text-rose-400',
+        progress: 'bg-rose-500',
+        glow: 'shadow-rose-500/20',
     },
     warning: {
-        container: 'bg-th-bg-surface border-yellow-500/30',
-        icon: 'text-yellow-500',
-        title: 'text-yellow-400',
-        progress: 'bg-yellow-500',
+        container: 'border-amber-500/30',
+        icon: 'text-amber-400',
+        title: 'text-amber-400',
+        progress: 'bg-amber-500',
+        glow: 'shadow-amber-500/20',
     },
     info: {
-        container: 'bg-th-bg-surface border-blue-500/30',
-        icon: 'text-blue-500',
+        container: 'border-blue-500/30',
+        icon: 'text-blue-400',
         title: 'text-blue-400',
         progress: 'bg-blue-500',
+        glow: 'shadow-blue-500/20',
     },
 };
 
@@ -83,25 +94,14 @@ export function Toast({
     action,
     onDismiss,
 }: ToastProps) {
-    const [isVisible, setIsVisible] = useState(false);
-    const [isLeaving, setIsLeaving] = useState(false);
     const [progress, setProgress] = useState(100);
 
     const styles = TOAST_STYLES[type];
     const Icon = TOAST_ICONS[type];
 
     const handleDismiss = useCallback(() => {
-        setIsLeaving(true);
-        setTimeout(() => {
-            onDismiss(id);
-        }, 200);
+        onDismiss(id);
     }, [id, onDismiss]);
-
-    // Enter animation
-    useEffect(() => {
-        const timer = setTimeout(() => setIsVisible(true), 10);
-        return () => clearTimeout(timer);
-    }, []);
 
     // Auto-dismiss with progress
     useEffect(() => {
@@ -130,7 +130,11 @@ export function Toast({
     };
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, x: 50, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 50, scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
             role="alert"
             aria-live="polite"
             aria-atomic="true"
@@ -139,37 +143,42 @@ export function Toast({
             className={`
                 relative overflow-hidden
                 w-full max-w-sm
-                rounded-xl border shadow-lg
-                transition-all duration-200 ease-out
+                rounded-xl border shadow-xl
+                bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95
+                backdrop-blur-xl
                 ${styles.container}
-                ${isVisible && !isLeaving
-                    ? 'translate-x-0 opacity-100'
-                    : 'translate-x-4 opacity-0'
-                }
+                ${styles.glow}
             `}
         >
             {/* Main Content */}
             <div className="p-4">
                 <div className="flex items-start gap-3">
-                    {/* Icon */}
-                    <div className={`flex-shrink-0 ${styles.icon}`}>
+                    {/* Icon with glow */}
+                    <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 400, delay: 0.1 }}
+                        className={`flex-shrink-0 ${styles.icon}`}
+                    >
                         <Icon className="w-5 h-5" aria-hidden="true" />
-                    </div>
+                    </motion.div>
 
                     {/* Text Content */}
                     <div className="flex-1 min-w-0">
-                        <p className={`font-medium ${styles.title}`}>
+                        <p className={`font-semibold ${styles.title}`}>
                             {title}
                         </p>
                         {message && (
-                            <p className="text-sm text-th-text-muted mt-1">
+                            <p className="text-sm text-slate-400 mt-1">
                                 {message}
                             </p>
                         )}
 
                         {/* Action Button */}
                         {action && (
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                                 onClick={() => {
                                     action.onClick();
                                     handleDismiss();
@@ -181,34 +190,37 @@ export function Toast({
                                 `}
                             >
                                 {action.label}
-                            </button>
+                            </motion.button>
                         )}
                     </div>
 
                     {/* Dismiss Button */}
                     {dismissible && (
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
                             onClick={handleDismiss}
-                            className="flex-shrink-0 p-1 rounded-lg text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover transition-colors focus:outline-none focus:ring-2 focus:ring-th-accent-primary"
+                            className="flex-shrink-0 p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
                             aria-label="Dismiss notification"
                         >
                             <X className="w-4 h-4" />
-                        </button>
+                        </motion.button>
                     )}
                 </div>
             </div>
 
             {/* Progress Bar */}
             {duration > 0 && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-th-border">
-                    <div
-                        className={`h-full transition-all duration-50 ${styles.progress}`}
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/[0.06]">
+                    <motion.div
+                        initial={{ width: '100%' }}
+                        className={`h-full ${styles.progress}`}
                         style={{ width: `${progress}%` }}
                         aria-hidden="true"
                     />
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 }
 
@@ -236,16 +248,16 @@ export function ToastContainer({
     onDismiss,
     position = 'bottom-right',
 }: ToastContainerProps) {
-    if (toasts.length === 0) return null;
-
     return (
         <div
             className={`fixed z-50 flex flex-col gap-3 ${POSITION_STYLES[position]}`}
             aria-label="Notifications"
         >
-            {toasts.map((toast) => (
-                <Toast key={toast.id} {...toast} onDismiss={onDismiss} />
-            ))}
+            <AnimatePresence mode="popLayout">
+                {toasts.map((toast) => (
+                    <Toast key={toast.id} {...toast} onDismiss={onDismiss} />
+                ))}
+            </AnimatePresence>
         </div>
     );
 }
