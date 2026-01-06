@@ -34,49 +34,48 @@
   --color-accent-secondary: #C15F3C;
   --color-accent-secondary-hover: #D4735A;
 
-  /* Semantic Colors - Warm-tinted */
-  --color-success: #6BBF59;
-  --color-success-muted: rgba(107, 191, 89, 0.12);
+  /* Semantic Colors - Warm-tinted (NO blue, NO bright green) */
+  --color-success: #7A8B5B;
+  --color-success-muted: rgba(122, 139, 91, 0.12);
   --color-warning: #E5A84B;
   --color-warning-muted: rgba(229, 168, 75, 0.12);
   --color-error: #E25C5C;
   --color-error-muted: rgba(226, 92, 92, 0.12);
-  --color-info: #5B9BD5;
-  --color-info-muted: rgba(91, 155, 213, 0.12);
+  --color-info: #8F8B82;
+  --color-info-muted: rgba(143, 139, 130, 0.12);
 
-  /* Chart Colors - Warm, earthy palette */
+  /* Chart Colors - Warm, earthy palette ONLY (NO blue, green, purple) */
   --color-chart-1: #DA7756;
   --color-chart-2: #C15F3C;
   --color-chart-3: #E5A84B;
-  --color-chart-4: #6BBF59;
-  --color-chart-5: #5B9BD5;
-  --color-chart-6: #9B7ED9;
+  --color-chart-4: #A68B5B;
+  --color-chart-5: #8B7355;
+  --color-chart-6: #B89B7D;
   --color-chart-7: #E25C5C;
-  --color-chart-8: #B1ADA1;
+  --color-chart-8: #8F8B82;
 
   /* Interactive States */
   --color-interactive-hover: rgba(250, 249, 246, 0.04);
   --color-interactive-active: rgba(250, 249, 246, 0.06);
   --color-interactive-selected: rgba(218, 119, 86, 0.15);
 
-  /* Enhanced Shadows with warm tinting */
+  /* Shadows - Subtle and warm-tinted */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 20px rgba(218, 119, 86, 0.2);
-  --shadow-glow-success: 0 0 20px rgba(107, 191, 89, 0.15);
-  --shadow-glow-error: 0 0 20px rgba(226, 92, 92, 0.15);
+  --shadow-subtle: 0 0 12px rgba(218, 119, 86, 0.1);
+  --shadow-subtle-success: 0 0 12px rgba(122, 139, 91, 0.1);
+  --shadow-subtle-error: 0 0 12px rgba(226, 92, 92, 0.1);
 
   /* Glassmorphism - Warmer glass effect */
   --glass-bg: rgba(41, 39, 37, 0.8);
   --glass-border: rgba(250, 249, 246, 0.08);
   --glass-blur: 12px;
 
-  /* Gradients - Warm orange gradient */
-  --gradient-brand: linear-gradient(135deg, #DA7756 0%, #C15F3C 50%, #A94D2D 100%);
+  /* Gradients - Warm orange gradient (subtle) */
+  --gradient-brand: linear-gradient(135deg, #DA7756 0%, #C15F3C 100%);
   --gradient-surface: linear-gradient(180deg, rgba(250, 249, 246, 0.02) 0%, transparent 100%);
-  --gradient-glow: radial-gradient(ellipse at center, rgba(218, 119, 86, 0.15) 0%, transparent 70%);
 
   /* Animation timing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -123,23 +122,23 @@
   --color-accent-secondary: #DA7756;
   --color-accent-secondary-hover: #C15F3C;
 
-  /* Semantic Colors - Warm-tinted for light mode */
-  --color-success: #4A9F3D;
-  --color-success-muted: rgba(74, 159, 61, 0.1);
+  /* Semantic Colors - Warm-tinted for light mode (NO blue, NO bright green) */
+  --color-success: #7A8B5B;
+  --color-success-muted: rgba(122, 139, 91, 0.1);
   --color-warning: #C98A2E;
   --color-warning-muted: rgba(201, 138, 46, 0.1);
   --color-error: #C94141;
   --color-error-muted: rgba(201, 65, 65, 0.1);
-  --color-info: #3A7BBF;
-  --color-info-muted: rgba(58, 123, 191, 0.1);
+  --color-info: #6B7280;
+  --color-info-muted: rgba(107, 114, 128, 0.1);
 
-  /* Chart Colors - Warm palette for light mode */
-  --color-chart-1: #C15F3C;
-  --color-chart-2: #DA7756;
-  --color-chart-3: #C98A2E;
-  --color-chart-4: #4A9F3D;
-  --color-chart-5: #3A7BBF;
-  --color-chart-6: #7B5CB8;
+  /* Chart Colors - Warm palette for light mode (NO blue, green, purple) */
+  --color-chart-1: #DA7756;
+  --color-chart-2: #C15F3C;
+  --color-chart-3: #E5A84B;
+  --color-chart-4: #A68B5B;
+  --color-chart-5: #8B7355;
+  --color-chart-6: #B89B7D;
   --color-chart-7: #C94141;
   --color-chart-8: #8F8B82;
 
@@ -148,24 +147,23 @@
   --color-interactive-active: rgba(26, 25, 24, 0.06);
   --color-interactive-selected: rgba(193, 95, 60, 0.1);
 
-  /* Enhanced Shadows for light mode - warm tint */
+  /* Shadows for light mode - subtle and warm tint */
   --shadow-sm: 0 1px 2px rgba(26, 25, 24, 0.06);
   --shadow-md: 0 4px 12px rgba(26, 25, 24, 0.08);
   --shadow-lg: 0 8px 24px rgba(26, 25, 24, 0.1);
   --shadow-xl: 0 16px 48px rgba(26, 25, 24, 0.12);
-  --shadow-glow: 0 0 20px rgba(193, 95, 60, 0.15);
-  --shadow-glow-success: 0 0 20px rgba(74, 159, 61, 0.1);
-  --shadow-glow-error: 0 0 20px rgba(201, 65, 65, 0.1);
+  --shadow-subtle: 0 0 12px rgba(193, 95, 60, 0.08);
+  --shadow-subtle-success: 0 0 12px rgba(122, 139, 91, 0.08);
+  --shadow-subtle-error: 0 0 12px rgba(201, 65, 65, 0.08);
 
   /* Glassmorphism for light mode */
   --glass-bg: rgba(255, 255, 255, 0.8);
   --glass-border: rgba(26, 25, 24, 0.06);
   --glass-blur: 12px;
 
-  /* Gradients - Warm orange gradient */
-  --gradient-brand: linear-gradient(135deg, #C15F3C 0%, #DA7756 50%, #E8916F 100%);
+  /* Gradients - Warm orange gradient (subtle) */
+  --gradient-brand: linear-gradient(135deg, #C15F3C 0%, #DA7756 100%);
   --gradient-surface: linear-gradient(180deg, rgba(26, 25, 24, 0.02) 0%, transparent 100%);
-  --gradient-glow: radial-gradient(ellipse at center, rgba(193, 95, 60, 0.1) 0%, transparent 70%);
 
   /* Scrollbar */
   --color-scrollbar-track: #EAE8E1;
@@ -373,17 +371,17 @@ textarea:focus-visible,
   opacity: 1;
 }
 
-/* Enhanced Card with Glow Effect */
-.card-glow {
+/* Enhanced Card with Subtle Hover Effect */
+.card-hover {
   background: var(--color-bg-surface);
   border: 1px solid var(--color-border-default);
   border-radius: 16px;
   transition: all var(--duration-normal) var(--ease-out-expo);
 }
 
-.card-glow:hover {
+.card-hover:hover {
   border-color: var(--color-accent-primary);
-  box-shadow: var(--shadow-glow);
+  box-shadow: var(--shadow-subtle);
   transform: translateY(-2px);
 }
 
@@ -433,18 +431,18 @@ textarea:focus-visible,
 .stagger-5 { animation-delay: 250ms; }
 .stagger-6 { animation-delay: 300ms; }
 
-/* Scale on Hover */
-@keyframes pulse-glow {
+/* Subtle Pulse Animation */
+@keyframes pulse-subtle {
   0%, 100% {
     box-shadow: 0 0 0 0 var(--color-accent-primary-muted);
   }
   50% {
-    box-shadow: 0 0 0 8px transparent;
+    box-shadow: 0 0 0 4px transparent;
   }
 }
 
-.pulse-glow {
-  animation: pulse-glow 2s infinite;
+.pulse-subtle {
+  animation: pulse-subtle 2s infinite;
 }
 
 /* Button Styles */
@@ -461,17 +459,8 @@ textarea:focus-visible,
   overflow: hidden;
 }
 
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: opacity var(--duration-fast);
-}
-
-.btn-primary:hover::before {
-  opacity: 1;
+.btn-primary:hover {
+  opacity: 0.9;
 }
 
 .btn-primary:active {

@@ -5,7 +5,7 @@
  */
 
 export const DB_NAME = 'game-insights-db';
-export const DB_VERSION = 8;
+export const DB_VERSION = 9;
 
 let db: IDBDatabase | null = null;
 let dbPromise: Promise<IDBDatabase> | null = null;
@@ -183,6 +183,11 @@ export async function getDatabase(): Promise<IDBDatabase> {
                 const cacheStore = database.createObjectStore('analysisCache', { keyPath: 'id' });
                 cacheStore.createIndex('dataId', 'dataId', { unique: false });
                 cacheStore.createIndex('timestamp', 'timestamp', { unique: false });
+            }
+
+            // Version 9: Sidebar settings
+            if (!database.objectStoreNames.contains('sidebarSettings')) {
+                database.createObjectStore('sidebarSettings', { keyPath: 'id' });
             }
         };
     });

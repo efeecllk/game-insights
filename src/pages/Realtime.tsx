@@ -6,9 +6,14 @@
  * - Warm orange accent theme
  * - Animated entrance effects
  * - Live pulse indicators
+ *
+ * Performance Optimizations:
+ * - Uses cleanup utilities for proper interval management
+ * - Registers as expensive feature for performance tracking
+ * - Automatic cleanup on unmount to prevent zombie processes
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import ReactECharts from 'echarts-for-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -30,6 +35,8 @@ import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useTimers } from '../lib/cleanupUtils';
+import { useFeatureTracking, usePausableOperation, usePerformanceStore } from '../lib/performanceStore';
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -71,8 +78,41 @@ export function RealtimePage() {
     const [timestamps, setTimestamps] = useState<string[]>([]);
     const [isLive, setIsLive] = useState(true);
 
+    // Cleanup utilities for proper resource management
+    const timers = useTimers();
+    const { shouldEnableLiveUpdates } = usePerformanceStore();
+
+    // Track this as an expensive feature
+    useFeatureTracking('realtime-page', 'Realtime Analytics', {
+        priority: 'high',
+        isExpensive: true,
+    });
+
+    // Register pausable operation for live updates
+    const pauseRef = useRef<() => void>(() => setIsLive(false));
+    const resumeRef = useRef<() => void>(() => setIsLive(true));
+
+    usePausableOperation('realtime-updates', 'Live Data Updates', {
+        pause: pauseRef.current,
+        resume: resumeRef.current,
+    });
+
     // Note: Real-time data would require actual live data source integration
     void hasRealData;
+
+    // Generate new data point
+    const generateNewDataPoint = useCallback(() => {
+        const newTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+        setTimestamps(prev => [...prev.slice(1), newTime]);
+        setChartData(prev => {
+            const updated = { ...prev };
+            liveCharts.forEach(chart => {
+                updated[chart.id] = [...(prev[chart.id] || []).slice(1), generateLiveData(chart.baseValue, chart.variance)];
+            });
+            return updated;
+        });
+    }, []);
 
     // Initialize chart data
     useEffect(() => {
@@ -94,25 +134,16 @@ export function RealtimePage() {
         setTimestamps(initialTimestamps);
     }, []);
 
-    // Live updates
+    // Live updates using cleanup utilities
     useEffect(() => {
-        if (!isLive) return;
+        // Don't start live updates if performance store says to disable them
+        if (!isLive || !shouldEnableLiveUpdates) return;
 
-        const interval = setInterval(() => {
-            const newTime = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+        // Use managed interval that auto-cleans on unmount
+        const handle = timers.setInterval(generateNewDataPoint, 3000, 'realtime-chart-update');
 
-            setTimestamps(prev => [...prev.slice(1), newTime]);
-            setChartData(prev => {
-                const updated = { ...prev };
-                liveCharts.forEach(chart => {
-                    updated[chart.id] = [...(prev[chart.id] || []).slice(1), generateLiveData(chart.baseValue, chart.variance)];
-                });
-                return updated;
-            });
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, [isLive]);
+        return () => handle.clear();
+    }, [isLive, shouldEnableLiveUpdates, generateNewDataPoint, timers]);
 
     return (
         <motion.div
@@ -386,6 +417,9 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
         debug: [] as number[],
     });
 
+    // Use cleanup utilities for proper interval management
+    const timers = useTimers();
+
     useEffect(() => {
         const initial = {
             info: Array(20).fill(0).map(() => generateLiveData(50, 20)),
@@ -398,16 +432,19 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
 
     useEffect(() => {
         if (!isLive) return;
-        const interval = setInterval(() => {
+
+        // Use managed interval that auto-cleans on unmount
+        const handle = timers.setInterval(() => {
             setErrorData(prev => ({
                 info: [...prev.info.slice(1), generateLiveData(50, 20)],
                 warning: [...prev.warning.slice(1), generateLiveData(30, 15)],
                 error: [...prev.error.slice(1), generateLiveData(15, 10)],
                 debug: [...prev.debug.slice(1), generateLiveData(40, 20)],
             }));
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [isLive]);
+        }, 3000, 'error-events-update');
+
+        return () => handle.clear();
+    }, [isLive, timers]);
 
     const option = {
         tooltip: {

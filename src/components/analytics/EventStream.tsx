@@ -5,9 +5,13 @@
  * - Glassmorphism containers
  * - Animated event entries
  * - Color-coded event types
+ *
+ * Performance Optimizations:
+ * - Uses cleanup utilities for proper interval management
+ * - Automatic cleanup on unmount to prevent zombie processes
  */
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity,
@@ -23,6 +27,8 @@ import {
     Search,
     X,
 } from 'lucide-react';
+import { useTimers } from '../../lib/cleanupUtils';
+import { useFeatureTracking, usePerformanceStore } from '../../lib/performanceStore';
 
 // ============================================================================
 // Types
@@ -144,20 +150,35 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
     const [searchQuery, setSearchQuery] = useState('');
     const listRef = useRef<HTMLDivElement>(null);
 
-    // Generate mock events when streaming
+    // Cleanup utilities for proper resource management
+    const timers = useTimers();
+    const { shouldEnableLiveUpdates } = usePerformanceStore();
+
+    // Track this as an expensive feature
+    useFeatureTracking('event-stream', 'Event Stream', {
+        priority: 'medium',
+        isExpensive: true,
+    });
+
+    // Memoized event generator
+    const addNewEvent = useCallback(() => {
+        const newEvent = generateMockEvent();
+        setEvents(prev => {
+            const updated = [newEvent, ...prev];
+            return updated.slice(0, maxEvents);
+        });
+    }, [maxEvents]);
+
+    // Generate mock events when streaming using managed timers
     useEffect(() => {
-        if (!isStreaming) return;
+        if (!isStreaming || !shouldEnableLiveUpdates) return;
 
-        const interval = setInterval(() => {
-            const newEvent = generateMockEvent();
-            setEvents(prev => {
-                const updated = [newEvent, ...prev];
-                return updated.slice(0, maxEvents);
-            });
-        }, Math.random() * 2000 + 500); // Random interval 500-2500ms
+        // Use managed interval that auto-cleans on unmount
+        // Use a fixed interval for better predictability
+        const handle = timers.setInterval(addNewEvent, 1500, 'event-stream-update');
 
-        return () => clearInterval(interval);
-    }, [isStreaming, maxEvents]);
+        return () => handle.clear();
+    }, [isStreaming, shouldEnableLiveUpdates, addNewEvent, timers]);
 
     // Auto-scroll to top on new events
     useEffect(() => {
