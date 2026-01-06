@@ -84,10 +84,10 @@ export function AdvancedToggle({
                 onClick={handleToggle}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-colors group"
+                className="w-full flex items-center justify-between p-4 rounded-xl bg-white/[0.02] border border-slate-800 hover:border-slate-600 transition-colors group"
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-slate-800/50 border border-white/[0.06] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-slate-800/50 border border-slate-800 flex items-center justify-center">
                         <Settings2 className="w-4 h-4 text-slate-400" />
                     </div>
                     <span className="text-sm font-medium text-slate-300">

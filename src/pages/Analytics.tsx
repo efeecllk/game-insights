@@ -117,7 +117,7 @@ export function AnalyticsPage() {
                         transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                         className="relative mb-6 inline-block"
                     >
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                         <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-2xl flex items-center justify-center">
                             <BarChart3 className="w-8 h-8 text-[#DA7756]" />
                         </div>
@@ -268,7 +268,7 @@ export function AnalyticsPage() {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setShowDataSelector(!showDataSelector)}
-                                        className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                                        className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
                                     >
                                         Switch Data
                                         <ChevronDown className={`w-4 h-4 transition-transform ${showDataSelector ? 'rotate-180' : ''}`} />
@@ -281,7 +281,7 @@ export function AnalyticsPage() {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                                                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                                className="absolute right-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                                className="absolute right-0 mt-2 w-64 bg-slate-900/95  border border-slate-700 rounded-xl shadow-lg overflow-hidden z-50"
                                             >
                                                 {gameDataList.map((data, index) => (
                                                     <motion.button
@@ -293,7 +293,7 @@ export function AnalyticsPage() {
                                                             setActiveGameData(data);
                                                             setShowDataSelector(false);
                                                         }}
-                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-white/[0.04] last:border-0 ${
+                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-slate-800 last:border-0 ${
                                                             data.id === activeGameData?.id ? 'bg-[#DA7756]/10 border-l-2 border-l-[#DA7756]' : ''
                                                         }`}
                                                     >

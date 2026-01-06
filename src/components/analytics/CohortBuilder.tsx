@@ -332,10 +332,10 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
         >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
                 <div className="flex items-center gap-4">
                     <div className="relative">
                         <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
@@ -373,7 +373,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             </div>
 
             {/* Cohort Info */}
-            <div className="px-6 py-5 border-b border-white/[0.06] space-y-4">
+            <div className="px-6 py-5 border-b border-slate-800 space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
                         Cohort Name
@@ -383,7 +383,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="e.g., High-Value Players"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
                 <div>
@@ -395,7 +395,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Describe this cohort..."
                         rows={2}
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 resize-none transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 resize-none transition-all"
                     />
                 </div>
             </div>
@@ -412,7 +412,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                         <select
                             value={groupLogic}
                             onChange={(e) => setGroupLogic(e.target.value as 'AND' | 'OR')}
-                            className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                            className="px-3 py-1.5 bg-white/[0.03] border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                         >
                             <option value="AND" className="bg-slate-900">ALL</option>
                             <option value="OR" className="bg-slate-900">ANY</option>
@@ -454,7 +454,7 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
                     whileHover={{ scale: 1.01, borderColor: 'rgba(218, 119, 86, 0.3)' }}
                     whileTap={{ scale: 0.99 }}
                     onClick={addGroup}
-                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-white/[0.08] rounded-xl text-sm text-slate-400 hover:text-[#DA7756] transition-all"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-4 border-2 border-dashed border-slate-700 rounded-xl text-sm text-slate-400 hover:text-[#DA7756] transition-all"
                 >
                     <Plus className="w-4 h-4" />
                     Add Group
@@ -462,14 +462,14 @@ export function CohortBuilder({ initialCohort, onSave, onCancel }: CohortBuilder
             </div>
 
             {/* Estimate Footer */}
-            <div className="flex items-center justify-between px-6 py-4 border-t border-white/[0.06] bg-white/[0.02]">
+            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800 bg-white/[0.02]">
                 <div className="flex items-center gap-4">
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={calculateSize}
                         disabled={isCalculating}
-                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-white disabled:opacity-50 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 rounded-xl text-sm text-white disabled:opacity-50 transition-all"
                     >
                         <Play className={`w-4 h-4 ${isCalculating ? 'animate-spin' : ''}`} />
                         {isCalculating ? 'Calculating...' : 'Calculate Size'}
@@ -527,15 +527,15 @@ function RuleGroupEditor({
     onDelete,
 }: RuleGroupEditorProps) {
     return (
-        <div className="border border-white/[0.08] rounded-xl overflow-hidden bg-white/[0.01]">
+        <div className="border border-slate-700 rounded-xl overflow-hidden bg-white/[0.01]">
             {/* Group Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-4 py-3 bg-white/[0.02] border-b border-slate-800">
                 <div className="flex items-center gap-2 text-sm">
                     <span className="text-slate-400">Match</span>
                     <select
                         value={group.logic}
                         onChange={(e) => onUpdateLogic(e.target.value as 'AND' | 'OR')}
-                        className="px-2 py-1 bg-white/[0.03] border border-white/[0.08] rounded-lg text-white focus:outline-none"
+                        className="px-2 py-1 bg-white/[0.03] border border-slate-700 rounded-lg text-white focus:outline-none"
                     >
                         <option value="AND" className="bg-slate-900">ALL</option>
                         <option value="OR" className="bg-slate-900">ANY</option>
@@ -610,7 +610,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
     const Icon = config.icon;
 
     return (
-        <div className="flex items-center gap-2 p-3 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+        <div className="flex items-center gap-2 p-3 bg-white/[0.02] border border-slate-800 rounded-xl">
             {/* Property */}
             <div className="relative">
                 <select
@@ -624,7 +624,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                             value: newConfig.type === 'number' ? 0 : '',
                         });
                     }}
-                    className="pl-8 pr-8 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 appearance-none cursor-pointer"
+                    className="pl-8 pr-8 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 appearance-none cursor-pointer"
                 >
                     {Object.entries(PROPERTY_CONFIG).map(([key, { label }]) => (
                         <option key={key} value={key} className="bg-slate-900">{label}</option>
@@ -638,7 +638,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
             <select
                 value={rule.operator}
                 onChange={(e) => onUpdate({ operator: e.target.value as RuleOperator })}
-                className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                className="px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
             >
                 {config.operators.map(op => (
                     <option key={op} value={op} className="bg-slate-900">{OPERATOR_LABELS[op]}</option>
@@ -650,7 +650,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                 <select
                     value={rule.value as string}
                     onChange={(e) => onUpdate({ value: e.target.value })}
-                    className="px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                    className="px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                 >
                     {config.options.map(opt => (
                         <option key={opt} value={opt} className="bg-slate-900">{opt}</option>
@@ -663,7 +663,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                     onChange={(e) => onUpdate({
                         value: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                     })}
-                    className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                    className="w-24 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                 />
             )}
 
@@ -677,7 +677,7 @@ function RuleEditor({ rule, canDelete, onUpdate, onDelete }: RuleEditorProps) {
                         onChange={(e) => onUpdate({
                             secondValue: config.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value
                         })}
-                        className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                        className="w-24 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                     />
                 </>
             )}

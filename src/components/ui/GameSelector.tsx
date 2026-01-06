@@ -26,7 +26,7 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
             className="relative"
         >
             {/* Container with glassmorphism */}
-            <div className="relative bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/80 backdrop-blur-xl rounded-2xl p-4 border border-white/[0.05] overflow-hidden">
+            <div className="relative bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/80  rounded-2xl p-4 border border-white/[0.05] overflow-hidden">
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNCIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
@@ -74,7 +74,7 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
 
                                 {/* Hover background for unselected */}
                                 {!isSelected && (
-                                    <div className="absolute inset-0 bg-white/[0.03] rounded-xl border border-white/[0.04] opacity-0 hover:opacity-100 transition-opacity duration-200" />
+                                    <div className="absolute inset-0 bg-white/[0.03] rounded-xl border border-slate-800 opacity-0 hover:opacity-100 transition-opacity duration-200" />
                                 )}
 
                                 {/* Content */}

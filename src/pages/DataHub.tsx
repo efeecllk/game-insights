@@ -94,7 +94,7 @@ export function DataHubPage() {
         return (
             <div className="flex items-center justify-center h-64">
                 <div className="relative">
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl animate-pulse" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full" />
                     <Loader2 className="w-8 h-8 text-[#DA7756] animate-spin relative" />
                 </div>
             </div>
@@ -210,7 +210,7 @@ export function DataHubPage() {
                             placeholder="Search data sources..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.03] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </motion.div>
@@ -282,7 +282,7 @@ export function DataHubPage() {
                             transition={{ type: 'spring', delay: 0.2 }}
                             className="relative inline-block mb-4"
                         >
-                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-xl" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl" />
                             <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center mx-auto">
                                 <Database className="w-8 h-8 text-[#DA7756]" />
                             </div>
@@ -401,7 +401,7 @@ function StatCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -513,7 +513,7 @@ function IntegrationCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl">
                         {iconClass}
@@ -600,17 +600,17 @@ function IntegrationCard({
                             exit={{ height: 0, opacity: 0 }}
                             className="overflow-hidden"
                         >
-                            <div className="pt-4 mt-4 border-t border-white/[0.06]">
+                            <div className="pt-4 mt-4 border-t border-slate-800">
                                 <div className="grid grid-cols-3 gap-4">
-                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-slate-800">
                                         <p className="text-xs text-slate-500 mb-1">Status</p>
                                         <p className="text-sm font-medium text-white capitalize">{integration.status}</p>
                                     </div>
-                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-slate-800">
                                         <p className="text-xs text-slate-500 mb-1">Sync Duration</p>
                                         <p className="text-sm font-medium text-white">{integration.metadata.syncDuration || 0}ms</p>
                                     </div>
-                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                                    <div className="p-3 rounded-xl bg-white/[0.02] border border-slate-800">
                                         <p className="text-xs text-slate-500 mb-1">Data Freshness</p>
                                         <p className="text-sm font-medium text-white">{integration.metadata.dataFreshness ? formatLastSync(integration.metadata.dataFreshness) : 'N/A'}</p>
                                     </div>
@@ -648,7 +648,7 @@ function UploadedDataCard({
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
         >
             <Link to={`/analytics`}>
-                <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all cursor-pointer">
+                <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all cursor-pointer">
                     <div className="flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center">
                             <FileSpreadsheet className="w-6 h-6 text-[#8F8B82]" />
@@ -715,7 +715,7 @@ function AddIntegrationModal({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                className="absolute inset-0 bg-black/60 "
                 onClick={onClose}
             />
 
@@ -724,10 +724,10 @@ function AddIntegrationModal({
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 border border-white/[0.08] shadow-2xl"
+                className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl bg-slate-900 border border-slate-700 shadow-lg"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
+                <div className="flex items-center justify-between p-6 border-b border-slate-800">
                     <div>
                         <h2 className="text-xl font-semibold text-white">Add Data Source</h2>
                         <p className="text-sm text-slate-500 mt-1">Connect to your analytics platform</p>
@@ -743,7 +743,7 @@ function AddIntegrationModal({
                 </div>
 
                 {/* Search */}
-                <div className="p-4 border-b border-white/[0.06]">
+                <div className="p-4 border-b border-slate-800">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                         <input
@@ -751,7 +751,7 @@ function AddIntegrationModal({
                             placeholder="Search integrations..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                     </div>
                 </div>
@@ -764,7 +764,7 @@ function AddIntegrationModal({
                             whileHover={{ scale: 1.01, x: 4 }}
                             whileTap={{ scale: 0.99 }}
                             onClick={() => onSelect(item.type)}
-                            className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 transition-all text-left group"
+                            className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/[0.02] border border-slate-800 hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 transition-all text-left group"
                         >
                             <div className="w-12 h-12 rounded-xl bg-white/[0.05] flex items-center justify-center text-2xl">
                                 {item.icon}
@@ -796,7 +796,7 @@ function AddIntegrationModal({
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 border-t border-white/[0.06] flex items-center justify-between">
+                <div className="p-4 border-t border-slate-800 flex items-center justify-between">
                     <p className="text-sm text-slate-500">
                         Can't find your platform? <button className="text-[#DA7756] hover:text-[#C15F3C]">Request integration</button>
                     </p>

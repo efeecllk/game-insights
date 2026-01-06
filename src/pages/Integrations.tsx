@@ -68,7 +68,6 @@ const cardVariants = {
 // Noise texture for glassmorphism
 // ============================================================================
 
-const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`;
 
 // ============================================================================
 // Main Page Component
@@ -95,7 +94,7 @@ export function IntegrationsPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center">
                 <div className="relative">
                     <div className="w-12 h-12 border-2 border-[#DA7756]/20 rounded-full" />
                     <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-[#DA7756] rounded-full animate-spin" />
@@ -105,14 +104,7 @@ export function IntegrationsPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#C15F3C]/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#C15F3C]/5 rounded-full blur-3xl" />
-            </div>
-
+        <div className="min-h-screen bg-slate-950">
             <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -125,26 +117,21 @@ export function IntegrationsPage() {
                     className="flex items-center justify-between"
                 >
                     <div className="flex items-center gap-4">
-                        <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                            className="p-3 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20"
-                        >
+                        <div className="p-3 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20">
                             <Database className="w-6 h-6 text-[#DA7756]" />
-                        </motion.div>
+                        </div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold text-white">
                                 Data Sources
                             </h1>
                             <p className="text-slate-400 text-sm">Connect to your data and sync automatically</p>
                         </div>
                     </div>
                     <motion.button
-                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                        whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setShowAddModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                     >
                         <Plus className="w-5 h-5" />
                         Add Data Source
@@ -259,15 +246,15 @@ function StatCard({
 }) {
     const highlightClass = highlight
         ? highlightColor === 'rose'
-            ? 'border-rose-500/30 shadow-rose-500/5'
-            : 'border-[#DA7756]/30 shadow-[#DA7756]/5'
-        : 'border-white/[0.06]';
+            ? 'border-rose-500/30'
+            : 'border-[#DA7756]/30'
+        : 'border-slate-800';
 
     return (
         <motion.div
             whileHover={{ scale: 1.02, y: -2 }}
-            className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-4 border shadow-lg ${highlightClass}`}
-            style={{ backgroundImage: noiseTexture }}
+            className={`bg-slate-900  rounded-2xl p-4 border shadow-lg ${highlightClass}`}
+            
         >
             <div className="flex items-center gap-3">
                 <span className="text-2xl">{icon}</span>
@@ -285,8 +272,8 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
     return (
         <motion.div
             variants={cardVariants}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-white/[0.06] text-center"
-            style={{ backgroundImage: noiseTexture }}
+            className="bg-slate-900  rounded-2xl p-12 border border-slate-800 text-center"
+            
         >
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                 <Link2 className="w-8 h-8 text-[#DA7756]" />
@@ -296,10 +283,10 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
                 Connect to Google Sheets, Supabase, PostgreSQL, or receive real-time data via webhooks.
             </p>
             <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onAdd}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white shadow-lg shadow-[#DA7756]/20 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#DA7756] text-white  transition-all"
             >
                 <Plus className="w-5 h-5" />
                 Add Your First Data Source
@@ -327,13 +314,13 @@ function IntegrationCard({
     return (
         <motion.div
             whileHover={{ scale: 1.01 }}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden"
-            style={{ backgroundImage: noiseTexture }}
+            className="bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden"
+            
         >
             {/* Main Row */}
             <div className="p-4 flex items-center gap-4">
                 {/* Icon */}
-                <div className="w-12 h-12 rounded-xl bg-slate-800/50 border border-white/[0.06] flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-xl bg-slate-800/50 border border-slate-800 flex items-center justify-center text-2xl">
                     {getIntegrationIcon(integration.config.type)}
                 </div>
 
@@ -435,20 +422,20 @@ function IntegrationCard({
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="px-4 pb-4 border-t border-white/[0.06] pt-4"
+                        className="px-4 pb-4 border-t border-slate-800 pt-4"
                     >
                         <div className="grid grid-cols-2 gap-4 text-sm">
-                            <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <div className="text-slate-500 mb-1">Type</div>
                                 <div className="text-white">{catalogItem?.name}</div>
                             </div>
-                            <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <div className="text-slate-500 mb-1">Created</div>
                                 <div className="text-white">
                                     {new Date(integration.createdAt).toLocaleDateString()}
                                 </div>
                             </div>
-                            <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <div className="text-slate-500 mb-1">Sync Strategy</div>
                                 <div className="text-white capitalize">
                                     {integration.config.syncStrategy.type}
@@ -456,7 +443,7 @@ function IntegrationCard({
                                         ` (every ${integration.config.syncStrategy.intervalMinutes} min)`}
                                 </div>
                             </div>
-                            <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <div className="text-slate-500 mb-1">Last Sync Duration</div>
                                 <div className="text-white">
                                     {integration.metadata.syncDuration
@@ -508,7 +495,7 @@ function AddIntegrationModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 "
             onClick={onClose}
         >
             <motion.div
@@ -516,12 +503,12 @@ function AddIntegrationModal({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 backdrop-blur-xl rounded-2xl border border-white/[0.08] w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-2xl"
-                style={{ backgroundImage: noiseTexture }}
+                className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950  rounded-2xl border border-slate-700 w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col shadow-lg"
+                
                 onClick={e => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="p-6 border-b border-white/[0.06] flex items-center justify-between">
+                <div className="p-6 border-b border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Sparkles className="w-5 h-5 text-[#DA7756]" />
@@ -559,7 +546,7 @@ function AddIntegrationModal({
                                     value={searchQuery}
                                     onChange={e => onSearchChange(e.target.value)}
                                     placeholder="Search integrations..."
-                                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                                    className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                                 />
                             </div>
 
@@ -609,9 +596,9 @@ function IntegrationGroup({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => onSelect(item.type)}
-                        className="flex items-center gap-4 p-4 bg-slate-800/40 hover:bg-slate-800/60 border border-white/[0.06] hover:border-[#DA7756]/30 rounded-xl text-left transition-all group"
+                        className="flex items-center gap-4 p-4 bg-slate-800/40 hover:bg-slate-800/60 border border-slate-800 hover:border-[#DA7756]/30 rounded-xl text-left transition-all group"
                     >
-                        <div className="w-12 h-12 rounded-xl bg-slate-900/50 border border-white/[0.06] flex items-center justify-center text-2xl">
+                        <div className="w-12 h-12 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-center text-2xl">
                             {item.icon}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -712,8 +699,8 @@ function ConfigurationForm({
             </motion.button>
 
             {/* Integration header */}
-            <div className="flex items-center gap-4 p-4 bg-slate-800/40 rounded-xl border border-white/[0.06]">
-                <div className="w-12 h-12 rounded-xl bg-slate-900/50 border border-white/[0.06] flex items-center justify-center text-2xl">
+            <div className="flex items-center gap-4 p-4 bg-slate-800/40 rounded-xl border border-slate-800">
+                <div className="w-12 h-12 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-center text-2xl">
                     {catalogItem?.icon}
                 </div>
                 <div>
@@ -729,7 +716,7 @@ function ConfigurationForm({
                     value={name}
                     onChange={e => setName(e.target.value)}
                     placeholder="My Data Source"
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                    className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                     required
                 />
             </FormField>
@@ -738,13 +725,13 @@ function ConfigurationForm({
             {type === 'supabase' && (
                 <>
                     <FormField label="Project URL" required hint="Found in your Supabase project settings">
-                        <input type="url" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://xxx.supabase.co" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                        <input type="url" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} placeholder="https://xxx.supabase.co" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <FormField label="API Key (anon or service role)" required>
-                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="eyJ..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="eyJ..." className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <FormField label="Table Name" required>
-                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                 </>
             )}
@@ -752,7 +739,7 @@ function ConfigurationForm({
             {type === 'google_sheets' && (
                 <>
                     <FormField label="Spreadsheet ID" required hint="The ID from the spreadsheet URL: docs.google.com/spreadsheets/d/[SPREADSHEET_ID]/edit">
-                        <input type="text" value={spreadsheetId} onChange={e => setSpreadsheetId(e.target.value)} placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                        <input type="text" value={spreadsheetId} onChange={e => setSpreadsheetId(e.target.value)} placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl">
                         <div className="flex items-start gap-3">
@@ -769,25 +756,25 @@ function ConfigurationForm({
                 <>
                     <div className="grid grid-cols-2 gap-4">
                         <FormField label="Host" required>
-                            <input type="text" value={host} onChange={e => setHost(e.target.value)} placeholder="db.example.com" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                            <input type="text" value={host} onChange={e => setHost(e.target.value)} placeholder="db.example.com" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                         <FormField label="Port" required>
-                            <input type="number" value={port} onChange={e => setPort(e.target.value)} placeholder="5432" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                            <input type="number" value={port} onChange={e => setPort(e.target.value)} placeholder="5432" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                     </div>
                     <FormField label="Database" required>
-                        <input type="text" value={database} onChange={e => setDatabase(e.target.value)} placeholder="myapp_production" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                        <input type="text" value={database} onChange={e => setDatabase(e.target.value)} placeholder="myapp_production" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                     </FormField>
                     <div className="grid grid-cols-2 gap-4">
                         <FormField label="Username" required>
-                            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="postgres" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                            <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="postgres" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                         <FormField label="Password" required>
-                            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
+                            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" required />
                         </FormField>
                     </div>
                     <FormField label="Table Name">
-                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events (optional - can select later)" className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
+                        <input type="text" value={tableName} onChange={e => setTableName(e.target.value)} placeholder="game_events (optional - can select later)" className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
                     </FormField>
                     <div className="p-4 bg-[#8F8B82]/10 border border-[#8F8B82]/20 rounded-xl">
                         <div className="flex items-start gap-3">
@@ -802,14 +789,14 @@ function ConfigurationForm({
 
             {type === 'webhook' && (
                 <>
-                    <div className="p-4 bg-slate-800/40 rounded-xl border border-white/[0.06]">
+                    <div className="p-4 bg-slate-800/40 rounded-xl border border-slate-800">
                         <div className="text-sm text-slate-400 mb-2">Your webhook URL will be:</div>
                         <code className="text-[#DA7756] text-sm break-all">
                             https://your-domain.com/webhook/[unique-id]
                         </code>
                     </div>
                     <FormField label="Secret Key (optional)" hint="Used to validate incoming webhooks">
-                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="whsec_..." className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
+                        <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="whsec_..." className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors" />
                     </FormField>
                 </>
             )}
@@ -818,21 +805,21 @@ function ConfigurationForm({
             {type !== 'webhook' && (
                 <FormField label="Sync Settings">
                     <div className="space-y-3">
-                        <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-white/[0.04]">
+                        <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-slate-800">
                             <input type="radio" name="syncType" value="manual" checked={syncType === 'manual'} onChange={() => setSyncType('manual')} className="text-[#DA7756] accent-[#DA7756]" />
                             <div>
                                 <div className="text-white">Manual</div>
                                 <div className="text-sm text-slate-500">Refresh data on demand</div>
                             </div>
                         </label>
-                        <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-white/[0.04]">
+                        <label className="flex items-center gap-3 p-3 bg-slate-800/40 rounded-xl cursor-pointer hover:bg-slate-800/60 transition-colors border border-slate-800">
                             <input type="radio" name="syncType" value="scheduled" checked={syncType === 'scheduled'} onChange={() => setSyncType('scheduled')} className="text-[#DA7756] accent-[#DA7756]" />
                             <div className="flex-1">
                                 <div className="text-white">Scheduled</div>
                                 <div className="text-sm text-slate-500">Auto-refresh at intervals</div>
                             </div>
                             {syncType === 'scheduled' && (
-                                <select value={syncInterval} onChange={e => setSyncInterval(e.target.value)} className="px-3 py-1.5 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50">
+                                <select value={syncInterval} onChange={e => setSyncInterval(e.target.value)} className="px-3 py-1.5 bg-slate-900/50 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50">
                                     <option value="5">Every 5 min</option>
                                     <option value="15">Every 15 min</option>
                                     <option value="60">Every hour</option>
@@ -853,7 +840,7 @@ function ConfigurationForm({
             )}
 
             {/* Submit */}
-            <div className="flex justify-end gap-3 pt-4 border-t border-white/[0.06]">
+            <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
                 <motion.button
                     type="button"
                     whileHover={{ scale: 1.02 }}
@@ -865,10 +852,10 @@ function ConfigurationForm({
                 </motion.button>
                 <motion.button
                     type="submit"
-                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                    whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 px-6 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white disabled:opacity-50 transition-all shadow-lg shadow-[#DA7756]/20"
+                    className="flex items-center gap-2 px-6 py-2 rounded-xl bg-[#DA7756] text-white disabled:opacity-50 transition-all "
                 >
                     {isSubmitting ? (
                         <>

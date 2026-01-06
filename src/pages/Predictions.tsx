@@ -209,12 +209,12 @@ const StatCard: React.FC<{
             whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
             className="relative group"
         >
-            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
-            <div className={`relative bg-gradient-to-br ${styles.bg} backdrop-blur-xl rounded-2xl p-5 border ${styles.border} transition-all duration-300 overflow-hidden`}>
+            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            <div className={`relative bg-gradient-to-br ${styles.bg}  rounded-2xl p-5 border ${styles.border} transition-all duration-300 overflow-hidden`}>
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                 <div className="relative">
                     <div className="flex items-start justify-between mb-3">
-                        <div className={`p-2 rounded-lg bg-white/[0.05] border border-white/[0.08]`}>
+                        <div className={`p-2 rounded-lg bg-white/[0.05] border border-slate-700`}>
                             <Icon className={`w-5 h-5 ${styles.icon}`} />
                         </div>
                         {change !== undefined && (
@@ -288,7 +288,7 @@ const ForecastChart: React.FC<{ data: RevenueForecast[] }> = ({ data }) => {
                 <span>+30 days</span>
             </div>
 
-            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/[0.04]">
+            <div className="flex items-center gap-4 mt-4 pt-4 border-t border-slate-800">
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded bg-[#DA7756]/50" />
                     <span className="text-xs text-slate-500">Weekday</span>
@@ -329,7 +329,7 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    className="p-3 bg-slate-900/50 rounded-xl border border-white/[0.04] hover:border-white/[0.08] transition-colors"
+                    className="p-3 bg-slate-900/50 rounded-xl border border-slate-800 hover:border-slate-700 transition-colors"
                 >
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-white font-medium">{user.name}</span>
@@ -346,7 +346,7 @@ const ChurnRiskPanel: React.FC<{ users: ChurnRiskUser[] }> = ({ users }) => (
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {user.factors.map((factor, i) => (
-                            <span key={i} className="text-xs px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded-lg text-slate-400">
+                            <span key={i} className="text-xs px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-lg text-slate-400">
                                 {factor}
                             </span>
                         ))}
@@ -422,7 +422,7 @@ const RecommendationsPanel: React.FC<{ recommendations: Recommendation[] }> = ({
                                 <div className="mt-0.5">{style.icon}</div>
                                 <div className="flex-1">
                                     <div className="flex items-center gap-2 mb-1">
-                                        <span className="text-xs px-2 py-0.5 bg-white/[0.05] border border-white/[0.08] rounded text-slate-400">
+                                        <span className="text-xs px-2 py-0.5 bg-white/[0.05] border border-slate-700 rounded text-slate-400">
                                             {rec.category}
                                         </span>
                                     </div>
@@ -539,7 +539,7 @@ const WhatIfAnalysis: React.FC = () => {
                     />
                 </div>
 
-                <div className="p-4 bg-slate-900/50 rounded-xl border border-white/[0.04]">
+                <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
                     <div className="text-sm text-slate-400 mb-1">Projected 30-Day Revenue</div>
                     <div className="flex items-baseline gap-2">
                         <span className="text-2xl font-display font-bold text-white">
@@ -667,7 +667,7 @@ export const PredictionsPage: React.FC = () => {
                         transition={{ repeat: Infinity, duration: 1.5 }}
                         className="relative"
                     >
-                        <div className="absolute inset-0 bg-[#C15F3C]/30 rounded-2xl blur-xl" />
+                        <div className="absolute inset-0 bg-[#C15F3C]/30 rounded-2xl" />
                         <div className="relative w-16 h-16 bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/30 rounded-2xl flex items-center justify-center">
                             <Brain className="w-8 h-8 text-[#C15F3C]" />
                         </div>
@@ -753,7 +753,7 @@ export const PredictionsPage: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
                             >
                                 <Clock className="w-4 h-4" />
                                 <span>Last updated: {mlStatus.lastTrainedAt ? new Date(mlStatus.lastTrainedAt).toLocaleTimeString() : '5 min ago'}</span>

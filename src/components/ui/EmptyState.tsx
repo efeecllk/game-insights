@@ -49,7 +49,7 @@ export function EmptyState({
                 transition={{ duration: 0.3 }}
                 className="flex flex-col items-center justify-center py-8 text-center"
             >
-                <div className="w-10 h-10 rounded-xl bg-slate-800/50 border border-white/[0.06] flex items-center justify-center mb-3">
+                <div className="w-10 h-10 rounded-xl bg-slate-800/50 border border-slate-800 flex items-center justify-center mb-3">
                     <Icon className="w-5 h-5 text-slate-500" />
                 </div>
                 <p className="text-sm text-slate-500">{title}</p>
@@ -96,8 +96,8 @@ export function EmptyState({
                 transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                 className="relative mb-6"
             >
-                <div className="absolute inset-0 bg-[#DA7756]/10 rounded-2xl blur-xl" />
-                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#DA7756]/10 rounded-2xl" />
+                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 flex items-center justify-center">
                     <Icon className="w-8 h-8 text-slate-400" />
                 </div>
             </motion.div>

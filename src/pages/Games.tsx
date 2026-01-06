@@ -156,7 +156,7 @@ export function GamesPage() {
                         transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                         <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Gamepad2 className="w-6 h-6 text-[#DA7756]" />
                         </div>
@@ -234,11 +234,11 @@ export function GamesPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-12 text-center overflow-hidden"
+                        className="relative bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
-                            <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-white/[0.06] flex items-center justify-center mx-auto mb-4">
+                            <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 flex items-center justify-center mx-auto mb-4">
                                 <Gamepad2 className="w-8 h-8 text-slate-600" />
                             </div>
                             <p className="text-slate-500">No games yet. Add your first game to get started.</p>
@@ -291,8 +291,8 @@ function StatCard({
             whileHover={{ y: -2 }}
             className="relative group"
         >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-4 overflow-hidden">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 p-4 overflow-hidden">
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                 <div className="relative flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-xl ${colors[color]} border flex items-center justify-center`}>
@@ -341,14 +341,14 @@ function GameCard({
             onClick={onSelect}
         >
             {/* Glow effect */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] group-hover:border-[#DA7756]/20 transition-colors overflow-hidden">
+            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 group-hover:border-[#DA7756]/20 transition-colors overflow-hidden">
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                 {/* Header */}
-                <div className="relative p-4 border-b border-white/[0.04]">
+                <div className="relative p-4 border-b border-slate-800">
                     <div className="flex items-start gap-3">
                         <span className="text-3xl">{game.icon}</span>
                         <div className="flex-1 min-w-0">
@@ -357,7 +357,7 @@ function GameCard({
                                 <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 uppercase tracking-wider font-medium">
                                     {getGenreLabel(game.genre)}
                                 </span>
-                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.03] text-slate-500 border border-white/[0.06] uppercase tracking-wider">
+                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.03] text-slate-500 border border-slate-800 uppercase tracking-wider">
                                     {getPlatformLabel(game.platform)}
                                 </span>
                             </div>
@@ -380,7 +380,7 @@ function GameCard({
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95, y: -10 }}
                                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                    className="absolute right-4 top-12 z-10 bg-slate-900 rounded-xl border border-white/[0.08] shadow-2xl py-1.5 w-40 overflow-hidden"
+                                    className="absolute right-4 top-12 z-10 bg-slate-900 rounded-xl border border-slate-700 shadow-lg py-1.5 w-40 overflow-hidden"
                                     onClick={(e) => e.stopPropagation()}
                                 >
                                     <button
@@ -407,7 +407,7 @@ function GameCard({
                                         <Settings className="w-4 h-4 text-slate-500" />
                                         {game.isActive ? 'Deactivate' : 'Activate'}
                                     </button>
-                                    <div className="border-t border-white/[0.06] my-1" />
+                                    <div className="border-t border-slate-800 my-1" />
                                     <button
                                         onClick={() => { onDelete(); setShowMenu(false); }}
                                         className="w-full px-3 py-2 text-left text-sm text-rose-400 hover:bg-rose-500/10 flex items-center gap-2 transition-colors"
@@ -537,7 +537,7 @@ function GameModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60  p-4"
             onClick={onClose}
         >
             <motion.div
@@ -545,14 +545,14 @@ function GameModal({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.95, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-2xl border border-white/[0.08] w-full max-w-lg shadow-2xl max-h-[90vh] overflow-hidden"
+                className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-2xl border border-slate-700 w-full max-w-lg shadow-lg max-h-[90vh] overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                 {/* Header */}
-                <div className="relative flex items-center justify-between p-5 border-b border-white/[0.06]">
+                <div className="relative flex items-center justify-between p-5 border-b border-slate-800">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Gamepad2 className="w-5 h-5 text-[#DA7756]" />
@@ -587,7 +587,7 @@ function GameModal({
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             placeholder="Enter game name"
                             required
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                         />
                     </div>
 
@@ -607,7 +607,7 @@ function GameModal({
                                     className={`p-2.5 rounded-xl border text-left transition-all ${
                                         formData.genre === value
                                             ? 'border-[#DA7756]/30 bg-[#DA7756]/10'
-                                            : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02]'
+                                            : 'border-slate-800 hover:border-slate-600 bg-white/[0.02]'
                                     }`}
                                 >
                                     <span className="text-xl">{icon}</span>
@@ -625,7 +625,7 @@ function GameModal({
                         <select
                             value={formData.platform}
                             onChange={(e) => setFormData({ ...formData, platform: e.target.value as GamePlatform })}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                         >
                             {PLATFORM_OPTIONS.map(({ value, label }) => (
                                 <option key={value} value={value}>{label}</option>
@@ -643,7 +643,7 @@ function GameModal({
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             placeholder="Brief description of your game"
                             rows={2}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 resize-none transition-all text-sm"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 resize-none transition-all text-sm"
                         />
                     </div>
 
@@ -656,7 +656,7 @@ function GameModal({
                             <select
                                 value={formData.timezone}
                                 onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             >
                                 <option value="America/New_York">Eastern (ET)</option>
                                 <option value="America/Chicago">Central (CT)</option>
@@ -676,7 +676,7 @@ function GameModal({
                             <select
                                 value={formData.currency}
                                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             >
                                 <option value="USD">USD ($)</option>
                                 <option value="EUR">EUR</option>
@@ -689,7 +689,7 @@ function GameModal({
                     </div>
 
                     {/* Store Links */}
-                    <div className="pt-4 border-t border-white/[0.06]">
+                    <div className="pt-4 border-t border-slate-800">
                         <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-3">Store Links (Optional)</p>
                         <div className="space-y-3">
                             <input
@@ -697,14 +697,14 @@ function GameModal({
                                 value={formData.appStoreUrl}
                                 onChange={(e) => setFormData({ ...formData, appStoreUrl: e.target.value })}
                                 placeholder="App Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             />
                             <input
                                 type="url"
                                 value={formData.playStoreUrl}
                                 onChange={(e) => setFormData({ ...formData, playStoreUrl: e.target.value })}
                                 placeholder="Play Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
+                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
                             />
                         </div>
                     </div>

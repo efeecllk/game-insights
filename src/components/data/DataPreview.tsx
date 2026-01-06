@@ -190,7 +190,7 @@ export function DataPreview({
             {/* Validation Summary */}
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
+                className="bg-slate-900  rounded-2xl border border-slate-700 p-5"
             >
                 <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-4">
@@ -213,7 +213,7 @@ export function DataPreview({
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={onExport}
-                                className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-slate-300 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 rounded-xl text-sm text-slate-300 transition-colors"
                             >
                                 <Download className="w-4 h-4" />
                                 Export
@@ -265,7 +265,7 @@ export function DataPreview({
                             setCurrentPage(0);
                         }}
                         placeholder="Search data..."
-                        className="w-full pl-9 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                        className="w-full pl-9 pr-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -276,7 +276,7 @@ export function DataPreview({
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                         showIssuesOnly
                             ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                            : 'bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:bg-white/[0.06]'
+                            : 'bg-white/[0.03] border border-slate-700 text-slate-300 hover:bg-white/[0.06]'
                     }`}
                 >
                     <Filter className="w-4 h-4" />
@@ -298,12 +298,12 @@ export function DataPreview({
             {/* Data Table */}
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+                className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
             >
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>
-                            <tr className="border-b border-white/[0.06] bg-white/[0.02]">
+                            <tr className="border-b border-slate-800 bg-white/[0.02]">
                                 <th className="px-4 py-3 text-left text-slate-400 font-medium w-12">
                                     #
                                 </th>
@@ -341,7 +341,7 @@ export function DataPreview({
                                             initial="hidden"
                                             animate="visible"
                                             exit="hidden"
-                                            className={`border-b border-white/[0.04] transition-colors ${
+                                            className={`border-b border-slate-800 transition-colors ${
                                                 hasError
                                                     ? 'bg-rose-500/5 hover:bg-rose-500/10'
                                                     : hasWarning
@@ -384,7 +384,7 @@ export function DataPreview({
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="flex items-center justify-between px-4 py-3 border-t border-white/[0.06] bg-white/[0.02]">
+                    <div className="flex items-center justify-between px-4 py-3 border-t border-slate-800 bg-white/[0.02]">
                         <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
@@ -444,7 +444,7 @@ export function DataPreview({
             {/* Column Stats */}
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
+                className="bg-slate-900  rounded-2xl border border-slate-700 p-5"
             >
                 <h4 className="font-medium text-white mb-4 flex items-center gap-3">
                     <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
@@ -474,7 +474,7 @@ export function DataPreview({
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
-                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
+                        className="bg-slate-900  rounded-2xl border border-slate-700 p-5"
                     >
                         <h4 className="font-medium text-white mb-4 flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
@@ -632,7 +632,7 @@ function ColumnStatsCard({ column, totalRows }: { column: ColumnStats; totalRows
     const uniqueness = Math.round((column.uniqueCount / totalRows) * 100);
 
     return (
-        <div className="bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.06] rounded-xl p-4 transition-colors">
+        <div className="bg-white/[0.02] hover:bg-white/[0.04] border border-slate-800 rounded-xl p-4 transition-colors">
             <div className="flex items-center gap-2 mb-3">
                 <ColumnTypeIcon type={column.type} />
                 <span className="font-medium text-white truncate">{column.name}</span>
@@ -698,7 +698,7 @@ function ColumnStatsCard({ column, totalRows }: { column: ColumnStats; totalRows
                         {column.sampleValues.slice(0, 3).map((val, idx) => (
                             <span
                                 key={idx}
-                                className="px-1.5 py-0.5 bg-white/[0.04] border border-white/[0.06] rounded text-xs text-slate-300 font-mono"
+                                className="px-1.5 py-0.5 bg-white/[0.04] border border-slate-800 rounded text-xs text-slate-300 font-mono"
                             >
                                 {String(val).slice(0, 20)}
                             </span>

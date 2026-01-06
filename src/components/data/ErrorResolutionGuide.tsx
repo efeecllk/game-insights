@@ -558,10 +558,10 @@ export function ErrorResolutionGuide({
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
         >
             {/* Header */}
-            <div className={`p-4 border-b border-white/[0.06] ${colors.bg}`}>
+            <div className={`p-4 border-b border-slate-800 ${colors.bg}`}>
                 <div className="flex items-start gap-3">
                     <div className={`p-2.5 rounded-xl ${colors.iconBg}`}>
                         <Icon className={`w-5 h-5 ${colors.text}`} />
@@ -584,7 +584,7 @@ export function ErrorResolutionGuide({
             </div>
 
             {/* Error Message */}
-            <div className="px-4 py-3 bg-white/[0.02] border-b border-white/[0.06]">
+            <div className="px-4 py-3 bg-white/[0.02] border-b border-slate-800">
                 <div className="flex items-center gap-2 text-sm">
                     <Terminal className="w-4 h-4 text-slate-500" />
                     <span className="text-slate-500">Error:</span>
@@ -595,7 +595,7 @@ export function ErrorResolutionGuide({
             </div>
 
             {/* Possible Causes */}
-            <div className="p-4 border-b border-white/[0.06]">
+            <div className="p-4 border-b border-slate-800">
                 <h4 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
                     <HelpCircle className="w-4 h-4 text-slate-500" />
                     Possible Causes
@@ -632,7 +632,7 @@ export function ErrorResolutionGuide({
                             className={`rounded-xl border transition-colors ${
                                 completedSteps.has(idx)
                                     ? 'bg-[#DA7756]/5 border-[#DA7756]/20'
-                                    : 'bg-white/[0.02] border-white/[0.06]'
+                                    : 'bg-white/[0.02] border-slate-800'
                             }`}
                         >
                             <button
@@ -739,7 +739,7 @@ export function ErrorResolutionGuide({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onEditConnection}
-                        className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] text-slate-300 rounded-xl text-sm font-medium transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 text-slate-300 rounded-xl text-sm font-medium transition-colors"
                     >
                         Edit Connection
                     </motion.button>
@@ -759,7 +759,7 @@ export function ErrorResolutionGuide({
 
             {/* Integration Info */}
             {catalogItem && (
-                <div className="px-4 pb-4 pt-2 border-t border-white/[0.06]">
+                <div className="px-4 pb-4 pt-2 border-t border-slate-800">
                     <p className="text-xs text-slate-500">
                         Integration: {catalogItem.icon} {catalogItem.name}
                         {error.timestamp && ` • Error occurred ${new Date(error.timestamp).toLocaleString()}`}
@@ -794,7 +794,7 @@ function StepAction({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => onCopy(action.value)}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-slate-300 hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-slate-300 hover:bg-white/[0.06] transition-colors"
                 >
                     {copiedText === action.value ? (
                         <>
@@ -816,7 +816,7 @@ function StepAction({
                     href={action.value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-[#DA7756] hover:bg-white/[0.06] transition-colors"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-[#DA7756] hover:bg-white/[0.06] transition-colors"
                 >
                     <ExternalLink className="w-4 h-4" />
                     {action.label}
@@ -854,7 +854,7 @@ function GenericErrorGuide({
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+            className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
         >
             <div className="flex items-start gap-4">
                 <div className="relative">
@@ -907,7 +907,7 @@ function GenericErrorGuide({
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={onEditConnection}
-                                className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] text-slate-300 rounded-xl text-sm font-medium transition-colors"
+                                className="flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 text-slate-300 rounded-xl text-sm font-medium transition-colors"
                             >
                                 Edit Connection
                             </motion.button>

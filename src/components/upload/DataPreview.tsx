@@ -28,7 +28,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
     return (
         <div className="space-y-6">
             {/* Quality Score Card */}
-            <div className="bg-bg-card rounded-card p-4 border border-white/[0.06]">
+            <div className="bg-bg-card rounded-card p-4 border border-slate-800">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
@@ -60,7 +60,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
 
                 {/* Metadata */}
                 {result.metadata && (
-                    <div className="mt-4 pt-4 border-t border-white/[0.06] flex flex-wrap gap-4 text-xs text-zinc-500">
+                    <div className="mt-4 pt-4 border-t border-slate-800 flex flex-wrap gap-4 text-xs text-zinc-500">
                         {result.metadata.format && (
                             <span className="px-2 py-1 bg-bg-elevated rounded">
                                 Format: {result.metadata.format.toUpperCase()}
@@ -146,7 +146,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                     {qualityReport.columns.slice(0, 8).map((col) => (
                         <div
                             key={col.name}
-                            className="bg-bg-elevated rounded-lg p-3 border border-white/[0.06]"
+                            className="bg-bg-elevated rounded-lg p-3 border border-slate-800"
                         >
                             <div className="flex items-center justify-between mb-2">
                                 <span className="font-medium text-white truncate" title={col.name}>
@@ -181,7 +181,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                                 )}
                             </div>
                             {col.sampleValues.length > 0 && (
-                                <div className="mt-2 pt-2 border-t border-white/[0.06]">
+                                <div className="mt-2 pt-2 border-t border-slate-800">
                                     <span className="text-xs text-zinc-500">Sample: </span>
                                     <span className="text-xs text-zinc-400 truncate">
                                         {col.sampleValues.slice(0, 3).map(v => String(v)).join(', ')}
@@ -203,7 +203,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                 <h4 className="text-sm font-medium text-zinc-300">
                     Data Preview (first {previewData.length} rows)
                 </h4>
-                <div className="overflow-x-auto rounded-lg border border-white/[0.06]">
+                <div className="overflow-x-auto rounded-lg border border-slate-800">
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="bg-bg-elevated">
@@ -227,7 +227,7 @@ export function DataPreview({ result, maxRows = 10 }: DataPreviewProps) {
                             {previewData.map((row, i) => (
                                 <tr
                                     key={i}
-                                    className="border-t border-white/[0.06] hover:bg-bg-card-hover"
+                                    className="border-t border-slate-800 hover:bg-bg-card-hover"
                                 >
                                     {result.columns.slice(0, 8).map((col) => (
                                         <td

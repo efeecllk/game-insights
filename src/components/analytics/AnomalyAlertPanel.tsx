@@ -45,14 +45,13 @@ interface AnomalyAlertPanelProps {
 type SortOption = 'severity' | 'timestamp' | 'percentChange';
 type FilterSeverity = AnomalySeverity | 'all';
 
-// Obsidian theme severity config
+// Severity config
 const SEVERITY_CONFIG: Record<AnomalySeverity, {
     label: string;
     bgColor: string;
     borderColor: string;
     textColor: string;
     badgeBg: string;
-    glowColor: string;
     icon: React.ElementType;
 }> = {
     critical: {
@@ -61,7 +60,6 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
         borderColor: 'border-rose-500/30',
         textColor: 'text-rose-400',
         badgeBg: 'bg-rose-500',
-        glowColor: 'shadow-rose-500/20',
         icon: AlertCircle,
     },
     high: {
@@ -70,7 +68,6 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
         borderColor: 'border-orange-500/30',
         textColor: 'text-orange-400',
         badgeBg: 'bg-orange-500',
-        glowColor: 'shadow-orange-500/20',
         icon: AlertTriangle,
     },
     medium: {
@@ -79,7 +76,6 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
         borderColor: 'border-amber-500/30',
         textColor: 'text-amber-400',
         badgeBg: 'bg-amber-500',
-        glowColor: 'shadow-amber-500/20',
         icon: AlertTriangle,
     },
     low: {
@@ -88,7 +84,6 @@ const SEVERITY_CONFIG: Record<AnomalySeverity, {
         borderColor: 'border-[#8F8B82]/30',
         textColor: 'text-[#8F8B82]',
         badgeBg: 'bg-[#8F8B82]',
-        glowColor: 'shadow-[#8F8B82]/20',
         icon: Activity,
     },
 };
@@ -146,7 +141,7 @@ function SeverityBadge({ severity, count }: { severity: AnomalySeverity; count: 
             whileHover={{ scale: 1.05 }}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border ${config.bgColor} ${config.borderColor}`}
         >
-            <span className={`w-2 h-2 rounded-full ${config.badgeBg} animate-pulse`} />
+            <span className={`w-2 h-2 rounded-full ${config.badgeBg}`} />
             <span className={`text-sm font-medium ${config.textColor}`}>
                 {count} {config.label}
             </span>
@@ -180,7 +175,7 @@ function AnomalyCard({
             variants={cardVariants}
             layout
             className={`rounded-xl border transition-all ${severityConfig.bgColor} ${severityConfig.borderColor} overflow-hidden ${
-                isExpanded ? `ring-1 ${severityConfig.borderColor.replace('border-', 'ring-')} shadow-lg ${severityConfig.glowColor}` : ''
+                isExpanded ? `ring-1 ${severityConfig.borderColor.replace('border-', 'ring-')} shadow-lg` : ''
             }`}
         >
             {/* Header */}
@@ -199,7 +194,7 @@ function AnomalyCard({
                         <span className={`px-2 py-0.5 text-xs rounded-full ${severityConfig.bgColor} border ${severityConfig.borderColor} ${severityConfig.textColor} font-medium`}>
                             {severityConfig.label}
                         </span>
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-white/[0.04] border border-white/[0.08] text-slate-400 flex items-center gap-1">
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-white/[0.04] border border-slate-700 text-slate-400 flex items-center gap-1">
                             <TypeIcon className="w-3 h-3" />
                             {TYPE_LABELS[anomaly.type]}
                         </span>
@@ -224,30 +219,30 @@ function AnomalyCard({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-white/[0.06]"
+                        className="border-t border-slate-800"
                     >
                         <div className="px-4 pb-4 pt-4 space-y-4 ml-8">
                             {/* Stats Grid */}
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-3">
                                     <div className="text-xs text-slate-500 mb-1">Actual Value</div>
                                     <div className="text-lg font-semibold text-white">
                                         {typeof anomaly.value === 'number' ? anomaly.value.toLocaleString(undefined, { maximumFractionDigits: 2 }) : anomaly.value}
                                     </div>
                                 </div>
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-3">
                                     <div className="text-xs text-slate-500 mb-1">Expected Value</div>
                                     <div className="text-lg font-semibold text-white">
                                         ~{anomaly.expectedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                                     </div>
                                 </div>
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-3">
                                     <div className="text-xs text-slate-500 mb-1">Deviation</div>
                                     <div className="text-lg font-semibold text-white">
                                         {anomaly.deviation.toFixed(2)}σ
                                     </div>
                                 </div>
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-3">
                                     <div className="text-xs text-slate-500 mb-1">Detected</div>
                                     <div className="text-sm font-medium text-white">
                                         {new Date(anomaly.timestamp).toLocaleDateString()}
@@ -257,7 +252,7 @@ function AnomalyCard({
 
                             {/* Possible Causes */}
                             {anomaly.possibleCauses && anomaly.possibleCauses.length > 0 && (
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                                     <div className="flex items-center gap-2 text-sm font-medium text-slate-300 mb-3">
                                         <Lightbulb className="w-4 h-4 text-amber-400" />
                                         Possible Causes
@@ -297,7 +292,7 @@ function AnomalyCard({
                                             e.stopPropagation();
                                             onDismiss();
                                         }}
-                                        className="flex items-center gap-2 px-4 py-2 text-sm bg-white/[0.03] border border-white/[0.08] text-slate-400 rounded-xl hover:bg-white/[0.06] transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 text-sm bg-white/[0.03] border border-slate-700 text-slate-400 rounded-xl hover:bg-white/[0.06] transition-colors"
                                     >
                                         <EyeOff className="w-4 h-4" />
                                         Dismiss
@@ -396,7 +391,7 @@ export function AnomalyAlertPanel({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 ${className ?? ''}`}
+                className={`bg-slate-900  rounded-2xl border border-slate-700 p-8 ${className ?? ''}`}
             >
                 <div className="text-center">
                     <div className="w-16 h-16 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -419,12 +414,12 @@ export function AnomalyAlertPanel({
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden ${className ?? ''}`}
+            className={`bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden ${className ?? ''}`}
         >
             {/* Header */}
             <motion.div
                 variants={itemVariants}
-                className={`p-6 border-b ${hasCritical ? 'bg-rose-500/5 border-rose-500/20' : hasHigh ? 'bg-orange-500/5 border-orange-500/20' : 'border-white/[0.06]'}`}
+                className={`p-6 border-b ${hasCritical ? 'bg-rose-500/5 border-rose-500/20' : hasHigh ? 'bg-orange-500/5 border-orange-500/20' : 'border-slate-800'}`}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
@@ -446,7 +441,7 @@ export function AnomalyAlertPanel({
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setShowFilters(!showFilters)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm transition-all ${
-                            showFilters ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30' : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
+                            showFilters ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30' : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:text-white'
                         }`}
                     >
                         <Filter className="w-4 h-4" />
@@ -470,14 +465,14 @@ export function AnomalyAlertPanel({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="border-b border-white/[0.06]"
+                        className="border-b border-slate-800"
                     >
                         <div className="p-4 bg-white/[0.02] space-y-4">
                             <div className="flex flex-wrap gap-6">
                                 {/* Severity Filter */}
                                 <div className="flex items-center gap-3">
                                     <span className="text-sm text-slate-400">Severity:</span>
-                                    <div className="flex gap-1 bg-white/[0.02] border border-white/[0.06] rounded-xl p-1">
+                                    <div className="flex gap-1 bg-white/[0.02] border border-slate-800 rounded-xl p-1">
                                         {(['all', 'critical', 'high', 'medium', 'low'] as const).map(severity => (
                                             <motion.button
                                                 key={severity}
@@ -499,7 +494,7 @@ export function AnomalyAlertPanel({
                                 {/* Sort */}
                                 <div className="flex items-center gap-3">
                                     <span className="text-sm text-slate-400">Sort by:</span>
-                                    <div className="flex gap-1 bg-white/[0.02] border border-white/[0.06] rounded-xl p-1">
+                                    <div className="flex gap-1 bg-white/[0.02] border border-slate-800 rounded-xl p-1">
                                         {([
                                             { value: 'severity', label: 'Severity', icon: AlertTriangle },
                                             { value: 'timestamp', label: 'Time', icon: Clock },
@@ -548,7 +543,7 @@ export function AnomalyAlertPanel({
                         animate={{ opacity: 1 }}
                         className="text-center py-12"
                     >
-                        <div className="w-12 h-12 bg-white/[0.02] border border-white/[0.06] rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <div className="w-12 h-12 bg-white/[0.02] border border-slate-800 rounded-xl flex items-center justify-center mx-auto mb-4">
                             <Sparkles className="w-6 h-6 text-slate-500" />
                         </div>
                         <p className="text-slate-400">No anomalies match the current filters</p>
@@ -581,7 +576,7 @@ export function AnomalyAlertPanel({
             {filteredAnomalies.length > 0 && (
                 <motion.div
                     variants={itemVariants}
-                    className="px-6 py-4 bg-white/[0.02] border-t border-white/[0.06]"
+                    className="px-6 py-4 bg-white/[0.02] border-t border-slate-800"
                 >
                     <div className="flex items-center justify-between text-sm text-slate-400">
                         <span>

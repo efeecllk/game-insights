@@ -222,10 +222,10 @@ export function HelpTooltip({ term, children }: HelpTooltipProps) {
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                         role="tooltip"
-                        className="absolute z-50 left-0 top-full mt-2 w-72 p-4 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl"
+                        className="absolute z-50 left-0 top-full mt-2 w-72 p-4 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98  border border-slate-700 rounded-xl shadow-lg"
                     >
                         {/* Arrow */}
-                        <div className="absolute -top-2 left-4 w-4 h-4 bg-slate-900 border-l border-t border-white/[0.08] transform rotate-45" />
+                        <div className="absolute -top-2 left-4 w-4 h-4 bg-slate-900 border-l border-t border-slate-700 transform rotate-45" />
 
                         {/* Content */}
                         <div className="relative">
@@ -241,7 +241,7 @@ export function HelpTooltip({ term, children }: HelpTooltipProps) {
                                     <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
                                         Formula
                                     </span>
-                                    <p className="text-xs text-white font-mono bg-white/[0.03] border border-white/[0.06] px-2 py-1 rounded-lg mt-1">
+                                    <p className="text-xs text-white font-mono bg-white/[0.03] border border-slate-800 px-2 py-1 rounded-lg mt-1">
                                         {info.formula}
                                     </p>
                                 </div>

@@ -138,6 +138,7 @@ export class FirebaseAdapter extends BaseAdapter {
     private schema: SchemaInfo | null = null;
     private lastFetch: Date | null = null;
     private bigQueryConfig: BigQueryConfig | null = null;
+    private abortController: AbortController | null = null;
 
     // Standard Firebase event types for game analytics
     static readonly STANDARD_EVENTS: FirebaseStandardEvent[] = [
@@ -185,6 +186,7 @@ export class FirebaseAdapter extends BaseAdapter {
 
     async connect(config: FirebaseConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Validate configuration
         if (!config.projectId) {
@@ -220,6 +222,11 @@ export class FirebaseAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
         this.config = null;
         this.accessToken = null;
         this.tokenExpiry = null;
@@ -592,6 +599,7 @@ export class FirebaseAdapter extends BaseAdapter {
                 grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
                 assertion: jwt,
             }),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -671,7 +679,11 @@ export class FirebaseAdapter extends BaseAdapter {
             ...options.headers,
         };
 
-        return fetch(url, { ...options, headers });
+        return fetch(url, {
+            ...options,
+            headers,
+            signal: this.abortController?.signal,
+        });
     }
 
     private async fetchFromAnalyticsAPI(): Promise<void> {

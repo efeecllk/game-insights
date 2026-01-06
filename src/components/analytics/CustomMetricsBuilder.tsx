@@ -250,10 +250,10 @@ export function CustomMetricsBuilder() {
             {/* Metrics List */}
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+                className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
             >
                 {/* List Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
                     <div className="flex items-center gap-3">
                         <Sparkles className="w-4 h-4 text-[#DA7756]" />
                         <h4 className="font-medium text-white">Your Metrics</h4>
@@ -289,7 +289,7 @@ export function CustomMetricsBuilder() {
                             animate={{ opacity: 1 }}
                             className="px-6 py-16 text-center"
                         >
-                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/[0.02] border border-slate-800 flex items-center justify-center">
                                 <Calculator className="w-8 h-8 text-slate-600" />
                             </div>
                             <p className="text-slate-400">No custom metrics yet.</p>
@@ -345,7 +345,7 @@ function MetricCard({
             className="flex items-center gap-4 px-6 py-4 transition-colors"
         >
             {/* Format Icon */}
-            <div className={`w-10 h-10 rounded-xl ${formatConfig.bg} border border-white/[0.06] flex items-center justify-center flex-shrink-0`}>
+            <div className={`w-10 h-10 rounded-xl ${formatConfig.bg} border border-slate-800 flex items-center justify-center flex-shrink-0`}>
                 <Icon className={`w-5 h-5 ${formatConfig.color}`} />
             </div>
 
@@ -445,7 +445,7 @@ function MetricEditor({
     };
 
     return (
-        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6">
+        <div className="bg-slate-900  rounded-2xl border border-slate-700 p-6">
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -492,7 +492,7 @@ function MetricEditor({
                         value={name}
                         onChange={(e) => { setName(e.target.value); setError(''); }}
                         placeholder="e.g., ARPDAU"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -506,7 +506,7 @@ function MetricEditor({
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="What does this metric measure?"
-                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                        className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
 
@@ -519,20 +519,20 @@ function MetricEditor({
                         <select
                             value={numerator}
                             onChange={(e) => { setNumerator(e.target.value); setError(''); }}
-                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="" className="bg-slate-900">Select metric...</option>
                             {BASE_METRICS.map(m => (
                                 <option key={m.id} value={m.id} className="bg-slate-900">{m.name}</option>
                             ))}
                         </select>
-                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-slate-700 flex items-center justify-center flex-shrink-0">
                             <span className="text-[#DA7756] font-semibold">÷</span>
                         </div>
                         <select
                             value={denominator}
                             onChange={(e) => setDenominator(e.target.value)}
-                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
+                            className="flex-1 px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="" className="bg-slate-900">(optional)</option>
                             {BASE_METRICS.map(m => (
@@ -551,7 +551,7 @@ function MetricEditor({
                         <select
                             value={format}
                             onChange={(e) => setFormat(e.target.value as MetricFormat)}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="number" className="bg-slate-900">Number</option>
                             <option value="percent" className="bg-slate-900">Percentage</option>
@@ -566,7 +566,7 @@ function MetricEditor({
                         <select
                             value={decimals}
                             onChange={(e) => setDecimals(parseInt(e.target.value))}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
+                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50"
                         >
                             <option value="0" className="bg-slate-900">0</option>
                             <option value="1" className="bg-slate-900">1</option>
@@ -577,7 +577,7 @@ function MetricEditor({
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-end gap-3 pt-5 border-t border-white/[0.06]">
+                <div className="flex items-center justify-end gap-3 pt-5 border-t border-slate-800">
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}

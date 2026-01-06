@@ -168,7 +168,7 @@ export function UploadPage() {
                     transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                     className="relative"
                 >
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                     <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                         <Upload className="w-6 h-6 text-[#DA7756]" />
                     </div>
@@ -186,7 +186,7 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-amber-500/10 to-amber-600/5 backdrop-blur-xl rounded-2xl p-4 border border-amber-500/20 overflow-hidden"
+                        className="relative bg-gradient-to-br from-amber-500/10 to-amber-600/5  rounded-2xl p-4 border border-amber-500/20 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative flex items-start gap-3">
@@ -257,7 +257,7 @@ export function UploadPage() {
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="relative bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5 backdrop-blur-xl rounded-2xl p-4 border border-[#DA7756]/20 overflow-hidden"
+                                className="relative bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5  rounded-2xl p-4 border border-[#DA7756]/20 overflow-hidden"
                             >
                                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                                 <div className="relative flex items-start gap-3">
@@ -278,7 +278,7 @@ export function UploadPage() {
                         <DataPreview result={importResult} />
 
                         {/* Actions */}
-                        <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-800">
                             <Button variant="ghost" onClick={handleStartOver}>
                                 Start Over
                             </Button>
@@ -301,14 +301,14 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-white/[0.08] overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-slate-900  rounded-2xl p-12 border border-slate-700 overflow-hidden flex flex-col items-center justify-center text-center"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl blur-xl"
+                                className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl"
                             />
                             <motion.div
                                 initial={{ scale: 0 }}
@@ -342,7 +342,7 @@ export function UploadPage() {
                         className="space-y-6"
                     >
                         {/* Analysis Summary */}
-                        <div className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-4 border border-white/[0.08] overflow-hidden">
+                        <div className="relative bg-slate-900  rounded-2xl p-4 border border-slate-700 overflow-hidden">
                             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                             <div className="relative flex items-center justify-between">
                                 <div className="flex items-center gap-4">
@@ -386,7 +386,7 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-slate-900  rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
@@ -396,7 +396,7 @@ export function UploadPage() {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                                 className="relative"
                             >
-                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl blur-xl" />
+                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl" />
                                 <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 border border-[#DA7756]/40 flex items-center justify-center mb-6">
                                     <CheckCircle className="w-8 h-8 text-[#DA7756]" />
                                 </div>
@@ -442,7 +442,7 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-rose-500/10 to-rose-600/5 backdrop-blur-xl rounded-2xl p-4 border border-rose-500/20 overflow-hidden"
+                        className="relative bg-gradient-to-br from-rose-500/10 to-rose-600/5  rounded-2xl p-4 border border-rose-500/20 overflow-hidden"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <p className="relative text-rose-400">{error}</p>
@@ -469,7 +469,7 @@ function StepIndicator({ number, label, active, complete }: { number: number; la
                             ? 'bg-[#DA7756] text-white'
                             : complete
                               ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                              : 'bg-slate-800/50 text-slate-500 border border-white/[0.06]'
+                              : 'bg-slate-800/50 text-slate-500 border border-slate-800'
                     }
                 `}
             >

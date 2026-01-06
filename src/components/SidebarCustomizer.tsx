@@ -125,7 +125,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                     animate="visible"
                     exit="hidden"
                     onClick={handleOverlayClick}
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 "
                 >
                     <motion.div
                         variants={modalVariants}
@@ -135,12 +135,12 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                         className="relative w-full max-w-md mx-4 max-h-[85vh] flex flex-col"
                     >
                         {/* Modal container */}
-                        <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] shadow-2xl shadow-black/40">
+                        <div className="relative rounded-2xl overflow-hidden bg-slate-900  border border-slate-700 shadow-lg shadow-black/40">
                             {/* Noise texture */}
                             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                             {/* Header */}
-                            <div className="relative flex items-center justify-between p-5 border-b border-white/[0.06]">
+                            <div className="relative flex items-center justify-between p-5 border-b border-slate-800">
                                 <div>
                                     <h2 className="text-lg font-semibold text-white">
                                         Customize Sidebar
@@ -161,7 +161,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                             </div>
 
                             {/* Toggle section */}
-                            <div className="relative p-4 border-b border-white/[0.06]">
+                            <div className="relative p-4 border-b border-slate-800">
                                 <div className="flex items-center justify-between">
                                     <div>
                                         <span className="text-sm font-medium text-white">
@@ -225,7 +225,7 @@ export function SidebarCustomizer({ isOpen, onClose }: SidebarCustomizerProps) {
                             </div>
 
                             {/* Footer */}
-                            <div className="relative p-4 border-t border-white/[0.06] flex items-center justify-between">
+                            <div className="relative p-4 border-t border-slate-800 flex items-center justify-between">
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -280,8 +280,8 @@ function SidebarItem({
             layout
             className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-xl
-                bg-white/[0.02] border border-white/[0.04]
-                ${disabled ? 'opacity-50' : 'hover:bg-white/[0.04] hover:border-white/[0.08]'}
+                bg-white/[0.02] border border-slate-800
+                ${disabled ? 'opacity-50' : 'hover:bg-white/[0.04] hover:border-slate-700'}
                 transition-colors
             `}
         >

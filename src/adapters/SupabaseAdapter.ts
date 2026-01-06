@@ -55,6 +55,7 @@ export class SupabaseAdapter extends BaseAdapter {
     private availableTables: SupabaseTable[] = [];
     private tableColumns: Map<string, SupabaseColumn[]> = new Map();
     private realtimePollInterval: ReturnType<typeof setInterval> | null = null;
+    private abortController: AbortController | null = null;
 
     // ========================================================================
     // Lifecycle Methods
@@ -62,6 +63,7 @@ export class SupabaseAdapter extends BaseAdapter {
 
     async connect(config: SupabaseConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Validate URL format
         if (!this.isValidSupabaseUrl(config.projectUrl)) {
@@ -87,6 +89,12 @@ export class SupabaseAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
+
         // Clear any active realtime polling
         if (this.realtimePollInterval) {
             clearInterval(this.realtimePollInterval);
@@ -290,7 +298,11 @@ export class SupabaseAdapter extends BaseAdapter {
             ...options.headers,
         };
 
-        return fetch(url, { ...options, headers });
+        return fetch(url, {
+            ...options,
+            headers,
+            signal: this.abortController?.signal,
+        });
     }
 
     private async fetchAvailableTables(): Promise<void> {

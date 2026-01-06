@@ -140,10 +140,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         // Default error UI - Obsidian Analytics Design
         return (
             <div className="min-h-[400px] flex items-center justify-center p-6">
-                <div className="max-w-lg w-full bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center shadow-2xl">
+                <div className="max-w-lg w-full bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center shadow-lg">
                     {/* Icon with glow */}
                     <div className="relative w-16 h-16 mx-auto mb-6">
-                        <div className="absolute inset-0 bg-rose-500/20 rounded-2xl blur-xl" />
+                        <div className="absolute inset-0 bg-rose-500/20 rounded-2xl" />
                         <div className="relative w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center">
                             <AlertTriangle className="w-8 h-8 text-rose-400" />
                         </div>
@@ -170,7 +170,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                         </button>
                         <button
                             onClick={this.handleGoHome}
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.12] text-white font-medium rounded-xl transition-all"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 hover:border-slate-600 text-white font-medium rounded-xl transition-all"
                         >
                             <Home className="w-4 h-4" />
                             Go Home
@@ -204,7 +204,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
                     {/* Error Details */}
                     {showDetails && (
-                        <div className="mt-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl text-left overflow-auto max-h-64">
+                        <div className="mt-4 p-4 bg-white/[0.02] border border-slate-800 rounded-xl text-left overflow-auto max-h-64">
                             <p className="text-xs text-slate-500 mb-2 font-mono">
                                 Error Code: {parsedError?.code || 'UNKNOWN'}
                             </p>

@@ -117,7 +117,7 @@ export function OverviewPage() {
                                 <span className="w-1 h-1 rounded-full bg-slate-600" />
                                 <span className="flex items-center gap-1.5">
                                     <span className="text-lg">🎮</span>
-                                    <span className="px-2 py-0.5 text-xs bg-slate-800/50 border border-white/[0.06] rounded-md text-slate-500">
+                                    <span className="px-2 py-0.5 text-xs bg-slate-800/50 border border-slate-800 rounded-md text-slate-500">
                                         SDK
                                     </span>
                                 </span>
@@ -143,7 +143,7 @@ export function OverviewPage() {
 
             {/* Animated Tabs */}
             <motion.div variants={itemVariants} className="relative">
-                <div className="flex gap-1 p-1 bg-slate-900/50 backdrop-blur-sm border border-white/[0.06] rounded-xl w-fit">
+                <div className="flex gap-1 p-1 bg-slate-900/50  border border-slate-800 rounded-xl w-fit">
                     {(['overview', 'integration'] as const).map((tab) => (
                         <button
                             key={tab}
@@ -187,7 +187,7 @@ export function OverviewPage() {
                     >
                         {/* KPI Overview Section */}
                         <Card variant="default" padding="none">
-                            <div className="p-4 border-b border-white/[0.04] flex items-center justify-between">
+                            <div className="p-4 border-b border-slate-800 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                         <Zap className="w-4 h-4 text-[#DA7756]" />
@@ -433,8 +433,8 @@ function IntegrationTab() {
                         className="py-8"
                     >
                         <div className="relative inline-block mb-4">
-                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
-                            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] flex items-center justify-center mx-auto">
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
+                            <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 flex items-center justify-center mx-auto">
                                 <span className="text-3xl" role="img" aria-label="Chart placeholder">
                                     📊
                                 </span>

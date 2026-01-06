@@ -225,7 +225,7 @@ export function MonetizationPage() {
                         <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
                         >
                             <Calendar className="w-4 h-4" />
                             Last 14 days
@@ -325,7 +325,7 @@ export function MonetizationPage() {
                                     className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.02] transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-[#DA7756] group-hover:border-[#DA7756]/20 transition-colors">
+                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-slate-800 flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-[#DA7756] group-hover:border-[#DA7756]/20 transition-colors">
                                             {index + 1}
                                         </span>
                                         <span className="text-sm text-slate-300">{product.name}</span>
@@ -426,9 +426,9 @@ function KPICard({
             className="relative group"
         >
             {/* Glow effect */}
-            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl`} />
+            <div className={`absolute -inset-0.5 ${styles.glow} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
-            <div className={`relative bg-gradient-to-br ${styles.bg} backdrop-blur-xl rounded-2xl p-4 border ${styles.border} transition-all duration-300 overflow-hidden`}>
+            <div className={`relative bg-gradient-to-br ${styles.bg}  rounded-2xl p-4 border ${styles.border} transition-all duration-300 overflow-hidden`}>
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 

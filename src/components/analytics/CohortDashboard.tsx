@@ -122,10 +122,10 @@ function CohortSummaryCard({
         <motion.div
             variants={itemVariants}
             className={`
-                bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80
-                backdrop-blur-xl rounded-xl
-                border border-white/[0.06]
-                p-4 hover:border-white/[0.12] transition-all
+                bg-slate-900
+                 rounded-xl
+                border border-slate-800
+                p-4 hover:border-slate-600 transition-all
             `}
         >
             <div className="flex items-start justify-between">
@@ -136,7 +136,7 @@ function CohortSummaryCard({
                     <div className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
                         trend === 'up' ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20' :
                         trend === 'down' ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' :
-                        'bg-white/[0.03] text-slate-400 border border-white/[0.06]'
+                        'bg-white/[0.03] text-slate-400 border border-slate-800'
                     }`}>
                         {trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
                          trend === 'down' ? <TrendingDown className="w-3 h-3" /> : null}
@@ -214,7 +214,7 @@ function RetentionHeatmap({
         return (
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] p-8 text-center"
+                className="bg-slate-900  rounded-xl border border-slate-800 p-8 text-center"
             >
                 <BarChart3 className="w-12 h-12 text-slate-500 mx-auto mb-3" />
                 <p className="text-slate-400">No retention data available</p>
@@ -225,9 +225,9 @@ function RetentionHeatmap({
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] overflow-hidden"
+            className="bg-slate-900  rounded-xl border border-slate-800 overflow-hidden"
         >
-            <div className="p-4 border-b border-white/[0.06]">
+            <div className="p-4 border-b border-slate-800">
                 <h3 className="font-semibold text-white">Retention Matrix</h3>
                 <p className="text-sm text-slate-400 mt-1">Cohort retention over time</p>
             </div>
@@ -235,7 +235,7 @@ function RetentionHeatmap({
                 <table className="w-full min-w-[500px]">
                     <thead>
                         <tr className="bg-white/[0.02]">
-                            <th className="text-left py-3 px-4 text-sm font-medium text-slate-400 sticky left-0 bg-slate-900/90 backdrop-blur-sm">
+                            <th className="text-left py-3 px-4 text-sm font-medium text-slate-400 sticky left-0 bg-slate-900/90 ">
                                 Cohort
                             </th>
                             {matrix.days.map(day => (
@@ -247,8 +247,8 @@ function RetentionHeatmap({
                     </thead>
                     <tbody>
                         {matrix.labels.map((label, rowIdx) => (
-                            <tr key={label} className="border-t border-white/[0.04]">
-                                <td className="py-2 px-4 text-sm text-white font-medium sticky left-0 bg-slate-900/90 backdrop-blur-sm">
+                            <tr key={label} className="border-t border-slate-800">
+                                <td className="py-2 px-4 text-sm text-white font-medium sticky left-0 bg-slate-900/90 ">
                                     {label}
                                 </td>
                                 {matrix.matrix[rowIdx]?.map((value, colIdx) => (
@@ -270,7 +270,7 @@ function RetentionHeatmap({
                 </table>
             </div>
             {/* Legend */}
-            <div className="px-4 py-3 bg-white/[0.02] border-t border-white/[0.06] flex items-center gap-4 text-xs text-slate-400">
+            <div className="px-4 py-3 bg-white/[0.02] border-t border-slate-800 flex items-center gap-4 text-xs text-slate-400">
                 <span>Retention:</span>
                 <div className="flex items-center gap-2">
                     {[
@@ -305,7 +305,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] overflow-hidden"
+            className="bg-slate-900  rounded-xl border border-slate-800 overflow-hidden"
         >
             <div
                 className="p-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
@@ -350,7 +350,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                     >
-                        <div className="px-4 pb-4 space-y-4 border-t border-white/[0.04] pt-4">
+                        <div className="px-4 pb-4 space-y-4 border-t border-slate-800 pt-4">
                             {/* Retention breakdown */}
                             <div>
                                 <p className="text-sm font-medium text-slate-300 mb-2">Retention by Day</p>
@@ -358,7 +358,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                                     {['D1', 'D3', 'D7', 'D14', 'D30'].map(day => {
                                         const value = cohort.metrics.retention[day] ?? 0;
                                         return (
-                                            <div key={day} className="bg-white/[0.03] rounded-lg p-3 text-center border border-white/[0.04]">
+                                            <div key={day} className="bg-white/[0.03] rounded-lg p-3 text-center border border-slate-800">
                                                 <p className="text-xs text-slate-400">{day}</p>
                                                 <p className="text-lg font-semibold text-white mt-1">
                                                     {value > 0 ? `${value.toFixed(1)}%` : '-'}
@@ -371,7 +371,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
 
                             {/* Metrics */}
                             <div className="grid grid-cols-3 gap-4">
-                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-slate-800">
                                     <div className="flex items-center gap-2 text-slate-400 mb-1">
                                         <DollarSign className="w-4 h-4" />
                                         <span className="text-xs">Total Revenue</span>
@@ -380,7 +380,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                                         ${formatNumber(cohort.metrics.totalRevenue)}
                                     </p>
                                 </div>
-                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-slate-800">
                                     <div className="flex items-center gap-2 text-slate-400 mb-1">
                                         <Percent className="w-4 h-4" />
                                         <span className="text-xs">Conversion Rate</span>
@@ -389,7 +389,7 @@ function CohortCard({ cohort, avgRetention }: { cohort: CohortData; avgRetention
                                         {cohort.metrics.conversionRate.toFixed(2)}%
                                     </p>
                                 </div>
-                                <div className="bg-white/[0.03] rounded-lg p-3 border border-white/[0.04]">
+                                <div className="bg-white/[0.03] rounded-lg p-3 border border-slate-800">
                                     <div className="flex items-center gap-2 text-slate-400 mb-1">
                                         <Users className="w-4 h-4" />
                                         <span className="text-xs">Cohort Size</span>
@@ -437,7 +437,7 @@ function DimensionSelector({
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white hover:bg-white/[0.06] hover:border-white/[0.12] transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-slate-700 rounded-xl text-white hover:bg-white/[0.06] hover:border-slate-600 transition-all"
             >
                 <Icon className="w-4 h-4 text-[#DA7756]" />
                 <span className="font-medium">{current.name}</span>
@@ -451,7 +451,7 @@ function DimensionSelector({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 mt-2 w-64 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-xl z-10 overflow-hidden"
+                        className="absolute top-full left-0 mt-2 w-64 bg-slate-900/95  border border-slate-700 rounded-xl shadow-xl z-10 overflow-hidden"
                     >
                         {available.map((dim, idx) => {
                             const DimIcon = dimensionIcons[dim.dimension] || BarChart3;
@@ -527,7 +527,7 @@ export function CohortDashboard({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-8 ${className ?? ''}`}
+                className={`bg-slate-900  rounded-2xl border border-slate-800 p-8 ${className ?? ''}`}
             >
                 <div className="text-center">
                     <div className="w-16 h-16 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -555,7 +555,7 @@ export function CohortDashboard({
             {/* Header with dimension selector */}
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#DA7756] to-[#C15F3C] rounded-xl flex items-center justify-center shadow-lg shadow-[#DA7756]/20">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#DA7756] to-[#C15F3C] rounded-xl flex items-center justify-center ">
                         <Users className="w-6 h-6 text-white" />
                     </div>
                     <div>
@@ -615,7 +615,7 @@ export function CohortDashboard({
             {comparison.insights.length > 0 && (
                 <motion.div
                     variants={itemVariants}
-                    className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] p-4"
+                    className="bg-slate-900  rounded-xl border border-slate-800 p-4"
                 >
                     <div className="flex items-center gap-2 mb-3">
                         <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">

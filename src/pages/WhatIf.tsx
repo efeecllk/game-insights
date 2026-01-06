@@ -75,7 +75,6 @@ const cardVariants = {
 // Noise texture for glassmorphism
 // ============================================================================
 
-const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`;
 
 // ============================================================================
 // Component
@@ -214,12 +213,12 @@ export function WhatIfPage() {
     const regularScenarios = scenarios.filter(s => !s.isFavorite);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/3 -left-32 w-72 h-72 bg-orange-500/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/5 rounded-full" />
+                <div className="absolute top-1/3 -left-32 w-72 h-72 bg-orange-500/5 rounded-full" />
+                <div className="absolute bottom-20 right-1/4 w-64 h-64 bg-yellow-500/5 rounded-full" />
             </div>
 
             {/* Page Header */}
@@ -227,8 +226,8 @@ export function WhatIfPage() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="relative p-6 border-b border-white/[0.06]"
-                style={{ backgroundImage: noiseTexture }}
+                className="relative p-6 border-b border-slate-800"
+                
             >
                 <div className="flex items-center gap-4">
                     <motion.div
@@ -270,8 +269,8 @@ export function WhatIfPage() {
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="w-80 min-h-[calc(100vh-88px)] bg-gradient-to-b from-slate-900/80 to-slate-950/80 backdrop-blur-xl border-r border-white/[0.06] p-4 flex flex-col relative"
-                    style={{ backgroundImage: noiseTexture }}
+                    className="w-80 min-h-[calc(100vh-88px)] bg-gradient-to-b from-slate-900/80 to-slate-950/80  border-r border-slate-800 p-4 flex flex-col relative"
+                    
                 >
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -303,7 +302,7 @@ export function WhatIfPage() {
                             animate={{ opacity: 1 }}
                             className="text-center py-12"
                         >
-                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/[0.06] flex items-center justify-center">
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
                                 <Lightbulb className="w-8 h-8 text-slate-600" />
                             </div>
                             <p className="text-slate-400 text-sm font-medium">
@@ -429,9 +428,9 @@ function ScenarioCard({
             className={`group relative p-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 isSelected
                     ? 'bg-gradient-to-br from-amber-500/15 to-orange-500/10 border border-amber-500/30 shadow-lg shadow-amber-500/5'
-                    : 'bg-gradient-to-br from-slate-800/40 to-slate-900/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-white/[0.06] hover:border-white/[0.1]'
+                    : 'bg-slate-800/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-slate-800 hover:border-white/[0.1]'
             }`}
-            style={{ backgroundImage: noiseTexture }}
+            
             onClick={() => onSelect(scenario)}
             onMouseEnter={() => setShowActions(true)}
             onMouseLeave={() => setShowActions(false)}

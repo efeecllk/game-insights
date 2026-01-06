@@ -249,7 +249,7 @@ function DetectedFunnelCard({
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                             className="overflow-hidden"
                         >
-                            <div className="border-t border-white/[0.06]">
+                            <div className="border-t border-slate-800">
                                 {/* Funnel Chart */}
                                 <div className="p-4">
                                     <ReactECharts option={option} style={{ height: 280 }} />
@@ -398,7 +398,7 @@ function ManualFunnelBuilder({
                                 newSteps[index].step = e.target.value;
                                 onStepsChange(newSteps);
                             }}
-                            className="flex-1 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="flex-1 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <input
                             type="number"
@@ -408,7 +408,7 @@ function ManualFunnelBuilder({
                                 newSteps[index].users = parseInt(e.target.value) || 0;
                                 onStepsChange(newSteps);
                             }}
-                            className="w-24 px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="w-24 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <button
                             onClick={() => handleRemoveStep(index)}
@@ -479,7 +479,7 @@ function StatsCard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -632,7 +632,7 @@ export function FunnelsPage() {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setShowManualBuilder(!showManualBuilder)}
-                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 {showManualBuilder ? 'Hide Builder' : 'Custom Funnel'}
@@ -774,7 +774,7 @@ export function FunnelsPage() {
                             transition={{ type: 'spring', delay: 0.2 }}
                             className="relative inline-block mb-4"
                         >
-                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-xl" />
+                            <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl" />
                             <div className="relative w-12 h-12 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 rounded-xl flex items-center justify-center mx-auto">
                                 <Filter className="w-6 h-6 text-[#DA7756]" />
                             </div>

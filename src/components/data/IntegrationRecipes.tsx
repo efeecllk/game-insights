@@ -140,7 +140,7 @@ export function IntegrationRecipes() {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center animate-pulse">
+                <div className="w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                     <Book className="w-6 h-6 text-[#DA7756]" />
                 </div>
             </div>
@@ -179,7 +179,7 @@ export function IntegrationRecipes() {
                         placeholder="Search recipes..."
                         value={filters.search}
                         onChange={(e) => setFilters(f => ({ ...f, search: e.target.value }))}
-                        className="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                        className="w-full pl-10 pr-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     />
                 </div>
                 <motion.button
@@ -189,7 +189,7 @@ export function IntegrationRecipes() {
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
                         showFilters
                             ? 'bg-[#DA7756]/20 border-[#DA7756]/30 text-[#DA7756]'
-                            : 'bg-white/[0.03] border-white/[0.08] text-slate-400 hover:text-white'
+                            : 'bg-white/[0.03] border-slate-700 text-slate-400 hover:text-white'
                     }`}
                 >
                     <Filter className="w-4 h-4" />
@@ -209,7 +209,7 @@ export function IntegrationRecipes() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-white/[0.02] border border-slate-800 rounded-xl">
                             <div>
                                 <label className="block text-sm font-medium text-slate-300 mb-2">
                                     Integration Type
@@ -217,7 +217,7 @@ export function IntegrationRecipes() {
                                 <select
                                     value={filters.integrationType}
                                     onChange={(e) => setFilters(f => ({ ...f, integrationType: e.target.value as IntegrationType | 'all' }))}
-                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                                 >
                                     <option value="all" className="bg-slate-900">All Integrations</option>
                                     {INTEGRATION_CATALOG.map(cat => (
@@ -232,7 +232,7 @@ export function IntegrationRecipes() {
                                 <select
                                     value={filters.difficulty}
                                     onChange={(e) => setFilters(f => ({ ...f, difficulty: e.target.value as RecipeDifficulty | 'all' }))}
-                                    className="w-full px-3 py-2 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                                    className="w-full px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                                 >
                                     <option value="all" className="bg-slate-900">All Levels</option>
                                     <option value="beginner" className="bg-slate-900">Beginner</option>
@@ -294,9 +294,9 @@ function RecipeList({
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-center py-16 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08]"
+                className="text-center py-16 bg-slate-900  rounded-2xl border border-slate-700"
             >
-                <div className="w-16 h-16 bg-white/[0.02] border border-white/[0.06] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-white/[0.02] border border-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
                     <Book className="w-8 h-8 text-slate-500" />
                 </div>
                 <h3 className="text-lg font-medium text-white mb-2">No recipes found</h3>
@@ -356,11 +356,11 @@ function RecipeCard({
             onClick={onClick}
             whileHover={{ scale: 1.01, borderColor: 'rgba(218, 119, 86, 0.3)' }}
             whileTap={{ scale: 0.99 }}
-            className="w-full text-left p-5 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl transition-all group"
+            className="w-full text-left p-5 bg-slate-900  border border-slate-700 rounded-xl transition-all group"
         >
             {/* Header */}
             <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0 text-2xl">
+                <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-slate-800 flex items-center justify-center flex-shrink-0 text-2xl">
                     {integrationIcon || <Book className="w-6 h-6 text-slate-400" />}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -400,7 +400,7 @@ function RecipeCard({
             {/* Tags */}
             <div className="flex items-center gap-2 mt-3 flex-wrap">
                 {recipe.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] rounded-lg text-xs text-slate-400">
+                    <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-slate-800 rounded-lg text-xs text-slate-400">
                         {tag}
                     </span>
                 ))}
@@ -497,10 +497,10 @@ function RecipeDetail({
             {/* Header */}
             <motion.div
                 variants={itemVariants}
-                className="p-6 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl"
+                className="p-6 bg-slate-900  border border-slate-700 rounded-2xl"
             >
                 <div className="flex items-start gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0 text-3xl">
+                    <div className="w-14 h-14 rounded-xl bg-white/[0.03] border border-slate-800 flex items-center justify-center flex-shrink-0 text-3xl">
                         {integration ? getIntegrationIcon(recipe.integrationType) : <Book className="w-7 h-7 text-slate-400" />}
                     </div>
                     <div className="flex-1">
@@ -579,7 +579,7 @@ function RecipeDetail({
                             className={`border rounded-xl overflow-hidden transition-all ${
                                 completedSteps.has(step.order)
                                     ? 'border-[#DA7756]/30 bg-[#DA7756]/5'
-                                    : 'border-white/[0.08] bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95'
+                                    : 'border-slate-700 bg-slate-900'
                             }`}
                         >
                             {/* Step Header */}
@@ -620,8 +620,8 @@ function RecipeDetail({
 
                                         {/* Code Block */}
                                         {step.code && (
-                                            <div className="ml-11 bg-white/[0.02] border border-white/[0.06] rounded-xl overflow-hidden">
-                                                <div className="flex items-center justify-between px-3 py-2 border-b border-white/[0.06]">
+                                            <div className="ml-11 bg-white/[0.02] border border-slate-800 rounded-xl overflow-hidden">
+                                                <div className="flex items-center justify-between px-3 py-2 border-b border-slate-800">
                                                     <span className="text-xs text-slate-500 uppercase">
                                                         {step.codeLanguage || 'code'}
                                                     </span>
@@ -675,7 +675,7 @@ function RecipeDetail({
                                                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                                                     completedSteps.has(step.order)
                                                         ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                                                        : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:text-white'
+                                                        : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:text-white'
                                                 }`}
                                             >
                                                 {completedSteps.has(step.order) ? (
@@ -703,7 +703,7 @@ function RecipeDetail({
             {recipe.troubleshooting.length > 0 && (
                 <motion.div
                     variants={itemVariants}
-                    className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl"
+                    className="p-4 bg-slate-900  border border-slate-700 rounded-xl"
                 >
                     <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
                         <AlertTriangle className="w-5 h-5 text-amber-400" />
@@ -723,7 +723,7 @@ function RecipeDetail({
             {/* Feedback */}
             <motion.div
                 variants={itemVariants}
-                className="p-4 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-xl"
+                className="p-4 bg-slate-900  border border-slate-700 rounded-xl"
             >
                 <h3 className="font-medium text-white mb-3">Was this recipe helpful?</h3>
                 <div className="flex items-center gap-3">
@@ -737,7 +737,7 @@ function RecipeDetail({
                                 ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
                                 : voted
                                 ? 'bg-white/[0.02] text-slate-500 cursor-not-allowed'
-                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-[#DA7756]/10 hover:text-[#DA7756]'
+                                : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:bg-[#DA7756]/10 hover:text-[#DA7756]'
                         }`}
                     >
                         <ThumbsUp className="w-4 h-4" />
@@ -753,7 +753,7 @@ function RecipeDetail({
                                 ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
                                 : voted
                                 ? 'bg-white/[0.02] text-slate-500 cursor-not-allowed'
-                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-rose-500/10 hover:text-rose-400'
+                                : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:bg-rose-500/10 hover:text-rose-400'
                         }`}
                     >
                         <ThumbsDown className="w-4 h-4" />

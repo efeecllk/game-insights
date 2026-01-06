@@ -359,10 +359,10 @@ export function QuickPaste({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
         >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
                         <Clipboard className="w-5 h-5 text-orange-400" />
@@ -390,7 +390,7 @@ export function QuickPaste({
             </div>
 
             {/* Step Indicator */}
-            <div className="px-5 py-3 border-b border-white/[0.06] bg-white/[0.02]">
+            <div className="px-5 py-3 border-b border-slate-800 bg-white/[0.02]">
                 <div className="flex items-center gap-2">
                     {['paste', 'preview', 'mapping', 'complete'].map((step, idx) => (
                         <div key={step} className="flex items-center gap-2">
@@ -522,7 +522,7 @@ function PasteStepContent({
             {/* Instructions */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-start gap-3 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl"
+                className="flex items-start gap-3 p-4 bg-white/[0.02] border border-slate-800 rounded-xl"
             >
                 <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
                     <Table2 className="w-4 h-4 text-violet-400" />
@@ -544,7 +544,7 @@ function PasteStepContent({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onPasteFromClipboard}
-                    className="flex items-center gap-2 px-3 py-2 text-sm bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.12] rounded-lg text-white transition-all"
+                    className="flex items-center gap-2 px-3 py-2 text-sm bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 hover:border-slate-600 rounded-lg text-white transition-all"
                 >
                     <Clipboard className="w-4 h-4" />
                     Paste from Clipboard
@@ -571,7 +571,7 @@ function PasteStepContent({
                     value={pastedText}
                     onChange={(e) => onTextChange(e.target.value)}
                     placeholder="Paste your data here...&#10;&#10;Example:&#10;user_id&#9;date&#9;revenue&#10;user_001&#9;2025-01-01&#9;4.99&#10;user_002&#9;2025-01-01&#9;9.99"
-                    className="w-full h-64 px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                    className="w-full h-64 px-4 py-3 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                     spellCheck={false}
                 />
                 {hasText && (
@@ -588,9 +588,9 @@ function PasteStepContent({
             {/* Supported formats */}
             <motion.div variants={itemVariants} className="flex items-center gap-2 text-xs text-slate-500">
                 <span>Supported formats:</span>
-                <span className="px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded-md">Tab-separated (Excel)</span>
-                <span className="px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded-md">CSV</span>
-                <span className="px-2 py-1 bg-white/[0.03] border border-white/[0.06] rounded-md">JSON Array</span>
+                <span className="px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-md">Tab-separated (Excel)</span>
+                <span className="px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-md">CSV</span>
+                <span className="px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-md">JSON Array</span>
             </motion.div>
 
             {/* Error */}
@@ -615,7 +615,7 @@ function PasteStepContent({
                     whileTap={{ scale: 0.98 }}
                     onClick={onProcess}
                     disabled={!hasText || isProcessing}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isProcessing ? (
                         <>
@@ -684,7 +684,7 @@ function PreviewStepContent({
                     value={dataName}
                     onChange={(e) => onDataNameChange(e.target.value)}
                     placeholder="e.g., Player Events January 2025"
-                    className="w-full px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                    className="w-full px-4 py-3 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                 />
             </motion.div>
 
@@ -699,14 +699,14 @@ function PreviewStepContent({
                         {parsedData.rows.length.toLocaleString()} rows × {parsedData.columns.length} columns
                     </span>
                 </div>
-                <div className="overflow-x-auto border border-white/[0.06] rounded-xl">
+                <div className="overflow-x-auto border border-slate-800 rounded-xl">
                     <table className="w-full text-sm">
                         <thead className="bg-white/[0.03]">
                             <tr>
                                 {parsedData.columns.map((col) => (
                                     <th
                                         key={col}
-                                        className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-white/[0.06] whitespace-nowrap"
+                                        className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-slate-800 whitespace-nowrap"
                                     >
                                         {col}
                                     </th>
@@ -715,7 +715,7 @@ function PreviewStepContent({
                         </thead>
                         <tbody>
                             {parsedData.preview.map((row, idx) => (
-                                <tr key={idx} className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors">
+                                <tr key={idx} className="border-b border-slate-800 last:border-0 hover:bg-white/[0.02] transition-colors">
                                     {parsedData.columns.map((col) => (
                                         <td
                                             key={col}
@@ -738,7 +738,7 @@ function PreviewStepContent({
             {/* Actions */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-center justify-between pt-4 border-t border-white/[0.06]"
+                className="flex items-center justify-between pt-4 border-t border-slate-800"
             >
                 <motion.button
                     whileHover={{ x: -4 }}
@@ -752,7 +752,7 @@ function PreviewStepContent({
                     whileTap={{ scale: 0.98 }}
                     onClick={onContinue}
                     disabled={!dataName.trim()}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     Continue to Column Mapping
                     <ChevronRight className="w-4 h-4" />
@@ -830,17 +830,17 @@ function MappingStepContent({
                 <h4 className="text-sm font-medium text-slate-300">
                     Detected column types
                 </h4>
-                <div className="border border-white/[0.06] rounded-xl overflow-hidden">
+                <div className="border border-slate-800 rounded-xl overflow-hidden">
                     <table className="w-full text-sm">
                         <thead className="bg-white/[0.03]">
                             <tr>
-                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-white/[0.06]">
+                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-slate-800">
                                     Your Column
                                 </th>
-                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-white/[0.06]">
+                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-slate-800">
                                     Detected Type
                                 </th>
-                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-white/[0.06]">
+                                <th className="px-4 py-2.5 text-left text-slate-400 font-medium border-b border-slate-800">
                                     Confidence
                                 </th>
                             </tr>
@@ -855,7 +855,7 @@ function MappingStepContent({
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: idx * 0.05 }}
-                                        className={`border-b border-white/[0.04] last:border-0 ${
+                                        className={`border-b border-slate-800 last:border-0 ${
                                             isUnknown ? 'bg-amber-500/5' : 'hover:bg-white/[0.02]'
                                         } transition-colors`}
                                     >
@@ -870,7 +870,7 @@ function MappingStepContent({
                                                 className={`px-2 py-1 rounded-md text-xs font-medium border ${
                                                     isUnknown
                                                         ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                                                        : 'bg-white/[0.03] text-slate-300 border-white/[0.08]'
+                                                        : 'bg-white/[0.03] text-slate-300 border-slate-700'
                                                 }`}
                                             >
                                                 {meaning?.semanticType || 'unknown'}
@@ -932,7 +932,7 @@ function MappingStepContent({
             {/* Actions */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-center justify-between pt-4 border-t border-white/[0.06]"
+                className="flex items-center justify-between pt-4 border-t border-slate-800"
             >
                 <motion.button
                     whileHover={{ x: -4 }}
@@ -946,7 +946,7 @@ function MappingStepContent({
                     whileTap={{ scale: 0.98 }}
                     onClick={onImport}
                     disabled={isProcessing}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium  disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                     {isProcessing ? (
                         <>
@@ -996,7 +996,7 @@ function CompleteStepContent({
                 transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
                 className="relative w-16 h-16 mx-auto mb-4"
             >
-                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
+                <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                 <div className="relative w-16 h-16 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                     <Check className="w-8 h-8 text-[#DA7756]" />
                 </div>
@@ -1024,7 +1024,7 @@ function CompleteStepContent({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 mb-6 text-left max-w-md mx-auto"
+                className="bg-white/[0.02] border border-slate-800 rounded-xl p-4 mb-6 text-left max-w-md mx-auto"
             >
                 <div className="space-y-3 text-sm">
                     <div className="flex items-center justify-between">
@@ -1056,7 +1056,7 @@ function CompleteStepContent({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onViewAnalytics}
-                        className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium shadow-lg shadow-[#DA7756]/20 transition-colors"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl font-medium  transition-colors"
                     >
                         <Sparkles className="w-4 h-4" />
                         View Analytics
@@ -1066,7 +1066,7 @@ function CompleteStepContent({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onPasteMore}
-                    className="flex items-center gap-2 px-6 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] text-white rounded-xl font-medium border border-white/[0.08] hover:border-white/[0.12] transition-all"
+                    className="flex items-center gap-2 px-6 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] text-white rounded-xl font-medium border border-slate-700 hover:border-slate-600 transition-all"
                 >
                     <FileSpreadsheet className="w-4 h-4" />
                     Paste More Data

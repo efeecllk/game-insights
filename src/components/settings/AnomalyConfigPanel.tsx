@@ -224,7 +224,7 @@ export function AnomalyConfigPanel() {
     };
 
     return (
-        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.08]">
+        <div className="bg-slate-900  rounded-2xl p-6 border border-slate-700">
             {/* Header */}
             <motion.button
                 whileHover={{ scale: 1.005 }}
@@ -276,7 +276,7 @@ export function AnomalyConfigPanel() {
                                     </h4>
                                 </div>
 
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-5">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4 space-y-5">
                                     <ThresholdSlider
                                         label="Low Severity"
                                         value={thresholds.lowStdDev}
@@ -346,7 +346,7 @@ export function AnomalyConfigPanel() {
                                     Detection Parameters
                                 </h4>
 
-                                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-5">
+                                <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4 space-y-5">
                                     <ThresholdSlider
                                         label="Minimum Data Points"
                                         value={thresholds.minDataPoints}
@@ -395,7 +395,7 @@ export function AnomalyConfigPanel() {
                                             className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${
                                                 config.granularity === g
                                                     ? 'bg-[#DA7756] text-white'
-                                                    : 'bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] border border-white/[0.06]'
+                                                    : 'bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] border border-slate-800'
                                             }`}
                                         >
                                             {g.charAt(0).toUpperCase() + g.slice(1)}ly
@@ -425,7 +425,7 @@ export function AnomalyConfigPanel() {
                                                 className={`p-3 rounded-xl border text-left transition-all ${
                                                     isSelected
                                                         ? 'bg-[#DA7756]/10 border-[#DA7756]/30'
-                                                        : 'bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]'
+                                                        : 'bg-white/[0.02] border-slate-800 hover:border-slate-600'
                                                 }`}
                                             >
                                                 <div className="flex items-center justify-between">
@@ -448,7 +448,7 @@ export function AnomalyConfigPanel() {
                             </div>
 
                             {/* Actions */}
-                            <div className="flex items-center gap-3 pt-4 border-t border-white/[0.06]">
+                            <div className="flex items-center gap-3 pt-4 border-t border-slate-800">
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
@@ -482,7 +482,7 @@ export function AnomalyConfigPanel() {
                             </div>
 
                             {/* Info Box */}
-                            <div className="p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl">
+                            <div className="p-4 bg-white/[0.02] border border-slate-800 rounded-xl">
                                 <div className="flex items-start gap-3">
                                     <Info className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
                                     <div className="text-sm text-slate-500 space-y-2">

@@ -85,7 +85,6 @@ const cardVariants = {
 // Noise texture for glassmorphism
 // ============================================================================
 
-const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`;
 
 // ============================================================================
 // Main Page
@@ -148,12 +147,12 @@ export function MLStudioPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+        <div className="min-h-screen bg-slate-950 relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#C15F3C]/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#DA7756]/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#A68B5B]/5 rounded-full blur-3xl" />
+                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#C15F3C]/5 rounded-full" />
+                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#DA7756]/5 rounded-full" />
+                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#A68B5B]/5 rounded-full" />
             </div>
 
             <motion.div
@@ -177,7 +176,7 @@ export function MLStudioPage() {
                             <Brain className="w-6 h-6 text-[#C15F3C]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold text-white">
                                 ML Studio
                             </h1>
                             <p className="text-slate-400 text-sm">Train, evaluate, and deploy machine learning models</p>
@@ -190,19 +189,19 @@ export function MLStudioPage() {
                             onClick={() => setView('models')}
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${
                                 view === 'models'
-                                    ? 'bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white border-[#C15F3C] shadow-lg shadow-[#C15F3C]/20'
-                                    : 'bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border-white/[0.08] text-slate-300 hover:border-white/[0.12]'
+                                    ? 'bg-[#DA7756] text-white border-[#C15F3C] '
+                                    : 'bg-slate-800  border-slate-700 text-slate-300 hover:border-slate-600'
                             }`}
-                            style={view !== 'models' ? { backgroundImage: noiseTexture } : undefined}
+                            
                         >
                             <Layers className="w-4 h-4" />
                             Models ({models.length})
                         </motion.button>
                         <motion.button
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                            whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setView('create')}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                         >
                             <Plus className="w-4 h-4" />
                             New Training Job
@@ -283,8 +282,8 @@ function StatsCard({
     return (
         <motion.div
             whileHover={{ scale: 1.02, y: -2 }}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-4"
-            style={{ backgroundImage: noiseTexture }}
+            className="bg-slate-900  rounded-2xl border border-slate-800 p-4"
+            
         >
             <div className="flex items-center gap-3">
                 <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${colors[color]} border flex items-center justify-center`}>
@@ -318,10 +317,10 @@ function JobList({
         return (
             <motion.div
                 variants={cardVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-12 text-center"
-                style={{ backgroundImage: noiseTexture }}
+                className="bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center"
+                
             >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/[0.06] flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
                     <Brain className="w-8 h-8 text-slate-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">No training jobs yet</h3>
@@ -352,8 +351,8 @@ function JobList({
                         variants={itemVariants}
                         custom={index}
                         whileHover={{ scale: 1.01 }}
-                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] hover:border-white/[0.1] transition-all"
-                        style={{ backgroundImage: noiseTexture }}
+                        className="bg-slate-900  rounded-2xl border border-slate-800 hover:border-white/[0.1] transition-all"
+                        
                     >
                         <div className="p-6 cursor-pointer" onClick={() => onSelect(job)}>
                             <div className="flex items-start justify-between">
@@ -413,7 +412,7 @@ function JobList({
                         </div>
 
                         {/* Action buttons */}
-                        <div className="px-6 py-3 border-t border-white/[0.06] flex items-center gap-2">
+                        <div className="px-6 py-3 border-t border-slate-800 flex items-center gap-2">
                             {job.status === 'completed' && (
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
@@ -478,10 +477,10 @@ function ModelList({
             {models.length === 0 ? (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-12 text-center"
-                    style={{ backgroundImage: noiseTexture }}
+                    className="bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center"
+                    
                 >
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/[0.06] flex items-center justify-center">
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
                         <Layers className="w-8 h-8 text-slate-600" />
                     </div>
                     <h3 className="text-lg font-semibold text-white mb-2">No deployed models</h3>
@@ -498,8 +497,8 @@ function ModelList({
                                 variants={itemVariants}
                                 custom={index}
                                 whileHover={{ scale: 1.01 }}
-                                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6"
-                                style={{ backgroundImage: noiseTexture }}
+                                className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                                
                             >
                                 <div className="flex items-start justify-between">
                                     <div>
@@ -522,7 +521,7 @@ function ModelList({
 
                                 <div className="grid grid-cols-4 gap-4 mt-4">
                                     {model.metrics.accuracy !== undefined && (
-                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                             <p className="text-xs text-slate-500 mb-1">Accuracy</p>
                                             <p className="text-lg font-bold text-white">
                                                 {(model.metrics.accuracy * 100).toFixed(1)}%
@@ -530,20 +529,20 @@ function ModelList({
                                         </div>
                                     )}
                                     {model.metrics.f1Score !== undefined && (
-                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                             <p className="text-xs text-slate-500 mb-1">F1 Score</p>
                                             <p className="text-lg font-bold text-white">
                                                 {(model.metrics.f1Score * 100).toFixed(1)}%
                                             </p>
                                         </div>
                                     )}
-                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                         <p className="text-xs text-slate-500 mb-1">Predictions</p>
                                         <p className="text-lg font-bold text-white">
                                             {model.usageStats.totalPredictions.toLocaleString()}
                                         </p>
                                     </div>
-                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
                                         <p className="text-xs text-slate-500 mb-1">Avg Latency</p>
                                         <p className="text-lg font-bold text-white">
                                             {model.usageStats.avgLatencyMs?.toFixed(0) || '—'}ms
@@ -597,10 +596,10 @@ function JobDetail({
                 </div>
                 {job.status === 'completed' && (
                     <motion.button
-                        whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                        whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onDeploy}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all shadow-lg shadow-[#DA7756]/20"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                     >
                         <Upload className="w-4 h-4" />
                         Deploy Model
@@ -612,8 +611,8 @@ function JobDetail({
             {job.metrics && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6"
-                    style={{ backgroundImage: noiseTexture }}
+                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-[#C15F3C]" />
@@ -621,7 +620,7 @@ function JobDetail({
                     </h3>
                     <div className="grid grid-cols-5 gap-4">
                         {job.metrics.accuracy !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <p className="text-sm text-slate-500 mb-1">Accuracy</p>
                                 <p className="text-2xl font-bold text-white">
                                     {(job.metrics.accuracy * 100).toFixed(1)}%
@@ -629,7 +628,7 @@ function JobDetail({
                             </div>
                         )}
                         {job.metrics.precision !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <p className="text-sm text-slate-500 mb-1">Precision</p>
                                 <p className="text-2xl font-bold text-white">
                                     {(job.metrics.precision * 100).toFixed(1)}%
@@ -637,7 +636,7 @@ function JobDetail({
                             </div>
                         )}
                         {job.metrics.recall !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <p className="text-sm text-slate-500 mb-1">Recall</p>
                                 <p className="text-2xl font-bold text-white">
                                     {(job.metrics.recall * 100).toFixed(1)}%
@@ -645,7 +644,7 @@ function JobDetail({
                             </div>
                         )}
                         {job.metrics.f1Score !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <p className="text-sm text-slate-500 mb-1">F1 Score</p>
                                 <p className="text-2xl font-bold text-white">
                                     {(job.metrics.f1Score * 100).toFixed(1)}%
@@ -653,7 +652,7 @@ function JobDetail({
                             </div>
                         )}
                         {job.metrics.aucRoc !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-white/[0.04]">
+                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
                                 <p className="text-sm text-slate-500 mb-1">AUC-ROC</p>
                                 <p className="text-2xl font-bold text-white">
                                     {(job.metrics.aucRoc * 100).toFixed(1)}%
@@ -668,8 +667,8 @@ function JobDetail({
             {job.features.some(f => f.importance !== undefined) && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6"
-                    style={{ backgroundImage: noiseTexture }}
+                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                         <Layers className="w-5 h-5 text-[#C15F3C]" />
@@ -697,7 +696,7 @@ function JobDetail({
                                             initial={{ width: 0 }}
                                             animate={{ width: `${(feature.importance || 0) * 100}%` }}
                                             transition={{ duration: 0.5, delay: index * 0.05 }}
-                                            className="h-full bg-gradient-to-r from-[#C15F3C] to-[#DA7756] rounded-full"
+                                            className="h-full bg-[#DA7756] rounded-full"
                                         />
                                     </div>
                                 </motion.div>
@@ -710,8 +709,8 @@ function JobDetail({
             {job.logs.length > 0 && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6"
-                    style={{ backgroundImage: noiseTexture }}
+                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    
                 >
                     <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-[#C15F3C]" />
@@ -790,10 +789,10 @@ function CreateJobWizard({
 
             <motion.div
                 variants={cardVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06]"
-                style={{ backgroundImage: noiseTexture }}
+                className="bg-slate-900  rounded-2xl border border-slate-800"
+                
             >
-                <div className="p-6 border-b border-white/[0.06] flex items-center gap-3">
+                <div className="p-6 border-b border-slate-800 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                         <Sparkles className="w-5 h-5 text-[#C15F3C]" />
                     </div>
@@ -814,7 +813,7 @@ function CreateJobWizard({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             placeholder="e.g., Churn Prediction v2"
                         />
                     </div>
@@ -839,8 +838,8 @@ function CreateJobWizard({
                                         }}
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             modelType === type
-                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
-                                                : 'border-white/[0.08] bg-slate-800/30 hover:border-white/[0.12]'
+                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 '
+                                                : 'border-slate-700 bg-slate-800/30 hover:border-slate-600'
                                         }`}
                                     >
                                         <p className="text-white font-medium">{info.name}</p>
@@ -868,8 +867,8 @@ function CreateJobWizard({
                                         onClick={() => setAlgorithm(algo)}
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             algorithm === algo
-                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
-                                                : 'border-white/[0.08] bg-slate-800/30 hover:border-white/[0.12]'
+                                                ? 'border-[#DA7756]/50 bg-[#DA7756]/10 '
+                                                : 'border-slate-700 bg-slate-800/30 hover:border-slate-600'
                                         }`}
                                     >
                                         <p className="text-white font-medium">{info.name}</p>
@@ -881,22 +880,22 @@ function CreateJobWizard({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-end gap-3 pt-4 border-t border-white/[0.06]">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
                         <motion.button
                             type="button"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={onCancel}
-                            className="px-6 py-2.5 rounded-xl border border-white/[0.08] text-slate-300 hover:bg-white/5 transition-colors"
+                            className="px-6 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-white/5 transition-colors"
                         >
                             Cancel
                         </motion.button>
                         <motion.button
                             type="submit"
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                            whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={!name}
-                            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E8956A] transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#DA7756]/20"
+                            className="px-6 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all disabled:opacity-50 disabled:cursor-not-allowed "
                         >
                             Create Job
                         </motion.button>

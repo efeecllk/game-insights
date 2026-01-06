@@ -104,7 +104,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
             )}
 
             {/* High confidence columns */}
-            <div className="bg-bg-card border border-white/[0.06] rounded-card p-4">
+            <div className="bg-bg-card border border-slate-800 rounded-card p-4">
                 <div className="flex items-center gap-2 mb-3">
                     <Check className="w-5 h-5 text-[#6BBF59]" />
                     <span className="text-zinc-300 font-medium">Auto-Detected</span>

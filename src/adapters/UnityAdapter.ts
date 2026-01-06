@@ -165,6 +165,7 @@ export class UnityAdapter extends BaseAdapter {
     private cachedData: Record<string, unknown>[] = [];
     private schema: SchemaInfo | null = null;
     private lastFetch: Date | null = null;
+    private abortController: AbortController | null = null;
 
     // Unity Gaming Services API endpoints
     private static readonly AUTH_URL = 'https://services.api.unity.com/auth/v1/token-exchange';
@@ -201,6 +202,7 @@ export class UnityAdapter extends BaseAdapter {
 
     async connect(config: UnityConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Validate configuration
         if (!config.projectId) {
@@ -235,6 +237,11 @@ export class UnityAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
         this.config = null;
         this.accessToken = null;
         this.tokenExpiry = null;
@@ -335,6 +342,7 @@ export class UnityAdapter extends BaseAdapter {
                 grant_type: 'client_credentials',
                 scope: 'unity.analytics.read unity.player-auth.read unity.cloud-save.read unity.economy.read unity.remote-config.read',
             }),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -374,6 +382,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(`${baseUrl}?${params}`, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -410,6 +419,7 @@ export class UnityAdapter extends BaseAdapter {
 
             const response = await fetch(`${baseUrl}?${params}`, {
                 headers: this.getAuthHeaders(),
+                signal: this.abortController?.signal,
             });
 
             if (!response.ok) {
@@ -438,6 +448,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(baseUrl, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -462,6 +473,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(baseUrl, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -491,6 +503,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(`${baseUrl}?${params}`, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -512,6 +525,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(baseUrl, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -536,6 +550,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(baseUrl, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -560,6 +575,7 @@ export class UnityAdapter extends BaseAdapter {
 
         const response = await fetch(baseUrl, {
             headers: this.getAuthHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {

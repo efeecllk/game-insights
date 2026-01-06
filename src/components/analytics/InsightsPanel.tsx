@@ -122,7 +122,7 @@ function InsightCard({ insight, index }: { insight: Insight; index: number }) {
         <motion.div
             variants={itemVariants}
             custom={index}
-            className={`bg-gradient-to-br ${style.bg} border ${style.border} rounded-xl p-4 hover:border-white/[0.12] transition-all`}
+            className={`bg-gradient-to-br ${style.bg} border ${style.border} rounded-xl p-4 hover:border-slate-600 transition-all`}
         >
             <div className="flex items-start gap-3">
                 <div className={`flex-shrink-0 w-9 h-9 rounded-lg ${style.iconBg} border ${style.border} flex items-center justify-center`}>
@@ -137,7 +137,7 @@ function InsightCard({ insight, index }: { insight: Insight; index: number }) {
                         </p>
                     )}
                     {insight.value !== undefined && (
-                        <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm font-medium text-white">
+                        <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-white/[0.05] border border-slate-700 rounded-lg text-sm font-medium text-white">
                             {insight.metric}: {String(insight.value)}
                         </div>
                     )}
@@ -199,10 +199,10 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
             </div>
             <p className="text-sm text-slate-300">{anomaly.description}</p>
             <div className="flex items-center gap-4 mt-3 text-xs text-slate-400">
-                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06]">
+                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-slate-800">
                     Value: {typeof anomaly.value === 'number' ? anomaly.value.toFixed(2) : anomaly.value}
                 </span>
-                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06]">
+                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-slate-800">
                     Expected: ~{anomaly.expectedValue.toFixed(2)}
                 </span>
                 <span className={`px-2 py-1 rounded-lg border ${
@@ -262,9 +262,9 @@ export function InsightsPanel({
     ];
 
     return (
-        <div className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden ${className ?? ''}`}>
+        <div className={`bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden ${className ?? ''}`}>
             {/* Header with Tabs */}
-            <div className="border-b border-white/[0.06] px-4">
+            <div className="border-b border-slate-800 px-4">
                 <div className="flex items-center gap-1">
                     {tabs.map((tab) => {
                         const Icon = tab.icon;
@@ -403,7 +403,7 @@ export function InsightsPanel({
                                     onChange={(e) => setQuestion(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
                                     placeholder="Ask a question about your data..."
-                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                     disabled={isAsking}
                                 />
                                 <motion.button
@@ -432,7 +432,7 @@ export function InsightsPanel({
                                                 whileHover={{ scale: 1.02 }}
                                                 whileTap={{ scale: 0.98 }}
                                                 onClick={() => handleSuggestedQuestion(q)}
-                                                className="px-3 py-1.5 text-sm bg-white/[0.03] border border-white/[0.08] text-slate-300 rounded-full hover:bg-white/[0.06] hover:border-white/[0.12] transition-all"
+                                                className="px-3 py-1.5 text-sm bg-white/[0.03] border border-slate-700 text-slate-300 rounded-full hover:bg-white/[0.06] hover:border-slate-600 transition-all"
                                             >
                                                 {q}
                                             </motion.button>

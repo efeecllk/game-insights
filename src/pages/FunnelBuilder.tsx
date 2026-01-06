@@ -77,11 +77,6 @@ const cardVariants = {
     },
 };
 
-// ============================================================================
-// Noise texture for glassmorphism
-// ============================================================================
-
-const noiseTexture = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")`;
 
 // ============================================================================
 // Main Page Component
@@ -192,7 +187,7 @@ export function FunnelBuilderPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center">
+            <div className="min-h-screen bg-slate-950 flex items-center justify-center">
                 <div className="relative">
                     <div className="w-12 h-12 border-2 border-[#DA7756]/20 rounded-full" />
                     <div className="absolute inset-0 w-12 h-12 border-2 border-transparent border-t-[#DA7756] rounded-full animate-spin" />
@@ -202,13 +197,7 @@ export function FunnelBuilderPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 -left-32 w-72 h-72 bg-[#C15F3C]/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-1/3 w-64 h-64 bg-[#DA7756]/5 rounded-full blur-3xl" />
-            </div>
+        <div className="min-h-screen bg-slate-950 relative overflow-hidden">
 
             <motion.div
                 variants={containerVariants}
@@ -231,7 +220,7 @@ export function FunnelBuilderPage() {
                             <Filter className="w-6 h-6 text-[#DA7756]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#DA7756] via-[#E08B6D] to-[#C15F3C] bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-bold text-white">
                                 Funnel Builder
                             </h1>
                             <p className="text-slate-400 text-sm">Create and analyze custom conversion funnels</p>
@@ -244,8 +233,7 @@ export function FunnelBuilderPage() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleAddStep}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-white/[0.08] text-slate-300 hover:border-white/[0.12] transition-all"
-                                    style={{ backgroundImage: noiseTexture }}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:border-slate-600 transition-all"
                                 >
                                     <Plus className="w-4 h-4" />
                                     Add Step
@@ -254,16 +242,15 @@ export function FunnelBuilderPage() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => setIsEditing(false)}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-white/[0.08] text-slate-300 hover:border-white/[0.12] transition-all"
-                                    style={{ backgroundImage: noiseTexture }}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:border-slate-600 transition-all"
                                 >
                                     Cancel
                                 </motion.button>
                                 <motion.button
-                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                                    whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleSaveFunnel}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E08B6D] transition-all shadow-lg shadow-[#DA7756]/20"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all"
                                 >
                                     <Check className="w-4 h-4" />
                                     Save
@@ -276,18 +263,17 @@ export function FunnelBuilderPage() {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setIsEditing(true)}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-br from-slate-800/60 to-slate-900/60 backdrop-blur-xl border border-white/[0.08] text-slate-300 hover:border-white/[0.12] transition-all"
-                                        style={{ backgroundImage: noiseTexture }}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300 hover:border-slate-600 transition-all"
                                     >
                                         <Edit3 className="w-4 h-4" />
                                         Edit
                                     </motion.button>
                                 )}
                                 <motion.button
-                                    whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                                    whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => setShowCreateModal(true)}
-                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#C15F3C] to-[#DA7756] text-white hover:from-[#DA7756] hover:to-[#E08B6D] transition-all shadow-lg shadow-[#DA7756]/20"
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all"
                                 >
                                     <Plus className="w-4 h-4" />
                                     New Funnel
@@ -301,8 +287,7 @@ export function FunnelBuilderPage() {
                     {/* Funnel List */}
                     <motion.div variants={itemVariants} className="col-span-3">
                         <div
-                            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-4"
-                            style={{ backgroundImage: noiseTexture }}
+                            className="bg-slate-900 rounded-2xl border border-slate-800 p-4"
                         >
                             <h3 className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                                 <Layers className="w-3 h-3" />
@@ -335,8 +320,7 @@ export function FunnelBuilderPage() {
                                 {/* Funnel Info */}
                                 <motion.div
                                     variants={cardVariants}
-                                    className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-6"
-                                    style={{ backgroundImage: noiseTexture }}
+                                    className="bg-slate-900 rounded-2xl border border-slate-800 p-6"
                                 >
                                     <div className="flex items-start justify-between mb-6">
                                         <div className="flex items-center gap-4">
@@ -372,11 +356,11 @@ export function FunnelBuilderPage() {
 
                                         {/* Settings */}
                                         <div className="flex items-center gap-4">
-                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-white/[0.06]">
+                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-800">
                                                 <Clock className="w-4 h-4 text-slate-400" />
                                                 <span className="text-sm text-slate-400">{selectedFunnel.conversionWindow}h window</span>
                                             </div>
-                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-white/[0.06]">
+                                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-800">
                                                 <Users className="w-4 h-4 text-slate-400" />
                                                 <span className="text-sm text-slate-400 capitalize">{selectedFunnel.countingMethod}</span>
                                             </div>
@@ -434,10 +418,9 @@ export function FunnelBuilderPage() {
                         ) : (
                             <motion.div
                                 variants={cardVariants}
-                                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-12 text-center"
-                                style={{ backgroundImage: noiseTexture }}
+                                className="bg-slate-900 rounded-2xl border border-slate-800 p-12 text-center"
                             >
-                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-white/[0.06] flex items-center justify-center">
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
                                     <Filter className="w-8 h-8 text-slate-600" />
                                 </div>
                                 <p className="text-slate-400">Select a funnel or create a new one</p>
@@ -490,8 +473,8 @@ function FunnelListItem({
             whileTap={{ scale: 0.98 }}
             className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                 isSelected
-                    ? 'bg-gradient-to-br from-[#DA7756]/15 to-[#C15F3C]/10 border border-[#DA7756]/30 shadow-lg shadow-[#DA7756]/5'
-                    : 'bg-gradient-to-br from-slate-800/40 to-slate-900/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-white/[0.04] hover:border-white/[0.08]'
+                    ? 'bg-gradient-to-br from-[#DA7756]/15 to-[#C15F3C]/10 border border-[#DA7756]/30 '
+                    : 'bg-slate-800/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-slate-800 hover:border-slate-700'
             }`}
             onClick={onSelect}
         >
@@ -520,8 +503,7 @@ function FunnelListItem({
                         initial={{ opacity: 0, scale: 0.95, y: -10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                        className="absolute right-0 top-full mt-1 z-10 bg-gradient-to-br from-slate-800 to-slate-900 backdrop-blur-xl rounded-xl border border-white/[0.08] shadow-2xl py-1 w-36"
-                        style={{ backgroundImage: noiseTexture }}
+                        className="absolute right-0 top-full mt-1 z-10 bg-slate-800 rounded-xl border border-slate-700 shadow-lg py-1 w-36"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <button
@@ -585,8 +567,8 @@ function FunnelStepCard({
                 whileHover={isEditing ? { scale: 1.01 } : {}}
                 className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
                     isEditing
-                        ? 'bg-gradient-to-br from-slate-800/40 to-slate-900/40 border-white/[0.08]'
-                        : 'bg-gradient-to-br from-slate-800/20 to-slate-900/20 border-transparent hover:border-white/[0.04]'
+                        ? 'bg-slate-800/40 border-slate-700'
+                        : 'bg-slate-800/20 border-transparent hover:border-slate-800'
                 }`}
             >
                 {/* Step Number */}
@@ -611,13 +593,13 @@ function FunnelStepCard({
                                 value={step.name}
                                 onChange={(e) => onUpdate({ name: e.target.value })}
                                 placeholder="Step name"
-                                className="flex-1 px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                                className="flex-1 px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             />
                             <div className="relative">
                                 <select
                                     value={step.event}
                                     onChange={(e) => onUpdate({ event: e.target.value })}
-                                    className="px-3 py-2 bg-slate-900/50 border border-white/[0.08] rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 appearance-none pr-8 transition-colors"
+                                    className="px-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-[#DA7756]/50 appearance-none pr-8 transition-colors"
                                 >
                                     {COMMON_EVENTS.map(event => (
                                         <option key={event.value} value={event.value}>
@@ -718,8 +700,7 @@ function ResultCard({
     return (
         <motion.div
             whileHover={{ scale: 1.02, y: -2 }}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-4"
-            style={{ backgroundImage: noiseTexture }}
+            className="bg-slate-900 rounded-2xl border border-slate-800 p-4"
         >
             <div className="flex items-center gap-3">
                 <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${colors[color]} border flex items-center justify-center`}>
@@ -752,7 +733,7 @@ function CreateFunnelModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 "
             onClick={onClose}
         >
             <motion.div
@@ -760,11 +741,10 @@ function CreateFunnelModal({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 backdrop-blur-xl rounded-2xl border border-white/[0.08] w-full max-w-md mx-4 shadow-2xl"
-                style={{ backgroundImage: noiseTexture }}
+                className="bg-slate-900 rounded-2xl border border-slate-700 w-full max-w-md mx-4 shadow-lg"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="flex items-center justify-between p-5 border-b border-white/[0.06]">
+                <div className="flex items-center justify-between p-5 border-b border-slate-800">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Sparkles className="w-5 h-5 text-[#DA7756]" />
@@ -794,7 +774,7 @@ function CreateFunnelModal({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g., New User Onboarding"
-                            className="w-full px-4 py-3 bg-slate-800/50 border border-white/[0.08] rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                            className="w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             autoFocus
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') onCreate(name || 'New Funnel');
@@ -807,15 +787,15 @@ function CreateFunnelModal({
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={onClose}
-                            className="flex-1 py-3 bg-slate-800/50 hover:bg-slate-800/70 text-slate-300 rounded-xl transition-colors border border-white/[0.06]"
+                            className="flex-1 py-3 bg-slate-800/50 hover:bg-slate-800/70 text-slate-300 rounded-xl transition-colors border border-slate-800"
                         >
                             Cancel
                         </motion.button>
                         <motion.button
-                            whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(218, 119, 86, 0.3)' }}
+                            whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => onCreate(name || 'New Funnel')}
-                            className="flex-1 py-3 bg-gradient-to-r from-[#C15F3C] to-[#DA7756] hover:from-[#DA7756] hover:to-[#E08B6D] text-white rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#DA7756]/20"
+                            className="flex-1 py-3 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl transition-all flex items-center justify-center gap-2 "
                         >
                             <Plus className="w-4 h-4" />
                             Create

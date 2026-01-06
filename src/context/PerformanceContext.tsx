@@ -3,7 +3,7 @@
  *
  * Detects low-performance scenarios and provides toggles for:
  * - Reduced motion (disables Framer Motion animations)
- * - Reduced blur (removes backdrop-blur and blur effects)
+ * - Reduced blur (removes  and blur effects)
  * - Lite mode (combines both + reduces chart complexity)
  */
 

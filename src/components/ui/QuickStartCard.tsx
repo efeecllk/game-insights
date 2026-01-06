@@ -31,7 +31,7 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.08] overflow-hidden"
+                className="relative bg-slate-900  rounded-2xl p-6 border border-slate-700 overflow-hidden"
             >
                 {/* Background texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
@@ -74,14 +74,14 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+            className="relative bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
         >
             {/* Background texture */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
             {/* Decorative gradient orbs */}
-            <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#DA7756]/10 rounded-full blur-3xl" />
-            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#C15F3C]/10 rounded-full blur-3xl" />
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#DA7756]/10 rounded-full" />
+            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#C15F3C]/10 rounded-full" />
 
             <div className="relative p-8">
                 {/* Header */}
@@ -128,7 +128,7 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
                     <motion.button
                         whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
                         onClick={onTryDemo}
-                        className="group relative text-left p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] hover:border-[#A68B5B]/30 transition-colors"
+                        className="group relative text-left p-6 rounded-xl bg-white/[0.02] border border-slate-700 hover:border-[#A68B5B]/30 transition-colors"
                     >
                         <div className="w-12 h-12 rounded-xl bg-[#A68B5B]/10 border border-[#A68B5B]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <Sparkles className="w-6 h-6 text-[#A68B5B]" />
@@ -144,7 +144,7 @@ export function QuickStartCard({ onTryDemo, compact = false }: QuickStartCardPro
                 </div>
 
                 {/* Features */}
-                <div className="flex flex-wrap justify-center gap-6 pt-6 border-t border-white/[0.06]">
+                <div className="flex flex-wrap justify-center gap-6 pt-6 border-t border-slate-800">
                     <Feature icon={BarChart3} label="Auto-detect game type" />
                     <Feature icon={Sparkles} label="AI-powered insights" />
                     <Feature icon={Shield} label="100% local - your data stays private" />

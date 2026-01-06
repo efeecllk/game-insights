@@ -125,7 +125,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
     );
 
     const stats = (
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/[0.04]">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-800">
             <div>
                 <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Total Revenue</p>
                 <p className="text-xl font-bold text-[#E8957A] font-mono tracking-tight">
@@ -153,7 +153,7 @@ export function RevenueChart({ data, config, className, bare = false }: RevenueC
 
     // Standalone mode with its own container
     return (
-        <div className={`relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-5 border border-white/[0.06] overflow-hidden ${className ?? ''}`}>
+        <div className={`relative bg-slate-900  rounded-2xl p-5 border border-slate-800 overflow-hidden ${className ?? ''}`}>
             {/* Noise texture */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 

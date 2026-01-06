@@ -150,11 +150,11 @@ export function SyncScheduleManager() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+                className="bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center"
             >
                 <div className="relative w-16 h-16 mx-auto mb-4">
-                    <div className="absolute inset-0 bg-slate-500/20 rounded-2xl blur-xl" />
-                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-slate-500/20 rounded-2xl" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-slate-700 flex items-center justify-center">
                         <Clock className="w-8 h-8 text-slate-400" />
                     </div>
                 </div>
@@ -216,7 +216,7 @@ export function SyncScheduleManager() {
                 {nextSyncs.length > 0 && (
                     <motion.div
                         variants={cardVariants}
-                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-5"
+                        className="bg-slate-900  rounded-2xl border border-slate-700 p-5"
                     >
                         <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 flex items-center justify-center">
@@ -242,9 +242,9 @@ export function SyncScheduleManager() {
             {/* Integration Schedule List */}
             <motion.div
                 variants={cardVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden"
+                className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden"
             >
-                <div className="px-5 py-4 border-b border-white/[0.06]">
+                <div className="px-5 py-4 border-b border-slate-800">
                     <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
                             <Settings className="w-4 h-4 text-violet-400" />
@@ -385,9 +385,9 @@ function UpcomingSyncRow({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 300, damping: 30 }}
-            className="flex items-center gap-4 p-3 bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.04] transition-colors"
+            className="flex items-center gap-4 p-3 bg-white/[0.02] border border-slate-800 rounded-xl hover:bg-white/[0.04] transition-colors"
         >
-            <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xl">
+            <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-slate-800 flex items-center justify-center text-xl">
                 {getIntegrationIcon(integration.config.type)}
             </div>
             <div className="flex-1 min-w-0">
@@ -442,7 +442,7 @@ function ScheduleRow({
                 onClick={onToggle}
             >
                 {/* Icon */}
-                <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-lg bg-white/[0.03] border border-slate-800 flex items-center justify-center text-xl">
                     {getIntegrationIcon(integration.config.type)}
                 </div>
 
@@ -527,7 +527,7 @@ function ScheduleRow({
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                     >
-                        <div className="px-4 pb-4 border-t border-white/[0.06] pt-4 ml-14">
+                        <div className="px-4 pb-4 border-t border-slate-800 pt-4 ml-14">
                             <h5 className="text-sm font-medium text-slate-300 mb-3">
                                 Change Sync Schedule
                             </h5>
@@ -546,8 +546,8 @@ function ScheduleRow({
                                             whileTap={{ scale: 0.98 }}
                                             className={`p-3 rounded-xl border text-left transition-all ${
                                                 isActive
-                                                    ? 'border-[#DA7756]/30 bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
-                                                    : 'border-white/[0.06] hover:border-white/[0.12] bg-white/[0.02] hover:bg-white/[0.04]'
+                                                    ? 'border-[#DA7756]/30 bg-[#DA7756]/10 '
+                                                    : 'border-slate-800 hover:border-slate-600 bg-white/[0.02] hover:bg-white/[0.04]'
                                             }`}
                                         >
                                             <div className="flex items-center gap-2 mb-1">
@@ -569,7 +569,7 @@ function ScheduleRow({
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.2 }}
-                                    className="mt-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl"
+                                    className="mt-4 p-4 bg-white/[0.02] border border-slate-800 rounded-xl"
                                 >
                                     <label className="text-sm font-medium text-slate-300 mb-3 block">
                                         Custom Interval
@@ -596,7 +596,7 @@ function ScheduleRow({
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 0.3 }}
-                                className="mt-4 p-4 bg-white/[0.02] border border-white/[0.06] rounded-xl"
+                                className="mt-4 p-4 bg-white/[0.02] border border-slate-800 rounded-xl"
                             >
                                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                                     <div>

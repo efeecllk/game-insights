@@ -102,7 +102,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    className="absolute inset-0 bg-black/60 "
                     onClick={onClose}
                     aria-hidden="true"
                 />
@@ -118,14 +118,14 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl"
+                    className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-slate-900  border border-slate-700 rounded-2xl shadow-lg"
                 >
                     {/* Noise texture */}
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                     <div className="relative max-h-[80vh] overflow-y-auto">
                         {/* Header */}
-                        <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-white/[0.06] bg-slate-900/80 backdrop-blur-xl">
+                        <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80 ">
                             <div className="flex items-center gap-3">
                                 <motion.div
                                     initial={{ scale: 0, rotate: -180 }}
@@ -189,7 +189,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                                                 <dd className="flex items-center gap-1">
                                                     {shortcut.keys.map((key, keyIndex) => (
                                                         <span key={keyIndex} className="flex items-center">
-                                                            <kbd className="inline-flex items-center justify-center min-w-[28px] px-2 py-1.5 text-xs font-medium text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg">
+                                                            <kbd className="inline-flex items-center justify-center min-w-[28px] px-2 py-1.5 text-xs font-medium text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg">
                                                                 {key}
                                                             </kbd>
                                                             {keyIndex < shortcut.keys.length - 1 && (
@@ -206,9 +206,9 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
                         </motion.div>
 
                         {/* Footer */}
-                        <div className="sticky bottom-0 px-6 py-3 border-t border-white/[0.06] bg-slate-900/80 backdrop-blur-xl text-xs text-slate-500 text-center">
+                        <div className="sticky bottom-0 px-6 py-3 border-t border-slate-800 bg-slate-900/80  text-xs text-slate-500 text-center">
                             Press{' '}
-                            <kbd className="px-2 py-1 bg-white/[0.03] rounded-lg border border-white/[0.06] text-[#DA7756]">
+                            <kbd className="px-2 py-1 bg-white/[0.03] rounded-lg border border-slate-800 text-[#DA7756]">
                                 ?
                             </kbd>{' '}
                             to toggle this dialog

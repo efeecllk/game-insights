@@ -399,7 +399,7 @@ export function AttributionPage() {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setShowDatePicker(!showDatePicker)}
-                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-white/[0.08] rounded-lg hover:bg-white/[0.06] hover:border-white/[0.12] transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-sm text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
                             >
                                 {dateRangeLabel[dateRange]}
                                 <ChevronDown className={`w-4 h-4 transition-transform ${showDatePicker ? 'rotate-180' : ''}`} />
@@ -410,7 +410,7 @@ export function AttributionPage() {
                                         initial={{ opacity: 0, y: -10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                                        className="absolute right-0 mt-2 w-44 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                        className="absolute right-0 mt-2 w-44 bg-slate-900/95  border border-slate-700 rounded-xl shadow-lg overflow-hidden z-50"
                                     >
                                         {Object.entries(dateRangeLabel).map(([value, label]) => (
                                             <button
@@ -489,7 +489,7 @@ export function AttributionPage() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl">
+                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-slate-800 rounded-xl">
                             {(Object.keys(MODEL_INFO) as AttributionModel[]).map((model) => (
                                 <motion.button
                                     key={model}
@@ -510,13 +510,13 @@ export function AttributionPage() {
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Attribution Pie Chart */}
-                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-slate-800">
                             <h4 className="text-sm font-medium text-slate-400 mb-4">Credit Distribution</h4>
                             <ReactECharts option={pieChartOption} style={{ height: 280 }} />
                         </div>
 
                         {/* Channel Table */}
-                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-slate-800">
                             <h4 className="text-sm font-medium text-slate-400 mb-4">Channel Breakdown</h4>
                             <div className="space-y-2">
                                 {sortedChannels.map((channel, index) => (
@@ -525,7 +525,7 @@ export function AttributionPage() {
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: index * 0.05 }}
-                                        className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors group"
+                                        className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-slate-800 hover:border-slate-700 transition-colors group"
                                     >
                                         <span className="text-xl">{channel.icon}</span>
                                         <div className="flex-1 min-w-0">
@@ -568,7 +568,7 @@ export function AttributionPage() {
                             </div>
                             <h3 className="text-lg font-semibold text-white">ROAS by Channel</h3>
                         </div>
-                        <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+                        <div className="p-4 rounded-xl bg-white/[0.02] border border-slate-800">
                             <ReactECharts option={roasChartOption} style={{ height: 250 }} />
                         </div>
                     </Card>
@@ -621,7 +621,7 @@ export function AttributionPage() {
             {/* Channel Performance Table */}
             <motion.div variants={itemVariants}>
                 <Card variant="default" padding="none" className="overflow-hidden">
-                    <div className="px-6 py-4 border-b border-white/[0.06]">
+                    <div className="px-6 py-4 border-b border-slate-800">
                         <h3 className="text-lg font-semibold text-white">Channel Performance</h3>
                     </div>
                     <div className="overflow-x-auto">
@@ -763,7 +763,7 @@ function KPICard({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center gap-3 mb-3">
                     <div className="relative">
                         <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -804,12 +804,12 @@ function ConversionPath({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04] hover:border-white/[0.08] transition-colors group"
+            className="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-slate-800 hover:border-slate-700 transition-colors group"
         >
             <div className="flex-1 flex items-center gap-2 overflow-x-auto">
                 {path.map((step, i) => (
                     <span key={i} className="flex items-center gap-2">
-                        <span className="px-2 py-1 bg-white/[0.05] border border-white/[0.08] rounded-lg text-xs font-medium text-slate-300 whitespace-nowrap group-hover:border-[#DA7756]/20 transition-colors">
+                        <span className="px-2 py-1 bg-white/[0.05] border border-slate-700 rounded-lg text-xs font-medium text-slate-300 whitespace-nowrap group-hover:border-[#DA7756]/20 transition-colors">
                             {step}
                         </span>
                         {i < path.length - 1 && (

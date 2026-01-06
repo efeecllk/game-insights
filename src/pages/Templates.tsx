@@ -228,7 +228,7 @@ export function TemplatesPage() {
         return (
             <div className="flex items-center justify-center h-64">
                 <div className="relative">
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-xl animate-pulse" />
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full" />
                     <div className="relative w-8 h-8 border-2 border-[#DA7756]/30 border-t-[#DA7756] rounded-full animate-spin" />
                 </div>
             </div>
@@ -305,7 +305,7 @@ export function TemplatesPage() {
                                 placeholder="Search templates..."
                                 value={filters.search}
                                 onChange={e => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.03] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                             />
                         </div>
 
@@ -314,7 +314,7 @@ export function TemplatesPage() {
                             <select
                                 value={filters.category}
                                 onChange={e => setFilters(prev => ({ ...prev, category: e.target.value as TemplateCategory | 'all' }))}
-                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-slate-700 text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
                             >
                                 <option value="all">All Categories</option>
                                 <option value="retention">Retention</option>
@@ -331,7 +331,7 @@ export function TemplatesPage() {
                             <select
                                 value={filters.gameType}
                                 onChange={e => setFilters(prev => ({ ...prev, gameType: e.target.value as GameCategory | 'all' }))}
-                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
+                                className="appearance-none pl-3 pr-10 py-2.5 rounded-xl bg-white/[0.03] border border-slate-700 text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all cursor-pointer"
                             >
                                 <option value="all">All Game Types</option>
                                 <option value="puzzle">Puzzle</option>
@@ -358,7 +358,7 @@ export function TemplatesPage() {
                         <div className="relative ml-auto">
                             <button
                                 onClick={() => setShowSortDropdown(!showSortDropdown)}
-                                className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:bg-white/[0.06] transition-colors"
+                                className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-white/[0.03] border border-slate-700 text-slate-300 hover:bg-white/[0.06] transition-colors"
                             >
                                 {sortLabels[sortBy]}
                                 <ChevronDown className={`w-4 h-4 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
@@ -369,7 +369,7 @@ export function TemplatesPage() {
                                         initial={{ opacity: 0, y: -10, scale: 0.95 }}
                                         animate={{ opacity: 1, y: 0, scale: 1 }}
                                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                                        className="absolute right-0 mt-2 w-40 bg-slate-900/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl overflow-hidden z-50"
+                                        className="absolute right-0 mt-2 w-40 bg-slate-900/95  border border-slate-700 rounded-xl shadow-lg overflow-hidden z-50"
                                     >
                                         {(Object.keys(sortLabels) as SortOption[]).map((option) => (
                                             <button
@@ -391,7 +391,7 @@ export function TemplatesPage() {
                         </div>
 
                         {/* View Mode */}
-                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-white/[0.06] rounded-xl">
+                        <div className="flex items-center gap-1 p-1 bg-white/[0.03] border border-slate-800 rounded-xl">
                             <button
                                 onClick={() => setViewMode('grid')}
                                 className={`p-2 rounded-lg transition-colors ${
@@ -427,8 +427,8 @@ export function TemplatesPage() {
                             transition={{ type: 'spring', delay: 0.2 }}
                             className="relative inline-block mb-4"
                         >
-                            <div className="absolute inset-0 bg-slate-500/20 rounded-xl blur-xl" />
-                            <div className="relative w-16 h-16 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center mx-auto">
+                            <div className="absolute inset-0 bg-slate-500/20 rounded-xl" />
+                            <div className="relative w-16 h-16 bg-white/[0.03] border border-slate-700 rounded-xl flex items-center justify-center mx-auto">
                                 <Package className="w-8 h-8 text-slate-500" />
                             </div>
                         </motion.div>
@@ -520,7 +520,7 @@ function StatCard({ icon: Icon, label, value, color, index }: {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center gap-4">
                     <div className="relative">
                         <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -564,7 +564,7 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="none" className="overflow-hidden group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="none" className="overflow-hidden group hover:border-slate-600 transition-all">
                 {/* Preview Header */}
                 <div className="h-32 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-[#A68B5B]/30 p-4 relative">
                     <div className="flex items-start justify-between">
@@ -617,19 +617,19 @@ function TemplateCard({ template, isStarred, onView, onStar, onUse, onExport: _o
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1 mt-3">
                         {template.tags.slice(0, 3).map(tag => (
-                            <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] text-slate-400 text-xs rounded-full">
+                            <span key={tag} className="px-2 py-0.5 bg-white/[0.03] border border-slate-800 text-slate-400 text-xs rounded-full">
                                 {tag}
                             </span>
                         ))}
                         {template.tags.length > 3 && (
-                            <span className="px-2 py-0.5 bg-white/[0.03] border border-white/[0.06] text-slate-500 text-xs rounded-full">
+                            <span className="px-2 py-0.5 bg-white/[0.03] border border-slate-800 text-slate-500 text-xs rounded-full">
                                 +{template.tags.length - 3}
                             </span>
                         )}
                     </div>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-4 mt-4 pt-3 border-t border-white/[0.06] text-sm text-slate-500">
+                    <div className="flex items-center gap-4 mt-4 pt-3 border-t border-slate-800 text-sm text-slate-500">
                         <span className="flex items-center gap-1">
                             <Download className="w-4 h-4" /> {formatNumber(template.downloads)}
                         </span>
@@ -668,7 +668,7 @@ function TemplateListItem({ template, isStarred, onView, onStar, onUse, index }:
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.03 }}
         >
-            <Card variant="default" padding="md" className="flex items-center gap-4 hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="flex items-center gap-4 hover:border-slate-600 transition-all">
                 <div className="w-16 h-16 bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 rounded-xl flex items-center justify-center border border-[#DA7756]/20">
                     <Layout className="w-6 h-6 text-[#DA7756]" />
                 </div>
@@ -731,13 +731,13 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60  flex items-center justify-center z-50 p-4"
         >
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                className="bg-slate-900  rounded-2xl border border-slate-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg"
             >
                 {/* Header */}
                 <div className="h-40 bg-gradient-to-br from-[#DA7756]/30 via-[#C15F3C]/20 to-[#A68B5B]/30 p-6 relative">
@@ -775,7 +775,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     <p className="text-slate-400">{template.description}</p>
 
                     {/* Stats */}
-                    <div className="flex items-center gap-6 py-4 border-y border-white/[0.06]">
+                    <div className="flex items-center gap-6 py-4 border-y border-slate-800">
                         <div className="text-center">
                             <p className="text-2xl font-bold text-white">{formatNumber(template.downloads)}</p>
                             <p className="text-sm text-slate-500">Downloads</p>
@@ -820,7 +820,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     {/* Layout Preview */}
                     <div>
                         <h3 className="text-sm font-medium text-white mb-2">Dashboard Layout</h3>
-                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 space-y-3">
+                        <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4 space-y-3">
                             <div className="text-xs text-slate-500">
                                 <strong className="text-slate-400">{template.layout.kpis.length}</strong> KPIs,{' '}
                                 <strong className="text-slate-400">{template.layout.mainCharts.length}</strong> main charts,{' '}
@@ -828,7 +828,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                             </div>
                             <div className="grid grid-cols-4 gap-2">
                                 {template.layout.kpis.map(kpi => (
-                                    <div key={kpi.id} className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-2 text-center text-xs">
+                                    <div key={kpi.id} className="bg-white/[0.03] border border-slate-800 rounded-lg p-2 text-center text-xs">
                                         <div className="font-medium text-white">{kpi.name}</div>
                                         <div className="text-slate-500">{kpi.format}</div>
                                     </div>
@@ -840,7 +840,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
                         {template.tags.map(tag => (
-                            <span key={tag} className="px-3 py-1 bg-white/[0.03] border border-white/[0.06] text-slate-400 rounded-full text-sm">
+                            <span key={tag} className="px-3 py-1 bg-white/[0.03] border border-slate-800 text-slate-400 rounded-full text-sm">
                                 {tag}
                             </span>
                         ))}
@@ -848,7 +848,7 @@ function TemplateDetailModal({ template, isStarred, onClose, onUse, onStar, onEx
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 border-t border-white/[0.06] flex items-center gap-3">
+                <div className="p-6 border-t border-slate-800 flex items-center gap-3">
                     <Button
                         variant={isStarred ? 'primary' : 'secondary'}
                         onClick={onStar}
@@ -893,13 +893,13 @@ function ImportModal({ onClose, onImport }: {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60  flex items-center justify-center z-50 p-4"
         >
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] max-w-md w-full p-6 shadow-2xl"
+                className="bg-slate-900  rounded-2xl border border-slate-700 max-w-md w-full p-6 shadow-lg"
             >
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-bold text-white">Import Template</h2>
@@ -920,7 +920,7 @@ function ImportModal({ onClose, onImport }: {
                 <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-white/[0.1] rounded-xl hover:border-[#DA7756]/30 hover:bg-[#DA7756]/5 cursor-pointer transition-all group">
                     <div className="relative mb-3">
                         <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <div className="relative w-12 h-12 bg-white/[0.03] border border-white/[0.08] rounded-xl flex items-center justify-center group-hover:border-[#DA7756]/30 transition-colors">
+                        <div className="relative w-12 h-12 bg-white/[0.03] border border-slate-700 rounded-xl flex items-center justify-center group-hover:border-[#DA7756]/30 transition-colors">
                             <Upload className="w-6 h-6 text-slate-500 group-hover:text-[#DA7756] transition-colors" />
                         </div>
                     </div>

@@ -87,7 +87,7 @@ export function DataQualityBadge({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.95 }}
                         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                        className="absolute z-50 top-full left-0 mt-2 w-72 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl p-3"
+                        className="absolute z-50 top-full left-0 mt-2 w-72 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98  border border-slate-700 rounded-xl shadow-lg p-3"
                         role="tooltip"
                     >
                         <div className="flex items-center justify-between mb-2">
@@ -139,7 +139,7 @@ export function DataQualityBadge({
                             <p className="text-xs text-slate-500">No issues found</p>
                         )}
 
-                        <div className="mt-3 pt-2 border-t border-white/[0.06] flex items-center justify-between text-xs">
+                        <div className="mt-3 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
                             <span className="text-slate-500">
                                 {criticalIssues.length} critical, {warningIssues.length} warnings
                             </span>

@@ -124,8 +124,8 @@ function KPICard({ label, value, change, icon, tooltip, color = 'primary', index
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             className={`
                 group relative overflow-hidden
-                bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80
-                backdrop-blur-xl rounded-xl
+                bg-slate-900
+                 rounded-xl
                 border ${styles.border} ${styles.hoverBorder}
                 p-5 transition-all duration-300
                 hover:shadow-lg hover:shadow-black/20
@@ -133,7 +133,7 @@ function KPICard({ label, value, change, icon, tooltip, color = 'primary', index
             title={tooltip}
         >
             {/* Background glow effect */}
-            <div className={`absolute -top-8 -right-8 w-24 h-24 ${styles.glow} rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            <div className={`absolute -top-8 -right-8 w-24 h-24 ${styles.glow} rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
             {/* Content */}
             <div className="relative">
@@ -223,7 +223,7 @@ function KPIGridSkeleton() {
             {[1, 2, 3, 4].map((i) => (
                 <div
                     key={i}
-                    className="bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-950/80 backdrop-blur-xl rounded-xl border border-white/[0.06] p-5"
+                    className="bg-slate-900  rounded-xl border border-slate-800 p-5"
                 >
                     <div className="animate-pulse">
                         <div className="flex items-start justify-between mb-4">

@@ -22,16 +22,16 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
     return (
         <div className={`relative group ${className ?? ''}`}>
             {/* Glow effect on hover */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none" />
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/5 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             {/* Card container */}
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl border border-white/[0.06] overflow-hidden">
+            <div className="relative bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden">
                 {/* Noise texture */}
                 <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                 <div className="relative">
                     {/* Header */}
-                    <div className="p-4 border-b border-white/[0.04]">
+                    <div className="p-4 border-b border-slate-800">
                         <div className="flex items-center justify-between">
                             <div>
                                 <h3 className="font-display font-semibold text-white">{funnel.name}</h3>
@@ -83,7 +83,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                                     className={`h-full rounded-full transition-all ${
                                                         isBottleneck
                                                             ? 'bg-gradient-to-r from-amber-400 to-amber-500'
-                                                            : 'bg-gradient-to-r from-[#DA7756] to-[#C15F3C]'
+                                                            : 'bg-[#DA7756]'
                                                     }`}
                                                     style={{ width: `${widthPercent}%` }}
                                                 />

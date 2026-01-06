@@ -23,13 +23,20 @@ export class APIAdapter extends BaseAdapter {
     private cachedData: Record<string, unknown>[] = [];
     private schema: SchemaInfo | null = null;
     private lastFetch: Date | null = null;
+    private abortController: AbortController | null = null;
 
     async connect(config: APIAdapterConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
         await this.refresh();
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
         this.config = null;
         this.cachedData = [];
         this.schema = null;
@@ -43,9 +50,14 @@ export class APIAdapter extends BaseAdapter {
             const response = await fetch(this.config.endpoint, {
                 method: 'HEAD',
                 headers: this.buildHeaders(),
+                signal: this.abortController?.signal,
             });
             return response.ok;
-        } catch {
+        } catch (error) {
+            // Don't treat abort as connection failure
+            if (error instanceof Error && error.name === 'AbortError') {
+                return false;
+            }
             return false;
         }
     }
@@ -123,6 +135,7 @@ export class APIAdapter extends BaseAdapter {
         const response = await fetch(this.config.endpoint, {
             method: 'GET',
             headers: this.buildHeaders(),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {

@@ -1,10 +1,8 @@
 /**
- * Card Component - Obsidian Analytics Design
+ * Card Component
  *
- * Premium card with:
- * - Glassmorphism effects
+ * Clean card with:
  * - Multiple variants (default, elevated, interactive, glass)
- * - Noise texture backgrounds
  * - Orange accent hover states
  * - Framer Motion animations
  */
@@ -33,14 +31,14 @@ const paddingStyles: Record<CardPadding, string> = {
 
 const variantStyles: Record<CardVariant, string> = {
     default:
-        'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl border border-white/[0.06]',
+        'bg-slate-900 border border-slate-800',
     elevated:
-        'bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] shadow-xl shadow-black/20',
+        'bg-slate-900 border border-slate-700 shadow-lg',
     interactive:
-        'bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl border border-white/[0.06] hover:border-[#DA7756]/20 hover:shadow-lg hover:shadow-[#DA7756]/5 cursor-pointer',
-    glass: 'glass-card bg-white/[0.02] backdrop-blur-xl border border-white/[0.06]',
+        'bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer',
+    glass: 'bg-slate-900/80 border border-slate-800',
     'gradient-border':
-        'relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl',
+        'relative bg-slate-900 border border-slate-800',
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -77,37 +75,15 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
               }
             : {};
 
-        // Gradient border wrapper
-        if (variant === 'gradient-border') {
-            return (
-                <div className="relative group">
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/20 via-[#C15F3C]/20 to-[#DA7756]/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-                    <motion.div
-                        ref={ref}
-                        className={`relative rounded-2xl overflow-hidden ${variantStyles[variant]} ${paddingStyles[padding]} ${className}`}
-                        {...animationProps}
-                        {...hoverProps}
-                        {...props}
-                    >
-                        {/* Noise texture */}
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                        <div className="relative">{children}</div>
-                    </motion.div>
-                </div>
-            );
-        }
-
         return (
             <motion.div
                 ref={ref}
-                className={`relative rounded-2xl overflow-hidden ${variantStyles[variant]} ${paddingStyles[padding]} ${className}`}
+                className={`rounded-2xl ${variantStyles[variant]} ${paddingStyles[padding]} ${className}`}
                 {...animationProps}
                 {...hoverProps}
                 {...props}
             >
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                <div className="relative">{children}</div>
+                {children}
             </motion.div>
         );
     }
@@ -127,10 +103,10 @@ interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function CardHeader({ title, action, subtitle, icon, className = '', ...props }: CardHeaderProps) {
     return (
-        <div className={`flex items-center justify-between pb-4 border-b border-white/[0.04] ${className}`} {...props}>
+        <div className={`flex items-center justify-between pb-4 border-b border-slate-800 ${className}`} {...props}>
             <div className="flex items-center gap-3">
                 {icon && (
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                         {icon}
                     </div>
                 )}
@@ -160,7 +136,7 @@ export function CardContent({ children, className = '', ...props }: React.HTMLAt
  */
 export function CardFooter({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
     return (
-        <div className={`pt-4 mt-4 border-t border-white/[0.04] ${className}`} {...props}>
+        <div className={`pt-4 mt-4 border-t border-slate-800 ${className}`} {...props}>
             {children}
         </div>
     );

@@ -199,7 +199,7 @@ export function RealtimePage() {
                             className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                                 isLive
                                     ? 'bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756] hover:bg-[#DA7756]/20'
-                                    : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06]'
+                                    : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:bg-white/[0.06]'
                             }`}
                         >
                             <RefreshCw className={`w-4 h-4 ${isLive ? 'animate-spin' : ''}`} />
@@ -266,7 +266,7 @@ export function RealtimePage() {
                         <span className="relative flex items-center gap-2">
                             {tab === 'live' && (
                                 <>
-                                    <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-[#DA7756] animate-pulse' : 'bg-slate-600'}`} />
+                                    <span className={`w-2 h-2 rounded-full ${isLive ? 'bg-[#DA7756]' : 'bg-slate-600'}`} />
                                     Live Events
                                 </>
                             )}
@@ -383,7 +383,7 @@ function LiveChart({ title, icon: Icon, color, data, timestamps, isLive, index }
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${color}20` }}>
@@ -396,7 +396,7 @@ function LiveChart({ title, icon: Icon, color, data, timestamps, isLive, index }
                                 animate={{ opacity: 1 }}
                                 className="text-[10px] bg-[#DA7756]/10 text-[#DA7756] px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
                             >
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756] animate-pulse" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756]" />
                                 Live
                             </motion.span>
                         )}
@@ -492,7 +492,7 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
             transition={{ delay: 0.35, type: 'spring', stiffness: 260, damping: 20 }}
             className="md:col-span-2"
         >
-            <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+            <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
@@ -501,7 +501,7 @@ function ErrorEventsChart({ timestamps, isLive }: { timestamps: string[]; isLive
                         <h3 className="font-medium text-white">Error Events</h3>
                         {isLive && (
                             <span className="text-[10px] bg-[#DA7756]/10 text-[#DA7756] px-1.5 py-0.5 rounded font-medium flex items-center gap-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756] animate-pulse" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#DA7756]" />
                                 Live
                             </span>
                         )}
@@ -572,7 +572,7 @@ function SDKStatusTab() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1, type: 'spring', stiffness: 260, damping: 20 }}
                     >
-                        <Card variant="default" padding="md" className="group hover:border-white/[0.12] transition-all">
+                        <Card variant="default" padding="md" className="group hover:border-slate-600 transition-all">
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="relative">
                                     <div className={`absolute inset-0 ${style.glow} rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity`} />
@@ -582,7 +582,7 @@ function SDKStatusTab() {
                                 </div>
                                 <h3 className="font-medium text-white">{card.title}</h3>
                                 {card.status === 'healthy' && (
-                                    <span className="w-2 h-2 rounded-full bg-[#DA7756] animate-pulse" />
+                                    <span className="w-2 h-2 rounded-full bg-[#DA7756]" />
                                 )}
                             </div>
                             <div className={`text-3xl font-bold ${style.icon}`}>{card.value}</div>

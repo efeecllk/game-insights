@@ -46,7 +46,6 @@ import DataModeIndicator from '../components/ui/DataModeIndicator';
 import { IDataProvider } from '../lib/dataProviders';
 
 // Noise texture for Obsidian style
-const noiseTexture = `data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E`;
 
 // Animation variants
 const containerVariants = {
@@ -237,8 +236,8 @@ export function DashboardBuilderPage() {
             >
                 {/* Background decorations */}
                 <div className="fixed inset-0 pointer-events-none overflow-hidden">
-                    <div className="absolute top-20 right-1/4 w-[500px] h-[500px] bg-[#DA7756]/5 rounded-full blur-3xl" />
-                    <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-[#C15F3C]/5 rounded-full blur-3xl" />
+                    <div className="absolute top-20 right-1/4 w-[500px] h-[500px] bg-[#DA7756]/5 rounded-full" />
+                    <div className="absolute bottom-20 left-1/4 w-[400px] h-[400px] bg-[#C15F3C]/5 rounded-full" />
                 </div>
 
                 {/* Header */}
@@ -253,7 +252,7 @@ export function DashboardBuilderPage() {
                                 whileHover={{ scale: 1.05 }}
                                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/30 blur-xl rounded-full" />
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/30 rounded-full" />
                                 <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/20 border border-[#DA7756]/30 flex items-center justify-center">
                                     <Grid3X3 className="w-6 h-6 text-[#DA7756]" />
                                 </div>
@@ -274,7 +273,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setShowWidgetPicker(true)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
                                 >
                                     <Plus className="w-4 h-4" />
                                     Add Widget
@@ -283,7 +282,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setIsEditing(false)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
                                 >
                                     <Eye className="w-4 h-4" />
                                     Preview
@@ -292,7 +291,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleSaveDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                                 >
                                     <Save className="w-4 h-4" />
                                     Save
@@ -306,7 +305,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setShowExportModal(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
                                         >
                                             <Download className="w-4 h-4" />
                                             Export
@@ -315,7 +314,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setIsEditing(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-white/[0.08] text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all backdrop-blur-xl"
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
                                         >
                                             <Edit3 className="w-4 h-4" />
                                             Edit
@@ -326,7 +325,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleCreateDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                                 >
                                     <Plus className="w-4 h-4" />
                                     New Dashboard
@@ -358,11 +357,11 @@ export function DashboardBuilderPage() {
                         >
                             <div
                                 className="relative rounded-2xl overflow-hidden"
-                                style={{ backgroundImage: `url("${noiseTexture}")` }}
+                                
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
-                                <div className="relative border border-white/[0.06]">
-                                    <div className="p-4 border-b border-white/[0.06]">
+                                <div className="absolute inset-0 bg-slate-900 " />
+                                <div className="relative border border-slate-800">
+                                    <div className="p-4 border-b border-slate-800">
                                         <div className="flex items-center gap-2">
                                             <LayoutDashboard className="w-4 h-4 text-[#DA7756]" />
                                             <h3 className="text-sm font-semibold text-white">Your Dashboards</h3>
@@ -410,13 +409,13 @@ export function DashboardBuilderPage() {
                             ) : (
                                 <motion.div
                                     className="relative rounded-2xl overflow-hidden"
-                                    style={{ backgroundImage: `url("${noiseTexture}")` }}
+                                    
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
-                                    <div className="relative p-12 border border-white/[0.06] text-center">
-                                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-white/[0.06] mx-auto mb-4 flex items-center justify-center">
+                                    <div className="absolute inset-0 bg-slate-900 " />
+                                    <div className="relative p-12 border border-slate-800 text-center">
+                                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 mx-auto mb-4 flex items-center justify-center">
                                             <LayoutDashboard className="w-8 h-8 text-slate-600" />
                                         </div>
                                         <h3 className="text-lg font-semibold text-white mb-2">No dashboard selected</h3>
@@ -425,7 +424,7 @@ export function DashboardBuilderPage() {
                                             onClick={handleCreateDashboard}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#DA7756] to-[#C15F3C] text-white hover:from-[#DA7756]/90 hover:to-[#C15F3C]/90 transition-all shadow-lg shadow-[#DA7756]/20"
+                                            className="px-6 py-3 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
                                         >
                                             Create Dashboard
                                         </motion.button>
@@ -543,11 +542,11 @@ function DashboardListItem({
                         transition={{ duration: 0.15 }}
                     >
                         <div
-                            className="relative rounded-xl overflow-hidden shadow-2xl"
-                            style={{ backgroundImage: `url("${noiseTexture}")` }}
+                            className="relative rounded-xl overflow-hidden shadow-lg"
+                            
                         >
-                            <div className="absolute inset-0 bg-slate-900/98 backdrop-blur-xl" />
-                            <div className="relative border border-white/[0.08] py-1 min-w-36">
+                            <div className="absolute inset-0 bg-slate-900/98 " />
+                            <div className="relative border border-slate-700 py-1 min-w-36">
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
@@ -616,10 +615,10 @@ function DashboardCanvas({
     return (
         <div
             className="relative rounded-2xl overflow-hidden"
-            style={{ backgroundImage: `url("${noiseTexture}")` }}
+            
         >
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
-            <div className="relative border border-white/[0.06] p-6">
+            <div className="absolute inset-0 bg-slate-900 " />
+            <div className="relative border border-slate-800 p-6">
                 {/* Dashboard Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
@@ -671,7 +670,7 @@ function DashboardCanvas({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                     >
-                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-white/[0.06] mb-4 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 mb-4 flex items-center justify-center">
                             <LayoutDashboard className="w-8 h-8 text-slate-600" />
                         </div>
                         <p className="text-slate-400 mb-2">No widgets yet</p>
@@ -714,8 +713,8 @@ function WidgetRenderer({
                 isSelected
                     ? 'border-[#DA7756]/50 ring-2 ring-[#DA7756]/20 bg-[#DA7756]/[0.03]'
                     : isEditing
-                    ? 'border-white/[0.08] hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
-                    : 'border-white/[0.06] bg-white/[0.02]'
+                    ? 'border-slate-700 hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
+                    : 'border-slate-800 bg-white/[0.02]'
             }`}
             onClick={isEditing ? onSelect : undefined}
             whileHover={isEditing ? { scale: 1.01 } : {}}
@@ -925,7 +924,7 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
             <div className="flex-1 overflow-auto">
                 <table className="w-full text-sm">
                     <thead>
-                        <tr className="border-b border-white/[0.08]">
+                        <tr className="border-b border-slate-700">
                             <th className="text-left py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Name</th>
                             <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Revenue</th>
                             <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Sales</th>
@@ -933,7 +932,7 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
                     </thead>
                     <tbody>
                         {mockData.map((row) => (
-                            <tr key={row.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors">
+                            <tr key={row.id} className="border-b border-slate-800 hover:bg-white/[0.02] transition-colors">
                                 <td className="py-2 text-slate-300">{row.name}</td>
                                 <td className="py-2 text-right text-white font-medium">{row.revenue}</td>
                                 <td className="py-2 text-right text-slate-400">{row.sales}</td>
@@ -1049,7 +1048,7 @@ function WidgetPicker({
 
     return (
         <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -1057,16 +1056,16 @@ function WidgetPicker({
         >
             <motion.div
                 className="relative rounded-2xl overflow-hidden w-full max-w-2xl"
-                style={{ backgroundImage: `url("${noiseTexture}")` }}
+                
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 backdrop-blur-xl" />
-                <div className="relative border border-white/[0.08]">
-                    <div className="flex items-center justify-between p-6 border-b border-white/[0.08]">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 " />
+                <div className="relative border border-slate-700">
+                    <div className="flex items-center justify-between p-6 border-b border-slate-700">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                 <Plus className="w-5 h-5 text-[#DA7756]" />
@@ -1097,7 +1096,7 @@ function WidgetPicker({
                                     onClick={() => onSelect(type)}
                                     whileHover={{ scale: 1.02, y: -2 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-white/[0.08] hover:border-[#DA7756]/30 hover:bg-[#DA7756]/[0.05] transition-all text-center group"
+                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-slate-700 hover:border-[#DA7756]/30 hover:bg-[#DA7756]/[0.05] transition-all text-center group"
                                 >
                                     <span className="text-3xl group-hover:scale-110 transition-transform">{preset.icon}</span>
                                     <div>
@@ -1134,11 +1133,11 @@ function WidgetConfigPanel({
     return (
         <div
             className="relative rounded-2xl overflow-hidden"
-            style={{ backgroundImage: `url("${noiseTexture}")` }}
+            
         >
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl" />
-            <div className="relative border border-white/[0.06]">
-                <div className="flex items-center justify-between p-4 border-b border-white/[0.06]">
+            <div className="absolute inset-0 bg-slate-900 " />
+            <div className="relative border border-slate-800">
+                <div className="flex items-center justify-between p-4 border-b border-slate-800">
                     <div className="flex items-center gap-2">
                         <span className="text-xl">{preset.icon}</span>
                         <h3 className="text-sm font-semibold text-white">{preset.name}</h3>
@@ -1161,7 +1160,7 @@ function WidgetConfigPanel({
                             type="text"
                             value={widget.config.title || ''}
                             onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
-                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-slate-600"
+                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-slate-600"
                             placeholder="Widget title"
                         />
                     </div>
@@ -1173,7 +1172,7 @@ function WidgetConfigPanel({
                             <select
                                 value={widget.config.metric || 'dau'}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
                             >
                                 {METRIC_OPTIONS.map((opt) => (
                                     <option key={opt.value} value={opt.value} className="bg-slate-900">{opt.label}</option>
@@ -1207,7 +1206,7 @@ function WidgetConfigPanel({
                                 value={widget.config.textContent || ''}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
                                 rows={4}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-slate-600"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-slate-600"
                                 placeholder="Enter text content..."
                             />
                         </div>
@@ -1225,7 +1224,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={12}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                             <div>
@@ -1236,7 +1235,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={10}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                         </div>

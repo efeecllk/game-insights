@@ -136,11 +136,11 @@ export function ConnectionHealth() {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+                className="bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center"
             >
                 <div className="relative w-16 h-16 mx-auto mb-4">
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl blur-xl" />
-                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
+                    <div className="relative w-16 h-16 rounded-2xl bg-white/[0.03] border border-slate-700 flex items-center justify-center">
                         <Activity className="w-8 h-8 text-slate-400" />
                     </div>
                 </div>
@@ -164,7 +164,7 @@ export function ConnectionHealth() {
             {/* Overall Health Summary */}
             <motion.div
                 variants={itemVariants}
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+                className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
             >
                 <div className="flex items-center justify-between mb-6">
                     <div>
@@ -179,7 +179,7 @@ export function ConnectionHealth() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => integrations.forEach(i => refreshIntegration(i.id))}
-                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] hover:border-white/[0.12] rounded-xl text-sm text-slate-300 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 hover:border-slate-600 rounded-xl text-sm text-slate-300 transition-all"
                     >
                         <RefreshCw className="w-4 h-4" />
                         Refresh All
@@ -221,7 +221,7 @@ export function ConnectionHealth() {
                         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             filter === f
                                 ? 'bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756]'
-                                : 'bg-white/[0.03] border border-white/[0.08] text-slate-400 hover:bg-white/[0.06] hover:text-white'
+                                : 'bg-white/[0.03] border border-slate-700 text-slate-400 hover:bg-white/[0.06] hover:text-white'
                         }`}
                     >
                         {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -265,7 +265,7 @@ export function ConnectionHealth() {
                 {filteredIntegrations.length === 0 && (
                     <motion.div
                         variants={itemVariants}
-                        className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 text-center"
+                        className="bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center"
                     >
                         <p className="text-slate-400">No integrations match this filter.</p>
                     </motion.div>
@@ -411,7 +411,7 @@ function IntegrationHealthCard({
     const statusConfig = getStatusConfig(integration.status);
 
     return (
-        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden">
+        <div className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden">
             {/* Main Row */}
             <div
                 className="p-4 flex items-center gap-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
@@ -425,7 +425,7 @@ function IntegrationHealthCard({
                 />
 
                 {/* Icon */}
-                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-xl">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-slate-700 flex items-center justify-center text-xl">
                     {getIntegrationIcon(integration.config.type)}
                 </div>
 
@@ -531,7 +531,7 @@ function IntegrationHealthCard({
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        className="border-t border-white/[0.06] overflow-hidden"
+                        className="border-t border-slate-800 overflow-hidden"
                     >
                         {/* Error Alert */}
                         {integration.status === 'error' && integration.lastError && (
@@ -593,7 +593,7 @@ function IntegrationHealthCard({
                                         initial={{ opacity: 0, x: -10 }}
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: idx * 0.05 }}
-                                        className="flex items-center gap-3 p-2 bg-white/[0.02] border border-white/[0.06] rounded-xl text-sm"
+                                        className="flex items-center gap-3 p-2 bg-white/[0.02] border border-slate-800 rounded-xl text-sm"
                                     >
                                         {sync.success ? (
                                             <CheckCircle className="w-4 h-4 text-[#DA7756]" />
@@ -618,7 +618,7 @@ function IntegrationHealthCard({
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-slate-300 transition-all"
+                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 rounded-xl text-sm text-slate-300 transition-all"
                             >
                                 <Settings className="w-4 h-4" />
                                 Settings
@@ -626,7 +626,7 @@ function IntegrationHealthCard({
                             <motion.button
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.08] rounded-xl text-sm text-slate-300 transition-all"
+                                className="flex items-center gap-2 px-3 py-1.5 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 rounded-xl text-sm text-slate-300 transition-all"
                             >
                                 <ExternalLink className="w-4 h-4" />
                                 View Logs
@@ -651,7 +651,7 @@ function MetricTile({
     trend?: 'up' | 'down' | 'stable';
 }) {
     return (
-        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-3">
+        <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-3">
             <div className="flex items-center gap-2 text-slate-400 mb-1">
                 {icon}
                 <span className="text-xs">{label}</span>

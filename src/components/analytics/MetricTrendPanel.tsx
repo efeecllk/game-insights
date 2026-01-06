@@ -183,8 +183,8 @@ function MetricCard({
     return (
         <motion.div
             layout
-            className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-xl border overflow-hidden transition-all ${
-                isExpanded ? 'border-[#DA7756]/30 ring-1 ring-[#DA7756]/20' : 'border-white/[0.08]'
+            className={`bg-slate-900  rounded-xl border overflow-hidden transition-all ${
+                isExpanded ? 'border-[#DA7756]/30 ring-1 ring-[#DA7756]/20' : 'border-slate-700'
             }`}
         >
             {/* Header */}
@@ -250,7 +250,7 @@ function MetricCard({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-white/[0.06]"
+                        className="border-t border-slate-800"
                     >
                         {chartOption && (
                             <div className="p-4">
@@ -258,13 +258,13 @@ function MetricCard({
                             </div>
                         )}
                         <div className="px-4 pb-4">
-                            <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                            <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                                 <h4 className="text-sm font-medium text-slate-300 mb-2">About this metric</h4>
                                 <p className="text-sm text-slate-400">
                                     {metric.description || `${metric.label} shows key performance indicator for your game analytics.`}
                                 </p>
                                 {benchmarkStatus && (
-                                    <div className="mt-3 pt-3 border-t border-white/[0.06]">
+                                    <div className="mt-3 pt-3 border-t border-slate-800">
                                         <p className="text-xs text-slate-500">
                                             <strong className="text-slate-400">Industry benchmark:</strong> Good is {formatValue(BENCHMARKS[metric.key]?.good || 0, metric.format)},
                                             Great is {formatValue(BENCHMARKS[metric.key]?.great || 0, metric.format)}
@@ -359,7 +359,7 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+            className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
         >
             <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
@@ -434,7 +434,7 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-6"
+            className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
         >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
@@ -664,7 +664,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
     // No metrics state
     if (!metrics || metricItems.length === 0) {
         return (
-            <div className={`bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] p-8 ${className ?? ''}`}>
+            <div className={`bg-slate-900  rounded-2xl border border-slate-700 p-8 ${className ?? ''}`}>
                 <div className="text-center">
                     <div className="w-16 h-16 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <BarChart3 className="w-8 h-8 text-[#DA7756]" />
@@ -701,7 +701,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                 </div>
 
                 {/* Category Filter */}
-                <div className="flex gap-1 bg-white/[0.03] border border-white/[0.08] rounded-xl p-1">
+                <div className="flex gap-1 bg-white/[0.03] border border-slate-700 rounded-xl p-1">
                     {availableCategories.map(cat => (
                         <motion.button
                             key={cat}
@@ -763,7 +763,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             {metrics.dataRange && (
                 <motion.div
                     variants={itemVariants}
-                    className="flex items-center justify-between text-sm text-slate-400 bg-white/[0.02] border border-white/[0.06] rounded-xl px-4 py-3"
+                    className="flex items-center justify-between text-sm text-slate-400 bg-white/[0.02] border border-slate-800 rounded-xl px-4 py-3"
                 >
                     <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-[#DA7756]" />

@@ -415,7 +415,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                         {isStreaming && streamingProgress ? (
                             <>
                                 <div className="w-16 h-16 rounded-2xl bg-accent-primary/10 flex items-center justify-center">
-                                    <HardDrive className="w-8 h-8 text-accent-primary animate-pulse" />
+                                    <HardDrive className="w-8 h-8 text-accent-primary" />
                                 </div>
                                 <div className="w-full max-w-xs">
                                     <div className="flex justify-between text-sm mb-1">
@@ -578,7 +578,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
 
             {/* URL Import Mode */}
             {mode === 'url' && (
-                <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
+                <div className="bg-bg-card rounded-card p-6 border border-slate-800">
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-zinc-300 mb-2">
@@ -629,7 +629,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
 
             {/* Paste Mode */}
             {mode === 'paste' && (
-                <div className="bg-bg-card rounded-card p-6 border border-white/[0.06]">
+                <div className="bg-bg-card rounded-card p-6 border border-slate-800">
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-zinc-300 mb-2">

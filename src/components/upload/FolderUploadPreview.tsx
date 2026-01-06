@@ -111,7 +111,7 @@ export function FolderUploadPreview({
     }, [files]);
 
     return (
-        <div className="bg-bg-card rounded-card p-6 border border-white/[0.06] space-y-6">
+        <div className="bg-bg-card rounded-card p-6 border border-slate-800 space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">

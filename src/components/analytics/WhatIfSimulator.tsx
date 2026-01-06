@@ -277,7 +277,7 @@ export function WhatIfSimulator({
                     const Icon = slider.icon;
 
                     return (
-                        <div key={slider.key} className="bg-bg-card rounded-xl p-4 border border-white/[0.06]">
+                        <div key={slider.key} className="bg-bg-card rounded-xl p-4 border border-slate-800">
                             <div className="flex items-center justify-between mb-3">
                                 <div className="flex items-center gap-2">
                                     <Icon className="w-4 h-4 text-zinc-400" />
@@ -353,7 +353,7 @@ export function WhatIfSimulator({
             </div>
 
             {/* Chart */}
-            <div className="bg-bg-card rounded-xl p-4 border border-white/[0.06]">
+            <div className="bg-bg-card rounded-xl p-4 border border-slate-800">
                 <h3 className="text-sm font-medium text-white mb-4">Revenue Projection</h3>
                 <ReactECharts option={chartOption} style={{ height: 300 }} />
             </div>
@@ -417,7 +417,7 @@ function ImpactCard({ label, value, change, type = 'neutral', subtext }: ImpactC
                        type === 'negative' ? 'text-red-400' : 'text-zinc-400';
 
     return (
-        <div className="bg-bg-card rounded-xl p-4 border border-white/[0.06]">
+        <div className="bg-bg-card rounded-xl p-4 border border-slate-800">
             <div className="text-xs text-zinc-500 mb-1">{label}</div>
             <div className="flex items-center gap-2">
                 <span className={`text-xl font-semibold ${colorClass}`}>{value}</span>
@@ -440,7 +440,7 @@ interface SummaryCardProps {
 }
 
 function SummaryCard({ title, result, variant }: SummaryCardProps) {
-    const borderClass = variant === 'accent' ? 'border-accent-primary/30' : 'border-white/[0.06]';
+    const borderClass = variant === 'accent' ? 'border-accent-primary/30' : 'border-slate-800';
 
     return (
         <div className={`bg-bg-card rounded-xl p-4 border ${borderClass}`}>

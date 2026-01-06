@@ -216,12 +216,12 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
     };
 
     return (
-        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden">
+        <div className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden">
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800">
                 <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-lg ${isStreaming ? 'bg-[#DA7756]/20' : 'bg-white/[0.03]'} flex items-center justify-center`}>
-                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-[#DA7756] animate-pulse' : 'text-slate-400'}`} />
+                        <Activity className={`w-4 h-4 ${isStreaming ? 'text-[#DA7756]' : 'text-slate-400'}`} />
                     </div>
                     <div>
                         <h3 className="font-semibold text-white">Event Stream</h3>
@@ -240,7 +240,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search..."
-                            className="pl-8 pr-3 py-1.5 w-40 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all"
+                            className="pl-8 pr-3 py-1.5 w-40 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 transition-all"
                         />
                     </div>
 
@@ -248,7 +248,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                     <select
                         value={filter}
                         onChange={(e) => setFilter(e.target.value as EventType | 'all')}
-                        className="px-3 py-1.5 bg-white/[0.03] border border-white/[0.08] rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                        className="px-3 py-1.5 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                     >
                         <option value="all">All Events</option>
                         {EVENT_TYPES.map(type => (
@@ -320,7 +320,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-white/[0.06] p-4 bg-white/[0.02]"
+                        className="border-t border-slate-800 p-4 bg-white/[0.02]"
                     >
                         <div className="flex items-center justify-between mb-3">
                             <h4 className="font-medium text-white">Event Details</h4>
@@ -333,7 +333,7 @@ export function EventStream({ maxEvents = 100, autoScroll = true }: EventStreamP
                                 <X className="w-4 h-4 text-slate-400" />
                             </motion.button>
                         </div>
-                        <pre className="text-xs text-slate-400 bg-white/[0.02] border border-white/[0.06] rounded-xl p-3 overflow-x-auto">
+                        <pre className="text-xs text-slate-400 bg-white/[0.02] border border-slate-800 rounded-xl p-3 overflow-x-auto">
                             {JSON.stringify(selectedEvent, null, 2)}
                         </pre>
                     </motion.div>

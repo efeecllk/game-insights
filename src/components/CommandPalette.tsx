@@ -360,7 +360,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                    className="absolute inset-0 bg-black/60 "
                     onClick={onClose}
                     aria-hidden="true"
                 />
@@ -376,7 +376,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: -20 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    className="relative w-full max-w-xl bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden"
+                    className="relative w-full max-w-xl bg-slate-900  border border-slate-700 rounded-2xl shadow-lg overflow-hidden"
                 >
                     {/* Noise texture */}
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
@@ -391,7 +391,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                         </p>
 
                         {/* Search Input */}
-                        <div className="flex items-center gap-3 px-4 py-4 border-b border-white/[0.06]">
+                        <div className="flex items-center gap-3 px-4 py-4 border-b border-slate-800">
                             <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                 <Search className="w-4 h-4 text-[#DA7756]" />
                             </div>
@@ -412,7 +412,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                 aria-autocomplete="list"
                                 aria-label="Search commands"
                             />
-                            <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-slate-500 bg-white/[0.03] rounded-lg border border-white/[0.06]">
+                            <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs text-slate-500 bg-white/[0.03] rounded-lg border border-slate-800">
                                 ESC
                             </kbd>
                         </div>
@@ -485,7 +485,7 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                                                                 className={`hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs rounded-lg border ${
                                                                     isSelected
                                                                         ? 'bg-[#DA7756]/10 border-[#DA7756]/20 text-[#DA7756]'
-                                                                        : 'bg-white/[0.02] border-white/[0.06] text-slate-500'
+                                                                        : 'bg-white/[0.02] border-slate-800 text-slate-500'
                                                                 }`}
                                                                 aria-label={'Keyboard shortcut: ' + cmd.shortcut}
                                                             >
@@ -502,20 +502,20 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
                         </div>
 
                         {/* Footer */}
-                        <div className="flex items-center justify-between px-4 py-2.5 border-t border-white/[0.06] text-xs text-slate-500">
+                        <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-800 text-xs text-slate-500">
                             <div className="flex items-center gap-4">
                                 <span className="flex items-center gap-1.5">
-                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↑</kbd>
-                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↓</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-slate-800">↑</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-slate-800">↓</kbd>
                                     <span className="text-slate-600">navigate</span>
                                 </span>
                                 <span className="flex items-center gap-1.5">
-                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">↵</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-slate-800">↵</kbd>
                                     <span className="text-slate-600">select</span>
                                 </span>
                             </div>
                             <span className="flex items-center gap-1.5">
-                                <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-white/[0.06]">ESC</kbd>
+                                <kbd className="px-1.5 py-0.5 bg-white/[0.03] rounded border border-slate-800">ESC</kbd>
                                 <span className="text-slate-600">close</span>
                             </span>
                         </div>

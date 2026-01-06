@@ -178,6 +178,7 @@ export class PlayFabAdapter extends BaseAdapter {
     private cachedData: Record<string, unknown>[] = [];
     private schema: SchemaInfo | null = null;
     private lastFetch: Date | null = null;
+    private abortController: AbortController | null = null;
 
     // PlayFab API base URL
     private static readonly API_BASE = 'playfabapi.com';
@@ -206,6 +207,7 @@ export class PlayFabAdapter extends BaseAdapter {
 
     async connect(config: PlayFabConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Validate configuration
         if (!config.titleId) {
@@ -236,6 +238,11 @@ export class PlayFabAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
         this.config = null;
         this.cachedData = [];
         this.schema = null;
@@ -675,6 +682,7 @@ export class PlayFabAdapter extends BaseAdapter {
             method: 'POST',
             headers,
             body: JSON.stringify(body),
+            signal: this.abortController?.signal,
         });
     }
 

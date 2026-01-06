@@ -48,35 +48,30 @@ const TOAST_STYLES: Record<ToastType, {
     icon: string;
     title: string;
     progress: string;
-    glow: string;
 }> = {
     success: {
         container: 'border-[#DA7756]/30',
         icon: 'text-[#DA7756]',
         title: 'text-[#DA7756]',
         progress: 'bg-[#DA7756]',
-        glow: 'shadow-[#DA7756]/20',
     },
     error: {
         container: 'border-rose-500/30',
         icon: 'text-rose-400',
         title: 'text-rose-400',
         progress: 'bg-rose-500',
-        glow: 'shadow-rose-500/20',
     },
     warning: {
         container: 'border-amber-500/30',
         icon: 'text-amber-400',
         title: 'text-amber-400',
         progress: 'bg-amber-500',
-        glow: 'shadow-amber-500/20',
     },
     info: {
         container: 'border-[#8F8B82]/30',
         icon: 'text-[#8F8B82]',
         title: 'text-[#8F8B82]',
         progress: 'bg-[#8F8B82]',
-        glow: 'shadow-[#8F8B82]/20',
     },
 };
 
@@ -143,11 +138,9 @@ export function Toast({
             className={`
                 relative overflow-hidden
                 w-full max-w-sm
-                rounded-xl border shadow-xl
-                bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95
-                backdrop-blur-xl
+                rounded-xl border shadow-lg
+                bg-slate-900
                 ${styles.container}
-                ${styles.glow}
             `}
         >
             {/* Main Content */}

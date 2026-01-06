@@ -1,10 +1,9 @@
 /**
- * QuickStart Page - Obsidian Analytics Design
+ * QuickStart Page
  *
- * Premium onboarding experience with:
- * - Glassmorphism cards
+ * Clean onboarding experience with:
  * - Animated entrance effects
- * - Claude warm orange accent theme
+ * - Orange accent theme
  */
 
 import { useState } from 'react';
@@ -70,7 +69,6 @@ const COLOR_CLASSES = {
     icon: 'text-[#DA7756]',
     iconBg: 'bg-[#DA7756]/10 border-[#DA7756]/20',
     button: 'bg-[#DA7756]/20 hover:bg-[#DA7756]/30 text-[#DA7756] border-[#DA7756]/30',
-    glow: 'group-hover:shadow-[#DA7756]/10',
   },
   blue: {
     border: 'border-[#8F8B82]/20 hover:border-[#8F8B82]/40',
@@ -78,7 +76,6 @@ const COLOR_CLASSES = {
     icon: 'text-[#8F8B82]',
     iconBg: 'bg-[#8F8B82]/10 border-[#8F8B82]/20',
     button: 'bg-[#8F8B82]/20 hover:bg-[#8F8B82]/30 text-[#8F8B82] border-[#8F8B82]/30',
-    glow: 'group-hover:shadow-[#8F8B82]/10',
   },
   amber: {
     border: 'border-amber-500/20 hover:border-amber-500/40',
@@ -86,7 +83,6 @@ const COLOR_CLASSES = {
     icon: 'text-amber-400',
     iconBg: 'bg-amber-500/10 border-amber-500/20',
     button: 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 border-amber-500/30',
-    glow: 'group-hover:shadow-amber-500/10',
   },
 };
 
@@ -142,13 +138,6 @@ export default function QuickStart() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-      {/* Decorative glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#DA7756]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C15F3C]/5 rounded-full blur-3xl" />
 
       <motion.div
         variants={containerVariants}
@@ -164,7 +153,7 @@ export default function QuickStart() {
           </div>
           <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
             Welcome to{' '}
-            <span className="bg-gradient-to-r from-[#DA7756] via-[#E8956A] to-[#C15F3C] bg-clip-text text-transparent">
+            <span className="text-white">
               Game Insights
             </span>
           </h1>
@@ -179,14 +168,11 @@ export default function QuickStart() {
           {/* Upload Data */}
           <motion.button
             variants={cardVariants}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
             onClick={() => navigate('/upload')}
             className="group relative text-left"
           >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#DA7756]/0 via-[#DA7756]/10 to-[#DA7756]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-[#DA7756]/30 transition-all overflow-hidden">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-              <div className="relative">
+            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 group-hover:border-slate-700 transition-all">
+              <div>
                 <div className="w-14 h-14 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Upload className="w-7 h-7 text-[#DA7756]" />
                 </div>
@@ -205,14 +191,11 @@ export default function QuickStart() {
           {/* Connect Data Source */}
           <motion.button
             variants={cardVariants}
-            whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400 } }}
             onClick={() => navigate('/data-sources')}
             className="group relative text-left"
           >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#8F8B82]/0 via-[#8F8B82]/10 to-[#8F8B82]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
-            <div className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] group-hover:border-[#8F8B82]/30 transition-all overflow-hidden">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-              <div className="relative">
+            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 group-hover:border-slate-700 transition-all">
+              <div>
                 <div className="w-14 h-14 rounded-xl bg-[#8F8B82]/10 border border-[#8F8B82]/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <Database className="w-7 h-7 text-[#8F8B82]" />
                 </div>
@@ -230,10 +213,9 @@ export default function QuickStart() {
           {/* Try Demo - Teaser */}
           <motion.div
             variants={cardVariants}
-            className="relative bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/90 backdrop-blur-xl rounded-2xl p-6 border border-white/[0.06] overflow-hidden"
+            className="bg-slate-900 rounded-2xl p-6 border border-slate-800"
           >
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-            <div className="relative">
+            <div>
               <div className="w-14 h-14 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center mb-4">
                 <Sparkles className="w-7 h-7 text-[#C15F3C]" />
               </div>
@@ -251,11 +233,9 @@ export default function QuickStart() {
         {/* Demo Options Panel */}
         <motion.div
           variants={cardVariants}
-          className="relative bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/[0.06] overflow-hidden"
+          className="bg-slate-900 rounded-2xl p-6 md:p-8 border border-slate-800"
         >
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-          <div className="relative">
+          <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-[#C15F3C]" />
@@ -302,7 +282,7 @@ export default function QuickStart() {
                       {option.metrics.map((metric) => (
                         <span
                           key={metric}
-                          className="px-2 py-0.5 text-[10px] uppercase tracking-wider bg-white/[0.03] text-slate-500 rounded border border-white/[0.06]"
+                          className="px-2 py-0.5 text-[10px] uppercase tracking-wider bg-white/[0.03] text-slate-500 rounded border border-slate-800"
                         >
                           {metric}
                         </span>

@@ -80,6 +80,7 @@ export class WebhookAdapter extends BaseAdapter {
     private reconnectAttempts: number = 0;
     private readonly maxReconnectAttempts: number = 5;
     private readonly baseReconnectDelay: number = 1000;
+    private abortController: AbortController | null = null;
 
     // ========================================================================
     // Lifecycle Methods
@@ -87,6 +88,7 @@ export class WebhookAdapter extends BaseAdapter {
 
     async connect(config: WebhookConfig): Promise<void> {
         this.config = config;
+        this.abortController = new AbortController();
 
         // Create or retrieve webhook endpoint
         if (config.endpointId) {
@@ -101,6 +103,12 @@ export class WebhookAdapter extends BaseAdapter {
     }
 
     async disconnect(): Promise<void> {
+        // Abort any pending requests
+        if (this.abortController) {
+            this.abortController.abort();
+            this.abortController = null;
+        }
+
         this.stopEventStream();
 
         // Clear all listeners to prevent memory leaks
@@ -118,9 +126,16 @@ export class WebhookAdapter extends BaseAdapter {
         if (!this.config || !this.endpoint) return false;
 
         try {
-            const response = await fetch(`${this.config.receiverUrl}/api/webhooks/${this.endpoint.id}/status`);
+            const response = await fetch(
+                `${this.config.receiverUrl}/api/webhooks/${this.endpoint.id}/status`,
+                { signal: this.abortController?.signal }
+            );
             return response.ok;
-        } catch {
+        } catch (error) {
+            // Don't treat abort as connection failure
+            if (error instanceof Error && error.name === 'AbortError') {
+                return false;
+            }
             return false;
         }
     }
@@ -273,6 +288,7 @@ export class WebhookAdapter extends BaseAdapter {
                 secretKey: this.config.secretKey,
                 schema: this.config.expectedSchema,
             }),
+            signal: this.abortController?.signal,
         });
 
         if (!response.ok) {
@@ -286,7 +302,10 @@ export class WebhookAdapter extends BaseAdapter {
     private async getEndpoint(endpointId: string): Promise<void> {
         if (!this.config) throw new Error('Not configured');
 
-        const response = await fetch(`${this.config.receiverUrl}/api/webhooks/${endpointId}`);
+        const response = await fetch(
+            `${this.config.receiverUrl}/api/webhooks/${endpointId}`,
+            { signal: this.abortController?.signal }
+        );
 
         if (!response.ok) {
             throw new Error(`Webhook endpoint not found: ${endpointId}`);

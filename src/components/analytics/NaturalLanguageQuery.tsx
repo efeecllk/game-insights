@@ -232,9 +232,9 @@ export function NaturalLanguageQuery() {
     }, [results]);
 
     return (
-        <div className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.08] overflow-hidden h-[600px] flex flex-col">
+        <div className="bg-slate-900  rounded-2xl border border-slate-700 overflow-hidden h-[600px] flex flex-col">
             {/* Header */}
-            <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.06]">
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-slate-800">
                 <div className="relative w-10 h-10">
                     <div className="absolute inset-0 bg-[#DA7756]/20 rounded-xl blur-lg" />
                     <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/20 border border-[#DA7756]/20 flex items-center justify-center">
@@ -269,7 +269,7 @@ export function NaturalLanguageQuery() {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => handleExampleClick(example)}
-                                    className="flex items-center gap-2 px-3 py-2 text-left text-sm text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] rounded-xl transition-colors"
+                                    className="flex items-center gap-2 px-3 py-2 text-left text-sm text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-800 rounded-xl transition-colors"
                                 >
                                     <ChevronRight className="w-3 h-3 text-[#DA7756] flex-shrink-0" />
                                     <span className="truncate">{example}</span>
@@ -285,7 +285,7 @@ export function NaturalLanguageQuery() {
                                     initial={{ opacity: 0, y: -10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0 }}
-                                    className="flex items-center gap-3 p-4 bg-white/[0.03] border border-white/[0.06] rounded-xl"
+                                    className="flex items-center gap-3 p-4 bg-white/[0.03] border border-slate-800 rounded-xl"
                                 >
                                     <Loader2 className="w-5 h-5 text-[#DA7756] animate-spin" />
                                     <span className="text-sm text-slate-400">Analyzing your data...</span>
@@ -304,7 +304,7 @@ export function NaturalLanguageQuery() {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSubmit} className="p-4 border-t border-white/[0.06]">
+            <form onSubmit={handleSubmit} className="p-4 border-t border-slate-800">
                 <div className="flex items-center gap-3">
                     <div className="flex-1 relative">
                         <input
@@ -314,7 +314,7 @@ export function NaturalLanguageQuery() {
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Ask a question about your game data..."
                             disabled={isLoading}
-                            className="w-full pl-4 pr-12 py-3 bg-white/[0.03] border border-white/[0.08] rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 disabled:opacity-50 transition-all"
+                            className="w-full pl-4 pr-12 py-3 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 disabled:opacity-50 transition-all"
                         />
                         <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -357,7 +357,7 @@ function QueryResultCard({
         >
             {/* Query */}
             <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-white/[0.03] border border-slate-800 flex items-center justify-center flex-shrink-0">
                     <MessageSquare className="w-4 h-4 text-slate-400" />
                 </div>
                 <div className="flex-1">
@@ -378,7 +378,7 @@ function QueryResultCard({
 
                     {/* Chart Visualization */}
                     {result.response.type === 'chart' && result.response.data !== undefined && (
-                        <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+                        <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                             <ResultChart
                                 type={result.response.chartType!}
                                 data={result.response.data}
@@ -441,7 +441,7 @@ function QueryResultCard({
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => onSuggestionClick(suggestion)}
-                                    className="px-3 py-1.5 text-xs text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] rounded-full transition-colors"
+                                    className="px-3 py-1.5 text-xs text-slate-400 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-800 rounded-full transition-colors"
                                 >
                                     {suggestion}
                                 </motion.button>
@@ -546,7 +546,7 @@ function MixedContent({ data }: { data: { atRisk: number; percentage: number; to
                 <div className="text-sm text-slate-400">Users at Risk</div>
                 <div className="text-xs text-rose-400 mt-1">{data.percentage}% of active users</div>
             </div>
-            <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4">
+            <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
                 <div className="text-sm font-medium text-white mb-2">Top Risk Factors</div>
                 <ul className="space-y-1">
                     {data.topReasons.map((reason, i) => (

@@ -1,10 +1,9 @@
 /**
- * LoadingState Component - Obsidian Analytics Design
+ * LoadingState Component
  *
- * Premium loading state with:
- * - Glassmorphism container
+ * Clean loading state with:
  * - Animated progress steps
- * - Claude orange accent colors
+ * - Orange accent colors
  * - Smooth animations
  */
 
@@ -72,18 +71,15 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="bg-gradient-to-br from-slate-900/95 via-slate-900/90 to-slate-950/95 backdrop-blur-xl rounded-2xl border border-white/[0.06] p-8 max-w-md w-full shadow-2xl"
+                className="bg-slate-900  rounded-2xl border border-slate-800 p-8 max-w-md w-full shadow-lg"
             >
                 {/* Animated Icon */}
                 <motion.div
                     variants={itemVariants}
                     className="flex justify-center mb-6"
                 >
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-[#DA7756]/20 rounded-full blur-2xl animate-pulse" />
-                        <div className="relative w-16 h-16 bg-gradient-to-br from-[#DA7756] to-[#C15F3C] rounded-2xl flex items-center justify-center shadow-lg shadow-[#DA7756]/20">
-                            <Loader2 className="w-8 h-8 text-white animate-spin" />
-                        </div>
+                    <div className="w-16 h-16 bg-[#DA7756] rounded-2xl flex items-center justify-center">
+                        <Loader2 className="w-8 h-8 text-white animate-spin" />
                     </div>
                 </motion.div>
 
@@ -115,15 +111,15 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                         ? 'bg-[#DA7756]/10 border border-[#DA7756]/30'
                                         : isComplete
                                         ? 'bg-[#C15F3C]/10 border border-[#C15F3C]/30'
-                                        : 'bg-white/[0.02] border border-white/[0.06]'
+                                        : 'bg-white/[0.02] border border-slate-800'
                                 }`}
                             >
                                 <div
                                     className={`w-9 h-9 rounded-lg flex items-center justify-center transition-all ${
                                         isCurrent
-                                            ? 'bg-[#DA7756] text-white shadow-lg shadow-[#DA7756]/30'
+                                            ? 'bg-[#DA7756] text-white '
                                             : isComplete
-                                            ? 'bg-[#C15F3C] text-white shadow-lg shadow-[#C15F3C]/30'
+                                            ? 'bg-[#C15F3C] text-white '
                                             : 'bg-white/[0.05] text-slate-500'
                                     }`}
                                 >
@@ -157,12 +153,12 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                         <span>Progress</span>
                         <span className="tabular-nums">{Math.round(progress)}%</span>
                     </div>
-                    <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-white/[0.06]">
+                    <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-slate-800">
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.max(progress, 5)}%` }}
                             transition={{ duration: 0.5, ease: 'easeOut' }}
-                            className="h-full bg-gradient-to-r from-[#DA7756] to-[#C15F3C] rounded-full"
+                            className="h-full bg-[#DA7756] rounded-full"
                         />
                     </div>
                 </motion.div>
