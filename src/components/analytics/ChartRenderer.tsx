@@ -7,8 +7,9 @@
  * - Refined tooltips and labels
  */
 
-import ReactECharts from 'echarts-for-react';
-import type { EChartsOption } from 'echarts';
+import { memo, useMemo } from 'react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { echarts, type EChartsOption } from '@/lib/echarts';
 import { ChartRecommendation } from '../../ai/ChartSelector';
 import { NormalizedData } from '../../adapters/BaseAdapter';
 import { ColumnMeaning } from '../../ai/SchemaAnalyzer';
@@ -32,8 +33,9 @@ const CHART_COLORS = [
 ];
 
 // Common tooltip styling for dark theme
+// Note: Removed backdrop-filter blur for better GPU performance
 const TOOLTIP_STYLE = {
-    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+    backgroundColor: 'rgba(15, 23, 42, 0.98)',
     borderColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     textStyle: {
@@ -41,7 +43,7 @@ const TOOLTIP_STYLE = {
         fontFamily: 'DM Sans',
     },
     padding: [12, 16],
-    extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);',
+    extraCssText: 'border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);',
 };
 
 // Common axis styling for dark theme
@@ -421,14 +423,18 @@ function buildChartOption(
     }
 }
 
-export function ChartRenderer({
+export const ChartRenderer = memo(function ChartRenderer({
     recommendation,
     data,
     columnMeanings,
     height = 300,
     className,
 }: ChartRendererProps) {
-    const option = buildChartOption(recommendation, data, columnMeanings);
+    // Memoize chart option to prevent recalculation on every render
+    const option = useMemo(
+        () => buildChartOption(recommendation, data, columnMeanings),
+        [recommendation, data, columnMeanings]
+    );
 
     return (
         <div className={`relative group ${className ?? ''}`}>
@@ -443,16 +449,19 @@ export function ChartRenderer({
 
                     {/* Chart */}
                     <div className="p-4">
-                        <ReactECharts
+                        <ReactEChartsCore
+                            echarts={echarts}
                             option={option}
                             style={{ height, width: '100%' }}
                             opts={{ renderer: 'canvas' }}
+                            notMerge={true}
+                            lazyUpdate={true}
                         />
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+});
 
 export default ChartRenderer;

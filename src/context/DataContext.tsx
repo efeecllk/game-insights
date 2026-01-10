@@ -2,7 +2,7 @@
  * Data Context - Global state for uploaded game data
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
 import {
     GameData,
     GameProfile,
@@ -127,21 +127,35 @@ export function DataProvider({ children }: { children: ReactNode }) {
         return newProfile;
     }, []);
 
+    // Memoize context value to prevent unnecessary re-renders
+    const value = useMemo<DataContextType>(() => ({
+        gameDataList,
+        activeGameData,
+        setActiveGameData,
+        addGameData,
+        addMultipleGameData,
+        removeGameData,
+        profiles,
+        activeProfile,
+        setActiveProfile,
+        addProfile,
+        isLoading,
+        isReady,
+    }), [
+        gameDataList,
+        activeGameData,
+        addGameData,
+        addMultipleGameData,
+        removeGameData,
+        profiles,
+        activeProfile,
+        addProfile,
+        isLoading,
+        isReady,
+    ]);
+
     return (
-        <DataContext.Provider value={{
-            gameDataList,
-            activeGameData,
-            setActiveGameData,
-            addGameData,
-            addMultipleGameData,
-            removeGameData,
-            profiles,
-            activeProfile,
-            setActiveProfile,
-            addProfile,
-            isLoading,
-            isReady,
-        }}>
+        <DataContext.Provider value={value}>
             {children}
         </DataContext.Provider>
     );

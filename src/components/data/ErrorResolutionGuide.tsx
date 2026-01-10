@@ -544,10 +544,10 @@ export function ErrorResolutionGuide({
             iconBg: 'bg-amber-500/20',
         },
         info: {
-            bg: 'bg-blue-500/10',
-            border: 'border-blue-500/30',
-            text: 'text-blue-400',
-            iconBg: 'bg-blue-500/20',
+            bg: 'bg-slate-500/10',
+            border: 'border-slate-500/30',
+            text: 'text-slate-400',
+            iconBg: 'bg-slate-500/20',
         },
     };
 

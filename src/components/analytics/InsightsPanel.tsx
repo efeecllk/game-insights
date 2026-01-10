@@ -8,7 +8,7 @@
  * - Interactive Q&A interface
  */
 
-import { useState } from 'react';
+import { useState, memo, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Lightbulb,
@@ -114,7 +114,7 @@ const itemVariants = {
 // Insight Card Component
 // ============================================================================
 
-function InsightCard({ insight, index }: { insight: Insight; index: number }) {
+const InsightCard = memo(function InsightCard({ insight, index }: { insight: Insight; index: number }) {
     const style = INSIGHT_STYLES[insight.type] || INSIGHT_STYLES.neutral;
     const Icon = style.icon;
 
@@ -150,13 +150,13 @@ function InsightCard({ insight, index }: { insight: Insight; index: number }) {
             </div>
         </motion.div>
     );
-}
+});
 
 // ============================================================================
 // Anomaly Card Component
 // ============================================================================
 
-function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
+const AnomalyCard = memo(function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
     const severityStyles = {
         critical: {
             bg: 'from-[#E25C5C]/10 to-[#E25C5C]/5',
@@ -215,13 +215,13 @@ function AnomalyCard({ anomaly, index }: { anomaly: Anomaly; index: number }) {
             </div>
         </motion.div>
     );
-}
+});
 
 // ============================================================================
 // Main Component
 // ============================================================================
 
-export function InsightsPanel({
+export const InsightsPanel = memo(function InsightsPanel({
     insights,
     anomalies,
     suggestedQuestions,
@@ -233,7 +233,7 @@ export function InsightsPanel({
     const [qaResult, setQaResult] = useState<QuestionResult | null>(null);
     const [activeTab, setActiveTab] = useState<'insights' | 'anomalies' | 'qa'>('insights');
 
-    const handleAsk = async () => {
+    const handleAsk = useCallback(async () => {
         if (!question.trim() || isAsking) return;
 
         setIsAsking(true);
@@ -244,14 +244,22 @@ export function InsightsPanel({
         } finally {
             setIsAsking(false);
         }
-    };
+    }, [question, isAsking, onAskQuestion]);
 
-    const handleSuggestedQuestion = (q: string) => {
+    const handleSuggestedQuestion = useCallback((q: string) => {
         setQuestion(q);
-    };
+    }, []);
 
-    const sortedInsights = [...insights].sort((a, b) => (b.priority || 0) - (a.priority || 0));
-    const criticalAnomalies = anomalies?.filter(a => a.severity === 'critical' || a.severity === 'high') || [];
+    // Memoize expensive computations
+    const sortedInsights = useMemo(
+        () => [...insights].sort((a, b) => (b.priority || 0) - (a.priority || 0)),
+        [insights]
+    );
+
+    const criticalAnomalies = useMemo(
+        () => anomalies?.filter(a => a.severity === 'critical' || a.severity === 'high') || [],
+        [anomalies]
+    );
 
     const tabs = [
         { id: 'insights' as const, label: 'Insights', icon: Sparkles, count: insights.length },
@@ -446,6 +454,6 @@ export function InsightsPanel({
             </div>
         </div>
     );
-}
+});
 
 export default InsightsPanel;

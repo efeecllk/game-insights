@@ -346,9 +346,9 @@ export function QuickPaste({
     // Format badge
     const getFormatBadge = (format: DataFormat) => {
         const badges = {
-            tsv: { label: 'Tab-Separated', color: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+            tsv: { label: 'Tab-Separated', color: 'bg-[#A68B5B]/10 text-[#A68B5B] border-[#A68B5B]/20' },
             csv: { label: 'Comma-Separated', color: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20' },
-            json: { label: 'JSON', color: 'bg-violet-500/10 text-violet-400 border-violet-500/20' },
+            json: { label: 'JSON', color: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20' },
             unknown: { label: 'Unknown', color: 'bg-slate-500/10 text-slate-400 border-slate-500/20' },
         };
         return badges[format];
@@ -524,8 +524,8 @@ function PasteStepContent({
                 variants={itemVariants}
                 className="flex items-start gap-3 p-4 bg-white/[0.02] border border-slate-800 rounded-xl"
             >
-                <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
-                    <Table2 className="w-4 h-4 text-violet-400" />
+                <div className="w-8 h-8 rounded-lg bg-[#A68B5B]/10 flex items-center justify-center flex-shrink-0">
+                    <Table2 className="w-4 h-4 text-[#A68B5B]" />
                 </div>
                 <div className="space-y-1">
                     <p className="text-sm text-white font-medium">
@@ -817,10 +817,10 @@ function MappingStepContent({
             {/* AI Badge */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-center gap-2 p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl"
+                className="flex items-center gap-2 p-3 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl"
             >
-                <Sparkles className="w-5 h-5 text-violet-400" />
-                <span className="text-sm text-violet-300 font-medium">
+                <Sparkles className="w-5 h-5 text-[#DA7756]" />
+                <span className="text-sm text-[#DA7756] font-medium">
                     AI-assisted column detection
                 </span>
             </motion.div>

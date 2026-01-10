@@ -202,11 +202,11 @@ export function SyncScheduleManager() {
                     index={2}
                 />
                 <SyncTypeCard
-                    icon={<Bell className="w-5 h-5 text-violet-400" />}
+                    icon={<Bell className="w-5 h-5 text-[#E5A84B]" />}
                     label="Webhook"
                     count={groupedIntegrations.webhook.length}
                     description="Push-based"
-                    color="violet"
+                    color="gold"
                     index={3}
                 />
             </motion.div>
@@ -246,8 +246,8 @@ export function SyncScheduleManager() {
             >
                 <div className="px-5 py-4 border-b border-slate-800">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                            <Settings className="w-4 h-4 text-violet-400" />
+                        <div className="w-8 h-8 rounded-lg bg-[#A68B5B]/10 flex items-center justify-center">
+                            <Settings className="w-4 h-4 text-[#A68B5B]" />
                         </div>
                         <div>
                             <h3 className="font-semibold text-white">Sync Schedules</h3>
@@ -332,14 +332,14 @@ function SyncTypeCard({
     label: string;
     count: number;
     description: string;
-    color: 'slate' | 'rust' | 'orange' | 'violet';
+    color: 'slate' | 'rust' | 'orange' | 'gold';
     index: number;
 }) {
     const colorMap = {
         slate: { bg: 'bg-slate-500/10', border: 'border-slate-500/20', glow: '' },
-        rust: { bg: 'bg-[#C15F3C]/10', border: 'border-[#C15F3C]/20', glow: 'shadow-[#C15F3C]/10' },
-        orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20', glow: 'shadow-[#DA7756]/10' },
-        violet: { bg: 'bg-violet-500/10', border: 'border-violet-500/20', glow: 'shadow-violet-500/10' },
+        rust: { bg: 'bg-[#C15F3C]/10', border: 'border-[#C15F3C]/20', glow: '' },
+        orange: { bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20', glow: '' },
+        gold: { bg: 'bg-[#E5A84B]/10', border: 'border-[#E5A84B]/20', glow: '' },
     };
 
     const colors = colorMap[color];
@@ -652,7 +652,7 @@ function ScheduleBadge({ strategy }: { strategy: SyncStrategy }) {
             );
         case 'webhook':
             return (
-                <span className="flex items-center gap-1 px-3 py-1.5 bg-violet-500/10 text-violet-400 border border-violet-500/20 rounded-lg text-xs font-medium">
+                <span className="flex items-center gap-1 px-3 py-1.5 bg-[#E5A84B]/10 text-[#E5A84B] border border-[#E5A84B]/20 rounded-lg text-xs font-medium">
                     <Bell className="w-3 h-3" />
                     Webhook
                 </span>

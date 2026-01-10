@@ -14,7 +14,8 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import ReactECharts from 'echarts-for-react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { echarts } from '@/lib/echarts';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Activity,

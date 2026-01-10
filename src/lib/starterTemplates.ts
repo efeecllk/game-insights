@@ -12,9 +12,9 @@ import type { DashboardTemplate, TemplateLayout, ColumnRequirement } from './tem
 
 const RETENTION_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'violet', icon: 'Users' },
-        { id: 'kpi-d1', name: 'D1 Retention', metric: 'retention_d1', format: 'percentage', colorScheme: 'green', icon: 'TrendingUp' },
-        { id: 'kpi-d7', name: 'D7 Retention', metric: 'retention_d7', format: 'percentage', colorScheme: 'blue', icon: 'Calendar' },
+        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'terracotta', icon: 'Users' },
+        { id: 'kpi-d1', name: 'D1 Retention', metric: 'retention_d1', format: 'percentage', colorScheme: 'rust', icon: 'TrendingUp' },
+        { id: 'kpi-d7', name: 'D7 Retention', metric: 'retention_d7', format: 'percentage', colorScheme: 'gold', icon: 'Calendar' },
         { id: 'kpi-stickiness', name: 'DAU/MAU', metric: 'stickiness', format: 'percentage', colorScheme: 'orange', icon: 'Activity' },
     ],
     mainCharts: [
@@ -29,9 +29,9 @@ const RETENTION_LAYOUT: TemplateLayout = {
 
 const MONETIZATION_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-revenue', name: 'Total Revenue', metric: 'total_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
-        { id: 'kpi-arpu', name: 'ARPU', metric: 'arpu', format: 'currency', colorScheme: 'violet', icon: 'TrendingUp' },
-        { id: 'kpi-arppu', name: 'ARPPU', metric: 'arppu', format: 'currency', colorScheme: 'blue', icon: 'Zap' },
+        { id: 'kpi-revenue', name: 'Total Revenue', metric: 'total_revenue', format: 'currency', colorScheme: 'rust', icon: 'DollarSign' },
+        { id: 'kpi-arpu', name: 'ARPU', metric: 'arpu', format: 'currency', colorScheme: 'terracotta', icon: 'TrendingUp' },
+        { id: 'kpi-arppu', name: 'ARPPU', metric: 'arppu', format: 'currency', colorScheme: 'gold', icon: 'Zap' },
         { id: 'kpi-conversion', name: 'Conversion Rate', metric: 'conversion_rate', format: 'percentage', colorScheme: 'orange', icon: 'Percent' },
     ],
     mainCharts: [
@@ -46,9 +46,9 @@ const MONETIZATION_LAYOUT: TemplateLayout = {
 
 const ENGAGEMENT_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-sessions', name: 'Avg Sessions/Day', metric: 'avg_sessions', format: 'number', colorScheme: 'violet', icon: 'Activity' },
-        { id: 'kpi-duration', name: 'Avg Session Length', metric: 'avg_session_duration', format: 'number', colorScheme: 'blue', icon: 'Clock' },
-        { id: 'kpi-playtime', name: 'Daily Playtime', metric: 'daily_playtime', format: 'number', colorScheme: 'green', icon: 'Timer' },
+        { id: 'kpi-sessions', name: 'Avg Sessions/Day', metric: 'avg_sessions', format: 'number', colorScheme: 'terracotta', icon: 'Activity' },
+        { id: 'kpi-duration', name: 'Avg Session Length', metric: 'avg_session_duration', format: 'number', colorScheme: 'gold', icon: 'Clock' },
+        { id: 'kpi-playtime', name: 'Daily Playtime', metric: 'daily_playtime', format: 'number', colorScheme: 'rust', icon: 'Timer' },
         { id: 'kpi-actions', name: 'Actions/Session', metric: 'actions_per_session', format: 'number', colorScheme: 'orange', icon: 'MousePointer' },
     ],
     mainCharts: [
@@ -67,9 +67,9 @@ const ENGAGEMENT_LAYOUT: TemplateLayout = {
 
 const PUZZLE_PROGRESSION_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-max-level', name: 'Max Level Reached', metric: 'max_level', format: 'number', colorScheme: 'violet', icon: 'Trophy' },
-        { id: 'kpi-avg-level', name: 'Avg Level', metric: 'avg_level', format: 'number', colorScheme: 'blue', icon: 'Target' },
-        { id: 'kpi-completion', name: 'Level Completion', metric: 'level_completion_rate', format: 'percentage', colorScheme: 'green', icon: 'CheckCircle' },
+        { id: 'kpi-max-level', name: 'Max Level Reached', metric: 'max_level', format: 'number', colorScheme: 'terracotta', icon: 'Trophy' },
+        { id: 'kpi-avg-level', name: 'Avg Level', metric: 'avg_level', format: 'number', colorScheme: 'gold', icon: 'Target' },
+        { id: 'kpi-completion', name: 'Level Completion', metric: 'level_completion_rate', format: 'percentage', colorScheme: 'rust', icon: 'CheckCircle' },
         { id: 'kpi-boosters', name: 'Booster Usage', metric: 'booster_usage_rate', format: 'percentage', colorScheme: 'orange', icon: 'Zap' },
     ],
     mainCharts: [
@@ -84,9 +84,9 @@ const PUZZLE_PROGRESSION_LAYOUT: TemplateLayout = {
 
 const IDLE_ECONOMY_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-prestige', name: 'Avg Prestige Level', metric: 'avg_prestige', format: 'number', colorScheme: 'violet', icon: 'Star' },
-        { id: 'kpi-offline', name: 'Offline Earnings', metric: 'avg_offline_earnings', format: 'currency', colorScheme: 'green', icon: 'Moon' },
-        { id: 'kpi-upgrades', name: 'Upgrades Purchased', metric: 'total_upgrades', format: 'compact', colorScheme: 'blue', icon: 'ArrowUp' },
+        { id: 'kpi-prestige', name: 'Avg Prestige Level', metric: 'avg_prestige', format: 'number', colorScheme: 'terracotta', icon: 'Star' },
+        { id: 'kpi-offline', name: 'Offline Earnings', metric: 'avg_offline_earnings', format: 'currency', colorScheme: 'rust', icon: 'Moon' },
+        { id: 'kpi-upgrades', name: 'Upgrades Purchased', metric: 'total_upgrades', format: 'compact', colorScheme: 'gold', icon: 'ArrowUp' },
         { id: 'kpi-currency', name: 'Currency Balance', metric: 'avg_currency_balance', format: 'compact', colorScheme: 'orange', icon: 'Coins' },
     ],
     mainCharts: [
@@ -101,10 +101,10 @@ const IDLE_ECONOMY_LAYOUT: TemplateLayout = {
 
 const GACHA_BANNER_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-pulls', name: 'Total Pulls', metric: 'total_pulls', format: 'compact', colorScheme: 'violet', icon: 'Gift' },
+        { id: 'kpi-pulls', name: 'Total Pulls', metric: 'total_pulls', format: 'compact', colorScheme: 'terracotta', icon: 'Gift' },
         { id: 'kpi-ssr-rate', name: 'SSR Rate', metric: 'ssr_rate', format: 'percentage', colorScheme: 'orange', icon: 'Star' },
-        { id: 'kpi-pity', name: 'Avg Pity', metric: 'avg_pity', format: 'number', colorScheme: 'blue', icon: 'Target' },
-        { id: 'kpi-revenue', name: 'Banner Revenue', metric: 'banner_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
+        { id: 'kpi-pity', name: 'Avg Pity', metric: 'avg_pity', format: 'number', colorScheme: 'gold', icon: 'Target' },
+        { id: 'kpi-revenue', name: 'Banner Revenue', metric: 'banner_revenue', format: 'currency', colorScheme: 'rust', icon: 'DollarSign' },
     ],
     mainCharts: [
         { id: 'main-pulls', type: 'line', title: 'Daily Pulls', subtitle: 'Pull volume over time', xColumn: 'date', yColumn: 'pull_count' },
@@ -118,10 +118,10 @@ const GACHA_BANNER_LAYOUT: TemplateLayout = {
 
 const BATTLE_ROYALE_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-matches', name: 'Daily Matches', metric: 'daily_matches', format: 'compact', colorScheme: 'violet', icon: 'Crosshair' },
-        { id: 'kpi-wins', name: 'Win Rate', metric: 'win_rate', format: 'percentage', colorScheme: 'green', icon: 'Trophy' },
+        { id: 'kpi-matches', name: 'Daily Matches', metric: 'daily_matches', format: 'compact', colorScheme: 'terracotta', icon: 'Crosshair' },
+        { id: 'kpi-wins', name: 'Win Rate', metric: 'win_rate', format: 'percentage', colorScheme: 'rust', icon: 'Trophy' },
         { id: 'kpi-kd', name: 'Avg K/D', metric: 'avg_kd_ratio', format: 'number', colorScheme: 'orange', icon: 'Target' },
-        { id: 'kpi-survival', name: 'Avg Survival', metric: 'avg_survival_time', format: 'number', colorScheme: 'blue', icon: 'Clock' },
+        { id: 'kpi-survival', name: 'Avg Survival', metric: 'avg_survival_time', format: 'number', colorScheme: 'gold', icon: 'Clock' },
     ],
     mainCharts: [
         { id: 'main-rank', type: 'histogram', title: 'Rank Distribution', subtitle: 'Player placement distribution', xColumn: 'placement', yColumn: 'match_count' },
@@ -140,8 +140,8 @@ const BATTLE_ROYALE_LAYOUT: TemplateLayout = {
 
 const HYPER_CASUAL_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-installs', name: 'Daily Installs', metric: 'daily_installs', format: 'compact', colorScheme: 'violet', icon: 'Download' },
-        { id: 'kpi-d1', name: 'D1 Retention', metric: 'retention_d1', format: 'percentage', colorScheme: 'green', icon: 'TrendingUp' },
+        { id: 'kpi-installs', name: 'Daily Installs', metric: 'daily_installs', format: 'compact', colorScheme: 'terracotta', icon: 'Download' },
+        { id: 'kpi-d1', name: 'D1 Retention', metric: 'retention_d1', format: 'percentage', colorScheme: 'rust', icon: 'TrendingUp' },
         { id: 'kpi-cpi', name: 'CPI', metric: 'cost_per_install', format: 'currency', colorScheme: 'orange', icon: 'DollarSign' },
     ],
     mainCharts: [
@@ -155,10 +155,10 @@ const HYPER_CASUAL_LAYOUT: TemplateLayout = {
 
 const SOCIAL_CASINO_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'violet', icon: 'Users' },
+        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'terracotta', icon: 'Users' },
         { id: 'kpi-coins', name: 'Avg Coin Balance', metric: 'avg_coin_balance', format: 'compact', colorScheme: 'orange', icon: 'Coins' },
-        { id: 'kpi-sessions', name: 'Sessions/Day', metric: 'sessions_per_day', format: 'number', colorScheme: 'blue', icon: 'Activity' },
-        { id: 'kpi-spin-revenue', name: 'Spin Revenue', metric: 'spin_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
+        { id: 'kpi-sessions', name: 'Sessions/Day', metric: 'sessions_per_day', format: 'number', colorScheme: 'gold', icon: 'Activity' },
+        { id: 'kpi-spin-revenue', name: 'Spin Revenue', metric: 'spin_revenue', format: 'currency', colorScheme: 'rust', icon: 'DollarSign' },
     ],
     mainCharts: [
         { id: 'main-spins', type: 'line', title: 'Daily Spins', subtitle: 'Total spin count over time', xColumn: 'date', yColumn: 'spin_count' },
@@ -172,9 +172,9 @@ const SOCIAL_CASINO_LAYOUT: TemplateLayout = {
 
 const RACING_GAME_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-races', name: 'Daily Races', metric: 'daily_races', format: 'compact', colorScheme: 'violet', icon: 'Flag' },
-        { id: 'kpi-avg-time', name: 'Avg Lap Time', metric: 'avg_lap_time', format: 'number', colorScheme: 'blue', icon: 'Clock' },
-        { id: 'kpi-unlocks', name: 'Vehicle Unlocks', metric: 'vehicle_unlocks', format: 'compact', colorScheme: 'green', icon: 'Unlock' },
+        { id: 'kpi-races', name: 'Daily Races', metric: 'daily_races', format: 'compact', colorScheme: 'terracotta', icon: 'Flag' },
+        { id: 'kpi-avg-time', name: 'Avg Lap Time', metric: 'avg_lap_time', format: 'number', colorScheme: 'gold', icon: 'Clock' },
+        { id: 'kpi-unlocks', name: 'Vehicle Unlocks', metric: 'vehicle_unlocks', format: 'compact', colorScheme: 'rust', icon: 'Unlock' },
     ],
     mainCharts: [
         { id: 'main-times', type: 'line', title: 'Track Best Times', subtitle: 'Fastest times trend', xColumn: 'date', yColumn: 'best_time' },
@@ -188,10 +188,10 @@ const RACING_GAME_LAYOUT: TemplateLayout = {
 
 const STRATEGY_GAME_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'violet', icon: 'Users' },
-        { id: 'kpi-resources', name: 'Avg Resources', metric: 'avg_resources', format: 'compact', colorScheme: 'green', icon: 'Package' },
+        { id: 'kpi-dau', name: 'Daily Active Users', metric: 'dau', format: 'compact', colorScheme: 'terracotta', icon: 'Users' },
+        { id: 'kpi-resources', name: 'Avg Resources', metric: 'avg_resources', format: 'compact', colorScheme: 'rust', icon: 'Package' },
         { id: 'kpi-battles', name: 'Daily Battles', metric: 'daily_battles', format: 'compact', colorScheme: 'orange', icon: 'Swords' },
-        { id: 'kpi-buildings', name: 'Avg Buildings', metric: 'avg_buildings', format: 'number', colorScheme: 'blue', icon: 'Building' },
+        { id: 'kpi-buildings', name: 'Avg Buildings', metric: 'avg_buildings', format: 'number', colorScheme: 'gold', icon: 'Building' },
     ],
     mainCharts: [
         { id: 'main-progression', type: 'funnel', title: 'Base Level Funnel', subtitle: 'Players at each HQ level', xColumn: 'hq_level', yColumn: 'player_count' },
@@ -205,9 +205,9 @@ const STRATEGY_GAME_LAYOUT: TemplateLayout = {
 
 const SIMULATION_GAME_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-playtime', name: 'Avg Playtime', metric: 'avg_daily_playtime', format: 'number', colorScheme: 'violet', icon: 'Clock' },
-        { id: 'kpi-economy', name: 'Economy Health', metric: 'economy_index', format: 'number', colorScheme: 'green', icon: 'TrendingUp' },
-        { id: 'kpi-progression', name: 'Avg Progress', metric: 'avg_progression', format: 'percentage', colorScheme: 'blue', icon: 'Target' },
+        { id: 'kpi-playtime', name: 'Avg Playtime', metric: 'avg_daily_playtime', format: 'number', colorScheme: 'terracotta', icon: 'Clock' },
+        { id: 'kpi-economy', name: 'Economy Health', metric: 'economy_index', format: 'number', colorScheme: 'rust', icon: 'TrendingUp' },
+        { id: 'kpi-progression', name: 'Avg Progress', metric: 'avg_progression', format: 'percentage', colorScheme: 'gold', icon: 'Target' },
     ],
     mainCharts: [
         { id: 'main-playtime', type: 'area', title: 'Playtime Distribution', subtitle: 'Time spent per session', xColumn: 'date', yColumn: 'total_playtime' },
@@ -221,10 +221,10 @@ const SIMULATION_GAME_LAYOUT: TemplateLayout = {
 
 const EDUCATIONAL_GAME_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-completion', name: 'Course Completion', metric: 'course_completion_rate', format: 'percentage', colorScheme: 'green', icon: 'CheckCircle' },
-        { id: 'kpi-accuracy', name: 'Avg Accuracy', metric: 'avg_accuracy', format: 'percentage', colorScheme: 'violet', icon: 'Target' },
+        { id: 'kpi-completion', name: 'Course Completion', metric: 'course_completion_rate', format: 'percentage', colorScheme: 'rust', icon: 'CheckCircle' },
+        { id: 'kpi-accuracy', name: 'Avg Accuracy', metric: 'avg_accuracy', format: 'percentage', colorScheme: 'terracotta', icon: 'Target' },
         { id: 'kpi-streak', name: 'Avg Streak', metric: 'avg_streak_days', format: 'number', colorScheme: 'orange', icon: 'Flame' },
-        { id: 'kpi-lessons', name: 'Lessons/Day', metric: 'lessons_per_day', format: 'number', colorScheme: 'blue', icon: 'Book' },
+        { id: 'kpi-lessons', name: 'Lessons/Day', metric: 'lessons_per_day', format: 'number', colorScheme: 'gold', icon: 'Book' },
     ],
     mainCharts: [
         { id: 'main-progress', type: 'funnel', title: 'Learning Path Progress', subtitle: 'Students at each stage', xColumn: 'stage', yColumn: 'student_count' },
@@ -239,9 +239,9 @@ const EDUCATIONAL_GAME_LAYOUT: TemplateLayout = {
 const MULTIPLAYER_SHOOTER_LAYOUT: TemplateLayout = {
     kpis: [
         { id: 'kpi-kd', name: 'Avg K/D Ratio', metric: 'avg_kd_ratio', format: 'number', colorScheme: 'orange', icon: 'Target' },
-        { id: 'kpi-matches', name: 'Daily Matches', metric: 'daily_matches', format: 'compact', colorScheme: 'violet', icon: 'Crosshair' },
-        { id: 'kpi-win-rate', name: 'Win Rate', metric: 'win_rate', format: 'percentage', colorScheme: 'green', icon: 'Trophy' },
-        { id: 'kpi-headshots', name: 'Headshot %', metric: 'headshot_rate', format: 'percentage', colorScheme: 'blue', icon: 'Zap' },
+        { id: 'kpi-matches', name: 'Daily Matches', metric: 'daily_matches', format: 'compact', colorScheme: 'terracotta', icon: 'Crosshair' },
+        { id: 'kpi-win-rate', name: 'Win Rate', metric: 'win_rate', format: 'percentage', colorScheme: 'rust', icon: 'Trophy' },
+        { id: 'kpi-headshots', name: 'Headshot %', metric: 'headshot_rate', format: 'percentage', colorScheme: 'gold', icon: 'Zap' },
     ],
     mainCharts: [
         { id: 'main-weapons', type: 'bar', title: 'Weapon Usage', subtitle: 'Kills by weapon type', xColumn: 'weapon_name', yColumn: 'kill_count' },
@@ -255,10 +255,10 @@ const MULTIPLAYER_SHOOTER_LAYOUT: TemplateLayout = {
 
 const SUBSCRIPTION_GAME_LAYOUT: TemplateLayout = {
     kpis: [
-        { id: 'kpi-mrr', name: 'MRR', metric: 'monthly_recurring_revenue', format: 'currency', colorScheme: 'green', icon: 'DollarSign' },
+        { id: 'kpi-mrr', name: 'MRR', metric: 'monthly_recurring_revenue', format: 'currency', colorScheme: 'rust', icon: 'DollarSign' },
         { id: 'kpi-churn', name: 'Churn Rate', metric: 'churn_rate', format: 'percentage', colorScheme: 'orange', icon: 'TrendingDown' },
-        { id: 'kpi-conversion', name: 'Trial Conversion', metric: 'trial_conversion_rate', format: 'percentage', colorScheme: 'violet', icon: 'UserPlus' },
-        { id: 'kpi-ltv', name: 'Subscriber LTV', metric: 'subscriber_ltv', format: 'currency', colorScheme: 'blue', icon: 'Award' },
+        { id: 'kpi-conversion', name: 'Trial Conversion', metric: 'trial_conversion_rate', format: 'percentage', colorScheme: 'terracotta', icon: 'UserPlus' },
+        { id: 'kpi-ltv', name: 'Subscriber LTV', metric: 'subscriber_ltv', format: 'currency', colorScheme: 'gold', icon: 'Award' },
     ],
     mainCharts: [
         { id: 'main-mrr', type: 'area', title: 'MRR Growth', subtitle: 'Monthly recurring revenue trend', xColumn: 'date', yColumn: 'mrr' },

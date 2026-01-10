@@ -57,13 +57,17 @@ function detectLowEndDevice(): boolean {
     return false;
 }
 
-// Monitor FPS
-function createFPSMonitor(callback: (fps: number) => void) {
+// Monitor FPS - optimized to only run for short detection periods
+function createFPSMonitor(callback: (fps: number) => void, duration = 5000) {
     let frameCount = 0;
     let lastTime = performance.now();
     let rafId: number;
+    let startTime = performance.now();
+    let stopped = false;
 
     function measureFPS() {
+        if (stopped) return;
+
         frameCount++;
         const now = performance.now();
 
@@ -73,12 +77,21 @@ function createFPSMonitor(callback: (fps: number) => void) {
             lastTime = now;
         }
 
+        // Stop after duration to save CPU
+        if (now - startTime >= duration) {
+            stopped = true;
+            return;
+        }
+
         rafId = requestAnimationFrame(measureFPS);
     }
 
     rafId = requestAnimationFrame(measureFPS);
 
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+        stopped = true;
+        cancelAnimationFrame(rafId);
+    };
 }
 
 export function PerformanceProvider({ children }: { children: ReactNode }) {
@@ -100,14 +113,20 @@ export function PerformanceProvider({ children }: { children: ReactNode }) {
         }
     }, []);
 
-    // Monitor FPS and auto-adjust
+    // Monitor FPS once on mount for initial detection (5 seconds)
+    // Runs only once to determine performance tier, then stops to save CPU
     useEffect(() => {
         if (mode !== 'auto') return;
 
         let lowFpsCount = 0;
+        let sampleCount = 0;
+        let totalFps = 0;
 
+        // Run FPS detection for 5 seconds, then stop
         const cleanup = createFPSMonitor((currentFps) => {
             setFps(currentFps);
+            sampleCount++;
+            totalFps += currentFps;
 
             // If FPS drops below 30 for 3 consecutive seconds, switch to lite
             if (currentFps < 30) {
@@ -122,10 +141,11 @@ export function PerformanceProvider({ children }: { children: ReactNode }) {
                 lowFpsCount = 0;
                 setAutoDetectedMode('full');
             }
-        });
+        }, 5000); // Only monitor for 5 seconds
 
         return cleanup;
-    }, [mode]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Run only once on mount
 
     const setMode = useCallback((newMode: PerformanceMode) => {
         setModeState(newMode);
@@ -184,16 +204,26 @@ export function PerformanceProvider({ children }: { children: ReactNode }) {
             root.style.removeProperty('--animation-duration');
             root.style.removeProperty('--transition-duration');
         }
+
+        // Cleanup: remove classes and properties when unmounting
+        return () => {
+            root.classList.remove('perf-full', 'perf-balanced', 'perf-lite');
+            root.style.removeProperty('--animation-duration');
+            root.style.removeProperty('--transition-duration');
+        };
     }, [effectiveMode, flags.enableAnimations]);
 
+    // Memoize context value to prevent unnecessary re-renders of consumers
+    const contextValue = useMemo(() => ({
+        mode,
+        setMode,
+        ...flags,
+        isLowEndDevice,
+        fps,
+    }), [mode, setMode, flags, isLowEndDevice, fps]);
+
     return (
-        <PerformanceContext.Provider value={{
-            mode,
-            setMode,
-            ...flags,
-            isLowEndDevice,
-            fps,
-        }}>
+        <PerformanceContext.Provider value={contextValue}>
             {children}
         </PerformanceContext.Provider>
     );

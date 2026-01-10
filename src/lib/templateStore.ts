@@ -62,7 +62,7 @@ export interface KPIConfig {
     name: string;
     metric: string;
     format: 'number' | 'currency' | 'percentage' | 'compact';
-    colorScheme?: 'violet' | 'green' | 'blue' | 'orange' | 'red';
+    colorScheme?: 'terracotta' | 'rust' | 'gold' | 'tan' | 'orange' | 'slate';
     icon?: string;
     description?: string;
 }

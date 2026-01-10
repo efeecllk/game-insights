@@ -11,7 +11,8 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import ReactECharts from 'echarts-for-react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { echarts } from '@/lib/echarts';
 import { DollarSign, TrendingUp, Users, CreditCard, Calendar, Sparkles } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useGameData } from '../hooks/useGameData';
@@ -442,7 +443,7 @@ function RevenueChart({ dates, values }: { dates: string[]; values: number[] }) 
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
-            extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
+            extraCssText: 'border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);',
             formatter: (params: Array<{ name: string; value: number }>) =>
                 `<div style="font-weight: 500">${params[0].name}</div><div style="color: #DA7756; margin-top: 4px">$${params[0].value.toLocaleString()}</div>`
         },
@@ -514,7 +515,7 @@ function SpenderTiersChart({ data }: { data: Array<{ tier: string; users: number
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
-            extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
+            extraCssText: 'border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);',
             formatter: (params: { name: string; value: number; percent: number }) =>
                 `<div style="font-weight: 500">${params.name}</div><div style="margin-top: 4px">${params.value.toLocaleString()} users</div><div style="color: #DA7756">${params.percent.toFixed(1)}%</div>`
         },

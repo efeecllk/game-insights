@@ -158,9 +158,8 @@ export function IntegrationRecipes() {
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <div className="absolute inset-0 bg-violet-500/20 rounded-xl blur-lg" />
-                        <div className="relative w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
-                            <Book className="w-6 h-6 text-violet-400" />
+                        <div className="relative w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                            <Book className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </div>
                     <div>
@@ -546,16 +545,16 @@ function RecipeDetail({
             {recipe.prerequisites.length > 0 && (
                 <motion.div
                     variants={itemVariants}
-                    className="p-4 bg-violet-500/5 border border-violet-500/20 rounded-xl"
+                    className="p-4 bg-[#DA7756]/5 border border-[#DA7756]/20 rounded-xl"
                 >
-                    <h3 className="font-medium text-violet-400 mb-2 flex items-center gap-2">
+                    <h3 className="font-medium text-[#DA7756] mb-2 flex items-center gap-2">
                         <Sparkles className="w-4 h-4" />
                         Prerequisites
                     </h3>
                     <ul className="space-y-1">
                         {recipe.prerequisites.map((prereq, idx) => (
                             <li key={idx} className="flex items-start gap-2 text-sm text-slate-300">
-                                <CheckCircle className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
+                                <CheckCircle className="w-4 h-4 text-[#DA7756] flex-shrink-0 mt-0.5" />
                                 {prereq}
                             </li>
                         ))}
@@ -652,9 +651,9 @@ function RecipeDetail({
 
                                         {/* Tip */}
                                         {step.tip && (
-                                            <div className="ml-11 flex items-start gap-2 p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl">
-                                                <Lightbulb className="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5" />
-                                                <p className="text-sm text-violet-400">{step.tip}</p>
+                                            <div className="ml-11 flex items-start gap-2 p-3 bg-[#E5A84B]/10 border border-[#E5A84B]/20 rounded-xl">
+                                                <Lightbulb className="w-4 h-4 text-[#E5A84B] flex-shrink-0 mt-0.5" />
+                                                <p className="text-sm text-[#E5A84B]">{step.tip}</p>
                                             </div>
                                         )}
 

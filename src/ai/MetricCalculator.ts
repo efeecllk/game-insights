@@ -199,6 +199,7 @@ export class MetricCalculator {
 
     /**
      * Calculate retention metrics (D1, D3, D7, etc.)
+     * Optimized: Pre-calculates max days since first activity per user to avoid O(n²)
      */
     calculateRetention(
         data: NormalizedData,
@@ -231,9 +232,24 @@ export class MetricCalculator {
 
         if (userFirstDay.size === 0) return null;
 
+        // Pre-calculate max days since first activity for each user (O(n) optimization)
+        // This avoids the O(n²) inner loop when checking rolling retention
+        const userMaxDaysSinceFirst = new Map<string, number>();
+        for (const [userId, firstDay] of userFirstDay) {
+            const activityDays = userActivityDays.get(userId)!;
+            let maxDays = 0;
+            for (const activityDay of activityDays) {
+                const actDate = new Date(activityDay);
+                const days = daysBetween(firstDay, actDate);
+                if (days > maxDays) maxDays = days;
+            }
+            userMaxDaysSinceFirst.set(userId, maxDays);
+        }
+
         // Calculate classic retention (Dn)
         const classic: Record<string, number> = {};
         const rolling: Record<string, number> = {};
+        const now = new Date();
 
         for (const day of config.retentionDays) {
             let retained = 0;
@@ -241,28 +257,24 @@ export class MetricCalculator {
             let eligible = 0;
 
             for (const [userId, firstDay] of userFirstDay) {
-                const activityDays = userActivityDays.get(userId)!;
-                const targetDate = new Date(firstDay);
-                targetDate.setDate(targetDate.getDate() + day);
-
                 // Only count users whose first day is old enough
-                const now = new Date();
                 if (daysBetween(firstDay, now) < day) continue;
 
                 eligible++;
+
+                const activityDays = userActivityDays.get(userId)!;
+                const targetDate = new Date(firstDay);
+                targetDate.setDate(targetDate.getDate() + day);
 
                 // Classic: active on exactly day N
                 if (activityDays.has(getDateKey(targetDate))) {
                     retained++;
                 }
 
-                // Rolling: active on day N or any day after
-                for (const activityDay of activityDays) {
-                    const actDate = new Date(activityDay);
-                    if (daysBetween(firstDay, actDate) >= day) {
-                        rollingRetained++;
-                        break;
-                    }
+                // Rolling: active on day N or any day after (O(1) lookup)
+                const maxDays = userMaxDaysSinceFirst.get(userId)!;
+                if (maxDays >= day) {
+                    rollingRetained++;
                 }
             }
 

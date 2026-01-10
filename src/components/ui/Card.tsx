@@ -4,10 +4,10 @@
  * Clean card with:
  * - Multiple variants (default, elevated, interactive, glass)
  * - Simple border hover states
- * - Framer Motion animations
+ * - CSS-based animations (performance optimized)
  */
 
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef, type ReactNode, type HTMLAttributes } from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 
 type CardVariant = 'default' | 'elevated' | 'interactive' | 'glass' | 'gradient-border';
@@ -68,19 +68,16 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
               }
             : {};
 
-        const hoverProps = hover
-            ? {
-                  whileHover: { y: -2, scale: 1.01 },
-                  transition: { type: 'spring', stiffness: 400, damping: 25 },
-              }
-            : {};
+        // Use CSS for hover animations instead of whileHover
+        const hoverClassName = hover
+            ? 'transition-transform duration-200 hover:-translate-y-0.5 hover:scale-[1.01]'
+            : '';
 
         return (
             <motion.div
                 ref={ref}
-                className={`rounded-2xl ${variantStyles[variant]} ${paddingStyles[padding]} ${className}`}
+                className={`rounded-2xl ${variantStyles[variant]} ${paddingStyles[padding]} ${hoverClassName} ${className}`}
                 {...animationProps}
-                {...hoverProps}
                 {...props}
             >
                 {children}
@@ -94,7 +91,7 @@ Card.displayName = 'Card';
 /**
  * Card Header sub-component
  */
-interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
     title: string;
     action?: ReactNode;
     subtitle?: string;
@@ -123,7 +120,7 @@ export function CardHeader({ title, action, subtitle, icon, className = '', ...p
 /**
  * Card Content sub-component
  */
-export function CardContent({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function CardContent({ children, className = '', ...props }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={`pt-4 ${className}`} {...props}>
             {children}
@@ -134,7 +131,7 @@ export function CardContent({ children, className = '', ...props }: React.HTMLAt
 /**
  * Card Footer sub-component
  */
-export function CardFooter({ children, className = '', ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function CardFooter({ children, className = '', ...props }: HTMLAttributes<HTMLDivElement>) {
     return (
         <div className={`pt-4 mt-4 border-t border-th-border ${className}`} {...props}>
             {children}

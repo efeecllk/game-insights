@@ -328,14 +328,25 @@ export class DataCleaner {
         };
     }
 
+    /**
+     * Check for duplicate rows using column subset for faster comparison
+     * Performance: Uses first 5 columns as key instead of full JSON.stringify
+     */
     private checkDuplicates(data: NormalizedData): DataQualityIssue | null {
-        const seen = new Set<string>();
+        const seen = new Map<string, boolean>();
         let dupCount = 0;
 
+        // Use first 5 columns as composite key (much faster than full row)
+        const keyColumns = data.columns.slice(0, 5);
+
         for (const row of data.rows) {
-            const key = JSON.stringify(row);
-            if (seen.has(key)) dupCount++;
-            else seen.add(key);
+            // Build key from subset of columns - avoids expensive JSON.stringify
+            const key = keyColumns.map(col => String(row[col] ?? '')).join('|');
+            if (seen.has(key)) {
+                dupCount++;
+            } else {
+                seen.set(key, true);
+            }
         }
 
         if (dupCount === 0) return null;

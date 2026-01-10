@@ -130,14 +130,9 @@ export {
     type MergeStrategy
 } from './folderImporter';
 
-// Import all importers for unified import function
-import { csvImporter } from './csvImporter';
-import { jsonImporter } from './jsonImporter';
-import { excelImporter } from './excelImporter';
-import { sqliteImporter } from './sqliteImporter';
-
 /**
  * Universal import function - auto-detects format and imports
+ * Uses dynamic imports for heavy dependencies (xlsx, sql.js) to improve tree-shaking
  */
 export async function importFile(
     file: File,
@@ -151,26 +146,38 @@ export async function importFile(
 
         switch (format) {
             case 'csv':
-            case 'tsv':
+            case 'tsv': {
+                // CSV is lightweight, import directly
+                const { csvImporter } = await import('./csvImporter');
                 result = await csvImporter.import(file, {
                     ...options,
                     delimiter: format === 'tsv' ? '\t' : options.delimiter
                 });
                 break;
+            }
             case 'json':
-            case 'ndjson':
+            case 'ndjson': {
+                // JSON is lightweight, import directly
+                const { jsonImporter } = await import('./jsonImporter');
                 result = await jsonImporter.import(file, {
                     ...options,
                     isNDJSON: format === 'ndjson'
                 });
                 break;
+            }
             case 'xlsx':
-            case 'xls':
+            case 'xls': {
+                // Excel is heavy (~332KB), dynamic import
+                const { excelImporter } = await import('./excelImporter');
                 result = await excelImporter.import(file, options);
                 break;
-            case 'sqlite':
+            }
+            case 'sqlite': {
+                // SQLite is heavy (~44KB + WASM), dynamic import
+                const { sqliteImporter } = await import('./sqliteImporter');
                 result = await sqliteImporter.import(file, options);
                 break;
+            }
             default:
                 return {
                     success: false,

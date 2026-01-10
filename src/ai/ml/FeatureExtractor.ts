@@ -29,6 +29,8 @@ export class FeatureExtractor {
     private rawData: Record<string, unknown>[];
     private columnMappings: ColumnMapping[];
     private columnRoles: Map<string, string>;
+    // Cache for user first-seen dates to avoid O(n²) lookups
+    private userFirstSeenCache: Map<string, Date> | null = null;
 
     constructor(gameData: GameData) {
         this.rawData = gameData.rawData;
@@ -763,22 +765,40 @@ export class FeatureExtractor {
         };
     }
 
+    /**
+     * Build cache of user first-seen dates (O(n) once, then O(1) lookups)
+     * Performance: Prevents O(n²) scan when checking each row
+     */
+    private buildUserFirstSeenCache(): Map<string, Date> {
+        if (this.userFirstSeenCache) return this.userFirstSeenCache;
+
+        this.userFirstSeenCache = new Map<string, Date>();
+        const userColumn = this.findColumn('user_id');
+        if (!userColumn) return this.userFirstSeenCache;
+
+        for (const row of this.rawData) {
+            const userId = String(row[userColumn]);
+            const date = this.getDateValue(row, 'timestamp');
+            if (date) {
+                const existing = this.userFirstSeenCache.get(userId);
+                if (!existing || date < existing) {
+                    this.userFirstSeenCache.set(userId, date);
+                }
+            }
+        }
+        return this.userFirstSeenCache;
+    }
+
     private isNewUser(row: Record<string, unknown>, currentDate: string): boolean {
         const userColumn = this.findColumn('user_id');
         if (!userColumn) return false;
 
+        const cache = this.buildUserFirstSeenCache();
         const userId = String(row[userColumn]);
-        const currentDateObj = new Date(currentDate);
+        const firstSeen = cache.get(userId);
 
-        // Find earliest date for this user
-        for (const r of this.rawData) {
-            if (String(r[userColumn]) === userId) {
-                const date = this.getDateValue(r, 'timestamp');
-                if (date && date < currentDateObj) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        // User is new if their first seen date matches current date
+        if (!firstSeen) return true;
+        return firstSeen.toISOString().split('T')[0] === currentDate;
     }
 }

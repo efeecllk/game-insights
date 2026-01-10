@@ -688,8 +688,8 @@ function getStatusConfig(status: IntegrationStatus): {
         case 'syncing':
             return {
                 label: 'Syncing',
-                dotColor: 'bg-violet-500',
-                badgeColor: 'bg-violet-500/10 text-violet-400 border border-violet-500/20',
+                dotColor: 'bg-[#E5A84B]',
+                badgeColor: 'bg-[#E5A84B]/10 text-[#E5A84B] border border-[#E5A84B]/20',
             };
         case 'paused':
             return {

@@ -4,7 +4,7 @@
  * Phase 1: Core Data Integration
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
 import { GameCategory } from '../types';
 import { useData } from './DataContext';
 
@@ -42,13 +42,16 @@ export function GameProvider({ children }: { children: ReactNode }) {
         // setAutoSync(false);
     }, []);
 
+    // Memoize context value to prevent unnecessary re-renders
+    const value = useMemo<GameContextType>(() => ({
+        selectedGame,
+        setSelectedGame: handleSetSelectedGame,
+        isAutoSynced,
+        setAutoSync,
+    }), [selectedGame, handleSetSelectedGame, isAutoSynced]);
+
     return (
-        <GameContext.Provider value={{
-            selectedGame,
-            setSelectedGame: handleSetSelectedGame,
-            isAutoSynced,
-            setAutoSync,
-        }}>
+        <GameContext.Provider value={value}>
             {children}
         </GameContext.Provider>
     );

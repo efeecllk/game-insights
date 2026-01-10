@@ -5,8 +5,11 @@
  * - Simple, clear buttons
  * - Minimal animations
  * - Clear active state
+ *
+ * Performance: Memoized to prevent unnecessary re-renders
  */
 
+import { memo } from 'react';
 import { GameCategory } from '../../types';
 import { gameCategories } from '../../lib/dataProviders';
 
@@ -15,7 +18,7 @@ interface GameSelectorProps {
     onChange: (category: GameCategory) => void;
 }
 
-export function GameSelector({ selected, onChange }: GameSelectorProps) {
+export const GameSelector = memo(function GameSelector({ selected, onChange }: GameSelectorProps) {
     return (
         <div className="bg-th-bg-surface rounded-xl p-4 border border-th-border-subtle">
             {/* Label */}
@@ -47,6 +50,6 @@ export function GameSelector({ selected, onChange }: GameSelectorProps) {
             </div>
         </div>
     );
-}
+});
 
 export default GameSelector;

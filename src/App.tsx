@@ -18,11 +18,11 @@
  * - ToastProvider for user-friendly notifications
  */
 
-import { useMemo, useState, lazy, Suspense } from 'react';
+import { useMemo, useState, lazy, Suspense, memo } from 'react';
 import { QuickStartCard } from './components/ui/QuickStartCard';
 import { ContextualHint } from './components/ui/ContextualHint';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, LazyMotion, domAnimation, MotionConfig } from 'framer-motion';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
@@ -37,18 +37,24 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { Sidebar } from './components/Sidebar';
 import { KPICard } from './components/ui/KPICard';
 import { GameSelector } from './components/ui/GameSelector';
-import { CommandPalette, useCommandPalette } from './components/CommandPalette';
-import { ShortcutsModal, useKeyboardShortcuts } from './components/KeyboardShortcuts';
-import { WelcomeFlow, useOnboarding } from './components/Onboarding';
 
-// Charts (always loaded - used on main overview)
-import { RetentionCurve } from './components/charts/RetentionCurve';
-import { FunnelChart } from './components/charts/FunnelChart';
-import { RevenueChart } from './components/charts/RevenueChart';
-import { SegmentChart } from './components/charts/SegmentChart';
+// Hooks (eagerly loaded - needed immediately)
+import { useCommandPalette, useKeyboardShortcuts, useOnboarding } from './hooks';
 
-// ML Components
-import { MLInsightsPanel } from './components/ml';
+// Lazy-loaded modal components (only rendered when needed)
+const CommandPalette = lazy(() => import('./components/CommandPalette'));
+const ShortcutsModal = lazy(() => import('./components/KeyboardShortcuts'));
+const WelcomeFlow = lazy(() => import('./components/Onboarding'));
+
+// Charts (lazy-loaded - only needed after QuickStartCard)
+// These pull in the 350KB echarts vendor chunk, so lazy loading reduces initial bundle
+const RetentionCurve = lazy(() => import('./components/charts/RetentionCurve').then(m => ({ default: m.RetentionCurve })));
+const FunnelChart = lazy(() => import('./components/charts/FunnelChart').then(m => ({ default: m.FunnelChart })));
+const RevenueChart = lazy(() => import('./components/charts/RevenueChart').then(m => ({ default: m.RevenueChart })));
+const SegmentChart = lazy(() => import('./components/charts/SegmentChart').then(m => ({ default: m.SegmentChart })));
+
+// ML Components (lazy-loaded - only shown when user has data)
+const MLInsightsPanel = lazy(() => import('./components/ml').then(m => ({ default: m.MLInsightsPanel })));
 
 // ============================================================================
 // Lazy-loaded Pages (Code Splitting)
@@ -114,6 +120,17 @@ function PageLoader() {
                 <Loader2 className="w-8 h-8 text-th-accent-primary animate-spin" aria-hidden="true" />
                 <p className="text-sm text-th-text-muted">Loading...</p>
             </div>
+        </div>
+    );
+}
+
+/**
+ * Chart loading placeholder - matches chart height for smooth loading
+ */
+function ChartLoader() {
+    return (
+        <div className="flex items-center justify-center h-[280px]" role="status">
+            <Loader2 className="w-6 h-6 text-th-text-muted animate-spin" aria-hidden="true" />
         </div>
     );
 }
@@ -377,7 +394,9 @@ function OverviewPage() {
             {isUsingRealData && (
                 <motion.section variants={itemVariants} aria-labelledby="ml-insights-heading">
                     <h2 id="ml-insights-heading" className="sr-only">Machine Learning Insights</h2>
-                    <MLInsightsPanel compact />
+                    <Suspense fallback={<ChartLoader />}>
+                        <MLInsightsPanel compact />
+                    </Suspense>
                 </motion.section>
             )}
 
@@ -386,10 +405,14 @@ function OverviewPage() {
                 <h2 id="charts-heading-1" className="sr-only">Retention and Funnel Charts</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <ChartContainer title="Retention Curve" subtitle="User retention over time">
-                        <RetentionCurve data={retentionData} />
+                        <Suspense fallback={<ChartLoader />}>
+                            <RetentionCurve data={retentionData} />
+                        </Suspense>
                     </ChartContainer>
                     <ChartContainer title={chartConfigs.funnel.title} subtitle={chartConfigs.funnel.subtitle}>
-                        <FunnelChart data={funnelData} config={chartConfigs.funnel} />
+                        <Suspense fallback={<ChartLoader />}>
+                            <FunnelChart data={funnelData} config={chartConfigs.funnel} />
+                        </Suspense>
                     </ChartContainer>
                 </div>
             </motion.section>
@@ -399,10 +422,14 @@ function OverviewPage() {
                 <h2 id="charts-heading-2" className="sr-only">Revenue and Segment Charts</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <ChartContainer title="Revenue Trends" subtitle="Daily revenue breakdown">
-                        <RevenueChart data={revenueData} />
+                        <Suspense fallback={<ChartLoader />}>
+                            <RevenueChart data={revenueData} />
+                        </Suspense>
                     </ChartContainer>
                     <ChartContainer title={chartConfigs.segment.title} subtitle={chartConfigs.segment.subtitle}>
-                        <SegmentChart data={segmentData} config={chartConfigs.segment} />
+                        <Suspense fallback={<ChartLoader />}>
+                            <SegmentChart data={segmentData} config={chartConfigs.segment} />
+                        </Suspense>
                     </ChartContainer>
                 </div>
             </motion.section>
@@ -417,8 +444,9 @@ function OverviewPage() {
 
 /**
  * Chart Container - Clean, simple styling
+ * Memoized to prevent re-renders when parent state changes
  */
-function ChartContainer({
+const ChartContainer = memo(function ChartContainer({
     title,
     subtitle,
     children,
@@ -441,12 +469,13 @@ function ChartContainer({
             </div>
         </div>
     );
-}
+});
 
 /**
  * AI Insights Section - Clean styling
+ * Memoized to prevent re-renders when game selection doesn't change
  */
-function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
+const AIInsightsSection = memo(function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
     const insights = useMemo(() => {
         switch (selectedGame) {
             case 'puzzle':
@@ -500,12 +529,13 @@ function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
             </div>
         </div>
     );
-}
+});
 
 /**
  * Insight Card Component - Simple styling
+ * Memoized since it renders in a list
  */
-function InsightCard({
+const InsightCard = memo(function InsightCard({
     type,
     message,
 }: {
@@ -561,7 +591,7 @@ function InsightCard({
             </div>
         </div>
     );
-}
+});
 
 /**
  * Get page title based on current route
@@ -609,13 +639,15 @@ function AppContent() {
     // Don't render dashboard when onboarding is active
     if (showOnboarding) {
         return (
-            <WelcomeFlow
-                onComplete={() => setShowOnboarding(false)}
-                onSkip={() => {
-                    localStorage.setItem('game-insights-onboarded', 'true');
-                    setShowOnboarding(false);
-                }}
-            />
+            <Suspense fallback={<PageLoader />}>
+                <WelcomeFlow
+                    onComplete={() => setShowOnboarding(false)}
+                    onSkip={() => {
+                        localStorage.setItem('game-insights-onboarded', 'true');
+                        setShowOnboarding(false);
+                    }}
+                />
+            </Suspense>
         );
     }
 
@@ -731,11 +763,19 @@ function AppContent() {
                 </main>
             </div>
 
-            {/* Command Palette */}
-            <CommandPalette isOpen={commandPalette.isOpen} onClose={commandPalette.close} />
+            {/* Command Palette (lazy-loaded) */}
+            {commandPalette.isOpen && (
+                <Suspense fallback={null}>
+                    <CommandPalette isOpen={commandPalette.isOpen} onClose={commandPalette.close} />
+                </Suspense>
+            )}
 
-            {/* Keyboard Shortcuts Modal */}
-            <ShortcutsModal isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+            {/* Keyboard Shortcuts Modal (lazy-loaded) */}
+            {showShortcuts && (
+                <Suspense fallback={null}>
+                    <ShortcutsModal isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+                </Suspense>
+            )}
         </>
     );
 }
@@ -747,21 +787,25 @@ function AppContent() {
 function App() {
     return (
         <ErrorBoundary>
-            <ThemeProvider>
-                <PerformanceProvider>
-                    <ToastProvider position="bottom-right" maxToasts={5}>
-                        <DataProvider>
-                            <MLProvider>
-                                <IntegrationProvider>
-                                    <GameProvider>
-                                        <AppContent />
-                                    </GameProvider>
-                                </IntegrationProvider>
-                            </MLProvider>
-                        </DataProvider>
-                    </ToastProvider>
-                </PerformanceProvider>
-            </ThemeProvider>
+            <LazyMotion features={domAnimation} strict>
+                <MotionConfig reducedMotion="user">
+                    <ThemeProvider>
+                        <PerformanceProvider>
+                            <ToastProvider position="bottom-right" maxToasts={5}>
+                                <DataProvider>
+                                    <MLProvider>
+                                        <IntegrationProvider>
+                                            <GameProvider>
+                                                <AppContent />
+                                            </GameProvider>
+                                        </IntegrationProvider>
+                                    </MLProvider>
+                                </DataProvider>
+                            </ToastProvider>
+                        </PerformanceProvider>
+                    </ThemeProvider>
+                </MotionConfig>
+            </LazyMotion>
         </ErrorBoundary>
     );
 }

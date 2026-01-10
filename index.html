@@ -7,8 +7,10 @@
     <title>Insights - Analytics Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Distinctive typography: Sora for headings, DM Sans for body, JetBrains Mono for data -->
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Optimized font loading: Only load needed weights -->
+    <!-- Sora: 600-700 (headings only), DM Sans: 400-700 (body), JetBrains Mono: 400-500 (data) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>

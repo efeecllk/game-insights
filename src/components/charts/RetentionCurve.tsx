@@ -12,8 +12,8 @@
  */
 
 import { memo } from 'react';
-import ReactECharts from 'echarts-for-react';
-import type { EChartsOption } from 'echarts';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { echarts, type EChartsOption } from '@/lib/echarts';
 import { RetentionData, ChartConfig } from '../../types';
 import { ChartRegistry, BaseChartProps } from '../../lib/chartRegistry';
 
@@ -155,15 +155,20 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
                 },
             }] : []),
         ],
-        animationDuration: 1200,
+        // Reduced animation duration for better performance
+        animationDuration: 400,
+        animationDurationUpdate: 200,
         animationEasing: 'cubicOut',
     };
 
     const chart = (
-        <ReactECharts
+        <ReactEChartsCore
+            echarts={echarts}
             option={option}
             style={{ height: config?.height ?? 280, width: '100%' }}
             opts={{ renderer: 'canvas' }}
+            notMerge={true}
+            lazyUpdate={true}
         />
     );
 

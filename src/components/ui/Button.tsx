@@ -6,18 +6,17 @@
  * - Size options (sm, md, lg)
  * - Icon support (left/right)
  * - Loading state with spinner
- * - Framer Motion animations
+ * - CSS-based animations (performance optimized)
  * - Glassmorphism effects
  */
 
-import { forwardRef, type ReactNode } from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { forwardRef, type ReactNode, type ButtonHTMLAttributes } from 'react';
 import { Loader2 } from 'lucide-react';
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
-interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
@@ -71,17 +70,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         const isDisabled = disabled || loading;
 
         return (
-            <motion.button
+            <button
                 ref={ref}
-                whileHover={isDisabled ? undefined : { scale: 1.02 }}
-                whileTap={isDisabled ? undefined : { scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 disabled={isDisabled}
                 className={`
                     relative inline-flex items-center justify-center font-medium
                     border transition-all duration-200
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-th-bg-base
-                    disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
+                    disabled:opacity-50 disabled:cursor-not-allowed
+                    hover:scale-[1.02] active:scale-[0.98]
+                    disabled:hover:scale-100 disabled:active:scale-100
                     ${variantStyles[variant]}
                     ${sizeStyles[size]}
                     ${fullWidth ? 'w-full' : ''}
@@ -106,7 +104,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                 {!loading && icon && iconPosition === 'right' && (
                     <span className={iconSizes[size]}>{icon}</span>
                 )}
-            </motion.button>
+            </button>
         );
     }
 );
@@ -116,7 +114,7 @@ Button.displayName = 'Button';
 /**
  * Icon-only button variant
  */
-interface IconButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
+interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     icon: ReactNode;
     size?: ButtonSize;
     variant?: ButtonVariant;
@@ -132,11 +130,8 @@ const iconOnlySizes: Record<ButtonSize, string> = {
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     ({ icon, size = 'md', variant = 'ghost', label, disabled, className = '', ...props }, ref) => {
         return (
-            <motion.button
+            <button
                 ref={ref}
-                whileHover={disabled ? undefined : { scale: 1.1 }}
-                whileTap={disabled ? undefined : { scale: 0.9 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 disabled={disabled}
                 aria-label={label}
                 className={`
@@ -144,6 +139,8 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                     border rounded-xl transition-all duration-200
                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-th-bg-base
                     disabled:opacity-50 disabled:cursor-not-allowed
+                    hover:scale-110 active:scale-90
+                    disabled:hover:scale-100 disabled:active:scale-100
                     ${variantStyles[variant]}
                     ${iconOnlySizes[size]}
                     ${className}
@@ -151,7 +148,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
                 {...props}
             >
                 <span className={iconSizes[size]}>{icon}</span>
-            </motion.button>
+            </button>
         );
     }
 );

@@ -7,6 +7,7 @@
  * - Logical section ordering
  */
 
+import { memo, useMemo } from 'react';
 import { ChartRecommendation } from '../../ai/ChartSelector';
 import { NormalizedData } from '../../adapters/BaseAdapter';
 import { ColumnMeaning } from '../../ai/SchemaAnalyzer';
@@ -46,7 +47,7 @@ interface DashboardGridProps {
     onAskQuestion: (question: string) => Promise<QuestionResult | null>;
 }
 
-export function DashboardGrid({
+export const DashboardGrid = memo(function DashboardGrid({
     dashboardLayout,
     data,
     columnMeanings,
@@ -61,15 +62,19 @@ export function DashboardGrid({
     suggestedQuestions,
     onAskQuestion,
 }: DashboardGridProps) {
-    // Check if there are critical/high severity anomalies that should be shown prominently
-    const hasCriticalAnomalies = anomalies?.some(a => a.severity === 'critical' || a.severity === 'high');
-    const anomalyStats = anomalies ? {
+    // Memoize anomaly calculations to prevent re-computation on every render
+    const hasCriticalAnomalies = useMemo(
+        () => anomalies?.some(a => a.severity === 'critical' || a.severity === 'high'),
+        [anomalies]
+    );
+
+    const anomalyStats = useMemo(() => anomalies ? {
         total: anomalies.length,
         critical: anomalies.filter(a => a.severity === 'critical').length,
         high: anomalies.filter(a => a.severity === 'high').length,
         medium: anomalies.filter(a => a.severity === 'medium').length,
         low: anomalies.filter(a => a.severity === 'low').length,
-    } : undefined;
+    } : undefined, [anomalies]);
 
     return (
         <div className="space-y-6">
@@ -154,6 +159,6 @@ export function DashboardGrid({
             />
         </div>
     );
-}
+});
 
 export default DashboardGrid;

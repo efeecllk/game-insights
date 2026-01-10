@@ -204,7 +204,8 @@ export function ProductProvider({
     [registry]
   );
 
-  const value: ProductContextType = {
+  // Memoize context value to prevent unnecessary re-renders
+  const value = useMemo<ProductContextType>(() => ({
     selectedIndustry,
     selectedSubCategory,
     isAutoDetected,
@@ -220,7 +221,22 @@ export function ProductProvider({
     availableIndustries,
     getPack,
     t,
-  };
+  }), [
+    selectedIndustry,
+    selectedSubCategory,
+    isAutoDetected,
+    detectionConfidence,
+    setIndustry,
+    setSubCategory,
+    currentPack,
+    terminology,
+    theme,
+    metrics,
+    funnels,
+    availableIndustries,
+    getPack,
+    t,
+  ]);
 
   return (
     <ProductContext.Provider value={value}>{children}</ProductContext.Provider>

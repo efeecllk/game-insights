@@ -10,6 +10,7 @@ import {
     useState,
     useEffect,
     useCallback,
+    useMemo,
     ReactNode,
 } from 'react';
 import {
@@ -172,27 +173,44 @@ export function IntegrationProvider({ children }: { children: ReactNode }) {
         return integrations.filter(i => i.status === 'error');
     }, [integrations]);
 
+    // Memoize context value to prevent unnecessary re-renders
+    const value = useMemo<IntegrationContextType>(() => ({
+        integrations,
+        activeIntegration,
+        isLoading,
+        isReady,
+        setActiveIntegration,
+        addIntegration,
+        removeIntegration,
+        updateStatus,
+        recordSync,
+        refreshIntegration,
+        pauseIntegration,
+        resumeIntegration,
+        getIntegrationById,
+        getIntegrationsByType,
+        getConnectedIntegrations,
+        getErrorIntegrations,
+    }), [
+        integrations,
+        activeIntegration,
+        isLoading,
+        isReady,
+        addIntegration,
+        removeIntegration,
+        updateStatus,
+        recordSync,
+        refreshIntegration,
+        pauseIntegration,
+        resumeIntegration,
+        getIntegrationById,
+        getIntegrationsByType,
+        getConnectedIntegrations,
+        getErrorIntegrations,
+    ]);
+
     return (
-        <IntegrationContext.Provider
-            value={{
-                integrations,
-                activeIntegration,
-                isLoading,
-                isReady,
-                setActiveIntegration,
-                addIntegration,
-                removeIntegration,
-                updateStatus,
-                recordSync,
-                refreshIntegration,
-                pauseIntegration,
-                resumeIntegration,
-                getIntegrationById,
-                getIntegrationsByType,
-                getConnectedIntegrations,
-                getErrorIntegrations,
-            }}
-        >
+        <IntegrationContext.Provider value={value}>
             {children}
         </IntegrationContext.Provider>
     );

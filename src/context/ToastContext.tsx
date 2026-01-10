@@ -3,7 +3,7 @@
  * Phase 8: Toast notification provider with queue management
  */
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
 import { ToastContainer, ToastType, ToastProps } from '../components/Toast';
 import { parseError, ParsedError, RecoveryAction } from '../lib/errorHandler';
 
@@ -143,19 +143,20 @@ export function ToastProvider({
         return parsed;
     }, [addToast]);
 
+    // Memoize context value to prevent unnecessary re-renders
+    const value = useMemo<ToastContextType>(() => ({
+        toast,
+        success,
+        error,
+        warning,
+        info,
+        showError,
+        dismiss,
+        dismissAll,
+    }), [toast, success, error, warning, info, showError, dismiss, dismissAll]);
+
     return (
-        <ToastContext.Provider
-            value={{
-                toast,
-                success,
-                error,
-                warning,
-                info,
-                showError,
-                dismiss,
-                dismissAll,
-            }}
-        >
+        <ToastContext.Provider value={value}>
             {children}
             <ToastContainer toasts={toasts} onDismiss={dismiss} position={position} />
         </ToastContext.Provider>

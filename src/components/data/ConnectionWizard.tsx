@@ -588,7 +588,7 @@ function SelectStep({
 
             <div>
                 <h3 className="text-sm font-medium text-slate-300 mb-3 flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-violet-400" />
+                    <Shield className="w-4 h-4 text-[#A68B5B]" />
                     Game Platforms
                 </h3>
                 <div className="grid grid-cols-2 gap-3">

@@ -4,3 +4,4 @@
  */
 
 export { WelcomeFlow, useOnboarding } from './WelcomeFlow';
+export { default } from './WelcomeFlow';

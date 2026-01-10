@@ -8,6 +8,7 @@
  * - Trend indicators with pulse effects
  */
 
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Users, DollarSign, Target, Repeat, Activity, Zap } from 'lucide-react';
 import { CalculatedMetrics } from '../../ai/MetricCalculator';
@@ -112,7 +113,7 @@ const cardVariants = {
 // KPI Card Component
 // ============================================================================
 
-function KPICard({ label, value, change, icon, tooltip, color = 'primary', index = 0 }: KPICardProps) {
+const KPICard = memo(function KPICard({ label, value, change, icon, tooltip, color = 'primary', index = 0 }: KPICardProps) {
     const isPositive = change !== undefined && change >= 0;
     const hasChange = change !== undefined && !isNaN(change);
     const styles = COLOR_STYLES[color];
@@ -183,7 +184,7 @@ function KPICard({ label, value, change, icon, tooltip, color = 'primary', index
             </div>
         </motion.div>
     );
-}
+});
 
 // ============================================================================
 // Format Utilities
@@ -243,14 +244,14 @@ function KPIGridSkeleton() {
 // Main Component
 // ============================================================================
 
-export function KPIGrid({ metrics, className }: KPIGridProps) {
-    // Build KPI cards from metrics
-    const kpis: KPICardProps[] = [];
-
-    if (metrics) {
+export const KPIGrid = memo(function KPIGrid({ metrics, className }: KPIGridProps) {
+    // Memoize KPI card data to prevent recalculation on every render
+    const kpis = useMemo<KPICardProps[]>(() => {
+        const result: KPICardProps[] = [];
+        if (!metrics) return result;
         // Engagement metrics
         if (metrics.engagement?.dau !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Daily Active Users',
                 value: formatNumber(metrics.engagement.dau),
                 icon: <Users className="w-5 h-5" />,
@@ -260,7 +261,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.engagement?.dauMauRatio !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Stickiness (DAU/MAU)',
                 value: formatPercent(metrics.engagement.dauMauRatio * 100),
                 icon: <Activity className="w-5 h-5" />,
@@ -270,7 +271,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.engagement?.avgSessionsPerUser !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Sessions / User',
                 value: metrics.engagement.avgSessionsPerUser.toFixed(1),
                 icon: <Repeat className="w-5 h-5" />,
@@ -281,7 +282,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
 
         // Retention metrics
         if (metrics.retention?.classic?.['D1'] !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Day 1 Retention',
                 value: formatPercent(metrics.retention.classic['D1']),
                 icon: <Target className="w-5 h-5" />,
@@ -291,7 +292,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.retention?.classic?.['D7'] !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Day 7 Retention',
                 value: formatPercent(metrics.retention.classic['D7']),
                 icon: <Target className="w-5 h-5" />,
@@ -302,7 +303,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
 
         // Monetization metrics
         if (metrics.monetization?.totalRevenue !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Total Revenue',
                 value: formatCurrency(metrics.monetization.totalRevenue),
                 icon: <DollarSign className="w-5 h-5" />,
@@ -312,7 +313,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.monetization?.arpu !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'ARPU',
                 value: formatCurrency(metrics.monetization.arpu),
                 icon: <DollarSign className="w-5 h-5" />,
@@ -322,7 +323,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.monetization?.conversionRate !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Conversion Rate',
                 value: formatPercent(metrics.monetization.conversionRate),
                 icon: <Zap className="w-5 h-5" />,
@@ -333,7 +334,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
 
         // Progression metrics
         if (metrics.progression?.avgLevel !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Avg Level',
                 value: metrics.progression.avgLevel.toFixed(1),
                 icon: <Target className="w-5 h-5" />,
@@ -343,7 +344,7 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
         }
 
         if (metrics.progression?.maxLevelReached !== undefined) {
-            kpis.push({
+            result.push({
                 label: 'Max Level',
                 value: metrics.progression.maxLevelReached.toString(),
                 icon: <Target className="w-5 h-5" />,
@@ -351,7 +352,9 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
                 color: 'violet',
             });
         }
-    }
+
+        return result;
+    }, [metrics]);
 
     // If no metrics, show skeleton
     if (kpis.length === 0) {
@@ -373,6 +376,6 @@ export function KPIGrid({ metrics, className }: KPIGridProps) {
             ))}
         </motion.div>
     );
-}
+});
 
 export default KPIGrid;

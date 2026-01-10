@@ -679,10 +679,10 @@ function MappingStepContent({
             {/* AI Badge */}
             <motion.div
                 variants={itemVariants}
-                className="flex items-center gap-2 p-3 bg-violet-500/10 border border-violet-500/20 rounded-xl"
+                className="flex items-center gap-2 p-3 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl"
             >
-                <Sparkles className="w-5 h-5 text-violet-400" />
-                <span className="text-sm text-violet-300 font-medium">
+                <Sparkles className="w-5 h-5 text-[#DA7756]" />
+                <span className="text-sm text-[#DA7756] font-medium">
                     AI-assisted column detection
                 </span>
             </motion.div>

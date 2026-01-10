@@ -144,8 +144,8 @@ export function MLProvider({ children }: MLProviderProps) {
             .slice(0, 20);
     }, [predictions?.ltv]);
 
-    // Context value
-    const value: MLContextValue = {
+    // Memoize context value to prevent unnecessary re-renders
+    const value = useMemo<MLContextValue>(() => ({
         isReady: predictions !== null && !isTraining,
         isTraining,
         status,
@@ -160,7 +160,16 @@ export function MLProvider({ children }: MLProviderProps) {
         whaleUsers,
         trainModels,
         refreshPredictions,
-    };
+    }), [
+        predictions,
+        isTraining,
+        status,
+        error,
+        atRiskUsers,
+        whaleUsers,
+        trainModels,
+        refreshPredictions,
+    ]);
 
     return (
         <MLContext.Provider value={value}>

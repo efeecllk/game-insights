@@ -548,12 +548,12 @@ export const PLUGIN_CATALOG: Array<Omit<Plugin, 'id' | 'status' | 'installedAt' 
             accentColor: {
                 type: 'select',
                 label: 'Accent Color',
-                default: 'violet',
+                default: 'terracotta',
                 options: [
-                    { value: 'violet', label: 'Violet' },
-                    { value: 'blue', label: 'Blue' },
-                    { value: 'green', label: 'Green' },
-                    { value: 'orange', label: 'Orange' },
+                    { value: 'terracotta', label: 'Terracotta' },
+                    { value: 'gold', label: 'Gold' },
+                    { value: 'rust', label: 'Rust' },
+                    { value: 'tan', label: 'Tan' },
                 ],
             },
         },

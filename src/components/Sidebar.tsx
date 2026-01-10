@@ -10,7 +10,7 @@
  * - Collapsible state for more screen space
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, memo, lazy, Suspense } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -43,7 +43,9 @@ import { useTheme } from '../context/ThemeContext';
 import { useSidebarSettings, DEFAULT_SIDEBAR_ORDER } from '../lib/sidebarStore';
 import { DataModeIndicator } from './ui/DataModeIndicator';
 import { MLStatusBadge } from './ml';
-import { SidebarCustomizer } from './SidebarCustomizer';
+
+// Lazy load SidebarCustomizer modal (only shown when customize button clicked)
+const SidebarCustomizer = lazy(() => import('./SidebarCustomizer').then(m => ({ default: m.SidebarCustomizer })));
 
 interface NavItemType {
     icon: LucideIcon;
@@ -463,16 +465,20 @@ export function Sidebar() {
                 </motion.div>
             </div>
 
-            {/* Sidebar Customizer Modal */}
-            <SidebarCustomizer
-                isOpen={isCustomizerOpen}
-                onClose={() => setIsCustomizerOpen(false)}
-            />
+            {/* Sidebar Customizer Modal (lazy-loaded) */}
+            {isCustomizerOpen && (
+                <Suspense fallback={null}>
+                    <SidebarCustomizer
+                        isOpen={isCustomizerOpen}
+                        onClose={() => setIsCustomizerOpen(false)}
+                    />
+                </Suspense>
+            )}
         </motion.aside>
     );
 }
 
-function NavItemComponent({
+const NavItemComponent = memo(function NavItemComponent({
     item,
     isTop,
     isActive,
@@ -587,13 +593,13 @@ function NavItemComponent({
             )}
         </NavLink>
     );
-}
+});
 
 /**
  * Collapsible Navigation Section
  * Progressive disclosure for secondary navigation items
  */
-function NavSection({
+const NavSection = memo(function NavSection({
     title,
     isExpanded,
     onToggle,
@@ -667,6 +673,6 @@ function NavSection({
             </AnimatePresence>
         </div>
     );
-}
+});
 
 export default Sidebar;

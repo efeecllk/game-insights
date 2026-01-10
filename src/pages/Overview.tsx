@@ -12,7 +12,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactECharts from 'echarts-for-react';
+import ReactEChartsCore from 'echarts-for-react/lib/core';
+import { echarts } from '@/lib/echarts';
 import {
     Users,
     Clock,
@@ -285,7 +286,7 @@ function ActiveUsersChart({
                 fontFamily: 'DM Sans',
             },
             padding: [12, 16],
-            extraCssText: 'backdrop-filter: blur(12px); border-radius: 12px;',
+            extraCssText: 'border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);',
         },
         grid: { left: 50, right: 20, top: 20, bottom: 30 },
         xAxis: {
