@@ -10,6 +10,7 @@
 import { memo, useMemo } from 'react';
 import ReactEChartsCore from 'echarts-for-react/lib/core';
 import { echarts, type EChartsOption } from '@/lib/echarts';
+import { FileSpreadsheet } from 'lucide-react';
 import { ChartRecommendation } from '../../ai/ChartSelector';
 import { NormalizedData } from '../../adapters/BaseAdapter';
 import { ColumnMeaning } from '../../ai/SchemaAnalyzer';
@@ -443,8 +444,34 @@ export const ChartRenderer = memo(function ChartRenderer({
                 <div>
                     {/* Header */}
                     <div className="p-4 border-b border-slate-800">
-                        <h3 className="font-display font-semibold text-white">{recommendation.title}</h3>
-                        <p className="text-sm text-slate-500 mt-0.5">{recommendation.description}</p>
+                        <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                                <h3 className="font-display font-semibold text-white">{recommendation.title}</h3>
+                                <p className="text-sm text-slate-500 mt-0.5">{recommendation.description}</p>
+                            </div>
+                            {/* Data source indicator */}
+                            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 ml-3 flex-shrink-0">
+                                <FileSpreadsheet className="w-3 h-3" />
+                                <span>Your Data</span>
+                            </div>
+                        </div>
+                        {/* Show columns used */}
+                        {recommendation.columns.length > 0 && (
+                            <div className="mt-2 flex items-center gap-1 text-xs text-slate-500">
+                                <span>Using:</span>
+                                {recommendation.columns.slice(0, 3).map((col, idx) => (
+                                    <span
+                                        key={idx}
+                                        className="px-1.5 py-0.5 bg-white/[0.03] rounded text-slate-400"
+                                    >
+                                        {col}
+                                    </span>
+                                ))}
+                                {recommendation.columns.length > 3 && (
+                                    <span className="text-slate-600">+{recommendation.columns.length - 3} more</span>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* Chart */}

@@ -10,7 +10,7 @@
 
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, TrendingDown, Users, DollarSign, Target, Repeat, Activity, Zap } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, DollarSign, Target, Repeat, Activity, Zap, FileSpreadsheet } from 'lucide-react';
 import { CalculatedMetrics } from '../../ai/MetricCalculator';
 
 // ============================================================================
@@ -365,16 +365,58 @@ export const KPIGrid = memo(function KPIGrid({ metrics, className }: KPIGridProp
     const displayKpis = kpis.slice(0, 4);
 
     return (
-        <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className={`grid grid-cols-2 md:grid-cols-4 gap-4 ${className ?? ''}`}
-        >
-            {displayKpis.map((kpi, index) => (
-                <KPICard key={index} {...kpi} index={index} />
-            ))}
-        </motion.div>
+        <div className={className ?? ''}>
+            {/* Data source header */}
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center justify-between mb-3"
+            >
+                <h3 className="text-sm font-medium text-slate-400">Key Metrics</h3>
+                <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20">
+                    <FileSpreadsheet className="w-3 h-3" />
+                    <span>Your Data</span>
+                </div>
+            </motion.div>
+
+            <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-2 md:grid-cols-4 gap-4"
+            >
+                {displayKpis.map((kpi, index) => (
+                    <KPICard key={index} {...kpi} index={index} />
+                ))}
+            </motion.div>
+
+            {/* Confidence indicator */}
+            {metrics?.confidence !== undefined && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="mt-3 flex items-center justify-end gap-2 text-xs text-slate-500"
+                >
+                    <span>Confidence:</span>
+                    <div className="flex items-center gap-1">
+                        <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <motion.div
+                                initial={{ width: 0 }}
+                                animate={{ width: `${metrics.confidence * 100}%` }}
+                                transition={{ delay: 0.6, duration: 0.5 }}
+                                className={`h-full rounded-full ${
+                                    metrics.confidence >= 0.8 ? 'bg-[#DA7756]' :
+                                    metrics.confidence >= 0.6 ? 'bg-[#E5A84B]' :
+                                    'bg-[#E25C5C]'
+                                }`}
+                            />
+                        </div>
+                        <span className="text-slate-400">{Math.round(metrics.confidence * 100)}%</span>
+                    </div>
+                </motion.div>
+            )}
+        </div>
     );
 });
 

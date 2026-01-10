@@ -26,6 +26,9 @@ import { FunnelPreview } from './FunnelPreview';
 import { AnomalyAlertPanel } from './AnomalyAlertPanel';
 import { CohortDashboard } from './CohortDashboard';
 import { MetricTrendPanel } from './MetricTrendPanel';
+import { SpenderTiersChart } from './SpenderTiersChart';
+import { RevenueBreakdownChart } from './RevenueBreakdownChart';
+import { DAUTrendChart } from './DAUTrendChart';
 
 interface DashboardGridProps {
     dashboardLayout: {
@@ -76,6 +79,43 @@ export const DashboardGrid = memo(function DashboardGrid({
         low: anomalies.filter(a => a.severity === 'low').length,
     } : undefined, [anomalies]);
 
+    // Prepare spender tiers data from monetization metrics
+    const spenderTiersData = useMemo(() => {
+        if (!metrics?.monetization?.spenderSegments) return [];
+
+        return metrics.monetization.spenderSegments.map(segment => ({
+            tier: segment.tier === 'whale' ? 'Whale ($100+)' :
+                  segment.tier === 'dolphin' ? 'Dolphin ($20-100)' :
+                  segment.tier === 'minnow' ? 'Minnow ($1-20)' : 'Non-Payer',
+            users: segment.userCount,
+            revenue: segment.totalRevenue,
+            percentage: segment.percentage,
+        }));
+    }, [metrics?.monetization?.spenderSegments]);
+
+    // Prepare revenue breakdown data
+    const revenueBreakdowns = useMemo(() => {
+        if (!metrics?.revenueBreakdowns) {
+            return { source: [], country: [], platform: [], product: [] };
+        }
+        return {
+            source: metrics.revenueBreakdowns.source,
+            country: metrics.revenueBreakdowns.country,
+            platform: metrics.revenueBreakdowns.platform,
+            product: metrics.revenueBreakdowns.product,
+        };
+    }, [metrics?.revenueBreakdowns]);
+
+    // Check if we have revenue breakdown data
+    const hasRevenueBreakdowns = useMemo(() => {
+        return (
+            revenueBreakdowns.source.length > 0 ||
+            revenueBreakdowns.country.length > 0 ||
+            revenueBreakdowns.platform.length > 0 ||
+            revenueBreakdowns.product.length > 0
+        );
+    }, [revenueBreakdowns]);
+
     return (
         <div className="space-y-6">
             {/* KPI Row */}
@@ -116,6 +156,41 @@ export const DashboardGrid = memo(function DashboardGrid({
                             height={280}
                         />
                     ))}
+                </div>
+            )}
+
+            {/* DAU Trend and Spender Tiers Row */}
+            {(metrics?.dauTrend || spenderTiersData.length > 0) && (
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {metrics?.dauTrend && metrics.dauTrend.length > 0 && (
+                        <DAUTrendChart
+                            data={metrics.dauTrend}
+                            currentDAU={metrics.engagement?.dau}
+                            currentMAU={metrics.engagement?.mau}
+                            sourceColumns={['user_id', 'timestamp']}
+                        />
+                    )}
+                    {spenderTiersData.length > 0 && (
+                        <SpenderTiersChart
+                            tiers={spenderTiersData}
+                            totalUsers={metrics?.monetization?.totalUsers ?? 0}
+                            totalRevenue={metrics?.monetization?.totalRevenue ?? 0}
+                            sourceColumns={['user_id', 'revenue']}
+                        />
+                    )}
+                </div>
+            )}
+
+            {/* Revenue Breakdown Row */}
+            {hasRevenueBreakdowns && (
+                <div className="grid grid-cols-1 gap-6">
+                    <RevenueBreakdownChart
+                        breakdowns={{
+                            ...revenueBreakdowns,
+                            custom: [],
+                        }}
+                        totalRevenue={metrics?.monetization?.totalRevenue ?? 0}
+                    />
                 </div>
             )}
 

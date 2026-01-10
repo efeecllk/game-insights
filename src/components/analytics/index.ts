@@ -17,3 +17,9 @@ export { EventStream } from './EventStream';
 export { CohortBuilder } from './CohortBuilder';
 export { NaturalLanguageQuery } from './NaturalLanguageQuery';
 export { CustomMetricsBuilder } from './CustomMetricsBuilder';
+
+// Enhanced Visualizations
+export { DataSourceIndicator } from './DataSourceIndicator';
+export { SpenderTiersChart } from './SpenderTiersChart';
+export { RevenueBreakdownChart } from './RevenueBreakdownChart';
+export { DAUTrendChart } from './DAUTrendChart';
