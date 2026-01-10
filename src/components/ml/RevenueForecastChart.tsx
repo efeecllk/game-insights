@@ -7,8 +7,7 @@
  * - Dark theme chart styling
  */
 
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { echarts } from '@/lib/echarts';
+import ReactECharts from 'echarts-for-react';
 import { TrendingUp, TrendingDown, Minus, AlertCircle } from 'lucide-react';
 import type { RevenueForecast } from '../../ai/ml/types';
 

@@ -19,8 +19,8 @@ import {
     Percent,
     Calendar,
 } from 'lucide-react';
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { echarts, type EChartsOption } from '@/lib/echarts';
+import ReactECharts from 'echarts-for-react';
+import type { EChartsOption } from 'echarts';
 import {
     createWhatIfEngine,
     type BaselineMetrics,

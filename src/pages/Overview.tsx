@@ -12,8 +12,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { echarts } from '@/lib/echarts';
+import ReactECharts from 'echarts-for-react';
 import {
     Users,
     Clock,

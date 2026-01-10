@@ -351,7 +351,18 @@ export class MetricCalculator {
         // Calculate classic retention (Dn)
         const classic: Record<string, number> = {};
         const rolling: Record<string, number> = {};
-        const now = new Date();
+
+        // CRITICAL FIX: Use the last date in the dataset instead of current date
+        // This ensures correct retention calculations for historical data
+        const allActivityDates: Date[] = [];
+        for (const activityDays of userActivityDays.values()) {
+            for (const dayStr of activityDays) {
+                allActivityDates.push(new Date(dayStr));
+            }
+        }
+        const dataEndDate = allActivityDates.length > 0
+            ? new Date(Math.max(...allActivityDates.map(d => d.getTime())))
+            : new Date();
 
         for (const day of config.retentionDays) {
             let retained = 0;
@@ -359,8 +370,8 @@ export class MetricCalculator {
             let eligible = 0;
 
             for (const [userId, firstDay] of userFirstDay) {
-                // Only count users whose first day is old enough
-                if (daysBetween(firstDay, now) < day) continue;
+                // Only count users whose first day is old enough within the data range
+                if (daysBetween(firstDay, dataEndDate) < day) continue;
 
                 eligible++;
 

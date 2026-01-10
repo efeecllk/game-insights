@@ -9,8 +9,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { echarts } from '@/lib/echarts';
+import ReactECharts from 'echarts-for-react';
 import {
     MessageSquare,
     Send,

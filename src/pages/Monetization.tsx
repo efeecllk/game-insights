@@ -11,8 +11,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import ReactEChartsCore from 'echarts-for-react/lib/core';
-import { echarts } from '@/lib/echarts';
+import ReactECharts from 'echarts-for-react';
 import { DollarSign, TrendingUp, Users, CreditCard, Calendar, Sparkles } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useGameData } from '../hooks/useGameData';

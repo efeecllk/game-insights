@@ -100,7 +100,14 @@ function parseValue(value: string): unknown {
     if (!isNaN(num) && trimmed !== '') return num;
 
     // Date (ISO format or common formats)
+    // CRITICAL FIX: For date-only strings, preserve as-is to avoid timezone issues
+    // Only convert to ISO for full datetime strings
     if (/^\d{4}-\d{2}-\d{2}/.test(trimmed)) {
+        // Date-only format (YYYY-MM-DD) - preserve to avoid timezone shifts
+        if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+            return trimmed;
+        }
+        // Full datetime - convert to ISO
         const date = new Date(trimmed);
         if (!isNaN(date.getTime())) return date.toISOString();
     }
