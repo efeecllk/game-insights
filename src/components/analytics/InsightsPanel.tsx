@@ -118,6 +118,20 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
     const style = INSIGHT_STYLES[insight.type] || INSIGHT_STYLES.neutral;
     const Icon = style.icon;
 
+    // Business impact badge colors
+    const impactColors = {
+        high: 'bg-[#E25C5C]/10 text-[#E25C5C] border-[#E25C5C]/20',
+        medium: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20',
+        low: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
+    };
+
+    // Format currency
+    const formatCurrency = (value: number) => {
+        if (value >= 1000000) return `$${(value / 1000000).toFixed(1)}M`;
+        if (value >= 1000) return `$${(value / 1000).toFixed(1)}K`;
+        return `$${value.toFixed(0)}`;
+    };
+
     return (
         <motion.div
             variants={itemVariants}
@@ -129,24 +143,67 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
                     <Icon className={`w-4 h-4 ${style.iconColor}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-white mb-1">{insight.title}</h4>
+                    {/* Header with badges */}
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                        <h4 className="font-medium text-white">{insight.title}</h4>
+                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                            {insight.businessImpact && (
+                                <span className={`px-1.5 py-0.5 text-[10px] uppercase font-semibold rounded border ${impactColors[insight.businessImpact]}`}>
+                                    {insight.businessImpact}
+                                </span>
+                            )}
+                            {insight.source === 'llm' && (
+                                <span className="px-1.5 py-0.5 text-[10px] bg-[#C15F3C]/10 text-[#C15F3C] border border-[#C15F3C]/20 rounded font-medium">
+                                    AI
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
                     <p className="text-sm text-slate-300 leading-relaxed">{insight.description}</p>
+
+                    {/* Recommendation */}
                     {insight.recommendation && (
-                        <p className="text-sm text-slate-400 mt-2 italic">
-                            Recommendation: {insight.recommendation}
-                        </p>
-                    )}
-                    {insight.value !== undefined && (
-                        <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-white/[0.05] border border-slate-700 rounded-lg text-sm font-medium text-white">
-                            {insight.metric}: {String(insight.value)}
+                        <div className="mt-2 p-2 bg-white/[0.03] border border-slate-700/50 rounded-lg">
+                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-0.5">Recommendation</p>
+                            <p className="text-sm text-slate-300">{insight.recommendation}</p>
                         </div>
                     )}
+
+                    {/* Revenue Impact */}
+                    {insight.revenueImpact && insight.revenueImpact.estimatedValue > 0 && (
+                        <div className="mt-2 p-2 bg-[#7A8B5B]/10 border border-[#7A8B5B]/20 rounded-lg">
+                            <p className="text-xs text-[#7A8B5B] uppercase tracking-wide mb-0.5">Potential Revenue Impact</p>
+                            <div className="flex items-center gap-3">
+                                <span className="text-lg font-semibold text-[#7A8B5B]">
+                                    {formatCurrency(insight.revenueImpact.estimatedValue)}
+                                </span>
+                                <span className="text-xs text-slate-400">
+                                    /{insight.revenueImpact.timeframe}
+                                </span>
+                                {insight.revenueImpact.estimatedPercentage > 0 && (
+                                    <span className="text-xs text-[#7A8B5B]">
+                                        (+{insight.revenueImpact.estimatedPercentage.toFixed(1)}%)
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Metric value and confidence */}
+                    <div className="mt-2 flex flex-wrap items-center gap-2">
+                        {insight.value !== undefined && (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.05] border border-slate-700 rounded-lg text-xs font-medium text-white">
+                                {insight.metric}: {typeof insight.value === 'number' ? insight.value.toFixed(1) : String(insight.value)}
+                            </span>
+                        )}
+                        {insight.confidence !== undefined && insight.confidence > 0 && (
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-lg text-xs text-slate-400">
+                                {Math.round(insight.confidence * 100)}% confidence
+                            </span>
+                        )}
+                    </div>
                 </div>
-                {insight.source === 'llm' && (
-                    <span className="flex-shrink-0 px-2 py-0.5 text-xs bg-[#C15F3C]/10 text-[#C15F3C] border border-[#C15F3C]/20 rounded-full font-medium">
-                        AI
-                    </span>
-                )}
             </div>
         </motion.div>
     );
