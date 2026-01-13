@@ -445,8 +445,8 @@ function SettingsCard({
 }) {
     const colorClasses = {
         orange: 'bg-th-accent-primary-muted text-th-accent-primary border-th-accent-primary/20',
-        blue: 'bg-th-info-muted text-th-info border-th-info/20',
-        violet: 'bg-th-accent-secondary/10 text-th-accent-secondary border-th-accent-secondary/20',
+        blue: 'bg-[#A68B5B]/15 text-[#A68B5B] border-[#A68B5B]/20',
+        violet: 'bg-[#C15F3C]/15 text-[#C15F3C] border-[#C15F3C]/20',
         amber: 'bg-th-warning-muted text-th-warning border-th-warning/20',
     };
 
