@@ -39,6 +39,7 @@ import {
 import { UploadZone } from '../components/upload/UploadZone';
 import { ColumnMapper } from '../components/upload/ColumnMapper';
 import { DataPreview } from '../components/upload/DataPreview';
+import { AnalysisInsights } from '../components/upload/AnalysisInsights';
 import type { ImportResult } from '../lib/importers';
 import { analyzeSchema, ColumnMapping, SchemaAnalysisResult } from '../lib/columnAnalyzer';
 import { detectTemplate } from '../lib/templates';
@@ -297,7 +298,7 @@ export function UploadPage() {
                 </motion.div>
                 <div>
                     <h1 className="text-2xl font-display font-bold text-white">Upload Data</h1>
-                    <p className="text-sm text-slate-500 mt-0.5">Import your game analytics data for AI-powered analysis</p>
+                    <p className="text-sm text-[#8F8B82] mt-0.5">Import your game analytics data for AI-powered analysis</p>
                 </div>
             </motion.div>
 
@@ -310,7 +311,7 @@ export function UploadPage() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="relative bg-slate-900 rounded-2xl p-6 border border-slate-700 overflow-hidden">
+                        <div className="relative bg-[#1f1e1b] rounded-2xl p-6 border border-[#4a4845] overflow-hidden">
                             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                             <div className="relative">
                                 <div className="flex items-center justify-between mb-6">
@@ -320,12 +321,12 @@ export function UploadPage() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-semibold text-white">How It Works</h3>
-                                            <p className="text-sm text-slate-500">4 simple steps to analyze your game data</p>
+                                            <p className="text-sm text-[#8F8B82]">4 simple steps to analyze your game data</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => setShowHowItWorks(false)}
-                                        className="text-slate-500 hover:text-slate-300 transition-colors text-sm"
+                                        className="text-[#8F8B82] hover:text-[#d4d1c9] transition-colors text-sm"
                                     >
                                         Hide
                                     </button>
@@ -363,7 +364,7 @@ export function UploadPage() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: index * 0.1 + 0.2 }}
-                                            className="bg-slate-800/50 rounded-xl p-4 border border-slate-700/50"
+                                            className="bg-[#343330]/50 rounded-xl p-4 border border-[#4a4845]/50"
                                         >
                                             <div className="flex items-center gap-2 mb-2">
                                                 <div className="w-6 h-6 rounded-full bg-[#DA7756]/20 text-[#DA7756] flex items-center justify-center text-xs font-bold">
@@ -372,7 +373,7 @@ export function UploadPage() {
                                                 <item.icon className="w-4 h-4 text-[#DA7756]" />
                                             </div>
                                             <h4 className="font-medium text-white text-sm mb-1">{item.title}</h4>
-                                            <p className="text-xs text-slate-500">{item.description}</p>
+                                            <p className="text-xs text-[#8F8B82]">{item.description}</p>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -397,7 +398,7 @@ export function UploadPage() {
                             </div>
                             <div className="flex-1">
                                 <p className="text-[#DA7756] font-medium text-sm mb-2">Try Example Data</p>
-                                <p className="text-xs text-slate-500 mb-3">
+                                <p className="text-xs text-[#8F8B82] mb-3">
                                     See how Game Insights works with sample datasets - no upload required
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -405,15 +406,15 @@ export function UploadPage() {
                                         <button
                                             key={dataset.id}
                                             onClick={() => handleTryExampleData(dataset.id)}
-                                            className="px-3 py-1.5 text-xs bg-slate-800/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-700/50 hover:border-[#DA7756]/30 transition-all"
+                                            className="px-3 py-1.5 text-xs bg-[#343330]/50 hover:bg-[#343330] text-[#d4d1c9] hover:text-white rounded-lg border border-[#4a4845]/50 hover:border-[#DA7756]/30 transition-all"
                                             title={dataset.description}
                                         >
                                             {dataset.name}
                                         </button>
                                     ))}
                                 </div>
-                                <div className="mt-3 pt-3 border-t border-slate-800/50">
-                                    <p className="text-xs text-slate-500 mb-2 flex items-center gap-1">
+                                <div className="mt-3 pt-3 border-t border-[#343330]/50">
+                                    <p className="text-xs text-[#8F8B82] mb-2 flex items-center gap-1">
                                         <Download className="w-3 h-3" />
                                         Or download comprehensive sample CSVs (700-850 rows each):
                                     </p>
@@ -429,7 +430,7 @@ export function UploadPage() {
                                                 key={sample.file}
                                                 href={`/sample-data/${sample.file}`}
                                                 download={sample.file}
-                                                className="px-2 py-1 text-xs bg-slate-800/30 hover:bg-slate-800/50 text-slate-400 hover:text-slate-300 rounded border border-slate-700/30 hover:border-slate-600/50 transition-all flex items-center gap-1"
+                                                className="px-2 py-1 text-xs bg-[#343330]/30 hover:bg-[#343330]/50 text-[#b8b5ad] hover:text-[#d4d1c9] rounded border border-[#4a4845]/30 hover:border-[#6b6967]/50 transition-all flex items-center gap-1"
                                             >
                                                 <Download className="w-3 h-3" />
                                                 {sample.name}
@@ -459,7 +460,7 @@ export function UploadPage() {
                             </div>
                             <div>
                                 <p className="text-[#E5A84B] font-medium">No API key configured</p>
-                                <p className="text-sm text-slate-400 mt-1">
+                                <p className="text-sm text-[#b8b5ad] mt-1">
                                     Add your OpenAI API key in{' '}
                                     <a href="/settings" className="text-[#DA7756] hover:text-[#C15F3C] transition-colors">
                                         Settings
@@ -475,21 +476,21 @@ export function UploadPage() {
             {/* Progress Steps */}
             <motion.div variants={itemVariants} className="flex items-center gap-2 sm:gap-4">
                 <StepIndicator number={1} label="Upload" active={step === 'upload'} complete={step !== 'upload'} />
-                <ChevronRight className="w-4 h-4 text-slate-700" />
+                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
                 <StepIndicator
                     number={2}
                     label="Preview"
                     active={step === 'preview'}
                     complete={['analyzing', 'review', 'complete'].includes(step)}
                 />
-                <ChevronRight className="w-4 h-4 text-slate-700" />
+                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
                 <StepIndicator
                     number={3}
                     label="Analyze"
                     active={step === 'analyzing'}
                     complete={step === 'review' || step === 'complete'}
                 />
-                <ChevronRight className="w-4 h-4 text-slate-700" />
+                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
                 <StepIndicator number={4} label="Review" active={step === 'review'} complete={step === 'complete'} />
             </motion.div>
 
@@ -502,19 +503,19 @@ export function UploadPage() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-700/50">
+                        <div className="bg-[#343330]/30 rounded-xl p-4 border border-[#4a4845]/50">
                             <button
                                 onClick={() => setShowHints(!showHints)}
                                 className="flex items-center justify-between w-full text-left"
                             >
                                 <div className="flex items-center gap-2">
                                     <Info className="w-4 h-4 text-[#DA7756]" />
-                                    <span className="text-sm font-medium text-slate-300">{stepHints[step].title}</span>
+                                    <span className="text-sm font-medium text-[#d4d1c9]">{stepHints[step].title}</span>
                                 </div>
                                 {showHints ? (
-                                    <ChevronUp className="w-4 h-4 text-slate-500" />
+                                    <ChevronUp className="w-4 h-4 text-[#8F8B82]" />
                                 ) : (
-                                    <ChevronDown className="w-4 h-4 text-slate-500" />
+                                    <ChevronDown className="w-4 h-4 text-[#8F8B82]" />
                                 )}
                             </button>
                             <motion.ul
@@ -523,7 +524,7 @@ export function UploadPage() {
                                 className="mt-3 space-y-2 pl-6"
                             >
                                 {stepHints[step].hints.map((hint, index) => (
-                                    <li key={index} className="text-xs text-slate-500 list-disc">
+                                    <li key={index} className="text-xs text-[#8F8B82] list-disc">
                                         {hint}
                                     </li>
                                 ))}
@@ -570,7 +571,7 @@ export function UploadPage() {
                                     </div>
                                     <div>
                                         <p className="text-[#DA7756] font-medium">Detected: {detectedTemplate}</p>
-                                        <p className="text-sm text-slate-400 mt-1">
+                                        <p className="text-sm text-[#b8b5ad] mt-1">
                                             We recognized this format and will apply optimized column mappings.
                                         </p>
                                     </div>
@@ -582,7 +583,7 @@ export function UploadPage() {
                         <DataPreview result={importResult} />
 
                         {/* Actions */}
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+                        <div className="flex items-center justify-between pt-4 border-t border-[#343330]">
                             <Button variant="ghost" onClick={handleStartOver}>
                                 Start Over
                             </Button>
@@ -605,7 +606,7 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-slate-900  rounded-2xl p-12 border border-slate-700 overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-[#1f1e1b]  rounded-2xl p-12 border border-[#4a4845] overflow-hidden flex flex-col items-center justify-center text-center"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
@@ -625,11 +626,11 @@ export function UploadPage() {
                             </motion.div>
                         </div>
                         <h3 className="text-lg font-semibold text-white">Analyzing your data</h3>
-                        <p className="text-slate-500 mt-2 max-w-md">
+                        <p className="text-[#8F8B82] mt-2 max-w-md">
                             {apiKey ? 'Using AI to understand your column structure...' : 'Using pattern matching to detect columns...'}
                         </p>
                         {fileInfo && (
-                            <p className="text-sm text-slate-600 mt-4 font-mono">
+                            <p className="text-sm text-[#6b6967] mt-4 font-mono">
                                 {fileInfo.name} - {fileInfo.rows.toLocaleString()} rows
                             </p>
                         )}
@@ -642,7 +643,7 @@ export function UploadPage() {
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.5 }}
-                                    className="text-xs text-slate-500 bg-slate-800/50 px-2 py-1 rounded"
+                                    className="text-xs text-[#8F8B82] bg-[#343330]/50 px-2 py-1 rounded"
                                 >
                                     {hint}
                                 </motion.span>
@@ -660,113 +661,11 @@ export function UploadPage() {
                         transition={{ duration: 0.2 }}
                         className="space-y-6"
                     >
-                        {/* Enhanced Analysis Summary */}
-                        <div className="relative bg-slate-900 rounded-2xl p-6 border border-slate-700 overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                            <div className="relative space-y-4">
-                                {/* Game Type Detection */}
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 flex items-center justify-center">
-                                            <Sparkles className="w-6 h-6 text-[#DA7756]" />
-                                        </div>
-                                        <div>
-                                            <p className="text-white font-semibold text-lg">
-                                                {gameTypeDescriptions[analysisResult.gameType]?.name || 'Custom Game'}
-                                            </p>
-                                            <p className="text-sm text-slate-500">
-                                                {gameTypeDescriptions[analysisResult.gameType]?.description || 'Generic analytics'}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    {analysisResult.warnings.length > 0 && (
-                                        <span className="text-xs text-[#E5A84B] bg-[#E5A84B]/10 border border-[#E5A84B]/20 px-3 py-1.5 rounded-full font-medium">
-                                            {analysisResult.warnings.length} warning{analysisResult.warnings.length > 1 ? 's' : ''}
-                                        </span>
-                                    )}
-                                </div>
-
-                                {/* Stats Row */}
-                                <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-800">
-                                    {/* Data Quality */}
-                                    <div className="text-center p-3 bg-slate-800/50 rounded-xl">
-                                        <div className="flex items-center justify-center gap-2 mb-1">
-                                            <Gauge className="w-4 h-4 text-[#DA7756]" />
-                                            <span className="text-xs text-slate-500 uppercase tracking-wide">Data Quality</span>
-                                        </div>
-                                        <p className={`text-xl font-bold ${
-                                            analysisResult.dataQuality >= 0.8 ? 'text-[#7A8B5B]' :
-                                            analysisResult.dataQuality >= 0.6 ? 'text-[#E5A84B]' : 'text-[#E25C5C]'
-                                        }`}>
-                                            {Math.round(analysisResult.dataQuality * 100)}%
-                                        </p>
-                                    </div>
-
-                                    {/* Columns Detected */}
-                                    <div className="text-center p-3 bg-slate-800/50 rounded-xl">
-                                        <div className="flex items-center justify-center gap-2 mb-1">
-                                            <Columns className="w-4 h-4 text-[#DA7756]" />
-                                            <span className="text-xs text-slate-500 uppercase tracking-wide">Columns</span>
-                                        </div>
-                                        <p className="text-xl font-bold text-white">{analysisResult.columns.length}</p>
-                                    </div>
-
-                                    {/* Avg Confidence */}
-                                    <div className="text-center p-3 bg-slate-800/50 rounded-xl">
-                                        <div className="flex items-center justify-center gap-2 mb-1">
-                                            <Target className="w-4 h-4 text-[#DA7756]" />
-                                            <span className="text-xs text-slate-500 uppercase tracking-wide">Confidence</span>
-                                        </div>
-                                        {(() => {
-                                            const avgConfidence = analysisResult.columns.reduce((sum, col) => sum + col.confidence, 0) / analysisResult.columns.length;
-                                            const display = getConfidenceDisplay(avgConfidence);
-                                            return (
-                                                <p className={`text-xl font-bold ${display.color}`}>
-                                                    {display.label}
-                                                </p>
-                                            );
-                                        })()}
-                                    </div>
-                                </div>
-
-                                {/* Detected Columns Summary */}
-                                <div className="pt-4 border-t border-slate-800">
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-3">Detected Column Roles</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {analysisResult.columns.map((col) => {
-                                            const display = getConfidenceDisplay(col.confidence);
-                                            return (
-                                                <div
-                                                    key={col.original}
-                                                    className={`flex items-center gap-1.5 px-2 py-1 rounded-lg text-xs ${display.bg} border border-slate-700/50`}
-                                                    title={`${col.original} -> ${col.canonical} (${col.role}, ${Math.round(col.confidence * 100)}% confidence)`}
-                                                >
-                                                    <span className={display.color}>{getRoleIcon(col.role)}</span>
-                                                    <span className="text-slate-300 truncate max-w-[120px]">{col.original}</span>
-                                                    <span className="text-slate-500">as</span>
-                                                    <span className="text-[#DA7756] font-medium">{col.role}</span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-
-                                {/* Data Quality Explanation */}
-                                <div className="pt-4 border-t border-slate-800">
-                                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Quality Score Breakdown</p>
-                                    <div className="text-xs text-slate-400 space-y-1">
-                                        <p>
-                                            The data quality score ({Math.round(analysisResult.dataQuality * 100)}%) is based on:
-                                        </p>
-                                        <ul className="list-disc pl-4 space-y-0.5">
-                                            <li>Completeness: How many cells have valid, non-null values</li>
-                                            <li>Consistency: Data types match expected patterns (dates, numbers, etc.)</li>
-                                            <li>Column detection: How confidently we mapped columns to standard roles</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {/* AI Analysis Insights */}
+                        <AnalysisInsights
+                            analysis={analysisResult}
+                            rowCount={importResult?.rowCount || 0}
+                        />
 
                         {/* Column Mapper */}
                         <ColumnMapper columns={analysisResult.columns} onUpdate={handleColumnsUpdate} onConfirm={handleConfirm} />
@@ -787,7 +686,7 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-slate-900  rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-[#1f1e1b]  rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
                     >
                         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
@@ -815,7 +714,7 @@ export function UploadPage() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="text-slate-500 mt-2"
+                            className="text-[#8F8B82] mt-2"
                         >
                             Your data has been processed and is ready for AI analysis.
                         </motion.p>
@@ -870,13 +769,13 @@ function StepIndicator({ number, label, active, complete }: { number: number; la
                             ? 'bg-[#DA7756] text-white'
                             : complete
                               ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                              : 'bg-slate-800/50 text-slate-500 border border-slate-800'
+                              : 'bg-[#343330]/50 text-[#8F8B82] border border-[#343330]'
                     }
                 `}
             >
                 {complete && !active ? <CheckCircle className="w-4 h-4" /> : number}
             </motion.div>
-            <span className={`text-sm hidden sm:inline ${active ? 'text-white font-medium' : 'text-slate-500'}`}>{label}</span>
+            <span className={`text-sm hidden sm:inline ${active ? 'text-white font-medium' : 'text-[#8F8B82]'}`}>{label}</span>
         </motion.div>
     );
 }

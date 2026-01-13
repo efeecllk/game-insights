@@ -415,19 +415,22 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
             {mode === 'file' && (
                 <div className="space-y-4">
                     {/* Main Upload Zone */}
-                    <label
+                    <motion.label
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
+                        whileHover={{ scale: loading ? 1 : 1.01 }}
+                        whileTap={{ scale: loading ? 1 : 0.99 }}
+                        transition={{ duration: 0.2 }}
                         className={`
                             relative flex flex-col items-center justify-center
                             w-full min-h-[280px] p-6
-                            border-2 border-dashed rounded-card
-                            cursor-pointer transition-all duration-200
+                            border-2 border-dashed rounded-2xl
+                            cursor-pointer transition-all duration-300
                             ${
                                 isDragging
-                                    ? 'border-[#DA7756] bg-[#DA7756]/10'
-                                    : 'border-white/[0.1] bg-bg-card hover:border-[#DA7756]/50 hover:bg-bg-card-hover'
+                                    ? 'border-[#DA7756] bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
+                                    : 'border-[#4a4845]/50 bg-[#1f1e1b]/50 hover:border-[#DA7756]/50 hover:bg-[#1f1e1b] hover:shadow-lg hover:shadow-[#DA7756]/5'
                             }
                             ${error ? 'border-red-500/50' : ''}
                             ${loading ? 'pointer-events-none opacity-60' : ''}
@@ -449,7 +452,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     </div>
                                     <div className="w-full max-w-xs">
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-zinc-400">
+                                            <span className="text-[#b8b5ad]">
                                                 {streamingProgress.phase === 'parsing'
                                                     ? 'Processing...'
                                                     : 'Complete!'}
@@ -464,7 +467,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 style={{ width: `${streamingProgress.percent}%` }}
                                             />
                                         </div>
-                                        <div className="flex justify-between text-xs text-zinc-500 mt-2">
+                                        <div className="flex justify-between text-xs text-[#8F8B82] mt-2">
                                             <span>
                                                 {streamingProgress.rowsProcessed.toLocaleString()} rows
                                             </span>
@@ -481,57 +484,110 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 MB
                                             </span>
                                         </div>
-                                        <p className="text-xs text-zinc-500 mt-1">
+                                        <p className="text-xs text-[#8F8B82] mt-1">
                                             Chunk {streamingProgress.chunkIndex + 1} - Streaming large
                                             file
                                         </p>
                                     </div>
                                 </>
                             ) : loading ? (
-                                <>
-                                    <Loader2 className="w-12 h-12 text-[#DA7756] animate-spin" />
-                                    <p className="text-zinc-400">Importing your data...</p>
-                                </>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="flex flex-col items-center gap-4"
+                                >
+                                    <div className="relative">
+                                        <motion.div
+                                            className="w-14 h-14 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center"
+                                            animate={{ rotate: 360 }}
+                                            transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
+                                        >
+                                            <Loader2 className="w-7 h-7 text-[#DA7756]" />
+                                        </motion.div>
+                                        <motion.div
+                                            className="absolute inset-0 rounded-2xl border-2 border-[#DA7756]/30 border-t-[#DA7756]"
+                                            animate={{ rotate: 360 }}
+                                            transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                                        />
+                                    </div>
+                                    <p className="text-[#b8b5ad] font-medium">Importing your data...</p>
+                                </motion.div>
                             ) : error ? (
-                                <>
-                                    <AlertCircle className="w-12 h-12 text-red-500" />
-                                    <div>
-                                        <p className="text-red-500 font-medium">{error}</p>
-                                        <p className="text-zinc-500 text-sm mt-1">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex flex-col items-center gap-3"
+                                >
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: 'spring', stiffness: 300 }}
+                                        className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center"
+                                    >
+                                        <AlertCircle className="w-7 h-7 text-red-500" />
+                                    </motion.div>
+                                    <div className="text-center">
+                                        <p className="text-red-400 font-medium">{error}</p>
+                                        <p className="text-[#8F8B82] text-sm mt-1">
                                             Click or drop to try again
                                         </p>
                                     </div>
-                                </>
+                                </motion.div>
                             ) : fileName ? (
-                                <>
-                                    <CheckCircle className="w-12 h-12 text-[#7A8B5B]" />
-                                    <div>
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex flex-col items-center gap-3"
+                                >
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        transition={{ type: 'spring', stiffness: 300, delay: 0.1 }}
+                                        className="w-14 h-14 rounded-2xl bg-[#7A8B5B]/10 border border-[#7A8B5B]/20 flex items-center justify-center"
+                                    >
+                                        <CheckCircle className="w-7 h-7 text-[#7A8B5B]" />
+                                    </motion.div>
+                                    <div className="text-center">
                                         <p className="text-white font-medium">{fileName}</p>
-                                        <p className="text-zinc-500 text-sm mt-1">
+                                        <p className="text-[#7A8B5B] text-sm mt-1">
                                             File loaded successfully
                                         </p>
                                     </div>
-                                </>
+                                </motion.div>
                             ) : (
                                 <>
-                                    {/* Drag indicator */}
-                                    <AnimatePresence>
+                                    {/* Animated Upload Icon */}
+                                    <AnimatePresence mode="wait">
                                         {isDragging ? (
                                             <motion.div
-                                                initial={{ scale: 0.8, opacity: 0 }}
-                                                animate={{ scale: 1, opacity: 1 }}
-                                                exit={{ scale: 0.8, opacity: 0 }}
-                                                className="w-20 h-20 rounded-2xl bg-[#DA7756]/20 border-2 border-dashed border-[#DA7756] flex items-center justify-center"
+                                                key="dragging"
+                                                initial={{ scale: 0.8, opacity: 0, y: 10 }}
+                                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                                exit={{ scale: 0.8, opacity: 0, y: -10 }}
+                                                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                                                className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border-2 border-dashed border-[#DA7756] flex items-center justify-center shadow-lg shadow-[#DA7756]/20"
                                             >
-                                                <Upload className="w-10 h-10 text-[#DA7756]" />
+                                                <motion.div
+                                                    animate={{ y: [-2, 2, -2] }}
+                                                    transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+                                                >
+                                                    <Upload className="w-10 h-10 text-[#DA7756]" />
+                                                </motion.div>
                                             </motion.div>
                                         ) : (
                                             <motion.div
+                                                key="default"
                                                 initial={{ scale: 0.8, opacity: 0 }}
                                                 animate={{ scale: 1, opacity: 1 }}
-                                                className="w-16 h-16 rounded-2xl bg-[#DA7756]/10 flex items-center justify-center"
+                                                className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5 border border-[#DA7756]/20 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-[#DA7756]/10 transition-shadow"
                                             >
                                                 <Upload className="w-8 h-8 text-[#DA7756]" />
+                                                {/* Pulse ring on hover */}
+                                                <motion.div
+                                                    className="absolute inset-0 rounded-2xl border border-[#DA7756]/30"
+                                                    animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0, 0.3] }}
+                                                    transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+                                                />
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
@@ -542,40 +598,43 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 ? 'Drop your file here'
                                                 : 'Drag & drop your data file'}
                                         </p>
-                                        <div className="flex items-center justify-center gap-2 text-zinc-500 text-sm">
+                                        <div className="flex items-center justify-center gap-2 text-[#8F8B82] text-sm">
                                             <MousePointerClick className="w-4 h-4" />
                                             <span>or click to browse</span>
                                         </div>
                                     </div>
 
                                     {/* Format badges */}
-                                    <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
-                                        {formatInfo.map((fmt) => (
-                                            <div
+                                    <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
+                                        {formatInfo.map((fmt, index) => (
+                                            <motion.div
                                                 key={fmt.name}
-                                                className="flex items-center gap-2 px-3 py-1.5 bg-slate-800/50 rounded-lg border border-slate-700/50"
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: index * 0.1 }}
+                                                className="flex items-center gap-2 px-3 py-2 bg-[#343330]/50 hover:bg-[#343330] rounded-xl border border-[#4a4845]/50 hover:border-[#DA7756]/30 transition-all cursor-default group"
                                             >
-                                                <fmt.icon className="w-4 h-4 text-[#DA7756]" />
-                                                <span className="text-xs text-zinc-400">{fmt.name}</span>
-                                            </div>
+                                                <fmt.icon className="w-4 h-4 text-[#DA7756] group-hover:scale-110 transition-transform" />
+                                                <span className="text-xs text-[#b8b5ad] group-hover:text-[#d4d1c9] transition-colors">{fmt.name}</span>
+                                            </motion.div>
                                         ))}
                                     </div>
 
                                     {/* Size hint */}
-                                    <p className="text-xs text-zinc-600 mt-2">
+                                    <p className="text-xs text-[#6b6967] mt-2">
                                         Files up to 50MB are processed instantly. Larger CSV files use
                                         streaming.
                                     </p>
                                 </>
                             )}
                         </div>
-                    </label>
+                    </motion.label>
 
                     {/* Expandable Format Details */}
-                    <div className="border-t border-slate-800 pt-4">
+                    <div className="border-t border-[#343330] pt-4">
                         <button
                             onClick={() => setShowFormatDetails(!showFormatDetails)}
-                            className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors"
+                            className="flex items-center gap-2 text-sm text-[#8F8B82] hover:text-[#d4d1c9] transition-colors"
                         >
                             <Info className="w-4 h-4" />
                             <span>What data formats and columns are supported?</span>
@@ -595,14 +654,14 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     <div className="mt-4 space-y-6">
                                         {/* Supported Formats */}
                                         <div>
-                                            <h4 className="text-sm font-medium text-slate-300 mb-3">
+                                            <h4 className="text-sm font-medium text-[#d4d1c9] mb-3">
                                                 Supported File Formats
                                             </h4>
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                                 {formatInfo.map((fmt) => (
                                                     <div
                                                         key={fmt.name}
-                                                        className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/50"
+                                                        className="bg-[#343330]/30 rounded-xl p-3 border border-[#4a4845]/50"
                                                     >
                                                         <div className="flex items-center gap-2 mb-2">
                                                             <fmt.icon className="w-5 h-5 text-[#DA7756]" />
@@ -610,17 +669,17 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                                 {fmt.name}
                                                             </span>
                                                         </div>
-                                                        <div className="space-y-1 text-xs text-zinc-500">
+                                                        <div className="space-y-1 text-xs text-[#8F8B82]">
                                                             <p>
-                                                                <span className="text-zinc-400">Extensions:</span>{' '}
+                                                                <span className="text-[#b8b5ad]">Extensions:</span>{' '}
                                                                 {fmt.extensions}
                                                             </p>
                                                             <p>
-                                                                <span className="text-zinc-400">Format:</span>{' '}
+                                                                <span className="text-[#b8b5ad]">Format:</span>{' '}
                                                                 {fmt.description}
                                                             </p>
                                                             <p>
-                                                                <span className="text-zinc-400">Max size:</span>{' '}
+                                                                <span className="text-[#b8b5ad]">Max size:</span>{' '}
                                                                 {fmt.maxSize}
                                                             </p>
                                                         </div>
@@ -631,10 +690,10 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
 
                                         {/* Expected Columns by Game Type */}
                                         <div>
-                                            <h4 className="text-sm font-medium text-slate-300 mb-3">
+                                            <h4 className="text-sm font-medium text-[#d4d1c9] mb-3">
                                                 Expected Columns by Game Type
                                             </h4>
-                                            <p className="text-xs text-zinc-500 mb-3">
+                                            <p className="text-xs text-[#8F8B82] mb-3">
                                                 Your data should include columns like these. We'll
                                                 automatically detect the game type based on your columns.
                                             </p>
@@ -643,7 +702,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                     ([gameType, cols]) => (
                                                         <div
                                                             key={gameType}
-                                                            className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/50"
+                                                            className="bg-[#343330]/30 rounded-xl p-3 border border-[#4a4845]/50"
                                                         >
                                                             <div className="flex items-center gap-2 mb-2">
                                                                 <span className="font-medium text-[#DA7756] text-sm capitalize">
@@ -663,14 +722,14 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                                 {cols.optional.slice(0, 5).map((col) => (
                                                                     <span
                                                                         key={col}
-                                                                        className="px-2 py-0.5 bg-slate-700/50 text-zinc-400 text-xs rounded"
+                                                                        className="px-2 py-0.5 bg-[#4a4845]/50 text-[#b8b5ad] text-xs rounded"
                                                                         title="Optional"
                                                                     >
                                                                         {col}
                                                                     </span>
                                                                 ))}
                                                                 {cols.optional.length > 5 && (
-                                                                    <span className="px-2 py-0.5 text-zinc-500 text-xs">
+                                                                    <span className="px-2 py-0.5 text-[#8F8B82] text-xs">
                                                                         +{cols.optional.length - 5} more
                                                                     </span>
                                                                 )}
@@ -679,7 +738,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                     )
                                                 )}
                                             </div>
-                                            <p className="text-xs text-zinc-600 mt-3">
+                                            <p className="text-xs text-[#6b6967] mt-3">
                                                 <span className="text-[#DA7756]">*</span> = Required columns.
                                                 Other columns are optional but improve analysis quality.
                                             </p>
@@ -801,7 +860,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                         <AlertCircle className="w-12 h-12 text-red-500" />
                                         <div>
                                             <p className="text-red-500 font-medium">{error}</p>
-                                            <p className="text-zinc-500 text-sm mt-1">
+                                            <p className="text-[#8F8B82] text-sm mt-1">
                                                 Click to try again
                                             </p>
                                         </div>
@@ -815,20 +874,20 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                             <p className="text-white font-medium">
                                                 Click to select a folder
                                             </p>
-                                            <p className="text-zinc-500 text-sm mt-1">
+                                            <p className="text-[#8F8B82] text-sm mt-1">
                                                 All supported files will be imported
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-4 mt-2">
-                                            <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
                                                 <FileSpreadsheet className="w-4 h-4" />
                                                 CSV/Excel
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
                                                 <FileText className="w-4 h-4" />
                                                 JSON
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs text-zinc-500">
+                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
                                                 <Database className="w-4 h-4" />
                                                 SQLite
                                             </div>
