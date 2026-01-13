@@ -22,7 +22,7 @@ import { useMemo, useState, lazy, Suspense, memo } from 'react';
 import { QuickStartCard } from './components/ui/QuickStartCard';
 import { ContextualHint } from './components/ui/ContextualHint';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { motion, LazyMotion, domAnimation, MotionConfig } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
@@ -787,25 +787,23 @@ function AppContent() {
 function App() {
     return (
         <ErrorBoundary>
-            <LazyMotion features={domAnimation} strict>
-                <MotionConfig reducedMotion="user">
-                    <ThemeProvider>
-                        <PerformanceProvider>
-                            <ToastProvider position="bottom-right" maxToasts={5}>
-                                <DataProvider>
-                                    <MLProvider>
-                                        <IntegrationProvider>
-                                            <GameProvider>
-                                                <AppContent />
-                                            </GameProvider>
-                                        </IntegrationProvider>
-                                    </MLProvider>
-                                </DataProvider>
-                            </ToastProvider>
-                        </PerformanceProvider>
-                    </ThemeProvider>
-                </MotionConfig>
-            </LazyMotion>
+            <MotionConfig reducedMotion="user">
+                <ThemeProvider>
+                    <PerformanceProvider>
+                        <ToastProvider position="bottom-right" maxToasts={5}>
+                            <DataProvider>
+                                <MLProvider>
+                                    <IntegrationProvider>
+                                        <GameProvider>
+                                            <AppContent />
+                                        </GameProvider>
+                                    </IntegrationProvider>
+                                </MLProvider>
+                            </DataProvider>
+                        </ToastProvider>
+                    </PerformanceProvider>
+                </ThemeProvider>
+            </MotionConfig>
         </ErrorBoundary>
     );
 }
