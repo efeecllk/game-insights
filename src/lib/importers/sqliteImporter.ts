@@ -3,7 +3,6 @@
  * Features: Browser-based SQLite reading using sql.js
  */
 
-import initSqlJs, { Database, SqlValue } from 'sql.js';
 import type { ImportResult, ImportOptions } from './index';
 
 export interface SQLiteImportOptions extends ImportOptions {
@@ -11,13 +10,23 @@ export interface SQLiteImportOptions extends ImportOptions {
     query?: string;
 }
 
-let SQL: Awaited<ReturnType<typeof initSqlJs>> | null = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SqlJsStatic = any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Database = any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SqlValue = any;
+
+let SQL: SqlJsStatic | null = null;
 
 /**
  * Initialize SQL.js (loads WASM)
  */
-async function getSqlJs() {
+async function getSqlJs(): Promise<SqlJsStatic> {
     if (!SQL) {
+        // Dynamic import for ES module compatibility
+        const sqlJs = await import('sql.js');
+        const initSqlJs = sqlJs.default || sqlJs;
         SQL = await initSqlJs({
             // Load from CDN
             locateFile: (filename: string) =>
