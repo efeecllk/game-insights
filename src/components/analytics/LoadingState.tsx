@@ -71,7 +71,7 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="bg-slate-900  rounded-2xl border border-slate-800 p-8 max-w-md w-full shadow-lg"
+                className="bg-th-bg-surface rounded-2xl border border-th-border p-8 max-w-md w-full shadow-lg"
             >
                 {/* Animated Icon */}
                 <motion.div
@@ -85,10 +85,10 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
 
                 {/* Title */}
                 <motion.div variants={itemVariants}>
-                    <h2 className="text-xl font-bold text-white text-center mb-2">
+                    <h2 className="text-xl font-bold text-th-text-primary text-center mb-2">
                         Analyzing Your Data
                     </h2>
-                    <p className="text-slate-400 text-center text-sm mb-6">
+                    <p className="text-th-text-secondary text-center text-sm mb-6">
                         {rowCount
                             ? `Processing ${rowCount.toLocaleString()} rows...`
                             : 'AI is processing your data to generate insights'}
@@ -111,7 +111,7 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                         ? 'bg-[#DA7756]/10 border border-[#DA7756]/30'
                                         : isComplete
                                         ? 'bg-[#C15F3C]/10 border border-[#C15F3C]/30'
-                                        : 'bg-white/[0.02] border border-slate-800'
+                                        : 'bg-th-bg-elevated border border-th-border-subtle'
                                 }`}
                             >
                                 <div
@@ -120,7 +120,7 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                             ? 'bg-[#DA7756] text-white '
                                             : isComplete
                                             ? 'bg-[#C15F3C] text-white '
-                                            : 'bg-white/[0.05] text-slate-500'
+                                            : 'bg-white/[0.05] text-th-text-muted'
                                     }`}
                                 >
                                     {isCurrent ? (
@@ -137,7 +137,7 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
                                             ? 'text-[#DA7756]'
                                             : isComplete
                                             ? 'text-[#C15F3C]'
-                                            : 'text-slate-500'
+                                            : 'text-th-text-muted'
                                     }`}
                                 >
                                     {s.label}
@@ -149,11 +149,11 @@ export function LoadingState({ stage = 'sampling', progress = 0, rowCount }: Loa
 
                 {/* Progress Bar */}
                 <motion.div variants={itemVariants} className="mt-6">
-                    <div className="flex justify-between text-xs text-slate-400 mb-2">
+                    <div className="flex justify-between text-xs text-th-text-muted mb-2">
                         <span>Progress</span>
                         <span className="tabular-nums">{Math.round(progress)}%</span>
                     </div>
-                    <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-slate-800">
+                    <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden border border-th-border-subtle">
                         <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${Math.max(progress, 5)}%` }}

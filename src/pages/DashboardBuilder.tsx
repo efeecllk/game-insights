@@ -261,7 +261,7 @@ export function DashboardBuilderPage() {
                                 <h1 className="text-3xl font-bold bg-gradient-to-r from-[#DA7756] via-[#C15F3C] to-[#DA7756] bg-clip-text text-transparent">
                                     Dashboard Builder
                                 </h1>
-                                <p className="text-slate-400 mt-1">Create custom dashboards with drag-and-drop widgets</p>
+                                <p className="text-th-text-secondary mt-1">Create custom dashboards with drag-and-drop widgets</p>
                             </div>
                             <DataModeIndicator />
                         </div>
@@ -273,7 +273,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setShowWidgetPicker(true)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-th-bg-elevated/80 to-th-bg-surface/80 border border-th-border text-th-text-secondary hover:text-th-text-primary hover:border-[#DA7756]/30 transition-all "
                                 >
                                     <Plus className="w-4 h-4" />
                                     Add Widget
@@ -282,7 +282,7 @@ export function DashboardBuilderPage() {
                                     onClick={() => setIsEditing(false)}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-th-bg-elevated/80 to-th-bg-surface/80 border border-th-border text-th-text-secondary hover:text-th-text-primary hover:border-[#DA7756]/30 transition-all "
                                 >
                                     <Eye className="w-4 h-4" />
                                     Preview
@@ -291,7 +291,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleSaveDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all "
                                 >
                                     <Save className="w-4 h-4" />
                                     Save
@@ -305,7 +305,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setShowExportModal(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-th-bg-elevated/80 to-th-bg-surface/80 border border-th-border text-th-text-secondary hover:text-th-text-primary hover:border-[#DA7756]/30 transition-all "
                                         >
                                             <Download className="w-4 h-4" />
                                             Export
@@ -314,7 +314,7 @@ export function DashboardBuilderPage() {
                                             onClick={() => setIsEditing(true)}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-[#DA7756]/30 transition-all "
+                                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-br from-th-bg-elevated/80 to-th-bg-surface/80 border border-th-border text-th-text-secondary hover:text-th-text-primary hover:border-[#DA7756]/30 transition-all "
                                         >
                                             <Edit3 className="w-4 h-4" />
                                             Edit
@@ -325,7 +325,7 @@ export function DashboardBuilderPage() {
                                     onClick={handleCreateDashboard}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
+                                    className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all "
                                 >
                                     <Plus className="w-4 h-4" />
                                     New Dashboard
@@ -359,12 +359,12 @@ export function DashboardBuilderPage() {
                                 className="relative rounded-2xl overflow-hidden"
                                 
                             >
-                                <div className="absolute inset-0 bg-slate-900 " />
-                                <div className="relative border border-slate-800">
-                                    <div className="p-4 border-b border-slate-800">
+                                <div className="absolute inset-0 bg-th-bg-surface " />
+                                <div className="relative border border-th-border-subtle">
+                                    <div className="p-4 border-b border-th-border-subtle">
                                         <div className="flex items-center gap-2">
                                             <LayoutDashboard className="w-4 h-4 text-[#DA7756]" />
-                                            <h3 className="text-sm font-semibold text-white">Your Dashboards</h3>
+                                            <h3 className="text-sm font-semibold text-th-text-primary">Your Dashboards</h3>
                                         </div>
                                     </div>
                                     <div className="p-2 max-h-[calc(100vh-300px)] overflow-y-auto">
@@ -413,18 +413,18 @@ export function DashboardBuilderPage() {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                 >
-                                    <div className="absolute inset-0 bg-slate-900 " />
-                                    <div className="relative p-12 border border-slate-800 text-center">
-                                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 mx-auto mb-4 flex items-center justify-center">
-                                            <LayoutDashboard className="w-8 h-8 text-slate-600" />
+                                    <div className="absolute inset-0 bg-th-bg-surface " />
+                                    <div className="relative p-12 border border-th-border-subtle text-center">
+                                        <div className="w-16 h-16 rounded-2xl bg-th-bg-elevated/50 border border-th-border-subtle mx-auto mb-4 flex items-center justify-center">
+                                            <LayoutDashboard className="w-8 h-8 text-th-text-disabled" />
                                         </div>
-                                        <h3 className="text-lg font-semibold text-white mb-2">No dashboard selected</h3>
-                                        <p className="text-slate-500 mb-6">Create a new dashboard to get started</p>
+                                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">No dashboard selected</h3>
+                                        <p className="text-th-text-muted mb-6">Create a new dashboard to get started</p>
                                         <motion.button
                                             onClick={handleCreateDashboard}
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="px-6 py-3 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
+                                            className="px-6 py-3 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all "
                                         >
                                             Create Dashboard
                                         </motion.button>
@@ -517,10 +517,10 @@ function DashboardListItem({
         >
             <span className="text-xl">{dashboard.icon}</span>
             <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium truncate ${isSelected ? 'text-[#DA7756]' : 'text-slate-300'}`}>
+                <p className={`text-sm font-medium truncate ${isSelected ? 'text-[#DA7756]' : 'text-th-text-secondary'}`}>
                     {dashboard.name}
                 </p>
-                <p className="text-xs text-slate-500">{dashboard.widgets.length} widgets</p>
+                <p className="text-xs text-th-text-muted">{dashboard.widgets.length} widgets</p>
             </div>
             <button
                 onClick={(e) => {
@@ -529,7 +529,7 @@ function DashboardListItem({
                 }}
                 className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-white/10 rounded-lg transition-all"
             >
-                <MoreVertical className="w-4 h-4 text-slate-400" />
+                <MoreVertical className="w-4 h-4 text-th-text-secondary" />
             </button>
 
             <AnimatePresence>
@@ -545,15 +545,15 @@ function DashboardListItem({
                             className="relative rounded-xl overflow-hidden shadow-lg"
                             
                         >
-                            <div className="absolute inset-0 bg-slate-900/98 " />
-                            <div className="relative border border-slate-700 py-1 min-w-36">
+                            <div className="absolute inset-0 bg-th-bg-overlay " />
+                            <div className="relative border border-th-border py-1 min-w-36">
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onDuplicate();
                                         setShowMenu(false);
                                     }}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-300 hover:bg-white/[0.06] transition-colors"
+                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary hover:bg-white/[0.06] transition-colors"
                                 >
                                     <Copy className="w-4 h-4" />
                                     Duplicate
@@ -617,21 +617,21 @@ function DashboardCanvas({
             className="relative rounded-2xl overflow-hidden"
             
         >
-            <div className="absolute inset-0 bg-slate-900 " />
-            <div className="relative border border-slate-800 p-6">
+            <div className="absolute inset-0 bg-th-bg-surface " />
+            <div className="relative border border-th-border-subtle p-6">
                 {/* Dashboard Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
                         <span className="text-2xl">{dashboard.icon}</span>
                         <div>
-                            <h2 className="text-xl font-semibold text-white">{dashboard.name}</h2>
+                            <h2 className="text-xl font-semibold text-th-text-primary">{dashboard.name}</h2>
                             {dashboard.description && (
-                                <p className="text-sm text-slate-500">{dashboard.description}</p>
+                                <p className="text-sm text-th-text-muted">{dashboard.description}</p>
                             )}
                         </div>
                     </div>
                     {!isEditing && (
-                        <div className="flex items-center gap-2 text-sm text-slate-500">
+                        <div className="flex items-center gap-2 text-sm text-th-text-muted">
                             <RefreshCw className="w-4 h-4" />
                             <span>Last updated: just now</span>
                         </div>
@@ -670,11 +670,11 @@ function DashboardCanvas({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                     >
-                        <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 mb-4 flex items-center justify-center">
-                            <LayoutDashboard className="w-8 h-8 text-slate-600" />
+                        <div className="w-16 h-16 rounded-2xl bg-th-bg-elevated/50 border border-th-border-subtle mb-4 flex items-center justify-center">
+                            <LayoutDashboard className="w-8 h-8 text-th-text-disabled" />
                         </div>
-                        <p className="text-slate-400 mb-2">No widgets yet</p>
-                        <p className="text-sm text-slate-500">Click "Add Widget" to start building</p>
+                        <p className="text-th-text-secondary mb-2">No widgets yet</p>
+                        <p className="text-sm text-th-text-muted">Click "Add Widget" to start building</p>
                     </motion.div>
                 )}
             </div>
@@ -713,8 +713,8 @@ function WidgetRenderer({
                 isSelected
                     ? 'border-[#DA7756]/50 ring-2 ring-[#DA7756]/20 bg-[#DA7756]/[0.03]'
                     : isEditing
-                    ? 'border-slate-700 hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
-                    : 'border-slate-800 bg-white/[0.02]'
+                    ? 'border-th-border hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
+                    : 'border-th-border-subtle bg-white/[0.02]'
             }`}
             onClick={isEditing ? onSelect : undefined}
             whileHover={isEditing ? { scale: 1.01 } : {}}
@@ -780,15 +780,15 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col justify-center">
-            <p className="text-sm text-slate-500 mb-1 uppercase tracking-wider text-xs font-medium">
+            <p className="text-sm text-th-text-muted mb-1 uppercase tracking-wider text-xs font-medium">
                 {widget.config.title || 'Metric'}
             </p>
-            <p className="text-3xl font-bold text-white mb-2">{formatValue(data.value)}</p>
+            <p className="text-3xl font-bold text-th-text-primary mb-2">{formatValue(data.value)}</p>
             {widget.config.showTrend !== false && (
                 <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                     {data.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     <span className="font-medium">{data.change >= 0 ? '+' : ''}{data.change}%</span>
-                    <span className="text-slate-500">vs last period</span>
+                    <span className="text-th-text-muted">vs last period</span>
                 </div>
             )}
         </div>
@@ -806,7 +806,7 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Line Chart'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Line Chart'}</p>
             <div className="flex-1 flex items-end gap-1">
                 {data.map((d, i) => {
                     const height = ((d.value - minValue) / (maxValue - minValue)) * 100 || 50;
@@ -836,11 +836,11 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Bar Chart'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Bar Chart'}</p>
             <div className="flex-1 flex flex-col gap-2 justify-center">
                 {mockData.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500 w-20 truncate">{d.label}</span>
+                        <span className="text-xs text-th-text-muted w-20 truncate">{d.label}</span>
                         <div className="flex-1 h-4 bg-white/5 rounded-full overflow-hidden">
                             <motion.div
                                 initial={{ width: 0 }}
@@ -849,7 +849,7 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
                                 className="h-full bg-gradient-to-r from-[#DA7756]/60 to-[#C15F3C]/60 rounded-full"
                             />
                         </div>
-                        <span className="text-xs text-slate-400 w-8">{d.value}%</span>
+                        <span className="text-xs text-th-text-secondary w-8">{d.value}%</span>
                     </div>
                 ))}
             </div>
@@ -866,7 +866,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Pie Chart'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Pie Chart'}</p>
             <div className="flex-1 flex items-center gap-4">
                 <div className="relative w-24 h-24">
                     <svg viewBox="0 0 32 32" className="w-full h-full -rotate-90">
@@ -897,8 +897,8 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                     {mockData.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-sm">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
-                            <span className="text-slate-400">{d.label}</span>
-                            <span className="text-white font-medium ml-auto">{d.value}%</span>
+                            <span className="text-th-text-secondary">{d.label}</span>
+                            <span className="text-th-text-primary font-medium ml-auto">{d.value}%</span>
                         </div>
                     ))}
                 </div>
@@ -920,22 +920,22 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Table'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Table'}</p>
             <div className="flex-1 overflow-auto">
                 <table className="w-full text-sm">
                     <thead>
-                        <tr className="border-b border-slate-700">
-                            <th className="text-left py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Name</th>
-                            <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Revenue</th>
-                            <th className="text-right py-2 text-slate-500 font-medium text-xs uppercase tracking-wider">Sales</th>
+                        <tr className="border-b border-th-border">
+                            <th className="text-left py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Name</th>
+                            <th className="text-right py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Revenue</th>
+                            <th className="text-right py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Sales</th>
                         </tr>
                     </thead>
                     <tbody>
                         {mockData.map((row) => (
-                            <tr key={row.id} className="border-b border-slate-800 hover:bg-white/[0.02] transition-colors">
-                                <td className="py-2 text-slate-300">{row.name}</td>
-                                <td className="py-2 text-right text-white font-medium">{row.revenue}</td>
-                                <td className="py-2 text-right text-slate-400">{row.sales}</td>
+                            <tr key={row.id} className="border-b border-th-border-subtle hover:bg-white/[0.02] transition-colors">
+                                <td className="py-2 text-th-text-secondary">{row.name}</td>
+                                <td className="py-2 text-right text-th-text-primary font-medium">{row.revenue}</td>
+                                <td className="py-2 text-right text-th-text-secondary">{row.sales}</td>
                             </tr>
                         ))}
                     </tbody>
@@ -955,7 +955,7 @@ function FunnelWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Funnel'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Funnel'}</p>
             <div className="flex-1 flex flex-col justify-center gap-2">
                 {mockData.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
@@ -966,9 +966,9 @@ function FunnelWidget({ widget }: { widget: DashboardWidget }) {
                             className="h-6 bg-gradient-to-r from-[#DA7756]/50 to-[#C15F3C]/50 rounded flex items-center justify-end pr-2"
                             style={{ minWidth: '40px' }}
                         >
-                            <span className="text-xs text-white font-medium">{d.percent}%</span>
+                            <span className="text-xs text-th-text-primary font-medium">{d.percent}%</span>
                         </motion.div>
-                        <span className="text-xs text-slate-400">{d.label}</span>
+                        <span className="text-xs text-th-text-secondary">{d.label}</span>
                     </div>
                 ))}
             </div>
@@ -989,25 +989,25 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
 
     return (
         <div className="h-full flex flex-col">
-            <p className="text-sm font-medium text-white mb-3">{widget.config.title || 'Cohort Heatmap'}</p>
+            <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Cohort Heatmap'}</p>
             <div className="flex-1 overflow-auto">
                 <table className="w-full text-xs">
                     <thead>
                         <tr>
-                            <th className="text-left py-1 text-slate-500"></th>
+                            <th className="text-left py-1 text-th-text-muted"></th>
                             {days.map(d => (
-                                <th key={d} className="text-center py-1 text-slate-500 font-medium">{d}</th>
+                                <th key={d} className="text-center py-1 text-th-text-muted font-medium">{d}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
                         {weeks.map((week, i) => (
                             <tr key={week}>
-                                <td className="py-1 text-slate-500 font-medium">{week}</td>
+                                <td className="py-1 text-th-text-muted font-medium">{week}</td>
                                 {mockRetention[i].map((val, j) => (
                                     <td key={j} className="p-1">
                                         <div
-                                            className="rounded text-center py-1 text-white transition-all hover:scale-105"
+                                            className="rounded text-center py-1 text-th-text-primary transition-all hover:scale-105"
                                             style={{
                                                 backgroundColor: `rgba(218, 119, 86, ${val / 100})`,
                                             }}
@@ -1028,7 +1028,7 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
 function TextWidget({ widget }: { widget: DashboardWidget }) {
     return (
         <div className="h-full flex items-center">
-            <p className="text-slate-300">{widget.config.textContent || widget.config.title || 'Text content'}</p>
+            <p className="text-th-text-secondary">{widget.config.textContent || widget.config.title || 'Text content'}</p>
         </div>
     );
 }
@@ -1063,14 +1063,14 @@ function WidgetPicker({
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/98 via-slate-900/95 to-slate-950/98 " />
-                <div className="relative border border-slate-700">
-                    <div className="flex items-center justify-between p-6 border-b border-slate-700">
+                <div className="absolute inset-0 bg-gradient-to-br from-th-bg-surface/98 via-th-bg-surface/95 to-th-bg-base/98 " />
+                <div className="relative border border-th-border">
+                    <div className="flex items-center justify-between p-6 border-b border-th-border">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                                 <Plus className="w-5 h-5 text-[#DA7756]" />
                             </div>
-                            <h3 className="text-lg font-semibold text-white">Add Widget</h3>
+                            <h3 className="text-lg font-semibold text-th-text-primary">Add Widget</h3>
                         </div>
                         <motion.button
                             onClick={onClose}
@@ -1078,7 +1078,7 @@ function WidgetPicker({
                             whileTap={{ scale: 0.9 }}
                             className="p-2 hover:bg-white/10 rounded-lg transition-colors"
                         >
-                            <X className="w-5 h-5 text-slate-400" />
+                            <X className="w-5 h-5 text-th-text-secondary" />
                         </motion.button>
                     </div>
                     <motion.div
@@ -1096,12 +1096,12 @@ function WidgetPicker({
                                     onClick={() => onSelect(type)}
                                     whileHover={{ scale: 1.02, y: -2 }}
                                     whileTap={{ scale: 0.98 }}
-                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-slate-700 hover:border-[#DA7756]/30 hover:bg-[#DA7756]/[0.05] transition-all text-center group"
+                                    className="flex flex-col items-center gap-3 p-4 rounded-xl border border-th-border hover:border-[#DA7756]/30 hover:bg-[#DA7756]/[0.05] transition-all text-center group"
                                 >
                                     <span className="text-3xl group-hover:scale-110 transition-transform">{preset.icon}</span>
                                     <div>
-                                        <p className="text-white font-medium group-hover:text-[#DA7756] transition-colors">{preset.name}</p>
-                                        <p className="text-xs text-slate-500 mt-0.5">{preset.description}</p>
+                                        <p className="text-th-text-primary font-medium group-hover:text-[#DA7756] transition-colors">{preset.name}</p>
+                                        <p className="text-xs text-th-text-muted mt-0.5">{preset.description}</p>
                                     </div>
                                 </motion.button>
                             );
@@ -1135,12 +1135,12 @@ function WidgetConfigPanel({
             className="relative rounded-2xl overflow-hidden"
             
         >
-            <div className="absolute inset-0 bg-slate-900 " />
-            <div className="relative border border-slate-800">
-                <div className="flex items-center justify-between p-4 border-b border-slate-800">
+            <div className="absolute inset-0 bg-th-bg-surface " />
+            <div className="relative border border-th-border-subtle">
+                <div className="flex items-center justify-between p-4 border-b border-th-border-subtle">
                     <div className="flex items-center gap-2">
                         <span className="text-xl">{preset.icon}</span>
-                        <h3 className="text-sm font-semibold text-white">{preset.name}</h3>
+                        <h3 className="text-sm font-semibold text-th-text-primary">{preset.name}</h3>
                     </div>
                     <motion.button
                         onClick={onClose}
@@ -1148,19 +1148,19 @@ function WidgetConfigPanel({
                         whileTap={{ scale: 0.9 }}
                         className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
                     >
-                        <X className="w-4 h-4 text-slate-400" />
+                        <X className="w-4 h-4 text-th-text-secondary" />
                     </motion.button>
                 </div>
 
                 <div className="p-4 space-y-4">
                     {/* Title */}
                     <div>
-                        <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Title</label>
+                        <label className="block text-xs text-th-text-muted mb-2 uppercase tracking-wider font-medium">Title</label>
                         <input
                             type="text"
                             value={widget.config.title || ''}
                             onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
-                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-slate-600"
+                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-th-text-disabled"
                             placeholder="Widget title"
                         />
                     </div>
@@ -1168,14 +1168,14 @@ function WidgetConfigPanel({
                     {/* Metric selector for applicable widgets */}
                     {['kpi', 'line_chart', 'bar_chart', 'area_chart'].includes(widget.type) && (
                         <div>
-                            <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Metric</label>
+                            <label className="block text-xs text-th-text-muted mb-2 uppercase tracking-wider font-medium">Metric</label>
                             <select
                                 value={widget.config.metric || 'dau'}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
                             >
                                 {METRIC_OPTIONS.map((opt) => (
-                                    <option key={opt.value} value={opt.value} className="bg-slate-900">{opt.label}</option>
+                                    <option key={opt.value} value={opt.value} className="bg-th-bg-surface">{opt.label}</option>
                                 ))}
                             </select>
                         </div>
@@ -1184,7 +1184,7 @@ function WidgetConfigPanel({
                     {/* Show trend toggle for KPI */}
                     {widget.type === 'kpi' && (
                         <div className="flex items-center justify-between">
-                            <label className="text-xs text-slate-500 uppercase tracking-wider font-medium">Show Trend</label>
+                            <label className="text-xs text-th-text-muted uppercase tracking-wider font-medium">Show Trend</label>
                             <button
                                 onClick={() => onUpdate({ config: { ...widget.config, showTrend: !widget.config.showTrend } })}
                                 className={`w-10 h-5 rounded-full transition-colors ${
@@ -1201,12 +1201,12 @@ function WidgetConfigPanel({
                     {/* Text content for text widget */}
                     {widget.type === 'text' && (
                         <div>
-                            <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Content</label>
+                            <label className="block text-xs text-th-text-muted mb-2 uppercase tracking-wider font-medium">Content</label>
                             <textarea
                                 value={widget.config.textContent || ''}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
                                 rows={4}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-slate-600"
+                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-th-text-disabled"
                                 placeholder="Enter text content..."
                             />
                         </div>
@@ -1214,28 +1214,28 @@ function WidgetConfigPanel({
 
                     {/* Size controls */}
                     <div>
-                        <label className="block text-xs text-slate-500 mb-2 uppercase tracking-wider font-medium">Size</label>
+                        <label className="block text-xs text-th-text-muted mb-2 uppercase tracking-wider font-medium">Size</label>
                         <div className="grid grid-cols-2 gap-3">
                             <div>
-                                <label className="block text-xs text-slate-600 mb-1">Width</label>
+                                <label className="block text-xs text-th-text-disabled mb-1">Width</label>
                                 <input
                                     type="number"
                                     value={widget.position.w}
                                     onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={12}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs text-slate-600 mb-1">Height</label>
+                                <label className="block text-xs text-th-text-disabled mb-1">Height</label>
                                 <input
                                     type="number"
                                     value={widget.position.h}
                                     onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={10}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-slate-700 text-white text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                         </div>

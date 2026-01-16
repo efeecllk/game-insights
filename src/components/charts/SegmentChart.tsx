@@ -39,7 +39,7 @@ function SegmentChartComponent({ data, config, className, bare = false }: Segmen
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'item',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
@@ -82,7 +82,7 @@ function SegmentChartComponent({ data, config, className, bare = false }: Segmen
                 avoidLabelOverlap: false,
                 itemStyle: {
                     borderRadius: 6,
-                    borderColor: 'rgba(15, 23, 42, 0.9)',
+                    borderColor: 'rgba(31, 30, 27, 0.9)',
                     borderWidth: 3,
                 },
                 label: {
@@ -139,16 +139,16 @@ function SegmentChartComponent({ data, config, className, bare = false }: Segmen
 
     // Standalone mode with its own container
     return (
-        <div className={`relative bg-slate-900  rounded-2xl p-5 border border-slate-800 overflow-hidden ${className ?? ''}`}>
+        <div className={`relative bg-th-bg-surface rounded-2xl p-5 border border-th-border overflow-hidden ${className ?? ''}`}>
             {/* Noise texture */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
             <div className="relative">
                 <div className="mb-4">
-                    <h3 className="text-sm font-semibold text-white">
+                    <h3 className="text-sm font-semibold text-th-text-primary">
                         {config?.title ?? 'Distribution'}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-xs text-th-text-muted mt-0.5">
                         {config?.subtitle ?? 'Segment breakdown'}
                     </p>
                 </div>

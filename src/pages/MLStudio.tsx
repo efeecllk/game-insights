@@ -147,7 +147,7 @@ export function MLStudioPage() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 relative overflow-hidden">
+        <div className="min-h-screen bg-th-bg-base relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#C15F3C]/5 rounded-full" />
@@ -176,10 +176,10 @@ export function MLStudioPage() {
                             <Brain className="w-6 h-6 text-[#C15F3C]" />
                         </motion.div>
                         <div>
-                            <h1 className="text-2xl font-bold text-white">
+                            <h1 className="text-2xl font-bold text-th-text-primary">
                                 ML Studio
                             </h1>
-                            <p className="text-slate-400 text-sm">Train, evaluate, and deploy machine learning models</p>
+                            <p className="text-th-text-secondary text-sm">Train, evaluate, and deploy machine learning models</p>
                         </div>
                     </div>
                     <div className="flex gap-3">
@@ -189,8 +189,8 @@ export function MLStudioPage() {
                             onClick={() => setView('models')}
                             className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${
                                 view === 'models'
-                                    ? 'bg-[#DA7756] text-white border-[#C15F3C] '
-                                    : 'bg-slate-800  border-slate-700 text-slate-300 hover:border-slate-600'
+                                    ? 'bg-[#DA7756] text-th-text-primary border-[#C15F3C] '
+                                    : 'bg-th-bg-elevated  border-th-border text-th-text-secondary hover:border-th-border-strong'
                             }`}
                             
                         >
@@ -201,7 +201,7 @@ export function MLStudioPage() {
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => setView('create')}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all "
                         >
                             <Plus className="w-4 h-4" />
                             New Training Job
@@ -282,7 +282,7 @@ function StatsCard({
     return (
         <motion.div
             whileHover={{ scale: 1.02, y: -2 }}
-            className="bg-slate-900  rounded-2xl border border-slate-800 p-4"
+            className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-4"
             
         >
             <div className="flex items-center gap-3">
@@ -290,8 +290,8 @@ function StatsCard({
                     <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                    <p className="text-2xl font-bold text-white">{value.toLocaleString()}</p>
-                    <p className="text-sm text-slate-500">{label}</p>
+                    <p className="text-2xl font-bold text-th-text-primary">{value.toLocaleString()}</p>
+                    <p className="text-sm text-th-text-muted">{label}</p>
                 </div>
             </div>
         </motion.div>
@@ -317,25 +317,25 @@ function JobList({
         return (
             <motion.div
                 variants={cardVariants}
-                className="bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center"
+                className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-12 text-center"
                 
             >
-                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
-                    <Brain className="w-8 h-8 text-slate-600" />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-th-bg-elevated/50 to-th-bg-surface/50 border border-th-border-subtle flex items-center justify-center">
+                    <Brain className="w-8 h-8 text-th-text-disabled" />
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">No training jobs yet</h3>
-                <p className="text-slate-500">Create your first ML model to get started</p>
+                <h3 className="text-lg font-semibold text-th-text-primary mb-2">No training jobs yet</h3>
+                <p className="text-th-text-muted">Create your first ML model to get started</p>
             </motion.div>
         );
     }
 
     const statusConfig = {
-        draft: { color: 'bg-slate-500/10 text-slate-400 border-slate-500/20', icon: Settings, label: 'Draft' },
+        draft: { color: 'bg-th-bg-elevated/50 text-th-text-secondary border-th-border-subtle', icon: Settings, label: 'Draft' },
         training: { color: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20', icon: RefreshCw, label: 'Training' },
         completed: { color: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20', icon: CheckCircle, label: 'Completed' },
         failed: { color: 'bg-[#E25C5C]/10 text-[#E25C5C] border-[#E25C5C]/20', icon: AlertCircle, label: 'Failed' },
         deployed: { color: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20', icon: Zap, label: 'Deployed' },
-        archived: { color: 'bg-slate-500/10 text-slate-500 border-slate-500/20', icon: Clock, label: 'Archived' },
+        archived: { color: 'bg-th-bg-elevated/50 text-th-text-muted border-th-border-subtle', icon: Clock, label: 'Archived' },
     };
 
     return (
@@ -351,24 +351,24 @@ function JobList({
                         variants={itemVariants}
                         custom={index}
                         whileHover={{ scale: 1.01 }}
-                        className="bg-slate-900  rounded-2xl border border-slate-800 hover:border-white/[0.1] transition-all"
+                        className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle hover:border-white/[0.1] transition-all"
                         
                     >
                         <div className="p-6 cursor-pointer" onClick={() => onSelect(job)}>
                             <div className="flex items-start justify-between">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
-                                        <h3 className="text-lg font-semibold text-white">{job.name}</h3>
+                                        <h3 className="text-lg font-semibold text-th-text-primary">{job.name}</h3>
                                         <span className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${config.color}`}>
                                             <StatusIcon className="w-3 h-3 inline mr-1" />
                                             {config.label}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-slate-400 mb-3">
+                                    <p className="text-sm text-th-text-secondary mb-3">
                                         {typeInfo.name} • {ALGORITHM_CONFIGS[job.config.algorithm].name}
                                     </p>
 
-                                    <div className="flex items-center gap-6 text-sm text-slate-500">
+                                    <div className="flex items-center gap-6 text-sm text-th-text-muted">
                                         <span className="flex items-center gap-1">
                                             <Layers className="w-4 h-4" />
                                             {job.features.length} features
@@ -388,19 +388,19 @@ function JobList({
                                     </div>
                                 </div>
 
-                                <ChevronRight className="w-5 h-5 text-slate-500" />
+                                <ChevronRight className="w-5 h-5 text-th-text-muted" />
                             </div>
 
                             {/* Progress bar for training jobs */}
                             {job.status === 'training' && (
                                 <div className="mt-4">
                                     <div className="flex items-center justify-between text-sm mb-2">
-                                        <span className="text-slate-400">
+                                        <span className="text-th-text-secondary">
                                             Epoch {job.currentEpoch || 0} / {job.totalEpochs || 100}
                                         </span>
                                         <span className="text-[#8F8B82]">{job.progress}%</span>
                                     </div>
-                                    <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
+                                    <div className="h-2 bg-th-bg-elevated/50 rounded-full overflow-hidden">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${job.progress}%` }}
@@ -412,7 +412,7 @@ function JobList({
                         </div>
 
                         {/* Action buttons */}
-                        <div className="px-6 py-3 border-t border-slate-800 flex items-center gap-2">
+                        <div className="px-6 py-3 border-t border-th-border-subtle flex items-center gap-2">
                             {job.status === 'completed' && (
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
@@ -468,7 +468,7 @@ function ModelList({
             <motion.button
                 whileHover={{ x: -4 }}
                 onClick={onBack}
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-th-text-secondary hover:text-th-text-primary transition-colors"
             >
                 <ChevronRight className="w-4 h-4 rotate-180" />
                 Back to training jobs
@@ -477,14 +477,14 @@ function ModelList({
             {models.length === 0 ? (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center"
+                    className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-12 text-center"
                     
                 >
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
-                        <Layers className="w-8 h-8 text-slate-600" />
+                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-th-bg-elevated/50 to-th-bg-surface/50 border border-th-border-subtle flex items-center justify-center">
+                        <Layers className="w-8 h-8 text-th-text-disabled" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">No deployed models</h3>
-                    <p className="text-slate-500">Complete a training job and deploy it</p>
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-2">No deployed models</h3>
+                    <p className="text-th-text-muted">Complete a training job and deploy it</p>
                 </motion.div>
             ) : (
                 <motion.div variants={containerVariants} className="grid gap-4">
@@ -497,13 +497,13 @@ function ModelList({
                                 variants={itemVariants}
                                 custom={index}
                                 whileHover={{ scale: 1.01 }}
-                                className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                                className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-6"
                                 
                             >
                                 <div className="flex items-start justify-between">
                                     <div>
                                         <div className="flex items-center gap-3 mb-2">
-                                            <h3 className="text-lg font-semibold text-white">{model.name}</h3>
+                                            <h3 className="text-lg font-semibold text-th-text-primary">{model.name}</h3>
                                             <span className="text-xs px-2 py-0.5 rounded-lg bg-[#C15F3C]/20 text-[#C15F3C] border border-[#C15F3C]/20">
                                                 v{model.version}
                                             </span>
@@ -513,7 +513,7 @@ function ModelList({
                                                 </span>
                                             )}
                                         </div>
-                                        <p className="text-sm text-slate-400 mb-3">
+                                        <p className="text-sm text-th-text-secondary mb-3">
                                             {typeInfo.name} • {ALGORITHM_CONFIGS[model.algorithm].name}
                                         </p>
                                     </div>
@@ -521,30 +521,30 @@ function ModelList({
 
                                 <div className="grid grid-cols-4 gap-4 mt-4">
                                     {model.metrics.accuracy !== undefined && (
-                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
-                                            <p className="text-xs text-slate-500 mb-1">Accuracy</p>
-                                            <p className="text-lg font-bold text-white">
+                                        <div className="p-3 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                            <p className="text-xs text-th-text-muted mb-1">Accuracy</p>
+                                            <p className="text-lg font-bold text-th-text-primary">
                                                 {(model.metrics.accuracy * 100).toFixed(1)}%
                                             </p>
                                         </div>
                                     )}
                                     {model.metrics.f1Score !== undefined && (
-                                        <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
-                                            <p className="text-xs text-slate-500 mb-1">F1 Score</p>
-                                            <p className="text-lg font-bold text-white">
+                                        <div className="p-3 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                            <p className="text-xs text-th-text-muted mb-1">F1 Score</p>
+                                            <p className="text-lg font-bold text-th-text-primary">
                                                 {(model.metrics.f1Score * 100).toFixed(1)}%
                                             </p>
                                         </div>
                                     )}
-                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
-                                        <p className="text-xs text-slate-500 mb-1">Predictions</p>
-                                        <p className="text-lg font-bold text-white">
+                                    <div className="p-3 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                        <p className="text-xs text-th-text-muted mb-1">Predictions</p>
+                                        <p className="text-lg font-bold text-th-text-primary">
                                             {model.usageStats.totalPredictions.toLocaleString()}
                                         </p>
                                     </div>
-                                    <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-800">
-                                        <p className="text-xs text-slate-500 mb-1">Avg Latency</p>
-                                        <p className="text-lg font-bold text-white">
+                                    <div className="p-3 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                        <p className="text-xs text-th-text-muted mb-1">Avg Latency</p>
+                                        <p className="text-lg font-bold text-th-text-primary">
                                             {model.usageStats.avgLatencyMs?.toFixed(0) || '—'}ms
                                         </p>
                                     </div>
@@ -579,7 +579,7 @@ function JobDetail({
             <motion.button
                 whileHover={{ x: -4 }}
                 onClick={onBack}
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-th-text-secondary hover:text-th-text-primary transition-colors"
             >
                 <ChevronRight className="w-4 h-4 rotate-180" />
                 Back to training jobs
@@ -591,15 +591,15 @@ function JobDetail({
                 className="flex items-start justify-between"
             >
                 <div>
-                    <h2 className="text-2xl font-bold text-white">{job.name}</h2>
-                    <p className="text-slate-400 mt-1">{typeInfo.name} • {algorithmInfo.name}</p>
+                    <h2 className="text-2xl font-bold text-th-text-primary">{job.name}</h2>
+                    <p className="text-th-text-secondary mt-1">{typeInfo.name} • {algorithmInfo.name}</p>
                 </div>
                 {job.status === 'completed' && (
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={onDeploy}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all "
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all "
                     >
                         <Upload className="w-4 h-4" />
                         Deploy Model
@@ -611,50 +611,50 @@ function JobDetail({
             {job.metrics && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-6"
                     
                 >
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-4 flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-[#C15F3C]" />
                         Training Metrics
                     </h3>
                     <div className="grid grid-cols-5 gap-4">
                         {job.metrics.accuracy !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
-                                <p className="text-sm text-slate-500 mb-1">Accuracy</p>
-                                <p className="text-2xl font-bold text-white">
+                            <div className="p-4 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                <p className="text-sm text-th-text-muted mb-1">Accuracy</p>
+                                <p className="text-2xl font-bold text-th-text-primary">
                                     {(job.metrics.accuracy * 100).toFixed(1)}%
                                 </p>
                             </div>
                         )}
                         {job.metrics.precision !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
-                                <p className="text-sm text-slate-500 mb-1">Precision</p>
-                                <p className="text-2xl font-bold text-white">
+                            <div className="p-4 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                <p className="text-sm text-th-text-muted mb-1">Precision</p>
+                                <p className="text-2xl font-bold text-th-text-primary">
                                     {(job.metrics.precision * 100).toFixed(1)}%
                                 </p>
                             </div>
                         )}
                         {job.metrics.recall !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
-                                <p className="text-sm text-slate-500 mb-1">Recall</p>
-                                <p className="text-2xl font-bold text-white">
+                            <div className="p-4 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                <p className="text-sm text-th-text-muted mb-1">Recall</p>
+                                <p className="text-2xl font-bold text-th-text-primary">
                                     {(job.metrics.recall * 100).toFixed(1)}%
                                 </p>
                             </div>
                         )}
                         {job.metrics.f1Score !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
-                                <p className="text-sm text-slate-500 mb-1">F1 Score</p>
-                                <p className="text-2xl font-bold text-white">
+                            <div className="p-4 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                <p className="text-sm text-th-text-muted mb-1">F1 Score</p>
+                                <p className="text-2xl font-bold text-th-text-primary">
                                     {(job.metrics.f1Score * 100).toFixed(1)}%
                                 </p>
                             </div>
                         )}
                         {job.metrics.aucRoc !== undefined && (
-                            <div className="p-4 rounded-xl bg-slate-800/30 border border-slate-800">
-                                <p className="text-sm text-slate-500 mb-1">AUC-ROC</p>
-                                <p className="text-2xl font-bold text-white">
+                            <div className="p-4 rounded-xl bg-th-bg-elevated/30 border border-th-border-subtle">
+                                <p className="text-sm text-th-text-muted mb-1">AUC-ROC</p>
+                                <p className="text-2xl font-bold text-th-text-primary">
                                     {(job.metrics.aucRoc * 100).toFixed(1)}%
                                 </p>
                             </div>
@@ -667,10 +667,10 @@ function JobDetail({
             {job.features.some(f => f.importance !== undefined) && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-6"
                     
                 >
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-4 flex items-center gap-2">
                         <Layers className="w-5 h-5 text-[#C15F3C]" />
                         Feature Importance
                     </h3>
@@ -686,12 +686,12 @@ function JobDetail({
                                     transition={{ delay: index * 0.05 }}
                                 >
                                     <div className="flex items-center justify-between mb-1">
-                                        <span className="text-sm text-white">{feature.name}</span>
-                                        <span className="text-sm text-slate-400">
+                                        <span className="text-sm text-th-text-primary">{feature.name}</span>
+                                        <span className="text-sm text-th-text-secondary">
                                             {((feature.importance || 0) * 100).toFixed(1)}%
                                         </span>
                                     </div>
-                                    <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
+                                    <div className="h-2 bg-th-bg-elevated/50 rounded-full overflow-hidden">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${(feature.importance || 0) * 100}%` }}
@@ -709,14 +709,14 @@ function JobDetail({
             {job.logs.length > 0 && (
                 <motion.div
                     variants={cardVariants}
-                    className="bg-slate-900  rounded-2xl border border-slate-800 p-6"
+                    className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle p-6"
                     
                 >
-                    <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-[#C15F3C]" />
                         Training Logs
                     </h3>
-                    <div className="space-y-2 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                    <div className="space-y-2 max-h-64 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-th-border scrollbar-track-transparent">
                         {job.logs.slice(-20).map((log, i) => (
                             <motion.div
                                 key={i}
@@ -725,13 +725,13 @@ function JobDetail({
                                 transition={{ delay: i * 0.02 }}
                                 className="flex items-start gap-3 text-sm"
                             >
-                                <span className="text-slate-500 font-mono text-xs whitespace-nowrap">
+                                <span className="text-th-text-muted font-mono text-xs whitespace-nowrap">
                                     {new Date(log.timestamp).toLocaleTimeString()}
                                 </span>
                                 <span className={`${
                                     log.level === 'error' ? 'text-[#E25C5C]' :
                                     log.level === 'warning' ? 'text-[#E5A84B]' :
-                                    'text-slate-400'
+                                    'text-th-text-secondary'
                                 }`}>
                                     {log.message}
                                 </span>
@@ -781,7 +781,7 @@ function CreateJobWizard({
             <motion.button
                 whileHover={{ x: -4 }}
                 onClick={onCancel}
-                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-th-text-secondary hover:text-th-text-primary transition-colors"
             >
                 <ChevronRight className="w-4 h-4 rotate-180" />
                 Back to training jobs
@@ -789,23 +789,23 @@ function CreateJobWizard({
 
             <motion.div
                 variants={cardVariants}
-                className="bg-slate-900  rounded-2xl border border-slate-800"
+                className="bg-th-bg-surface  rounded-2xl border border-th-border-subtle"
                 
             >
-                <div className="p-6 border-b border-slate-800 flex items-center gap-3">
+                <div className="p-6 border-b border-th-border-subtle flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C15F3C]/20 to-[#DA7756]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                         <Sparkles className="w-5 h-5 text-[#C15F3C]" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-semibold text-white">Create New Training Job</h2>
-                        <p className="text-sm text-slate-500">Configure your machine learning model</p>
+                        <h2 className="text-xl font-semibold text-th-text-primary">Create New Training Job</h2>
+                        <p className="text-sm text-th-text-muted">Configure your machine learning model</p>
                     </div>
                 </div>
 
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     {/* Name */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-2">
+                        <label className="block text-sm font-medium text-th-text-secondary mb-2">
                             Job Name *
                         </label>
                         <input
@@ -813,14 +813,14 @@ function CreateJobWizard({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             required
-                            className="w-full px-4 py-3 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-[#DA7756]/50 transition-colors"
+                            className="w-full px-4 py-3 rounded-xl bg-th-bg-elevated/50 border border-th-border text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-[#DA7756]/50 transition-colors"
                             placeholder="e.g., Churn Prediction v2"
                         />
                     </div>
 
                     {/* Model Type */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-3">
+                        <label className="block text-sm font-medium text-th-text-secondary mb-3">
                             Model Type
                         </label>
                         <div className="grid grid-cols-3 gap-3">
@@ -839,11 +839,11 @@ function CreateJobWizard({
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             modelType === type
                                                 ? 'border-[#DA7756]/50 bg-[#DA7756]/10 '
-                                                : 'border-slate-700 bg-slate-800/30 hover:border-slate-600'
+                                                : 'border-th-border bg-th-bg-elevated/30 hover:border-th-border-strong'
                                         }`}
                                     >
-                                        <p className="text-white font-medium">{info.name}</p>
-                                        <p className="text-xs text-slate-500 mt-1">{info.description}</p>
+                                        <p className="text-th-text-primary font-medium">{info.name}</p>
+                                        <p className="text-xs text-th-text-muted mt-1">{info.description}</p>
                                     </motion.button>
                                 );
                             })}
@@ -852,7 +852,7 @@ function CreateJobWizard({
 
                     {/* Algorithm */}
                     <div>
-                        <label className="block text-sm font-medium text-slate-400 mb-3">
+                        <label className="block text-sm font-medium text-th-text-secondary mb-3">
                             Algorithm
                         </label>
                         <div className="grid grid-cols-2 gap-3">
@@ -868,11 +868,11 @@ function CreateJobWizard({
                                         className={`p-4 rounded-xl border text-left transition-all ${
                                             algorithm === algo
                                                 ? 'border-[#DA7756]/50 bg-[#DA7756]/10 '
-                                                : 'border-slate-700 bg-slate-800/30 hover:border-slate-600'
+                                                : 'border-th-border bg-th-bg-elevated/30 hover:border-th-border-strong'
                                         }`}
                                     >
-                                        <p className="text-white font-medium">{info.name}</p>
-                                        <p className="text-xs text-slate-500 mt-1">{info.description}</p>
+                                        <p className="text-th-text-primary font-medium">{info.name}</p>
+                                        <p className="text-xs text-th-text-muted mt-1">{info.description}</p>
                                     </motion.button>
                                 );
                             })}
@@ -880,13 +880,13 @@ function CreateJobWizard({
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-800">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-th-border-subtle">
                         <motion.button
                             type="button"
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={onCancel}
-                            className="px-6 py-2.5 rounded-xl border border-slate-700 text-slate-300 hover:bg-white/5 transition-colors"
+                            className="px-6 py-2.5 rounded-xl border border-th-border text-th-text-secondary hover:bg-white/5 transition-colors"
                         >
                             Cancel
                         </motion.button>
@@ -895,7 +895,7 @@ function CreateJobWizard({
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={!name}
-                            className="px-6 py-2.5 rounded-xl bg-[#DA7756] text-white hover:bg-[#C15F3C] transition-all disabled:opacity-50 disabled:cursor-not-allowed "
+                            className="px-6 py-2.5 rounded-xl bg-[#DA7756] text-th-text-primary hover:bg-[#C15F3C] transition-all disabled:opacity-50 disabled:cursor-not-allowed "
                         >
                             Create Job
                         </motion.button>

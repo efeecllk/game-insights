@@ -507,12 +507,12 @@ const WhatIfAnalysis: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                     <Brain className="w-4 h-4 text-[#C15F3C]" />
                 </div>
-                <h3 className="font-display font-semibold text-white">What-If Analysis</h3>
+                <h3 className="font-display font-semibold text-th-text-primary">What-If Analysis</h3>
             </div>
 
             <div className="space-y-4">
                 <div>
-                    <label className="text-sm text-slate-400 mb-2 block">
+                    <label className="text-sm text-th-text-secondary mb-2 block">
                         DAU Change: <span className="text-[#DA7756]">{dauChange > 0 ? '+' : ''}{dauChange}%</span>
                     </label>
                     <input
@@ -521,12 +521,12 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={dauChange}
                         onChange={(e) => setDauChange(Number(e.target.value))}
-                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-[#DA7756]"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-th-bg-elevated accent-[#DA7756]"
                     />
                 </div>
 
                 <div>
-                    <label className="text-sm text-slate-400 mb-2 block">
+                    <label className="text-sm text-th-text-secondary mb-2 block">
                         ARPU Change: <span className="text-[#DA7756]">{arpuChange > 0 ? '+' : ''}{arpuChange}%</span>
                     </label>
                     <input
@@ -535,21 +535,21 @@ const WhatIfAnalysis: React.FC = () => {
                         max="30"
                         value={arpuChange}
                         onChange={(e) => setArpuChange(Number(e.target.value))}
-                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-slate-800 accent-[#DA7756]"
+                        className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-th-bg-elevated accent-[#DA7756]"
                     />
                 </div>
 
-                <div className="p-4 bg-slate-900/50 rounded-xl border border-slate-800">
-                    <div className="text-sm text-slate-400 mb-1">Projected 30-Day Revenue</div>
+                <div className="p-4 bg-th-bg-elevated/50 rounded-xl border border-th-border-subtle">
+                    <div className="text-sm text-th-text-secondary mb-1">Projected 30-Day Revenue</div>
                     <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-display font-bold text-white">
+                        <span className="text-2xl font-display font-bold text-th-text-primary">
                             ${(projectedRevenue / 1000).toFixed(1)}K
                         </span>
                         <span className={`text-sm ${projectedChange >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                             {projectedChange >= 0 ? '+' : ''}{(projectedChange * 100).toFixed(1)}%
                         </span>
                     </div>
-                    <div className="text-xs text-slate-600 mt-1">
+                    <div className="text-xs text-th-text-muted mt-1">
                         vs baseline ${(baseRevenue * 30 / 1000).toFixed(1)}K
                     </div>
                 </div>

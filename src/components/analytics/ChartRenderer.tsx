@@ -36,7 +36,7 @@ const CHART_COLORS = [
 // Common tooltip styling for dark theme
 // Note: Removed backdrop-filter blur for better GPU performance
 const TOOLTIP_STYLE = {
-    backgroundColor: 'rgba(15, 23, 42, 0.98)',
+    backgroundColor: 'rgba(31, 30, 27, 0.98)',
     borderColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
     textStyle: {
@@ -95,7 +95,7 @@ function buildLineOrAreaChart(
             lineStyle: { color: CHART_COLORS[0], width: 2 },
             itemStyle: {
                 color: CHART_COLORS[0],
-                borderColor: '#0f172a',
+                borderColor: '#1f1e1b',
                 borderWidth: 2,
             },
             ...(isArea ? {
@@ -218,7 +218,7 @@ function buildPieOrDonutChart(
             },
             itemStyle: {
                 borderRadius: 4,
-                borderColor: '#0f172a',
+                borderColor: '#1f1e1b',
                 borderWidth: 2,
             },
             label: { show: false },
@@ -269,7 +269,7 @@ function buildFunnelChart(
                 fontFamily: 'DM Sans',
             },
             itemStyle: {
-                borderColor: '#0f172a',
+                borderColor: '#1f1e1b',
                 borderWidth: 1,
             },
             emphasis: {
@@ -443,11 +443,11 @@ export const ChartRenderer = memo(function ChartRenderer({
             <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
                 <div>
                     {/* Header */}
-                    <div className="p-4 border-b border-slate-800">
+                    <div className="p-4 border-b border-th-border-subtle">
                         <div className="flex items-start justify-between">
                             <div className="flex-1">
-                                <h3 className="font-display font-semibold text-white">{recommendation.title}</h3>
-                                <p className="text-sm text-slate-500 mt-0.5">{recommendation.description}</p>
+                                <h3 className="font-display font-semibold text-th-text-primary">{recommendation.title}</h3>
+                                <p className="text-sm text-th-text-muted mt-0.5">{recommendation.description}</p>
                             </div>
                             {/* Data source indicator */}
                             <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 ml-3 flex-shrink-0">
@@ -457,18 +457,18 @@ export const ChartRenderer = memo(function ChartRenderer({
                         </div>
                         {/* Show columns used */}
                         {recommendation.columns.length > 0 && (
-                            <div className="mt-2 flex items-center gap-1 text-xs text-slate-500">
+                            <div className="mt-2 flex items-center gap-1 text-xs text-th-text-muted">
                                 <span>Using:</span>
                                 {recommendation.columns.slice(0, 3).map((col, idx) => (
                                     <span
                                         key={idx}
-                                        className="px-1.5 py-0.5 bg-white/[0.03] rounded text-slate-400"
+                                        className="px-1.5 py-0.5 bg-white/[0.03] rounded text-th-text-secondary"
                                     >
                                         {col}
                                     </span>
                                 ))}
                                 {recommendation.columns.length > 3 && (
-                                    <span className="text-slate-600">+{recommendation.columns.length - 3} more</span>
+                                    <span className="text-th-text-disabled">+{recommendation.columns.length - 3} more</span>
                                 )}
                             </div>
                         )}

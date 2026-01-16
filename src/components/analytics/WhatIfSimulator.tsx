@@ -245,15 +245,15 @@ export function WhatIfSimulator({
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-xl font-semibold text-white">What-If Simulator</h2>
-                    <p className="text-sm text-zinc-400 mt-1">
+                    <h2 className="text-xl font-semibold text-th-text-primary">What-If Simulator</h2>
+                    <p className="text-sm text-th-text-muted mt-1">
                         Adjust metrics to see projected impact
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
                         onClick={handleReset}
-                        className="px-3 py-2 text-sm text-zinc-400 hover:text-white transition-colors flex items-center gap-2"
+                        className="px-3 py-2 text-sm text-th-text-muted hover:text-th-text-primary transition-colors flex items-center gap-2"
                     >
                         <RotateCcw className="w-4 h-4" />
                         Reset
@@ -261,7 +261,7 @@ export function WhatIfSimulator({
                     {onSave && (
                         <button
                             onClick={() => setShowSaveDialog(true)}
-                            className="px-4 py-2 bg-accent-primary text-white rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-accent-primary/90 transition-colors"
+                            className="px-4 py-2 bg-th-accent-primary text-th-text-primary rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-th-accent-primary-hover transition-colors"
                         >
                             <Save className="w-4 h-4" />
                             Save Scenario
@@ -277,15 +277,15 @@ export function WhatIfSimulator({
                     const Icon = slider.icon;
 
                     return (
-                        <div key={slider.key} className="bg-bg-card rounded-xl p-4 border border-slate-800">
+                        <div key={slider.key} className="bg-th-bg-surface rounded-xl p-4 border border-th-border-subtle">
                             <div className="flex items-center justify-between mb-3">
                                 <div className="flex items-center gap-2">
-                                    <Icon className="w-4 h-4 text-zinc-400" />
-                                    <span className="text-sm font-medium text-white">{slider.label}</span>
+                                    <Icon className="w-4 h-4 text-th-text-muted" />
+                                    <span className="text-sm font-medium text-th-text-primary">{slider.label}</span>
                                 </div>
                                 <span className={`text-sm font-mono ${
                                     value > 0 ? 'text-[#7A8B5B]' :
-                                    value < 0 ? 'text-[#E25C5C]' : 'text-zinc-400'
+                                    value < 0 ? 'text-[#E25C5C]' : 'text-th-text-muted'
                                 }`}>
                                     {slider.format(value)}
                                 </span>
@@ -297,7 +297,7 @@ export function WhatIfSimulator({
                                 step={slider.step}
                                 value={value}
                                 onChange={(e) => handleSliderChange(slider.key, parseFloat(e.target.value))}
-                                className="w-full accent-accent-primary"
+                                className="w-full accent-th-accent-primary"
                             />
                         </div>
                     );
@@ -307,8 +307,8 @@ export function WhatIfSimulator({
             {/* Time Horizon */}
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-zinc-400" />
-                    <span className="text-sm text-zinc-400">Projection:</span>
+                    <Calendar className="w-4 h-4 text-th-text-muted" />
+                    <span className="text-sm text-th-text-muted">Projection:</span>
                 </div>
                 {[30, 60, 90].map((days) => (
                     <button
@@ -316,8 +316,8 @@ export function WhatIfSimulator({
                         onClick={() => setTimeHorizon(days)}
                         className={`px-3 py-1 rounded-lg text-sm ${
                             timeHorizon === days
-                                ? 'bg-accent-primary text-white'
-                                : 'bg-bg-elevated text-zinc-400 hover:text-white'
+                                ? 'bg-th-accent-primary text-th-text-primary'
+                                : 'bg-th-bg-elevated text-th-text-muted hover:text-th-text-primary'
                         }`}
                     >
                         {days} days
@@ -353,8 +353,8 @@ export function WhatIfSimulator({
             </div>
 
             {/* Chart */}
-            <div className="bg-bg-card rounded-xl p-4 border border-slate-800">
-                <h3 className="text-sm font-medium text-white mb-4">Revenue Projection</h3>
+            <div className="bg-th-bg-surface rounded-xl p-4 border border-th-border-subtle">
+                <h3 className="text-sm font-medium text-th-text-primary mb-4">Revenue Projection</h3>
                 <ReactECharts option={chartOption} style={{ height: 300 }} />
             </div>
 
@@ -367,27 +367,27 @@ export function WhatIfSimulator({
             {/* Save Dialog */}
             {showSaveDialog && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-bg-card rounded-xl p-6 w-96 border border-white/[0.1]">
-                        <h3 className="text-lg font-semibold text-white mb-4">Save Scenario</h3>
+                    <div className="bg-th-bg-surface rounded-xl p-6 w-96 border border-white/[0.1]">
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-4">Save Scenario</h3>
                         <input
                             type="text"
                             value={scenarioName}
                             onChange={(e) => setScenarioName(e.target.value)}
                             placeholder="Scenario name"
-                            className="w-full px-4 py-3 bg-bg-elevated border border-white/[0.1] rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-accent-primary"
+                            className="w-full px-4 py-3 bg-th-bg-elevated border border-white/[0.1] rounded-lg text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary/50"
                             autoFocus
                         />
                         <div className="flex gap-3 mt-4">
                             <button
                                 onClick={() => setShowSaveDialog(false)}
-                                className="flex-1 px-4 py-2 bg-bg-elevated text-zinc-300 rounded-lg hover:bg-bg-elevated/80"
+                                className="flex-1 px-4 py-2 bg-th-bg-elevated text-th-text-secondary rounded-lg hover:bg-th-bg-elevated/80"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleSave}
                                 disabled={!scenarioName.trim()}
-                                className="flex-1 px-4 py-2 bg-accent-primary text-white rounded-lg disabled:opacity-50 hover:bg-accent-primary/90"
+                                className="flex-1 px-4 py-2 bg-th-accent-primary text-th-text-primary rounded-lg disabled:opacity-50 hover:bg-th-accent-primary-hover"
                             >
                                 Save
                             </button>
@@ -414,11 +414,11 @@ interface ImpactCardProps {
 function ImpactCard({ label, value, change, type = 'neutral', subtext }: ImpactCardProps) {
     const Icon = type === 'positive' ? TrendingUp : type === 'negative' ? TrendingDown : Minus;
     const colorClass = type === 'positive' ? 'text-[#7A8B5B]' :
-                       type === 'negative' ? 'text-[#E25C5C]' : 'text-zinc-400';
+                       type === 'negative' ? 'text-[#E25C5C]' : 'text-th-text-muted';
 
     return (
-        <div className="bg-bg-card rounded-xl p-4 border border-slate-800">
-            <div className="text-xs text-zinc-500 mb-1">{label}</div>
+        <div className="bg-th-bg-surface rounded-xl p-4 border border-th-border-subtle">
+            <div className="text-xs text-th-text-muted mb-1">{label}</div>
             <div className="flex items-center gap-2">
                 <span className={`text-xl font-semibold ${colorClass}`}>{value}</span>
                 {change !== undefined && (
@@ -428,7 +428,7 @@ function ImpactCard({ label, value, change, type = 'neutral', subtext }: ImpactC
                     </div>
                 )}
             </div>
-            {subtext && <div className="text-xs text-zinc-500 mt-1">{subtext}</div>}
+            {subtext && <div className="text-xs text-th-text-muted mt-1">{subtext}</div>}
         </div>
     );
 }
@@ -440,33 +440,33 @@ interface SummaryCardProps {
 }
 
 function SummaryCard({ title, result, variant }: SummaryCardProps) {
-    const borderClass = variant === 'accent' ? 'border-accent-primary/30' : 'border-slate-800';
+    const borderClass = variant === 'accent' ? 'border-th-accent-primary/30' : 'border-th-border-subtle';
 
     return (
-        <div className={`bg-bg-card rounded-xl p-4 border ${borderClass}`}>
-            <h4 className="text-sm font-medium text-white mb-3">{title}</h4>
+        <div className={`bg-th-bg-surface rounded-xl p-4 border ${borderClass}`}>
+            <h4 className="text-sm font-medium text-th-text-primary mb-3">{title}</h4>
             <div className="grid grid-cols-2 gap-3">
                 <div>
-                    <div className="text-xs text-zinc-500">Total Revenue</div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-xs text-th-text-muted">Total Revenue</div>
+                    <div className="text-lg font-semibold text-th-text-primary">
                         ${result.summary.totalRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                     </div>
                 </div>
                 <div>
-                    <div className="text-xs text-zinc-500">Avg DAU</div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-xs text-th-text-muted">Avg DAU</div>
+                    <div className="text-lg font-semibold text-th-text-primary">
                         {result.summary.avgDau.toLocaleString()}
                     </div>
                 </div>
                 <div>
-                    <div className="text-xs text-zinc-500">Projected LTV</div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-xs text-th-text-muted">Projected LTV</div>
+                    <div className="text-lg font-semibold text-th-text-primary">
                         ${result.summary.projectedLtv.toFixed(2)}
                     </div>
                 </div>
                 <div>
-                    <div className="text-xs text-zinc-500">Peak Revenue</div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-xs text-th-text-muted">Peak Revenue</div>
+                    <div className="text-lg font-semibold text-th-text-primary">
                         ${result.summary.peakRevenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                     </div>
                 </div>

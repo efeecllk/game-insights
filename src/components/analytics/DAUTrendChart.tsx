@@ -110,7 +110,7 @@ export const DAUTrendChart = memo(function DAUTrendChart({
             grid: { top: 20, right: 20, bottom: 30, left: 50 },
             tooltip: {
                 trigger: 'axis',
-                backgroundColor: 'rgba(15, 23, 42, 0.98)',
+                backgroundColor: 'rgba(31, 30, 27, 0.98)',
                 borderColor: 'rgba(255, 255, 255, 0.08)',
                 borderWidth: 1,
                 textStyle: { color: '#FAF9F6', fontFamily: 'DM Sans' },
@@ -158,7 +158,7 @@ export const DAUTrendChart = memo(function DAUTrendChart({
                 lineStyle: { color: '#DA7756', width: 2 },
                 itemStyle: {
                     color: '#DA7756',
-                    borderColor: '#0f172a',
+                    borderColor: '#1f1e1b',
                     borderWidth: 2,
                 },
                 areaStyle: {
@@ -186,19 +186,19 @@ export const DAUTrendChart = memo(function DAUTrendChart({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`bg-slate-900 rounded-2xl border border-slate-700 p-6 ${className}`}
+                className={`bg-th-bg-surface rounded-2xl border border-th-border p-6 ${className}`}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Users className="w-5 h-5 text-[#DA7756]" />
                         </div>
-                        <h3 className="font-semibold text-white">Daily Active Users</h3>
+                        <h3 className="font-semibold text-th-text-primary">Daily Active Users</h3>
                     </div>
                     <DataSourceIndicator sourceType="unavailable" />
                 </div>
                 <div className="text-center py-8">
-                    <p className="text-slate-400">
+                    <p className="text-th-text-secondary">
                         Upload data with user_id and timestamp columns to see DAU trends.
                     </p>
                 </div>
@@ -210,18 +210,18 @@ export const DAUTrendChart = memo(function DAUTrendChart({
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden ${className}`}
+            className={`bg-th-bg-surface rounded-2xl border border-th-border overflow-hidden ${className}`}
         >
             {/* Header */}
-            <div className="p-4 border-b border-slate-800">
+            <div className="p-4 border-b border-th-border-subtle">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <Users className="w-5 h-5 text-[#DA7756]" />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-white">Daily Active Users</h3>
-                            <p className="text-sm text-slate-400">
+                            <h3 className="font-semibold text-th-text-primary">Daily Active Users</h3>
+                            <p className="text-sm text-th-text-secondary">
                                 {filteredData.length} days of data
                             </p>
                         </div>
@@ -229,7 +229,7 @@ export const DAUTrendChart = memo(function DAUTrendChart({
 
                     <div className="flex items-center gap-2">
                         {/* Period selector */}
-                        <div className="flex gap-1 bg-white/[0.03] border border-slate-700 rounded-lg p-1">
+                        <div className="flex gap-1 bg-th-bg-elevated border border-th-border rounded-lg p-1">
                             {(['7d', '30d', '90d', 'all'] as Period[]).map(p => (
                                 <button
                                     key={p}
@@ -237,7 +237,7 @@ export const DAUTrendChart = memo(function DAUTrendChart({
                                     className={`px-2 py-1 text-xs rounded transition-all ${
                                         period === p
                                             ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                                            : 'text-slate-400 hover:text-white'
+                                            : 'text-th-text-muted hover:text-th-text-primary'
                                     }`}
                                 >
                                     {p === 'all' ? 'All' : p}
@@ -254,24 +254,24 @@ export const DAUTrendChart = memo(function DAUTrendChart({
             </div>
 
             {/* Summary Stats */}
-            <div className="grid grid-cols-4 gap-4 p-4 border-b border-slate-800">
+            <div className="grid grid-cols-4 gap-4 p-4 border-b border-th-border-subtle">
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-bold text-th-text-primary">
                         {currentDAU ? formatNumber(currentDAU) : stats ? formatNumber(Math.round(stats.avg)) : '-'}
                     </p>
-                    <p className="text-xs text-slate-400">Current DAU</p>
+                    <p className="text-xs text-th-text-muted">Current DAU</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-white">
+                    <p className="text-2xl font-bold text-th-text-primary">
                         {currentMAU ? formatNumber(currentMAU) : '-'}
                     </p>
-                    <p className="text-xs text-slate-400">MAU</p>
+                    <p className="text-xs text-th-text-muted">MAU</p>
                 </div>
                 <div className="text-center">
                     <p className="text-2xl font-bold text-[#E5A84B]">
                         {stickiness ? `${stickiness.toFixed(1)}%` : '-'}
                     </p>
-                    <p className="text-xs text-slate-400">Stickiness</p>
+                    <p className="text-xs text-th-text-muted">Stickiness</p>
                 </div>
                 <div className="text-center">
                     {stats?.trend && (
@@ -281,18 +281,18 @@ export const DAUTrendChart = memo(function DAUTrendChart({
                             ) : stats.trend.direction === 'down' ? (
                                 <TrendingDown className="w-5 h-5 text-[#E25C5C]" />
                             ) : (
-                                <Activity className="w-5 h-5 text-slate-400" />
+                                <Activity className="w-5 h-5 text-th-text-muted" />
                             )}
                             <span className={`text-2xl font-bold ${
                                 stats.trend.direction === 'up' ? 'text-[#DA7756]' :
                                 stats.trend.direction === 'down' ? 'text-[#E25C5C]' :
-                                'text-slate-400'
+                                'text-th-text-muted'
                             }`}>
                                 {stats.trend.percent > 0 ? `${stats.trend.percent.toFixed(1)}%` : '-'}
                             </span>
                         </div>
                     )}
-                    <p className="text-xs text-slate-400">Trend</p>
+                    <p className="text-xs text-th-text-muted">Trend</p>
                 </div>
             </div>
 
@@ -312,19 +312,19 @@ export const DAUTrendChart = memo(function DAUTrendChart({
             {/* Stats footer */}
             {stats && (
                 <div className="px-4 pb-4">
-                    <div className="flex items-center justify-between text-xs text-slate-500 bg-white/[0.02] border border-slate-800 rounded-lg px-3 py-2">
+                    <div className="flex items-center justify-between text-xs text-th-text-muted bg-th-bg-elevated border border-th-border-subtle rounded-lg px-3 py-2">
                         <div className="flex items-center gap-4">
                             <span>
-                                Peak: <span className="text-slate-300">{formatNumber(stats.max)}</span>
+                                Peak: <span className="text-th-text-secondary">{formatNumber(stats.max)}</span>
                             </span>
                             <span>
-                                Low: <span className="text-slate-300">{formatNumber(stats.min)}</span>
+                                Low: <span className="text-th-text-secondary">{formatNumber(stats.min)}</span>
                             </span>
                             <span>
-                                Avg: <span className="text-slate-300">{formatNumber(Math.round(stats.avg))}</span>
+                                Avg: <span className="text-th-text-secondary">{formatNumber(Math.round(stats.avg))}</span>
                             </span>
                         </div>
-                        <div className="flex items-center gap-1 text-slate-400">
+                        <div className="flex items-center gap-1 text-th-text-secondary">
                             <Calendar className="w-3 h-3" />
                             {filteredData.length > 0 && (
                                 <span>

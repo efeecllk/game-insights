@@ -106,7 +106,7 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
         return {
             tooltip: {
                 trigger: 'item',
-                backgroundColor: 'rgba(15, 23, 42, 0.98)',
+                backgroundColor: 'rgba(31, 30, 27, 0.98)',
                 borderColor: 'rgba(255, 255, 255, 0.08)',
                 borderWidth: 1,
                 textStyle: { color: '#FAF9F6', fontFamily: 'DM Sans' },
@@ -137,7 +137,7 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                 avoidLabelOverlap: true,
                 itemStyle: {
                     borderRadius: 6,
-                    borderColor: '#0f172a',
+                    borderColor: '#1f1e1b',
                     borderWidth: 2,
                 },
                 label: {
@@ -181,19 +181,19 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`bg-slate-900 rounded-2xl border border-slate-700 p-6 ${className}`}
+                className={`bg-th-bg-surface rounded-2xl border border-th-border p-6 ${className}`}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <PieChart className="w-5 h-5 text-[#DA7756]" />
                         </div>
-                        <h3 className="font-semibold text-white">Revenue Breakdown</h3>
+                        <h3 className="font-semibold text-th-text-primary">Revenue Breakdown</h3>
                     </div>
                     <DataSourceIndicator sourceType="unavailable" />
                 </div>
                 <div className="text-center py-8">
-                    <p className="text-slate-400">
+                    <p className="text-th-text-secondary">
                         Upload data with revenue and category columns (source, country, platform, or product) to see breakdown.
                     </p>
                 </div>
@@ -207,10 +207,10 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden ${className}`}
+            className={`bg-th-bg-surface rounded-2xl border border-th-border overflow-hidden ${className}`}
         >
             {/* Header with dimension selector */}
-            <div className="p-4 border-b border-slate-800">
+            <div className="p-4 border-b border-th-border-subtle">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div
@@ -220,8 +220,8 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                             <Icon className="w-5 h-5" style={{ color: currentConfig.color }} />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-white">Revenue Breakdown</h3>
-                            <p className="text-sm text-slate-400">{formatCurrency(totalRevenue)} total</p>
+                            <h3 className="font-semibold text-th-text-primary">Revenue Breakdown</h3>
+                            <p className="text-sm text-th-text-secondary">{formatCurrency(totalRevenue)} total</p>
                         </div>
                     </div>
 
@@ -231,10 +231,10 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDimensionDropdown(!showDimensionDropdown)}
-                                    className="flex items-center gap-2 px-3 py-1.5 text-sm bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] transition-colors"
+                                    className="flex items-center gap-2 px-3 py-1.5 text-sm bg-th-bg-elevated border border-th-border rounded-lg hover:bg-th-bg-surface-hover transition-colors"
                                 >
-                                    <span className="text-white">{currentConfig.label}</span>
-                                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${showDimensionDropdown ? 'rotate-180' : ''}`} />
+                                    <span className="text-th-text-primary">{currentConfig.label}</span>
+                                    <ChevronDown className={`w-4 h-4 text-th-text-muted transition-transform ${showDimensionDropdown ? 'rotate-180' : ''}`} />
                                 </button>
 
                                 <AnimatePresence>
@@ -243,7 +243,7 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                                             initial={{ opacity: 0, y: -10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             exit={{ opacity: 0, y: -10 }}
-                                            className="absolute right-0 top-full mt-1 w-40 bg-slate-900 border border-slate-700 rounded-lg shadow-xl z-10 overflow-hidden"
+                                            className="absolute right-0 top-full mt-1 w-40 bg-th-bg-surface border border-th-border rounded-lg shadow-xl z-10 overflow-hidden"
                                         >
                                             {availableDimensions.map(dim => {
                                                 const config = DIMENSION_CONFIG[dim];
@@ -255,8 +255,8 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                                                             setSelectedDimension(dim);
                                                             setShowDimensionDropdown(false);
                                                         }}
-                                                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-white/[0.05] transition-colors ${
-                                                            selectedDimension === dim ? 'bg-white/[0.05] text-white' : 'text-slate-300'
+                                                        className={`w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-th-interactive-hover transition-colors ${
+                                                            selectedDimension === dim ? 'bg-th-interactive-hover text-th-text-primary' : 'text-th-text-secondary'
                                                         }`}
                                                     >
                                                         <DimIcon className="w-4 h-4" style={{ color: config.color }} />
@@ -294,7 +294,7 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
             {/* Top items breakdown */}
             {currentData.length > 0 && (
                 <div className="px-4 pb-4">
-                    <p className="text-xs text-slate-500 mb-2">Top Contributors</p>
+                    <p className="text-xs text-th-text-muted mb-2">Top Contributors</p>
                     <div className="space-y-1">
                         {currentData.slice(0, 5).map((item, idx) => (
                             <motion.div
@@ -308,13 +308,13 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                                     className="w-2 h-2 rounded-full"
                                     style={{ backgroundColor: CHART_COLORS[idx % CHART_COLORS.length] }}
                                 />
-                                <span className="flex-1 text-sm text-slate-300 truncate">
+                                <span className="flex-1 text-sm text-th-text-secondary truncate">
                                     {item.dimension}
                                 </span>
-                                <span className="text-sm text-slate-400">
+                                <span className="text-sm text-th-text-secondary">
                                     {formatCurrency(item.value)}
                                 </span>
-                                <span className="text-xs text-slate-500 w-12 text-right">
+                                <span className="text-xs text-th-text-muted w-12 text-right">
                                     {item.percentage.toFixed(1)}%
                                 </span>
                             </motion.div>

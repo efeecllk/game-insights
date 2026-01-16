@@ -34,7 +34,7 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'axis',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
@@ -135,16 +135,16 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
     );
 
     const stats = (
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-800">
+        <div className="flex items-center justify-between mt-4 pt-4 border-t border-th-border">
             <div>
-                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Total Revenue</p>
+                <p className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium mb-0.5">Total Revenue</p>
                 <p className="text-xl font-bold text-[#E8957A] font-mono tracking-tight">
                     ${totalRevenue.toLocaleString()}
                 </p>
             </div>
             <div className="text-right">
-                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mb-0.5">Daily Average</p>
-                <p className="text-sm font-semibold text-slate-300 font-mono">
+                <p className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium mb-0.5">Daily Average</p>
+                <p className="text-sm font-semibold text-th-text-secondary font-mono">
                     ${avgRevenue.toLocaleString()}/day
                 </p>
             </div>
@@ -163,17 +163,17 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
 
     // Standalone mode with its own container
     return (
-        <div className={`relative bg-slate-900  rounded-2xl p-5 border border-slate-800 overflow-hidden ${className ?? ''}`}>
+        <div className={`relative bg-th-bg-surface rounded-2xl p-5 border border-th-border overflow-hidden ${className ?? ''}`}>
             {/* Noise texture */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
             <div className="relative">
                 <div className="flex items-center justify-between mb-4">
                     <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-th-text-primary">
                             {config?.title ?? 'Revenue'}
                         </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-th-text-muted mt-0.5">
                             {config?.subtitle ?? 'Track earnings over time'}
                         </p>
                     </div>
@@ -181,7 +181,7 @@ function RevenueChartComponent({ data, config, className, bare = false }: Revenu
                         <p className="text-lg font-bold text-[#E8957A] font-mono">
                             ${totalRevenue.toLocaleString()}
                         </p>
-                        <p className="text-[10px] text-slate-500 font-medium">
+                        <p className="text-[10px] text-th-text-muted font-medium">
                             Avg: ${avgRevenue.toLocaleString()}/day
                         </p>
                     </div>

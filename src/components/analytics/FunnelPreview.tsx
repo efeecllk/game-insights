@@ -25,17 +25,17 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
             <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
                 <div>
                     {/* Header */}
-                    <div className="p-4 border-b border-slate-800">
+                    <div className="p-4 border-b border-th-border-subtle">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h3 className="font-display font-semibold text-white">{funnel.name}</h3>
-                                <p className="text-sm text-slate-500 mt-0.5 capitalize">{funnel.type} funnel</p>
+                                <h3 className="font-display font-semibold text-th-text-primary">{funnel.name}</h3>
+                                <p className="text-sm text-th-text-muted mt-0.5 capitalize">{funnel.type} funnel</p>
                             </div>
                             <div className="text-right">
                                 <div className="text-2xl font-display font-bold text-[#DA7756]">
                                     {(funnel.completionRate * 100).toFixed(1)}%
                                 </div>
-                                <div className="text-xs text-slate-500">completion rate</div>
+                                <div className="text-xs text-th-text-muted">completion rate</div>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between mb-1">
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-medium text-white">{step.name}</span>
+                                                    <span className="text-sm font-medium text-th-text-primary">{step.name}</span>
                                                     {isBottleneck && (
                                                         <span className="px-1.5 py-0.5 text-xs bg-[#E5A84B]/20 text-[#E5A84B] border border-[#E5A84B]/30 rounded flex items-center gap-1">
                                                             <AlertCircle className="w-3 h-3" />
@@ -68,11 +68,11 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <span className="text-sm text-slate-400 font-mono">
+                                                <span className="text-sm text-th-text-secondary font-mono">
                                                     {step.userCount.toLocaleString()} ({step.percentage.toFixed(1)}%)
                                                 </span>
                                             </div>
-                                            <div className="h-2 bg-slate-800/50 rounded-full overflow-hidden">
+                                            <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
                                                 <div
                                                     className={`h-full rounded-full transition-all ${
                                                         isBottleneck
@@ -88,8 +88,8 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                                     {/* Connector arrow */}
                                     {index < funnel.steps.length - 1 && (
                                         <div className="flex items-center ml-9 my-1">
-                                            <div className="flex-1 border-l-2 border-dashed border-slate-700 h-4" />
-                                            <div className="text-xs text-slate-600 px-2 font-mono">
+                                            <div className="flex-1 border-l-2 border-dashed border-th-border h-4" />
+                                            <div className="text-xs text-th-text-disabled px-2 font-mono">
                                                 -{step.dropOffRate.toFixed(0)}% drop-off
                                             </div>
                                         </div>
@@ -104,7 +104,7 @@ export function FunnelPreview({ funnel, className }: FunnelPreviewProps) {
                         <div className="px-4 pb-4">
                             <div className="p-3 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl">
                                 <div className="text-xs font-medium text-[#DA7756] mb-1">Recommendation</div>
-                                <p className="text-sm text-slate-300">{funnel.bottleneck.recommendations[0]}</p>
+                                <p className="text-sm text-th-text-secondary">{funnel.bottleneck.recommendations[0]}</p>
                             </div>
                         </div>
                     )}

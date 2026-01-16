@@ -213,7 +213,7 @@ export function WhatIfPage() {
     const regularScenarios = scenarios.filter(s => !s.isFavorite);
 
     return (
-        <div className="min-h-screen bg-slate-950 relative overflow-hidden">
+        <div className="min-h-screen bg-th-bg-base relative overflow-hidden">
             {/* Background decorative elements */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute -top-40 -right-40 w-96 h-96 bg-[#E5A84B]/5 rounded-full" />
@@ -226,7 +226,7 @@ export function WhatIfPage() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="relative p-6 border-b border-slate-800"
+                className="relative p-6 border-b border-th-border-subtle"
                 
             >
                 <div className="flex items-center gap-4">
@@ -243,7 +243,7 @@ export function WhatIfPage() {
                             What-If Analysis
                             <DataModeIndicator />
                         </h1>
-                        <p className="text-slate-400 mt-0.5 text-sm">
+                        <p className="text-th-text-secondary mt-0.5 text-sm">
                             {hasRealData
                                 ? 'Simulate scenarios using your real data as baseline'
                                 : 'Simulate revenue and metric projections with demo data'}
@@ -269,11 +269,11 @@ export function WhatIfPage() {
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="w-80 min-h-[calc(100vh-88px)] bg-gradient-to-b from-slate-900/80 to-slate-950/80  border-r border-slate-800 p-4 flex flex-col relative"
+                    className="w-80 min-h-[calc(100vh-88px)] bg-gradient-to-b from-th-bg-surface/80 to-th-bg-base/80  border-r border-th-border-subtle p-4 flex flex-col relative"
                     
                 >
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                        <h2 className="text-lg font-semibold text-th-text-primary flex items-center gap-2">
                             <Sparkles className="w-4 h-4 text-[#E5A84B]" />
                             Saved Scenarios
                         </h2>
@@ -282,7 +282,7 @@ export function WhatIfPage() {
                             whileTap={{ scale: 0.95 }}
                             onClick={handleExport}
                             disabled={scenarios.length === 0}
-                            className="p-2 text-slate-400 hover:text-[#E5A84B] transition-colors disabled:opacity-30 disabled:hover:text-slate-400 rounded-lg hover:bg-white/5"
+                            className="p-2 text-th-text-secondary hover:text-[#E5A84B] transition-colors disabled:opacity-30 disabled:hover:text-th-text-secondary rounded-lg hover:bg-white/5"
                             title="Export all scenarios"
                         >
                             <Download className="w-4 h-4" />
@@ -302,13 +302,13 @@ export function WhatIfPage() {
                             animate={{ opacity: 1 }}
                             className="text-center py-12"
                         >
-                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-slate-800 flex items-center justify-center">
-                                <Lightbulb className="w-8 h-8 text-slate-600" />
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-th-bg-elevated/50 to-th-bg-surface/50 border border-th-border-subtle flex items-center justify-center">
+                                <Lightbulb className="w-8 h-8 text-th-text-disabled" />
                             </div>
-                            <p className="text-slate-400 text-sm font-medium">
+                            <p className="text-th-text-secondary text-sm font-medium">
                                 No saved scenarios yet
                             </p>
-                            <p className="text-slate-500 text-xs mt-1">
+                            <p className="text-th-text-muted text-xs mt-1">
                                 Use the simulator to create scenarios
                             </p>
                         </motion.div>
@@ -317,7 +317,7 @@ export function WhatIfPage() {
                             variants={containerVariants}
                             initial="hidden"
                             animate="visible"
-                            className="space-y-4 flex-1 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
+                            className="space-y-4 flex-1 overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-th-border scrollbar-track-transparent"
                         >
                             {/* Favorites */}
                             <AnimatePresence>
@@ -348,7 +348,7 @@ export function WhatIfPage() {
                             <AnimatePresence>
                                 {regularScenarios.length > 0 && (
                                     <motion.div variants={itemVariants}>
-                                        <h3 className="text-[10px] font-semibold text-slate-500 uppercase tracking-widest mb-3">
+                                        <h3 className="text-[10px] font-semibold text-th-text-muted uppercase tracking-widest mb-3">
                                             All Scenarios
                                         </h3>
                                         <div className="space-y-2">
@@ -428,7 +428,7 @@ function ScenarioCard({
             className={`group relative p-3 rounded-xl cursor-pointer transition-all duration-200 ${
                 isSelected
                     ? 'bg-gradient-to-br from-[#E5A84B]/15 to-orange-500/10 border border-[#E5A84B]/30 shadow-lg shadow-[#E5A84B]/5'
-                    : 'bg-slate-800/40 hover:from-slate-800/60 hover:to-slate-900/60 border border-slate-800 hover:border-white/[0.1]'
+                    : 'bg-th-bg-elevated/40 hover:from-th-bg-elevated/60 hover:to-th-bg-surface/60 border border-th-border-subtle hover:border-white/[0.1]'
             }`}
             
             onClick={() => onSelect(scenario)}
@@ -438,7 +438,7 @@ function ScenarioCard({
             <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                        <h4 className="text-sm font-medium text-white truncate">
+                        <h4 className="text-sm font-medium text-th-text-primary truncate">
                             {scenario.name}
                         </h4>
                         {scenario.isFavorite && (
@@ -447,7 +447,7 @@ function ScenarioCard({
                     </div>
                     {impact && (
                         <div className={`text-xs mt-1.5 flex items-center gap-1 ${
-                            isNeutral ? 'text-slate-400' :
+                            isNeutral ? 'text-th-text-secondary' :
                             isPositive ? 'text-[#DA7756]' : 'text-[#E25C5C]'
                         }`}>
                             {!isNeutral && (
@@ -458,7 +458,7 @@ function ScenarioCard({
                             {impactPercent >= 0 ? '+' : ''}{impactPercent.toFixed(1)}% revenue
                         </div>
                     )}
-                    <div className="text-[10px] text-slate-500 mt-1.5">
+                    <div className="text-[10px] text-th-text-muted mt-1.5">
                         {new Date(scenario.updatedAt).toLocaleDateString(undefined, {
                             month: 'short',
                             day: 'numeric',
@@ -480,7 +480,7 @@ function ScenarioCard({
                                 whileHover={{ scale: 1.15 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => { e.stopPropagation(); onToggleFavorite(scenario.id); }}
-                                className="p-1.5 text-slate-400 hover:text-[#E5A84B] rounded-lg hover:bg-[#E5A84B]/10 transition-colors"
+                                className="p-1.5 text-th-text-secondary hover:text-[#E5A84B] rounded-lg hover:bg-[#E5A84B]/10 transition-colors"
                                 title={scenario.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                             >
                                 {scenario.isFavorite ? (
@@ -493,7 +493,7 @@ function ScenarioCard({
                                 whileHover={{ scale: 1.15 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => { e.stopPropagation(); onDuplicate(scenario.id); }}
-                                className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+                                className="p-1.5 text-th-text-secondary hover:text-th-text-primary rounded-lg hover:bg-white/10 transition-colors"
                                 title="Duplicate"
                             >
                                 <Copy className="w-3.5 h-3.5" />
@@ -502,7 +502,7 @@ function ScenarioCard({
                                 whileHover={{ scale: 1.15 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={(e) => { e.stopPropagation(); onDelete(scenario.id); }}
-                                className="p-1.5 text-slate-400 hover:text-[#E25C5C] rounded-lg hover:bg-[#E25C5C]/10 transition-colors"
+                                className="p-1.5 text-th-text-secondary hover:text-[#E25C5C] rounded-lg hover:bg-[#E25C5C]/10 transition-colors"
                                 title="Delete"
                             >
                                 <Trash2 className="w-3.5 h-3.5" />

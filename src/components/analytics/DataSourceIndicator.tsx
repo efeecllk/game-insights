@@ -94,17 +94,17 @@ export const DataSourceIndicator = memo(function DataSourceIndicator({
 
             {/* Tooltip */}
             <div className="absolute bottom-full left-0 mb-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <div className="bg-slate-900/95 border border-slate-700 rounded-lg shadow-xl p-3">
-                    <p className="text-sm text-white font-medium mb-1">{config.description}</p>
+                <div className="bg-th-bg-overlay border border-th-border rounded-lg shadow-xl p-3">
+                    <p className="text-sm text-th-text-primary font-medium mb-1">{config.description}</p>
 
                     {columns && columns.length > 0 && (
-                        <div className="mt-2 pt-2 border-t border-slate-800">
-                            <p className="text-xs text-slate-400 mb-1">Columns used:</p>
+                        <div className="mt-2 pt-2 border-t border-th-border-subtle">
+                            <p className="text-xs text-th-text-muted mb-1">Columns used:</p>
                             <div className="flex flex-wrap gap-1">
                                 {columns.map((col, idx) => (
                                     <span
                                         key={idx}
-                                        className="px-1.5 py-0.5 text-xs bg-white/[0.05] rounded text-slate-300"
+                                        className="px-1.5 py-0.5 text-xs bg-white/[0.05] rounded text-th-text-secondary"
                                     >
                                         {col}
                                     </span>
@@ -114,20 +114,20 @@ export const DataSourceIndicator = memo(function DataSourceIndicator({
                     )}
 
                     {tableName && (
-                        <p className="text-xs text-slate-500 mt-2">
-                            Source: <span className="text-slate-400">{tableName}</span>
+                        <p className="text-xs text-th-text-muted mt-2">
+                            Source: <span className="text-th-text-secondary">{tableName}</span>
                         </p>
                     )}
 
                     {rowCount !== undefined && (
-                        <p className="text-xs text-slate-500">
-                            Rows: <span className="text-slate-400">{rowCount.toLocaleString()}</span>
+                        <p className="text-xs text-th-text-muted">
+                            Rows: <span className="text-th-text-secondary">{rowCount.toLocaleString()}</span>
                         </p>
                     )}
 
                     {/* Arrow */}
                     <div className="absolute bottom-0 left-4 transform translate-y-full -mt-px">
-                        <div className="border-8 border-transparent border-t-slate-700" />
+                        <div className="border-8 border-transparent border-t-th-border" />
                     </div>
                 </div>
             </div>

@@ -170,7 +170,7 @@ function MetricCard({
         }],
         tooltip: {
             trigger: 'axis',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
             textStyle: { color: '#FAF9F6' },
             formatter: (params: { name: string; value: number }[]) => {
@@ -183,8 +183,8 @@ function MetricCard({
     return (
         <motion.div
             layout
-            className={`bg-slate-900  rounded-xl border overflow-hidden transition-all ${
-                isExpanded ? 'border-[#DA7756]/30 ring-1 ring-[#DA7756]/20' : 'border-slate-700'
+            className={`bg-th-bg-surface rounded-xl border overflow-hidden transition-all ${
+                isExpanded ? 'border-[#DA7756]/30 ring-1 ring-[#DA7756]/20' : 'border-th-border'
             }`}
         >
             {/* Header */}
@@ -200,7 +200,7 @@ function MetricCard({
                         </div>
                         <div>
                             <div className="flex items-center gap-2">
-                                <span className="font-medium text-white">{metric.label}</span>
+                                <span className="font-medium text-th-text-primary">{metric.label}</span>
                                 <span className={`px-2 py-0.5 text-xs rounded-full ${categoryColor.bg} ${categoryColor.text}`}>
                                     {CATEGORY_LABELS[metric.category]}
                                 </span>
@@ -216,19 +216,19 @@ function MetricCard({
                                 )}
                             </div>
                             {metric.description && (
-                                <p className="text-xs text-slate-500 mt-0.5">{metric.description}</p>
+                                <p className="text-xs text-th-text-muted mt-0.5">{metric.description}</p>
                             )}
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="text-right">
-                            <p className="text-2xl font-bold text-white">
+                            <p className="text-2xl font-bold text-th-text-primary">
                                 {formatValue(metric.value, metric.format)}
                             </p>
                             {metric.trend && (
                                 <div className={`flex items-center justify-end gap-1 text-xs ${
                                     metric.trend === 'up' ? 'text-[#DA7756]' :
-                                    metric.trend === 'down' ? 'text-[#E25C5C]' : 'text-slate-400'
+                                    metric.trend === 'down' ? 'text-[#E25C5C]' : 'text-th-text-muted'
                                 }`}>
                                     {metric.trend === 'up' ? <TrendingUp className="w-3 h-3" /> :
                                      metric.trend === 'down' ? <TrendingDown className="w-3 h-3" /> : null}
@@ -237,7 +237,7 @@ function MetricCard({
                             )}
                         </div>
                         <motion.div animate={{ rotate: isExpanded ? 90 : 0 }}>
-                            <ChevronRight className="w-5 h-5 text-slate-500" />
+                            <ChevronRight className="w-5 h-5 text-th-text-muted" />
                         </motion.div>
                     </div>
                 </div>
@@ -250,7 +250,7 @@ function MetricCard({
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="border-t border-slate-800"
+                        className="border-t border-th-border-subtle"
                     >
                         {chartOption && (
                             <div className="p-4">
@@ -258,15 +258,15 @@ function MetricCard({
                             </div>
                         )}
                         <div className="px-4 pb-4">
-                            <div className="bg-white/[0.02] border border-slate-800 rounded-xl p-4">
-                                <h4 className="text-sm font-medium text-slate-300 mb-2">About this metric</h4>
-                                <p className="text-sm text-slate-400">
+                            <div className="bg-th-bg-elevated border border-th-border-subtle rounded-xl p-4">
+                                <h4 className="text-sm font-medium text-th-text-secondary mb-2">About this metric</h4>
+                                <p className="text-sm text-th-text-secondary">
                                     {metric.description || `${metric.label} shows key performance indicator for your game analytics.`}
                                 </p>
                                 {benchmarkStatus && (
-                                    <div className="mt-3 pt-3 border-t border-slate-800">
-                                        <p className="text-xs text-slate-500">
-                                            <strong className="text-slate-400">Industry benchmark:</strong> Good is {formatValue(BENCHMARKS[metric.key]?.good || 0, metric.format)},
+                                    <div className="mt-3 pt-3 border-t border-th-border-subtle">
+                                        <p className="text-xs text-th-text-muted">
+                                            <strong className="text-th-text-secondary">Industry benchmark:</strong> Good is {formatValue(BENCHMARKS[metric.key]?.good || 0, metric.format)},
                                             Great is {formatValue(BENCHMARKS[metric.key]?.great || 0, metric.format)}
                                         </p>
                                     </div>
@@ -350,7 +350,7 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
         ],
         tooltip: {
             trigger: 'axis',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
             textStyle: { color: '#FAF9F6' },
         },
@@ -359,23 +359,23 @@ function RetentionCurveChart({ retention }: { retention: CalculatedMetrics['rete
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
+            className="bg-th-bg-surface rounded-2xl border border-th-border p-6"
         >
             <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                     <Target className="w-5 h-5 text-[#DA7756]" />
                 </div>
-                <h3 className="font-semibold text-white">Retention Curve</h3>
+                <h3 className="font-semibold text-th-text-primary">Retention Curve</h3>
             </div>
             <ReactECharts option={option} style={{ height: 280 }} />
             <div className="mt-4 flex items-center justify-center gap-6 text-sm">
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-[#DA7756]" />
-                    <span className="text-slate-400">Classic (exact day)</span>
+                    <span className="text-th-text-secondary">Classic (exact day)</span>
                 </div>
                 <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-[#C15F3C]" />
-                    <span className="text-slate-400">Rolling (day or after)</span>
+                    <span className="text-th-text-secondary">Rolling (day or after)</span>
                 </div>
             </div>
         </motion.div>
@@ -420,7 +420,7 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
         }],
         tooltip: {
             trigger: 'axis',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(255,255,255,0.1)',
             textStyle: { color: '#FAF9F6' },
             formatter: (params: { name: string; value: number }[]) => {
@@ -434,14 +434,14 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
     return (
         <motion.div
             variants={itemVariants}
-            className="bg-slate-900  rounded-2xl border border-slate-700 p-6"
+            className="bg-th-bg-surface rounded-2xl border border-th-border p-6"
         >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                         <Layers className="w-5 h-5 text-[#C15F3C]" />
                     </div>
-                    <h3 className="font-semibold text-white">Level Progression</h3>
+                    <h3 className="font-semibold text-th-text-primary">Level Progression</h3>
                 </div>
                 {progression.difficultySpikes.length > 0 && (
                     <span className="px-3 py-1 text-xs rounded-full bg-[#E25C5C]/10 border border-[#E25C5C]/20 text-[#E25C5C]">
@@ -451,11 +451,11 @@ function ProgressionChart({ progression }: { progression: CalculatedMetrics['pro
             </div>
             <ReactECharts option={option} style={{ height: 280 }} />
             <div className="mt-4 flex items-center justify-between text-sm">
-                <span className="text-slate-400">
-                    Avg Level: <strong className="text-white">{progression.avgLevel.toFixed(1)}</strong>
+                <span className="text-th-text-secondary">
+                    Avg Level: <strong className="text-th-text-primary">{progression.avgLevel.toFixed(1)}</strong>
                 </span>
-                <span className="text-slate-400">
-                    Max Level: <strong className="text-white">{progression.maxLevelReached}</strong>
+                <span className="text-th-text-secondary">
+                    Max Level: <strong className="text-th-text-primary">{progression.maxLevelReached}</strong>
                 </span>
             </div>
         </motion.div>
@@ -664,13 +664,13 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
     // No metrics state
     if (!metrics || metricItems.length === 0) {
         return (
-            <div className={`bg-slate-900  rounded-2xl border border-slate-700 p-8 ${className ?? ''}`}>
+            <div className={`bg-th-bg-surface rounded-2xl border border-th-border p-8 ${className ?? ''}`}>
                 <div className="text-center">
                     <div className="w-16 h-16 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
                         <BarChart3 className="w-8 h-8 text-[#DA7756]" />
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">No Metrics Available</h3>
-                    <p className="text-slate-400">
+                    <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Metrics Available</h3>
+                    <p className="text-th-text-secondary">
                         Upload data with user IDs, timestamps, and events to calculate metrics.
                     </p>
                 </div>
@@ -692,13 +692,13 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                         <LineChart className="w-6 h-6 text-[#DA7756]" />
                     </div>
                     <div>
-                        <h2 className="text-xl font-bold text-white">Metric Analysis</h2>
-                        <p className="text-sm text-slate-400">{metricItems.length} metrics calculated</p>
+                        <h2 className="text-xl font-bold text-th-text-primary">Metric Analysis</h2>
+                        <p className="text-sm text-th-text-secondary">{metricItems.length} metrics calculated</p>
                     </div>
                 </div>
 
                 {/* Category Filter */}
-                <div className="flex gap-1 bg-white/[0.03] border border-slate-700 rounded-xl p-1">
+                <div className="flex gap-1 bg-th-bg-elevated border border-th-border rounded-xl p-1">
                     {availableCategories.map(cat => (
                         <motion.button
                             key={cat}
@@ -708,7 +708,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
                             className={`px-4 py-2 text-sm rounded-lg transition-all ${
                                 selectedCategory === cat
                                     ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                                    : 'text-th-text-muted hover:text-th-text-primary hover:bg-th-interactive-hover'
                             }`}
                         >
                             {CATEGORY_LABELS[cat]}
@@ -731,7 +731,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             <motion.div variants={itemVariants} className="space-y-4">
                 <div className="flex items-center gap-3">
                     <Sparkles className="w-4 h-4 text-[#DA7756]" />
-                    <h3 className="font-semibold text-white">Detailed Metrics</h3>
+                    <h3 className="font-semibold text-th-text-primary">Detailed Metrics</h3>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <AnimatePresence>
@@ -760,7 +760,7 @@ export function MetricTrendPanel({ metrics, className }: MetricTrendPanelProps) 
             {metrics.dataRange && (
                 <motion.div
                     variants={itemVariants}
-                    className="flex items-center justify-between text-sm text-slate-400 bg-white/[0.02] border border-slate-800 rounded-xl px-4 py-3"
+                    className="flex items-center justify-between text-sm text-th-text-secondary bg-th-bg-elevated border border-th-border-subtle rounded-xl px-4 py-3"
                 >
                     <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4 text-[#DA7756]" />

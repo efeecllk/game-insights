@@ -103,7 +103,7 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
         return {
             tooltip: {
                 trigger: 'item',
-                backgroundColor: 'rgba(15, 23, 42, 0.98)',
+                backgroundColor: 'rgba(31, 30, 27, 0.98)',
                 borderColor: 'rgba(255, 255, 255, 0.08)',
                 borderWidth: 1,
                 textStyle: { color: '#FAF9F6', fontFamily: 'DM Sans' },
@@ -135,7 +135,7 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
                 avoidLabelOverlap: true,
                 itemStyle: {
                     borderRadius: 6,
-                    borderColor: '#0f172a',
+                    borderColor: '#1f1e1b',
                     borderWidth: 2,
                 },
                 label: {
@@ -173,19 +173,19 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`bg-slate-900 rounded-2xl border border-slate-700 p-6 ${className}`}
+                className={`bg-th-bg-surface rounded-2xl border border-th-border p-6 ${className}`}
             >
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#E5A84B]/10 border border-[#E5A84B]/20 flex items-center justify-center">
                             <DollarSign className="w-5 h-5 text-[#E5A84B]" />
                         </div>
-                        <h3 className="font-semibold text-white">Spender Segments</h3>
+                        <h3 className="font-semibold text-th-text-primary">Spender Segments</h3>
                     </div>
                     <DataSourceIndicator sourceType="unavailable" />
                 </div>
                 <div className="text-center py-8">
-                    <p className="text-slate-400">
+                    <p className="text-th-text-secondary">
                         Upload data with user_id and revenue columns to see spender tiers.
                     </p>
                 </div>
@@ -197,18 +197,18 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`bg-slate-900 rounded-2xl border border-slate-700 overflow-hidden ${className}`}
+            className={`bg-th-bg-surface rounded-2xl border border-th-border overflow-hidden ${className}`}
         >
             {/* Header */}
-            <div className="p-4 border-b border-slate-800">
+            <div className="p-4 border-b border-th-border-subtle">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-xl bg-[#E5A84B]/10 border border-[#E5A84B]/20 flex items-center justify-center">
                             <DollarSign className="w-5 h-5 text-[#E5A84B]" />
                         </div>
                         <div>
-                            <h3 className="font-semibold text-white">Spender Segments</h3>
-                            <p className="text-sm text-slate-400">Revenue by user tier</p>
+                            <h3 className="font-semibold text-th-text-primary">Spender Segments</h3>
+                            <p className="text-sm text-th-text-secondary">Revenue by user tier</p>
                         </div>
                     </div>
                     <DataSourceIndicator
@@ -219,18 +219,18 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
             </div>
 
             {/* Summary Stats */}
-            <div className="grid grid-cols-3 gap-4 p-4 border-b border-slate-800">
+            <div className="grid grid-cols-3 gap-4 p-4 border-b border-th-border-subtle">
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-white">{formatCurrency(totalRevenue)}</p>
-                    <p className="text-xs text-slate-400">Total Revenue</p>
+                    <p className="text-2xl font-bold text-th-text-primary">{formatCurrency(totalRevenue)}</p>
+                    <p className="text-xs text-th-text-muted">Total Revenue</p>
                 </div>
                 <div className="text-center">
-                    <p className="text-2xl font-bold text-white">{formatNumber(payingUsers)}</p>
-                    <p className="text-xs text-slate-400">Paying Users</p>
+                    <p className="text-2xl font-bold text-th-text-primary">{formatNumber(payingUsers)}</p>
+                    <p className="text-xs text-th-text-muted">Paying Users</p>
                 </div>
                 <div className="text-center">
                     <p className="text-2xl font-bold text-[#DA7756]">{conversionRate.toFixed(1)}%</p>
-                    <p className="text-xs text-slate-400">Conversion Rate</p>
+                    <p className="text-xs text-th-text-muted">Conversion Rate</p>
                 </div>
             </div>
 
@@ -261,7 +261,7 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: idx * 0.05 }}
-                                className="flex items-center gap-3 p-2 rounded-lg bg-white/[0.02] border border-slate-800"
+                                className="flex items-center gap-3 p-2 rounded-lg bg-th-bg-elevated border border-th-border-subtle"
                             >
                                 <div
                                     className="w-8 h-8 rounded-lg flex items-center justify-center"
@@ -271,14 +271,14 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium text-white truncate">
+                                        <span className="text-sm font-medium text-th-text-primary truncate">
                                             {tier.tier}
                                         </span>
-                                        <span className="text-sm text-slate-400">
+                                        <span className="text-sm text-th-text-secondary">
                                             {formatNumber(tier.users)} users ({tier.percentage.toFixed(1)}%)
                                         </span>
                                     </div>
-                                    <div className="mt-1 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                    <div className="mt-1 h-1.5 bg-th-bg-elevated rounded-full overflow-hidden">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${revenuePercent}%` }}
@@ -288,10 +288,10 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
                                         />
                                     </div>
                                     <div className="flex items-center justify-between mt-1">
-                                        <span className="text-xs text-slate-500">
+                                        <span className="text-xs text-th-text-muted">
                                             {formatCurrency(tier.revenue)}
                                         </span>
-                                        <span className="text-xs text-slate-500">
+                                        <span className="text-xs text-th-text-muted">
                                             {revenuePercent.toFixed(1)}% of revenue
                                         </span>
                                     </div>

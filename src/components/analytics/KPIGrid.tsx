@@ -125,8 +125,8 @@ const KPICard = memo(function KPICard({ label, value, change, icon, tooltip, col
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             className={`
                 group relative overflow-hidden
-                bg-slate-900
-                 rounded-xl
+                bg-th-bg-surface
+                rounded-xl
                 border ${styles.border} ${styles.hoverBorder}
                 p-5 transition-all duration-300
                 hover:shadow-lg hover:shadow-black/20
@@ -174,13 +174,13 @@ const KPICard = memo(function KPICard({ label, value, change, icon, tooltip, col
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: index * 0.1 + 0.1 }}
-                    className="text-2xl font-bold text-white mb-1 tracking-tight"
+                    className="text-2xl font-bold text-th-text-primary mb-1 tracking-tight"
                 >
                     {value}
                 </motion.div>
 
                 {/* Label */}
-                <div className="text-sm text-slate-400">{label}</div>
+                <div className="text-sm text-th-text-muted">{label}</div>
             </div>
         </motion.div>
     );
@@ -224,7 +224,7 @@ function KPIGridSkeleton() {
             {[1, 2, 3, 4].map((i) => (
                 <div
                     key={i}
-                    className="bg-slate-900  rounded-xl border border-slate-800 p-5"
+                    className="bg-th-bg-surface rounded-xl border border-th-border p-5"
                 >
                     <div className="animate-pulse">
                         <div className="flex items-start justify-between mb-4">
@@ -372,7 +372,7 @@ export const KPIGrid = memo(function KPIGrid({ metrics, className }: KPIGridProp
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center justify-between mb-3"
             >
-                <h3 className="text-sm font-medium text-slate-400">Key Metrics</h3>
+                <h3 className="text-sm font-medium text-th-text-muted">Key Metrics</h3>
                 <div className="flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20">
                     <FileSpreadsheet className="w-3 h-3" />
                     <span>Your Data</span>
@@ -396,11 +396,11 @@ export const KPIGrid = memo(function KPIGrid({ metrics, className }: KPIGridProp
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.5 }}
-                    className="mt-3 flex items-center justify-end gap-2 text-xs text-slate-500"
+                    className="mt-3 flex items-center justify-end gap-2 text-xs text-th-text-muted"
                 >
                     <span>Confidence:</span>
                     <div className="flex items-center gap-1">
-                        <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="w-16 h-1.5 bg-th-bg-elevated rounded-full overflow-hidden">
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${metrics.confidence * 100}%` }}
@@ -412,7 +412,7 @@ export const KPIGrid = memo(function KPIGrid({ metrics, className }: KPIGridProp
                                 }`}
                             />
                         </div>
-                        <span className="text-slate-400">{Math.round(metrics.confidence * 100)}%</span>
+                        <span className="text-th-text-secondary">{Math.round(metrics.confidence * 100)}%</span>
                     </div>
                 </motion.div>
             )}

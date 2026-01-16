@@ -30,7 +30,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'axis',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
@@ -127,7 +127,7 @@ function RetentionCurveComponent({ data, config, className, bare = false }: Rete
                 },
                 itemStyle: {
                     color: '#DA7756',
-                    borderColor: '#0f172a',
+                    borderColor: '#1f1e1b',
                     borderWidth: 3,
                 },
                 areaStyle: {

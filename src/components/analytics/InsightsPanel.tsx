@@ -136,7 +136,7 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
         <motion.div
             variants={itemVariants}
             custom={index}
-            className={`bg-gradient-to-br ${style.bg} border ${style.border} rounded-xl p-4 hover:border-slate-600 transition-all`}
+            className={`bg-gradient-to-br ${style.bg} border ${style.border} rounded-xl p-4 hover:border-th-border-strong transition-all`}
         >
             <div className="flex items-start gap-3">
                 <div className={`flex-shrink-0 w-9 h-9 rounded-lg ${style.iconBg} border ${style.border} flex items-center justify-center`}>
@@ -145,7 +145,7 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
                 <div className="flex-1 min-w-0">
                     {/* Header with badges */}
                     <div className="flex items-start justify-between gap-2 mb-1">
-                        <h4 className="font-medium text-white">{insight.title}</h4>
+                        <h4 className="font-medium text-th-text-primary">{insight.title}</h4>
                         <div className="flex items-center gap-1.5 flex-shrink-0">
                             {insight.businessImpact && (
                                 <span className={`px-1.5 py-0.5 text-[10px] uppercase font-semibold rounded border ${impactColors[insight.businessImpact]}`}>
@@ -160,13 +160,13 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
                         </div>
                     </div>
 
-                    <p className="text-sm text-slate-300 leading-relaxed">{insight.description}</p>
+                    <p className="text-sm text-th-text-secondary leading-relaxed">{insight.description}</p>
 
                     {/* Recommendation */}
                     {insight.recommendation && (
-                        <div className="mt-2 p-2 bg-white/[0.03] border border-slate-700/50 rounded-lg">
-                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-0.5">Recommendation</p>
-                            <p className="text-sm text-slate-300">{insight.recommendation}</p>
+                        <div className="mt-2 p-2 bg-white/[0.03] border border-th-border-subtle rounded-lg">
+                            <p className="text-xs text-th-text-muted uppercase tracking-wide mb-0.5">Recommendation</p>
+                            <p className="text-sm text-th-text-secondary">{insight.recommendation}</p>
                         </div>
                     )}
 
@@ -178,7 +178,7 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
                                 <span className="text-lg font-semibold text-[#7A8B5B]">
                                     {formatCurrency(insight.revenueImpact.estimatedValue)}
                                 </span>
-                                <span className="text-xs text-slate-400">
+                                <span className="text-xs text-th-text-secondary">
                                     /{insight.revenueImpact.timeframe}
                                 </span>
                                 {insight.revenueImpact.estimatedPercentage > 0 && (
@@ -193,12 +193,12 @@ const InsightCard = memo(function InsightCard({ insight, index }: { insight: Ins
                     {/* Metric value and confidence */}
                     <div className="mt-2 flex flex-wrap items-center gap-2">
                         {insight.value !== undefined && (
-                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.05] border border-slate-700 rounded-lg text-xs font-medium text-white">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.05] border border-th-border rounded-lg text-xs font-medium text-th-text-primary">
                                 {insight.metric}: {typeof insight.value === 'number' ? insight.value.toFixed(1) : String(insight.value)}
                             </span>
                         )}
                         {insight.confidence !== undefined && insight.confidence > 0 && (
-                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.03] border border-slate-800 rounded-lg text-xs text-slate-400">
+                            <span className="inline-flex items-center gap-1 px-2 py-1 bg-white/[0.03] border border-th-border-subtle rounded-lg text-xs text-th-text-secondary">
                                 {Math.round(insight.confidence * 100)}% confidence
                             </span>
                         )}
@@ -248,18 +248,18 @@ const AnomalyCard = memo(function AnomalyCard({ anomaly, index }: { anomaly: Ano
             <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />
-                    <span className="font-medium text-white">{anomaly.metric}</span>
+                    <span className="font-medium text-th-text-primary">{anomaly.metric}</span>
                 </div>
                 <span className={`px-2 py-0.5 text-xs rounded-full border font-medium ${style.badge}`}>
                     {anomaly.severity}
                 </span>
             </div>
-            <p className="text-sm text-slate-300">{anomaly.description}</p>
-            <div className="flex items-center gap-4 mt-3 text-xs text-slate-400">
-                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-slate-800">
+            <p className="text-sm text-th-text-secondary">{anomaly.description}</p>
+            <div className="flex items-center gap-4 mt-3 text-xs text-th-text-secondary">
+                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-th-border-subtle">
                     Value: {typeof anomaly.value === 'number' ? anomaly.value.toFixed(2) : anomaly.value}
                 </span>
-                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-slate-800">
+                <span className="px-2 py-1 bg-white/[0.03] rounded-lg border border-th-border-subtle">
                     Expected: ~{anomaly.expectedValue.toFixed(2)}
                 </span>
                 <span className={`px-2 py-1 rounded-lg border ${
@@ -327,9 +327,9 @@ export const InsightsPanel = memo(function InsightsPanel({
     ];
 
     return (
-        <div className={`bg-slate-900  rounded-2xl border border-slate-800 overflow-hidden ${className ?? ''}`}>
+        <div className={`bg-th-bg-surface  rounded-2xl border border-th-border-subtle overflow-hidden ${className ?? ''}`}>
             {/* Header with Tabs */}
-            <div className="border-b border-slate-800 px-4">
+            <div className="border-b border-th-border-subtle px-4">
                 <div className="flex items-center gap-1">
                     {tabs.map((tab) => {
                         const Icon = tab.icon;
@@ -341,7 +341,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                 className={`relative py-3 px-4 text-sm font-medium transition-colors flex items-center gap-2 ${
                                     isActive
                                         ? 'text-[#DA7756]'
-                                        : 'text-slate-400 hover:text-slate-200'
+                                        : 'text-th-text-secondary hover:text-th-text-secondary'
                                 }`}
                             >
                                 <Icon className="w-4 h-4" />
@@ -350,7 +350,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                     <span className={`ml-1 px-1.5 py-0.5 text-xs rounded-full ${
                                         isActive
                                             ? 'bg-[#DA7756]/20 text-[#DA7756]'
-                                            : 'bg-white/[0.05] text-slate-400'
+                                            : 'bg-white/[0.05] text-th-text-secondary'
                                     }`}>
                                         {tab.count}
                                     </span>
@@ -390,7 +390,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                     <div className="w-12 h-12 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                                         <Sparkles className="w-6 h-6 text-[#C15F3C]" />
                                     </div>
-                                    <p className="text-slate-400">
+                                    <p className="text-th-text-secondary">
                                         No insights generated yet. Try uploading more data.
                                     </p>
                                 </div>
@@ -416,7 +416,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                     <div className="w-12 h-12 bg-[#DA7756]/10 border border-[#DA7756]/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                                         <AlertTriangle className="w-6 h-6 text-[#DA7756]" />
                                     </div>
-                                    <p className="text-slate-400">
+                                    <p className="text-th-text-secondary">
                                         No anomalies detected in your data.
                                     </p>
                                 </div>
@@ -445,11 +445,11 @@ export const InsightsPanel = memo(function InsightsPanel({
                                 >
                                     <div className="flex items-start gap-3">
                                         <div className="w-9 h-9 bg-[#C15F3C] rounded-lg flex items-center justify-center flex-shrink-0">
-                                            <Sparkles className="w-4 h-4 text-white" />
+                                            <Sparkles className="w-4 h-4 text-th-text-primary" />
                                         </div>
                                         <div>
-                                            <p className="text-sm text-slate-400 mb-1">{qaResult.question.text}</p>
-                                            <p className="text-white">{qaResult.answer.text}</p>
+                                            <p className="text-sm text-th-text-secondary mb-1">{qaResult.question.text}</p>
+                                            <p className="text-th-text-primary">{qaResult.answer.text}</p>
                                             {qaResult.answer.value !== undefined && (
                                                 <div className="mt-2 inline-flex items-center gap-1 px-2.5 py-1 bg-[#C15F3C]/10 border border-[#C15F3C]/20 rounded-lg text-sm font-medium text-[#C15F3C]">
                                                     {String(qaResult.answer.value)}
@@ -468,7 +468,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                     onChange={(e) => setQuestion(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
                                     placeholder="Ask a question about your data..."
-                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                                    className="flex-1 px-4 py-3 bg-white/[0.03] border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                                     disabled={isAsking}
                                 />
                                 <motion.button
@@ -476,7 +476,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                     whileTap={{ scale: 0.98 }}
                                     onClick={handleAsk}
                                     disabled={!question.trim() || isAsking}
-                                    className="px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] text-white rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    className="px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] text-th-text-primary rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                 >
                                     {isAsking ? (
                                         <Loader2 className="w-5 h-5 animate-spin" />
@@ -489,7 +489,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                             {/* Suggested Questions */}
                             {suggestedQuestions && suggestedQuestions.length > 0 && (
                                 <div>
-                                    <p className="text-sm text-slate-400 mb-2">Try asking:</p>
+                                    <p className="text-sm text-th-text-secondary mb-2">Try asking:</p>
                                     <div className="flex flex-wrap gap-2">
                                         {suggestedQuestions.slice(0, 4).map((q, index) => (
                                             <motion.button
@@ -497,7 +497,7 @@ export const InsightsPanel = memo(function InsightsPanel({
                                                 whileHover={{ scale: 1.02 }}
                                                 whileTap={{ scale: 0.98 }}
                                                 onClick={() => handleSuggestedQuestion(q)}
-                                                className="px-3 py-1.5 text-sm bg-white/[0.03] border border-slate-700 text-slate-300 rounded-full hover:bg-white/[0.06] hover:border-slate-600 transition-all"
+                                                className="px-3 py-1.5 text-sm bg-white/[0.03] border border-th-border text-th-text-secondary rounded-full hover:bg-white/[0.06] hover:border-th-border-strong transition-all"
                                             >
                                                 {q}
                                             </motion.button>

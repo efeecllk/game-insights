@@ -40,7 +40,7 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
         backgroundColor: 'transparent',
         tooltip: {
             trigger: 'item',
-            backgroundColor: 'rgba(15, 23, 42, 0.95)',
+            backgroundColor: 'rgba(31, 30, 27, 0.95)',
             borderColor: 'rgba(218, 119, 86, 0.2)',
             borderWidth: 1,
             padding: [12, 16],
@@ -103,7 +103,7 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
                     },
                 },
                 itemStyle: {
-                    borderColor: 'rgba(15, 23, 42, 0.8)',
+                    borderColor: 'rgba(31, 30, 27, 0.8)',
                     borderWidth: 2,
                 },
                 emphasis: {
@@ -154,7 +154,7 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
     );
 
     const dropOffStats = (
-        <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-800">
+        <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-th-border">
             {data.slice(0, 3).map((step, index) => {
                 const colors = FUNNEL_COLORS[index % FUNNEL_COLORS.length];
                 return (
@@ -164,9 +164,9 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
                                 className="w-2 h-2 rounded-sm"
                                 style={{ background: `linear-gradient(135deg, ${colors[0]}, ${colors[1]})` }}
                             />
-                            <p className="text-[10px] text-slate-500 uppercase tracking-wider font-medium">{step.name}</p>
+                            <p className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">{step.name}</p>
                         </div>
-                        <p className="text-xl font-bold text-white font-mono tracking-tight">{step.percentage}%</p>
+                        <p className="text-xl font-bold text-th-text-primary font-mono tracking-tight">{step.percentage}%</p>
                         {step.dropOff !== undefined && step.dropOff > 0 && (
                             <p className="text-[11px] text-[#E25C5C] mt-0.5 font-medium">
                                 <span className="opacity-60">↓</span> {step.dropOff}% drop
@@ -190,17 +190,17 @@ function FunnelChartComponent({ data, config, className, bare = false }: FunnelC
 
     // Standalone mode with its own container
     return (
-        <div className={`relative bg-slate-900  rounded-2xl p-5 border border-slate-800 overflow-hidden ${className ?? ''}`}>
+        <div className={`relative bg-th-bg-surface rounded-2xl p-5 border border-th-border overflow-hidden ${className ?? ''}`}>
             {/* Noise texture */}
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
             <div className="relative">
                 <div className="flex items-center justify-between mb-2">
                     <div>
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold text-th-text-primary">
                             {config?.title ?? 'Progression Funnel'}
                         </h3>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-th-text-muted mt-0.5">
                             {config?.subtitle ?? 'Track drop-off at each stage'}
                         </p>
                     </div>
