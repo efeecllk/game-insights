@@ -724,6 +724,11 @@ function AppContent() {
                                 <DashboardBuilderPage />
                             </Suspense>
                         } />
+                        <Route path="/dashboards/:id" element={
+                            <Suspense fallback={<PageLoader />}>
+                                <DashboardBuilderPage />
+                            </Suspense>
+                        } />
                         <Route path="/funnels" element={
                             <Suspense fallback={<PageLoader />}>
                                 <FunnelsPage />

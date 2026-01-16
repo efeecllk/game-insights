@@ -4,7 +4,8 @@
  * Redesigned with Obsidian design system
  */
 
-import { useState, useEffect, useMemo, createContext, useContext } from 'react';
+import { useState, useEffect, useMemo, createContext, useContext, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     LayoutDashboard,
@@ -124,6 +125,8 @@ function getChartData(metric: MetricType, days: number, dataProvider: IDataProvi
 
 export function DashboardBuilderPage() {
     const { dataProvider, hasRealData } = useGameData();
+    const { id: urlDashboardId } = useParams<{ id?: string }>();
+    const navigate = useNavigate();
     const [dashboards, setDashboards] = useState<Dashboard[]>([]);
     const [selectedDashboard, setSelectedDashboard] = useState<Dashboard | null>(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -132,43 +135,65 @@ export function DashboardBuilderPage() {
     const [selectedWidget, setSelectedWidget] = useState<DashboardWidget | null>(null);
     const [showExportModal, setShowExportModal] = useState(false);
 
-    async function loadDashboards() {
+    const loadDashboards = useCallback(async (initialLoad = false) => {
         setLoading(true);
         await initializeDefaultDashboards();
         const all = await getAllDashboards();
         setDashboards(all);
-        if (all.length > 0 && !selectedDashboard) {
-            setSelectedDashboard(all[0]);
+
+        // Only auto-select on initial load or when URL changes
+        if (initialLoad || urlDashboardId) {
+            // If URL has a dashboard ID, select that dashboard
+            if (urlDashboardId) {
+                const targetDashboard = all.find(d => d.id === urlDashboardId);
+                if (targetDashboard) {
+                    setSelectedDashboard(targetDashboard);
+                } else if (all.length > 0) {
+                    // Dashboard not found, redirect to main dashboards page
+                    setSelectedDashboard(all[0]);
+                    navigate('/dashboards', { replace: true });
+                }
+            } else if (all.length > 0) {
+                setSelectedDashboard(all[0]);
+            }
         }
         setLoading(false);
-    }
+    }, [urlDashboardId, navigate]);
 
+    // Initial load
     useEffect(() => {
-        loadDashboards();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        loadDashboards(true);
+    }, [urlDashboardId]); // Re-run when URL param changes
+
+    // Handle dashboard selection - update URL
+    const handleSelectDashboard = useCallback((dashboard: Dashboard) => {
+        setSelectedDashboard(dashboard);
+        navigate(`/dashboards/${dashboard.id}`, { replace: true });
+    }, [navigate]);
 
     async function handleSaveDashboard() {
         if (!selectedDashboard) return;
         await saveDashboard(selectedDashboard);
-        await loadDashboards();
+        await loadDashboards(false);
         setIsEditing(false);
     }
 
     async function handleCreateDashboard() {
         const newDash = createDashboard('New Dashboard');
         await saveDashboard(newDash);
-        await loadDashboards();
+        await loadDashboards(false);
         setSelectedDashboard(newDash);
         setIsEditing(true);
+        navigate(`/dashboards/${newDash.id}`, { replace: true });
     }
 
     async function handleDeleteDashboard(id: string) {
         await deleteDashboard(id);
-        await loadDashboards();
+        await loadDashboards(false);
         if (selectedDashboard?.id === id) {
             const remaining = dashboards.filter(d => d.id !== id);
             setSelectedDashboard(remaining[0] || null);
+            navigate('/dashboards', { replace: true });
         }
     }
 
@@ -177,8 +202,9 @@ export function DashboardBuilderPage() {
         if (!original) return;
         const duplicate = await duplicateDashboard(id, `${original.name} (Copy)`);
         if (duplicate) {
-            await loadDashboards();
+            await loadDashboards(false);
             setSelectedDashboard(duplicate);
+            navigate(`/dashboards/${duplicate.id}`, { replace: true });
         }
     }
 
@@ -381,7 +407,7 @@ export function DashboardBuilderPage() {
                                                         dashboard={dash}
                                                         isSelected={selectedDashboard?.id === dash.id}
                                                         onSelect={() => {
-                                                            setSelectedDashboard(dash);
+                                                            handleSelectDashboard(dash);
                                                             setIsEditing(false);
                                                             setSelectedWidget(null);
                                                         }}

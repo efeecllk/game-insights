@@ -6,3 +6,4 @@
 export { useCommandPalette } from './useCommandPalette';
 export { useKeyboardShortcuts } from './useKeyboardShortcuts';
 export { useOnboarding } from './useOnboarding';
+export { useDashboards } from './useDashboards';

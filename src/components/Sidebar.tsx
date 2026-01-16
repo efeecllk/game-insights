@@ -11,7 +11,7 @@
  */
 
 import { useState, useMemo, memo, lazy, Suspense } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -37,12 +37,16 @@ import {
     ChevronLeft,
     SlidersHorizontal,
     Pin,
+    Plus,
+    Loader2,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebarSettings, DEFAULT_SIDEBAR_ORDER } from '../lib/sidebarStore';
 import { DataModeIndicator } from './ui/DataModeIndicator';
 import { MLStatusBadge } from './ml';
+import { useDashboards } from '../hooks/useDashboards';
+import type { Dashboard } from '../lib/dashboardStore';
 
 // Lazy load SidebarCustomizer modal (only shown when customize button clicked)
 const SidebarCustomizer = lazy(() => import('./SidebarCustomizer').then(m => ({ default: m.SidebarCustomizer })));
@@ -150,6 +154,7 @@ export function Sidebar() {
     const { selectedGame } = useGame();
     const { resolvedTheme, toggleTheme } = useTheme();
     const location = useLocation();
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
     const {
@@ -161,6 +166,9 @@ export function Sidebar() {
         togglePinned
     } = useSidebarSettings();
 
+    // Dashboard data for sidebar
+    const { dashboards, loading: dashboardsLoading, createNew: createNewDashboard } = useDashboards();
+
     // Collapsible section states - start collapsed for cleaner UI
     const [showMoreAnalytics, setShowMoreAnalytics] = useState(() => {
         // Expand if current route is in this section
@@ -168,6 +176,10 @@ export function Sidebar() {
     });
     const [showAdvanced, setShowAdvanced] = useState(() => {
         return advancedItems.some(item => location.pathname === item.path);
+    });
+    const [showMyDashboards, setShowMyDashboards] = useState(() => {
+        // Expand if current route is a dashboard view
+        return location.pathname.startsWith('/dashboards/');
     });
 
     // Get the effective order - use custom order when enabled, otherwise default
@@ -354,6 +366,21 @@ export function Sidebar() {
                             t={t}
                             isPinned={isPinned}
                             onTogglePin={togglePinned}
+                        />
+                    )}
+
+                    {/* My Dashboards - Dynamic section showing user dashboards */}
+                    {!collapsed && (
+                        <MyDashboardsSection
+                            dashboards={dashboards}
+                            loading={dashboardsLoading}
+                            isExpanded={showMyDashboards}
+                            onToggle={() => setShowMyDashboards(!showMyDashboards)}
+                            currentPath={location.pathname}
+                            onCreateNew={async () => {
+                                const dashboard = await createNewDashboard('New Dashboard');
+                                navigate(`/dashboards/${dashboard.id}`);
+                            }}
                         />
                     )}
 
@@ -672,6 +699,194 @@ const NavSection = memo(function NavSection({
                 )}
             </AnimatePresence>
         </div>
+    );
+});
+
+/**
+ * My Dashboards Section
+ * Shows user-created dashboards with quick navigation
+ */
+const MyDashboardsSection = memo(function MyDashboardsSection({
+    dashboards,
+    loading,
+    isExpanded,
+    onToggle,
+    currentPath,
+    onCreateNew,
+}: {
+    dashboards: Dashboard[];
+    loading: boolean;
+    isExpanded: boolean;
+    onToggle: () => void;
+    currentPath: string;
+    onCreateNew: () => void;
+}) {
+    // Check if we're viewing a specific dashboard
+    const activeDashboardId = currentPath.startsWith('/dashboards/')
+        ? currentPath.split('/dashboards/')[1]
+        : null;
+    const hasActiveItem = activeDashboardId !== null;
+
+    // Filter out non-user dashboards (keep all for now, but could filter if needed)
+    const userDashboards = dashboards;
+
+    return (
+        <div className="mt-4">
+            <button
+                onClick={onToggle}
+                className="w-full flex items-center justify-between px-3 py-2 text-[11px] text-th-text-muted uppercase tracking-wider font-medium hover:text-th-text-secondary transition-colors"
+            >
+                <span className="flex items-center gap-2">
+                    My Dashboards
+                    {hasActiveItem && !isExpanded && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-th-accent-primary" />
+                    )}
+                    {!loading && userDashboards.length > 0 && (
+                        <span className="text-[10px] text-th-text-muted font-normal">
+                            ({userDashboards.length})
+                        </span>
+                    )}
+                </span>
+                <motion.div
+                    animate={{ rotate: isExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                >
+                    <ChevronRight className="w-3.5 h-3.5 rotate-90" />
+                </motion.div>
+            </button>
+
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                    >
+                        {/* Loading state */}
+                        {loading && (
+                            <div className="px-3 py-4 flex items-center justify-center">
+                                <Loader2 className="w-4 h-4 text-th-text-muted animate-spin" />
+                            </div>
+                        )}
+
+                        {/* Dashboard list */}
+                        {!loading && (
+                            <ul role="list" className="space-y-0.5">
+                                {userDashboards.map((dashboard) => (
+                                    <motion.li
+                                        key={dashboard.id}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.15 }}
+                                    >
+                                        <DashboardNavItem
+                                            dashboard={dashboard}
+                                            isActive={activeDashboardId === dashboard.id}
+                                        />
+                                    </motion.li>
+                                ))}
+
+                                {/* Create New Dashboard button */}
+                                <motion.li
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.15, delay: userDashboards.length * 0.03 }}
+                                >
+                                    <button
+                                        onClick={onCreateNew}
+                                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-th-text-muted hover:text-th-text-secondary hover:bg-th-bg-surface transition-colors group"
+                                    >
+                                        <div className="w-4 h-4 rounded flex items-center justify-center border border-dashed border-th-border-subtle group-hover:border-th-accent-primary/50 transition-colors">
+                                            <Plus className="w-3 h-3" />
+                                        </div>
+                                        <span>New Dashboard</span>
+                                    </button>
+                                </motion.li>
+                            </ul>
+                        )}
+
+                        {/* Empty state */}
+                        {!loading && userDashboards.length === 0 && (
+                            <div className="px-3 py-4 text-center">
+                                <p className="text-xs text-th-text-muted mb-2">No dashboards yet</p>
+                                <button
+                                    onClick={onCreateNew}
+                                    className="text-xs text-th-accent-primary hover:text-th-accent-primary-hover transition-colors"
+                                >
+                                    Create your first dashboard
+                                </button>
+                            </div>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+});
+
+/**
+ * Dashboard Nav Item
+ * Individual dashboard link in the sidebar
+ */
+const DashboardNavItem = memo(function DashboardNavItem({
+    dashboard,
+    isActive,
+}: {
+    dashboard: Dashboard;
+    isActive: boolean;
+}) {
+    return (
+        <NavLink
+            to={`/dashboards/${dashboard.id}`}
+            aria-current={isActive ? 'page' : undefined}
+            className="block relative group"
+        >
+            {() => (
+                <>
+                    {/* Active indicator */}
+                    <AnimatePresence>
+                        {isActive && (
+                            <motion.div
+                                className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full bg-th-accent-primary"
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                            />
+                        )}
+                    </AnimatePresence>
+
+                    {/* Nav item content */}
+                    <div
+                        className={`
+                            flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium
+                            transition-colors duration-200
+                            ${isActive
+                                ? 'text-th-text-primary bg-th-bg-surface'
+                                : 'text-th-text-muted hover:text-th-text-secondary hover:bg-th-bg-surface'
+                            }
+                        `}
+                    >
+                        {/* Dashboard icon */}
+                        <span className="text-sm flex-shrink-0" aria-hidden="true">
+                            {dashboard.icon || '📊'}
+                        </span>
+
+                        {/* Dashboard name */}
+                        <span className="flex-1 truncate">{dashboard.name}</span>
+
+                        {/* Default badge */}
+                        {dashboard.isDefault && (
+                            <span className="text-[9px] font-medium uppercase tracking-wider px-1.5 py-0.5 rounded bg-th-bg-elevated text-th-text-muted">
+                                Default
+                            </span>
+                        )}
+                    </div>
+                </>
+            )}
+        </NavLink>
     );
 });
 
