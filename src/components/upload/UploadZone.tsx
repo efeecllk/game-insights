@@ -430,7 +430,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             ${
                                 isDragging
                                     ? 'border-[#DA7756] bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
-                                    : 'border-[#4a4845]/50 bg-[#1f1e1b]/50 hover:border-[#DA7756]/50 hover:bg-[#1f1e1b] hover:shadow-lg hover:shadow-[#DA7756]/5'
+                                    : 'border-th-border-subtle bg-th-bg-surface/50 hover:border-[#DA7756]/50 hover:bg-th-bg-surface hover:shadow-lg hover:shadow-[#DA7756]/5'
                             }
                             ${error ? 'border-red-500/50' : ''}
                             ${loading ? 'pointer-events-none opacity-60' : ''}
@@ -452,7 +452,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     </div>
                                     <div className="w-full max-w-xs">
                                         <div className="flex justify-between text-sm mb-1">
-                                            <span className="text-[#b8b5ad]">
+                                            <span className="text-th-text-secondary">
                                                 {streamingProgress.phase === 'parsing'
                                                     ? 'Processing...'
                                                     : 'Complete!'}
@@ -461,13 +461,13 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 {streamingProgress.percent}%
                                             </span>
                                         </div>
-                                        <div className="h-2 bg-bg-elevated rounded-full overflow-hidden">
+                                        <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
                                             <div
                                                 className="h-full bg-gradient-to-r from-[#DA7756] to-[#C15F3C] transition-all duration-300"
                                                 style={{ width: `${streamingProgress.percent}%` }}
                                             />
                                         </div>
-                                        <div className="flex justify-between text-xs text-[#8F8B82] mt-2">
+                                        <div className="flex justify-between text-xs text-th-text-muted mt-2">
                                             <span>
                                                 {streamingProgress.rowsProcessed.toLocaleString()} rows
                                             </span>
@@ -484,7 +484,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 MB
                                             </span>
                                         </div>
-                                        <p className="text-xs text-[#8F8B82] mt-1">
+                                        <p className="text-xs text-th-text-muted mt-1">
                                             Chunk {streamingProgress.chunkIndex + 1} - Streaming large
                                             file
                                         </p>
@@ -510,7 +510,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                             transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
                                         />
                                     </div>
-                                    <p className="text-[#b8b5ad] font-medium">Importing your data...</p>
+                                    <p className="text-th-text-secondary font-medium">Importing your data...</p>
                                 </motion.div>
                             ) : error ? (
                                 <motion.div
@@ -528,7 +528,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     </motion.div>
                                     <div className="text-center">
                                         <p className="text-red-400 font-medium">{error}</p>
-                                        <p className="text-[#8F8B82] text-sm mt-1">
+                                        <p className="text-th-text-muted text-sm mt-1">
                                             Click or drop to try again
                                         </p>
                                     </div>
@@ -548,7 +548,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                         <CheckCircle className="w-7 h-7 text-[#7A8B5B]" />
                                     </motion.div>
                                     <div className="text-center">
-                                        <p className="text-white font-medium">{fileName}</p>
+                                        <p className="text-th-text-primary font-medium">{fileName}</p>
                                         <p className="text-[#7A8B5B] text-sm mt-1">
                                             File loaded successfully
                                         </p>
@@ -593,12 +593,12 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     </AnimatePresence>
 
                                     <div className="space-y-2">
-                                        <p className="text-white font-medium text-lg">
+                                        <p className="text-th-text-primary font-medium text-lg">
                                             {isDragging
                                                 ? 'Drop your file here'
                                                 : 'Drag & drop your data file'}
                                         </p>
-                                        <div className="flex items-center justify-center gap-2 text-[#8F8B82] text-sm">
+                                        <div className="flex items-center justify-center gap-2 text-th-text-muted text-sm">
                                             <MousePointerClick className="w-4 h-4" />
                                             <span>or click to browse</span>
                                         </div>
@@ -612,16 +612,16 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.1 }}
-                                                className="flex items-center gap-2 px-3 py-2 bg-[#343330]/50 hover:bg-[#343330] rounded-xl border border-[#4a4845]/50 hover:border-[#DA7756]/30 transition-all cursor-default group"
+                                                className="flex items-center gap-2 px-3 py-2 bg-th-bg-subtle/50 hover:bg-th-bg-subtle rounded-xl border border-th-border-subtle hover:border-[#DA7756]/30 transition-all cursor-default group"
                                             >
                                                 <fmt.icon className="w-4 h-4 text-[#DA7756] group-hover:scale-110 transition-transform" />
-                                                <span className="text-xs text-[#b8b5ad] group-hover:text-[#d4d1c9] transition-colors">{fmt.name}</span>
+                                                <span className="text-xs text-th-text-secondary group-hover:text-th-text-secondary transition-colors">{fmt.name}</span>
                                             </motion.div>
                                         ))}
                                     </div>
 
                                     {/* Size hint */}
-                                    <p className="text-xs text-[#6b6967] mt-2">
+                                    <p className="text-xs text-th-text-disabled mt-2">
                                         Files up to 50MB are processed instantly. Larger CSV files use
                                         streaming.
                                     </p>
@@ -631,10 +631,10 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                     </motion.label>
 
                     {/* Expandable Format Details */}
-                    <div className="border-t border-[#343330] pt-4">
+                    <div className="border-t border-th-border-subtle pt-4">
                         <button
                             onClick={() => setShowFormatDetails(!showFormatDetails)}
-                            className="flex items-center gap-2 text-sm text-[#8F8B82] hover:text-[#d4d1c9] transition-colors"
+                            className="flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
                         >
                             <Info className="w-4 h-4" />
                             <span>What data formats and columns are supported?</span>
@@ -654,32 +654,32 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     <div className="mt-4 space-y-6">
                                         {/* Supported Formats */}
                                         <div>
-                                            <h4 className="text-sm font-medium text-[#d4d1c9] mb-3">
+                                            <h4 className="text-sm font-medium text-th-text-secondary mb-3">
                                                 Supported File Formats
                                             </h4>
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                                 {formatInfo.map((fmt) => (
                                                     <div
                                                         key={fmt.name}
-                                                        className="bg-[#343330]/30 rounded-xl p-3 border border-[#4a4845]/50"
+                                                        className="bg-th-bg-subtle/30 rounded-xl p-3 border border-th-border-subtle"
                                                     >
                                                         <div className="flex items-center gap-2 mb-2">
                                                             <fmt.icon className="w-5 h-5 text-[#DA7756]" />
-                                                            <span className="font-medium text-white text-sm">
+                                                            <span className="font-medium text-th-text-primary text-sm">
                                                                 {fmt.name}
                                                             </span>
                                                         </div>
-                                                        <div className="space-y-1 text-xs text-[#8F8B82]">
+                                                        <div className="space-y-1 text-xs text-th-text-muted">
                                                             <p>
-                                                                <span className="text-[#b8b5ad]">Extensions:</span>{' '}
+                                                                <span className="text-th-text-secondary">Extensions:</span>{' '}
                                                                 {fmt.extensions}
                                                             </p>
                                                             <p>
-                                                                <span className="text-[#b8b5ad]">Format:</span>{' '}
+                                                                <span className="text-th-text-secondary">Format:</span>{' '}
                                                                 {fmt.description}
                                                             </p>
                                                             <p>
-                                                                <span className="text-[#b8b5ad]">Max size:</span>{' '}
+                                                                <span className="text-th-text-secondary">Max size:</span>{' '}
                                                                 {fmt.maxSize}
                                                             </p>
                                                         </div>
@@ -690,10 +690,10 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
 
                                         {/* Expected Columns by Game Type */}
                                         <div>
-                                            <h4 className="text-sm font-medium text-[#d4d1c9] mb-3">
+                                            <h4 className="text-sm font-medium text-th-text-secondary mb-3">
                                                 Expected Columns by Game Type
                                             </h4>
-                                            <p className="text-xs text-[#8F8B82] mb-3">
+                                            <p className="text-xs text-th-text-muted mb-3">
                                                 Your data should include columns like these. We'll
                                                 automatically detect the game type based on your columns.
                                             </p>
@@ -702,7 +702,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                     ([gameType, cols]) => (
                                                         <div
                                                             key={gameType}
-                                                            className="bg-[#343330]/30 rounded-xl p-3 border border-[#4a4845]/50"
+                                                            className="bg-th-bg-subtle/30 rounded-xl p-3 border border-th-border-subtle"
                                                         >
                                                             <div className="flex items-center gap-2 mb-2">
                                                                 <span className="font-medium text-[#DA7756] text-sm capitalize">
@@ -722,14 +722,14 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                                 {cols.optional.slice(0, 5).map((col) => (
                                                                     <span
                                                                         key={col}
-                                                                        className="px-2 py-0.5 bg-[#4a4845]/50 text-[#b8b5ad] text-xs rounded"
+                                                                        className="px-2 py-0.5 bg-th-bg-elevated/50 text-th-text-secondary text-xs rounded"
                                                                         title="Optional"
                                                                     >
                                                                         {col}
                                                                     </span>
                                                                 ))}
                                                                 {cols.optional.length > 5 && (
-                                                                    <span className="px-2 py-0.5 text-[#8F8B82] text-xs">
+                                                                    <span className="px-2 py-0.5 text-th-text-muted text-xs">
                                                                         +{cols.optional.length - 5} more
                                                                     </span>
                                                                 )}
@@ -738,7 +738,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                     )
                                                 )}
                                             </div>
-                                            <p className="text-xs text-[#6b6967] mt-3">
+                                            <p className="text-xs text-th-text-disabled mt-3">
                                                 <span className="text-[#DA7756]">*</span> = Required columns.
                                                 Other columns are optional but improve analysis quality.
                                             </p>
@@ -838,7 +838,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                 w-full h-64 p-6
                                 border-2 border-dashed rounded-card
                                 cursor-pointer transition-all duration-200
-                                border-white/[0.1] bg-bg-card hover:border-[#DA7756]/50 hover:bg-bg-card-hover
+                                border-th-border-subtle bg-th-bg-surface hover:border-[#DA7756]/50 hover:bg-th-bg-surface-hover
                                 ${error ? 'border-red-500/50' : ''}
                                 ${loading ? 'pointer-events-none opacity-60' : ''}
                             `}
@@ -860,7 +860,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                         <AlertCircle className="w-12 h-12 text-red-500" />
                                         <div>
                                             <p className="text-red-500 font-medium">{error}</p>
-                                            <p className="text-[#8F8B82] text-sm mt-1">
+                                            <p className="text-th-text-muted text-sm mt-1">
                                                 Click to try again
                                             </p>
                                         </div>
@@ -871,23 +871,23 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                             <FolderOpen className="w-8 h-8 text-[#DA7756]" />
                                         </div>
                                         <div>
-                                            <p className="text-white font-medium">
+                                            <p className="text-th-text-primary font-medium">
                                                 Click to select a folder
                                             </p>
-                                            <p className="text-[#8F8B82] text-sm mt-1">
+                                            <p className="text-th-text-muted text-sm mt-1">
                                                 All supported files will be imported
                                             </p>
                                         </div>
                                         <div className="flex items-center gap-4 mt-2">
-                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
+                                            <div className="flex items-center gap-2 text-xs text-th-text-muted">
                                                 <FileSpreadsheet className="w-4 h-4" />
                                                 CSV/Excel
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
+                                            <div className="flex items-center gap-2 text-xs text-th-text-muted">
                                                 <FileText className="w-4 h-4" />
                                                 JSON
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs text-[#8F8B82]">
+                                            <div className="flex items-center gap-2 text-xs text-th-text-muted">
                                                 <Database className="w-4 h-4" />
                                                 SQLite
                                             </div>
@@ -939,7 +939,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             <button
                                 onClick={handleUrlImport}
                                 disabled={loading || !urlInput.trim()}
-                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                             >
                                 {loading ? (
                                     <>
@@ -995,7 +995,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             <button
                                 onClick={handlePasteImport}
                                 disabled={loading || !pasteInput.trim()}
-                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                             >
                                 {loading ? (
                                     <>

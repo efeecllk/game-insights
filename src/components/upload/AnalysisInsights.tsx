@@ -19,17 +19,15 @@ import {
     Users,
     Clock,
     DollarSign,
-    TrendingUp,
     AlertTriangle,
     Lightbulb,
     CheckCircle2,
     Gauge,
     Columns,
-    Hash,
     Tag,
     Zap,
 } from 'lucide-react';
-import type { SchemaAnalysisResult, ColumnMapping } from '../../lib/columnAnalyzer';
+import type { SchemaAnalysisResult } from '../../lib/columnAnalyzer';
 
 interface AnalysisInsightsProps {
     analysis: SchemaAnalysisResult;
@@ -80,7 +78,7 @@ const GAME_TYPE_CONFIG: Record<
         name: 'Custom Game',
         description: 'Generic analytics with retention, revenue, and funnel metrics',
         icon: Gamepad2,
-        color: 'text-[#b8b5ad]',
+        color: 'text-th-text-secondary',
         metrics: ['Retention', 'Revenue', 'Engagement'],
     },
 };
@@ -173,7 +171,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
             {/* Game Type Detection Card */}
             <motion.div
                 variants={itemVariants}
-                className="relative bg-gradient-to-br from-[#1f1e1b] to-[#1f1e1b]/50 rounded-2xl border border-[#343330] overflow-hidden"
+                className="relative bg-gradient-to-br from-th-bg-surface to-th-bg-surface/50 rounded-2xl border border-th-border-subtle overflow-hidden"
             >
                 {/* Decorative gradient */}
                 <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#DA7756] to-[#C15F3C]`} />
@@ -193,19 +191,19 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                         {/* Game Info */}
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-1">
-                                <h3 className="text-xl font-bold text-white">{gameConfig.name}</h3>
+                                <h3 className="text-xl font-bold text-th-text-primary">{gameConfig.name}</h3>
                                 <span className="px-2 py-0.5 bg-[#DA7756]/10 text-[#DA7756] text-xs font-medium rounded-full border border-[#DA7756]/20">
                                     Detected
                                 </span>
                             </div>
-                            <p className="text-sm text-[#b8b5ad]">{gameConfig.description}</p>
+                            <p className="text-sm text-th-text-secondary">{gameConfig.description}</p>
 
                             {/* Expected Metrics */}
                             <div className="flex flex-wrap gap-2 mt-3">
                                 {gameConfig.metrics.map((metric) => (
                                     <span
                                         key={metric}
-                                        className="px-2.5 py-1 bg-[#343330]/50 text-[#d4d1c9] text-xs rounded-lg border border-[#4a4845]"
+                                        className="px-2.5 py-1 bg-th-bg-subtle/50 text-th-text-secondary text-xs rounded-lg border border-th-border"
                                     >
                                         {metric}
                                     </span>
@@ -218,7 +216,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                             <div className="relative w-20 h-20">
                                 <svg className="w-20 h-20 transform -rotate-90">
                                     <circle
-                                        className="text-[#343330]"
+                                        className="text-th-border-subtle"
                                         strokeWidth="6"
                                         stroke="currentColor"
                                         fill="transparent"
@@ -248,12 +246,12 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                                     />
                                 </svg>
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-lg font-bold text-white">
+                                    <span className="text-lg font-bold text-th-text-primary">
                                         {Math.round(analysis.dataQuality * 100)}%
                                     </span>
                                 </div>
                             </div>
-                            <span className="text-xs text-[#8F8B82]">Quality</span>
+                            <span className="text-xs text-th-text-muted">Quality</span>
                         </div>
                     </div>
                 </div>
@@ -288,8 +286,8 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
             </motion.div>
 
             {/* Column Role Distribution */}
-            <motion.div variants={itemVariants} className="bg-[#1f1e1b] rounded-2xl border border-[#343330] p-4">
-                <h4 className="text-sm font-medium text-[#d4d1c9] mb-3 flex items-center gap-2">
+            <motion.div variants={itemVariants} className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
+                <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
                     <Gauge className="w-4 h-4 text-[#DA7756]" />
                     Column Role Distribution
                 </h4>
@@ -305,8 +303,8 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
             </motion.div>
 
             {/* Recommendations */}
-            <motion.div variants={itemVariants} className="bg-[#1f1e1b] rounded-2xl border border-[#343330] p-4">
-                <h4 className="text-sm font-medium text-[#d4d1c9] mb-3 flex items-center gap-2">
+            <motion.div variants={itemVariants} className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
+                <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-[#DA7756]" />
                     Analysis Summary
                 </h4>
@@ -350,10 +348,10 @@ function StatCard({
     color: string;
 }) {
     return (
-        <div className="bg-[#1f1e1b] rounded-xl border border-[#343330] p-3">
+        <div className="bg-th-bg-surface rounded-xl border border-th-border-subtle p-3">
             <div className="flex items-center gap-2 mb-1">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-xs text-[#8F8B82]">{label}</span>
+                <span className="text-xs text-th-text-muted">{label}</span>
             </div>
             <div className={`text-xl font-bold ${color}`}>{value}</div>
         </div>
@@ -376,8 +374,8 @@ function RoleBar({
 
     return (
         <div className="flex items-center gap-3">
-            <span className="text-xs text-[#8F8B82] w-20">{label}</span>
-            <div className="flex-1 h-2 bg-[#343330] rounded-full overflow-hidden">
+            <span className="text-xs text-th-text-muted w-20">{label}</span>
+            <div className="flex-1 h-2 bg-th-bg-subtle rounded-full overflow-hidden">
                 <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${percentage}%` }}
@@ -385,7 +383,7 @@ function RoleBar({
                     className={`h-full rounded-full ${color}`}
                 />
             </div>
-            <span className="text-xs text-[#b8b5ad] w-8 text-right">{value}</span>
+            <span className="text-xs text-th-text-secondary w-8 text-right">{value}</span>
         </div>
     );
 }
@@ -402,7 +400,7 @@ function RecommendationItem({ type, message }: { type: 'success' | 'warning' | '
     return (
         <div className={`flex items-start gap-2 p-2 rounded-lg ${bg}`}>
             <Icon className={`w-4 h-4 ${color} flex-shrink-0 mt-0.5`} />
-            <span className="text-sm text-[#d4d1c9]">{message}</span>
+            <span className="text-sm text-th-text-secondary">{message}</span>
         </div>
     );
 }

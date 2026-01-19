@@ -196,14 +196,14 @@ export function ExportModal({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    className="relative bg-slate-900  rounded-2xl border border-slate-700 w-full max-w-lg mx-4 shadow-lg overflow-hidden"
+                    className="relative bg-th-bg-surface  rounded-2xl border border-th-border w-full max-w-lg mx-4 shadow-lg overflow-hidden"
                 >
                     {/* Noise texture */}
                     <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
 
                     <div className="relative">
                         {/* Header */}
-                        <div className="flex items-center justify-between p-5 border-b border-slate-800">
+                        <div className="flex items-center justify-between p-5 border-b border-th-border-subtle">
                             <div className="flex items-center gap-3">
                                 <motion.div
                                     initial={{ scale: 0, rotate: -180 }}
@@ -215,8 +215,8 @@ export function ExportModal({
                                     </div>
                                 </motion.div>
                                 <div>
-                                    <h2 id={dialogLabelId} className="text-lg font-semibold text-white">Export & Share</h2>
-                                    <p id={dialogDescId} className="text-sm text-slate-500">{title}</p>
+                                    <h2 id={dialogLabelId} className="text-lg font-semibold text-th-text-primary">Export & Share</h2>
+                                    <p id={dialogDescId} className="text-sm text-th-text-muted">{title}</p>
                                 </div>
                             </div>
                             <motion.button
@@ -227,7 +227,7 @@ export function ExportModal({
                                 className="p-2 hover:bg-white/[0.05] rounded-lg transition-colors"
                                 aria-label="Close dialog"
                             >
-                                <X className="w-5 h-5 text-slate-400" />
+                                <X className="w-5 h-5 text-th-text-secondary" />
                             </motion.button>
                         </div>
 
@@ -236,7 +236,7 @@ export function ExportModal({
                             role="tablist"
                             id={tablistId}
                             aria-label="Export options"
-                            className="flex border-b border-slate-800"
+                            className="flex border-b border-th-border-subtle"
                         >
                             <button
                                 role="tab"
@@ -253,7 +253,7 @@ export function ExportModal({
                                 className={`relative flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                                     activeTab === 'download'
                                         ? 'text-[#DA7756]'
-                                        : 'text-slate-500 hover:text-slate-300'
+                                        : 'text-th-text-muted hover:text-th-text-secondary'
                                 }`}
                             >
                                 {activeTab === 'download' && (
@@ -283,7 +283,7 @@ export function ExportModal({
                                 className={`relative flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                                     activeTab === 'share'
                                         ? 'text-[#DA7756]'
-                                        : 'text-slate-500 hover:text-slate-300'
+                                        : 'text-th-text-muted hover:text-th-text-secondary'
                                 }`}
                             >
                                 {activeTab === 'share' && (
@@ -314,7 +314,7 @@ export function ExportModal({
                                 >
                                     {/* Format Selection */}
                                     <fieldset>
-                                        <legend className="block text-sm font-medium text-slate-400 mb-3">
+                                        <legend className="block text-sm font-medium text-th-text-secondary mb-3">
                                             Export Format
                                         </legend>
                                         <div className="grid grid-cols-2 gap-2" role="radiogroup">
@@ -329,24 +329,24 @@ export function ExportModal({
                                                     className={`p-3 rounded-xl border transition-all text-left ${
                                                         selectedFormat === format
                                                             ? 'border-[#DA7756]/30 bg-[#DA7756]/10'
-                                                            : 'border-slate-800 hover:border-slate-600 bg-white/[0.02]'
+                                                            : 'border-th-border-subtle hover:border-th-border-strong bg-white/[0.02]'
                                                     }`}
                                                 >
                                                     <div className="flex items-center gap-2">
                                                         <Icon
                                                             className={`w-4 h-4 ${
-                                                                selectedFormat === format ? 'text-[#DA7756]' : 'text-slate-500'
+                                                                selectedFormat === format ? 'text-[#DA7756]' : 'text-th-text-muted'
                                                             }`}
                                                         />
                                                         <span
                                                             className={`font-medium ${
-                                                                selectedFormat === format ? 'text-white' : 'text-slate-300'
+                                                                selectedFormat === format ? 'text-th-text-primary' : 'text-th-text-secondary'
                                                             }`}
                                                         >
                                                             {label}
                                                         </span>
                                                     </div>
-                                                    <p className="text-xs text-slate-500 mt-1">{desc}</p>
+                                                    <p className="text-xs text-th-text-muted mt-1">{desc}</p>
                                                 </motion.button>
                                             ))}
                                         </div>
@@ -393,7 +393,7 @@ export function ExportModal({
                                             {/* Share Options */}
                                             <div className="space-y-3">
                                                 <div>
-                                                    <label htmlFor="expires-select" className="block text-sm font-medium text-slate-400 mb-2">
+                                                    <label htmlFor="expires-select" className="block text-sm font-medium text-th-text-secondary mb-2">
                                                         <Clock className="w-4 h-4 inline mr-1" />
                                                         Link Expires In
                                                     </label>
@@ -406,7 +406,7 @@ export function ExportModal({
                                                                 expiresIn: Number(e.target.value),
                                                             }))
                                                         }
-                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
+                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-th-border rounded-xl text-th-text-primary focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
                                                     >
                                                         <option value={1}>1 hour</option>
                                                         <option value={24}>24 hours</option>
@@ -417,7 +417,7 @@ export function ExportModal({
                                                 </div>
 
                                                 <div>
-                                                    <label htmlFor="password-input" className="block text-sm font-medium text-slate-400 mb-2">
+                                                    <label htmlFor="password-input" className="block text-sm font-medium text-th-text-secondary mb-2">
                                                         <Lock className="w-4 h-4 inline mr-1" />
                                                         Password Protection (optional)
                                                     </label>
@@ -432,7 +432,7 @@ export function ExportModal({
                                                             }))
                                                         }
                                                         placeholder="Enter password"
-                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
+                                                        className="w-full px-3 py-2.5 bg-white/[0.03] border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-[#DA7756]/50 focus:bg-white/[0.05] transition-all"
                                                     />
                                                 </div>
                                             </div>
@@ -464,7 +464,7 @@ export function ExportModal({
                                                             value={newLink.url}
                                                             readOnly
                                                             aria-label="Share link URL"
-                                                            className="flex-1 px-3 py-2 bg-black/30 border border-slate-800 rounded-lg text-white text-sm font-mono"
+                                                            className="flex-1 px-3 py-2 bg-th-bg-elevated border border-th-border-subtle rounded-lg text-th-text-primary text-sm font-mono"
                                                         />
                                                         <motion.button
                                                             onClick={() => handleCopyLink(newLink.url)}
@@ -476,7 +476,7 @@ export function ExportModal({
                                                             {copied ? (
                                                                 <Check className="w-4 h-4 text-[#DA7756]" />
                                                             ) : (
-                                                                <Copy className="w-4 h-4 text-white" />
+                                                                <Copy className="w-4 h-4 text-th-text-primary" />
                                                             )}
                                                         </motion.button>
                                                     </div>
@@ -486,7 +486,7 @@ export function ExportModal({
                                             {/* Existing Links */}
                                             {shareLinks.length > 0 && (
                                                 <div>
-                                                    <h3 className="text-sm font-medium text-slate-400 mb-2">Active Links</h3>
+                                                    <h3 className="text-sm font-medium text-th-text-secondary mb-2">Active Links</h3>
                                                     <ul className="space-y-2 max-h-40 overflow-y-auto" aria-label="Active share links">
                                                         {shareLinks
                                                             .filter((l) => l.dashboardId === dashboardId)
@@ -495,11 +495,11 @@ export function ExportModal({
                                                                     key={link.id}
                                                                     initial={{ opacity: 0 }}
                                                                     animate={{ opacity: 1 }}
-                                                                    className="flex items-center justify-between p-2 bg-white/[0.02] rounded-lg border border-slate-800"
+                                                                    className="flex items-center justify-between p-2 bg-white/[0.02] rounded-lg border border-th-border-subtle"
                                                                 >
                                                                     <div className="flex items-center gap-2 flex-1 min-w-0">
-                                                                        <ExternalLink className="w-4 h-4 text-slate-500 flex-shrink-0" />
-                                                                        <span className="text-sm text-slate-300 truncate font-mono">
+                                                                        <ExternalLink className="w-4 h-4 text-th-text-muted flex-shrink-0" />
+                                                                        <span className="text-sm text-th-text-secondary truncate font-mono">
                                                                             {link.url}
                                                                         </span>
                                                                     </div>
@@ -509,7 +509,7 @@ export function ExportModal({
                                                                             className="p-1.5 hover:bg-white/[0.05] rounded transition-colors"
                                                                             aria-label="Copy link"
                                                                         >
-                                                                            <Copy className="w-3 h-3 text-slate-400" />
+                                                                            <Copy className="w-3 h-3 text-th-text-secondary" />
                                                                         </button>
                                                                         <button
                                                                             onClick={() => handleDeleteLink(link.id)}
@@ -527,10 +527,10 @@ export function ExportModal({
                                         </>
                                     ) : (
                                         <div className="text-center py-8">
-                                            <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 mx-auto mb-4 flex items-center justify-center">
-                                                <Link2 className="w-8 h-8 text-slate-600" />
+                                            <div className="w-16 h-16 rounded-2xl bg-th-bg-elevated/50 border border-th-border-subtle mx-auto mb-4 flex items-center justify-center">
+                                                <Link2 className="w-8 h-8 text-th-text-disabled" />
                                             </div>
-                                            <p className="text-slate-500">Share links are only available for dashboards</p>
+                                            <p className="text-th-text-muted">Share links are only available for dashboards</p>
                                         </div>
                                     )}
                                 </motion.div>

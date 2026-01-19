@@ -140,7 +140,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         // Default error UI - Obsidian Analytics Design
         return (
             <div className="min-h-[400px] flex items-center justify-center p-6">
-                <div className="max-w-lg w-full bg-slate-900  rounded-2xl border border-slate-700 p-8 text-center shadow-lg">
+                <div className="max-w-lg w-full bg-th-bg-surface  rounded-2xl border border-th-border p-8 text-center shadow-lg">
                     {/* Icon with glow */}
                     <div className="relative w-16 h-16 mx-auto mb-6">
                         <div className="absolute inset-0 bg-[#E25C5C]/20 rounded-2xl" />
@@ -150,12 +150,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                     </div>
 
                     {/* Title */}
-                    <h2 className="text-xl font-bold text-white mb-2">
+                    <h2 className="text-xl font-bold text-th-text-primary mb-2">
                         {parsedError?.title || 'Something went wrong'}
                     </h2>
 
                     {/* Message */}
-                    <p className="text-slate-400 mb-6">
+                    <p className="text-th-text-secondary mb-6">
                         {parsedError?.message || 'An unexpected error occurred. Please try again.'}
                     </p>
 
@@ -170,14 +170,14 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                         </button>
                         <button
                             onClick={this.handleGoHome}
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/[0.03] hover:bg-white/[0.06] border border-slate-700 hover:border-slate-600 text-white font-medium rounded-xl transition-all"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/[0.03] hover:bg-white/[0.06] border border-th-border hover:border-th-border-strong text-th-text-primary font-medium rounded-xl transition-all"
                         >
                             <Home className="w-4 h-4" />
                             Go Home
                         </button>
                         <button
                             onClick={this.handleReport}
-                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-slate-500 hover:text-slate-300 transition-colors"
+                            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 text-th-text-muted hover:text-th-text-secondary transition-colors"
                         >
                             <Bug className="w-4 h-4" />
                             Report
@@ -187,7 +187,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                     {/* Error Details Toggle */}
                     <button
                         onClick={this.toggleDetails}
-                        className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors"
+                        className="inline-flex items-center gap-2 text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
                     >
                         {showDetails ? (
                             <>
@@ -204,15 +204,15 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
                     {/* Error Details */}
                     {showDetails && (
-                        <div className="mt-4 p-4 bg-white/[0.02] border border-slate-800 rounded-xl text-left overflow-auto max-h-64">
-                            <p className="text-xs text-slate-500 mb-2 font-mono">
+                        <div className="mt-4 p-4 bg-white/[0.02] border border-th-border-subtle rounded-xl text-left overflow-auto max-h-64">
+                            <p className="text-xs text-th-text-muted mb-2 font-mono">
                                 Error Code: {parsedError?.code || 'UNKNOWN'}
                             </p>
                             {error && (
                                 <pre className="text-xs text-[#E25C5C] font-mono whitespace-pre-wrap break-words">
                                     {error.message}
                                     {error.stack && (
-                                        <span className="text-slate-600 block mt-2">
+                                        <span className="text-th-text-disabled block mt-2">
                                             {error.stack}
                                         </span>
                                     )}
@@ -220,10 +220,10 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
                             )}
                             {errorInfo?.componentStack && (
                                 <details className="mt-4">
-                                    <summary className="text-xs text-slate-500 cursor-pointer hover:text-slate-400">
+                                    <summary className="text-xs text-th-text-muted cursor-pointer hover:text-th-text-secondary">
                                         Component Stack
                                     </summary>
-                                    <pre className="text-xs text-slate-600 font-mono whitespace-pre-wrap mt-2">
+                                    <pre className="text-xs text-th-text-disabled font-mono whitespace-pre-wrap mt-2">
                                         {errorInfo.componentStack}
                                     </pre>
                                 </details>

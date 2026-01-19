@@ -20,7 +20,6 @@ import {
     Type,
     ToggleLeft,
     ChevronDown,
-    ChevronRight,
     Search,
     Table2,
     Columns,
@@ -186,12 +185,12 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                     icon={Clock}
                     label="Processed"
                     value={`${result.metadata?.processingTimeMs || 0}ms`}
-                    color="text-[#b8b5ad]"
+                    color="text-th-text-secondary"
                 />
             </motion.div>
 
             {/* Tab Navigation */}
-            <motion.div variants={fadeIn} className="flex gap-1 p-1 bg-[#343330]/50 rounded-xl">
+            <motion.div variants={fadeIn} className="flex gap-1 p-1 bg-th-bg-subtle/50 rounded-xl">
                 {[
                     { id: 'overview', label: 'Overview', icon: BarChart3 },
                     { id: 'columns', label: 'Columns', icon: Columns },
@@ -202,8 +201,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                         onClick={() => setActiveTab(tab.id as typeof activeTab)}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                             activeTab === tab.id
-                                ? 'bg-[#DA7756] text-white shadow-lg'
-                                : 'text-[#b8b5ad] hover:text-white hover:bg-[#4a4845]/50'
+                                ? 'bg-[#DA7756] text-th-text-primary shadow-lg'
+                                : 'text-th-text-secondary hover:text-th-text-primary hover:bg-th-bg-elevated/50'
                         }`}
                     >
                         <tab.icon className="w-4 h-4" />
@@ -223,8 +222,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                         className="space-y-4"
                     >
                         {/* Data Quality Dashboard */}
-                        <div className="bg-[#1f1e1b] rounded-2xl border border-[#343330] overflow-hidden">
-                            <div className="p-4 border-b border-[#343330]">
+                        <div className="bg-th-bg-surface rounded-2xl border border-th-border-subtle overflow-hidden">
+                            <div className="p-4 border-b border-th-border-subtle">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div
@@ -241,8 +240,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                             />
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-white">Data Quality Analysis</h3>
-                                            <p className="text-sm text-[#8F8B82]">{qualityReport.summary}</p>
+                                            <h3 className="font-semibold text-th-text-primary">Data Quality Analysis</h3>
+                                            <p className="text-sm text-th-text-muted">{qualityReport.summary}</p>
                                         </div>
                                     </div>
                                     <div
@@ -254,7 +253,7 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                             </div>
 
                             {/* Quality Metrics Grid */}
-                            <div className="grid grid-cols-3 divide-x divide-[#343330]">
+                            <div className="grid grid-cols-3 divide-x divide-th-border-subtle">
                                 <QualityMetric
                                     label="Completeness"
                                     value={100 - (qualityReport.columns.reduce((acc, c) => acc + c.nullPercentage, 0) / qualityReport.columns.length)}
@@ -274,8 +273,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                         </div>
 
                         {/* Type Distribution */}
-                        <div className="bg-[#1f1e1b] rounded-2xl border border-[#343330] p-4">
-                            <h4 className="text-sm font-medium text-[#d4d1c9] mb-3">Column Type Distribution</h4>
+                        <div className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
+                            <h4 className="text-sm font-medium text-th-text-secondary mb-3">Column Type Distribution</h4>
                             <div className="flex gap-4">
                                 {Object.entries(typeDistribution).map(([type, count]) => {
                                     const TypeIcon = getTypeIcon(type);
@@ -288,8 +287,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                                 <TypeIcon className="w-3.5 h-3.5" />
                                             </div>
                                             <div>
-                                                <div className="text-sm font-medium text-white capitalize">{type}</div>
-                                                <div className="text-xs text-[#8F8B82]">
+                                                <div className="text-sm font-medium text-th-text-primary capitalize">{type}</div>
+                                                <div className="text-xs text-th-text-muted">
                                                     {count} ({percentage}%)
                                                 </div>
                                             </div>
@@ -301,8 +300,8 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
 
                         {/* Issues Section */}
                         {qualityReport.issues.length > 0 && (
-                            <div className="bg-[#1f1e1b] rounded-2xl border border-[#343330] p-4">
-                                <h4 className="text-sm font-medium text-[#d4d1c9] mb-3 flex items-center gap-2">
+                            <div className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
+                                <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4 text-amber-500" />
                                     Data Issues ({qualityReport.issues.length})
                                 </h4>
@@ -311,7 +310,7 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                         <IssueCard key={i} issue={issue} />
                                     ))}
                                     {qualityReport.issues.length > 5 && (
-                                        <button className="text-xs text-[#8F8B82] hover:text-[#b8b5ad] transition-colors">
+                                        <button className="text-xs text-th-text-muted hover:text-th-text-secondary transition-colors">
                                             +{qualityReport.issues.length - 5} more issues
                                         </button>
                                     )}
@@ -371,13 +370,13 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                         {/* Search & Controls */}
                         <div className="flex items-center gap-3">
                             <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8F8B82]" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-th-text-muted" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Search in data..."
-                                    className="w-full pl-10 pr-4 py-2.5 bg-[#343330] border border-[#4a4845] rounded-xl text-white placeholder-[#8F8B82] text-sm focus:outline-none focus:border-[#DA7756] transition-colors"
+                                    className="w-full pl-10 pr-4 py-2.5 bg-th-bg-subtle border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted text-sm focus:outline-none focus:border-[#DA7756] transition-colors"
                                 />
                             </div>
                             <button
@@ -385,7 +384,7 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                 className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-colors ${
                                     showAllColumns
                                         ? 'bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/30'
-                                        : 'bg-[#343330] text-[#b8b5ad] border border-[#4a4845] hover:text-white'
+                                        : 'bg-th-bg-subtle text-th-text-secondary border border-th-border hover:text-th-text-primary'
                                 }`}
                             >
                                 {showAllColumns ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -394,12 +393,12 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                         </div>
 
                         {/* Data Table */}
-                        <div className="bg-[#1f1e1b] rounded-2xl border border-[#343330] overflow-hidden">
+                        <div className="bg-th-bg-surface rounded-2xl border border-th-border-subtle overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead className="sticky top-0 z-10">
-                                        <tr className="bg-[#343330]">
-                                            <th className="px-3 py-3 text-left text-[#8F8B82] font-medium w-12">#</th>
+                                        <tr className="bg-th-bg-subtle">
+                                            <th className="px-3 py-3 text-left text-th-text-muted font-medium w-12">#</th>
                                             {displayColumns.map((col) => {
                                                 const colInfo = qualityReport.columns.find((c) => c.name === col);
                                                 const TypeIcon = getTypeIcon(colInfo?.type || 'string');
@@ -410,7 +409,7 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                                     >
                                                         <button
                                                             onClick={() => handleSort(col)}
-                                                            className="flex items-center gap-2 text-[#d4d1c9] hover:text-white transition-colors group w-full"
+                                                            className="flex items-center gap-2 text-th-text-secondary hover:text-th-text-primary transition-colors group w-full"
                                                         >
                                                             <TypeIcon className={`w-3.5 h-3.5 flex-shrink-0 ${getTypeColor(colInfo?.type || 'string').split(' ')[0]}`} />
                                                             <span className="truncate">{col}</span>
@@ -427,10 +426,10 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                             })}
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-[#343330]">
+                                    <tbody className="divide-y divide-th-border-subtle">
                                         {previewData.map((row, i) => (
-                                            <tr key={i} className="hover:bg-[#343330]/50 transition-colors">
-                                                <td className="px-3 py-2.5 text-[#6b6967] font-mono text-xs">{i + 1}</td>
+                                            <tr key={i} className="hover:bg-th-bg-subtle/50 transition-colors">
+                                                <td className="px-3 py-2.5 text-th-text-disabled font-mono text-xs">{i + 1}</td>
                                                 {displayColumns.map((col) => (
                                                     <td
                                                         key={col}
@@ -438,15 +437,15 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                                                         title={String(row[col] ?? '')}
                                                     >
                                                         {row[col] === null || row[col] === undefined ? (
-                                                            <span className="text-[#6b6967] italic text-xs">null</span>
+                                                            <span className="text-th-text-disabled italic text-xs">null</span>
                                                         ) : typeof row[col] === 'boolean' ? (
                                                             row[col] ? (
                                                                 <CheckCircle2 className="w-4 h-4 text-[#7A8B5B]" />
                                                             ) : (
-                                                                <XCircle className="w-4 h-4 text-[#8F8B82]" />
+                                                                <XCircle className="w-4 h-4 text-th-text-muted" />
                                                             )
                                                         ) : (
-                                                            <span className="text-[#d4d1c9] truncate block">
+                                                            <span className="text-th-text-secondary truncate block">
                                                                 {String(row[col])}
                                                             </span>
                                                         )}
@@ -459,7 +458,7 @@ export function DataPreview({ result, maxRows = 15 }: DataPreviewProps) {
                             </div>
 
                             {/* Table Footer */}
-                            <div className="px-4 py-3 border-t border-[#343330] flex items-center justify-between text-xs text-[#8F8B82]">
+                            <div className="px-4 py-3 border-t border-th-border-subtle flex items-center justify-between text-xs text-th-text-muted">
                                 <span>
                                     Showing {previewData.length} of {qualityReport.totalRows.toLocaleString()} rows
                                 </span>
@@ -504,10 +503,10 @@ function QuickStat({
     badge?: string;
 }) {
     return (
-        <div className="bg-[#1f1e1b] rounded-xl p-3 border border-[#343330]">
+        <div className="bg-th-bg-surface rounded-xl p-3 border border-th-border-subtle">
             <div className="flex items-center gap-2 mb-1">
                 <Icon className={`w-4 h-4 ${color}`} />
-                <span className="text-xs text-[#8F8B82]">{label}</span>
+                <span className="text-xs text-th-text-muted">{label}</span>
             </div>
             <div className="flex items-center gap-2">
                 <span className={`text-lg font-bold ${color}`}>{value}</span>
@@ -526,10 +525,10 @@ function QualityMetric({ label, value, description }: { label: string; value: nu
     const clampedValue = Math.min(100, Math.max(0, value));
     return (
         <div className="p-4 text-center">
-            <div className="text-2xl font-bold text-white mb-1">{Math.round(clampedValue)}%</div>
-            <div className="text-sm font-medium text-[#d4d1c9]">{label}</div>
-            <div className="text-xs text-[#8F8B82]">{description}</div>
-            <div className="mt-2 h-1.5 bg-[#343330] rounded-full overflow-hidden">
+            <div className="text-2xl font-bold text-th-text-primary mb-1">{Math.round(clampedValue)}%</div>
+            <div className="text-sm font-medium text-th-text-secondary">{label}</div>
+            <div className="text-xs text-th-text-muted">{description}</div>
+            <div className="mt-2 h-1.5 bg-th-bg-subtle rounded-full overflow-hidden">
                 <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${clampedValue}%` }}
@@ -574,19 +573,19 @@ function ColumnCard({
     return (
         <motion.div
             layout
-            className="bg-[#1f1e1b] rounded-xl border border-[#343330] overflow-hidden"
+            className="bg-th-bg-surface rounded-xl border border-th-border-subtle overflow-hidden"
         >
             {/* Header */}
             <button
                 onClick={onToggle}
-                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-[#343330]/50 transition-colors"
+                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-th-bg-subtle/50 transition-colors"
             >
                 <div className={`p-2 rounded-lg border ${getTypeColor(column.type)}`}>
                     <TypeIcon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 text-left">
-                    <div className="font-medium text-white truncate">{column.name}</div>
-                    <div className="text-xs text-[#8F8B82] capitalize">{column.type}</div>
+                    <div className="font-medium text-th-text-primary truncate">{column.name}</div>
+                    <div className="text-xs text-th-text-muted capitalize">{column.type}</div>
                 </div>
                 <div className="flex items-center gap-4">
                     <MiniProgress
@@ -596,7 +595,7 @@ function ColumnCard({
                     />
                     <MiniProgress label="Unique" value={uniquePercent} color="#DA7756" />
                     <motion.div animate={{ rotate: isExpanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
-                        <ChevronDown className="w-4 h-4 text-[#8F8B82]" />
+                        <ChevronDown className="w-4 h-4 text-th-text-muted" />
                     </motion.div>
                 </div>
             </button>
@@ -611,7 +610,7 @@ function ColumnCard({
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                     >
-                        <div className="px-4 pb-4 pt-2 border-t border-[#343330]">
+                        <div className="px-4 pb-4 pt-2 border-t border-th-border-subtle">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
                                 <StatBox label="Unique Values" value={column.uniqueCount.toLocaleString()} />
                                 <StatBox label="Null %" value={`${column.nullPercentage.toFixed(1)}%`} />
@@ -624,19 +623,19 @@ function ColumnCard({
                             </div>
                             {column.sampleValues.length > 0 && (
                                 <div>
-                                    <div className="text-xs text-[#8F8B82] mb-1.5">Sample Values</div>
+                                    <div className="text-xs text-th-text-muted mb-1.5">Sample Values</div>
                                     <div className="flex flex-wrap gap-1.5">
                                         {column.sampleValues.slice(0, 5).map((val, i) => (
                                             <span
                                                 key={i}
-                                                className="px-2 py-1 bg-[#343330] text-[#d4d1c9] text-xs rounded-lg font-mono truncate max-w-[150px]"
+                                                className="px-2 py-1 bg-th-bg-subtle text-th-text-secondary text-xs rounded-lg font-mono truncate max-w-[150px]"
                                                 title={String(val)}
                                             >
                                                 {String(val)}
                                             </span>
                                         ))}
                                         {column.sampleValues.length > 5 && (
-                                            <span className="px-2 py-1 text-[#8F8B82] text-xs">
+                                            <span className="px-2 py-1 text-th-text-muted text-xs">
                                                 +{column.sampleValues.length - 5} more
                                             </span>
                                         )}
@@ -655,15 +654,15 @@ function ColumnCard({
 function MiniProgress({ label, value, color }: { label: string; value: number; color: string }) {
     return (
         <div className="text-right">
-            <div className="text-xs text-[#8F8B82] mb-0.5">{label}</div>
+            <div className="text-xs text-th-text-muted mb-0.5">{label}</div>
             <div className="flex items-center gap-1.5">
-                <div className="w-12 h-1.5 bg-[#343330] rounded-full overflow-hidden">
+                <div className="w-12 h-1.5 bg-th-bg-subtle rounded-full overflow-hidden">
                     <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{ width: `${Math.min(100, value)}%`, backgroundColor: color }}
                     />
                 </div>
-                <span className="text-xs text-[#b8b5ad] w-8">{Math.round(value)}%</span>
+                <span className="text-xs text-th-text-secondary w-8">{Math.round(value)}%</span>
             </div>
         </div>
     );
@@ -672,9 +671,9 @@ function MiniProgress({ label, value, color }: { label: string; value: number; c
 // Stat Box Component
 function StatBox({ label, value }: { label: string; value: string }) {
     return (
-        <div className="bg-[#343330]/50 rounded-lg p-2">
-            <div className="text-xs text-[#8F8B82]">{label}</div>
-            <div className="text-sm font-medium text-white">{value}</div>
+        <div className="bg-th-bg-subtle/50 rounded-lg p-2">
+            <div className="text-xs text-th-text-muted">{label}</div>
+            <div className="text-sm font-medium text-th-text-primary">{value}</div>
         </div>
     );
 }
@@ -684,7 +683,7 @@ function IssueCard({ issue }: { issue: { severity: string; column: string; messa
     const severityConfig = {
         high: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', icon: AlertTriangle },
         medium: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', icon: AlertTriangle },
-        low: { color: 'text-[#b8b5ad]', bg: 'bg-[#8F8B82]/10', border: 'border-[#8F8B82]/20', icon: Info },
+        low: { color: 'text-th-text-secondary', bg: 'bg-[#8F8B82]/10', border: 'border-[#8F8B82]/20', icon: Info },
     };
     const config = severityConfig[issue.severity as keyof typeof severityConfig] || severityConfig.low;
 
@@ -693,7 +692,7 @@ function IssueCard({ issue }: { issue: { severity: string; column: string; messa
             <config.icon className={`w-4 h-4 ${config.color} flex-shrink-0 mt-0.5`} />
             <div className="flex-1 min-w-0">
                 <div className={`text-sm font-medium ${config.color}`}>{issue.column}</div>
-                <div className="text-xs text-[#b8b5ad]">{issue.message}</div>
+                <div className="text-xs text-th-text-secondary">{issue.message}</div>
             </div>
         </div>
     );
@@ -702,9 +701,9 @@ function IssueCard({ issue }: { issue: { severity: string; column: string; messa
 // Metadata Badge Component
 function MetadataBadge({ label, value }: { label: string; value: string }) {
     return (
-        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#343330]/50 rounded-lg text-xs">
-            <span className="text-[#8F8B82]">{label}:</span>
-            <span className="text-[#d4d1c9] font-medium">{value}</span>
+        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-th-bg-subtle/50 rounded-lg text-xs">
+            <span className="text-th-text-muted">{label}:</span>
+            <span className="text-th-text-secondary font-medium">{value}</span>
         </div>
     );
 }

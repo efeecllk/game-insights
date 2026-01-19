@@ -31,9 +31,6 @@ import {
     TableProperties,
     Play,
     Info,
-    Target,
-    Gauge,
-    Columns,
     Download,
 } from 'lucide-react';
 import { UploadZone } from '../components/upload/UploadZone';
@@ -113,16 +110,6 @@ const stepHints: Record<Step, { title: string; hints: string[] }> = {
         title: 'Ready for Analytics',
         hints: ['Your data has been processed and is ready for visualization'],
     },
-};
-
-// Game type descriptions for analysis results
-const gameTypeDescriptions: Record<string, { name: string; description: string }> = {
-    puzzle: { name: 'Puzzle Game', description: 'Level progression, booster usage, and difficulty analytics' },
-    idle: { name: 'Idle / Clicker', description: 'Prestige mechanics, offline earnings, and session patterns' },
-    battle_royale: { name: 'Battle Royale', description: 'Match rankings, weapon meta, and competitive metrics' },
-    match3_meta: { name: 'Match-3 + Meta', description: 'Story progression, decoration choices, and engagement loops' },
-    gacha_rpg: { name: 'Gacha RPG', description: 'Banner performance, spender tiers, and hero collection metrics' },
-    other: { name: 'Custom Game', description: 'Generic analytics with retention, revenue, and funnel metrics' },
 };
 
 export function UploadPage() {
@@ -256,29 +243,6 @@ export function UploadPage() {
         setDetectedTemplate(null);
         setError(null);
         setShowHowItWorks(true);
-    };
-
-    // Calculate confidence display for analysis results
-    const getConfidenceDisplay = (confidence: number) => {
-        if (confidence >= 0.8) return { label: 'High', color: 'text-[#7A8B5B]', bg: 'bg-[#7A8B5B]/10' };
-        if (confidence >= 0.6) return { label: 'Medium', color: 'text-[#E5A84B]', bg: 'bg-[#E5A84B]/10' };
-        return { label: 'Low', color: 'text-[#E25C5C]', bg: 'bg-[#E25C5C]/10' };
-    };
-
-    // Get role icon
-    const getRoleIcon = (role: string) => {
-        switch (role) {
-            case 'identifier':
-                return <Target className="w-3 h-3" />;
-            case 'timestamp':
-                return <FileSpreadsheet className="w-3 h-3" />;
-            case 'metric':
-                return <Gauge className="w-3 h-3" />;
-            case 'dimension':
-                return <Columns className="w-3 h-3" />;
-            default:
-                return <Info className="w-3 h-3" />;
-        }
     };
 
     return (

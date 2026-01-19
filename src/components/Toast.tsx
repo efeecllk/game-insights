@@ -139,7 +139,7 @@ export function Toast({
                 relative overflow-hidden
                 w-full max-w-sm
                 rounded-xl border shadow-lg
-                bg-slate-900
+                bg-th-bg-surface
                 ${styles.container}
             `}
         >
@@ -162,7 +162,7 @@ export function Toast({
                             {title}
                         </p>
                         {message && (
-                            <p className="text-sm text-slate-400 mt-1">
+                            <p className="text-sm text-th-text-secondary mt-1">
                                 {message}
                             </p>
                         )}
@@ -193,7 +193,7 @@ export function Toast({
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={handleDismiss}
-                            className="flex-shrink-0 p-1.5 rounded-lg text-slate-500 hover:text-white hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
+                            className="flex-shrink-0 p-1.5 rounded-lg text-th-text-muted hover:text-th-text-primary hover:bg-white/[0.05] transition-colors focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50"
                             aria-label="Dismiss notification"
                         >
                             <X className="w-4 h-4" />

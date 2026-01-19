@@ -135,7 +135,7 @@ export function AnalyticsPage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.25 }}
-                        className="text-slate-500 mb-6"
+                        className="text-th-text-muted mb-6"
                     >
                         Upload your game analytics data to get AI-powered insights and visualizations.
                     </motion.p>
@@ -185,7 +185,7 @@ export function AnalyticsPage() {
                         </div>
                     </motion.div>
                     <h3 className="text-lg font-semibold text-[#E25C5C] mb-2">Analysis Failed</h3>
-                    <p className="text-slate-500 mb-4">{analytics.error}</p>
+                    <p className="text-th-text-muted mb-4">{analytics.error}</p>
                     <Button
                         variant="danger"
                         icon={<RefreshCw className="w-4 h-4" />}
@@ -239,18 +239,18 @@ export function AnalyticsPage() {
                                         {result.gameType.replace(/_/g, ' ')}
                                     </span>
                                 </div>
-                                <div className="flex items-center gap-4 text-sm text-slate-500 mt-1">
+                                <div className="flex items-center gap-4 text-sm text-th-text-muted mt-1">
                                     <span className="flex items-center gap-1.5">
                                         <Database className="w-3.5 h-3.5" />
                                         {result.pipelineStats.sampledRows.toLocaleString()} rows
                                     </span>
-                                    <span className="w-1 h-1 rounded-full bg-slate-600" />
+                                    <span className="w-1 h-1 rounded-full bg-th-border-strong" />
                                     <span className="flex items-center gap-1.5">
                                         <Zap className="w-3.5 h-3.5" />
                                         {(result.qualityBefore * 100).toFixed(0)}% quality
                                     </span>
-                                    <span className="w-1 h-1 rounded-full bg-slate-600" />
-                                    <span className="text-slate-600">
+                                    <span className="w-1 h-1 rounded-full bg-th-border-strong" />
+                                    <span className="text-th-text-disabled">
                                         {result.pipelineStats.processingTimeMs}ms
                                     </span>
                                 </div>
@@ -265,7 +265,7 @@ export function AnalyticsPage() {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setShowDataSelector(!showDataSelector)}
-                                        className="flex items-center gap-2 px-3 py-2 text-sm text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
+                                        className="flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary bg-white/[0.03] border border-th-border rounded-lg hover:bg-white/[0.06] hover:border-th-border-strong transition-colors"
                                     >
                                         Switch Data
                                         <ChevronDown className={`w-4 h-4 transition-transform ${showDataSelector ? 'rotate-180' : ''}`} />
@@ -278,7 +278,7 @@ export function AnalyticsPage() {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                                                 transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                                className="absolute right-0 mt-2 w-64 bg-slate-900/95  border border-slate-700 rounded-xl shadow-lg overflow-hidden z-50"
+                                                className="absolute right-0 mt-2 w-64 bg-th-bg-overlay  border border-th-border rounded-xl shadow-lg overflow-hidden z-50"
                                             >
                                                 {gameDataList.map((data, index) => (
                                                     <motion.button
@@ -290,12 +290,12 @@ export function AnalyticsPage() {
                                                             setActiveGameData(data);
                                                             setShowDataSelector(false);
                                                         }}
-                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-slate-800 last:border-0 ${
+                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-th-border-subtle last:border-0 ${
                                                             data.id === activeGameData?.id ? 'bg-[#DA7756]/10 border-l-2 border-l-[#DA7756]' : ''
                                                         }`}
                                                     >
-                                                        <div className="font-medium text-white">{data.name}</div>
-                                                        <div className="text-xs text-slate-500">
+                                                        <div className="font-medium text-th-text-primary">{data.name}</div>
+                                                        <div className="text-xs text-th-text-muted">
                                                             {data.rowCount.toLocaleString()} rows
                                                         </div>
                                                     </motion.button>
@@ -311,7 +311,7 @@ export function AnalyticsPage() {
                                 whileHover={{ scale: 1.1, rotate: 90 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => analytics.runAnalysis()}
-                                className="p-2 text-slate-500 hover:text-[#DA7756] hover:bg-white/[0.05] rounded-lg transition-colors"
+                                className="p-2 text-th-text-muted hover:text-[#DA7756] hover:bg-white/[0.05] rounded-lg transition-colors"
                                 title="Re-run analysis"
                             >
                                 <RefreshCw className="w-5 h-5" />
@@ -320,7 +320,7 @@ export function AnalyticsPage() {
                             {/* Settings */}
                             <Link
                                 to="/settings"
-                                className="p-2 text-slate-500 hover:text-slate-300 hover:bg-white/[0.05] rounded-lg transition-colors"
+                                className="p-2 text-th-text-muted hover:text-th-text-secondary hover:bg-white/[0.05] rounded-lg transition-colors"
                                 title="Analytics settings"
                             >
                                 <Settings className="w-5 h-5" />
@@ -414,10 +414,10 @@ function StatItem({ icon: Icon, value, label, index }: StatItemProps) {
             className="text-center p-3 rounded-xl hover:bg-white/[0.02] transition-colors group cursor-default"
         >
             <div className="flex items-center justify-center gap-2 mb-1">
-                <Icon className="w-4 h-4 text-slate-600 group-hover:text-[#DA7756]/60 transition-colors" />
-                <span className="text-2xl font-display font-bold text-white">{value}</span>
+                <Icon className="w-4 h-4 text-th-text-disabled group-hover:text-[#DA7756]/60 transition-colors" />
+                <span className="text-2xl font-display font-bold text-th-text-primary">{value}</span>
             </div>
-            <div className="text-xs text-slate-500">{label}</div>
+            <div className="text-xs text-th-text-muted">{label}</div>
         </motion.div>
     );
 }

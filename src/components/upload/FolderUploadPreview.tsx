@@ -80,7 +80,7 @@ function getFormatColor(format: FileFormat): string {
         case 'sqlite':
             return 'text-[#8F8B82]';
         default:
-            return 'text-zinc-400';
+            return 'text-th-text-muted';
     }
 }
 
@@ -111,18 +111,18 @@ export function FolderUploadPreview({
     }, [files]);
 
     return (
-        <div className="bg-bg-card rounded-card p-6 border border-slate-800 space-y-6">
+        <div className="bg-th-bg-surface rounded-card p-6 border border-th-border-subtle space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center">
-                        <FolderOpen className="w-6 h-6 text-accent-primary" />
+                    <div className="w-12 h-12 rounded-xl bg-th-accent-primary-muted flex items-center justify-center">
+                        <FolderOpen className="w-6 h-6 text-th-accent-primary" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-semibold text-white">
+                        <h3 className="text-lg font-semibold text-th-text-primary">
                             {files.length} files ready to import
                         </h3>
-                        <p className="text-sm text-zinc-400">
+                        <p className="text-sm text-th-text-muted">
                             Total size: {formatFileSize(totalSize)}
                         </p>
                     </div>
@@ -130,7 +130,7 @@ export function FolderUploadPreview({
                 {!isImporting && (
                     <button
                         onClick={onCancel}
-                        className="p-2 text-zinc-400 hover:text-white transition-colors"
+                        className="p-2 text-th-text-muted hover:text-th-text-primary transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
@@ -144,10 +144,10 @@ export function FolderUploadPreview({
                     return (
                         <div
                             key={format}
-                            className="flex items-center gap-2 px-3 py-1.5 bg-bg-elevated rounded-lg text-sm"
+                            className="flex items-center gap-2 px-3 py-1.5 bg-th-bg-elevated rounded-lg text-sm"
                         >
                             <Icon className={`w-4 h-4 ${getFormatColor(format as FileFormat)}`} />
-                            <span className="text-zinc-300">
+                            <span className="text-th-text-secondary">
                                 {count} {format.toUpperCase()}
                             </span>
                         </div>
@@ -173,7 +173,7 @@ export function FolderUploadPreview({
 
             {/* Column Compatibility */}
             {columnCompatibility && (
-                <div className="p-4 bg-bg-elevated rounded-xl">
+                <div className="p-4 bg-th-bg-elevated rounded-xl">
                     <div className="flex items-center gap-2 mb-3">
                         {columnCompatibility.isFullyCompatible ? (
                             <>
@@ -191,10 +191,10 @@ export function FolderUploadPreview({
                             </>
                         )}
                     </div>
-                    <div className="text-sm text-zinc-400">
-                        <span className="text-zinc-300">{columnCompatibility.commonColumns.length}</span> common columns
+                    <div className="text-sm text-th-text-muted">
+                        <span className="text-th-text-secondary">{columnCompatibility.commonColumns.length}</span> common columns
                         {' · '}
-                        <span className="text-zinc-300">{columnCompatibility.allColumns.length}</span> total unique columns
+                        <span className="text-th-text-secondary">{columnCompatibility.allColumns.length}</span> total unique columns
                     </div>
                 </div>
             )}
@@ -202,7 +202,7 @@ export function FolderUploadPreview({
             {/* Merge Strategy */}
             {!isImporting && files.length > 1 && (
                 <div className="space-y-3">
-                    <label className="block text-sm font-medium text-zinc-300">
+                    <label className="block text-sm font-medium text-th-text-secondary">
                         Import Strategy
                     </label>
                     <div className="grid grid-cols-3 gap-3">
@@ -210,15 +210,15 @@ export function FolderUploadPreview({
                             onClick={() => onMergeStrategyChange('auto')}
                             className={`p-4 rounded-xl border transition-all ${
                                 mergeStrategy === 'auto'
-                                    ? 'border-accent-primary bg-accent-primary/10'
-                                    : 'border-white/[0.1] bg-bg-elevated hover:border-white/20'
+                                    ? 'border-th-accent-primary/30 bg-th-accent-primary-muted'
+                                    : 'border-th-border-subtle bg-th-bg-elevated hover:border-th-border-strong'
                             }`}
                         >
                             <Layers className={`w-6 h-6 mx-auto mb-2 ${
-                                mergeStrategy === 'auto' ? 'text-accent-primary' : 'text-zinc-400'
+                                mergeStrategy === 'auto' ? 'text-th-accent-primary' : 'text-th-text-muted'
                             }`} />
-                            <div className="text-sm font-medium text-white">Auto</div>
-                            <div className="text-xs text-zinc-500 mt-1">
+                            <div className="text-sm font-medium text-th-text-primary">Auto</div>
+                            <div className="text-xs text-th-text-muted mt-1">
                                 Smart detection
                             </div>
                         </button>
@@ -226,15 +226,15 @@ export function FolderUploadPreview({
                             onClick={() => onMergeStrategyChange('merge')}
                             className={`p-4 rounded-xl border transition-all ${
                                 mergeStrategy === 'merge'
-                                    ? 'border-accent-primary bg-accent-primary/10'
-                                    : 'border-white/[0.1] bg-bg-elevated hover:border-white/20'
+                                    ? 'border-th-accent-primary/30 bg-th-accent-primary-muted'
+                                    : 'border-th-border-subtle bg-th-bg-elevated hover:border-th-border-strong'
                             }`}
                         >
                             <Merge className={`w-6 h-6 mx-auto mb-2 ${
-                                mergeStrategy === 'merge' ? 'text-accent-primary' : 'text-zinc-400'
+                                mergeStrategy === 'merge' ? 'text-th-accent-primary' : 'text-th-text-muted'
                             }`} />
-                            <div className="text-sm font-medium text-white">Merge</div>
-                            <div className="text-xs text-zinc-500 mt-1">
+                            <div className="text-sm font-medium text-th-text-primary">Merge</div>
+                            <div className="text-xs text-th-text-muted mt-1">
                                 Combine all rows
                             </div>
                         </button>
@@ -242,15 +242,15 @@ export function FolderUploadPreview({
                             onClick={() => onMergeStrategyChange('separate')}
                             className={`p-4 rounded-xl border transition-all ${
                                 mergeStrategy === 'separate'
-                                    ? 'border-accent-primary bg-accent-primary/10'
-                                    : 'border-white/[0.1] bg-bg-elevated hover:border-white/20'
+                                    ? 'border-th-accent-primary/30 bg-th-accent-primary-muted'
+                                    : 'border-th-border-subtle bg-th-bg-elevated hover:border-th-border-strong'
                             }`}
                         >
                             <FolderOpen className={`w-6 h-6 mx-auto mb-2 ${
-                                mergeStrategy === 'separate' ? 'text-accent-primary' : 'text-zinc-400'
+                                mergeStrategy === 'separate' ? 'text-th-accent-primary' : 'text-th-text-muted'
                             }`} />
-                            <div className="text-sm font-medium text-white">Separate</div>
-                            <div className="text-xs text-zinc-500 mt-1">
+                            <div className="text-sm font-medium text-th-text-primary">Separate</div>
+                            <div className="text-xs text-th-text-muted mt-1">
                                 Keep individual
                             </div>
                         </button>
@@ -260,7 +260,7 @@ export function FolderUploadPreview({
 
             {/* File List */}
             <div className="space-y-2">
-                <div className="text-sm font-medium text-zinc-300 mb-2">Files</div>
+                <div className="text-sm font-medium text-th-text-secondary mb-2">Files</div>
                 <div className="max-h-60 overflow-y-auto space-y-1 pr-2">
                     {displayedFiles.map((file, index) => {
                         const Icon = getFormatIcon(file.format);
@@ -271,12 +271,12 @@ export function FolderUploadPreview({
                             <div
                                 key={`${file.name}-${index}`}
                                 className={`flex items-center gap-3 p-2 rounded-lg ${
-                                    isProcessing ? 'bg-accent-primary/10' : 'bg-bg-elevated'
+                                    isProcessing ? 'bg-th-accent-primary-muted' : 'bg-th-bg-elevated'
                                 }`}
                             >
                                 {isImporting ? (
                                     isProcessing ? (
-                                        <Loader2 className="w-4 h-4 text-accent-primary animate-spin" />
+                                        <Loader2 className="w-4 h-4 text-th-accent-primary animate-spin" />
                                     ) : isComplete ? (
                                         <CheckCircle className="w-4 h-4 text-[#7A8B5B]" />
                                     ) : (
@@ -285,10 +285,10 @@ export function FolderUploadPreview({
                                 ) : (
                                     <Icon className={`w-4 h-4 ${getFormatColor(file.format)}`} />
                                 )}
-                                <span className="flex-1 text-sm text-zinc-300 truncate">
+                                <span className="flex-1 text-sm text-th-text-secondary truncate">
                                     {file.name}
                                 </span>
-                                <span className="text-xs text-zinc-500">
+                                <span className="text-xs text-th-text-muted">
                                     {formatFileSize(file.size)}
                                 </span>
                             </div>
@@ -298,7 +298,7 @@ export function FolderUploadPreview({
                 {files.length > 10 && !showAllFiles && (
                     <button
                         onClick={() => setShowAllFiles(true)}
-                        className="text-sm text-accent-primary hover:text-accent-primary/80 transition-colors"
+                        className="text-sm text-th-accent-primary hover:text-th-accent-primary/80 transition-colors"
                     >
                         Show all {files.length} files
                     </button>
@@ -309,16 +309,16 @@ export function FolderUploadPreview({
             {isImporting && progress && (
                 <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                        <span className="text-zinc-400">
+                        <span className="text-th-text-muted">
                             Importing {progress.currentFile || 'files'}...
                         </span>
-                        <span className="text-zinc-300">
+                        <span className="text-th-text-secondary">
                             {progress.completedFiles}/{progress.totalFiles}
                         </span>
                     </div>
-                    <div className="h-2 bg-bg-elevated rounded-full overflow-hidden">
+                    <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
                         <div
-                            className="h-full bg-accent-primary transition-all duration-300"
+                            className="h-full bg-th-accent-primary transition-all duration-300"
                             style={{ width: `${progress.percentage}%` }}
                         />
                     </div>
@@ -330,13 +330,13 @@ export function FolderUploadPreview({
                 <div className="flex gap-3">
                     <button
                         onClick={onCancel}
-                        className="flex-1 px-4 py-3 bg-bg-elevated hover:bg-bg-elevated/80 text-zinc-300 font-medium rounded-xl transition-colors"
+                        className="flex-1 px-4 py-3 bg-th-bg-elevated hover:bg-th-bg-elevated/80 text-th-text-secondary font-medium rounded-xl transition-colors"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={onImport}
-                        className="flex-1 px-4 py-3 bg-accent-primary hover:bg-accent-primary/90 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                        className="flex-1 px-4 py-3 bg-th-accent-primary hover:bg-th-accent-primary-hover text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                     >
                         <FolderOpen className="w-4 h-4" />
                         Import {files.length} Files
