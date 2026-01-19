@@ -9,3 +9,5 @@ export {
     getStoredAnomalyConfig,
     setStoredAnomalyConfig,
 } from './AnomalyConfigPanel';
+
+export { AISettingsPanel } from './AISettingsPanel';

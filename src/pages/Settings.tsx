@@ -15,7 +15,7 @@ import { Key, Check, AlertCircle, Loader2, Eye, EyeOff, Globe, Settings, Shield,
 import { usePerformance } from '../context/PerformanceContext';
 import { useTheme } from '../context/ThemeContext';
 import { validateApiKey } from '../services/openai';
-import { AnomalyConfigPanel } from '../components/settings';
+import { AnomalyConfigPanel, AISettingsPanel } from '../components/settings';
 import { languages, changeLanguage, type LanguageCode } from '../i18n';
 
 // Simple local storage for API key (in production, use secure storage)
@@ -307,7 +307,12 @@ export function SettingsPage() {
                 </SettingsCard>
             </motion.div>
 
-            {/* OpenAI API Key Section */}
+            {/* AI Configuration Section */}
+            <motion.div variants={itemVariants}>
+                <AISettingsPanel />
+            </motion.div>
+
+            {/* OpenAI API Key Section (Legacy) */}
             <motion.div variants={itemVariants}>
                 <SettingsCard
                     icon={Key}

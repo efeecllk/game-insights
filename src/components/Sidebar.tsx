@@ -24,7 +24,6 @@ import {
     Database,
     Settings,
     ExternalLink,
-    Sparkles,
     Package,
     Brain,
     Target,
@@ -39,6 +38,7 @@ import {
     Pin,
     Plus,
     Loader2,
+    Bot,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
@@ -65,7 +65,7 @@ interface NavItemType {
 const primaryNavItems: NavItemType[] = [
     { icon: Database, labelKey: 'navigation.upload', label: 'Upload Data', path: '/upload' },
     { icon: Home, labelKey: 'navigation.dashboard', label: 'Dashboard', path: '/' },
-    { icon: Sparkles, labelKey: 'navigation.aiAnalytics', label: 'Analytics', path: '/analytics' },
+    { icon: Bot, labelKey: 'navigation.aiAnalytics', label: 'Analytics', path: '/analytics', badge: 'AI' },
     { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Revenue', path: '/monetization' },
 ];
 

@@ -31,6 +31,7 @@ import { MLProvider } from './context/MLContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
 import { PerformanceProvider } from './context/PerformanceContext';
+import { AIProvider } from './context/AIContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Components (always loaded - core UI)
@@ -78,11 +79,13 @@ const PredictionsPage = lazy(() => import('./pages/Predictions'));
 const RealtimePage = lazy(() => import('./pages/Realtime'));
 const FunnelsPage = lazy(() => import('./pages/Funnels'));
 const MonetizationPage = lazy(() => import('./pages/Monetization'));
-const AnalyticsPage = lazy(() => import('./pages/Analytics'));
 const DataHubPage = lazy(() => import('./pages/DataHub'));
 const TemplatesPage = lazy(() => import('./pages/Templates'));
 const WhatIfPage = lazy(() => import('./pages/WhatIf'));
 const MLStudioPage = lazy(() => import('./pages/MLStudio'));
+
+// AI Analytics page (replaces old Analytics page)
+const AIAnalyticsPage = lazy(() => import('./pages/AIAnalytics'));
 
 // Data & Types
 import { createSmartDataProvider, gameCategories } from './lib/dataProviders';
@@ -711,7 +714,7 @@ function AppContent() {
                         } />
                         <Route path="/analytics" element={
                             <Suspense fallback={<PageLoader />}>
-                                <AnalyticsPage />
+                                <AIAnalyticsPage />
                             </Suspense>
                         } />
                         <Route path="/realtime" element={
@@ -798,11 +801,13 @@ function App() {
                         <ToastProvider position="bottom-right" maxToasts={5}>
                             <DataProvider>
                                 <MLProvider>
-                                    <IntegrationProvider>
-                                        <GameProvider>
-                                            <AppContent />
-                                        </GameProvider>
-                                    </IntegrationProvider>
+                                    <AIProvider>
+                                        <IntegrationProvider>
+                                            <GameProvider>
+                                                <AppContent />
+                                            </GameProvider>
+                                        </IntegrationProvider>
+                                    </AIProvider>
                                 </MLProvider>
                             </DataProvider>
                         </ToastProvider>
