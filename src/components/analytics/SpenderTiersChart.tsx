@@ -114,7 +114,7 @@ export const SpenderTiersChart = memo(function SpenderTiersChart({
                     if (!tier) return '';
                     return `
                         <div class="font-medium">${params.name}</div>
-                        <div class="text-slate-400 text-sm mt-1">
+                        <div class="text-th-text-muted text-sm mt-1">
                             Revenue: ${formatCurrency(tier.revenue)}<br/>
                             Users: ${formatNumber(tier.users)}<br/>
                             ${params.percent.toFixed(1)}% of payer revenue

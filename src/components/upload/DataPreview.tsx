@@ -683,7 +683,7 @@ function IssueCard({ issue }: { issue: { severity: string; column: string; messa
     const severityConfig = {
         high: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20', icon: AlertTriangle },
         medium: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', icon: AlertTriangle },
-        low: { color: 'text-th-text-secondary', bg: 'bg-[#8F8B82]/10', border: 'border-[#8F8B82]/20', icon: Info },
+        low: { color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10', border: 'border-[#A68B5B]/20', icon: Info },
     };
     const config = severityConfig[issue.severity as keyof typeof severityConfig] || severityConfig.low;
 

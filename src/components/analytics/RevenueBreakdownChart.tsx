@@ -115,7 +115,7 @@ export const RevenueBreakdownChart = memo(function RevenueBreakdownChart({
                 formatter: (params: { name: string; value: number; percent: number; data: { userCount?: number } }) => {
                     return `
                         <div class="font-medium">${params.name}</div>
-                        <div class="text-slate-400 text-sm mt-1">
+                        <div class="text-th-text-muted text-sm mt-1">
                             Revenue: ${formatCurrency(params.value)}<br/>
                             ${params.percent.toFixed(1)}% of total
                             ${params.data.userCount ? `<br/>Users: ${formatNumber(params.data.userCount)}` : ''}

@@ -265,7 +265,7 @@ export function AnalyticsPage() {
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
                                         onClick={() => setShowDataSelector(!showDataSelector)}
-                                        className="flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary bg-white/[0.03] border border-th-border rounded-lg hover:bg-white/[0.06] hover:border-th-border-strong transition-colors"
+                                        className="flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary bg-th-bg-elevated border border-th-border rounded-lg hover:bg-th-bg-surface-hover hover:border-th-border-strong transition-colors"
                                     >
                                         Switch Data
                                         <ChevronDown className={`w-4 h-4 transition-transform ${showDataSelector ? 'rotate-180' : ''}`} />
@@ -290,7 +290,7 @@ export function AnalyticsPage() {
                                                             setActiveGameData(data);
                                                             setShowDataSelector(false);
                                                         }}
-                                                        className={`w-full text-left px-4 py-3 hover:bg-white/[0.05] transition-colors border-b border-th-border-subtle last:border-0 ${
+                                                        className={`w-full text-left px-4 py-3 hover:bg-th-interactive-hover transition-colors border-b border-th-border-subtle last:border-0 ${
                                                             data.id === activeGameData?.id ? 'bg-[#DA7756]/10 border-l-2 border-l-[#DA7756]' : ''
                                                         }`}
                                                     >

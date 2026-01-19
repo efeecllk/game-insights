@@ -297,7 +297,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                     <RoleBar label="Metrics" value={roleStats.metrics} total={analysis.columns.length} color="bg-emerald-500" />
                     <RoleBar label="Dimensions" value={roleStats.dimensions} total={analysis.columns.length} color="bg-amber-500" />
                     {roleStats.unknown > 0 && (
-                        <RoleBar label="Unknown" value={roleStats.unknown} total={analysis.columns.length} color="bg-[#8F8B82]" />
+                        <RoleBar label="Unknown" value={roleStats.unknown} total={analysis.columns.length} color="bg-[#A68B5B]" />
                     )}
                 </div>
             </motion.div>

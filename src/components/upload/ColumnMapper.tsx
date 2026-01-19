@@ -64,7 +64,7 @@ const ROLE_CONFIG: Record<string, { color: string; bg: string; border: string; l
     timestamp: { color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10', border: 'border-[#C15F3C]/20', label: 'Time', icon: Clock },
     metric: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', label: 'Metric', icon: Hash },
     dimension: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', label: 'Dim', icon: Tag },
-    noise: { color: 'text-th-text-muted', bg: 'bg-[#8F8B82]/10', border: 'border-[#8F8B82]/20', label: 'Skip', icon: Trash2 },
+    noise: { color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10', border: 'border-[#A68B5B]/20', label: 'Skip', icon: Trash2 },
     unknown: { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20', label: '?', icon: Zap },
 };
 

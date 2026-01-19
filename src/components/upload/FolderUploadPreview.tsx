@@ -78,7 +78,7 @@ function getFormatColor(format: FileFormat): string {
         case 'ndjson':
             return 'text-yellow-400';
         case 'sqlite':
-            return 'text-[#8F8B82]';
+            return 'text-[#A68B5B]';
         default:
             return 'text-th-text-muted';
     }
