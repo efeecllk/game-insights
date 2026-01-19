@@ -22,6 +22,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@langchain/anthropic": "^1.3.10",
+    "@langchain/core": "^1.1.15",
+    "@langchain/openai": "^1.2.2",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^10.16.16",
@@ -34,7 +37,8 @@
     "react-i18next": "^16.5.0",
     "react-router-dom": "^6.21.0",
     "sql.js": "^1.13.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
