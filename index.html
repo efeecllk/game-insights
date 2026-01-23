@@ -2,15 +2,98 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Insights - Analytics Studio</title>
+
+    <!-- Primary Meta Tags -->
+    <title>Game Insights - Zero-Config Analytics for Mobile Games</title>
+    <meta name="title" content="Game Insights - Zero-Config Analytics for Mobile Games" />
+    <meta name="description" content="Drag & drop your game data. AI detects your game type, maps columns, and generates actionable insights. Open source, runs in your browser." />
+    <meta name="keywords" content="game analytics, mobile games, retention analysis, funnel analytics, revenue tracking, AI insights, open source, data visualization" />
+    <meta name="author" content="Game Insights" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://game-insights.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://game-insights.app/" />
+    <meta property="og:title" content="Game Insights - Zero-Config Analytics for Mobile Games" />
+    <meta property="og:description" content="Drag & drop your game data. AI detects your game type, maps columns, and generates actionable insights. Open source, runs in your browser." />
+    <meta property="og:image" content="https://game-insights.app/og-image.png" />
+    <meta property="og:site_name" content="Game Insights" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://game-insights.app/" />
+    <meta name="twitter:title" content="Game Insights - Zero-Config Analytics for Mobile Games" />
+    <meta name="twitter:description" content="Drag & drop your game data. AI detects your game type, maps columns, and generates actionable insights. Open source, runs in your browser." />
+    <meta name="twitter:image" content="https://game-insights.app/og-image.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2b2a27" />
+    <meta name="msapplication-TileColor" content="#ae5630" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Game Insights",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Zero-configuration analytics dashboard for mobile games. Drag & drop your data, get AI-powered insights instantly.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "license": "https://opensource.org/licenses/MIT",
+      "creator": {
+        "@type": "Organization",
+        "name": "Game Insights"
+      },
+      "featureList": [
+        "Drag & drop data import",
+        "AI-powered game type detection",
+        "Automatic column mapping",
+        "Retention curve analysis",
+        "Funnel analytics",
+        "Revenue tracking",
+        "Local-first data storage"
+      ]
+    }
+    </script>
+
+    <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Optimized font loading: Only load needed weights -->
     <!-- Sora: 600-700 (headings only), DM Sans: 400-700 (body), JetBrains Mono: 400-500 (data) -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Google Analytics (consent-aware, configured via env) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLACEHOLDER"></script>
+    <script>
+      // Only initialize if a valid measurement ID is provided
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // Measurement ID will be replaced during build or set via env
+      if (typeof import.meta !== 'undefined' && import.meta.env?.VITE_GA_MEASUREMENT_ID) {
+        gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID);
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
