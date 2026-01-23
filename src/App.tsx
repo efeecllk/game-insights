@@ -21,7 +21,7 @@
 import { useMemo, useState, lazy, Suspense, memo } from 'react';
 import { QuickStartCard } from './components/ui/QuickStartCard';
 import { ContextualHint } from './components/ui/ContextualHint';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { motion, MotionConfig } from 'framer-motion';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
@@ -86,6 +86,9 @@ const MLStudioPage = lazy(() => import('./pages/MLStudio'));
 
 // AI Analytics page (replaces old Analytics page)
 const AIAnalyticsPage = lazy(() => import('./pages/AIAnalytics'));
+
+// Landing page (lazy-loaded - only for first-time visitors)
+const LandingPage = lazy(() => import('./pages/Landing'));
 
 // Data & Types
 import { createSmartDataProvider, gameCategories } from './lib/dataProviders';
@@ -789,6 +792,50 @@ function AppContent() {
 }
 
 /**
+ * First-time user redirect component
+ * Redirects users without data to the landing page
+ */
+function FirstTimeRedirect() {
+    const { gameDataList, isReady } = useData();
+    const location = useLocation();
+
+    // Wait for data to be loaded
+    if (!isReady) {
+        return <PageLoader />;
+    }
+
+    // If user has no data and is on the root path, redirect to landing
+    const isFirstTimeUser = gameDataList.length === 0;
+    const isRootPath = location.pathname === '/';
+
+    if (isFirstTimeUser && isRootPath) {
+        return <Navigate to="/landing" replace />;
+    }
+
+    // Otherwise, render the dashboard
+    return <AppContent />;
+}
+
+/**
+ * App Router - Handles both landing and dashboard routes
+ */
+function AppRouter() {
+    const location = useLocation();
+
+    // Landing page has its own layout (no sidebar)
+    if (location.pathname === '/landing') {
+        return (
+            <Suspense fallback={<PageLoader />}>
+                <LandingPage />
+            </Suspense>
+        );
+    }
+
+    // All other routes use the dashboard layout
+    return <FirstTimeRedirect />;
+}
+
+/**
  * Main App Component
  * Wrapped with ErrorBoundary and ToastProvider for enhanced error handling
  */
@@ -804,7 +851,7 @@ function App() {
                                     <AIProvider>
                                         <IntegrationProvider>
                                             <GameProvider>
-                                                <AppContent />
+                                                <AppRouter />
                                             </GameProvider>
                                         </IntegrationProvider>
                                     </AIProvider>
