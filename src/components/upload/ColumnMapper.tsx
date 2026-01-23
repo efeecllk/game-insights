@@ -60,12 +60,12 @@ const CANONICAL_OPTIONS = [
 ];
 
 const ROLE_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: typeof Target }> = {
-    identifier: { color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10', border: 'border-[#DA7756]/20', label: 'ID', icon: Target },
-    timestamp: { color: 'text-[#C15F3C]', bg: 'bg-[#C15F3C]/10', border: 'border-[#C15F3C]/20', label: 'Time', icon: Clock },
-    metric: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', label: 'Metric', icon: Hash },
-    dimension: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20', label: 'Dim', icon: Tag },
-    noise: { color: 'text-[#A68B5B]', bg: 'bg-[#A68B5B]/10', border: 'border-[#A68B5B]/20', label: 'Skip', icon: Trash2 },
-    unknown: { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20', label: '?', icon: Zap },
+    identifier: { color: 'text-th-accent-primary', bg: 'bg-th-accent-primary/10', border: 'border-th-accent-primary/20', label: 'ID', icon: Target },
+    timestamp: { color: 'text-th-accent-secondary', bg: 'bg-th-accent-secondary/10', border: 'border-th-accent-secondary/20', label: 'Time', icon: Clock },
+    metric: { color: 'text-th-success', bg: 'bg-th-success/10', border: 'border-th-success/20', label: 'Metric', icon: Hash },
+    dimension: { color: 'text-th-warning', bg: 'bg-th-warning/10', border: 'border-th-warning/20', label: 'Dim', icon: Tag },
+    noise: { color: 'text-th-chart-5', bg: 'bg-th-chart-5/10', border: 'border-th-chart-5/20', label: 'Skip', icon: Trash2 },
+    unknown: { color: 'text-th-chart-4', bg: 'bg-th-chart-4/10', border: 'border-th-chart-4/20', label: '?', icon: Zap },
 };
 
 // Animation variants
@@ -167,7 +167,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
             <motion.div variants={itemVariants} className="flex items-center justify-between">
                 <div>
                     <h3 className="text-lg font-semibold text-th-text-primary flex items-center gap-2">
-                        <Sparkles className="w-5 h-5 text-[#DA7756]" />
+                        <Sparkles className="w-5 h-5 text-th-accent-primary" />
                         Column Mapping
                     </h3>
                     <p className="text-sm text-th-text-muted mt-0.5">
@@ -179,14 +179,14 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                         icon={CheckCircle2}
                         label="Confident"
                         value={stats.highConfidence}
-                        color="text-[#7A8B5B]"
+                        color="text-th-success"
                     />
                     {stats.needsReview > 0 && (
                         <StatBadge
                             icon={AlertTriangle}
                             label="Review"
                             value={stats.needsReview}
-                            color="text-amber-500"
+                            color="text-th-warning"
                         />
                     )}
                 </div>
@@ -226,14 +226,14 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search columns..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-th-bg-subtle border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted text-sm focus:outline-none focus:border-[#DA7756] transition-colors"
+                        className="w-full pl-10 pr-4 py-2.5 bg-th-bg-subtle border border-th-border rounded-xl text-th-text-primary placeholder-th-text-muted text-sm focus:outline-none focus:border-th-accent-primary transition-colors"
                     />
                 </div>
                 <button
                     onClick={() => setShowLowConfidenceOnly(!showLowConfidenceOnly)}
                     className={`flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm transition-all ${
                         showLowConfidenceOnly
-                            ? 'bg-amber-500/10 text-amber-500 border border-amber-500/30'
+                            ? 'bg-th-warning/10 text-th-warning border border-th-warning/30'
                             : 'bg-th-bg-subtle text-th-text-secondary border border-th-border hover:text-th-text-primary'
                     }`}
                 >
@@ -274,7 +274,7 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                 onClick={onConfirm}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className="w-full py-3.5 bg-[#DA7756] hover:bg-[#C15F3C] text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#DA7756]/20"
+                className="w-full py-3.5 bg-th-accent-primary hover:bg-th-accent-primary-hover text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
             >
                 <Check className="w-5 h-5" />
                 Confirm Mappings & Import Data
@@ -339,7 +339,7 @@ function ColumnRow({
                 isIgnored
                     ? 'bg-th-bg-surface/50 border-th-border-subtle opacity-60'
                     : isLowConfidence
-                      ? 'bg-amber-500/5 border-amber-500/20'
+                      ? 'bg-th-warning/5 border-th-warning/20'
                       : 'bg-th-bg-surface border-th-border-subtle'
             }`}
         >
@@ -356,7 +356,7 @@ function ColumnRow({
                     <div className="flex items-center gap-2">
                         <code className="text-sm font-medium text-th-text-primary font-mono truncate">{column.original}</code>
                         {isLowConfidence && !isIgnored && (
-                            <span className="flex-shrink-0 px-1.5 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] font-medium rounded">
+                            <span className="flex-shrink-0 px-1.5 py-0.5 bg-th-warning/10 text-th-warning text-[10px] font-medium rounded">
                                 REVIEW
                             </span>
                         )}
@@ -397,13 +397,13 @@ function ColumnRow({
                                 animate={{ width: `${column.confidence * 100}%` }}
                                 transition={{ duration: 0.5 }}
                                 className={`h-full rounded-full ${
-                                    column.confidence >= 0.8 ? 'bg-[#7A8B5B]' : 'bg-amber-500'
+                                    column.confidence >= 0.8 ? 'bg-th-success' : 'bg-th-warning'
                                 }`}
                             />
                         </div>
                         <span
                             className={`text-xs font-medium ${
-                                column.confidence >= 0.8 ? 'text-[#7A8B5B]' : 'text-amber-500'
+                                column.confidence >= 0.8 ? 'text-th-success' : 'text-th-warning'
                             }`}
                         >
                             {Math.round(column.confidence * 100)}%
@@ -501,7 +501,7 @@ function MappingDropdown({
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search types..."
                         autoFocus
-                        className="w-full pl-8 pr-3 py-2 bg-th-bg-elevated border border-th-border-strong rounded-lg text-sm text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-[#DA7756]"
+                        className="w-full pl-8 pr-3 py-2 bg-th-bg-elevated border border-th-border-strong rounded-lg text-sm text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary"
                     />
                 </div>
             </div>
@@ -522,7 +522,7 @@ function MappingDropdown({
                                     onClick={() => onChange(opt.value)}
                                     className={`w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left transition-colors ${
                                         isSelected
-                                            ? 'bg-[#DA7756]/10 text-[#DA7756]'
+                                            ? 'bg-th-accent-primary/10 text-th-accent-primary'
                                             : 'text-th-text-secondary hover:bg-th-bg-elevated'
                                     }`}
                                 >
@@ -530,7 +530,7 @@ function MappingDropdown({
                                         <opt.icon className={`w-3 h-3 ${roleConfig.color}`} />
                                     </div>
                                     <span className="text-sm flex-1">{opt.label}</span>
-                                    {isSelected && <Check className="w-4 h-4 text-[#DA7756]" />}
+                                    {isSelected && <Check className="w-4 h-4 text-th-accent-primary" />}
                                 </button>
                             );
                         })}

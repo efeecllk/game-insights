@@ -255,14 +255,13 @@ export function UploadPage() {
                     transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                     className="relative"
                 >
-                    <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
-                    <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                        <Upload className="w-6 h-6 text-[#DA7756]" />
+                    <div className="relative w-14 h-14 rounded-2xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                        <Upload className="w-6 h-6 text-th-accent-primary" />
                     </div>
                 </motion.div>
                 <div>
-                    <h1 className="text-2xl font-display font-bold text-white">Upload Data</h1>
-                    <p className="text-sm text-[#8F8B82] mt-0.5">Import your game analytics data for AI-powered analysis</p>
+                    <h1 className="text-2xl font-display font-bold text-th-text-primary">Upload Data</h1>
+                    <p className="text-sm text-th-text-muted mt-0.5">Import your game analytics data for AI-powered analysis</p>
                 </div>
             </motion.div>
 
@@ -275,22 +274,21 @@ export function UploadPage() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="relative bg-[#1f1e1b] rounded-2xl p-6 border border-[#4a4845] overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
+                        <div className="relative bg-th-bg-surface rounded-2xl p-6 border border-th-border-subtle overflow-hidden">
                             <div className="relative">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                                            <Lightbulb className="w-5 h-5 text-[#DA7756]" />
+                                        <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
+                                            <Lightbulb className="w-5 h-5 text-th-accent-primary" />
                                         </div>
                                         <div>
-                                            <h3 className="text-lg font-semibold text-white">How It Works</h3>
-                                            <p className="text-sm text-[#8F8B82]">4 simple steps to analyze your game data</p>
+                                            <h3 className="text-lg font-semibold text-th-text-primary">How It Works</h3>
+                                            <p className="text-sm text-th-text-muted">4 simple steps to analyze your game data</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => setShowHowItWorks(false)}
-                                        className="text-[#8F8B82] hover:text-[#d4d1c9] transition-colors text-sm"
+                                        className="text-th-text-muted hover:text-th-text-secondary transition-colors text-sm"
                                     >
                                         Hide
                                     </button>
@@ -328,16 +326,16 @@ export function UploadPage() {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: index * 0.1 + 0.2 }}
-                                            className="bg-[#343330]/50 rounded-xl p-4 border border-[#4a4845]/50"
+                                            className="bg-th-bg-elevated/50 rounded-xl p-4 border border-th-border-subtle"
                                         >
                                             <div className="flex items-center gap-2 mb-2">
-                                                <div className="w-6 h-6 rounded-full bg-[#DA7756]/20 text-[#DA7756] flex items-center justify-center text-xs font-bold">
+                                                <div className="w-6 h-6 rounded-full bg-th-accent-primary-muted text-th-accent-primary flex items-center justify-center text-xs font-bold">
                                                     {item.step}
                                                 </div>
-                                                <item.icon className="w-4 h-4 text-[#DA7756]" />
+                                                <item.icon className="w-4 h-4 text-th-accent-primary" />
                                             </div>
-                                            <h4 className="font-medium text-white text-sm mb-1">{item.title}</h4>
-                                            <p className="text-xs text-[#8F8B82]">{item.description}</p>
+                                            <h4 className="font-medium text-th-text-primary text-sm mb-1">{item.title}</h4>
+                                            <p className="text-xs text-th-text-muted">{item.description}</p>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -354,15 +352,15 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-[#DA7756]/5 to-[#C15F3C]/5 rounded-2xl p-4 border border-[#DA7756]/10"
+                        className="relative bg-th-bg-surface rounded-2xl p-4 border border-th-border-subtle"
                     >
                         <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-4 h-4 text-[#DA7756]" />
+                            <div className="w-8 h-8 rounded-lg bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center flex-shrink-0">
+                                <Play className="w-4 h-4 text-th-accent-primary" />
                             </div>
                             <div className="flex-1">
-                                <p className="text-[#DA7756] font-medium text-sm mb-2">Try Example Data</p>
-                                <p className="text-xs text-[#8F8B82] mb-3">
+                                <p className="text-th-accent-primary font-medium text-sm mb-2">Try Example Data</p>
+                                <p className="text-xs text-th-text-muted mb-3">
                                     See how Game Insights works with sample datasets - no upload required
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -370,15 +368,15 @@ export function UploadPage() {
                                         <button
                                             key={dataset.id}
                                             onClick={() => handleTryExampleData(dataset.id)}
-                                            className="px-3 py-1.5 text-xs bg-[#343330]/50 hover:bg-[#343330] text-[#d4d1c9] hover:text-white rounded-lg border border-[#4a4845]/50 hover:border-[#DA7756]/30 transition-all"
+                                            className="px-3 py-1.5 text-xs bg-th-bg-elevated/50 hover:bg-th-bg-elevated text-th-text-secondary hover:text-th-text-primary rounded-lg border border-th-border-subtle hover:border-th-accent-primary/30 transition-all"
                                             title={dataset.description}
                                         >
                                             {dataset.name}
                                         </button>
                                     ))}
                                 </div>
-                                <div className="mt-3 pt-3 border-t border-[#343330]/50">
-                                    <p className="text-xs text-[#8F8B82] mb-2 flex items-center gap-1">
+                                <div className="mt-3 pt-3 border-t border-th-border-subtle">
+                                    <p className="text-xs text-th-text-muted mb-2 flex items-center gap-1">
                                         <Download className="w-3 h-3" />
                                         Or download comprehensive sample CSVs (700-850 rows each):
                                     </p>
@@ -394,7 +392,7 @@ export function UploadPage() {
                                                 key={sample.file}
                                                 href={`/sample-data/${sample.file}`}
                                                 download={sample.file}
-                                                className="px-2 py-1 text-xs bg-[#343330]/30 hover:bg-[#343330]/50 text-[#b8b5ad] hover:text-[#d4d1c9] rounded border border-[#4a4845]/30 hover:border-[#6b6967]/50 transition-all flex items-center gap-1"
+                                                className="px-2 py-1 text-xs bg-th-bg-elevated/30 hover:bg-th-bg-elevated/50 text-th-text-muted hover:text-th-text-secondary rounded border border-th-border-subtle hover:border-th-border transition-all flex items-center gap-1"
                                             >
                                                 <Download className="w-3 h-3" />
                                                 {sample.name}
@@ -415,18 +413,17 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-[#E5A84B]/10 to-[#C49840]/5  rounded-2xl p-4 border border-[#E5A84B]/20 overflow-hidden"
+                        className="relative bg-th-warning-muted rounded-2xl p-4 border border-th-warning/20 overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/20 border border-[#E5A84B]/30 flex items-center justify-center flex-shrink-0">
-                                <AlertTriangle className="w-4 h-4 text-[#E5A84B]" />
+                            <div className="w-8 h-8 rounded-lg bg-th-warning-muted border border-th-warning/30 flex items-center justify-center flex-shrink-0">
+                                <AlertTriangle className="w-4 h-4 text-th-warning" />
                             </div>
                             <div>
-                                <p className="text-[#E5A84B] font-medium">No API key configured</p>
-                                <p className="text-sm text-[#b8b5ad] mt-1">
+                                <p className="text-th-warning font-medium">No API key configured</p>
+                                <p className="text-sm text-th-text-secondary mt-1">
                                     Add your OpenAI API key in{' '}
-                                    <a href="/settings" className="text-[#DA7756] hover:text-[#C15F3C] transition-colors">
+                                    <a href="/settings" className="text-th-accent-primary hover:text-th-accent-primary-hover transition-colors">
                                         Settings
                                     </a>{' '}
                                     for better column detection. Without it, we'll use pattern matching only.
@@ -440,21 +437,21 @@ export function UploadPage() {
             {/* Progress Steps */}
             <motion.div variants={itemVariants} className="flex items-center gap-2 sm:gap-4">
                 <StepIndicator number={1} label="Upload" active={step === 'upload'} complete={step !== 'upload'} />
-                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
+                <ChevronRight className="w-4 h-4 text-th-border" />
                 <StepIndicator
                     number={2}
                     label="Preview"
                     active={step === 'preview'}
                     complete={['analyzing', 'review', 'complete'].includes(step)}
                 />
-                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
+                <ChevronRight className="w-4 h-4 text-th-border" />
                 <StepIndicator
                     number={3}
                     label="Analyze"
                     active={step === 'analyzing'}
                     complete={step === 'review' || step === 'complete'}
                 />
-                <ChevronRight className="w-4 h-4 text-[#4a4845]" />
+                <ChevronRight className="w-4 h-4 text-th-border" />
                 <StepIndicator number={4} label="Review" active={step === 'review'} complete={step === 'complete'} />
             </motion.div>
 
@@ -467,19 +464,19 @@ export function UploadPage() {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden"
                     >
-                        <div className="bg-[#343330]/30 rounded-xl p-4 border border-[#4a4845]/50">
+                        <div className="bg-th-bg-elevated/30 rounded-xl p-4 border border-th-border-subtle">
                             <button
                                 onClick={() => setShowHints(!showHints)}
                                 className="flex items-center justify-between w-full text-left"
                             >
                                 <div className="flex items-center gap-2">
-                                    <Info className="w-4 h-4 text-[#DA7756]" />
-                                    <span className="text-sm font-medium text-[#d4d1c9]">{stepHints[step].title}</span>
+                                    <Info className="w-4 h-4 text-th-accent-primary" />
+                                    <span className="text-sm font-medium text-th-text-secondary">{stepHints[step].title}</span>
                                 </div>
                                 {showHints ? (
-                                    <ChevronUp className="w-4 h-4 text-[#8F8B82]" />
+                                    <ChevronUp className="w-4 h-4 text-th-text-muted" />
                                 ) : (
-                                    <ChevronDown className="w-4 h-4 text-[#8F8B82]" />
+                                    <ChevronDown className="w-4 h-4 text-th-text-muted" />
                                 )}
                             </button>
                             <motion.ul
@@ -488,7 +485,7 @@ export function UploadPage() {
                                 className="mt-3 space-y-2 pl-6"
                             >
                                 {stepHints[step].hints.map((hint, index) => (
-                                    <li key={index} className="text-xs text-[#8F8B82] list-disc">
+                                    <li key={index} className="text-xs text-th-text-muted list-disc">
                                         {hint}
                                     </li>
                                 ))}
@@ -526,16 +523,15 @@ export function UploadPage() {
                             <motion.div
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="relative bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5  rounded-2xl p-4 border border-[#DA7756]/20 overflow-hidden"
+                                className="relative bg-th-accent-primary-muted rounded-2xl p-4 border border-th-accent-primary/20 overflow-hidden"
                             >
-                                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                                 <div className="relative flex items-start gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-[#DA7756]/20 border border-[#DA7756]/30 flex items-center justify-center flex-shrink-0">
-                                        <Sparkles className="w-4 h-4 text-[#DA7756]" />
+                                    <div className="w-8 h-8 rounded-lg bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center flex-shrink-0">
+                                        <Sparkles className="w-4 h-4 text-th-accent-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-[#DA7756] font-medium">Detected: {detectedTemplate}</p>
-                                        <p className="text-sm text-[#b8b5ad] mt-1">
+                                        <p className="text-th-accent-primary font-medium">Detected: {detectedTemplate}</p>
+                                        <p className="text-sm text-th-text-secondary mt-1">
                                             We recognized this format and will apply optimized column mappings.
                                         </p>
                                     </div>
@@ -547,7 +543,7 @@ export function UploadPage() {
                         <DataPreview result={importResult} />
 
                         {/* Actions */}
-                        <div className="flex items-center justify-between pt-4 border-t border-[#343330]">
+                        <div className="flex items-center justify-between pt-4 border-t border-th-border-subtle">
                             <Button variant="ghost" onClick={handleStartOver}>
                                 Start Over
                             </Button>
@@ -570,31 +566,30 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-[#1f1e1b]  rounded-2xl p-12 border border-[#4a4845] overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-th-bg-surface rounded-2xl p-12 border border-th-border-subtle overflow-hidden flex flex-col items-center justify-center text-center"
                     >
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
                             <motion.div
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-                                className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl"
+                                className="absolute inset-0 bg-th-accent-primary/20 rounded-2xl"
                             />
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
-                                className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/30 flex items-center justify-center mb-6"
+                                className="relative w-16 h-16 rounded-2xl bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center mb-6"
                             >
                                 <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                                    <Sparkles className="w-8 h-8 text-[#DA7756]" />
+                                    <Sparkles className="w-8 h-8 text-th-accent-primary" />
                                 </motion.div>
                             </motion.div>
                         </div>
-                        <h3 className="text-lg font-semibold text-white">Analyzing your data</h3>
-                        <p className="text-[#8F8B82] mt-2 max-w-md">
+                        <h3 className="text-lg font-semibold text-th-text-primary">Analyzing your data</h3>
+                        <p className="text-th-text-muted mt-2 max-w-md">
                             {apiKey ? 'Using AI to understand your column structure...' : 'Using pattern matching to detect columns...'}
                         </p>
                         {fileInfo && (
-                            <p className="text-sm text-[#6b6967] mt-4 font-mono">
+                            <p className="text-sm text-th-text-disabled mt-4 font-mono">
                                 {fileInfo.name} - {fileInfo.rows.toLocaleString()} rows
                             </p>
                         )}
@@ -607,7 +602,7 @@ export function UploadPage() {
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: i * 0.5 }}
-                                    className="text-xs text-[#8F8B82] bg-[#343330]/50 px-2 py-1 rounded"
+                                    className="text-xs text-th-text-muted bg-th-bg-elevated/50 px-2 py-1 rounded"
                                 >
                                     {hint}
                                 </motion.span>
@@ -650,9 +645,8 @@ export function UploadPage() {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.3 }}
-                        className="relative bg-[#1f1e1b]  rounded-2xl p-12 border border-[#DA7756]/20 overflow-hidden flex flex-col items-center justify-center text-center"
+                        className="relative bg-th-bg-surface rounded-2xl p-12 border border-th-accent-primary/20 overflow-hidden flex flex-col items-center justify-center text-center"
                     >
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
                         <div className="relative">
                             <motion.div
                                 initial={{ scale: 0 }}
@@ -660,9 +654,8 @@ export function UploadPage() {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
                                 className="relative"
                             >
-                                <div className="absolute inset-0 bg-[#DA7756]/30 rounded-2xl" />
-                                <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/30 to-[#C15F3C]/20 border border-[#DA7756]/40 flex items-center justify-center mb-6">
-                                    <CheckCircle className="w-8 h-8 text-[#DA7756]" />
+                                <div className="relative w-16 h-16 rounded-2xl bg-th-accent-primary-muted border border-th-accent-primary/30 flex items-center justify-center mb-6">
+                                    <CheckCircle className="w-8 h-8 text-th-accent-primary" />
                                 </div>
                             </motion.div>
                         </div>
@@ -670,7 +663,7 @@ export function UploadPage() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="text-lg font-semibold text-white"
+                            className="text-lg font-semibold text-th-text-primary"
                         >
                             Data Ready!
                         </motion.h3>
@@ -678,7 +671,7 @@ export function UploadPage() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="text-[#8F8B82] mt-2"
+                            className="text-th-text-muted mt-2"
                         >
                             Your data has been processed and is ready for AI analysis.
                         </motion.p>
@@ -706,10 +699,9 @@ export function UploadPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-gradient-to-br from-[#E25C5C]/10 to-[#E25C5C]/5  rounded-2xl p-4 border border-[#E25C5C]/20 overflow-hidden"
+                        className="relative bg-th-error-muted rounded-2xl p-4 border border-th-error/20 overflow-hidden"
                     >
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                        <p className="relative text-[#E25C5C]">{error}</p>
+                        <p className="relative text-th-error">{error}</p>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -722,24 +714,23 @@ function StepIndicator({ number, label, active, complete }: { number: number; la
         <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-2">
             <motion.div
                 animate={{
-                    scale: active ? [1, 1.1, 1] : 1,
-                    boxShadow: active ? '0 0 20px rgba(218, 119, 86, 0.3)' : 'none',
+                    scale: active ? [1, 1.05, 1] : 1,
                 }}
                 transition={{ duration: 1.5, repeat: active ? Infinity : 0 }}
                 className={`
                     w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300
                     ${
                         active
-                            ? 'bg-[#DA7756] text-white'
+                            ? 'bg-th-accent-primary text-white'
                             : complete
-                              ? 'bg-[#DA7756]/20 text-[#DA7756] border border-[#DA7756]/30'
-                              : 'bg-[#343330]/50 text-[#8F8B82] border border-[#343330]'
+                              ? 'bg-th-accent-primary-muted text-th-accent-primary border border-th-accent-primary/30'
+                              : 'bg-th-bg-elevated/50 text-th-text-muted border border-th-border-subtle'
                     }
                 `}
             >
                 {complete && !active ? <CheckCircle className="w-4 h-4" /> : number}
             </motion.div>
-            <span className={`text-sm hidden sm:inline ${active ? 'text-white font-medium' : 'text-[#8F8B82]'}`}>{label}</span>
+            <span className={`text-sm hidden sm:inline ${active ? 'text-th-text-primary font-medium' : 'text-th-text-muted'}`}>{label}</span>
         </motion.div>
     );
 }
