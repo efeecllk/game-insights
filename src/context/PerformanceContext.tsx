@@ -62,7 +62,7 @@ function createFPSMonitor(callback: (fps: number) => void, duration = 5000) {
     let frameCount = 0;
     let lastTime = performance.now();
     let rafId: number;
-    let startTime = performance.now();
+    const startTime = performance.now();
     let stopped = false;
 
     function measureFPS() {
