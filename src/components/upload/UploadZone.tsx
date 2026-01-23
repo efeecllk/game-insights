@@ -429,10 +429,10 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             cursor-pointer transition-all duration-300
                             ${
                                 isDragging
-                                    ? 'border-[#DA7756] bg-[#DA7756]/10 shadow-lg shadow-[#DA7756]/10'
-                                    : 'border-th-border-subtle bg-th-bg-surface/50 hover:border-[#DA7756]/50 hover:bg-th-bg-surface hover:shadow-lg hover:shadow-[#DA7756]/5'
+                                    ? 'border-th-accent-primary bg-th-accent-primary/10'
+                                    : 'border-th-border-subtle bg-th-bg-surface/50 hover:border-th-accent-primary/40 hover:bg-th-bg-surface'
                             }
-                            ${error ? 'border-red-500/50' : ''}
+                            ${error ? 'border-th-error/50' : ''}
                             ${loading ? 'pointer-events-none opacity-60' : ''}
                         `}
                     >
@@ -447,8 +447,8 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                         <div className="flex flex-col items-center gap-4 text-center">
                             {isStreaming && streamingProgress ? (
                                 <>
-                                    <div className="w-16 h-16 rounded-2xl bg-[#DA7756]/10 flex items-center justify-center">
-                                        <HardDrive className="w-8 h-8 text-[#DA7756]" />
+                                    <div className="w-16 h-16 rounded-2xl bg-th-accent-primary/10 flex items-center justify-center">
+                                        <HardDrive className="w-8 h-8 text-th-accent-primary" />
                                     </div>
                                     <div className="w-full max-w-xs">
                                         <div className="flex justify-between text-sm mb-1">
@@ -457,13 +457,13 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                     ? 'Processing...'
                                                     : 'Complete!'}
                                             </span>
-                                            <span className="text-[#DA7756] font-medium">
+                                            <span className="text-th-accent-primary font-medium">
                                                 {streamingProgress.percent}%
                                             </span>
                                         </div>
                                         <div className="h-2 bg-th-bg-elevated rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-gradient-to-r from-[#DA7756] to-[#C15F3C] transition-all duration-300"
+                                                className="h-full bg-th-accent-primary transition-all duration-300"
                                                 style={{ width: `${streamingProgress.percent}%` }}
                                             />
                                         </div>
@@ -498,14 +498,14 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                 >
                                     <div className="relative">
                                         <motion.div
-                                            className="w-14 h-14 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center"
+                                            className="w-14 h-14 rounded-2xl bg-th-accent-primary/10 border border-th-accent-primary/20 flex items-center justify-center"
                                             animate={{ rotate: 360 }}
                                             transition={{ repeat: Infinity, duration: 2, ease: 'linear' }}
                                         >
-                                            <Loader2 className="w-7 h-7 text-[#DA7756]" />
+                                            <Loader2 className="w-7 h-7 text-th-accent-primary" />
                                         </motion.div>
                                         <motion.div
-                                            className="absolute inset-0 rounded-2xl border-2 border-[#DA7756]/30 border-t-[#DA7756]"
+                                            className="absolute inset-0 rounded-2xl border-2 border-th-accent-primary/30 border-t-th-accent-primary"
                                             animate={{ rotate: 360 }}
                                             transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
                                         />
@@ -522,12 +522,12 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         transition={{ type: 'spring', stiffness: 300 }}
-                                        className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center"
+                                        className="w-14 h-14 rounded-2xl bg-th-error/10 border border-th-error/20 flex items-center justify-center"
                                     >
-                                        <AlertCircle className="w-7 h-7 text-red-500" />
+                                        <AlertCircle className="w-7 h-7 text-th-error" />
                                     </motion.div>
                                     <div className="text-center">
-                                        <p className="text-red-400 font-medium">{error}</p>
+                                        <p className="text-th-error font-medium">{error}</p>
                                         <p className="text-th-text-muted text-sm mt-1">
                                             Click or drop to try again
                                         </p>
@@ -543,13 +543,13 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         transition={{ type: 'spring', stiffness: 300, delay: 0.1 }}
-                                        className="w-14 h-14 rounded-2xl bg-[#7A8B5B]/10 border border-[#7A8B5B]/20 flex items-center justify-center"
+                                        className="w-14 h-14 rounded-2xl bg-th-success/10 border border-th-success/20 flex items-center justify-center"
                                     >
-                                        <CheckCircle className="w-7 h-7 text-[#7A8B5B]" />
+                                        <CheckCircle className="w-7 h-7 text-th-success" />
                                     </motion.div>
                                     <div className="text-center">
                                         <p className="text-th-text-primary font-medium">{fileName}</p>
-                                        <p className="text-[#7A8B5B] text-sm mt-1">
+                                        <p className="text-th-success text-sm mt-1">
                                             File loaded successfully
                                         </p>
                                     </div>
@@ -565,13 +565,13 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                                 exit={{ scale: 0.8, opacity: 0, y: -10 }}
                                                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                                                className="relative w-20 h-20 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border-2 border-dashed border-[#DA7756] flex items-center justify-center shadow-lg shadow-[#DA7756]/20"
+                                                className="relative w-20 h-20 rounded-2xl bg-th-accent-primary/15 border-2 border-dashed border-th-accent-primary flex items-center justify-center"
                                             >
                                                 <motion.div
                                                     animate={{ y: [-2, 2, -2] }}
                                                     transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
                                                 >
-                                                    <Upload className="w-10 h-10 text-[#DA7756]" />
+                                                    <Upload className="w-10 h-10 text-th-accent-primary" />
                                                 </motion.div>
                                             </motion.div>
                                         ) : (
@@ -579,12 +579,12 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 key="default"
                                                 initial={{ scale: 0.8, opacity: 0 }}
                                                 animate={{ scale: 1, opacity: 1 }}
-                                                className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-[#DA7756]/10 to-[#C15F3C]/5 border border-[#DA7756]/20 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-[#DA7756]/10 transition-shadow"
+                                                className="relative w-16 h-16 rounded-2xl bg-th-accent-primary/10 border border-th-accent-primary/20 flex items-center justify-center transition-shadow"
                                             >
-                                                <Upload className="w-8 h-8 text-[#DA7756]" />
+                                                <Upload className="w-8 h-8 text-th-accent-primary" />
                                                 {/* Pulse ring on hover */}
                                                 <motion.div
-                                                    className="absolute inset-0 rounded-2xl border border-[#DA7756]/30"
+                                                    className="absolute inset-0 rounded-2xl border border-th-accent-primary/30"
                                                     animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0, 0.3] }}
                                                     transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
                                                 />
@@ -612,9 +612,9 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: index * 0.1 }}
-                                                className="flex items-center gap-2 px-3 py-2 bg-th-bg-subtle/50 hover:bg-th-bg-subtle rounded-xl border border-th-border-subtle hover:border-[#DA7756]/30 transition-all cursor-default group"
+                                                className="flex items-center gap-2 px-3 py-2 bg-th-bg-subtle/50 hover:bg-th-bg-subtle rounded-xl border border-th-border-subtle hover:border-th-accent-primary/30 transition-all cursor-default group"
                                             >
-                                                <fmt.icon className="w-4 h-4 text-[#DA7756] group-hover:scale-110 transition-transform" />
+                                                <fmt.icon className="w-4 h-4 text-th-accent-primary group-hover:scale-110 transition-transform" />
                                                 <span className="text-xs text-th-text-secondary group-hover:text-th-text-secondary transition-colors">{fmt.name}</span>
                                             </motion.div>
                                         ))}
@@ -664,7 +664,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                         className="bg-th-bg-subtle/30 rounded-xl p-3 border border-th-border-subtle"
                                                     >
                                                         <div className="flex items-center gap-2 mb-2">
-                                                            <fmt.icon className="w-5 h-5 text-[#DA7756]" />
+                                                            <fmt.icon className="w-5 h-5 text-th-accent-primary" />
                                                             <span className="font-medium text-th-text-primary text-sm">
                                                                 {fmt.name}
                                                             </span>
@@ -705,7 +705,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                             className="bg-th-bg-subtle/30 rounded-xl p-3 border border-th-border-subtle"
                                                         >
                                                             <div className="flex items-center gap-2 mb-2">
-                                                                <span className="font-medium text-[#DA7756] text-sm capitalize">
+                                                                <span className="font-medium text-th-accent-primary text-sm capitalize">
                                                                     {gameType.replace('_', ' ')}
                                                                 </span>
                                                             </div>
@@ -713,7 +713,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                                 {cols.required.map((col) => (
                                                                     <span
                                                                         key={col}
-                                                                        className="px-2 py-0.5 bg-[#DA7756]/10 text-[#DA7756] text-xs rounded border border-[#DA7756]/20"
+                                                                        className="px-2 py-0.5 bg-th-accent-primary/10 text-th-accent-primary text-xs rounded border border-th-accent-primary/20"
                                                                         title="Required"
                                                                     >
                                                                         {col}*
@@ -739,7 +739,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 )}
                                             </div>
                                             <p className="text-xs text-th-text-disabled mt-3">
-                                                <span className="text-[#DA7756]">*</span> = Required columns.
+                                                <span className="text-th-accent-primary">*</span> = Required columns.
                                                 Other columns are optional but improve analysis quality.
                                             </p>
                                         </div>
@@ -770,7 +770,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                         <div className="mt-4 grid grid-cols-3 gap-3">
                             <button
                                 onClick={() => setMode('folder')}
-                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-[#DA7756]/30 transition-colors text-center"
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
                             >
                                 <FolderOpen className="w-5 h-5 text-th-text-muted" />
                                 <span className="text-sm font-medium text-th-text-secondary">
@@ -780,7 +780,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             </button>
                             <button
                                 onClick={() => setMode('url')}
-                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-[#DA7756]/30 transition-colors text-center"
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
                             >
                                 <Globe className="w-5 h-5 text-th-text-muted" />
                                 <span className="text-sm font-medium text-th-text-secondary">
@@ -790,7 +790,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             </button>
                             <button
                                 onClick={() => setMode('paste')}
-                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-[#DA7756]/30 transition-colors text-center"
+                                className="flex flex-col items-center gap-2 p-4 rounded-xl border border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/30 transition-colors text-center"
                             >
                                 <Clipboard className="w-5 h-5 text-th-text-muted" />
                                 <span className="text-sm font-medium text-th-text-secondary">
@@ -838,8 +838,8 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                 w-full h-64 p-6
                                 border-2 border-dashed rounded-card
                                 cursor-pointer transition-all duration-200
-                                border-th-border-subtle bg-th-bg-surface hover:border-[#DA7756]/50 hover:bg-th-bg-surface-hover
-                                ${error ? 'border-red-500/50' : ''}
+                                border-th-border-subtle bg-th-bg-surface hover:border-th-accent-primary/40 hover:bg-th-bg-surface-hover
+                                ${error ? 'border-th-error/50' : ''}
                                 ${loading ? 'pointer-events-none opacity-60' : ''}
                             `}
                         >
@@ -857,9 +857,9 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             <div className="flex flex-col items-center gap-4 text-center">
                                 {error ? (
                                     <>
-                                        <AlertCircle className="w-12 h-12 text-red-500" />
+                                        <AlertCircle className="w-12 h-12 text-th-error" />
                                         <div>
-                                            <p className="text-red-500 font-medium">{error}</p>
+                                            <p className="text-th-error font-medium">{error}</p>
                                             <p className="text-th-text-muted text-sm mt-1">
                                                 Click to try again
                                             </p>
@@ -867,8 +867,8 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     </>
                                 ) : (
                                     <>
-                                        <div className="w-16 h-16 rounded-2xl bg-[#DA7756]/10 flex items-center justify-center">
-                                            <FolderOpen className="w-8 h-8 text-[#DA7756]" />
+                                        <div className="w-16 h-16 rounded-2xl bg-th-accent-primary/10 flex items-center justify-center">
+                                            <FolderOpen className="w-8 h-8 text-th-accent-primary" />
                                         </div>
                                         <div>
                                             <p className="text-th-text-primary font-medium">
@@ -921,7 +921,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     value={urlInput}
                                     onChange={(e) => setUrlInput(e.target.value)}
                                     placeholder="https://example.com/data.csv or Google Sheets URL"
-                                    className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-[#DA7756]"
+                                    className="w-full px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary"
                                     disabled={loading}
                                 />
                             </div>
@@ -939,7 +939,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             <button
                                 onClick={handleUrlImport}
                                 disabled={loading || !urlInput.trim()}
-                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 bg-th-accent-primary hover:bg-th-accent-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                             >
                                 {loading ? (
                                     <>
@@ -978,7 +978,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                     value={pasteInput}
                                     onChange={(e) => setPasteInput(e.target.value)}
                                     placeholder="Paste CSV, TSV (from spreadsheet), or JSON data here..."
-                                    className="w-full h-48 px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-[#DA7756] font-mono text-sm resize-none"
+                                    className="w-full h-48 px-4 py-3 bg-th-bg-elevated border border-th-border-subtle rounded-xl text-th-text-primary placeholder-th-text-muted focus:outline-none focus:border-th-accent-primary font-mono text-sm resize-none"
                                     disabled={loading}
                                 />
                             </div>
@@ -995,7 +995,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                             <button
                                 onClick={handlePasteImport}
                                 disabled={loading || !pasteInput.trim()}
-                                className="w-full px-4 py-3 bg-[#DA7756] hover:bg-[#C15F3C] disabled:opacity-50 disabled:cursor-not-allowed text-th-text-primary font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 bg-th-accent-primary hover:bg-th-accent-primary-hover disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                             >
                                 {loading ? (
                                     <>

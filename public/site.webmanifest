@@ -1,0 +1,21 @@
+{
+  "name": "Game Insights",
+  "short_name": "GameInsights",
+  "description": "Zero-config analytics for mobile games",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2b2a27",
+  "theme_color": "#ae5630",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

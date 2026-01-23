@@ -43,35 +43,35 @@ const GAME_TYPE_CONFIG: Record<
         name: 'Puzzle Game',
         description: 'Level progression, booster usage, and difficulty analytics',
         icon: Target,
-        color: 'text-[#DA7756]',
+        color: 'text-th-accent-primary',
         metrics: ['Level completion', 'Booster usage', 'Move efficiency'],
     },
     idle: {
         name: 'Idle / Clicker',
         description: 'Prestige mechanics, offline earnings, and session patterns',
         icon: Clock,
-        color: 'text-[#C15F3C]',
+        color: 'text-th-accent-secondary',
         metrics: ['Prestige count', 'Offline earnings', 'Active time'],
     },
     battle_royale: {
         name: 'Battle Royale',
         description: 'Match rankings, weapon meta, and competitive metrics',
         icon: Zap,
-        color: 'text-red-400',
+        color: 'text-th-error',
         metrics: ['Kill ratio', 'Survival time', 'Weapon usage'],
     },
     match3_meta: {
         name: 'Match-3 + Meta',
         description: 'Story progression, decoration choices, and engagement loops',
         icon: Sparkles,
-        color: 'text-pink-400',
+        color: 'text-th-chart-3',
         metrics: ['Story progress', 'Decoration rate', 'Match combos'],
     },
     gacha_rpg: {
         name: 'Gacha RPG',
         description: 'Banner performance, spender tiers, and hero collection metrics',
         icon: DollarSign,
-        color: 'text-amber-400',
+        color: 'text-th-warning',
         metrics: ['Pull count', 'Spender tier', 'Character roster'],
     },
     other: {
@@ -174,7 +174,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                 className="relative bg-gradient-to-br from-th-bg-surface to-th-bg-surface/50 rounded-2xl border border-th-border-subtle overflow-hidden"
             >
                 {/* Decorative gradient */}
-                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#DA7756] to-[#C15F3C]`} />
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-th-accent-primary`} />
 
                 <div className="p-5">
                     <div className="flex items-start gap-4">
@@ -183,7 +183,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
                             transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                            className={`w-14 h-14 rounded-2xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center`}
+                            className={`w-14 h-14 rounded-2xl bg-th-accent-primary/10 border border-th-accent-primary/20 flex items-center justify-center`}
                         >
                             <gameConfig.icon className={`w-7 h-7 ${gameConfig.color}`} />
                         </motion.div>
@@ -192,7 +192,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                         <div className="flex-1">
                             <div className="flex items-center gap-3 mb-1">
                                 <h3 className="text-xl font-bold text-th-text-primary">{gameConfig.name}</h3>
-                                <span className="px-2 py-0.5 bg-[#DA7756]/10 text-[#DA7756] text-xs font-medium rounded-full border border-[#DA7756]/20">
+                                <span className="px-2 py-0.5 bg-th-accent-primary/10 text-th-accent-primary text-xs font-medium rounded-full border border-th-accent-primary/20">
                                     Detected
                                 </span>
                             </div>
@@ -227,10 +227,10 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                                     <motion.circle
                                         className={
                                             analysis.dataQuality >= 0.8
-                                                ? 'text-[#7A8B5B]'
+                                                ? 'text-th-success'
                                                 : analysis.dataQuality >= 0.6
-                                                  ? 'text-[#E5A84B]'
-                                                  : 'text-[#E25C5C]'
+                                                  ? 'text-th-warning'
+                                                  : 'text-th-error'
                                         }
                                         strokeWidth="6"
                                         strokeDasharray={32 * 2 * Math.PI}
@@ -263,41 +263,41 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
                     icon={Columns}
                     label="Total Columns"
                     value={analysis.columns.length.toString()}
-                    color="text-[#DA7756]"
+                    color="text-th-accent-primary"
                 />
                 <StatCard
                     icon={BarChart3}
                     label="Metrics Found"
                     value={roleStats.metrics.toString()}
-                    color="text-emerald-400"
+                    color="text-th-success"
                 />
                 <StatCard
                     icon={Tag}
                     label="Dimensions"
                     value={roleStats.dimensions.toString()}
-                    color="text-amber-400"
+                    color="text-th-warning"
                 />
                 <StatCard
                     icon={Users}
                     label="Data Rows"
                     value={rowCount.toLocaleString()}
-                    color="text-[#C15F3C]"
+                    color="text-th-accent-secondary"
                 />
             </motion.div>
 
             {/* Column Role Distribution */}
             <motion.div variants={itemVariants} className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
                 <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <Gauge className="w-4 h-4 text-[#DA7756]" />
+                    <Gauge className="w-4 h-4 text-th-accent-primary" />
                     Column Role Distribution
                 </h4>
                 <div className="space-y-2">
-                    <RoleBar label="Identifiers" value={roleStats.identifiers} total={analysis.columns.length} color="bg-[#DA7756]" />
-                    <RoleBar label="Timestamps" value={roleStats.timestamps} total={analysis.columns.length} color="bg-[#C15F3C]" />
-                    <RoleBar label="Metrics" value={roleStats.metrics} total={analysis.columns.length} color="bg-emerald-500" />
-                    <RoleBar label="Dimensions" value={roleStats.dimensions} total={analysis.columns.length} color="bg-amber-500" />
+                    <RoleBar label="Identifiers" value={roleStats.identifiers} total={analysis.columns.length} color="bg-th-accent-primary" />
+                    <RoleBar label="Timestamps" value={roleStats.timestamps} total={analysis.columns.length} color="bg-th-accent-secondary" />
+                    <RoleBar label="Metrics" value={roleStats.metrics} total={analysis.columns.length} color="bg-th-success" />
+                    <RoleBar label="Dimensions" value={roleStats.dimensions} total={analysis.columns.length} color="bg-th-warning" />
                     {roleStats.unknown > 0 && (
-                        <RoleBar label="Unknown" value={roleStats.unknown} total={analysis.columns.length} color="bg-[#A68B5B]" />
+                        <RoleBar label="Unknown" value={roleStats.unknown} total={analysis.columns.length} color="bg-th-chart-5" />
                     )}
                 </div>
             </motion.div>
@@ -305,7 +305,7 @@ export function AnalysisInsights({ analysis, rowCount }: AnalysisInsightsProps) 
             {/* Recommendations */}
             <motion.div variants={itemVariants} className="bg-th-bg-surface rounded-2xl border border-th-border-subtle p-4">
                 <h4 className="text-sm font-medium text-th-text-secondary mb-3 flex items-center gap-2">
-                    <Lightbulb className="w-4 h-4 text-[#DA7756]" />
+                    <Lightbulb className="w-4 h-4 text-th-accent-primary" />
                     Analysis Summary
                 </h4>
                 <div className="space-y-2">
@@ -391,9 +391,9 @@ function RoleBar({
 // Recommendation Item Component
 function RecommendationItem({ type, message }: { type: 'success' | 'warning' | 'tip'; message: string }) {
     const config = {
-        success: { icon: CheckCircle2, color: 'text-[#7A8B5B]', bg: 'bg-[#7A8B5B]/10' },
-        warning: { icon: AlertTriangle, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-        tip: { icon: Lightbulb, color: 'text-[#DA7756]', bg: 'bg-[#DA7756]/10' },
+        success: { icon: CheckCircle2, color: 'text-th-success', bg: 'bg-th-success/10' },
+        warning: { icon: AlertTriangle, color: 'text-th-warning', bg: 'bg-th-warning/10' },
+        tip: { icon: Lightbulb, color: 'text-th-accent-primary', bg: 'bg-th-accent-primary/10' },
     };
     const { icon: Icon, color, bg } = config[type];
 

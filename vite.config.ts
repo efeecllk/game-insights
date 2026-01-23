@@ -130,6 +130,8 @@ export default defineConfig(({ mode }) => ({
     },
     // Dev server optimizations
     server: {
+        host: '127.0.0.1',
+        port: 5174,
         // Pre-warm frequently used files
         warmup: {
             clientFiles: [
