@@ -1,10 +1,16 @@
 # Game Insights
 
-**Open-source analytics for indie game developers.**
+**Open-source analytics platform for indie game developers.**
 
 Upload your game data, get instant insights. No data engineering required.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
+
+<p align="center">
+  <img src="docs/screenshots/04-dashboard-builder.png" alt="Game Insights Dashboard" width="100%">
+</p>
 
 ---
 
@@ -21,40 +27,104 @@ Indie developers are at a massive disadvantage when it comes to analytics:
 
 ---
 
-## Features
+## Features at a Glance
 
-### Universal Data Import
-- **CSV/JSON upload** with AI-powered column detection
-- **Google Sheets** integration
-- **Firebase Analytics** connection
-- **Supabase / PostgreSQL** support
-- **PlayFab** integration
-- **Unity SDK** adapter
+| Feature | Description |
+|---------|-------------|
+| **Zero-Config Import** | Drag & drop CSV, Excel, JSON - AI maps your columns automatically |
+| **Game Type Detection** | Auto-detects puzzle, idle, RPG, battle royale, and more |
+| **Custom Dashboards** | Build dashboards with drag-and-drop widgets |
+| **ML Studio** | Train churn prediction models without code |
+| **Real-time Monitoring** | Live event streams and SDK status |
+| **A/B Testing** | Run experiments and track statistical significance |
 
-### Zero-Config Analytics
-- **Auto-detect game type** (puzzle, idle, RPG, battle royale, etc.)
-- **Instant dashboard generation** based on your data
-- **AI-powered insights** and recommendations
+---
 
-### Smart Analysis
-- **40+ semantic column types** recognized automatically
-- **Data quality scoring** with auto-fix suggestions
-- **Retention, monetization, engagement** metrics calculated
+## Screenshots
 
-### Game-Specific Dashboards
-| Game Type | Key Metrics |
-|-----------|-------------|
-| Puzzle | Level funnels, booster usage, difficulty curves |
-| Idle | Prestige tracking, offline rewards, progression speed |
-| Battle Royale | Weapon meta, skill distribution, match balance |
-| Match-3 | Lives economy, hard level analysis, boosters |
-| Gacha RPG | Banner analysis, spender tiers, pity tracking |
+### Data Import
 
-### Advanced AI Features
-- **Predictive Analytics**: Retention, churn, LTV, revenue forecasting
-- **Anomaly Detection**: Automatic alerts for unusual patterns
-- **User Segmentation**: K-means clustering and behavior-based segments
-- **Intelligent Alerting**: Rule-based notifications with severity levels
+Upload your game data with our guided 4-step wizard. Supports CSV, Excel, JSON, and SQLite files with automatic column detection.
+
+<p align="center">
+  <img src="docs/screenshots/01-upload-data.png" alt="Data Upload Wizard" width="100%">
+</p>
+
+---
+
+### Dashboard Builder
+
+Create custom dashboards with drag-and-drop widgets. Pre-built templates for common analytics needs.
+
+<p align="center">
+  <img src="docs/screenshots/04-dashboard-builder.png" alt="Dashboard Builder" width="100%">
+</p>
+
+---
+
+### Monetization Analytics
+
+Track revenue, ARPU, ARPPU, and conversion rates. Visualize daily revenue trends and identify opportunities.
+
+<p align="center">
+  <img src="docs/screenshots/02-monetization.png" alt="Monetization Analytics" width="100%">
+</p>
+
+---
+
+### Real-time Monitoring
+
+Monitor live events from your game with pattern-based simulation. Track unique users across different event types.
+
+<p align="center">
+  <img src="docs/screenshots/03-realtime.png" alt="Real-time Monitoring" width="100%">
+</p>
+
+---
+
+### Attribution Analytics
+
+Understand where your players come from. Multi-touch attribution models including First Touch, Last Touch, Linear, Time Decay, and Position Based.
+
+<p align="center">
+  <img src="docs/screenshots/05-attribution.png" alt="Attribution Analytics" width="100%">
+</p>
+
+---
+
+### A/B Testing
+
+Run experiments and optimize your game. Track variants, sample sizes, and statistical significance in real-time.
+
+<p align="center">
+  <img src="docs/screenshots/06-ab-testing.png" alt="A/B Testing" width="100%">
+</p>
+
+---
+
+### What-If Analysis
+
+Simulate scenarios using your real data as baseline. Adjust retention, conversion, ARPU, and new users to project revenue impact.
+
+<p align="center">
+  <img src="docs/screenshots/07-what-if.png" alt="What-If Analysis" width="100%">
+</p>
+
+---
+
+### ML Studio
+
+Train, evaluate, and deploy machine learning models. Build churn prediction models with Gradient Boosting - no ML expertise required.
+
+<p align="center">
+  <img src="docs/screenshots/08-ml-studio.png" alt="ML Studio Overview" width="100%">
+</p>
+
+View detailed training metrics including accuracy, precision, recall, F1 score, and feature importance.
+
+<p align="center">
+  <img src="docs/screenshots/09-ml-studio-details.png" alt="ML Studio Model Details" width="100%">
+</p>
 
 ---
 
@@ -69,7 +139,7 @@ Indie developers are at a massive disadvantage when it comes to analytics:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/game-insights.git
+git clone https://github.com/efeecllk/game-insights.git
 cd game-insights
 
 # Install dependencies
@@ -83,15 +153,40 @@ Open [http://localhost:5173](http://localhost:5173) and upload a CSV to get star
 
 ### Try with Sample Data
 
-Sample datasets are included in `/sample-data/`:
+Click "Try Example Data" on the upload page to explore with pre-loaded datasets:
 
-```
-sample-data/
-├── puzzle_game_events.csv     # Puzzle game level completions
-├── battle_royale_matches.json # Match results with player stats
-├── gacha_rpg_pulls.json       # Gacha pull and banner data
-└── iap_transactions.csv       # In-app purchase events
-```
+- **Puzzle Game Analytics** - Level completions and booster usage
+- **Idle Game Analytics** - Prestige tracking and offline rewards
+- **Gacha RPG Analytics** - Banner pulls and spender tiers
+
+---
+
+## Game Types Supported
+
+Game Insights auto-detects your game type and optimizes the dashboard accordingly:
+
+| Game Type | Key Metrics | Unique Features |
+|-----------|-------------|-----------------|
+| **Puzzle** | Level progression, booster usage | Difficulty curves, level funnels |
+| **Idle** | Prestige rate, offline time | Session patterns, progression speed |
+| **Battle Royale** | Rank distribution, weapon meta | Competitive metrics, match balance |
+| **Match-3** | Lives economy, hard levels | Story progression, decoration |
+| **Gacha RPG** | Banner performance, pity tracking | Hero collection, spender tiers |
+
+---
+
+## Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| **Framework** | React 18 + TypeScript |
+| **Build** | Vite 5 |
+| **Styling** | Tailwind CSS 3.4 + CSS Variables |
+| **Animation** | Framer Motion 10 |
+| **Charts** | ECharts 5 |
+| **State** | React Context + IndexedDB |
+| **Testing** | Vitest + Playwright |
+| **Components** | Storybook 10 |
 
 ---
 
@@ -100,42 +195,20 @@ sample-data/
 ```
 game-insights/
 ├── src/
-│   ├── adapters/        # Data source connectors (CSV, API, SQL, etc.)
-│   ├── ai/              # AI pipeline (schema analysis, game detection, ML models)
+│   ├── adapters/        # Data source connectors
+│   ├── ai/              # AI pipeline (schema analysis, game detection, ML)
 │   ├── components/      # Reusable UI components
 │   ├── context/         # React context providers
 │   ├── hooks/           # Custom React hooks
-│   ├── lib/             # Utilities, data providers, chart registry
-│   ├── pages/           # Page components (Dashboard, Funnels, etc.)
-│   ├── plugins/         # Plugin system for extensibility
-│   └── types/           # TypeScript type definitions
-├── sample-data/         # Example datasets for testing
-├── docs/                # Documentation
-│   └── ARCHITECTURE.md  # System architecture overview
-└── tests/               # Test suites (Vitest + Playwright)
+│   ├── lib/             # Utilities, importers, data providers
+│   ├── pages/           # Page components
+│   └── types/           # TypeScript definitions
+├── docs/
+│   ├── screenshots/     # Application screenshots
+│   ├── plans/           # Feature implementation plans
+│   └── phases/          # Development phases
+└── tests/               # Test suites
 ```
-
----
-
-## Architecture
-
-```
-Data Source → Adapter → Normalizer → AI Pipeline → Dashboard
-```
-
-1. **Adapters** (`src/adapters/`): Unified interface for data sources. All extend `BaseAdapter` with `connect()`, `fetchSchema()`, `fetchData()`.
-
-2. **AI Pipeline** (`src/ai/`): Orchestrates analysis:
-   - `SchemaAnalyzer` → Semantic column detection (40+ types)
-   - `GameTypeDetector` → Game classification
-   - `DataCleaner` → Quality issues and cleaning plans
-   - `ChartSelector` → Visualization recommendations
-   - `InsightGenerator` → AI-driven insights
-   - ML Models → Retention, churn, LTV predictions
-
-3. **Dashboard** (`src/pages/`): Auto-generated visualizations based on detected game type.
-
-See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for detailed architecture.
 
 ---
 
@@ -149,36 +222,27 @@ pnpm preview          # Preview production build
 
 # Code Quality
 pnpm lint             # Run ESLint
-pnpm format           # Format with Prettier
-
-# Testing
 pnpm test             # Run unit tests
-pnpm test:coverage    # Run tests with coverage report
+pnpm test:coverage    # Run tests with coverage
+pnpm test:e2e         # Run Playwright E2E tests
+
+# Documentation
+pnpm storybook        # Start Storybook (http://localhost:6006)
 ```
 
 ---
 
-## Tech Stack
+## Architecture
 
-- **React 18** + TypeScript
-- **Vite** for fast development
-- **Tailwind CSS** with custom dark theme
-- **ECharts** for visualizations
-- **IndexedDB** for local data persistence
-- **Zustand** for state management
+```
+Data Source → Adapter → AI Pipeline → Dashboard
+```
 
----
+1. **Adapters** - Unified interface for CSV, Excel, JSON, SQL, and API data sources
+2. **AI Pipeline** - Schema analysis, game type detection, data cleaning, insight generation
+3. **Dashboard** - Auto-generated visualizations based on your game type
 
-## Contributing
-
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
-
-### Areas for Contribution
-
-- **Data Adapters**: Add support for new data sources
-- **AI Improvements**: Better game detection, more semantic types
-- **Visualizations**: New chart types, dashboard layouts
-- **Documentation**: Tutorials, examples, translations
+See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for detailed architecture.
 
 ---
 
@@ -191,6 +255,19 @@ We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guideline
 
 ---
 
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+### Areas for Contribution
+
+- **Data Adapters** - Add support for new data sources
+- **AI Improvements** - Better game detection, more semantic types
+- **Visualizations** - New chart types, dashboard layouts
+- **Documentation** - Tutorials, examples, translations
+
+---
+
 ## License
 
 MIT License - Use it however you want.
@@ -199,9 +276,11 @@ MIT License - Use it however you want.
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/game-insights/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/game-insights/discussions)
+- **Issues**: [GitHub Issues](https://github.com/efeecllk/game-insights/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/efeecllk/game-insights/discussions)
 
 ---
 
-**Made for indie devs, by indie devs.**
+<p align="center">
+  <strong>Made for indie devs, by indie devs.</strong>
+</p>
