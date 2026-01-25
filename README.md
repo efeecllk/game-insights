@@ -8,10 +8,6 @@ Upload your game data, get instant insights. No data engineering required.
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
 
-<p align="center">
-  <img src="docs/screenshots/04-dashboard-builder.png" alt="Game Insights Dashboard" width="100%">
-</p>
-
 ---
 
 ## Why Game Insights?
