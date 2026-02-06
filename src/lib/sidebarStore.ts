@@ -24,6 +24,13 @@ export interface SidebarSettings {
 
 const SIDEBAR_SETTINGS_STORE = 'sidebarSettings';
 const SETTINGS_ID = 'default';
+const SIDEBAR_SETTINGS_UPDATED_EVENT = 'sidebar-settings-updated';
+
+function notifySidebarSettingsUpdated(): void {
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent(SIDEBAR_SETTINGS_UPDATED_EVENT));
+    }
+}
 
 /**
  * Default sidebar order - prioritizes user workflow with Upload Data first
@@ -175,11 +182,25 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         loadSettings();
     }, [loadSettings]);
 
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const handleSettingsUpdated = () => {
+            void loadSettings();
+        };
+
+        window.addEventListener(SIDEBAR_SETTINGS_UPDATED_EVENT, handleSettingsUpdated);
+        return () => {
+            window.removeEventListener(SIDEBAR_SETTINGS_UPDATED_EVENT, handleSettingsUpdated);
+        };
+    }, [loadSettings]);
+
     const setUseCustomOrder = useCallback(async (value: boolean) => {
         await saveSidebarSettings({ useCustomOrder: value });
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, []);
 
@@ -188,6 +209,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, []);
 
@@ -196,6 +218,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, []);
 
@@ -216,6 +239,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, [settings]);
 
@@ -234,6 +258,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, [settings]);
 
@@ -242,6 +267,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, []);
 
@@ -250,6 +276,7 @@ export function useSidebarSettings(): UseSidebarSettingsReturn {
         const updated = await getSidebarSettings();
         if (updated) {
             setSettings(updated);
+            notifySidebarSettingsUpdated();
         }
     }, []);
 

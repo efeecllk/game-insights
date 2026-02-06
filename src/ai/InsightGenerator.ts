@@ -14,11 +14,44 @@ import { NormalizedData } from '../adapters/BaseAdapter';
 import { GameCategory } from '../types';
 import { CalculatedMetrics } from './MetricCalculator';
 import { Anomaly } from './AnomalyDetector';
-import {
-    LLMService,
-    getLLMService,
-    InsightContext,
-} from '../services/llm';
+// LLM types inlined from removed services/llm
+interface InsightContext {
+    gameType: GameCategory;
+    columnMeanings: ColumnMeaning[];
+    metrics?: CalculatedMetrics;
+    anomalies?: Anomaly[];
+    dataSnapshot: {
+        totalUsers: number;
+        totalRevenue: number;
+        rowCount: number;
+        dateRange?: { start: string; end: string };
+    };
+    aggregations?: Record<string, unknown>;
+}
+
+interface LLMInsightResult {
+    insights: Array<{
+        type: string;
+        category: string;
+        title: string;
+        description: string;
+        metric?: string;
+        value?: number | string;
+        change?: number;
+        priority?: number;
+        recommendation?: string;
+        confidence?: number;
+        evidence?: string[];
+    }>;
+}
+
+interface LLMService {
+    generateInsights(context: InsightContext): Promise<LLMInsightResult>;
+}
+
+function getLLMService(): LLMService | null {
+    return null;
+}
 
 // ============ TYPES ============
 

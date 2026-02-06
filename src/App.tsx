@@ -26,12 +26,8 @@ import { motion, MotionConfig } from 'framer-motion';
 import { Users, TrendingUp, DollarSign, Clock, Target, Gamepad2, Loader2, Sparkles, AlertTriangle, Lightbulb, Info, AlertCircle } from 'lucide-react';
 import { GameProvider, useGame } from './context/GameContext';
 import { DataProvider } from './context/DataContext';
-import { IntegrationProvider } from './context/IntegrationContext';
-import { MLProvider } from './context/MLContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
-import { PerformanceProvider } from './context/PerformanceContext';
-import { AIProvider } from './context/AIContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Components (always loaded - core UI)
@@ -54,45 +50,22 @@ const FunnelChart = lazy(() => import('./components/charts/FunnelChart').then(m 
 const RevenueChart = lazy(() => import('./components/charts/RevenueChart').then(m => ({ default: m.RevenueChart })));
 const SegmentChart = lazy(() => import('./components/charts/SegmentChart').then(m => ({ default: m.SegmentChart })));
 
-// ML Components (lazy-loaded - only shown when user has data)
-const MLInsightsPanel = lazy(() => import('./components/ml').then(m => ({ default: m.MLInsightsPanel })));
-
 // ============================================================================
 // Lazy-loaded Pages (Code Splitting)
-// All pages are lazy loaded to reduce initial bundle size
-// Only the Overview page components are eagerly loaded
 // ============================================================================
 
-// All pages lazy loaded for optimal code splitting
 const UploadPage = lazy(() => import('./pages/Upload').then(m => ({ default: m.UploadPage })));
 const SettingsPage = lazy(() => import('./pages/Settings').then(m => ({ default: m.SettingsPage })));
 const GamesPage = lazy(() => import('./pages/Games').then(m => ({ default: m.GamesPage })));
-
-// Heavy pages with complex UI - lazy loaded
 const DashboardBuilderPage = lazy(() => import('./pages/DashboardBuilder'));
-const ABTestingPage = lazy(() => import('./pages/ABTesting'));
-const FunnelBuilderPage = lazy(() => import('./pages/FunnelBuilder'));
-const AttributionPage = lazy(() => import('./pages/Attribution'));
-const PredictionsPage = lazy(() => import('./pages/Predictions'));
-
-// Analytics pages - lazy loaded (use echarts)
-const RealtimePage = lazy(() => import('./pages/Realtime'));
 const FunnelsPage = lazy(() => import('./pages/Funnels'));
 const MonetizationPage = lazy(() => import('./pages/Monetization'));
-const DataHubPage = lazy(() => import('./pages/DataHub'));
-const TemplatesPage = lazy(() => import('./pages/Templates'));
-const WhatIfPage = lazy(() => import('./pages/WhatIf'));
-const MLStudioPage = lazy(() => import('./pages/MLStudio'));
-
-// AI Analytics page (replaces old Analytics page)
-const AIAnalyticsPage = lazy(() => import('./pages/AIAnalytics'));
-
-// Landing page (lazy-loaded - only for first-time visitors)
 const LandingPage = lazy(() => import('./pages/Landing'));
 
 // Data & Types
 import { createSmartDataProvider, gameCategories } from './lib/dataProviders';
 import { useData } from './context/DataContext';
+import { useSidebarSettings } from './lib/sidebarStore';
 
 // ============================================================================
 // Skip Link Component (Accessibility)
@@ -396,16 +369,6 @@ function OverviewPage() {
                 </div>
             </section>
 
-            {/* ML Insights Panel - Only shown when ML is ready */}
-            {isUsingRealData && (
-                <motion.section variants={itemVariants} aria-labelledby="ml-insights-heading">
-                    <h2 id="ml-insights-heading" className="sr-only">Machine Learning Insights</h2>
-                    <Suspense fallback={<ChartLoader />}>
-                        <MLInsightsPanel compact />
-                    </Suspense>
-                </motion.section>
-            )}
-
             {/* Charts Row 1 */}
             <motion.section variants={itemVariants} aria-labelledby="charts-heading-1">
                 <h2 id="charts-heading-1" className="sr-only">Retention and Funnel Charts</h2>
@@ -605,21 +568,14 @@ const InsightCard = memo(function InsightCard({
 function getPageTitle(pathname: string): string {
     const titles: Record<string, string> = {
         '/': 'Overview',
-        '/games': 'Games',
+        '/games': 'My Datasets',
         '/settings': 'Settings',
         '/upload': 'Upload Data',
         '/data-sources': 'Data Sources',
-        '/templates': 'Templates',
-        '/predictions': 'Predictions',
         '/analytics': 'Analytics',
-        '/realtime': 'Realtime',
         '/dashboards': 'Dashboards',
         '/funnels': 'Funnels',
         '/monetization': 'Monetization',
-        '/ab-testing': 'A/B Testing',
-        '/attribution': 'Attribution',
-        '/what-if': 'What-If Analysis',
-        '/ml-studio': 'ML Studio',
     };
     return titles[pathname] || 'Page';
 }
@@ -633,6 +589,7 @@ function AppContent() {
     const { hasCompleted: hasOnboarded } = useOnboarding();
     const [showOnboarding, setShowOnboarding] = useState(!hasOnboarded);
     const location = useLocation();
+    const { collapsed } = useSidebarSettings();
 
     // Initialize keyboard shortcuts
     useKeyboardShortcuts({
@@ -669,107 +626,21 @@ function AppContent() {
                 {/* Main Content Area */}
                 <main
                     id="main-content"
-                    className="flex-1 ml-[220px] p-6"
+                    className={`flex-1 p-4 sm:p-6 transition-[margin] duration-200 ${
+                        collapsed ? 'ml-16' : 'ml-[220px]'
+                    }`}
                     tabIndex={-1}
                     aria-label={pageTitle + ' - Main content'}
                 >
                     <Routes>
-                        {/* Overview - core route, eagerly loaded */}
                         <Route path="/" element={<OverviewPage />} />
-
-                        {/* Lazy-loaded routes wrapped in Suspense */}
-                        <Route path="/games" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <GamesPage />
-                            </Suspense>
-                        } />
-                        <Route path="/settings" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <SettingsPage />
-                            </Suspense>
-                        } />
-                        <Route path="/upload" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <UploadPage />
-                            </Suspense>
-                        } />
-
-                        {/* Lazy-loaded routes wrapped in Suspense */}
-                        <Route path="/data-sources" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <DataHubPage />
-                            </Suspense>
-                        } />
-                        <Route path="/integrations" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <DataHubPage />
-                            </Suspense>
-                        } />
-                        <Route path="/templates" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <TemplatesPage />
-                            </Suspense>
-                        } />
-                        <Route path="/predictions" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <PredictionsPage />
-                            </Suspense>
-                        } />
-                        <Route path="/analytics" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <AIAnalyticsPage />
-                            </Suspense>
-                        } />
-                        <Route path="/realtime" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <RealtimePage />
-                            </Suspense>
-                        } />
-                        <Route path="/dashboards" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <DashboardBuilderPage />
-                            </Suspense>
-                        } />
-                        <Route path="/dashboards/:id" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <DashboardBuilderPage />
-                            </Suspense>
-                        } />
-                        <Route path="/funnels" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <FunnelsPage />
-                            </Suspense>
-                        } />
-                        <Route path="/funnel-builder" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <FunnelBuilderPage />
-                            </Suspense>
-                        } />
-                        <Route path="/monetization" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <MonetizationPage />
-                            </Suspense>
-                        } />
-                        <Route path="/attribution" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <AttributionPage />
-                            </Suspense>
-                        } />
-                        <Route path="/ab-testing" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <ABTestingPage />
-                            </Suspense>
-                        } />
-                        <Route path="/what-if" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <WhatIfPage />
-                            </Suspense>
-                        } />
-                        <Route path="/ml-studio" element={
-                            <Suspense fallback={<PageLoader />}>
-                                <MLStudioPage />
-                            </Suspense>
-                        } />
+                        <Route path="/upload" element={<Suspense fallback={<PageLoader />}><UploadPage /></Suspense>} />
+                        <Route path="/games" element={<Suspense fallback={<PageLoader />}><GamesPage /></Suspense>} />
+                        <Route path="/funnels" element={<Suspense fallback={<PageLoader />}><FunnelsPage /></Suspense>} />
+                        <Route path="/monetization" element={<Suspense fallback={<PageLoader />}><MonetizationPage /></Suspense>} />
+                        <Route path="/dashboards" element={<Suspense fallback={<PageLoader />}><DashboardBuilderPage /></Suspense>} />
+                        <Route path="/dashboards/:id" element={<Suspense fallback={<PageLoader />}><DashboardBuilderPage /></Suspense>} />
+                        <Route path="/settings" element={<Suspense fallback={<PageLoader />}><SettingsPage /></Suspense>} />
                     </Routes>
                 </main>
             </div>
@@ -844,21 +715,13 @@ function App() {
         <ErrorBoundary>
             <MotionConfig reducedMotion="user">
                 <ThemeProvider>
-                    <PerformanceProvider>
-                        <ToastProvider position="bottom-right" maxToasts={5}>
-                            <DataProvider>
-                                <MLProvider>
-                                    <AIProvider>
-                                        <IntegrationProvider>
-                                            <GameProvider>
-                                                <AppRouter />
-                                            </GameProvider>
-                                        </IntegrationProvider>
-                                    </AIProvider>
-                                </MLProvider>
-                            </DataProvider>
-                        </ToastProvider>
-                    </PerformanceProvider>
+                    <ToastProvider position="bottom-right" maxToasts={5}>
+                        <DataProvider>
+                            <GameProvider>
+                                <AppRouter />
+                            </GameProvider>
+                        </DataProvider>
+                    </ToastProvider>
                 </ThemeProvider>
             </MotionConfig>
         </ErrorBoundary>

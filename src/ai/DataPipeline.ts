@@ -16,7 +16,16 @@ import { anomalyDetector, Anomaly, AnomalyDetectionResult, DetectionConfig } fro
 import { cohortAnalyzer, CohortAnalysisResult } from './CohortAnalyzer';
 import { funnelDetector, DetectedFunnel, FunnelAnalysisResult } from './FunnelDetector';
 import { GameCategory } from '../types';
-import { LLMConfig } from '../services/llm';
+export interface LLMConfig {
+    provider: 'openai' | 'anthropic';
+    apiKey: string;
+    model?: string;
+    maxTokens?: number;
+    temperature?: number;
+    cacheEnabled?: boolean;
+    cacheTTLMs?: number;
+    rateLimitPerMinute?: number;
+}
 
 // ============ TYPES ============
 

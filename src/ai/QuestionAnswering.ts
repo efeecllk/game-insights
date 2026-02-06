@@ -6,12 +6,92 @@
 import { NormalizedData } from '../adapters/BaseAdapter';
 import { ColumnMeaning } from './SchemaAnalyzer';
 import { GameCategory } from '../types';
-import {
-    LLMService,
-    getLLMService,
-    QAContext,
-} from '../services/llm';
-import { detectQuestionType, SUGGESTED_QUESTIONS } from '../services/llm/prompts/qaPrompts';
+// LLM types inlined from removed services/llm
+interface QAContext {
+    columns: { name: string; semanticType: string }[];
+    sampleRows: Record<string, unknown>[];
+    rowCount: number;
+    dateRange?: { start: string; end: string };
+    availableMetrics: string[];
+    gameType: GameCategory;
+}
+
+interface QAResponse {
+    answer: string;
+    methodology?: string;
+    queryLogic?: {
+        filters?: { column: string; operator: string; value: unknown }[];
+        aggregations?: { column: string; function: 'sum' | 'avg' | 'count' | 'max' | 'min' }[];
+        groupBy?: string[];
+    };
+    dataPoints: { label: string; value: string; context?: string }[];
+    confidence: number;
+    relatedQuestions: string[];
+    limitations?: string;
+}
+
+interface LLMService {
+    answerQuestion(question: string, context: QAContext): Promise<QAResponse>;
+}
+
+function getLLMService(): LLMService | null {
+    return null;
+}
+
+// Question type detection (inlined from removed services/llm/prompts/qaPrompts)
+const QUESTION_PATTERNS: Array<{ pattern: RegExp; type: string }> = [
+    { pattern: /what('?s| is) (my |the )?retention/i, type: 'retention' },
+    { pattern: /how many users? (returned|came back)/i, type: 'retention' },
+    { pattern: /d(\d+) retention/i, type: 'retention' },
+    { pattern: /how much revenue/i, type: 'revenue' },
+    { pattern: /total revenue/i, type: 'revenue' },
+    { pattern: /(arpu|arppu|ltv)/i, type: 'revenue' },
+    { pattern: /how many (users?|players?)/i, type: 'count' },
+    { pattern: /(dau|mau|wau)/i, type: 'engagement' },
+    { pattern: /average session/i, type: 'engagement' },
+    { pattern: /compare (.+) (vs|versus|to|with|and) (.+)/i, type: 'comparison' },
+    { pattern: /(trend|over time|last (week|month|year))/i, type: 'trend' },
+    { pattern: /which (level|stage|step) has (highest|most|lowest)/i, type: 'funnel' },
+    { pattern: /(completion|conversion|drop.?off) rate/i, type: 'funnel' },
+];
+
+function detectQuestionType(question: string): string {
+    for (const { pattern, type } of QUESTION_PATTERNS) {
+        if (pattern.test(question)) return type;
+    }
+    return 'unknown';
+}
+
+const SUGGESTED_QUESTIONS: Record<GameCategory, string[]> = {
+    puzzle: [
+        "What's my D7 retention this week?",
+        "Which level has the highest failure rate?",
+        "How much revenue did boosters generate?",
+    ],
+    idle: [
+        "How many users reached prestige 2?",
+        "What's the average offline time?",
+        "Which upgrades are most purchased?",
+    ],
+    battle_royale: [
+        "What's the average kills per match?",
+        "How long do matches typically last?",
+        "What's the most used weapon?",
+    ],
+    match3_meta: [
+        "What's the story completion rate?",
+        "How much revenue comes from decoration purchases?",
+    ],
+    gacha_rpg: [
+        "What's the SSR pull rate?",
+        "How much did the latest banner earn?",
+    ],
+    custom: [
+        "What's my total user count?",
+        "What's the overall revenue?",
+        "How is engagement trending?",
+    ],
+};
 
 // ============ TYPES ============
 

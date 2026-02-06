@@ -1,16 +1,11 @@
 /**
- * Sidebar - Obsidian Analytics Design System
+ * Sidebar - Main navigation
  *
- * A refined, premium navigation sidebar with:
- * - Layered depth and subtle gradients
- * - Glassmorphism effects
- * - Orchestrated entrance animations
- * - Elegant hover micro-interactions
- * - Customizable order via drag-and-drop
- * - Collapsible state for more screen space
+ * 8 navigation items in 4 sections: Main, Data, Insights, Settings
+ * Collapsible for more screen space, theme toggle, dashboard quick-nav
  */
 
-import { useState, useMemo, memo, lazy, Suspense } from 'react';
+import { useState, useMemo, memo } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -20,36 +15,23 @@ import {
     LayoutGrid,
     Filter,
     DollarSign,
-    Zap,
     Database,
     Settings,
-    ExternalLink,
-    Package,
-    Brain,
-    Target,
-    Lightbulb,
-    FlaskConical,
     LucideIcon,
     Sun,
     Moon,
     ChevronRight,
     ChevronLeft,
-    SlidersHorizontal,
-    Pin,
     Plus,
     Loader2,
-    Bot,
 } from 'lucide-react';
 import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
-import { useSidebarSettings, DEFAULT_SIDEBAR_ORDER } from '../lib/sidebarStore';
+import { useSidebarSettings } from '../lib/sidebarStore';
 import { DataModeIndicator } from './ui/DataModeIndicator';
-import { MLStatusBadge } from './ml';
 import { useDashboards } from '../hooks/useDashboards';
 import type { Dashboard } from '../lib/dashboardStore';
 
-// Lazy load SidebarCustomizer modal (only shown when customize button clicked)
-const SidebarCustomizer = lazy(() => import('./SidebarCustomizer').then(m => ({ default: m.SidebarCustomizer })));
 
 interface NavItemType {
     icon: LucideIcon;
@@ -57,45 +39,37 @@ interface NavItemType {
     label: string;
     path: string;
     badge?: string;
-    external?: boolean;
 }
 
-// Primary nav items - always visible (essential features)
-// Simplified: Only 4 core items for cleaner UX
+// Main navigation items
 const primaryNavItems: NavItemType[] = [
-    { icon: Database, labelKey: 'navigation.upload', label: 'Upload Data', path: '/upload' },
-    { icon: Home, labelKey: 'navigation.dashboard', label: 'Dashboard', path: '/' },
+    { icon: Home, labelKey: 'navigation.dashboard', label: 'Overview', path: '/' },
     { icon: Bot, labelKey: 'navigation.aiAnalytics', label: 'Analytics', path: '/analytics', badge: 'AI' },
-    { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Revenue', path: '/monetization' },
 ];
 
-// More analytics - shown after user has data
-const moreAnalyticsItems: NavItemType[] = [
+// Data management items
+const dataItems: NavItemType[] = [
+    { icon: Database, labelKey: 'navigation.upload', label: 'Upload', path: '/upload' },
+    { icon: BarChart2, labelKey: 'navigation.games', label: 'My Datasets', path: '/games' },
+];
+
+// Insights items
+const insightsItems: NavItemType[] = [
     { icon: Filter, labelKey: 'navigation.funnels', label: 'Funnels', path: '/funnels' },
-    { icon: BarChart2, labelKey: 'navigation.realtime', label: 'Realtime', path: '/realtime' },
+    { icon: DollarSign, labelKey: 'navigation.monetization', label: 'Monetization', path: '/monetization' },
     { icon: LayoutGrid, labelKey: 'navigation.dashboards', label: 'Dashboards', path: '/dashboards' },
-    { icon: Target, labelKey: 'navigation.attribution', label: 'Attribution', path: '/attribution' },
 ];
 
-// Advanced tools - power user features (collapsed by default)
-const advancedItems: NavItemType[] = [
-    { icon: Brain, labelKey: 'navigation.predictions', label: 'Predictions', path: '/predictions', badge: 'AI' },
-    { icon: Zap, labelKey: 'navigation.abTesting', label: 'A/B Testing', path: '/ab-testing' },
-    { icon: Lightbulb, labelKey: 'navigation.whatIf', label: 'What-If', path: '/what-if' },
-    { icon: FlaskConical, labelKey: 'navigation.mlStudio', label: 'ML Studio', path: '/ml-studio' },
-];
-
-// Settings items - minimal
+// Settings items
 const settingsItems: NavItemType[] = [
-    { icon: Package, labelKey: 'navigation.templates', label: 'Templates', path: '/templates' },
     { icon: Settings, labelKey: 'navigation.settings', label: 'Settings', path: '/settings' },
 ];
 
-// All nav items combined - exported for SidebarCustomizer
+// All nav items combined
 export const allNavItems: NavItemType[] = [
     ...primaryNavItems,
-    ...moreAnalyticsItems,
-    ...advancedItems,
+    ...dataItems,
+    ...insightsItems,
     ...settingsItems,
 ];
 
@@ -139,16 +113,6 @@ const logoVariants = {
     },
 };
 
-// Create a map from label to nav item for quick lookup
-const navItemMap = new Map<string, NavItemType>(
-    allNavItems.map(item => [item.label, item])
-);
-
-// Define section boundaries based on default order
-const primaryLabels = new Set(['Upload Data', 'Dashboard', 'Analytics', 'Revenue']);
-const moreAnalyticsLabels = new Set(['Funnels', 'Realtime', 'Dashboards', 'Attribution']);
-const advancedLabels = new Set(['Predictions', 'A/B Testing', 'What-If', 'ML Studio']);
-const settingsLabels = new Set(['Templates', 'Settings']);
 
 export function Sidebar() {
     const { selectedGame } = useGame();
@@ -156,60 +120,25 @@ export function Sidebar() {
     const location = useLocation();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
     const {
-        useCustomOrder,
-        customOrder,
         collapsed,
         toggleCollapsed,
-        isPinned,
-        togglePinned
     } = useSidebarSettings();
 
     // Dashboard data for sidebar
     const { dashboards, loading: dashboardsLoading, createNew: createNewDashboard } = useDashboards();
 
-    // Collapsible section states - start collapsed for cleaner UI
-    const [showMoreAnalytics, setShowMoreAnalytics] = useState(() => {
-        // Expand if current route is in this section
-        return moreAnalyticsItems.some(item => location.pathname === item.path);
-    });
-    const [showAdvanced, setShowAdvanced] = useState(() => {
-        return advancedItems.some(item => location.pathname === item.path);
-    });
     const [showMyDashboards, setShowMyDashboards] = useState(() => {
-        // Expand if current route is a dashboard view
         return location.pathname.startsWith('/dashboards/');
     });
 
-    // Get the effective order - use custom order when enabled, otherwise default
-    const effectiveOrder = useCustomOrder ? customOrder : DEFAULT_SIDEBAR_ORDER;
-
-    // Sort items according to the effective order, maintaining section groupings
-    const sortedItems = useMemo(() => {
-        // Get items for each section, sorted by effective order
-        const sortSection = (labels: Set<string>) => {
-            return effectiveOrder
-                .filter(label => labels.has(label))
-                .map(label => navItemMap.get(label))
-                .filter((item): item is NavItemType => item !== undefined);
-        };
-
-        return {
-            primary: sortSection(primaryLabels),
-            moreAnalytics: sortSection(moreAnalyticsLabels),
-            advanced: sortSection(advancedLabels),
-            settings: sortSection(settingsLabels),
-        };
-    }, [effectiveOrder]);
-
-    // Get pinned items that should appear at top
-    const pinnedItems = useMemo(() => {
-        return effectiveOrder
-            .filter(label => isPinned(label))
-            .map(label => navItemMap.get(label))
-            .filter((item): item is NavItemType => item !== undefined);
-    }, [effectiveOrder, isPinned]);
+    // Navigation sections (static)
+    const sections = useMemo(() => ({
+        primary: primaryNavItems,
+        data: dataItems,
+        insights: insightsItems,
+        settings: settingsItems,
+    }), []);
 
     void selectedGame; // Mark as used (for game-specific priorities)
 
@@ -271,34 +200,12 @@ export function Sidebar() {
                         >
                             <div className="p-2.5 rounded-xl bg-th-bg-surface border border-th-border-subtle">
                                 <DataModeIndicator />
-                                <MLStatusBadge />
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
 
-                {/* Navigation Header with Customize Button */}
-                <div className={`px-3 pt-3 pb-1 flex items-center ${collapsed ? 'justify-center' : 'justify-between'}`}>
-                    {!collapsed && (
-                        <span className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">
-                            {t('sidebar.navigation', 'Navigation')}
-                        </span>
-                    )}
-                    {!collapsed && (
-                        <motion.button
-                            whileHover={{ scale: 1.1 }}
-                            whileTap={{ scale: 0.9 }}
-                            onClick={() => setIsCustomizerOpen(true)}
-                            className="p-1.5 rounded-lg text-th-text-muted hover:text-th-text-secondary hover:bg-th-bg-surface transition-colors"
-                            aria-label="Customize sidebar order"
-                            title="Customize sidebar order"
-                        >
-                            <SlidersHorizontal className="w-3.5 h-3.5" />
-                        </motion.button>
-                    )}
-                </div>
-
-                {/* Navigation - Uses custom order when enabled */}
+                {/* Navigation */}
                 <motion.nav
                     variants={containerVariants}
                     initial="hidden"
@@ -306,40 +213,14 @@ export function Sidebar() {
                     className="flex-1 py-2 px-3 overflow-y-auto"
                     aria-label="Primary"
                 >
-                    {/* Pinned Items - Show at top if any */}
-                    {pinnedItems.length > 0 && (
-                        <>
-                            {!collapsed && (
-                                <div className="flex items-center gap-1.5 px-3 py-1.5 mb-1">
-                                    <Pin className="w-3 h-3 text-th-accent-primary" />
-                                    <span className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">
-                                        Pinned
-                                    </span>
-                                </div>
-                            )}
-                            <ul role="list" className="space-y-0.5 mb-3">
-                                {pinnedItems.map((item) => (
-                                    <motion.li key={`pinned-${item.path}`} variants={itemVariants}>
-                                        <NavItemComponent
-                                            item={item}
-                                            isTop={true}
-                                            isActive={location.pathname === item.path}
-                                            translatedLabel={t(item.labelKey)}
-                                            collapsed={collapsed}
-                                            showPinButton={!collapsed}
-                                            isPinned={true}
-                                            onTogglePin={() => togglePinned(item.label)}
-                                        />
-                                    </motion.li>
-                                ))}
-                            </ul>
-                            {!collapsed && <div className="border-t border-th-border-subtle mb-3" />}
-                        </>
+                    {/* Main Navigation */}
+                    {!collapsed && (
+                        <div className="px-3 py-1">
+                            <span className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">Main</span>
+                        </div>
                     )}
-
-                    {/* Primary Navigation - Always visible */}
                     <ul role="list" className="space-y-0.5">
-                        {sortedItems.primary.map((item) => (
+                        {sections.primary.map((item) => (
                             <motion.li key={item.path} variants={itemVariants}>
                                 <NavItemComponent
                                     item={item}
@@ -347,29 +228,52 @@ export function Sidebar() {
                                     isActive={location.pathname === item.path}
                                     translatedLabel={t(item.labelKey)}
                                     collapsed={collapsed}
-                                    showPinButton={!collapsed}
-                                    isPinned={isPinned(item.label)}
-                                    onTogglePin={() => togglePinned(item.label)}
                                 />
                             </motion.li>
                         ))}
                     </ul>
 
-                    {/* More Analytics - Collapsible (hidden in collapsed mode) */}
+                    {/* Data Section */}
                     {!collapsed && (
-                        <NavSection
-                            title="More Analytics"
-                            isExpanded={showMoreAnalytics}
-                            onToggle={() => setShowMoreAnalytics(!showMoreAnalytics)}
-                            items={sortedItems.moreAnalytics}
-                            currentPath={location.pathname}
-                            t={t}
-                            isPinned={isPinned}
-                            onTogglePin={togglePinned}
-                        />
+                        <div className="px-3 py-1 mt-4">
+                            <span className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">Data</span>
+                        </div>
                     )}
+                    <ul role="list" className="space-y-0.5">
+                        {sections.data.map((item) => (
+                            <motion.li key={item.path} variants={itemVariants}>
+                                <NavItemComponent
+                                    item={item}
+                                    isTop={true}
+                                    isActive={location.pathname === item.path}
+                                    translatedLabel={t(item.labelKey)}
+                                    collapsed={collapsed}
+                                />
+                            </motion.li>
+                        ))}
+                    </ul>
 
-                    {/* My Dashboards - Dynamic section showing user dashboards */}
+                    {/* Insights Section */}
+                    {!collapsed && (
+                        <div className="px-3 py-1 mt-4">
+                            <span className="text-[10px] text-th-text-muted uppercase tracking-wider font-medium">Insights</span>
+                        </div>
+                    )}
+                    <ul role="list" className="space-y-0.5">
+                        {sections.insights.map((item) => (
+                            <motion.li key={item.path} variants={itemVariants}>
+                                <NavItemComponent
+                                    item={item}
+                                    isTop={true}
+                                    isActive={location.pathname === item.path}
+                                    translatedLabel={t(item.labelKey)}
+                                    collapsed={collapsed}
+                                />
+                            </motion.li>
+                        ))}
+                    </ul>
+
+                    {/* My Dashboards - Dynamic section */}
                     {!collapsed && (
                         <MyDashboardsSection
                             dashboards={dashboards}
@@ -384,24 +288,10 @@ export function Sidebar() {
                         />
                     )}
 
-                    {/* Advanced Tools - Collapsible (hidden in collapsed mode) */}
-                    {!collapsed && (
-                        <NavSection
-                            title="Advanced"
-                            isExpanded={showAdvanced}
-                            onToggle={() => setShowAdvanced(!showAdvanced)}
-                            items={sortedItems.advanced}
-                            currentPath={location.pathname}
-                            t={t}
-                            isPinned={isPinned}
-                            onTogglePin={togglePinned}
-                        />
-                    )}
-
-                    {/* Settings - Always visible at bottom */}
+                    {/* Settings */}
                     <div className={`mt-4 pt-4 border-t border-th-border-subtle ${collapsed ? 'px-0' : ''}`}>
                         <ul role="list" className="space-y-0.5">
-                            {sortedItems.settings.map((item) => (
+                            {sections.settings.map((item) => (
                                 <motion.li key={item.path} variants={itemVariants}>
                                     <NavItemComponent
                                         item={item}
@@ -409,9 +299,6 @@ export function Sidebar() {
                                         isActive={location.pathname === item.path}
                                         translatedLabel={t(item.labelKey)}
                                         collapsed={collapsed}
-                                        showPinButton={false}
-                                        isPinned={false}
-                                        onTogglePin={() => {}}
                                     />
                                 </motion.li>
                             ))}
@@ -492,15 +379,6 @@ export function Sidebar() {
                 </motion.div>
             </div>
 
-            {/* Sidebar Customizer Modal (lazy-loaded) */}
-            {isCustomizerOpen && (
-                <Suspense fallback={null}>
-                    <SidebarCustomizer
-                        isOpen={isCustomizerOpen}
-                        onClose={() => setIsCustomizerOpen(false)}
-                    />
-                </Suspense>
-            )}
         </motion.aside>
     );
 }
@@ -511,18 +389,12 @@ const NavItemComponent = memo(function NavItemComponent({
     isActive,
     translatedLabel,
     collapsed = false,
-    showPinButton = false,
-    isPinned = false,
-    onTogglePin,
 }: {
     item: NavItemType;
     isTop: boolean;
     isActive: boolean;
     translatedLabel: string;
     collapsed?: boolean;
-    showPinButton?: boolean;
-    isPinned?: boolean;
-    onTogglePin?: () => void;
 }) {
     const Icon = item.icon;
 
@@ -588,117 +460,10 @@ const NavItemComponent = memo(function NavItemComponent({
                             </span>
                         )}
 
-                        {/* Pin button - shown on hover when showPinButton is true */}
-                        {!collapsed && showPinButton && (
-                            <button
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    onTogglePin?.();
-                                }}
-                                className={`p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
-                                    isPinned ? 'text-th-accent-primary' : 'text-th-text-muted hover:text-th-text-secondary'
-                                }`}
-                                title={isPinned ? 'Unpin from top' : 'Pin to top'}
-                            >
-                                <Pin className="w-3 h-3" />
-                            </button>
-                        )}
-
-                        {/* External link indicator (hidden when collapsed) */}
-                        {!collapsed && item.external && (
-                            <>
-                                <ExternalLink
-                                    className="w-3 h-3 text-th-text-muted group-hover:text-th-text-secondary"
-                                    aria-hidden="true"
-                                />
-                                <span className="sr-only">(opens in new tab)</span>
-                            </>
-                        )}
                     </div>
                 </>
             )}
         </NavLink>
-    );
-});
-
-/**
- * Collapsible Navigation Section
- * Progressive disclosure for secondary navigation items
- */
-const NavSection = memo(function NavSection({
-    title,
-    isExpanded,
-    onToggle,
-    items,
-    currentPath,
-    t,
-    isPinned,
-    onTogglePin,
-}: {
-    title: string;
-    isExpanded: boolean;
-    onToggle: () => void;
-    items: NavItemType[];
-    currentPath: string;
-    t: (key: string) => string;
-    isPinned: (label: string) => boolean;
-    onTogglePin: (label: string) => void;
-}) {
-    const hasActiveItem = items.some(item => currentPath === item.path);
-
-    return (
-        <div className="mt-4">
-            <button
-                onClick={onToggle}
-                className="w-full flex items-center justify-between px-3 py-2 text-[11px] text-th-text-muted uppercase tracking-wider font-medium hover:text-th-text-secondary transition-colors"
-            >
-                <span className="flex items-center gap-2">
-                    {title}
-                    {hasActiveItem && !isExpanded && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-th-accent-primary" />
-                    )}
-                </span>
-                <motion.div
-                    animate={{ rotate: isExpanded ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <ChevronRight className="w-3.5 h-3.5 rotate-90" />
-                </motion.div>
-            </button>
-
-            <AnimatePresence>
-                {isExpanded && (
-                    <motion.ul
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        role="list"
-                        className="space-y-0.5 overflow-hidden"
-                    >
-                        {items.map((item) => (
-                            <motion.li
-                                key={item.path}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ duration: 0.15 }}
-                            >
-                                <NavItemComponent
-                                    item={item}
-                                    isTop={false}
-                                    isActive={currentPath === item.path}
-                                    translatedLabel={t(item.labelKey)}
-                                    showPinButton={true}
-                                    isPinned={isPinned(item.label)}
-                                    onTogglePin={() => onTogglePin(item.label)}
-                                />
-                            </motion.li>
-                        ))}
-                    </motion.ul>
-                )}
-            </AnimatePresence>
-        </div>
     );
 });
 
