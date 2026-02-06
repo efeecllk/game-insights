@@ -209,7 +209,7 @@ function DetectedFunnelCard({
                             </motion.div>
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <h3 className="font-semibold text-white">{funnel.name}</h3>
+                                    <h3 className="font-semibold text-th-text-primary">{funnel.name}</h3>
                                     <span className="px-2 py-0.5 text-xs rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20 text-[#DA7756]">
                                         {FUNNEL_TYPE_LABELS[funnel.type]}
                                     </span>
@@ -218,21 +218,21 @@ function DetectedFunnelCard({
                                         AI Detected
                                     </span>
                                 </div>
-                                <p className="text-sm text-slate-500 mt-0.5">
+                                <p className="text-sm text-th-text-muted mt-0.5">
                                     {formatNumber(funnel.totalUsers)} users • {funnel.steps.length} steps
                                 </p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="text-right">
-                                <p className="text-2xl font-bold text-white">{funnel.completionRate.toFixed(1)}%</p>
-                                <p className="text-xs text-slate-500">Completion</p>
+                                <p className="text-2xl font-bold text-th-text-primary">{funnel.completionRate.toFixed(1)}%</p>
+                                <p className="text-xs text-th-text-muted">Completion</p>
                             </div>
                             <motion.div
                                 animate={{ rotate: isExpanded ? 180 : 0 }}
                                 transition={{ type: 'spring', stiffness: 300 }}
                             >
-                                <ChevronDown className="w-5 h-5 text-slate-500" />
+                                <ChevronDown className="w-5 h-5 text-th-text-muted" />
                             </motion.div>
                         </div>
                     </div>
@@ -248,7 +248,7 @@ function DetectedFunnelCard({
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                             className="overflow-hidden"
                         >
-                            <div className="border-t border-slate-800">
+                            <div className="border-t border-th-border-subtle">
                                 {/* Funnel Chart */}
                                 <div className="p-4">
                                     <ReactECharts option={option} style={{ height: 280 }} />
@@ -256,7 +256,7 @@ function DetectedFunnelCard({
 
                                 {/* Step Details */}
                                 <div className="px-4 pb-4">
-                                    <h4 className="text-sm font-medium text-slate-400 mb-3">Step-by-Step Breakdown</h4>
+                                    <h4 className="text-sm font-medium text-th-text-secondary mb-3">Step-by-Step Breakdown</h4>
                                     <div className="space-y-2">
                                         {funnel.steps.map((step, stepIndex) => {
                                             const isBottleneck = funnel.bottleneck?.step === step.name;
@@ -269,18 +269,18 @@ function DetectedFunnelCard({
                                                     className={`flex items-center gap-3 p-3 rounded-lg ${
                                                         isBottleneck
                                                             ? 'bg-[#E5A84B]/10 border border-[#E5A84B]/30'
-                                                            : 'bg-white/[0.02]'
+                                                            : 'bg-th-bg-elevated/20'
                                                     }`}
                                                 >
                                                     <div
-                                                        className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-medium"
+                                                        className="w-8 h-8 rounded-lg flex items-center justify-center text-th-text-primary text-sm font-medium"
                                                         style={{ backgroundColor: colors[stepIndex % colors.length] }}
                                                     >
                                                         {stepIndex + 1}
                                                     </div>
                                                     <div className="flex-1 min-w-0">
                                                         <div className="flex items-center gap-2">
-                                                            <p className="font-medium text-white truncate">{step.name}</p>
+                                                            <p className="font-medium text-th-text-primary truncate">{step.name}</p>
                                                             {isBottleneck && (
                                                                 <span className="px-2 py-0.5 text-xs rounded-full bg-[#E5A84B]/20 text-[#E5A84B] flex items-center gap-1">
                                                                     <AlertTriangle className="w-3 h-3" />
@@ -289,15 +289,15 @@ function DetectedFunnelCard({
                                                             )}
                                                         </div>
                                                         {step.eventName && (
-                                                            <p className="text-xs text-slate-500 truncate">Events: {step.eventName}</p>
+                                                            <p className="text-xs text-th-text-muted truncate">Events: {step.eventName}</p>
                                                         )}
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="font-semibold text-white">{formatNumber(step.userCount)}</p>
-                                                        <p className="text-xs text-slate-500">{step.percentage.toFixed(1)}%</p>
+                                                        <p className="font-semibold text-th-text-primary">{formatNumber(step.userCount)}</p>
+                                                        <p className="text-xs text-th-text-muted">{step.percentage.toFixed(1)}%</p>
                                                     </div>
                                                     {stepIndex > 0 && (
-                                                        <div className={`text-right min-w-[60px] ${step.dropOffRate > 30 ? 'text-[#E25C5C]' : 'text-slate-500'}`}>
+                                                        <div className={`text-right min-w-[60px] ${step.dropOffRate > 30 ? 'text-[#E25C5C]' : 'text-th-text-muted'}`}>
                                                             <p className="text-sm font-medium">-{step.dropOffRate.toFixed(0)}%</p>
                                                             <p className="text-xs">drop</p>
                                                         </div>
@@ -314,14 +314,14 @@ function DetectedFunnelCard({
                                         <div className="bg-[#E5A84B]/5 border border-[#E5A84B]/20 rounded-xl p-4">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <Lightbulb className="w-5 h-5 text-[#E5A84B]" />
-                                                <h4 className="font-medium text-white">Optimization Recommendations</h4>
+                                                <h4 className="font-medium text-th-text-primary">Optimization Recommendations</h4>
                                             </div>
-                                            <p className="text-sm text-slate-400 mb-3">
-                                                <strong className="text-white">{funnel.bottleneck.step}</strong> has a {funnel.bottleneck.dropOffRate.toFixed(1)}% drop-off rate.
+                                            <p className="text-sm text-th-text-secondary mb-3">
+                                                <strong className="text-th-text-primary">{funnel.bottleneck.step}</strong> has a {funnel.bottleneck.dropOffRate.toFixed(1)}% drop-off rate.
                                             </p>
                                             <ul className="space-y-1.5">
                                                 {funnel.bottleneck.recommendations.map((rec, idx) => (
-                                                    <li key={idx} className="flex items-start gap-2 text-sm text-slate-400">
+                                                    <li key={idx} className="flex items-start gap-2 text-sm text-th-text-secondary">
                                                         <span className="text-[#E5A84B] mt-0.5">•</span>
                                                         {rec}
                                                     </li>
@@ -371,10 +371,10 @@ function ManualFunnelBuilder({
     return (
         <Card variant="default" padding="md">
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-medium text-white">Manual Funnel Builder</h3>
+                <h3 className="font-medium text-th-text-primary">Manual Funnel Builder</h3>
                 <button
                     onClick={handleReset}
-                    className="text-sm text-slate-500 hover:text-slate-300 transition-colors"
+                    className="text-sm text-th-text-muted hover:text-th-text-secondary transition-colors"
                 >
                     Reset to Template
                 </button>
@@ -388,7 +388,7 @@ function ManualFunnelBuilder({
                         transition={{ delay: index * 0.05 }}
                         className="flex items-center gap-3"
                     >
-                        <span className="text-sm text-slate-500 w-6">{index + 1}</span>
+                        <span className="text-sm text-th-text-muted w-6">{index + 1}</span>
                         <input
                             type="text"
                             value={step.step}
@@ -397,7 +397,7 @@ function ManualFunnelBuilder({
                                 newSteps[index].step = e.target.value;
                                 onStepsChange(newSteps);
                             }}
-                            className="flex-1 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="flex-1 px-3 py-2 bg-th-bg-elevated/30 border border-th-border-subtle rounded-lg text-sm text-th-text-primary placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <input
                             type="number"
@@ -407,11 +407,11 @@ function ManualFunnelBuilder({
                                 newSteps[index].users = parseInt(e.target.value) || 0;
                                 onStepsChange(newSteps);
                             }}
-                            className="w-24 px-3 py-2 bg-white/[0.03] border border-slate-700 rounded-lg text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
+                            className="w-24 px-3 py-2 bg-th-bg-elevated/30 border border-th-border-subtle rounded-lg text-sm text-th-text-primary focus:outline-none focus:ring-2 focus:ring-[#DA7756]/50 focus:border-[#DA7756]/50 transition-all"
                         />
                         <button
                             onClick={() => handleRemoveStep(index)}
-                            className="p-2 text-slate-500 hover:text-[#E25C5C] transition-colors"
+                            className="p-2 text-th-text-muted hover:text-[#E25C5C] transition-colors"
                             disabled={steps.length <= 2}
                         >
                             <Trash2 className="w-4 h-4" />
@@ -480,8 +480,8 @@ function StatsCard({
                         <Icon className={`w-5 h-5 ${style.icon}`} />
                     </div>
                     <div>
-                        <div className="text-2xl font-bold text-white">{value}</div>
-                        <div className="text-sm text-slate-500">{title}</div>
+                        <div className="text-2xl font-bold text-th-text-primary">{value}</div>
+                        <div className="text-sm text-th-text-muted">{title}</div>
                     </div>
                 </div>
             </Card>
@@ -611,7 +611,7 @@ export function FunnelsPage() {
                                     </h1>
                                     <DataModeIndicator />
                                 </div>
-                                <p className="text-slate-500 text-sm mt-0.5">
+                                <p className="text-th-text-muted text-sm mt-0.5">
                                     {hasDetectedFunnels
                                         ? `${detectedFunnels.length} AI-detected funnel${detectedFunnels.length > 1 ? 's' : ''} from your data`
                                         : 'Build and analyze conversion funnels'}
@@ -623,7 +623,7 @@ export function FunnelsPage() {
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 onClick={() => setShowManualBuilder(!showManualBuilder)}
-                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated/30 border border-th-border-subtle rounded-lg hover:bg-th-bg-elevated/50 hover:border-slate-600 transition-colors"
                             >
                                 <Plus className="w-4 h-4" />
                                 {showManualBuilder ? 'Hide Builder' : 'Custom Funnel'}
@@ -670,7 +670,7 @@ export function FunnelsPage() {
                 <motion.div variants={itemVariants} className="space-y-4">
                     <div className="flex items-center gap-2">
                         <Sparkles className="w-5 h-5 text-[#DA7756]" />
-                        <h2 className="text-lg font-semibold text-white">AI-Detected Funnels</h2>
+                        <h2 className="text-lg font-semibold text-th-text-primary">AI-Detected Funnels</h2>
                     </div>
                     <div className="space-y-4">
                         {detectedFunnels.map((funnel, index) => (
@@ -693,8 +693,8 @@ export function FunnelsPage() {
                 <motion.div variants={itemVariants} className="space-y-4">
                     {hasDetectedFunnels && (
                         <div className="flex items-center gap-2">
-                            <BarChart3 className="w-5 h-5 text-slate-400" />
-                            <h2 className="text-lg font-semibold text-white">Custom Funnel</h2>
+                            <BarChart3 className="w-5 h-5 text-th-text-secondary" />
+                            <h2 className="text-lg font-semibold text-th-text-primary">Custom Funnel</h2>
                         </div>
                     )}
 
@@ -711,7 +711,7 @@ export function FunnelsPage() {
 
                     {/* Drop-off Analysis for manual funnel */}
                     <Card variant="default" padding="md">
-                        <h3 className="font-medium text-white mb-4 flex items-center gap-2">
+                        <h3 className="font-medium text-th-text-primary mb-4 flex items-center gap-2">
                             <TrendingDown className="w-5 h-5 text-[#E25C5C]" />
                             Drop-off Analysis
                         </h3>
@@ -731,14 +731,14 @@ export function FunnelsPage() {
                                     >
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between mb-1">
-                                                <span className="text-sm text-slate-400">
+                                                <span className="text-sm text-th-text-secondary">
                                                     {step.step} → {nextStep.step}
                                                 </span>
                                                 <span className="text-sm font-medium text-[#E25C5C]">
                                                     -{dropOff.toLocaleString()} ({dropOffPercent.toFixed(1)}%)
                                                 </span>
                                             </div>
-                                            <div className="h-2 bg-white/[0.05] rounded-full overflow-hidden">
+                                            <div className="h-2 bg-th-bg-elevated/40 rounded-full overflow-hidden">
                                                 <motion.div
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${dropOffPercent}%` }}
@@ -770,8 +770,8 @@ export function FunnelsPage() {
                                 <Filter className="w-6 h-6 text-[#DA7756]" />
                             </div>
                         </motion.div>
-                        <h3 className="text-lg font-semibold text-white mb-2">No Funnels Detected</h3>
-                        <p className="text-slate-500 mb-4">
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Funnels Detected</h3>
+                        <p className="text-th-text-muted mb-4">
                             Upload data with user progression or event data to auto-detect funnels,
                             or use the manual builder below.
                         </p>

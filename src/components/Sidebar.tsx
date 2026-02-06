@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Home,
+    Bot,
     BarChart2,
     LayoutGrid,
     Filter,

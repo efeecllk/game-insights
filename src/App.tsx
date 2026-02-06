@@ -58,6 +58,7 @@ const UploadPage = lazy(() => import('./pages/Upload').then(m => ({ default: m.U
 const SettingsPage = lazy(() => import('./pages/Settings').then(m => ({ default: m.SettingsPage })));
 const GamesPage = lazy(() => import('./pages/Games').then(m => ({ default: m.GamesPage })));
 const DashboardBuilderPage = lazy(() => import('./pages/DashboardBuilder'));
+const AIAnalyticsPage = lazy(() => import('./pages/AIAnalytics'));
 const FunnelsPage = lazy(() => import('./pages/Funnels'));
 const MonetizationPage = lazy(() => import('./pages/Monetization'));
 const LandingPage = lazy(() => import('./pages/Landing'));
@@ -636,6 +637,7 @@ function AppContent() {
                         <Route path="/" element={<OverviewPage />} />
                         <Route path="/upload" element={<Suspense fallback={<PageLoader />}><UploadPage /></Suspense>} />
                         <Route path="/games" element={<Suspense fallback={<PageLoader />}><GamesPage /></Suspense>} />
+                        <Route path="/analytics" element={<Suspense fallback={<PageLoader />}><AIAnalyticsPage /></Suspense>} />
                         <Route path="/funnels" element={<Suspense fallback={<PageLoader />}><FunnelsPage /></Suspense>} />
                         <Route path="/monetization" element={<Suspense fallback={<PageLoader />}><MonetizationPage /></Suspense>} />
                         <Route path="/dashboards" element={<Suspense fallback={<PageLoader />}><DashboardBuilderPage /></Suspense>} />

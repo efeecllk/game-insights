@@ -217,13 +217,13 @@ export function MonetizationPage() {
                                     </h1>
                                     <DataModeIndicator />
                                 </div>
-                                <p className="text-slate-500 text-sm mt-0.5">Revenue and transaction analytics</p>
+                                <p className="text-th-text-muted text-sm mt-0.5">Revenue and transaction analytics</p>
                             </div>
                         </div>
                         <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-300 bg-white/[0.03] border border-slate-700 rounded-lg hover:bg-white/[0.06] hover:border-slate-600 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-th-text-secondary bg-th-bg-elevated/30 border border-th-border-subtle rounded-lg hover:bg-th-bg-elevated/50 hover:border-th-border-default transition-colors"
                         >
                             <Calendar className="w-4 h-4" />
                             Last 14 days
@@ -252,7 +252,7 @@ export function MonetizationPage() {
                 />
                 <KPICard
                     title="ARPU"
-                    value={`$${data.arpu}`}
+                    value={`$${Number(data.arpu).toFixed(2)}`}
                     subtitle="All users"
                     icon={Users}
                     color="violet"
@@ -260,7 +260,7 @@ export function MonetizationPage() {
                 />
                 <KPICard
                     title="ARPPU"
-                    value={`$${data.arppu}`}
+                    value={`$${Number(data.arppu).toFixed(2)}`}
                     subtitle="Paying users"
                     icon={CreditCard}
                     color="amber"
@@ -268,7 +268,7 @@ export function MonetizationPage() {
                 />
                 <KPICard
                     title="Conversion"
-                    value={`${data.conversionRate}%`}
+                    value={`${Number(data.conversionRate).toFixed(1)}%`}
                     subtitle="Payer rate"
                     icon={Sparkles}
                     color="secondary"
@@ -283,7 +283,7 @@ export function MonetizationPage() {
                         <div className="w-8 h-8 rounded-lg bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
                             <TrendingUp className="w-4 h-4 text-[#DA7756]" />
                         </div>
-                        <h3 className="font-display font-semibold text-white">Daily Revenue</h3>
+                        <h3 className="font-display font-semibold text-th-text-primary">Daily Revenue</h3>
                     </div>
                     <RevenueChart dates={dates} values={data.daily} />
                 </Card>
@@ -298,7 +298,7 @@ export function MonetizationPage() {
                             <div className="w-8 h-8 rounded-lg bg-[#C15F3C]/10 border border-[#C15F3C]/20 flex items-center justify-center">
                                 <Users className="w-4 h-4 text-[#C15F3C]" />
                             </div>
-                            <h3 className="font-display font-semibold text-white">Spender Tiers</h3>
+                            <h3 className="font-display font-semibold text-th-text-primary">Spender Tiers</h3>
                         </div>
                         <SpenderTiersChart data={data.spenderTiers} />
                     </Card>
@@ -311,7 +311,7 @@ export function MonetizationPage() {
                             <div className="w-8 h-8 rounded-lg bg-[#E5A84B]/10 border border-[#E5A84B]/20 flex items-center justify-center">
                                 <CreditCard className="w-4 h-4 text-[#E5A84B]" />
                             </div>
-                            <h3 className="font-display font-semibold text-white">Top Products</h3>
+                            <h3 className="font-display font-semibold text-th-text-primary">Top Products</h3>
                         </div>
                         <div className="space-y-3">
                             {data.topProducts.map((product, index) => (
@@ -320,17 +320,17 @@ export function MonetizationPage() {
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="flex items-center justify-between p-3 rounded-xl hover:bg-white/[0.02] transition-colors group"
+                                    className="flex items-center justify-between p-3 rounded-xl hover:bg-th-bg-elevated/20 transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <span className="w-6 h-6 rounded-lg bg-white/[0.03] border border-slate-800 flex items-center justify-center text-xs font-medium text-slate-500 group-hover:text-[#DA7756] group-hover:border-[#DA7756]/20 transition-colors">
+                                        <span className="w-6 h-6 rounded-lg bg-th-bg-elevated/30 border border-th-border-subtle flex items-center justify-center text-xs font-medium text-th-text-muted group-hover:text-[#DA7756] group-hover:border-[#DA7756]/20 transition-colors">
                                             {index + 1}
                                         </span>
-                                        <span className="text-sm text-slate-300">{product.name}</span>
+                                        <span className="text-sm text-th-text-secondary">{product.name}</span>
                                     </div>
                                     <div className="text-right">
-                                        <div className="text-sm font-medium text-white">${product.revenue.toLocaleString()}</div>
-                                        <div className="text-xs text-slate-500">{product.sales.toLocaleString()} sales</div>
+                                        <div className="text-sm font-medium text-th-text-primary">${product.revenue.toLocaleString()}</div>
+                                        <div className="text-xs text-th-text-muted">{product.sales.toLocaleString()} sales</div>
                                     </div>
                                 </motion.div>
                             ))}
@@ -351,13 +351,13 @@ export function MonetizationPage() {
                         >
                             🐋
                         </motion.span>
-                        <h3 className="font-display font-semibold text-white">Whale Watch</h3>
+                        <h3 className="font-display font-semibold text-th-text-primary">Whale Watch</h3>
                     </div>
-                    <p className="text-slate-400">
+                    <p className="text-th-text-secondary">
                         You have{' '}
                         <span className="font-bold text-[#E25C5C]">{data.whales}</span>{' '}
                         whale users ($100+ spent). They contribute approximately{' '}
-                        <span className="font-bold text-white">
+                        <span className="font-bold text-th-text-primary">
                             {((data.whales * 150) / totalRevenue * 100).toFixed(0)}%
                         </span>{' '}
                         of total revenue.
@@ -421,10 +421,10 @@ function KPICard({
             <div className={`${styles.bg} rounded-2xl p-4 border ${styles.border} group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden`}>
                 <div className="flex items-center gap-2 mb-2">
                     <Icon className={`w-4 h-4 ${styles.icon}`} />
-                    <span className="text-sm text-slate-500">{title}</span>
+                    <span className="text-sm text-th-text-muted">{title}</span>
                 </div>
-                <div className="text-2xl font-display font-bold text-white">{value}</div>
-                <div className="text-xs text-slate-600 mt-1">{subtitle}</div>
+                <div className="text-2xl font-display font-bold text-th-text-primary">{value}</div>
+                <div className="text-xs text-th-text-muted mt-1">{subtitle}</div>
             </div>
         </motion.div>
     );
