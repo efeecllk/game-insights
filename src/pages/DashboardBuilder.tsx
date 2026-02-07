@@ -85,21 +85,21 @@ function getMetricValue(metric: MetricType, dataProvider: IDataProvider, hasReal
 
     switch (metric) {
         case 'dau':
-            return { value: dataProvider.getDAU(), change: 5.2 };
+            return { value: dataProvider.getDAU(), change: 0 };
         case 'mau':
-            return { value: dataProvider.getMAU(), change: 3.8 };
+            return { value: dataProvider.getMAU(), change: 0 };
         case 'arpu':
-            return { value: dataProvider.calculateARPU(), change: 2.1 };
+            return { value: dataProvider.calculateARPU(), change: 0 };
         case 'revenue':
-            return { value: dataProvider.getTotalRevenue(), change: 8.5 };
+            return { value: dataProvider.getTotalRevenue(), change: 0 };
         case 'd1_retention':
-            return { value: dataProvider.getRetentionDay(1) * 100, change: -1.2 };
+            return { value: dataProvider.getRetentionDay(1) * 100, change: 0 };
         case 'd7_retention':
-            return { value: dataProvider.getRetentionDay(7) * 100, change: 0.8 };
+            return { value: dataProvider.getRetentionDay(7) * 100, change: 0 };
         case 'd30_retention':
-            return { value: dataProvider.getRetentionDay(30) * 100, change: 1.5 };
+            return { value: dataProvider.getRetentionDay(30) * 100, change: 0 };
         case 'conversion_rate':
-            return { value: dataProvider.getPayerConversion() * 100, change: 0.5 };
+            return { value: dataProvider.getPayerConversion() * 100, change: 0 };
         default:
             return getMockMetricValue(metric);
     }
@@ -535,7 +535,7 @@ function DashboardListItem({
             className={`group relative flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                 isSelected
                     ? 'bg-[#DA7756]/10 border border-[#DA7756]/30'
-                    : 'hover:bg-white/[0.04] border border-transparent'
+                    : 'hover:bg-th-bg-elevated/30 border border-transparent'
             }`}
             onClick={onSelect}
             whileHover={{ x: 2 }}
@@ -553,7 +553,7 @@ function DashboardListItem({
                     e.stopPropagation();
                     setShowMenu(!showMenu);
                 }}
-                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-white/10 rounded-lg transition-all"
+                className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-th-bg-elevated/50 rounded-lg transition-all"
             >
                 <MoreVertical className="w-4 h-4 text-th-text-secondary" />
             </button>
@@ -579,7 +579,7 @@ function DashboardListItem({
                                         onDuplicate();
                                         setShowMenu(false);
                                     }}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary hover:bg-white/[0.06] transition-colors"
+                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-th-text-secondary hover:bg-th-bg-elevated/40 transition-colors"
                                 >
                                     <Copy className="w-4 h-4" />
                                     Duplicate
@@ -739,8 +739,8 @@ function WidgetRenderer({
                 isSelected
                     ? 'border-[#DA7756]/50 ring-2 ring-[#DA7756]/20 bg-[#DA7756]/[0.03]'
                     : isEditing
-                    ? 'border-th-border hover:border-[#DA7756]/30 cursor-pointer bg-white/[0.02]'
-                    : 'border-th-border-subtle bg-white/[0.02]'
+                    ? 'border-th-border hover:border-[#DA7756]/30 cursor-pointer bg-th-bg-elevated/20'
+                    : 'border-th-border-subtle bg-th-bg-elevated/20'
             }`}
             onClick={isEditing ? onSelect : undefined}
             whileHover={isEditing ? { scale: 1.01 } : {}}
@@ -810,7 +810,7 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
                 {widget.config.title || 'Metric'}
             </p>
             <p className="text-3xl font-bold text-th-text-primary mb-2">{formatValue(data.value)}</p>
-            {widget.config.showTrend !== false && (
+            {widget.config.showTrend !== false && data.change !== 0 && (
                 <div className={`flex items-center gap-1 text-sm ${data.change >= 0 ? 'text-[#DA7756]' : 'text-[#E25C5C]'}`}>
                     {data.change >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                     <span className="font-medium">{data.change >= 0 ? '+' : ''}{data.change}%</span>
@@ -853,21 +853,35 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function BarChartWidget({ widget }: { widget: DashboardWidget }) {
-    const mockData = [
-        { label: 'Category A', value: 65 },
-        { label: 'Category B', value: 45 },
-        { label: 'Category C', value: 30 },
-        { label: 'Category D', value: 20 },
-    ];
+    const ctx = useDataProviderContext();
+
+    const data = useMemo(() => {
+        if (ctx?.hasRealData) {
+            const segments = ctx.dataProvider.getSegmentData();
+            if (segments.length > 0) {
+                const maxVal = Math.max(...segments.map(s => s.value));
+                return segments.slice(0, 6).map(s => ({
+                    label: s.name,
+                    value: maxVal > 0 ? Math.round((s.value / maxVal) * 100) : 0,
+                }));
+            }
+        }
+        return [
+            { label: 'Category A', value: 65 },
+            { label: 'Category B', value: 45 },
+            { label: 'Category C', value: 30 },
+            { label: 'Category D', value: 20 },
+        ];
+    }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
             <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Bar Chart'}</p>
             <div className="flex-1 flex flex-col gap-2 justify-center">
-                {mockData.map((d, i) => (
+                {data.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
                         <span className="text-xs text-th-text-muted w-20 truncate">{d.label}</span>
-                        <div className="flex-1 h-4 bg-white/5 rounded-full overflow-hidden">
+                        <div className="flex-1 h-4 bg-th-bg-elevated/40 rounded-full overflow-hidden">
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: `${d.value}%` }}
@@ -884,11 +898,27 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function PieChartWidget({ widget }: { widget: DashboardWidget }) {
-    const mockData = [
-        { label: 'IAP', value: 60, color: '#DA7756' },
-        { label: 'Ads', value: 25, color: '#C15F3C' },
-        { label: 'Subs', value: 15, color: '#A84E2D' },
-    ];
+    const ctx = useDataProviderContext();
+    const chartColors = ['#DA7756', '#C15F3C', '#A84E2D', '#c9a554', '#a68b5b', '#8b7355'];
+
+    const data = useMemo(() => {
+        if (ctx?.hasRealData) {
+            const tiers = ctx.dataProvider.getSpenderTiers();
+            if (tiers.length > 0) {
+                const total = tiers.reduce((sum, t) => sum + t.revenue, 0);
+                return tiers.slice(0, 5).map((t, i) => ({
+                    label: t.tier,
+                    value: total > 0 ? Math.round((t.revenue / total) * 100) : 0,
+                    color: chartColors[i % chartColors.length],
+                }));
+            }
+        }
+        return [
+            { label: 'IAP', value: 60, color: '#DA7756' },
+            { label: 'Ads', value: 25, color: '#C15F3C' },
+            { label: 'Subs', value: 15, color: '#A84E2D' },
+        ];
+    }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
@@ -896,7 +926,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
             <div className="flex-1 flex items-center gap-4">
                 <div className="relative w-24 h-24">
                     <svg viewBox="0 0 32 32" className="w-full h-full -rotate-90">
-                        {mockData.reduce((acc, d, i) => {
+                        {data.reduce((acc, d, i) => {
                             const offset = acc.offset;
                             const circumference = Math.PI * 2 * 10;
                             const strokeDasharray = `${(d.value / 100) * circumference} ${circumference}`;
@@ -920,7 +950,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                     </svg>
                 </div>
                 <div className="flex-1 space-y-2">
-                    {mockData.map((d, i) => (
+                    {data.map((d, i) => (
                         <div key={i} className="flex items-center gap-2 text-sm">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }} />
                             <span className="text-th-text-secondary">{d.label}</span>
@@ -938,11 +968,26 @@ function AreaChartWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function TableWidget({ widget }: { widget: DashboardWidget }) {
-    const mockData = [
-        { id: 1, name: 'Starter Pack', revenue: '$1,249', sales: 312 },
-        { id: 2, name: 'Premium Bundle', revenue: '$890', sales: 89 },
-        { id: 3, name: 'Coin Pack', revenue: '$567', sales: 567 },
-    ];
+    const ctx = useDataProviderContext();
+
+    const data = useMemo(() => {
+        if (ctx?.hasRealData) {
+            const tiers = ctx.dataProvider.getSpenderTiers();
+            if (tiers.length > 0) {
+                return tiers.slice(0, 5).map((t, i) => ({
+                    id: i + 1,
+                    name: t.tier,
+                    revenue: `$${t.revenue.toLocaleString()}`,
+                    sales: t.users,
+                }));
+            }
+        }
+        return [
+            { id: 1, name: 'Starter Pack', revenue: '$1,249', sales: 312 },
+            { id: 2, name: 'Premium Bundle', revenue: '$890', sales: 89 },
+            { id: 3, name: 'Coin Pack', revenue: '$567', sales: 567 },
+        ];
+    }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
@@ -953,12 +998,12 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
                         <tr className="border-b border-th-border">
                             <th className="text-left py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Name</th>
                             <th className="text-right py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Revenue</th>
-                            <th className="text-right py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Sales</th>
+                            <th className="text-right py-2 text-th-text-muted font-medium text-xs uppercase tracking-wider">Users</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {mockData.map((row) => (
-                            <tr key={row.id} className="border-b border-th-border-subtle hover:bg-white/[0.02] transition-colors">
+                        {data.map((row) => (
+                            <tr key={row.id} className="border-b border-th-border-subtle hover:bg-th-bg-elevated/20 transition-colors">
                                 <td className="py-2 text-th-text-secondary">{row.name}</td>
                                 <td className="py-2 text-right text-th-text-primary font-medium">{row.revenue}</td>
                                 <td className="py-2 text-right text-th-text-secondary">{row.sales}</td>
@@ -972,18 +1017,33 @@ function TableWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function FunnelWidget({ widget }: { widget: DashboardWidget }) {
-    const mockData = [
-        { label: 'Impressions', value: 10000, percent: 100 },
-        { label: 'Installs', value: 2500, percent: 25 },
-        { label: 'Registrations', value: 1500, percent: 15 },
-        { label: 'Purchases', value: 300, percent: 3 },
-    ];
+    const ctx = useDataProviderContext();
+
+    const data = useMemo(() => {
+        if (ctx?.hasRealData) {
+            const funnel = ctx.dataProvider.getFunnelData();
+            if (funnel.length > 0) {
+                const maxVal = funnel[0]?.value || 1;
+                return funnel.slice(0, 6).map(step => ({
+                    label: step.name,
+                    value: step.value,
+                    percent: Math.round((step.value / maxVal) * 100),
+                }));
+            }
+        }
+        return [
+            { label: 'Impressions', value: 10000, percent: 100 },
+            { label: 'Installs', value: 2500, percent: 25 },
+            { label: 'Registrations', value: 1500, percent: 15 },
+            { label: 'Purchases', value: 300, percent: 3 },
+        ];
+    }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
             <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Funnel'}</p>
             <div className="flex-1 flex flex-col justify-center gap-2">
-                {mockData.map((d, i) => (
+                {data.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
                         <motion.div
                             initial={{ width: 0 }}
@@ -1003,15 +1063,34 @@ function FunnelWidget({ widget }: { widget: DashboardWidget }) {
 }
 
 function CohortWidget({ widget }: { widget: DashboardWidget }) {
-    const weeks = ['W1', 'W2', 'W3', 'W4', 'W5'];
-    const days = ['D0', 'D1', 'D3', 'D7', 'D14', 'D30'];
-    const mockRetention = [
-        [100, 42, 32, 18, 12, 8],
-        [100, 45, 35, 20, 14, 10],
-        [100, 40, 30, 17, 11, 7],
-        [100, 44, 33, 19, 13, 9],
-        [100, 41, 31, 18, 12, 8],
-    ];
+    const ctx = useDataProviderContext();
+    const retentionDays = [0, 1, 3, 7, 14, 30];
+    const dayLabels = ['D0', 'D1', 'D3', 'D7', 'D14', 'D30'];
+
+    const { weeks, retention } = useMemo(() => {
+        if (ctx?.hasRealData) {
+            // Build a single row from real retention data
+            const realRow = retentionDays.map(day => {
+                const val = ctx.dataProvider.getRetentionDay(day);
+                return Math.round(val * 100);
+            });
+            // Show as a single cohort row since we have aggregate retention
+            return {
+                weeks: ['All'],
+                retention: [realRow],
+            };
+        }
+        return {
+            weeks: ['W1', 'W2', 'W3', 'W4', 'W5'],
+            retention: [
+                [100, 42, 32, 18, 12, 8],
+                [100, 45, 35, 20, 14, 10],
+                [100, 40, 30, 17, 11, 7],
+                [100, 44, 33, 19, 13, 9],
+                [100, 41, 31, 18, 12, 8],
+            ],
+        };
+    }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
@@ -1021,7 +1100,7 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
                     <thead>
                         <tr>
                             <th className="text-left py-1 text-th-text-muted"></th>
-                            {days.map(d => (
+                            {dayLabels.map(d => (
                                 <th key={d} className="text-center py-1 text-th-text-muted font-medium">{d}</th>
                             ))}
                         </tr>
@@ -1030,7 +1109,7 @@ function CohortWidget({ widget }: { widget: DashboardWidget }) {
                         {weeks.map((week, i) => (
                             <tr key={week}>
                                 <td className="py-1 text-th-text-muted font-medium">{week}</td>
-                                {mockRetention[i].map((val, j) => (
+                                {retention[i].map((val, j) => (
                                     <td key={j} className="p-1">
                                         <div
                                             className="rounded text-center py-1 text-th-text-primary transition-all hover:scale-105"
@@ -1102,7 +1181,7 @@ function WidgetPicker({
                             onClick={onClose}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                            className="p-2 hover:bg-th-bg-elevated/50 rounded-lg transition-colors"
                         >
                             <X className="w-5 h-5 text-th-text-secondary" />
                         </motion.button>
@@ -1172,7 +1251,7 @@ function WidgetConfigPanel({
                         onClick={onClose}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
+                        className="p-1.5 hover:bg-th-bg-elevated/50 rounded-lg transition-colors"
                     >
                         <X className="w-4 h-4 text-th-text-secondary" />
                     </motion.button>
@@ -1186,7 +1265,7 @@ function WidgetConfigPanel({
                             type="text"
                             value={widget.config.title || ''}
                             onChange={(e) => onUpdate({ config: { ...widget.config, title: e.target.value } })}
-                            className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-th-text-disabled"
+                            className="w-full px-3 py-2.5 rounded-xl bg-th-bg-elevated/30 border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all placeholder:text-th-text-disabled"
                             placeholder="Widget title"
                         />
                     </div>
@@ -1198,7 +1277,7 @@ function WidgetConfigPanel({
                             <select
                                 value={widget.config.metric || 'dau'}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, metric: e.target.value as MetricType } })}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
+                                className="w-full px-3 py-2.5 rounded-xl bg-th-bg-elevated/30 border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all"
                             >
                                 {METRIC_OPTIONS.map((opt) => (
                                     <option key={opt.value} value={opt.value} className="bg-th-bg-surface">{opt.label}</option>
@@ -1214,7 +1293,7 @@ function WidgetConfigPanel({
                             <button
                                 onClick={() => onUpdate({ config: { ...widget.config, showTrend: !widget.config.showTrend } })}
                                 className={`w-10 h-5 rounded-full transition-colors ${
-                                    widget.config.showTrend !== false ? 'bg-[#DA7756]' : 'bg-white/10'
+                                    widget.config.showTrend !== false ? 'bg-[#DA7756]' : 'bg-th-bg-elevated/50'
                                 }`}
                             >
                                 <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
@@ -1232,7 +1311,7 @@ function WidgetConfigPanel({
                                 value={widget.config.textContent || ''}
                                 onChange={(e) => onUpdate({ config: { ...widget.config, textContent: e.target.value } })}
                                 rows={4}
-                                className="w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-th-text-disabled"
+                                className="w-full px-3 py-2.5 rounded-xl bg-th-bg-elevated/30 border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 focus:ring-1 focus:ring-[#DA7756]/20 transition-all resize-none placeholder:text-th-text-disabled"
                                 placeholder="Enter text content..."
                             />
                         </div>
@@ -1250,7 +1329,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, w: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={12}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-th-bg-elevated/30 border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                             <div>
@@ -1261,7 +1340,7 @@ function WidgetConfigPanel({
                                     onChange={(e) => onUpdate({ position: { ...widget.position, h: parseInt(e.target.value) || 1 } })}
                                     min={1}
                                     max={10}
-                                    className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
+                                    className="w-full px-3 py-2 rounded-xl bg-th-bg-elevated/30 border border-th-border text-th-text-primary text-sm focus:outline-none focus:border-[#DA7756]/50 transition-all"
                                 />
                             </div>
                         </div>

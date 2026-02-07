@@ -37,6 +37,7 @@ import { GameSelector } from './components/ui/GameSelector';
 
 // Hooks (eagerly loaded - needed immediately)
 import { useCommandPalette, useKeyboardShortcuts, useOnboarding } from './hooks';
+import { useAnalytics } from './hooks/useAnalytics';
 
 // Lazy-loaded modal components (only rendered when needed)
 const CommandPalette = lazy(() => import('./components/CommandPalette'));
@@ -331,19 +332,6 @@ function OverviewPage() {
                         </div>
                     </div>
 
-                    {/* Live indicator */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.5 }}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#DA7756]/10 border border-[#DA7756]/20"
-                    >
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#DA7756] opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#DA7756]" />
-                        </span>
-                        <span className="text-[11px] font-medium text-[#DA7756] uppercase tracking-wider">Live</span>
-                    </motion.div>
                 </div>
             </motion.header>
 
@@ -406,7 +394,7 @@ function OverviewPage() {
 
             {/* AI Insights - Premium Section */}
             <motion.section variants={itemVariants} aria-labelledby="insights-heading">
-                <AIInsightsSection selectedGame={selectedGame} />
+                <AIInsightsSection selectedGame={selectedGame} isUsingRealData={isUsingRealData} />
             </motion.section>
         </motion.div>
     );
@@ -445,8 +433,32 @@ const ChartContainer = memo(function ChartContainer({
  * AI Insights Section - Clean styling
  * Memoized to prevent re-renders when game selection doesn't change
  */
-const AIInsightsSection = memo(function AIInsightsSection({ selectedGame }: { selectedGame: string }) {
+const AIInsightsSection = memo(function AIInsightsSection({ selectedGame, isUsingRealData }: { selectedGame: string; isUsingRealData: boolean }) {
+    const { result } = useAnalytics();
+
+    // Map pipeline insight types to InsightCard types
+    const mapInsightType = (type: string): 'warning' | 'opportunity' | 'info' | 'critical' => {
+        switch (type) {
+            case 'positive': return 'opportunity';
+            case 'negative': return 'warning';
+            case 'warning': return 'warning';
+            case 'opportunity': return 'opportunity';
+            default: return 'info';
+        }
+    };
+
     const insights = useMemo(() => {
+        // Use pipeline insights when real data is available and pipeline has results
+        if (isUsingRealData && result?.insights && result.insights.length > 0) {
+            return result.insights
+                .slice(0, 3)
+                .map(insight => ({
+                    type: mapInsightType(insight.type),
+                    message: insight.description || insight.title,
+                }));
+        }
+
+        // Fallback: hardcoded insights per game type for demo mode
         switch (selectedGame) {
             case 'puzzle':
                 return [
@@ -476,7 +488,11 @@ const AIInsightsSection = memo(function AIInsightsSection({ selectedGame }: { se
             default:
                 return [];
         }
-    }, [selectedGame]);
+    }, [selectedGame, isUsingRealData, result?.insights]);
+
+    const subtitle = isUsingRealData && result?.insights?.length
+        ? 'Generated from your uploaded data'
+        : 'Auto-generated recommendations based on your data';
 
     return (
         <div className="bg-th-bg-surface rounded-xl border border-th-border-subtle overflow-hidden">
@@ -487,7 +503,7 @@ const AIInsightsSection = memo(function AIInsightsSection({ selectedGame }: { se
                 </div>
                 <div>
                     <h2 id="insights-heading" className="text-base font-semibold text-th-text-primary">AI Insights</h2>
-                    <p className="text-xs text-th-text-muted">Auto-generated recommendations based on your data</p>
+                    <p className="text-xs text-th-text-muted">{subtitle}</p>
                 </div>
             </div>
 
