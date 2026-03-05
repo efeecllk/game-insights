@@ -32,6 +32,7 @@ import {
     importFile,
     getSupportedExtensions,
     isFormatSupported,
+    validateFileMimeType,
     type ImportResult,
     type FolderImportProgress,
     detectFileFormat,
@@ -125,6 +126,13 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
             if (!isFormatSupported(file)) {
                 const parsed = parseError(new AppError(ErrorCode.FILE_UNSUPPORTED));
                 setError(parsed.message);
+                return;
+            }
+
+            // Validate MIME type for formats with deterministic types (Excel, SQLite)
+            const mimeError = validateFileMimeType(file);
+            if (mimeError) {
+                setError(mimeError);
                 return;
             }
 

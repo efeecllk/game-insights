@@ -249,7 +249,6 @@ export function ColumnMapper({ columns, onUpdate, onConfirm }: ColumnMapperProps
                         <ColumnRow
                             key={column.original}
                             column={column}
-                            index={index}
                             isEditing={editingIndex === index}
                             onEdit={() => setEditingIndex(index)}
                             onClose={() => setEditingIndex(null)}
@@ -307,7 +306,6 @@ function StatBadge({
 // Column Row Component
 function ColumnRow({
     column,
-    index: _index,
     isEditing,
     onEdit,
     onClose,
@@ -316,7 +314,6 @@ function ColumnRow({
     onIgnore,
 }: {
     column: ColumnMapping;
-    index: number;
     isEditing: boolean;
     onEdit: () => void;
     onClose: () => void;

@@ -39,8 +39,6 @@ import {
     initializeDefaultDashboards,
     WIDGET_PRESETS,
     METRIC_OPTIONS,
-    getMockMetricValue,
-    getMockChartData,
 } from '../lib/dashboardStore';
 import { useGameData } from '../hooks/useGameData';
 import DataModeIndicator from '../components/ui/DataModeIndicator';
@@ -77,10 +75,13 @@ function useDataProviderContext() {
     return useContext(DataProviderContext);
 }
 
-// Helper to get metric value from real data or mock
+// Empty metric result used when no data is available
+const EMPTY_METRIC: { value: number; change: number } = { value: 0, change: 0 };
+
+// Helper to get metric value from real data provider
 function getMetricValue(metric: MetricType, dataProvider: IDataProvider, hasRealData: boolean): { value: number; change: number } {
     if (!hasRealData) {
-        return getMockMetricValue(metric);
+        return EMPTY_METRIC;
     }
 
     switch (metric) {
@@ -90,6 +91,13 @@ function getMetricValue(metric: MetricType, dataProvider: IDataProvider, hasReal
             return { value: dataProvider.getMAU(), change: 0 };
         case 'arpu':
             return { value: dataProvider.calculateARPU(), change: 0 };
+        case 'arppu': {
+            const revenue = dataProvider.getTotalRevenue();
+            const conversion = dataProvider.getPayerConversion();
+            const dau = dataProvider.getDAU();
+            const payers = dau * conversion;
+            return { value: payers > 0 ? revenue / payers : 0, change: 0 };
+        }
         case 'revenue':
             return { value: dataProvider.getTotalRevenue(), change: 0 };
         case 'd1_retention':
@@ -100,23 +108,40 @@ function getMetricValue(metric: MetricType, dataProvider: IDataProvider, hasReal
             return { value: dataProvider.getRetentionDay(30) * 100, change: 0 };
         case 'conversion_rate':
             return { value: dataProvider.getPayerConversion() * 100, change: 0 };
+        case 'session_length':
+            return { value: dataProvider.getAvgSessionLength(), change: 0 };
+        case 'sessions_per_user':
+            return { value: dataProvider.getSessionMetrics().sessionsPerUser, change: 0 };
+        case 'custom':
         default:
-            return getMockMetricValue(metric);
+            return EMPTY_METRIC;
     }
 }
 
-// Helper to get chart data from real data or mock
+// Helper to get chart data from real data provider
 function getChartData(metric: MetricType, days: number, dataProvider: IDataProvider, hasRealData: boolean): { date: string; value: number }[] {
     if (!hasRealData) {
-        return getMockChartData(metric, days);
+        return [];
     }
 
-    switch (metric) {
-        case 'revenue':
-            return dataProvider.getRevenueTimeSeries('daily').slice(-days);
-        default:
-            return getMockChartData(metric, days);
+    // Revenue has dedicated time series support
+    if (metric === 'revenue' || metric === 'arpu' || metric === 'arppu') {
+        return dataProvider.getRevenueTimeSeries('daily').slice(-days);
     }
+
+    // For other metrics, try to derive from revenue time series as a proxy
+    // (the data provider does not expose per-metric time series for all types)
+    const timeSeries = dataProvider.getRevenueTimeSeries('daily').slice(-days);
+    if (timeSeries.length > 0) {
+        const currentValue = getMetricValue(metric, dataProvider, hasRealData).value;
+        // Return a flat line at the current value with real dates from the time series
+        return timeSeries.map(point => ({
+            date: point.date,
+            value: currentValue,
+        }));
+    }
+
+    return [];
 }
 
 // ============================================================================
@@ -795,7 +820,7 @@ function KPIWidget({ widget }: { widget: DashboardWidget }) {
     const metric = widget.config.metric || 'dau';
     const data = ctx
         ? getMetricValue(metric, ctx.dataProvider, ctx.hasRealData)
-        : getMockMetricValue(metric);
+        : EMPTY_METRIC;
     const format = widget.config.format || METRIC_OPTIONS.find(m => m.value === metric)?.format || 'number';
 
     const formatValue = (value: number) => {
@@ -826,7 +851,19 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
     const metric = widget.config.metric || 'dau';
     const data = ctx
         ? getChartData(metric, 14, ctx.dataProvider, ctx.hasRealData)
-        : getMockChartData(metric, 14);
+        : [];
+
+    if (data.length === 0) {
+        return (
+            <div className="h-full flex flex-col">
+                <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Line Chart'}</p>
+                <div className="flex-1 flex items-center justify-center">
+                    <p className="text-sm text-th-text-muted">Upload data to view chart</p>
+                </div>
+            </div>
+        );
+    }
+
     const maxValue = Math.max(...data.map(d => d.value));
     const minValue = Math.min(...data.map(d => d.value));
 
@@ -835,7 +872,8 @@ function LineChartWidget({ widget }: { widget: DashboardWidget }) {
             <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Line Chart'}</p>
             <div className="flex-1 flex items-end gap-1">
                 {data.map((d, i) => {
-                    const height = ((d.value - minValue) / (maxValue - minValue)) * 100 || 50;
+                    const range = maxValue - minValue;
+                    const height = range > 0 ? ((d.value - minValue) / range) * 100 : 50;
                     return (
                         <motion.div
                             key={i}
@@ -866,18 +904,16 @@ function BarChartWidget({ widget }: { widget: DashboardWidget }) {
                 }));
             }
         }
-        return [
-            { label: 'Category A', value: 65 },
-            { label: 'Category B', value: 45 },
-            { label: 'Category C', value: 30 },
-            { label: 'Category D', value: 20 },
-        ];
+        return [];
     }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
             <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Bar Chart'}</p>
             <div className="flex-1 flex flex-col gap-2 justify-center">
+                {data.length === 0 && (
+                    <p className="text-sm text-th-text-muted text-center">Upload data to view chart</p>
+                )}
                 {data.map((d, i) => (
                     <div key={i} className="flex items-center gap-2">
                         <span className="text-xs text-th-text-muted w-20 truncate">{d.label}</span>
@@ -913,18 +949,17 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                 }));
             }
         }
-        return [
-            { label: 'IAP', value: 60, color: '#DA7756' },
-            { label: 'Ads', value: 25, color: '#C15F3C' },
-            { label: 'Subs', value: 15, color: '#A84E2D' },
-        ];
+        return [];
     }, [ctx]);
 
     return (
         <div className="h-full flex flex-col">
             <p className="text-sm font-medium text-th-text-primary mb-3">{widget.config.title || 'Pie Chart'}</p>
             <div className="flex-1 flex items-center gap-4">
-                <div className="relative w-24 h-24">
+                {data.length === 0 && (
+                    <p className="text-sm text-th-text-muted text-center w-full">Upload data to view chart</p>
+                )}
+                {data.length > 0 && <><div className="relative w-24 h-24">
                     <svg viewBox="0 0 32 32" className="w-full h-full -rotate-90">
                         {data.reduce((acc, d, i) => {
                             const offset = acc.offset;
@@ -957,7 +992,7 @@ function PieChartWidget({ widget }: { widget: DashboardWidget }) {
                             <span className="text-th-text-primary font-medium ml-auto">{d.value}%</span>
                         </div>
                     ))}
-                </div>
+                </div></>}
             </div>
         </div>
     );

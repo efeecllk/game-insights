@@ -1,46 +1,31 @@
 /**
- * Games Management Page - Obsidian Analytics Design
+ * Games (Datasets) Page
  *
- * Premium games portfolio with:
- * - Glassmorphism cards
- * - Animated grid layouts
- * - Premium modals
- * - Warm orange accent theme
+ * Displays all uploaded game datasets from IndexedDB.
+ * Allows selecting, viewing, and deleting datasets.
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
-    Gamepad2,
+    Database,
     Plus,
-    Settings,
     Trash2,
-    Star,
-    StarOff,
-    Globe,
     Clock,
-    DollarSign,
-    Edit3,
-    X,
-    Check,
-    ExternalLink,
+    FileSpreadsheet,
+    Columns,
+    CheckCircle2,
+    Upload,
     MoreVertical,
+    Rows,
+    Tag,
 } from 'lucide-react';
-import {
-    Game,
-    GameGenre,
-    GamePlatform,
-    getAllGames,
-    saveGame,
-    deleteGame,
-    createGame,
-    initializeSampleGames,
-    GENRE_OPTIONS,
-    PLATFORM_OPTIONS,
-    getGenreLabel,
-    getPlatformLabel,
-} from '../lib/gameStore';
-import { useGame } from '../context/GameContext';
+import { useData } from '@/context/DataContext';
+import { useGame } from '@/context/GameContext';
+import { GameData } from '@/lib/dataStore';
+import { gameCategories } from '@/lib/dataProviders';
+import { GameCategory } from '@/types';
 
 // Animation variants
 const containerVariants = {
@@ -62,73 +47,79 @@ const itemVariants = {
 };
 
 // ============================================================================
+// Helpers
+// ============================================================================
+
+function getGameTypeLabel(type: string): string {
+    const cat = gameCategories.find(c => c.id === type);
+    return cat?.name ?? 'Custom';
+}
+
+function getGameTypeIcon(type: string): string {
+    const cat = gameCategories.find(c => c.id === type);
+    return cat?.icon ?? '📊';
+}
+
+function formatDate(iso: string): string {
+    try {
+        const d = new Date(iso);
+        return d.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    } catch {
+        return iso;
+    }
+}
+
+function formatRowCount(count: number): string {
+    if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
+    if (count >= 1_000) return `${(count / 1_000).toFixed(1)}K`;
+    return count.toLocaleString();
+}
+
+// ============================================================================
 // Main Page Component
 // ============================================================================
 
 export function GamesPage() {
-    const [games, setGames] = useState<Game[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [editingGame, setEditingGame] = useState<Game | null>(null);
+    const {
+        gameDataList,
+        activeGameData,
+        setActiveGameData,
+        removeGameData,
+        isLoading,
+    } = useData();
     const { setSelectedGame } = useGame();
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        loadGames();
-    }, []);
-
-    async function loadGames() {
-        setLoading(true);
-        await initializeSampleGames();
-        const all = await getAllGames();
-        setGames(all);
-        setLoading(false);
+    function handleSelectDataset(data: GameData) {
+        setActiveGameData(data);
+        // Sync the game type context
+        if (data.type && data.type !== 'custom') {
+            setSelectedGame(data.type as GameCategory);
+        }
     }
 
-    async function handleTogglePin(game: Game) {
-        await saveGame({ ...game, isPinned: !game.isPinned });
-        await loadGames();
+    async function handleDeleteDataset(id: string) {
+        if (!confirm('Are you sure you want to delete this dataset? This cannot be undone.')) return;
+        await removeGameData(id);
     }
 
-    async function handleToggleActive(game: Game) {
-        await saveGame({ ...game, isActive: !game.isActive });
-        await loadGames();
-    }
-
-    async function handleDeleteGame(id: string) {
-        if (!confirm('Are you sure you want to delete this game?')) return;
-        await deleteGame(id);
-        await loadGames();
-    }
-
-    async function handleSaveGame(game: Game) {
-        await saveGame(game);
-        await loadGames();
-        setEditingGame(null);
-        setShowAddModal(false);
-    }
-
-    function handleSelectGame(game: Game) {
-        const typeMap: Record<string, string> = {
-            puzzle: 'puzzle',
-            idle: 'idle',
-            battle_royale: 'battle_royale',
-            match3_meta: 'match3_meta',
-            gacha_rpg: 'gacha_rpg',
-        };
-        const gameType = typeMap[game.genre] || 'puzzle';
-        setSelectedGame(gameType as Parameters<typeof setSelectedGame>[0]);
-    }
-
-    const sortedGames = [...games].sort((a, b) => {
-        if (a.isPinned && !b.isPinned) return -1;
-        if (!a.isPinned && b.isPinned) return 1;
-        return a.name.localeCompare(b.name);
+    // Sort: active dataset first, then by upload date (newest first)
+    const sortedDatasets = [...gameDataList].sort((a, b) => {
+        if (a.id === activeGameData?.id) return -1;
+        if (b.id === activeGameData?.id) return 1;
+        return new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime();
     });
 
-    const pinnedGames = sortedGames.filter(g => g.isPinned);
-    const otherGames = sortedGames.filter(g => !g.isPinned);
+    const totalRows = gameDataList.reduce((sum, d) => sum + (d.rowCount || 0), 0);
+    const uniqueTypes = new Set(gameDataList.map(d => d.type)).size;
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
                 <motion.div
@@ -158,108 +149,91 @@ export function GamesPage() {
                     >
                         <div className="absolute inset-0 bg-[#DA7756]/20 rounded-2xl" />
                         <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#DA7756]/20 to-[#C15F3C]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                            <Gamepad2 className="w-6 h-6 text-[#DA7756]" />
+                            <Database className="w-6 h-6 text-[#DA7756]" />
                         </div>
                     </motion.div>
                     <div>
-                        <h1 className="text-2xl font-display font-bold text-white">Games</h1>
-                        <p className="text-sm text-slate-500">Manage your game portfolio</p>
+                        <h1 className="text-2xl font-display font-bold text-th-text-primary">My Datasets</h1>
+                        <p className="text-sm text-th-text-muted">
+                            {gameDataList.length > 0
+                                ? `${gameDataList.length} dataset${gameDataList.length !== 1 ? 's' : ''} uploaded`
+                                : 'Upload game data to get started'}
+                        </p>
                     </div>
                 </div>
                 <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => setShowAddModal(true)}
+                    onClick={() => navigate('/upload')}
                     className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 transition-colors text-sm font-medium"
                 >
                     <Plus className="w-4 h-4" />
-                    Add Game
+                    Upload Data
                 </motion.button>
             </motion.div>
 
             {/* Stats */}
-            <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <StatCard icon={Gamepad2} label="Total Games" value={games.length} color="orange" />
-                <StatCard icon={Star} label="Pinned" value={pinnedGames.length} color="amber" />
-                <StatCard icon={Check} label="Active" value={games.filter(g => g.isActive).length} color="orangeDark" />
-                <StatCard icon={Globe} label="Platforms" value={new Set(games.map(g => g.platform)).size} color="blue" />
-            </motion.div>
+            {gameDataList.length > 0 && (
+                <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <StatCard icon={Database} label="Datasets" value={gameDataList.length.toString()} />
+                    <StatCard icon={Rows} label="Total Rows" value={formatRowCount(totalRows)} />
+                    <StatCard icon={Tag} label="Game Types" value={uniqueTypes.toString()} />
+                    <StatCard
+                        icon={CheckCircle2}
+                        label="Active"
+                        value={activeGameData ? '1' : '0'}
+                    />
+                </motion.div>
+            )}
 
-            {/* Pinned Games */}
-            {pinnedGames.length > 0 && (
+            {/* Empty State */}
+            {gameDataList.length === 0 && (
+                <motion.div
+                    variants={itemVariants}
+                    className="relative bg-th-bg-surface rounded-2xl border border-th-border-subtle p-16 text-center overflow-hidden"
+                >
+                    <div className="relative">
+                        <div className="w-20 h-20 rounded-2xl bg-th-bg-elevated/50 border border-th-border-subtle flex items-center justify-center mx-auto mb-6">
+                            <Upload className="w-10 h-10 text-th-text-disabled" />
+                        </div>
+                        <h2 className="text-lg font-semibold text-th-text-primary mb-2">No datasets yet</h2>
+                        <p className="text-th-text-muted mb-6 max-w-md mx-auto">
+                            Upload a CSV, Excel, or JSON file with your game data to start analyzing player behavior, retention, and revenue.
+                        </p>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/upload')}
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#DA7756]/20 border border-[#DA7756]/30 text-[#DA7756] hover:bg-[#DA7756]/30 transition-colors text-sm font-medium"
+                        >
+                            <Upload className="w-4 h-4" />
+                            Upload Your First Dataset
+                        </motion.button>
+                    </div>
+                </motion.div>
+            )}
+
+            {/* Dataset Cards */}
+            {sortedDatasets.length > 0 && (
                 <motion.section variants={itemVariants}>
-                    <h2 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                        <Star className="w-4 h-4 text-[#E5A84B] fill-[#E5A84B]" />
-                        <span className="uppercase tracking-wider">Pinned Games</span>
+                    <h2 className="text-sm font-semibold text-th-text-primary mb-4 flex items-center gap-2">
+                        <Database className="w-4 h-4 text-th-text-muted" />
+                        <span className="uppercase tracking-wider">All Datasets</span>
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {pinnedGames.map((game, index) => (
-                            <GameCard
-                                key={game.id}
-                                game={game}
+                        {sortedDatasets.map((data, index) => (
+                            <DatasetCard
+                                key={data.id}
+                                data={data}
                                 index={index}
-                                onSelect={() => handleSelectGame(game)}
-                                onEdit={() => setEditingGame(game)}
-                                onDelete={() => handleDeleteGame(game.id)}
-                                onTogglePin={() => handleTogglePin(game)}
-                                onToggleActive={() => handleToggleActive(game)}
+                                isActive={data.id === activeGameData?.id}
+                                onSelect={() => handleSelectDataset(data)}
+                                onDelete={() => handleDeleteDataset(data.id)}
                             />
                         ))}
                     </div>
                 </motion.section>
             )}
-
-            {/* All Games */}
-            <motion.section variants={itemVariants}>
-                <h2 className="text-sm font-semibold text-white mb-4 flex items-center gap-2">
-                    <Gamepad2 className="w-4 h-4 text-slate-500" />
-                    <span className="uppercase tracking-wider">{pinnedGames.length > 0 ? 'Other Games' : 'All Games'}</span>
-                </h2>
-                {otherGames.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {otherGames.map((game, index) => (
-                            <GameCard
-                                key={game.id}
-                                game={game}
-                                index={index + pinnedGames.length}
-                                onSelect={() => handleSelectGame(game)}
-                                onEdit={() => setEditingGame(game)}
-                                onDelete={() => handleDeleteGame(game.id)}
-                                onTogglePin={() => handleTogglePin(game)}
-                                onToggleActive={() => handleToggleActive(game)}
-                            />
-                        ))}
-                    </div>
-                ) : (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="relative bg-slate-900  rounded-2xl border border-slate-800 p-12 text-center overflow-hidden"
-                    >
-                        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-                        <div className="relative">
-                            <div className="w-16 h-16 rounded-2xl bg-slate-800/50 border border-slate-800 flex items-center justify-center mx-auto mb-4">
-                                <Gamepad2 className="w-8 h-8 text-slate-600" />
-                            </div>
-                            <p className="text-slate-500">No games yet. Add your first game to get started.</p>
-                        </div>
-                    </motion.div>
-                )}
-            </motion.section>
-
-            {/* Add/Edit Modal */}
-            <AnimatePresence>
-                {(showAddModal || editingGame) && (
-                    <GameModal
-                        game={editingGame}
-                        onSave={handleSaveGame}
-                        onClose={() => {
-                            setShowAddModal(false);
-                            setEditingGame(null);
-                        }}
-                    />
-                )}
-            </AnimatePresence>
         </motion.div>
     );
 }
@@ -272,20 +246,11 @@ function StatCard({
     icon: Icon,
     label,
     value,
-    color,
 }: {
     icon: React.ElementType;
     label: string;
-    value: number;
-    color: 'orange' | 'amber' | 'orangeDark' | 'blue';
+    value: string;
 }) {
-    const colors = {
-        orange: 'bg-[#DA7756]/10 text-[#DA7756] border-[#DA7756]/20',
-        amber: 'bg-[#E5A84B]/10 text-[#E5A84B] border-[#E5A84B]/20',
-        orangeDark: 'bg-[#C15F3C]/10 text-[#C15F3C] border-[#C15F3C]/20',
-        blue: 'bg-[#8F8B82]/10 text-[#8F8B82] border-[#8F8B82]/20',
-    };
-
     return (
         <motion.div
             whileHover={{ y: -2 }}
@@ -293,12 +258,12 @@ function StatCard({
         >
             <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong p-4 transition-colors duration-200">
                 <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl ${colors[color]} border flex items-center justify-center`}>
+                    <div className="w-10 h-10 rounded-xl bg-th-accent-primary/10 text-th-accent-primary border border-th-accent-primary/20 flex items-center justify-center">
                         <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                        <p className="text-2xl font-bold text-white font-mono">{value}</p>
-                        <p className="text-[11px] text-slate-500 uppercase tracking-wider">{label}</p>
+                        <p className="text-2xl font-bold text-th-text-primary font-mono">{value}</p>
+                        <p className="text-[11px] text-th-text-muted uppercase tracking-wider">{label}</p>
                     </div>
                 </div>
             </div>
@@ -307,27 +272,26 @@ function StatCard({
 }
 
 // ============================================================================
-// Game Card
+// Dataset Card
 // ============================================================================
 
-function GameCard({
-    game,
+function DatasetCard({
+    data,
     index,
+    isActive,
     onSelect,
-    onEdit,
     onDelete,
-    onTogglePin,
-    onToggleActive,
 }: {
-    game: Game;
+    data: GameData;
     index: number;
+    isActive: boolean;
     onSelect: () => void;
-    onEdit: () => void;
     onDelete: () => void;
-    onTogglePin: () => void;
-    onToggleActive: () => void;
 }) {
     const [showMenu, setShowMenu] = useState(false);
+
+    const columnCount = data.columnMappings?.length ?? 0;
+    const mappedColumns = data.columnMappings?.filter(c => c.role !== 'unknown' && c.role !== 'noise').length ?? 0;
 
     return (
         <motion.div
@@ -335,24 +299,30 @@ function GameCard({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: index * 0.05, type: 'spring', stiffness: 260, damping: 20 }}
             whileHover={{ y: -4 }}
-            className={`relative group cursor-pointer ${!game.isActive ? 'opacity-60' : ''}`}
+            className="relative group cursor-pointer"
             onClick={onSelect}
         >
-            <div className="bg-th-bg-surface rounded-2xl border border-th-border group-hover:border-th-border-strong transition-colors duration-200 overflow-hidden">
+            <div className={`bg-th-bg-surface rounded-2xl border transition-colors duration-200 overflow-hidden ${
+                isActive
+                    ? 'border-th-accent-primary/40 ring-1 ring-th-accent-primary/20'
+                    : 'border-th-border group-hover:border-th-border-strong'
+            }`}>
 
                 {/* Header */}
-                <div className="relative p-4 border-b border-slate-800">
+                <div className="relative p-4 border-b border-th-border-subtle">
                     <div className="flex items-start gap-3">
-                        <span className="text-3xl">{game.icon}</span>
+                        <span className="text-3xl">{getGameTypeIcon(data.type)}</span>
                         <div className="flex-1 min-w-0">
-                            <h3 className="text-base font-semibold text-white truncate">{game.name}</h3>
+                            <h3 className="text-base font-semibold text-th-text-primary truncate">{data.name}</h3>
                             <div className="flex items-center gap-2 mt-1.5">
-                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#DA7756]/10 text-[#DA7756] border border-[#DA7756]/20 uppercase tracking-wider font-medium">
-                                    {getGenreLabel(game.genre)}
+                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-th-accent-primary/10 text-th-accent-primary border border-th-accent-primary/20 uppercase tracking-wider font-medium">
+                                    {getGameTypeLabel(data.type)}
                                 </span>
-                                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/[0.03] text-slate-500 border border-slate-800 uppercase tracking-wider">
-                                    {getPlatformLabel(game.platform)}
-                                </span>
+                                {isActive && (
+                                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-th-success/10 text-th-success border border-th-success/20 uppercase tracking-wider font-medium">
+                                        Active
+                                    </span>
+                                )}
                             </div>
                         </div>
                         <button
@@ -360,9 +330,9 @@ function GameCard({
                                 e.stopPropagation();
                                 setShowMenu(!showMenu);
                             }}
-                            className="p-1.5 hover:bg-white/[0.05] rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                            className="p-1.5 hover:bg-th-bg-elevated/50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                         >
-                            <MoreVertical className="w-4 h-4 text-slate-500" />
+                            <MoreVertical className="w-4 h-4 text-th-text-muted" />
                         </button>
 
                         {/* Dropdown Menu */}
@@ -373,37 +343,22 @@ function GameCard({
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.95, y: -10 }}
                                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                                    className="absolute right-4 top-12 z-10 bg-slate-900 rounded-xl border border-slate-700 shadow-lg py-1.5 w-40 overflow-hidden"
+                                    className="absolute right-4 top-12 z-10 bg-th-bg-surface rounded-xl border border-th-border shadow-lg py-1.5 w-40 overflow-hidden"
                                     onClick={(e) => e.stopPropagation()}
                                 >
-                                    <button
-                                        onClick={() => { onEdit(); setShowMenu(false); }}
-                                        className="w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-white/[0.03] flex items-center gap-2 transition-colors"
-                                    >
-                                        <Edit3 className="w-4 h-4 text-slate-500" />
-                                        Edit
-                                    </button>
-                                    <button
-                                        onClick={() => { onTogglePin(); setShowMenu(false); }}
-                                        className="w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-white/[0.03] flex items-center gap-2 transition-colors"
-                                    >
-                                        {game.isPinned ? (
-                                            <><StarOff className="w-4 h-4 text-slate-500" />Unpin</>
-                                        ) : (
-                                            <><Star className="w-4 h-4 text-[#E5A84B]" />Pin</>
-                                        )}
-                                    </button>
-                                    <button
-                                        onClick={() => { onToggleActive(); setShowMenu(false); }}
-                                        className="w-full px-3 py-2 text-left text-sm text-slate-300 hover:bg-white/[0.03] flex items-center gap-2 transition-colors"
-                                    >
-                                        <Settings className="w-4 h-4 text-slate-500" />
-                                        {game.isActive ? 'Deactivate' : 'Activate'}
-                                    </button>
-                                    <div className="border-t border-slate-800 my-1" />
+                                    {!isActive && (
+                                        <button
+                                            onClick={() => { onSelect(); setShowMenu(false); }}
+                                            className="w-full px-3 py-2 text-left text-sm text-th-text-secondary hover:bg-th-bg-elevated/50 flex items-center gap-2 transition-colors"
+                                        >
+                                            <CheckCircle2 className="w-4 h-4 text-th-success" />
+                                            Set Active
+                                        </button>
+                                    )}
+                                    <div className="border-t border-th-border-subtle my-1" />
                                     <button
                                         onClick={() => { onDelete(); setShowMenu(false); }}
-                                        className="w-full px-3 py-2 text-left text-sm text-[#E25C5C] hover:bg-[#E25C5C]/10 flex items-center gap-2 transition-colors"
+                                        className="w-full px-3 py-2 text-left text-sm text-th-error hover:bg-th-error/10 flex items-center gap-2 transition-colors"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         Delete
@@ -416,315 +371,55 @@ function GameCard({
 
                 {/* Details */}
                 <div className="relative p-4 space-y-2">
-                    {game.description && (
-                        <p className="text-sm text-slate-500 line-clamp-2">{game.description}</p>
-                    )}
-                    <div className="flex items-center gap-4 text-[11px] text-slate-600">
+                    <div className="flex items-center gap-4 text-[11px] text-th-text-disabled">
                         <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {game.timezone.split('/')[1] || game.timezone}
+                            <Rows className="w-3 h-3" />
+                            {formatRowCount(data.rowCount || 0)} rows
                         </span>
                         <span className="flex items-center gap-1">
-                            <DollarSign className="w-3 h-3" />
-                            {game.currency}
+                            <Columns className="w-3 h-3" />
+                            {columnCount} columns
                         </span>
                     </div>
-                    {(game.appStoreUrl || game.playStoreUrl) && (
-                        <div className="flex items-center gap-3 pt-2">
-                            {game.appStoreUrl && (
-                                <a
-                                    href={game.appStoreUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="text-[11px] text-slate-500 hover:text-[#DA7756] flex items-center gap-1 transition-colors"
-                                >
-                                    App Store <ExternalLink className="w-3 h-3" />
-                                </a>
-                            )}
-                            {game.playStoreUrl && (
-                                <a
-                                    href={game.playStoreUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="text-[11px] text-slate-500 hover:text-[#DA7756] flex items-center gap-1 transition-colors"
-                                >
-                                    Play Store <ExternalLink className="w-3 h-3" />
-                                </a>
-                            )}
+                    <div className="flex items-center gap-4 text-[11px] text-th-text-disabled">
+                        <span className="flex items-center gap-1">
+                            <FileSpreadsheet className="w-3 h-3" />
+                            {data.fileName}
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-4 text-[11px] text-th-text-disabled">
+                        <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {formatDate(data.uploadedAt)}
+                        </span>
+                    </div>
+
+                    {/* Column mapping quality indicator */}
+                    {columnCount > 0 && (
+                        <div className="pt-2 border-t border-th-border-subtle mt-2">
+                            <div className="flex items-center justify-between text-[11px]">
+                                <span className="text-th-text-disabled">Mapped columns</span>
+                                <span className="text-th-text-muted font-mono">
+                                    {mappedColumns}/{columnCount}
+                                </span>
+                            </div>
+                            <div className="mt-1.5 h-1 bg-th-bg-elevated/50 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-th-accent-primary/60 rounded-full transition-all"
+                                    style={{ width: `${columnCount > 0 ? (mappedColumns / columnCount) * 100 : 0}%` }}
+                                />
+                            </div>
                         </div>
                     )}
                 </div>
 
-                {/* Pin indicator */}
-                {game.isPinned && (
+                {/* Active indicator */}
+                {isActive && (
                     <div className="absolute top-3 right-12">
-                        <Star className="w-4 h-4 text-[#E5A84B] fill-[#E5A84B]" />
+                        <CheckCircle2 className="w-4 h-4 text-th-success" />
                     </div>
                 )}
             </div>
-        </motion.div>
-    );
-}
-
-// ============================================================================
-// Game Modal
-// ============================================================================
-
-function GameModal({
-    game,
-    onSave,
-    onClose,
-}: {
-    game: Game | null;
-    onSave: (game: Game) => void;
-    onClose: () => void;
-}) {
-    const [formData, setFormData] = useState<Partial<Game>>({
-        name: game?.name || '',
-        genre: game?.genre || 'puzzle',
-        platform: game?.platform || 'cross_platform',
-        description: game?.description || '',
-        bundleId: game?.bundleId || '',
-        appStoreUrl: game?.appStoreUrl || '',
-        playStoreUrl: game?.playStoreUrl || '',
-        timezone: game?.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-        currency: game?.currency || 'USD',
-    });
-
-    const isEditing = !!game;
-
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        if (!formData.name || !formData.genre) return;
-
-        if (isEditing && game) {
-            onSave({
-                ...game,
-                ...formData,
-                name: formData.name!,
-                genre: formData.genre!,
-                platform: formData.platform || 'cross_platform',
-            });
-        } else {
-            const newGame = createGame(
-                formData.name!,
-                formData.genre as GameGenre,
-                {
-                    platform: formData.platform as GamePlatform,
-                    description: formData.description,
-                    bundleId: formData.bundleId,
-                    appStoreUrl: formData.appStoreUrl,
-                    playStoreUrl: formData.playStoreUrl,
-                    timezone: formData.timezone,
-                    currency: formData.currency,
-                }
-            );
-            onSave(newGame);
-        }
-    }
-
-    return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60  p-4"
-            onClick={onClose}
-        >
-            <motion.div
-                initial={{ scale: 0.95, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.95, opacity: 0, y: 20 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-                className="relative bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-2xl border border-slate-700 w-full max-w-lg shadow-lg max-h-[90vh] overflow-hidden"
-                onClick={(e) => e.stopPropagation()}
-            >
-                {/* Noise texture */}
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wMyIvPjwvc3ZnPg==')] opacity-50 pointer-events-none" />
-
-                {/* Header */}
-                <div className="relative flex items-center justify-between p-5 border-b border-slate-800">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
-                            <Gamepad2 className="w-5 h-5 text-[#DA7756]" />
-                        </div>
-                        <div>
-                            <h2 className="text-base font-semibold text-white">
-                                {isEditing ? 'Edit Game' : 'Add Game'}
-                            </h2>
-                            <p className="text-xs text-slate-500">
-                                {isEditing ? 'Update game details' : 'Add a new game to your portfolio'}
-                            </p>
-                        </div>
-                    </div>
-                    <button
-                        onClick={onClose}
-                        className="p-2 hover:bg-white/[0.05] rounded-lg transition-colors"
-                    >
-                        <X className="w-5 h-5 text-slate-500" />
-                    </button>
-                </div>
-
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="relative p-5 space-y-5 overflow-y-auto max-h-[calc(90vh-120px)]">
-                    {/* Name */}
-                    <div>
-                        <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                            Game Name *
-                        </label>
-                        <input
-                            type="text"
-                            value={formData.name}
-                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            placeholder="Enter game name"
-                            required
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                        />
-                    </div>
-
-                    {/* Genre */}
-                    <div>
-                        <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                            Genre *
-                        </label>
-                        <div className="grid grid-cols-3 gap-2">
-                            {GENRE_OPTIONS.map(({ value, label, icon }) => (
-                                <motion.button
-                                    key={value}
-                                    type="button"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    onClick={() => setFormData({ ...formData, genre: value })}
-                                    className={`p-2.5 rounded-xl border text-left transition-all ${
-                                        formData.genre === value
-                                            ? 'border-[#DA7756]/30 bg-[#DA7756]/10'
-                                            : 'border-slate-800 hover:border-slate-600 bg-white/[0.02]'
-                                    }`}
-                                >
-                                    <span className="text-xl">{icon}</span>
-                                    <p className="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">{label}</p>
-                                </motion.button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Platform */}
-                    <div>
-                        <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                            Platform
-                        </label>
-                        <select
-                            value={formData.platform}
-                            onChange={(e) => setFormData({ ...formData, platform: e.target.value as GamePlatform })}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                        >
-                            {PLATFORM_OPTIONS.map(({ value, label }) => (
-                                <option key={value} value={value}>{label}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Description */}
-                    <div>
-                        <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                            Description
-                        </label>
-                        <textarea
-                            value={formData.description}
-                            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            placeholder="Brief description of your game"
-                            rows={2}
-                            className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 resize-none transition-all text-sm"
-                        />
-                    </div>
-
-                    {/* Settings Row */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                                Timezone
-                            </label>
-                            <select
-                                value={formData.timezone}
-                                onChange={(e) => setFormData({ ...formData, timezone: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                            >
-                                <option value="America/New_York">Eastern (ET)</option>
-                                <option value="America/Chicago">Central (CT)</option>
-                                <option value="America/Denver">Mountain (MT)</option>
-                                <option value="America/Los_Angeles">Pacific (PT)</option>
-                                <option value="Europe/London">London (GMT)</option>
-                                <option value="Europe/Paris">Paris (CET)</option>
-                                <option value="Asia/Tokyo">Tokyo (JST)</option>
-                                <option value="Asia/Shanghai">Shanghai (CST)</option>
-                                <option value="UTC">UTC</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="block text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-2">
-                                Currency
-                            </label>
-                            <select
-                                value={formData.currency}
-                                onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                                className="w-full px-3 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                            >
-                                <option value="USD">USD ($)</option>
-                                <option value="EUR">EUR</option>
-                                <option value="GBP">GBP</option>
-                                <option value="JPY">JPY</option>
-                                <option value="CNY">CNY</option>
-                                <option value="KRW">KRW</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {/* Store Links */}
-                    <div className="pt-4 border-t border-slate-800">
-                        <p className="text-[11px] font-medium text-slate-500 uppercase tracking-wider mb-3">Store Links (Optional)</p>
-                        <div className="space-y-3">
-                            <input
-                                type="url"
-                                value={formData.appStoreUrl}
-                                onChange={(e) => setFormData({ ...formData, appStoreUrl: e.target.value })}
-                                placeholder="App Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                            />
-                            <input
-                                type="url"
-                                value={formData.playStoreUrl}
-                                onChange={(e) => setFormData({ ...formData, playStoreUrl: e.target.value })}
-                                placeholder="Play Store URL"
-                                className="w-full px-4 py-2.5 bg-white/[0.03] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-[#DA7756]/50 transition-all text-sm"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-3 pt-2">
-                        <motion.button
-                            type="button"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={onClose}
-                            className="flex-1 py-2.5 bg-white/[0.03] hover:bg-white/[0.06] text-slate-300 rounded-xl transition-colors text-sm font-medium"
-                        >
-                            Cancel
-                        </motion.button>
-                        <motion.button
-                            type="submit"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            className="flex-1 py-2.5 bg-[#DA7756]/20 border border-[#DA7756]/30 hover:bg-[#DA7756]/30 text-[#DA7756] rounded-xl transition-colors flex items-center justify-center gap-2 text-sm font-medium"
-                        >
-                            <Check className="w-4 h-4" />
-                            {isEditing ? 'Save Changes' : 'Add Game'}
-                        </motion.button>
-                    </div>
-                </form>
-            </motion.div>
         </motion.div>
     );
 }

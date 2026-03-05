@@ -26,7 +26,6 @@ import {
     Plus,
     Loader2,
 } from 'lucide-react';
-import { useGame } from '../context/GameContext';
 import { useTheme } from '../context/ThemeContext';
 import { useSidebarSettings } from '../lib/sidebarStore';
 import { DataModeIndicator } from './ui/DataModeIndicator';
@@ -116,7 +115,6 @@ const logoVariants = {
 
 
 export function Sidebar() {
-    const { selectedGame } = useGame();
     const { resolvedTheme, toggleTheme } = useTheme();
     const location = useLocation();
     const navigate = useNavigate();
@@ -140,8 +138,6 @@ export function Sidebar() {
         insights: insightsItems,
         settings: settingsItems,
     }), []);
-
-    void selectedGame; // Mark as used (for game-specific priorities)
 
     return (
         <motion.aside

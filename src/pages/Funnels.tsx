@@ -491,7 +491,7 @@ function StatsCard({
 
 export function FunnelsPage() {
     const { selectedGame } = useGame();
-    const { result } = useAnalytics();
+    const { result, isLoading, isProcessing } = useAnalytics();
     const { hasRealData } = useGameData();
 
     // State for manual builder
@@ -507,34 +507,25 @@ export function FunnelsPage() {
         return result?.funnels || [];
     }, [result?.funnels, hasRealData]);
     const hasDetectedFunnels = detectedFunnels.length > 0;
+    const isPipelineRunning = isLoading || isProcessing;
 
-    // Calculate overall stats
+    // Calculate overall stats from real detected funnels only
     const stats = useMemo(() => {
-        if (hasDetectedFunnels) {
-            const totalUsers = detectedFunnels.reduce((sum, f) => sum + f.totalUsers, 0);
-            const avgCompletion = detectedFunnels.reduce((sum, f) => sum + f.completionRate, 0) / detectedFunnels.length;
-            const bottlenecks = detectedFunnels.filter(f => f.bottleneck).length;
-
-            return {
-                totalFunnels: detectedFunnels.length,
-                totalUsers,
-                avgCompletion,
-                bottlenecks,
-            };
+        if (!hasDetectedFunnels) {
+            return { totalFunnels: 0, totalUsers: 0, avgCompletion: 0, bottlenecks: 0 };
         }
 
-        // Fallback to manual funnel stats
-        const conversionRate = manualSteps.length > 0
-            ? (manualSteps[manualSteps.length - 1].users / manualSteps[0].users) * 100
-            : 0;
+        const totalUsers = detectedFunnels.reduce((sum, f) => sum + f.totalUsers, 0);
+        const avgCompletion = detectedFunnels.reduce((sum, f) => sum + f.completionRate, 0) / detectedFunnels.length;
+        const bottlenecks = detectedFunnels.filter(f => f.bottleneck).length;
 
         return {
-            totalFunnels: 1,
-            totalUsers: manualSteps[0]?.users || 0,
-            avgCompletion: conversionRate,
-            bottlenecks: 0,
+            totalFunnels: detectedFunnels.length,
+            totalUsers,
+            avgCompletion,
+            bottlenecks,
         };
-    }, [detectedFunnels, hasDetectedFunnels, manualSteps]);
+    }, [detectedFunnels, hasDetectedFunnels]);
 
     // Manual funnel visualization option
     const manualFunnelOption = {
@@ -583,6 +574,14 @@ export function FunnelsPage() {
         ]
     };
 
+    // Determine subtitle text
+    const subtitleText = useMemo(() => {
+        if (isPipelineRunning) return 'Analyzing data for funnel patterns...';
+        if (hasDetectedFunnels) return `${detectedFunnels.length} AI-detected funnel${detectedFunnels.length > 1 ? 's' : ''} from your data`;
+        if (hasRealData) return 'No funnels detected in your data. The pipeline needs user_id + level/event/funnel_step columns.';
+        return 'Upload data with user progression or event columns to auto-detect funnels.';
+    }, [isPipelineRunning, hasDetectedFunnels, detectedFunnels.length, hasRealData]);
+
     return (
         <motion.div
             variants={containerVariants}
@@ -612,9 +611,7 @@ export function FunnelsPage() {
                                     <DataModeIndicator />
                                 </div>
                                 <p className="text-th-text-muted text-sm mt-0.5">
-                                    {hasDetectedFunnels
-                                        ? `${detectedFunnels.length} AI-detected funnel${detectedFunnels.length > 1 ? 's' : ''} from your data`
-                                        : 'Build and analyze conversion funnels'}
+                                    {subtitleText}
                                 </p>
                             </div>
                         </div>
@@ -633,37 +630,63 @@ export function FunnelsPage() {
                 </Card>
             </motion.div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <StatsCard
-                    title="Total Funnels"
-                    value={stats.totalFunnels.toString()}
-                    icon={Filter}
-                    color="orange"
-                    index={0}
-                />
-                <StatsCard
-                    title="Total Users"
-                    value={formatNumber(stats.totalUsers)}
-                    icon={Users}
-                    color="blue"
-                    index={1}
-                />
-                <StatsCard
-                    title="Avg Completion"
-                    value={`${stats.avgCompletion.toFixed(1)}%`}
-                    icon={Target}
-                    color="warmOrange"
-                    index={2}
-                />
-                <StatsCard
-                    title="Bottlenecks Found"
-                    value={stats.bottlenecks.toString()}
-                    icon={AlertTriangle}
-                    color="amber"
-                    index={3}
-                />
-            </div>
+            {/* Loading State */}
+            {isPipelineRunning && (
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg" className="text-center">
+                        <div className="flex flex-col items-center gap-4 py-8">
+                            <div className="w-12 h-12 rounded-xl bg-[#DA7756]/10 border border-[#DA7756]/20 flex items-center justify-center">
+                                <motion.div
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                                >
+                                    <Filter className="w-6 h-6 text-[#DA7756]" />
+                                </motion.div>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-semibold text-th-text-primary mb-1">Detecting Funnels</h3>
+                                <p className="text-sm text-th-text-muted">
+                                    Analyzing your data for progression, conversion, and onboarding patterns...
+                                </p>
+                            </div>
+                        </div>
+                    </Card>
+                </motion.div>
+            )}
+
+            {/* Stats Cards - only when we have detected funnels */}
+            {hasDetectedFunnels && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <StatsCard
+                        title="Total Funnels"
+                        value={stats.totalFunnels.toString()}
+                        icon={Filter}
+                        color="orange"
+                        index={0}
+                    />
+                    <StatsCard
+                        title="Total Users"
+                        value={formatNumber(stats.totalUsers)}
+                        icon={Users}
+                        color="blue"
+                        index={1}
+                    />
+                    <StatsCard
+                        title="Avg Completion"
+                        value={`${stats.avgCompletion.toFixed(1)}%`}
+                        icon={Target}
+                        color="warmOrange"
+                        index={2}
+                    />
+                    <StatsCard
+                        title="Bottlenecks Found"
+                        value={stats.bottlenecks.toString()}
+                        icon={AlertTriangle}
+                        color="amber"
+                        index={3}
+                    />
+                </div>
+            )}
 
             {/* AI-Detected Funnels */}
             {hasDetectedFunnels && (
@@ -688,15 +711,13 @@ export function FunnelsPage() {
                 </motion.div>
             )}
 
-            {/* Manual Builder (shown when no detected funnels OR user clicks to show it) */}
-            {(!hasDetectedFunnels || showManualBuilder) && (
+            {/* Manual Builder - only shown when user explicitly clicks the button alongside detected funnels */}
+            {hasDetectedFunnels && showManualBuilder && (
                 <motion.div variants={itemVariants} className="space-y-4">
-                    {hasDetectedFunnels && (
-                        <div className="flex items-center gap-2">
-                            <BarChart3 className="w-5 h-5 text-th-text-secondary" />
-                            <h2 className="text-lg font-semibold text-th-text-primary">Custom Funnel</h2>
-                        </div>
-                    )}
+                    <div className="flex items-center gap-2">
+                        <BarChart3 className="w-5 h-5 text-th-text-secondary" />
+                        <h2 className="text-lg font-semibold text-th-text-primary">Custom Funnel</h2>
+                    </div>
 
                     <ManualFunnelBuilder
                         steps={manualSteps}
@@ -732,7 +753,7 @@ export function FunnelsPage() {
                                         <div className="flex-1">
                                             <div className="flex items-center justify-between mb-1">
                                                 <span className="text-sm text-th-text-secondary">
-                                                    {step.step} → {nextStep.step}
+                                                    {step.step} &rarr; {nextStep.step}
                                                 </span>
                                                 <span className="text-sm font-medium text-[#E25C5C]">
                                                     -{dropOff.toLocaleString()} ({dropOffPercent.toFixed(1)}%)
@@ -755,8 +776,8 @@ export function FunnelsPage() {
                 </motion.div>
             )}
 
-            {/* No Data State */}
-            {!hasDetectedFunnels && !showManualBuilder && (
+            {/* Empty State - no real data uploaded */}
+            {!hasRealData && !isPipelineRunning && (
                 <motion.div variants={itemVariants}>
                     <Card variant="default" padding="lg" className="text-center">
                         <motion.div
@@ -770,11 +791,44 @@ export function FunnelsPage() {
                                 <Filter className="w-6 h-6 text-[#DA7756]" />
                             </div>
                         </motion.div>
-                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Funnels Detected</h3>
-                        <p className="text-th-text-muted mb-4">
-                            Upload data with user progression or event data to auto-detect funnels,
-                            or use the manual builder below.
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Data Uploaded</h3>
+                        <p className="text-th-text-muted max-w-md mx-auto">
+                            Upload a CSV or Excel file with user progression data to automatically detect funnels.
+                            The pipeline looks for user_id, level, event, or funnel_step columns to build funnel visualizations.
                         </p>
+                    </Card>
+                </motion.div>
+            )}
+
+            {/* Empty State - data exists but no funnels detected */}
+            {hasRealData && !hasDetectedFunnels && !isPipelineRunning && (
+                <motion.div variants={itemVariants}>
+                    <Card variant="default" padding="lg" className="text-center">
+                        <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: 'spring', delay: 0.2 }}
+                            className="relative inline-block mb-4"
+                        >
+                            <div className="absolute inset-0 bg-[#E5A84B]/20 rounded-xl" />
+                            <div className="relative w-12 h-12 bg-gradient-to-br from-[#E5A84B]/20 to-[#C15F3C]/10 border border-[#E5A84B]/30 rounded-xl flex items-center justify-center mx-auto">
+                                <Target className="w-6 h-6 text-[#E5A84B]" />
+                            </div>
+                        </motion.div>
+                        <h3 className="text-lg font-semibold text-th-text-primary mb-2">No Funnels Detected</h3>
+                        <p className="text-th-text-muted max-w-md mx-auto mb-4">
+                            Your data was analyzed but no funnel patterns were found. The funnel detector requires columns
+                            such as user identifiers combined with level progression, event names, or explicit funnel step columns.
+                        </p>
+                        <div className="bg-th-bg-elevated/30 border border-th-border-subtle rounded-xl p-4 max-w-sm mx-auto text-left">
+                            <h4 className="text-sm font-medium text-th-text-secondary mb-2">Supported column types:</h4>
+                            <ul className="space-y-1 text-sm text-th-text-muted">
+                                <li className="flex items-center gap-2"><span className="text-[#DA7756]">--</span> user_id (required)</li>
+                                <li className="flex items-center gap-2"><span className="text-[#DA7756]">--</span> level (for progression funnels)</li>
+                                <li className="flex items-center gap-2"><span className="text-[#DA7756]">--</span> event_name (for event-based funnels)</li>
+                                <li className="flex items-center gap-2"><span className="text-[#DA7756]">--</span> funnel_step (for explicit funnels)</li>
+                            </ul>
+                        </div>
                     </Card>
                 </motion.div>
             )}
