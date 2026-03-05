@@ -26,6 +26,7 @@ export class APIAdapter extends BaseAdapter {
     private abortController: AbortController | null = null;
 
     async connect(config: APIAdapterConfig): Promise<void> {
+        this.validateEndpoint(config.endpoint);
         this.config = config;
         this.abortController = new AbortController();
         await this.refresh();
@@ -85,6 +86,8 @@ export class APIAdapter extends BaseAdapter {
                         case '!=': return value !== filter.value;
                         case '>': return (value as number) > (filter.value as number);
                         case '<': return (value as number) < (filter.value as number);
+                        case '>=': return (value as number) >= (filter.value as number);
+                        case '<=': return (value as number) <= (filter.value as number);
                         case 'contains': return String(value).toLowerCase().includes(String(filter.value).toLowerCase());
                         case 'in': return (filter.value as unknown[]).includes(value);
                         default: return true;
@@ -148,6 +151,9 @@ export class APIAdapter extends BaseAdapter {
         if (this.config.dataPath) {
             const paths = this.config.dataPath.split('.');
             for (const path of paths) {
+                if (data === null || data === undefined || typeof data !== 'object') {
+                    throw new Error(`Invalid dataPath: "${this.config.dataPath}" — segment "${path}" reached a non-object value`);
+                }
                 data = data[path];
             }
         }
@@ -155,6 +161,42 @@ export class APIAdapter extends BaseAdapter {
         this.cachedData = Array.isArray(data) ? data : [data];
         this.schema = this.analyzeSchema(this.cachedData);
         this.lastFetch = new Date();
+    }
+
+    private validateEndpoint(url: string): void {
+        let parsed: URL;
+        try {
+            parsed = new URL(url);
+        } catch {
+            throw new Error('Invalid endpoint URL');
+        }
+
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+            throw new Error(`Unsupported URL scheme: ${parsed.protocol} — only http and https are allowed`);
+        }
+
+        const hostname = parsed.hostname.toLowerCase();
+        const blockedPatterns = [
+            /^localhost$/,
+            /^127\./,
+            /^10\./,
+            /^172\.(1[6-9]|2\d|3[01])\./,
+            /^192\.168\./,
+            /^169\.254\./,
+            /^0\./,
+            /^\[::1\]$/,
+            /^\[fc/i,
+            /^\[fd/i,
+            /^\[fe80:/i,
+            /\.local$/,
+            /\.internal$/,
+        ];
+
+        for (const pattern of blockedPatterns) {
+            if (pattern.test(hostname)) {
+                throw new Error('Blocked endpoint: requests to private/internal addresses are not allowed');
+            }
+        }
     }
 
     private buildHeaders(): HeadersInit {

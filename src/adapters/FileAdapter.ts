@@ -3,6 +3,7 @@
  * Handles local file uploads and parsing
  */
 
+import Papa from 'papaparse';
 import { BaseAdapter, AdapterConfig, SchemaInfo, NormalizedData, DataQuery, AdapterCapabilities, ColumnInfo } from './BaseAdapter';
 
 interface FileAdapterConfig extends AdapterConfig {
@@ -58,7 +59,10 @@ export class FileAdapter extends BaseAdapter {
                         case '!=': return value !== filter.value;
                         case '>': return (value as number) > (filter.value as number);
                         case '<': return (value as number) < (filter.value as number);
-                        case 'contains': return String(value).includes(String(filter.value));
+                        case '>=': return (value as number) >= (filter.value as number);
+                        case '<=': return (value as number) <= (filter.value as number);
+                        case 'contains': return String(value).toLowerCase().includes(String(filter.value).toLowerCase());
+                        case 'in': return (filter.value as unknown[]).includes(value);
                         default: return true;
                     }
                 });
@@ -115,29 +119,52 @@ export class FileAdapter extends BaseAdapter {
     }
 
     private parseCSV(content: string): Record<string, unknown>[] {
-        const lines = content.trim().split('\n');
-        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+        const result = Papa.parse(content, {
+            header: true,
+            skipEmptyLines: true,
+            dynamicTyping: false,
+        });
 
-        return lines.slice(1).map(line => {
-            const values = line.split(',').map(v => v.trim().replace(/"/g, ''));
-            const row: Record<string, unknown> = {};
-            headers.forEach((header, i) => {
-                row[header] = this.parseValue(values[i]);
-            });
-            return row;
+        return (result.data as Record<string, string>[]).map(row => {
+            const parsed: Record<string, unknown> = {};
+            for (const [key, value] of Object.entries(row)) {
+                parsed[key.trim()] = this.parseValue(value);
+            }
+            return parsed;
         });
     }
 
     private parseJSON(content: string): Record<string, unknown>[] {
-        const parsed = JSON.parse(content);
-        return Array.isArray(parsed) ? parsed : [parsed];
+        let parsed: unknown;
+        try {
+            parsed = JSON.parse(content);
+        } catch (e) {
+            throw new Error(`Invalid JSON: ${e instanceof Error ? e.message : 'parse error'}`);
+        }
+
+        if (Array.isArray(parsed)) {
+            const objects = parsed.filter(
+                (item): item is Record<string, unknown> => typeof item === 'object' && item !== null
+            );
+            if (objects.length === 0) {
+                throw new Error('JSON array contains no valid objects');
+            }
+            return objects;
+        }
+
+        if (typeof parsed === 'object' && parsed !== null) {
+            return [parsed as Record<string, unknown>];
+        }
+
+        throw new Error('JSON must be an array of objects or a single object');
     }
 
     private parseValue(value: string): unknown {
         if (value === '' || value === 'null') return null;
         if (value === 'true') return true;
         if (value === 'false') return false;
-        if (!isNaN(Number(value))) return Number(value);
+        const num = Number(value);
+        if (!isNaN(num) && isFinite(num)) return num;
         return value;
     }
 
