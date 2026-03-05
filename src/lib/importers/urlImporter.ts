@@ -66,6 +66,48 @@ function detectFormatFromUrl(url: string): 'csv' | 'json' | 'unknown' {
     return 'unknown';
 }
 
+/**
+ * Validate URL to prevent SSRF attacks.
+ * Only allows http/https schemes and blocks private/internal IP ranges.
+ */
+function validateUrl(url: string): void {
+    let parsed: URL;
+    try {
+        parsed = new URL(url);
+    } catch {
+        throw new Error('Invalid URL format');
+    }
+
+    // Only allow http and https schemes
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        throw new Error(`Unsupported URL scheme: ${parsed.protocol} — only http and https are allowed`);
+    }
+
+    // Block private/internal hostnames and IP ranges
+    const hostname = parsed.hostname.toLowerCase();
+    const blockedPatterns = [
+        /^localhost$/,
+        /^127\./,
+        /^10\./,
+        /^172\.(1[6-9]|2\d|3[01])\./,
+        /^192\.168\./,
+        /^169\.254\./,      // Link-local / cloud metadata
+        /^0\./,
+        /^\[::1\]$/,        // IPv6 loopback
+        /^\[fc/i,           // IPv6 private
+        /^\[fd/i,           // IPv6 private
+        /^\[fe80:/i,        // IPv6 link-local
+        /\.local$/,
+        /\.internal$/,
+    ];
+
+    for (const pattern of blockedPatterns) {
+        if (pattern.test(hostname)) {
+            throw new Error(`Blocked URL: requests to private/internal addresses are not allowed`);
+        }
+    }
+}
+
 export const urlImporter = {
     /**
      * Import from URL
@@ -74,29 +116,32 @@ export const urlImporter = {
         const startTime = Date.now();
         const warnings: string[] = [];
 
-        // Convert special URLs
-        let fetchUrl = url;
-        const originalUrl = url;
-
-        const googleSheetsUrl = convertGoogleSheetsUrl(url);
-        if (googleSheetsUrl) {
-            fetchUrl = googleSheetsUrl;
-            warnings.push('Converted Google Sheets URL to CSV export');
-        }
-
-        const googleDriveUrl = convertGoogleDriveUrl(url);
-        if (googleDriveUrl) {
-            fetchUrl = googleDriveUrl;
-            warnings.push('Converted Google Drive URL to direct download');
-        }
-
-        const dropboxUrl = convertDropboxUrl(url);
-        if (dropboxUrl) {
-            fetchUrl = dropboxUrl;
-            warnings.push('Converted Dropbox URL to direct download');
-        }
-
         try {
+            // Validate URL before any processing (inside try so errors become ImportResult)
+            validateUrl(url);
+
+            // Convert special URLs
+            let fetchUrl = url;
+            const originalUrl = url;
+
+            const googleSheetsUrl = convertGoogleSheetsUrl(url);
+            if (googleSheetsUrl) {
+                fetchUrl = googleSheetsUrl;
+                warnings.push('Converted Google Sheets URL to CSV export');
+            }
+
+            const googleDriveUrl = convertGoogleDriveUrl(url);
+            if (googleDriveUrl) {
+                fetchUrl = googleDriveUrl;
+                warnings.push('Converted Google Drive URL to direct download');
+            }
+
+            const dropboxUrl = convertDropboxUrl(url);
+            if (dropboxUrl) {
+                fetchUrl = dropboxUrl;
+                warnings.push('Converted Dropbox URL to direct download');
+            }
+
             // Create abort controller for timeout
             const controller = new AbortController();
             const timeoutId = setTimeout(

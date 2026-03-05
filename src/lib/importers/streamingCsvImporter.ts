@@ -114,10 +114,17 @@ function parseValue(value: string): unknown {
     if (trimmed.toLowerCase() === 'true') return true;
     if (trimmed.toLowerCase() === 'false') return false;
 
+    // Guard against Infinity/NaN coercion — these should remain strings
     const num = Number(trimmed);
-    if (!isNaN(num) && trimmed !== '') return num;
+    if (!isNaN(num) && trimmed !== '' && isFinite(num)) return num;
 
+    // Date handling aligned with csvImporter: preserve date-only strings to avoid timezone shifts
     if (/^\d{4}-\d{2}-\d{2}/.test(trimmed)) {
+        // Date-only format (YYYY-MM-DD) — preserve as-is
+        if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+            return trimmed;
+        }
+        // Full datetime — convert to ISO
         const date = new Date(trimmed);
         if (!isNaN(date.getTime())) return date.toISOString();
     }

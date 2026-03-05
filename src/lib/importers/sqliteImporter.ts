@@ -5,6 +5,12 @@
 
 import type { ImportResult, ImportOptions } from './index';
 
+/** Maximum SQLite file size: 100 MB (prevents browser tab crash on large files) */
+const MAX_SQLITE_FILE_SIZE = 100 * 1024 * 1024;
+
+/** Allowed file extensions for SQLite imports */
+const ALLOWED_SQLITE_EXTENSIONS = new Set(['db', 'sqlite', 'sqlite3']);
+
 export interface SQLiteImportOptions extends ImportOptions {
     tableName?: string;
     query?: string;
@@ -18,6 +24,18 @@ type Database = any;
 type SqlValue = any;
 
 let SQL: SqlJsStatic | null = null;
+
+/**
+ * Sanitize a SQLite identifier (table/column name) to prevent SQL injection.
+ * Only allows alphanumeric, underscores, hyphens, and spaces.
+ */
+function sanitizeSqlIdentifier(name: string): string {
+    if (!/^[a-zA-Z0-9_ -]+$/.test(name)) {
+        throw new Error(`Invalid identifier: "${name}" contains disallowed characters`);
+    }
+    // Double-quote escaping: replace any " with "" for safe use in "identifier"
+    return name.replace(/"/g, '""');
+}
 
 /**
  * Initialize SQL.js (loads WASM)
@@ -41,22 +59,24 @@ export const sqliteImporter = {
      * Get list of tables from database
      */
     async getTables(file: File): Promise<string[]> {
-        const SqlJs = await getSqlJs();
-        const buffer = await file.arrayBuffer();
-        const db = new SqlJs.Database(new Uint8Array(buffer));
-
+        let db: Database | null = null;
         try {
-            const result = db.exec(
-                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
-            );
+            const SqlJs = await getSqlJs();
+            const buffer = await file.arrayBuffer();
+            db = new SqlJs.Database(new Uint8Array(buffer));
+
+            const tableQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'";
+            const result = db.exec(tableQuery);
 
             if (result.length === 0 || !result[0].values) {
                 return [];
             }
 
             return result[0].values.map((row: SqlValue[]) => row[0] as string);
+        } catch {
+            return [];
         } finally {
-            db.close();
+            db?.close();
         }
     },
 
@@ -64,12 +84,14 @@ export const sqliteImporter = {
      * Get table schema
      */
     async getTableSchema(file: File, tableName: string): Promise<{ name: string; type: string }[]> {
-        const SqlJs = await getSqlJs();
-        const buffer = await file.arrayBuffer();
-        const db = new SqlJs.Database(new Uint8Array(buffer));
-
+        let db: Database | null = null;
         try {
-            const result = db.exec(`PRAGMA table_info("${tableName}")`);
+            const SqlJs = await getSqlJs();
+            const buffer = await file.arrayBuffer();
+            db = new SqlJs.Database(new Uint8Array(buffer));
+
+            const safeName = sanitizeSqlIdentifier(tableName);
+            const result = db.exec(`PRAGMA table_info("${safeName}")`);
 
             if (result.length === 0 || !result[0].values) {
                 return [];
@@ -79,8 +101,10 @@ export const sqliteImporter = {
                 name: row[1] as string,
                 type: row[2] as string
             }));
+        } catch {
+            return [];
         } finally {
-            db.close();
+            db?.close();
         }
     },
 
@@ -90,6 +114,53 @@ export const sqliteImporter = {
     async import(file: File, options: SQLiteImportOptions = {}): Promise<ImportResult> {
         const startTime = Date.now();
         const warnings: string[] = [];
+
+        // Extension validation
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        if (ext && !ALLOWED_SQLITE_EXTENSIONS.has(ext)) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'sqlite',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `Unsupported file extension ".${ext}". Expected one of: ${[...ALLOWED_SQLITE_EXTENSIONS].join(', ')}`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
+
+        // File size guard — prevents browser tab crash on very large files
+        if (file.size > MAX_SQLITE_FILE_SIZE) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'sqlite',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum supported size is ${MAX_SQLITE_FILE_SIZE / 1024 / 1024} MB.`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
 
         try {
             const SqlJs = await getSqlJs();
@@ -101,12 +172,27 @@ export const sqliteImporter = {
                 let tableName = options.tableName;
 
                 if (options.query) {
-                    // Use custom query
+                    // Whitelist: only allow SELECT and WITH (CTE) statements
+                    const upperQuery = options.query.toUpperCase().trim();
+                    if (!upperQuery.startsWith('SELECT') && !upperQuery.startsWith('WITH')) {
+                        throw new Error('Custom queries may only read data (SELECT statements)');
+                    }
+                    // Also block dangerous keywords even inside SELECT
+                    if (/\b(DROP|DELETE|INSERT|UPDATE|ALTER|CREATE|ATTACH|DETACH)\b/.test(upperQuery)) {
+                        throw new Error('Custom queries may only read data (SELECT statements)');
+                    }
                     query = options.query;
                 } else {
-                    // Find table to query
+                    // Find table to query — use the already-opened db to avoid double file read
                     if (!tableName) {
-                        const tables = await this.getTables(file);
+                        const tableResult = db.exec(
+                            "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+                        );
+
+                        const tables = (tableResult.length > 0 && tableResult[0].values)
+                            ? tableResult[0].values.map((row: SqlValue[]) => row[0] as string)
+                            : [];
+
                         if (tables.length === 0) {
                             return {
                                 success: false,
@@ -135,7 +221,8 @@ export const sqliteImporter = {
                     // Build query with limit/offset
                     const limit = options.maxRows || 10000;
                     const offset = options.skipRows || 0;
-                    query = `SELECT * FROM "${tableName}" LIMIT ${limit} OFFSET ${offset}`;
+                    const safeTableName = sanitizeSqlIdentifier(tableName!);
+                    query = `SELECT * FROM "${safeTableName}" LIMIT ${limit} OFFSET ${offset}`;
                 }
 
                 // Execute query

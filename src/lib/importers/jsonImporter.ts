@@ -5,6 +5,12 @@
 
 import type { ImportResult, ImportOptions } from './index';
 
+/** Maximum JSON file size: 100 MB (full in-memory parse) */
+const MAX_JSON_FILE_SIZE = 100 * 1024 * 1024;
+
+/** Allowed file extensions for JSON imports */
+const ALLOWED_JSON_EXTENSIONS = new Set(['json', 'ndjson', 'jsonl']);
+
 export interface JSONImportOptions extends ImportOptions {
     isNDJSON?: boolean;
     dataPath?: string; // Path to data array (e.g., "data", "results", "items")
@@ -112,15 +118,74 @@ export const jsonImporter = {
      */
     async import(file: File, options: JSONImportOptions = {}): Promise<ImportResult> {
         const startTime = Date.now();
-        const content = await file.text();
         const errors: ImportResult['errors'] = [];
         const warnings: string[] = [];
 
+        // Extension validation
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        if (ext && !ALLOWED_JSON_EXTENSIONS.has(ext)) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'json',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `Unsupported file extension ".${ext}". Expected one of: ${[...ALLOWED_JSON_EXTENSIONS].join(', ')}`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
+
+        // File size guard — prevents browser tab crash on very large files
+        if (file.size > MAX_JSON_FILE_SIZE) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'json',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum supported size is ${MAX_JSON_FILE_SIZE / 1024 / 1024} MB.`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
+
+        const content = await file.text();
+
         let rawData: Record<string, unknown>[];
 
-        // Check if NDJSON (each line is a JSON object)
-        const isNDJSON = options.isNDJSON ||
-            (content.trim().startsWith('{') && !content.trim().endsWith('}'));
+        // Detect NDJSON: explicit option, or content has multiple lines each starting with '{'
+        // Previous heuristic was fragile (a single JSON object with internal newlines could be misdetected)
+        const isNDJSON = options.isNDJSON || ((): boolean => {
+            const trimmed = content.trim();
+            if (!trimmed.startsWith('{')) return false;
+            // Check if there are multiple lines each starting with '{'
+            const lines = trimmed.split('\n').filter(l => l.trim().length > 0);
+            if (lines.length < 2) return false;
+            // NDJSON: every non-empty line should start with '{' and end with '}'
+            return lines.every(l => {
+                const lt = l.trim();
+                return lt.startsWith('{') && lt.endsWith('}');
+            });
+        })();
 
         if (isNDJSON) {
             const result = parseNDJSON(content);

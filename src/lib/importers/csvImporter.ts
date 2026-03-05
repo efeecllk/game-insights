@@ -6,6 +6,12 @@
 import Papa from 'papaparse';
 import type { ImportResult, ImportOptions } from './index';
 
+/** Maximum CSV file size for in-memory parsing: 100 MB */
+const MAX_CSV_FILE_SIZE = 100 * 1024 * 1024;
+
+/** Allowed file extensions for CSV imports */
+const ALLOWED_CSV_EXTENSIONS = new Set(['csv', 'tsv', 'txt']);
+
 export interface CSVImportOptions extends ImportOptions {
     delimiter?: string;
     quoteChar?: string;
@@ -95,9 +101,9 @@ function parseValue(value: string): unknown {
     if (trimmed.toLowerCase() === 'true') return true;
     if (trimmed.toLowerCase() === 'false') return false;
 
-    // Number
+    // Number — guard against Infinity/NaN coercion
     const num = Number(trimmed);
-    if (!isNaN(num) && trimmed !== '') return num;
+    if (!isNaN(num) && trimmed !== '' && isFinite(num)) return num;
 
     // Date (ISO format or common formats)
     // CRITICAL FIX: For date-only strings, preserve as-is to avoid timezone issues
@@ -121,6 +127,54 @@ export const csvImporter = {
      */
     async import(file: File, options: CSVImportOptions = {}): Promise<ImportResult> {
         const startTime = Date.now();
+
+        // Extension validation
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        if (ext && !ALLOWED_CSV_EXTENSIONS.has(ext)) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'csv',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `Unsupported file extension ".${ext}". Expected one of: ${[...ALLOWED_CSV_EXTENSIONS].join(', ')}`,
+                    severity: 'error'
+                }],
+                warnings: []
+            };
+        }
+
+        // File size guard — prevents browser tab crash on very large files
+        if (file.size > MAX_CSV_FILE_SIZE) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: 'csv',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum supported size is ${MAX_CSV_FILE_SIZE / 1024 / 1024} MB. Use streaming import for larger files.`,
+                    severity: 'error'
+                }],
+                warnings: []
+            };
+        }
+
         const content = await file.text();
         const errors: ImportResult['errors'] = [];
         const warnings: string[] = [];

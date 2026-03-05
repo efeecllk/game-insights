@@ -106,6 +106,53 @@ export function isFormatSupported(file: File): boolean {
     return detectFileFormat(file) !== 'unknown';
 }
 
+/**
+ * Validate file MIME type against the detected format.
+ * Returns null if valid, or an error message string if the MIME type is suspicious.
+ *
+ * Note: CSV and JSON are intentionally not checked because browsers report them
+ * as text/plain in many legitimate cases. Excel and SQLite have deterministic
+ * MIME types and are checked strictly.
+ */
+export function validateFileMimeType(file: File): string | null {
+    const format = detectFileFormat(file);
+    const mime = file.type.toLowerCase();
+
+    switch (format) {
+        case 'xlsx':
+            // Excel 2007+: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+            if (mime && mime !== '' &&
+                !mime.includes('spreadsheetml') &&
+                !mime.includes('excel') &&
+                !mime.includes('octet-stream') &&
+                !mime.includes('zip')) {
+                return `Unexpected MIME type "${file.type}" for .xlsx file. The file may be corrupted or misnamed.`;
+            }
+            break;
+        case 'xls':
+            // Legacy Excel: application/vnd.ms-excel
+            if (mime && mime !== '' &&
+                !mime.includes('ms-excel') &&
+                !mime.includes('excel') &&
+                !mime.includes('octet-stream')) {
+                return `Unexpected MIME type "${file.type}" for .xls file. The file may be corrupted or misnamed.`;
+            }
+            break;
+        case 'sqlite':
+            // SQLite: application/x-sqlite3, application/vnd.sqlite3, or octet-stream
+            if (mime && mime !== '' &&
+                !mime.includes('sqlite') &&
+                !mime.includes('octet-stream')) {
+                return `Unexpected MIME type "${file.type}" for SQLite file. The file may be corrupted or misnamed.`;
+            }
+            break;
+        // csv, tsv, json, ndjson: MIME types are unreliable (often text/plain), skip check
+        default:
+            break;
+    }
+    return null;
+}
+
 // Export all importers
 export { csvImporter, type CSVImportOptions } from './csvImporter';
 export { jsonImporter, type JSONImportOptions } from './jsonImporter';
@@ -140,6 +187,29 @@ export async function importFile(
 ): Promise<ImportResult> {
     const startTime = Date.now();
     const format = detectFileFormat(file);
+
+    // Validate MIME type before parsing (warns on mismatch for Excel/SQLite)
+    const mimeError = validateFileMimeType(file);
+    if (mimeError) {
+        return {
+            success: false,
+            data: [],
+            columns: [],
+            rowCount: 0,
+            metadata: {
+                source: 'file',
+                fileName: file.name,
+                fileSize: file.size,
+                importedAt: new Date().toISOString(),
+                processingTimeMs: Date.now() - startTime
+            },
+            errors: [{
+                message: mimeError,
+                severity: 'error'
+            }],
+            warnings: []
+        };
+    }
 
     try {
         let result: ImportResult;

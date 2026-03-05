@@ -6,6 +6,12 @@
 import * as XLSX from 'xlsx';
 import type { ImportResult, ImportOptions } from './index';
 
+/** Maximum Excel file size: 100 MB (full in-memory parse) */
+const MAX_EXCEL_FILE_SIZE = 100 * 1024 * 1024;
+
+/** Allowed file extensions for Excel imports */
+const ALLOWED_EXCEL_EXTENSIONS = new Set(['xlsx', 'xls']);
+
 export interface ExcelImportOptions extends ImportOptions {
     sheetIndex?: number;
     sheetName?: string;
@@ -51,9 +57,13 @@ export const excelImporter = {
      * Get list of sheet names from file
      */
     async getSheets(file: File): Promise<string[]> {
-        const buffer = await file.arrayBuffer();
-        const workbook = XLSX.read(buffer, { type: 'array' });
-        return workbook.SheetNames;
+        try {
+            const buffer = await file.arrayBuffer();
+            const workbook = XLSX.read(buffer, { type: 'array' });
+            return workbook.SheetNames;
+        } catch {
+            return [];
+        }
     },
 
     /**
@@ -62,6 +72,53 @@ export const excelImporter = {
     async import(file: File, options: ExcelImportOptions = {}): Promise<ImportResult> {
         const startTime = Date.now();
         const warnings: string[] = [];
+
+        // Extension validation
+        const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+        if (ext && !ALLOWED_EXCEL_EXTENSIONS.has(ext)) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: ext,
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `Unsupported file extension ".${ext}". Expected one of: ${[...ALLOWED_EXCEL_EXTENSIONS].join(', ')}`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
+
+        // File size guard — prevents browser tab crash on very large files
+        if (file.size > MAX_EXCEL_FILE_SIZE) {
+            return {
+                success: false,
+                data: [],
+                columns: [],
+                rowCount: 0,
+                metadata: {
+                    source: 'file',
+                    fileName: file.name,
+                    fileSize: file.size,
+                    format: file.name.endsWith('.xlsx') ? 'xlsx' : 'xls',
+                    importedAt: new Date().toISOString(),
+                    processingTimeMs: Date.now() - startTime
+                },
+                errors: [{
+                    message: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum supported size is ${MAX_EXCEL_FILE_SIZE / 1024 / 1024} MB.`,
+                    severity: 'error'
+                }],
+                warnings
+            };
+        }
 
         try {
             const buffer = await file.arrayBuffer();
