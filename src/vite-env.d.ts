@@ -7,6 +7,7 @@ interface ImportMetaEnv {
     readonly VITE_GA_MEASUREMENT_ID?: string;
     readonly VITE_DEMO_MODE?: string;
     readonly VITE_EXPERIMENTAL_FEATURES?: string;
+    readonly VITE_OLLAMA_URL?: string;
 }
 
 interface ImportMeta {

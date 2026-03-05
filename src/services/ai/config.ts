@@ -3,14 +3,29 @@ import { AIConfig, AIProvider, DEFAULT_AI_CONFIG } from './types';
 const AI_CONFIG_KEY = 'game-insights-ai-config';
 
 /**
- * Load AI configuration from localStorage
+ * Read a VITE_ environment variable (returns undefined if unavailable).
+ * Works in both Vite dev server and production builds.
+ */
+function envVar(name: string): string | undefined {
+  try {
+    // import.meta.env is injected by Vite at build time
+    const value = (import.meta as unknown as { env?: Record<string, string> }).env?.[name];
+    return value && value.length > 0 ? value : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Load AI configuration from localStorage, with VITE_ env-var fallbacks
+ * for API keys so developers can set keys in .env without manual UI config.
  */
 export function loadAIConfig(): AIConfig {
   try {
     const stored = localStorage.getItem(AI_CONFIG_KEY);
     if (stored) {
       const parsed = JSON.parse(stored) as Partial<AIConfig>;
-      return {
+      const config: AIConfig = {
         ...DEFAULT_AI_CONFIG,
         ...parsed,
         apiKeys: {
@@ -26,11 +41,32 @@ export function loadAIConfig(): AIConfig {
           ...parsed.triggers,
         },
       };
+
+      // Fall back to VITE_ env vars when localStorage has no key stored
+      if (!config.apiKeys.openai) {
+        config.apiKeys.openai = envVar('VITE_OPENAI_API_KEY');
+      }
+      if (!config.apiKeys.anthropic) {
+        config.apiKeys.anthropic = envVar('VITE_ANTHROPIC_API_KEY');
+      }
+      if (config.ollamaEndpoint === DEFAULT_AI_CONFIG.ollamaEndpoint) {
+        config.ollamaEndpoint = envVar('VITE_OLLAMA_URL') ?? config.ollamaEndpoint;
+      }
+
+      return config;
     }
   } catch (error) {
     console.error('Failed to load AI config:', error);
   }
-  return { ...DEFAULT_AI_CONFIG };
+
+  // No stored config — build from defaults + env vars
+  const config = { ...DEFAULT_AI_CONFIG };
+  config.apiKeys = {
+    openai: envVar('VITE_OPENAI_API_KEY'),
+    anthropic: envVar('VITE_ANTHROPIC_API_KEY'),
+  };
+  config.ollamaEndpoint = envVar('VITE_OLLAMA_URL') ?? config.ollamaEndpoint;
+  return config;
 }
 
 /**
@@ -130,15 +166,16 @@ export function isProviderConfigured(provider: AIProvider): boolean {
 export function getAvailableModels(provider: AIProvider): string[] {
   switch (provider) {
     case 'openai':
-      return ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo', 'gpt-3.5-turbo'];
+      return ['gpt-4o', 'gpt-4o-mini', 'gpt-4-turbo'];
     case 'anthropic':
       return [
+        'claude-sonnet-4-6',
+        'claude-haiku-4-5-20251001',
         'claude-3-5-sonnet-20241022',
-        'claude-3-sonnet-20240229',
         'claude-3-haiku-20240307',
       ];
     case 'ollama':
-      return ['llama3', 'llama3.1', 'mistral', 'mixtral', 'codellama', 'phi3'];
+      return ['llama3.1', 'llama3', 'mistral', 'mixtral', 'codellama', 'phi3'];
     default:
       return [];
   }
