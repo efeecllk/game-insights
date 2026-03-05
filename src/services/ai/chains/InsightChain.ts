@@ -14,7 +14,7 @@ import type {
   ColumnInfo,
   RevenueImpact,
 } from '../types';
-import type { BaseAIProvider } from '../providers';
+import { BaseAIProvider } from '../providers/BaseProvider';
 import { INSIGHT_SYSTEM_PROMPT, buildInsightPrompt } from '../prompts/insightPrompts';
 
 // Zod schema for validating LLM output
@@ -99,27 +99,7 @@ export class InsightChain {
       const validatedInsights = this.validateInsights(parsed);
 
       // Transform to full AIInsight objects
-      const insights: AIInsight[] = validatedInsights.slice(0, maxInsights).map((insight, index) => ({
-        id: `insight-${Date.now()}-${index}`,
-        projectId,
-        gameType,
-        generatedAt: new Date().toISOString(),
-        source: 'ai' as const,
-        provider: this.provider.providerName,
-        model: this.provider.modelName,
-        type: insight.type as InsightType,
-        category: insight.category as InsightCategory,
-        title: insight.title,
-        description: insight.description,
-        recommendation: insight.recommendation,
-        priority: insight.priority,
-        confidence: insight.confidence,
-        businessImpact: insight.businessImpact as BusinessImpact,
-        revenueImpact: insight.revenueImpact as RevenueImpact | undefined,
-        evidence: insight.evidence || [],
-        tags: insight.tags || this.generateTags(insight),
-        metricName: insight.metricName,
-      }));
+      const insights = this.mapToAIInsights(validatedInsights, projectId, gameType, maxInsights);
 
       return {
         insights,
@@ -136,23 +116,10 @@ export class InsightChain {
   }
 
   /**
-   * Parse the LLM response to extract JSON
+   * Parse the LLM response to extract JSON (delegates to shared parser)
    */
   private parseResponse(response: string): unknown {
-    // Try to find JSON in the response
-    const jsonMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonString = jsonMatch ? jsonMatch[1].trim() : response.trim();
-
-    try {
-      return JSON.parse(jsonString);
-    } catch {
-      // Try to find a JSON object in the response
-      const objectMatch = jsonString.match(/\{[\s\S]*\}/);
-      if (objectMatch) {
-        return JSON.parse(objectMatch[0]);
-      }
-      throw new Error('Failed to parse JSON from response');
-    }
+    return BaseAIProvider.parseJSONResponse<unknown>(response);
   }
 
   /**
@@ -220,6 +187,38 @@ export class InsightChain {
   }
 
   /**
+   * Map validated insights to full AIInsight objects
+   */
+  private mapToAIInsights(
+    validated: z.infer<typeof InsightSchema>[],
+    projectId: string,
+    gameType: GameCategory,
+    maxInsights: number
+  ): AIInsight[] {
+    return validated.slice(0, maxInsights).map((insight, index) => ({
+      id: `insight-${Date.now()}-${index}`,
+      projectId,
+      gameType,
+      generatedAt: new Date().toISOString(),
+      source: 'ai' as const,
+      provider: this.provider.providerName,
+      model: this.provider.modelName,
+      type: insight.type as InsightType,
+      category: insight.category as InsightCategory,
+      title: insight.title,
+      description: insight.description,
+      recommendation: insight.recommendation,
+      priority: insight.priority,
+      confidence: insight.confidence,
+      businessImpact: insight.businessImpact as BusinessImpact,
+      revenueImpact: insight.revenueImpact as RevenueImpact | undefined,
+      evidence: insight.evidence || [],
+      tags: insight.tags || this.generateTags(insight),
+      metricName: insight.metricName,
+    }));
+  }
+
+  /**
    * Stream insight generation (for real-time UI updates)
    */
   async *runStream(input: InsightChainInput): AsyncGenerator<string, InsightChainOutput, unknown> {
@@ -248,28 +247,7 @@ export class InsightChain {
 
       const parsed = this.parseResponse(fullResponse);
       const validatedInsights = this.validateInsights(parsed);
-
-      const insights: AIInsight[] = validatedInsights.slice(0, maxInsights).map((insight, index) => ({
-        id: `insight-${Date.now()}-${index}`,
-        projectId,
-        gameType,
-        generatedAt: new Date().toISOString(),
-        source: 'ai' as const,
-        provider: this.provider.providerName,
-        model: this.provider.modelName,
-        type: insight.type as InsightType,
-        category: insight.category as InsightCategory,
-        title: insight.title,
-        description: insight.description,
-        recommendation: insight.recommendation,
-        priority: insight.priority,
-        confidence: insight.confidence,
-        businessImpact: insight.businessImpact as BusinessImpact,
-        revenueImpact: insight.revenueImpact as RevenueImpact | undefined,
-        evidence: insight.evidence || [],
-        tags: insight.tags || this.generateTags(insight),
-        metricName: insight.metricName,
-      }));
+      const insights = this.mapToAIInsights(validatedInsights, projectId, gameType, maxInsights);
 
       return {
         insights,

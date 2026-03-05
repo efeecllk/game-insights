@@ -25,7 +25,7 @@ export class AnthropicProvider extends BaseAIProvider {
   private apiKey: string;
   private baseUrl = 'https://api.anthropic.com/v1';
 
-  constructor(apiKey: string, model: string = 'claude-3-haiku-20240307') {
+  constructor(apiKey: string, model: string = 'claude-haiku-4-5-20251001') {
     super('anthropic', model);
     this.apiKey = apiKey;
   }
@@ -36,13 +36,15 @@ export class AnthropicProvider extends BaseAIProvider {
   }
 
   /**
-   * Generate text using the Anthropic API directly
+   * Generate text using the Anthropic API directly (with retry)
    */
   async generate(prompt: string, options?: GenerateOptions): Promise<string> {
     const messages: AnthropicMessage[] = [{ role: 'user', content: prompt }];
 
-    const response = await this.makeRequest(messages, options);
-    return response.content[0]?.text || '';
+    return this.withRetry(async () => {
+      const response = await this.makeRequest(messages, options);
+      return response.content[0]?.text || '';
+    });
   }
 
   /**
@@ -179,32 +181,36 @@ You are a JSON generation assistant. Always respond with valid JSON only. No mar
   }
 
   /**
-   * Make a request to the Anthropic API
+   * Make a request to the Anthropic API (with timeout)
    */
   private async makeRequest(
     messages: AnthropicMessage[],
     options?: GenerateOptions
   ): Promise<AnthropicResponse> {
-    const response = await fetch(`${this.baseUrl}/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': this.apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true',
+    const response = await this.fetchWithTimeout(
+      `${this.baseUrl}/messages`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': this.apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: this.model,
+          max_tokens: options?.maxTokens || 4096,
+          temperature: options?.temperature ?? 0.7,
+          system: options?.systemPrompt || '',
+          messages,
+        }),
       },
-      body: JSON.stringify({
-        model: this.model,
-        max_tokens: options?.maxTokens || 4096,
-        temperature: options?.temperature ?? 0.7,
-        system: options?.systemPrompt || '',
-        messages,
-      }),
-    });
+      options?.timeoutMs
+    );
 
     if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Anthropic API error: ${response.status} - ${error}`);
+      const errorBody = await response.text().catch(() => 'unknown');
+      throw new Error(`Anthropic API error: ${response.status} - ${errorBody}`);
     }
 
     return response.json();

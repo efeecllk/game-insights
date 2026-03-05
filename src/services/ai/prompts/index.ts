@@ -10,4 +10,6 @@ export {
   QA_SYSTEM_PROMPT,
   buildChatContext,
   generateSuggestions,
+  buildToolRequestPrompt,
+  parseToolCalls,
 } from './qaPrompts';

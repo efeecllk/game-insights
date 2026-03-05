@@ -11,6 +11,8 @@ import type {
 } from './types';
 import { loadAIConfig, saveAIConfig } from './config';
 import { ProviderFactory, type BaseAIProvider, type GenerateOptions } from './providers';
+import { INSIGHT_SYSTEM_PROMPT, buildInsightPrompt } from './prompts/insightPrompts';
+import { QA_SYSTEM_PROMPT } from './prompts/qaPrompts';
 
 /**
  * Main AI Service facade that orchestrates all AI functionality
@@ -217,40 +219,15 @@ export class AIService {
       };
     }
 
-    // This is a placeholder - will be replaced with InsightChain in Phase 2
-    const systemPrompt = `You are a game analytics expert. Analyze the provided game data and generate actionable insights.
-Focus on:
-- Retention metrics and churn risks
-- Monetization opportunities
-- Player engagement patterns
-- Game balance issues
-- Quality concerns
+    // Reuse the shared prompt definitions from prompts/insightPrompts
+    const systemPrompt = INSIGHT_SYSTEM_PROMPT;
 
-Return your response as a JSON array of insights with this structure:
-{
-  "insights": [
-    {
-      "type": "positive|negative|neutral|warning|opportunity",
-      "category": "retention|monetization|engagement|progression|quality",
-      "title": "Brief title",
-      "description": "Detailed description",
-      "recommendation": "Specific action to take",
-      "priority": 1-10,
-      "confidence": 0-1,
-      "businessImpact": "high|medium|low",
-      "evidence": ["Supporting data point 1", "Supporting data point 2"],
-      "tags": ["Tag1", "Tag2"]
-    }
-  ]
-}`;
-
-    const prompt = `Analyze this game data:
-Game Type: ${request.gameType}
-Columns: ${request.columns.map((c) => `${c.name} (${c.semanticType || c.type})`).join(', ')}
-Sample Data (first 5 rows): ${JSON.stringify(request.data.slice(0, 5), null, 2)}
-${request.existingMetrics ? `Existing Metrics: ${JSON.stringify(request.existingMetrics)}` : ''}
-
-Generate 3-5 actionable insights.`;
+    const prompt = buildInsightPrompt({
+      gameType: request.gameType,
+      columns: request.columns,
+      sampleData: request.data.slice(0, 5),
+      existingMetrics: request.existingMetrics,
+    });
 
     try {
       const response = await this.generateJSON<{ insights: Partial<AIInsight>[] }>(prompt, {
@@ -294,34 +271,44 @@ Generate 3-5 actionable insights.`;
 
   /**
    * Chat with the AI about the data
-   * This will be enhanced in Phase 5 with proper Q&A chain
    */
   async chat(request: ChatRequest): Promise<ChatResponse> {
     if (!this.provider) {
       throw new Error('AI provider not configured');
     }
 
-    const systemPrompt = `You are a game analytics assistant. Help the user understand their game data and provide actionable insights.
-Current context:
-- Page: ${request.context?.currentPage || 'Unknown'}
-- Available insights: ${request.context?.insights?.length || 0}
+    // Reuse the shared QA system prompt, with minimal request-specific context appended
+    const systemPrompt = `${QA_SYSTEM_PROMPT}
 
-Be concise and helpful. Suggest follow-up actions when appropriate.`;
+Context: Page=${request.context?.currentPage || 'Unknown'}, Insights=${request.context?.insights?.length || 0}.`;
 
-    const response = await this.generate(request.message, {
-      systemPrompt,
-      temperature: 0.7,
-    });
+    try {
+      const response = await this.generate(request.message, {
+        systemPrompt,
+        temperature: 0.7,
+      });
 
-    const message: ChatMessage = {
-      id: `msg-${Date.now()}`,
-      projectId: request.projectId,
-      role: 'assistant',
-      content: response,
-      timestamp: new Date().toISOString(),
-    };
+      const message: ChatMessage = {
+        id: `msg-${Date.now()}`,
+        projectId: request.projectId,
+        role: 'assistant',
+        content: response,
+        timestamp: new Date().toISOString(),
+      };
 
-    return { message };
+      return { message };
+    } catch (error) {
+      console.error('Chat generation failed:', error);
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      const message: ChatMessage = {
+        id: `msg-${Date.now()}`,
+        projectId: request.projectId,
+        role: 'assistant',
+        content: `Sorry, I encountered an error: ${errorMsg}. Please try again.`,
+        timestamp: new Date().toISOString(),
+      };
+      return { message };
+    }
   }
 
   /**

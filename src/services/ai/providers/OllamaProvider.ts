@@ -36,15 +36,14 @@ export class OllamaProvider extends BaseAIProvider {
     this.endpoint = endpoint;
   }
 
-  getChatModel(): BaseChatModel {
-    // Ollama doesn't have a LangChain integration we want to use
-    // We'll implement the methods directly
-    throw new Error('OllamaProvider uses direct HTTP API, not LangChain model');
+  getChatModel(): BaseChatModel | null {
+    // Ollama uses direct HTTP API, not LangChain model
+    return null;
   }
 
   async testConnection(): Promise<boolean> {
     try {
-      const response = await fetch(`${this.endpoint}/api/tags`);
+      const response = await this.fetchWithTimeout(`${this.endpoint}/api/tags`, {}, 5000);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
@@ -74,28 +73,32 @@ export class OllamaProvider extends BaseAIProvider {
       content: prompt,
     });
 
-    const response = await fetch(`${this.endpoint}/api/chat`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: this.model,
-        messages,
-        stream: false,
-        options: {
-          temperature: options?.temperature ?? 0.7,
-          num_predict: options?.maxTokens,
+    return this.withRetry(async () => {
+      const response = await this.fetchWithTimeout(
+        `${this.endpoint}/api/chat`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: this.model,
+            messages,
+            stream: false,
+            options: {
+              temperature: options?.temperature ?? 0.7,
+              num_predict: options?.maxTokens,
+            },
+          }),
         },
-      }),
+        options?.timeoutMs
+      );
+
+      if (!response.ok) {
+        throw new Error(`Ollama API error: ${response.status}`);
+      }
+
+      const data = (await response.json()) as OllamaResponse;
+      return data.message.content;
     });
-
-    if (!response.ok) {
-      throw new Error(`Ollama API error: ${response.status}`);
-    }
-
-    const data = (await response.json()) as OllamaResponse;
-    return data.message.content;
   }
 
   async *generateStream(

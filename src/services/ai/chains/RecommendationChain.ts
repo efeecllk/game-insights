@@ -8,7 +8,7 @@
 import { z } from 'zod';
 import type { GameCategory } from '@/types';
 import type { AIInsight, InsightCategory } from '../types';
-import type { BaseAIProvider } from '../providers';
+import { BaseAIProvider } from '../providers/BaseProvider';
 import { buildRecommendationPrompt, categoryPrompts } from '../prompts/insightPrompts';
 
 const RecommendationSchema = z.object({
@@ -190,18 +190,7 @@ Expand this into detailed, actionable steps.`;
   }
 
   private parseResponse(response: string): unknown {
-    const jsonMatch = response.match(/```(?:json)?\s*([\s\S]*?)```/);
-    const jsonString = jsonMatch ? jsonMatch[1].trim() : response.trim();
-
-    try {
-      return JSON.parse(jsonString);
-    } catch {
-      const objectMatch = jsonString.match(/\{[\s\S]*\}/);
-      if (objectMatch) {
-        return JSON.parse(objectMatch[0]);
-      }
-      throw new Error('Failed to parse JSON from response');
-    }
+    return BaseAIProvider.parseJSONResponse<unknown>(response);
   }
 
   private validateRecommendations(parsed: unknown): z.infer<typeof RecommendationSchema>[] {

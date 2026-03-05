@@ -28,7 +28,7 @@ export const DEFAULT_AI_CONFIG: AIConfig = {
   apiKeys: {},
   models: {
     openai: 'gpt-4o-mini',
-    anthropic: 'claude-3-haiku-20240307',
+    anthropic: 'claude-haiku-4-5-20251001',
     ollama: 'llama3',
   },
   triggers: {

@@ -92,6 +92,28 @@ export type {
     QuestionResult
 } from './QuestionAnswering';
 
+// ============ PHASE 5 MODULES ============
+
+// Recommendation Engine
+export { recommendationEngine, RecommendationEngine } from './RecommendationEngine';
+export type {
+    RecommendationCategory,
+    RecommendationPriority,
+    Recommendation as EngineRecommendation,
+    RecommendationAction,
+    ImpactEstimate,
+} from './RecommendationEngine';
+
+// Report Generator
+export { reportGenerator, ReportGenerator } from './ReportGenerator';
+export type {
+    ReportType,
+    ReportFormat,
+    ReportMetrics,
+    ReportData,
+    GeneratedReport,
+} from './ReportGenerator';
+
 // ============ NEW PHASE 7 MODULES ============
 
 // Monetization Analyzer
