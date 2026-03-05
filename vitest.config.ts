@@ -18,8 +18,11 @@ export default defineConfig({
         globals: true,
         environment: 'jsdom',
         setupFiles: ['./tests/setup.ts'],
-        include: ['tests/**/*.{test,spec}.{ts,tsx}'],
-        exclude: ['node_modules', 'dist', 'tests/e2e'],
+        include: [
+            'src/**/*.{test,spec}.{ts,tsx}',
+            'tests/**/*.{test,spec}.{ts,tsx}',
+        ],
+        exclude: ['**/node_modules/**', '**/dist/**', 'tests/e2e/**'],
 
         // Use forks instead of threads - cleaner process exit
         pool: 'forks',
@@ -60,10 +63,6 @@ export default defineConfig({
                 functions: 30,
                 lines: 3,
             },
-        },
-        // Mock IndexedDB for browser APIs
-        deps: {
-            inline: ['vitest-canvas-mock'],
         },
     },
 });

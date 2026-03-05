@@ -86,6 +86,16 @@ export default defineConfig(({ mode }) => ({
                         id.includes('node_modules/react-i18next')) {
                         return 'vendor-i18n';
                     }
+                    // AI / LangChain - large deps, lazy-loaded with AI features
+                    if (id.includes('node_modules/@langchain/') ||
+                        id.includes('node_modules/@anthropic-ai/') ||
+                        id.includes('node_modules/openai/')) {
+                        return 'vendor-ai';
+                    }
+                    // Zod - schema validation used by AI chains
+                    if (id.includes('node_modules/zod/')) {
+                        return 'vendor-utils';
+                    }
                     // Icons - tree-shaken per icon
                     if (id.includes('node_modules/lucide-react')) {
                         return 'vendor-icons';
