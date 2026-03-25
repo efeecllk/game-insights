@@ -1,5 +1,8 @@
 /**
- * Adapter Module Exports
+ * Adapter module exports.
+ *
+ * This is the narrow public surface for built-in adapters and shared adapter
+ * base types. Keep the list explicit so the module stays predictable.
  */
 
 // Base

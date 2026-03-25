@@ -2,7 +2,7 @@
  * Industry Module - Multi-industry analytics abstraction layer
  *
  * This module provides the foundation for industry-agnostic analytics.
- * It defines types, registry, and detection for different industry packs.
+ * It defines types, registry, detection, and the built-in pack surface.
  */
 
 // Core types
@@ -22,5 +22,16 @@ export type { PackExportMetadata, ExportedPack, ImportValidation } from './PackE
 // Pack development kit
 export { PackDevKit, createPack, extendPack } from './PackDevKit';
 
-// Industry packs
-export * from './packs';
+// Built-in industry packs
+export {
+  GamingPack,
+  loadGamingPack,
+  SaaSPack,
+  loadSaaSPack,
+  EcommercePack,
+  loadEcommercePack,
+  FintechPack,
+  loadFintechPack,
+  registerBuiltInPacks,
+  getBuiltInPacks,
+} from './packs';

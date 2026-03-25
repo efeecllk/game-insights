@@ -1,5 +1,9 @@
 /**
  * Plugin System Exports
+ *
+ * This barrel is intentionally limited to the plugin types, guards, and
+ * registry used by the app. More specialized plugin implementation details
+ * should stay in their own modules.
  * Phase 4: Community & Ecosystem
  */
 

@@ -1,6 +1,9 @@
 /**
- * OpenAI Service - API wrapper for AI operations
- * Handles column analysis and insight generation
+ * Legacy OpenAI compatibility wrapper.
+ *
+ * New provider-backed AI work should use `src/services/ai/*` directly.
+ * This module remains because column analysis and settings validation still
+ * rely on the OpenAI HTTP flow.
  */
 
 export interface ColumnMapping {

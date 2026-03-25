@@ -3,155 +3,23 @@
  * Unified interface for importing data from any source
  */
 
-export interface ImportResult {
-    success: boolean;
-    data: Record<string, unknown>[];
-    columns: string[];
-    rowCount: number;
-    metadata: ImportMetadata;
-    errors: ImportError[];
-    warnings: string[];
-}
+export type {
+    ImportResult,
+    ImportMetadata,
+    ImportError,
+    ImportSource,
+    FileFormat,
+    ImportOptions,
+} from './internal/types';
 
-export interface ImportMetadata {
-    source: ImportSource;
-    fileName?: string;
-    fileSize?: number;
-    encoding?: string;
-    format?: string;
-    delimiter?: string;
-    sheetName?: string;
-    importedAt: string;
-    processingTimeMs: number;
-    /** For folder imports: name of the folder */
-    folderName?: string;
-    /** For folder imports: index of this file in the folder */
-    fileIndex?: number;
-    /** For folder imports: total files in folder */
-    totalFilesInFolder?: number;
-}
+export {
+    detectFileFormat,
+    getSupportedExtensions,
+    isFormatSupported,
+    validateFileMimeType,
+} from './internal/fileFormat';
 
-export interface ImportError {
-    line?: number;
-    column?: string;
-    message: string;
-    severity: 'error' | 'warning';
-}
-
-export type ImportSource =
-    | 'file'
-    | 'folder'
-    | 'url'
-    | 'clipboard'
-    | 'api';
-
-export type FileFormat =
-    | 'csv'
-    | 'json'
-    | 'ndjson'
-    | 'xlsx'
-    | 'xls'
-    | 'sqlite'
-    | 'tsv'
-    | 'unknown';
-
-export interface ImportOptions {
-    encoding?: string;
-    delimiter?: string;
-    hasHeader?: boolean;
-    sheetIndex?: number;
-    sheetName?: string;
-    tableName?: string;
-    maxRows?: number;
-    skipRows?: number;
-}
-
-/**
- * Detect file format from extension and content
- */
-export function detectFileFormat(file: File): FileFormat {
-    const ext = file.name.split('.').pop()?.toLowerCase();
-
-    switch (ext) {
-        case 'csv': return 'csv';
-        case 'tsv': return 'tsv';
-        case 'json': return 'json';
-        case 'ndjson':
-        case 'jsonl': return 'ndjson';
-        case 'xlsx': return 'xlsx';
-        case 'xls': return 'xls';
-        case 'db':
-        case 'sqlite':
-        case 'sqlite3': return 'sqlite';
-        default: return 'unknown';
-    }
-}
-
-/**
- * Get supported file extensions
- */
-export function getSupportedExtensions(): string[] {
-    return [
-        '.csv', '.tsv',
-        '.json', '.ndjson', '.jsonl',
-        '.xlsx', '.xls',
-        '.db', '.sqlite', '.sqlite3'
-    ];
-}
-
-/**
- * Check if file format is supported
- */
-export function isFormatSupported(file: File): boolean {
-    return detectFileFormat(file) !== 'unknown';
-}
-
-/**
- * Validate file MIME type against the detected format.
- * Returns null if valid, or an error message string if the MIME type is suspicious.
- *
- * Note: CSV and JSON are intentionally not checked because browsers report them
- * as text/plain in many legitimate cases. Excel and SQLite have deterministic
- * MIME types and are checked strictly.
- */
-export function validateFileMimeType(file: File): string | null {
-    const format = detectFileFormat(file);
-    const mime = file.type.toLowerCase();
-
-    switch (format) {
-        case 'xlsx':
-            // Excel 2007+: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-            if (mime && mime !== '' &&
-                !mime.includes('spreadsheetml') &&
-                !mime.includes('excel') &&
-                !mime.includes('octet-stream') &&
-                !mime.includes('zip')) {
-                return `Unexpected MIME type "${file.type}" for .xlsx file. The file may be corrupted or misnamed.`;
-            }
-            break;
-        case 'xls':
-            // Legacy Excel: application/vnd.ms-excel
-            if (mime && mime !== '' &&
-                !mime.includes('ms-excel') &&
-                !mime.includes('excel') &&
-                !mime.includes('octet-stream')) {
-                return `Unexpected MIME type "${file.type}" for .xls file. The file may be corrupted or misnamed.`;
-            }
-            break;
-        case 'sqlite':
-            // SQLite: application/x-sqlite3, application/vnd.sqlite3, or octet-stream
-            if (mime && mime !== '' &&
-                !mime.includes('sqlite') &&
-                !mime.includes('octet-stream')) {
-                return `Unexpected MIME type "${file.type}" for SQLite file. The file may be corrupted or misnamed.`;
-            }
-            break;
-        // csv, tsv, json, ndjson: MIME types are unreliable (often text/plain), skip check
-        default:
-            break;
-    }
-    return null;
-}
+export { importFile } from './internal/importFile';
 
 // Export all importers
 export { csvImporter, type CSVImportOptions } from './csvImporter';
@@ -165,7 +33,7 @@ export {
     type StreamingImportOptions,
     type StreamingProgress,
     type StreamingImportResult,
-    type ChunkData
+    type ChunkData,
 } from './streamingCsvImporter';
 export {
     folderImporter,
@@ -174,123 +42,5 @@ export {
     type FolderImportProgress,
     type FileImportResult,
     type ColumnCompatibility,
-    type MergeStrategy
+    type MergeStrategy,
 } from './folderImporter';
-
-/**
- * Universal import function - auto-detects format and imports
- * Uses dynamic imports for heavy dependencies (xlsx, sql.js) to improve tree-shaking
- */
-export async function importFile(
-    file: File,
-    options: ImportOptions = {}
-): Promise<ImportResult> {
-    const startTime = Date.now();
-    const format = detectFileFormat(file);
-
-    // Validate MIME type before parsing (warns on mismatch for Excel/SQLite)
-    const mimeError = validateFileMimeType(file);
-    if (mimeError) {
-        return {
-            success: false,
-            data: [],
-            columns: [],
-            rowCount: 0,
-            metadata: {
-                source: 'file',
-                fileName: file.name,
-                fileSize: file.size,
-                importedAt: new Date().toISOString(),
-                processingTimeMs: Date.now() - startTime
-            },
-            errors: [{
-                message: mimeError,
-                severity: 'error'
-            }],
-            warnings: []
-        };
-    }
-
-    try {
-        let result: ImportResult;
-
-        switch (format) {
-            case 'csv':
-            case 'tsv': {
-                // CSV is lightweight, import directly
-                const { csvImporter } = await import('./csvImporter');
-                result = await csvImporter.import(file, {
-                    ...options,
-                    delimiter: format === 'tsv' ? '\t' : options.delimiter
-                });
-                break;
-            }
-            case 'json':
-            case 'ndjson': {
-                // JSON is lightweight, import directly
-                const { jsonImporter } = await import('./jsonImporter');
-                result = await jsonImporter.import(file, {
-                    ...options,
-                    isNDJSON: format === 'ndjson'
-                });
-                break;
-            }
-            case 'xlsx':
-            case 'xls': {
-                // Excel is heavy (~332KB), dynamic import
-                const { excelImporter } = await import('./excelImporter');
-                result = await excelImporter.import(file, options);
-                break;
-            }
-            case 'sqlite': {
-                // SQLite is heavy (~44KB + WASM), dynamic import
-                const { sqliteImporter } = await import('./sqliteImporter');
-                result = await sqliteImporter.import(file, options);
-                break;
-            }
-            default:
-                return {
-                    success: false,
-                    data: [],
-                    columns: [],
-                    rowCount: 0,
-                    metadata: {
-                        source: 'file',
-                        fileName: file.name,
-                        fileSize: file.size,
-                        importedAt: new Date().toISOString(),
-                        processingTimeMs: Date.now() - startTime
-                    },
-                    errors: [{
-                        message: `Unsupported file format: ${file.name.split('.').pop()}`,
-                        severity: 'error'
-                    }],
-                    warnings: []
-                };
-        }
-
-        // Update processing time
-        result.metadata.processingTimeMs = Date.now() - startTime;
-        return result;
-
-    } catch (error) {
-        return {
-            success: false,
-            data: [],
-            columns: [],
-            rowCount: 0,
-            metadata: {
-                source: 'file',
-                fileName: file.name,
-                fileSize: file.size,
-                importedAt: new Date().toISOString(),
-                processingTimeMs: Date.now() - startTime
-            },
-            errors: [{
-                message: error instanceof Error ? error.message : 'Unknown import error',
-                severity: 'error'
-            }],
-            warnings: []
-        };
-    }
-}

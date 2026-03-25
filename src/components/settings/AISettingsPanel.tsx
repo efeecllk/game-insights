@@ -23,11 +23,9 @@ import {
 } from 'lucide-react';
 import {
   getAIService,
-  getAvailableModels,
-  type AIConfig,
-  type AIProvider,
-  type ProviderStatus,
-} from '@/services/ai';
+} from '@/services/ai/AIService';
+import { getAvailableModels } from '@/services/ai/config';
+import type { AIConfig, AIProvider, ProviderStatus } from '@/services/ai/types';
 
 // Provider metadata
 const providerInfo: Record<
