@@ -2,161 +2,101 @@
 
 ## Overview
 
-Game Insights is a React-based analytics dashboard for mobile games. It uses an adapter pattern for data source integration and an AI pipeline for automatic analysis.
+Game Insights is a React + TypeScript app built around three layers:
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Data Sources                              │
-├──────────┬──────────┬──────────┬──────────┬──────────┬─────────┤
-│ CSV/JSON │  Google  │  Firebase │ Supabase │  PlayFab │  Unity  │
-│          │  Sheets  │           │ PostgreSQL│         │   SDK   │
-└────┬─────┴────┬─────┴────┬─────┴────┬─────┴────┬─────┴────┬────┘
-     │          │          │          │          │          │
-     ▼          ▼          ▼          ▼          ▼          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       Adapter Layer                              │
-│  FileAdapter  SheetsAdapter  FirebaseAdapter  SQLAdapter  etc.  │
-└─────────────────────────────────────────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       AI Pipeline                                │
-│  SchemaAnalyzer → GameTypeDetector → DataCleaner → ChartSelector │
-└─────────────────────────────────────────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       ML Models                                  │
-│  RetentionPredictor  ChurnPredictor  LTVPredictor  RevenueModel │
-└─────────────────────────────────────────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       Dashboard                                  │
-│           Game-type specific charts and visualizations           │
-└─────────────────────────────────────────────────────────────────┘
+1. Data import and local persistence
+2. Domain analytics and AI-assisted analysis
+3. Route-level dashboards and shared UI
+
+```text
+Upload / sample data
+  -> importers in src/lib/importers/
+  -> local stores in src/lib/dataStore.ts and src/lib/db.ts
+  -> analysis in src/ai/ and src/services/ai/
+  -> screens in src/pages/
 ```
 
----
+## Current Repo Layout
 
-## Directory Structure
-
-```
+```text
 src/
-├── adapters/           # Data source connectors
-│   ├── BaseAdapter.ts  # Abstract base class
-│   ├── FileAdapter.ts  # CSV/JSON file handling
-│   ├── GoogleSheetsAdapter.ts
-│   ├── SupabaseAdapter.ts
-│   └── ...
-│
-├── ai/                 # AI analysis pipeline
-│   ├── DataPipeline.ts # Main orchestrator
-│   ├── SchemaAnalyzer.ts
-│   ├── GameTypeDetector.ts
-│   ├── DataCleaner.ts
-│   ├── ChartSelector.ts
-│   ├── InsightGenerator.ts
-│   └── ml/             # ML prediction models
-│       ├── RetentionPredictor.ts
-│       ├── ChurnPredictor.ts
-│       ├── LTVPredictor.ts
-│       └── RevenueForecaster.ts
-│
-├── components/         # UI components
-│   ├── charts/         # Chart components (ECharts)
-│   ├── forms/          # Form components
-│   └── layout/         # Layout components
-│
-├── context/            # React contexts
-│   ├── DataContext.tsx # Game data state
-│   └── GameContext.tsx # Game type selection
-│
-├── lib/                # Utilities
-│   ├── dataProviders.ts# Game-specific data providers
-│   ├── chartRegistry.ts# Chart type registry
-│   └── utils.ts        # General utilities
-│
-├── pages/              # Page components
-│   ├── Dashboard.tsx   # Main dashboard
-│   ├── Funnels.tsx     # Funnel analysis
-│   ├── Monetization.tsx# Revenue analytics
-│   └── Predictions.tsx # ML predictions
-│
-└── types/              # TypeScript definitions
+├── pages/           # Route screens: Upload, AI Analytics, Funnels, Monetization, Dashboard Builder, Games, Settings, Landing
+├── components/      # Shared UI, upload flow, charts, landing, settings, onboarding
+├── context/         # Theme, data, game, and toast state
+├── hooks/           # Shared application hooks
+├── lib/             # Importers, persistence, stores, sample data, chart/theme helpers
+├── ai/              # App analytics engine
+├── services/ai/     # Provider-backed LLM orchestration
+├── services/openai.ts
+└── types/
 ```
 
----
+## Layer Boundaries
 
-## Adapter Interface
+### `src/lib`
 
-All data adapters extend `BaseAdapter`:
+This layer handles local data and utility concerns:
 
-```typescript
-interface DataAdapter {
-  name: string;
-  type: 'file' | 'api' | 'database' | 'cloud';
+- `src/lib/importers/` parses file, URL, clipboard, and folder inputs
+- `src/lib/dataStore.ts` and `src/lib/db.ts` manage browser persistence
+- `src/lib/realDataProvider.ts` and `src/lib/dataProviders.ts` expose demo and uploaded-data providers
+- `src/lib/sampleData.ts` generates built-in demo datasets
+- `src/lib/columnAnalyzer.ts` bridges optional AI-assisted column mapping
 
-  // Connection
-  connect(config: AdapterConfig): Promise<void>;
-  disconnect(): Promise<void>;
-  testConnection(): Promise<boolean>;
+### `src/ai`
 
-  // Data
-  fetchSchema(): Promise<SchemaInfo>;
-  fetchData(query?: DataQuery): Promise<NormalizedData>;
+This layer contains domain-specific analytics used by the app itself:
 
-  // Metadata
-  getCapabilities(): AdapterCapabilities;
-}
+- `DataPipeline` orchestrates sampling, schema analysis, cleaning, metrics, anomalies, cohorts, funnels, and insights
+- `SchemaAnalyzer`, `GameTypeDetector`, `DataCleaner`, and `ChartSelector` classify and prepare the data
+- `MetricCalculator`, `FunnelDetector`, `CohortAnalyzer`, `AnomalyDetector`, and `RecommendationEngine` derive analytics outputs
+- `MonetizationAnalyzer`, `QuestionAnswering`, and `ReportGenerator` build higher-level user-facing outputs
+- `src/ai/ml/` holds the lightweight predictive models used by the app
+
+### `src/services/ai`
+
+This layer wraps provider-based AI functionality:
+
+- `AIService` coordinates provider access
+- `providers/` contains OpenAI, Anthropic, Ollama, and factory code
+- `chains/` contains reusable LLM workflows
+- `prompts/` contains prompt builders and system prompts
+- `tools/` exposes segment, alert, and export helpers
+- `memory/` stores project memory for AI sessions
+
+## State Management
+
+The main React context providers are:
+
+- `DataContext` for uploaded data and saved profiles
+- `GameContext` for the selected game category
+- `ThemeContext` for theme selection
+- `ToastContext` for notifications
+
+Most long-lived app state is persisted locally through the stores in `src/lib/`.
+
+## UI Organization
+
+- `src/pages/` contains the route screens
+- `src/components/upload/` contains the upload wizard pieces
+- `src/components/charts/` wraps the chart components used by analytics pages
+- `src/components/ui/` contains the reusable low-level design system primitives
+- `src/components/landing/` contains the public marketing page sections
+
+## Commands
+
+```bash
+pnpm dev
+pnpm build
+pnpm lint
+pnpm test
+pnpm test:run
+pnpm test:e2e
+pnpm storybook
 ```
 
----
+## Notes
 
-## AI Pipeline
-
-The AI pipeline runs automatically on data upload:
-
-1. **SchemaAnalyzer**: Detects 40+ semantic column types (user_id, timestamp, revenue, level, etc.)
-2. **GameTypeDetector**: Classifies game as puzzle/idle/battle_royale/match3_meta/gacha_rpg
-3. **DataCleaner**: Identifies quality issues and generates cleaning plans
-4. **ChartSelector**: Recommends visualizations based on data and game type
-5. **InsightGenerator**: Produces AI-driven recommendations
-
----
-
-## ML Models
-
-Predictive models in `src/ai/ml/`:
-
-| Model | Purpose |
-|-------|---------|
-| RetentionPredictor | D-N retention forecasting |
-| ChurnPredictor | User churn probability |
-| LTVPredictor | Lifetime value estimation |
-| RevenueForecaster | Revenue projections |
-| AnomalyModel | Anomaly detection |
-| SegmentationModel | User segmentation |
-
----
-
-## Supported Integrations
-
-| Integration | Status |
-|-------------|--------|
-| CSV/JSON Upload | Complete |
-| Google Sheets | Complete |
-| Firebase Analytics | Complete |
-| Supabase / PostgreSQL | Complete |
-| PlayFab | Complete |
-| Unity SDK | Complete |
-| Webhooks | Complete |
-
----
-
-## Adding New Integrations
-
-1. Create adapter in `src/adapters/YourAdapter.ts`
-2. Extend `BaseAdapter`
-3. Implement `connect()`, `fetchSchema()`, `fetchData()`
-4. Register in adapter factory
+- The app is local-first by default
+- Optional AI provider configuration lives in the Settings screen
+- Warm theme tokens and layout styles are defined in `src/index.css`
