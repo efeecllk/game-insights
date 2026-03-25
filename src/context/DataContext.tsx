@@ -2,7 +2,7 @@
  * Data Context - Global state for uploaded game data
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
+import { useState, useEffect, type ReactNode, useCallback, useMemo } from 'react';
 import {
     GameData,
     GameProfile,
@@ -14,6 +14,7 @@ import {
     generateId,
     initDB
 } from '../lib/dataStore';
+import { createRequiredContext, firstOrNull, selectMostRecentBy } from './internal/contextUtils';
 
 interface DataContextType {
     // Game Data
@@ -35,7 +36,7 @@ interface DataContextType {
     isReady: boolean;
 }
 
-const DataContext = createContext<DataContextType | undefined>(undefined);
+const [DataContext, useRequiredDataContext] = createRequiredContext<DataContextType>('useData', 'DataProvider');
 
 export function DataProvider({ children }: { children: ReactNode }) {
     const [gameDataList, setGameDataList] = useState<GameData[]>([]);
@@ -52,21 +53,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 await initDB();
                 const [data, profs] = await Promise.all([
                     getAllGameData(),
-                    getAllGameProfiles()
+                    getAllGameProfiles(),
                 ]);
+
                 setGameDataList(data);
                 setProfiles(profs);
-
-                // Set active to most recent
-                if (data.length > 0) {
-                    const sorted = [...data].sort((a, b) =>
-                        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
-                    );
-                    setActiveGameData(sorted[0]);
-                }
-                if (profs.length > 0) {
-                    setActiveProfile(profs[0]);
-                }
+                setActiveGameData(selectMostRecentBy(data, (item) => item.uploadedAt));
+                setActiveProfile(firstOrNull(profs));
             } catch (error) {
                 console.error('Failed to load data:', error);
             } finally {
@@ -74,6 +67,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
                 setIsReady(true);
             }
         }
+
         loadData();
     }, []);
 
@@ -94,15 +88,11 @@ export function DataProvider({ children }: { children: ReactNode }) {
             id: generateId(),
         }));
 
-        // Save all in parallel
         await Promise.all(newDataList.map(data => saveGameData(data)));
 
         setGameDataList(prev => [...prev, ...newDataList]);
 
-        // Set the first one as active
-        if (newDataList.length > 0) {
-            setActiveGameData(newDataList[0]);
-        }
+        setActiveGameData(firstOrNull(newDataList));
 
         return newDataList;
     }, []);
@@ -110,10 +100,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
     const removeGameData = useCallback(async (id: string): Promise<void> => {
         await deleteGameData(id);
         setGameDataList(prev => prev.filter(d => d.id !== id));
-        if (activeGameData?.id === id) {
-            setActiveGameData(null);
-        }
-    }, [activeGameData]);
+        setActiveGameData(current => (current?.id === id ? null : current));
+    }, []);
 
     const addProfile = useCallback(async (profile: Omit<GameProfile, 'id' | 'createdAt'>): Promise<GameProfile> => {
         const newProfile: GameProfile = {
@@ -162,9 +150,5 @@ export function DataProvider({ children }: { children: ReactNode }) {
 }
 
 export function useData() {
-    const context = useContext(DataContext);
-    if (!context) {
-        throw new Error('useData must be used within a DataProvider');
-    }
-    return context;
+    return useRequiredDataContext();
 }

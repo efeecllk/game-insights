@@ -52,6 +52,7 @@ import { saveChunk } from '../../lib/chunkedDataStore';
 import { parseError, ErrorCode, AppError } from '../../lib/errorHandler';
 import { FolderUploadPreview } from './FolderUploadPreview';
 import { expectedColumnsByGameType } from '../../lib/sampleData';
+import { UPLOAD_FORMAT_INFO } from '../../features/upload/uploadFormats';
 
 interface UploadZoneProps {
     onFileLoaded: (result: ImportResult, file?: File) => void;
@@ -67,32 +68,6 @@ interface FolderPreviewData {
     totalSize: number;
     rawFiles: File[];
 }
-
-// Detailed format information
-const formatInfo = [
-    {
-        icon: FileSpreadsheet,
-        name: 'CSV / Excel',
-        extensions: '.csv, .xlsx, .xls',
-        description: 'Tabular data with headers',
-        maxSize: 'Unlimited (streaming for 50MB+)',
-    },
-    {
-        icon: FileText,
-        name: 'JSON',
-        extensions: '.json',
-        description: 'Array of objects',
-        maxSize: '50MB',
-    },
-    {
-        icon: Database,
-        name: 'SQLite',
-        extensions: '.db, .sqlite',
-        description: 'Database files',
-        maxSize: '50MB',
-    },
-];
-
 
 export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZoneProps) {
     const [isDragging, setIsDragging] = useState(false);
@@ -614,7 +589,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
 
                                     {/* Format badges */}
                                     <div className="flex flex-wrap items-center justify-center gap-2 mt-3">
-                                        {formatInfo.map((fmt, index) => (
+                                        {UPLOAD_FORMAT_INFO.map((fmt, index) => (
                                             <motion.div
                                                 key={fmt.name}
                                                 initial={{ opacity: 0, y: 10 }}
@@ -666,7 +641,7 @@ export function UploadZone({ onFileLoaded, onFolderLoaded, isLoading }: UploadZo
                                                 Supported File Formats
                                             </h4>
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                                {formatInfo.map((fmt) => (
+                                                {UPLOAD_FORMAT_INFO.map((fmt) => (
                                                     <div
                                                         key={fmt.name}
                                                         className="bg-th-bg-subtle/30 rounded-xl p-3 border border-th-border-subtle"

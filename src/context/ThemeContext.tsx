@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
+import { useState, useEffect, type ReactNode, useCallback, useMemo } from 'react';
+import { createRequiredContext } from './internal/contextUtils';
 
 type Theme = 'light' | 'dark' | 'system';
 type ResolvedTheme = 'light' | 'dark';
@@ -10,7 +11,7 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const [ThemeContext, useRequiredThemeContext] = createRequiredContext<ThemeContextType>('useTheme', 'ThemeProvider');
 
 function getSystemTheme(): ResolvedTheme {
   if (typeof window !== 'undefined') {
@@ -24,6 +25,16 @@ function resolveTheme(theme: Theme): ResolvedTheme {
     return getSystemTheme();
   }
   return theme;
+}
+
+function applyResolvedTheme(resolved: ResolvedTheme) {
+  const root = document.documentElement;
+  if (resolved === 'light') {
+    root.setAttribute('data-theme', 'light');
+    return;
+  }
+
+  root.removeAttribute('data-theme');
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -40,14 +51,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const resolved = resolveTheme(theme);
     setResolvedTheme(resolved);
-
-    const root = document.documentElement;
-    if (resolved === 'light') {
-      root.setAttribute('data-theme', 'light');
-    } else {
-      root.removeAttribute('data-theme');
-    }
-
+    applyResolvedTheme(resolved);
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -56,13 +60,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
-      setResolvedTheme(getSystemTheme());
-      const root = document.documentElement;
-      if (getSystemTheme() === 'light') {
-        root.setAttribute('data-theme', 'light');
-      } else {
-        root.removeAttribute('data-theme');
-      }
+      const nextTheme = getSystemTheme();
+      setResolvedTheme(nextTheme);
+      applyResolvedTheme(nextTheme);
     };
 
     mediaQuery.addEventListener('change', handleChange);
@@ -97,9 +97,5 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
+  return useRequiredThemeContext();
 }

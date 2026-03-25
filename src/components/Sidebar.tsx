@@ -27,7 +27,7 @@ import {
     Loader2,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useSidebarSettings } from '../lib/sidebarStore';
+import { useSidebarSettings } from '../hooks/useSidebarSettings';
 import { DataModeIndicator } from './ui/DataModeIndicator';
 import { useDashboards } from '../hooks/useDashboards';
 import type { Dashboard } from '../lib/dashboardStore';

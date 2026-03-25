@@ -19,26 +19,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowRight,
     Sparkles,
-    AlertTriangle,
     CheckCircle,
     Upload,
     ChevronRight,
-    ChevronDown,
-    ChevronUp,
-    FileSpreadsheet,
-    Lightbulb,
-    Wand2,
-    TableProperties,
-    Play,
-    Info,
-    Download,
 } from 'lucide-react';
 import { UploadZone } from '../components/upload/UploadZone';
 import { ColumnMapper } from '../components/upload/ColumnMapper';
 import { DataPreview } from '../components/upload/DataPreview';
 import { AnalysisInsights } from '../components/upload/AnalysisInsights';
 import type { ImportResult } from '../lib/importers';
-import { analyzeSchema, ColumnMapping, SchemaAnalysisResult } from '../lib/columnAnalyzer';
+import { analyzeSchema } from '../lib/columnAnalyzer';
+import type { ColumnMapping, SchemaAnalysisResult } from '../lib/columnAnalyzer';
 import { detectTemplate } from '../lib/templates';
 import { getStoredApiKey } from './Settings';
 import { useData } from '../context/DataContext';
@@ -46,11 +37,10 @@ import { useToast } from '../context/ToastContext';
 import { parseError } from '../lib/errorHandler';
 import { GameCategory } from '../types';
 import { Button } from '../components/ui/Button';
-import { sampleDatasets, generateSampleData } from '../lib/sampleData';
+import { generateSampleData, sampleDatasets } from '../lib/sampleData';
+import { UploadApiKeyNotice, UploadHowItWorksSection, UploadSampleDataSection, UploadStepHintsSection } from '../features/upload/UploadSections';
+import { UPLOAD_STEP_HINTS, type UploadStep, mapColumnTypeToDataType } from '../features/upload/uploadContent';
 
-type Step = 'upload' | 'preview' | 'analyzing' | 'review' | 'complete';
-
-// Animation variants
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -68,55 +58,11 @@ const itemVariants = {
     },
 };
 
-// Step hints data
-const stepHints: Record<Step, { title: string; hints: string[] }> = {
-    upload: {
-        title: 'Upload Your Data',
-        hints: [
-            'Supported formats: CSV, Excel (.xlsx), JSON, and SQLite databases',
-            'Your data should include columns like user_id, timestamp, and event_type',
-            'Files up to 50MB are processed instantly; larger files use streaming',
-            'Drag and drop works, or click to browse your files',
-        ],
-    },
-    preview: {
-        title: 'Preview Your Data',
-        hints: [
-            'Review the data quality score to understand data completeness',
-            'Check column statistics to verify data was parsed correctly',
-            'Look for any warnings or issues that might affect analysis',
-            'We analyze a sample of your data (up to 1,000 rows) for speed',
-        ],
-    },
-    analyzing: {
-        title: 'AI Analysis in Progress',
-        hints: [
-            'Detecting your game type based on column patterns',
-            'Identifying metrics (revenue, scores) and dimensions (countries, platforms)',
-            'Mapping columns to standard analytics schema',
-            'Calculating data quality and suggesting visualizations',
-        ],
-    },
-    review: {
-        title: 'Review Column Mappings',
-        hints: [
-            'Verify the detected game type matches your game genre',
-            'Adjust column roles if the AI made incorrect assumptions',
-            'Check the confidence score - lower scores may need manual review',
-            'Click on any column to change its mapping or role',
-        ],
-    },
-    complete: {
-        title: 'Ready for Analytics',
-        hints: ['Your data has been processed and is ready for visualization'],
-    },
-};
-
 export function UploadPage() {
     const navigate = useNavigate();
     const { addGameData } = useData();
     const { showError, success } = useToast();
-    const [step, setStep] = useState<Step>('upload');
+    const [step, setStep] = useState<UploadStep>('upload');
     const [fileInfo, setFileInfo] = useState<{ name: string; rows: number } | null>(null);
     const [importResult, setImportResult] = useState<ImportResult | null>(null);
     const [analysisResult, setAnalysisResult] = useState<SchemaAnalysisResult | null>(null);
@@ -194,20 +140,6 @@ export function UploadPage() {
         setError(null);
 
         try {
-            // Map column type to expected format
-            const mapDataType = (type: string): 'string' | 'number' | 'boolean' | 'date' => {
-                switch (type) {
-                    case 'number':
-                        return 'number';
-                    case 'boolean':
-                        return 'boolean';
-                    case 'date':
-                        return 'date';
-                    default:
-                        return 'string';
-                }
-            };
-
             // Save to DataContext
             await addGameData({
                 name: fileInfo.name.replace(/\.[^/.]+$/, ''), // Remove file extension
@@ -218,7 +150,7 @@ export function UploadPage() {
                     originalName: col.original,
                     canonicalName: col.canonical || col.original,
                     role: col.role,
-                    dataType: mapDataType(col.type),
+                    dataType: mapColumnTypeToDataType(col.type),
                 })),
                 rawData: importResult.data,
                 rowCount: importResult.rowCount,
@@ -268,170 +200,20 @@ export function UploadPage() {
             {/* How It Works Section */}
             <AnimatePresence>
                 {showHowItWorks && step === 'upload' && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="overflow-hidden"
-                    >
-                        <div className="relative bg-th-bg-surface rounded-2xl p-6 border border-th-border-subtle overflow-hidden">
-                            <div className="relative">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center">
-                                            <Lightbulb className="w-5 h-5 text-th-accent-primary" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-th-text-primary">How It Works</h3>
-                                            <p className="text-sm text-th-text-muted">4 simple steps to analyze your game data</p>
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={() => setShowHowItWorks(false)}
-                                        className="text-th-text-muted hover:text-th-text-secondary transition-colors text-sm"
-                                    >
-                                        Hide
-                                    </button>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                    {[
-                                        {
-                                            step: 1,
-                                            icon: FileSpreadsheet,
-                                            title: 'Upload File',
-                                            description: 'Upload your CSV, Excel, or JSON file with game analytics data',
-                                        },
-                                        {
-                                            step: 2,
-                                            icon: TableProperties,
-                                            title: 'Preview Data',
-                                            description: 'Review your data structure and quality before analysis',
-                                        },
-                                        {
-                                            step: 3,
-                                            icon: Wand2,
-                                            title: 'AI Analysis',
-                                            description: 'Our AI detects game type and maps columns automatically',
-                                        },
-                                        {
-                                            step: 4,
-                                            icon: CheckCircle,
-                                            title: 'Review & Confirm',
-                                            description: 'Verify mappings and customize as needed before import',
-                                        },
-                                    ].map((item, index) => (
-                                        <motion.div
-                                            key={item.step}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: index * 0.1 + 0.2 }}
-                                            className="bg-th-bg-elevated/50 rounded-xl p-4 border border-th-border-subtle"
-                                        >
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="w-6 h-6 rounded-full bg-th-accent-primary-muted text-th-accent-primary flex items-center justify-center text-xs font-bold">
-                                                    {item.step}
-                                                </div>
-                                                <item.icon className="w-4 h-4 text-th-accent-primary" />
-                                            </div>
-                                            <h4 className="font-medium text-th-text-primary text-sm mb-1">{item.title}</h4>
-                                            <p className="text-xs text-th-text-muted">{item.description}</p>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                    <UploadHowItWorksSection onHide={() => setShowHowItWorks(false)} />
                 )}
             </AnimatePresence>
 
             {/* Try Example Data Section */}
             <AnimatePresence>
                 {step === 'upload' && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-th-bg-surface rounded-2xl p-4 border border-th-border-subtle"
-                    >
-                        <div className="flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-th-accent-primary-muted border border-th-accent-primary/20 flex items-center justify-center flex-shrink-0">
-                                <Play className="w-4 h-4 text-th-accent-primary" />
-                            </div>
-                            <div className="flex-1">
-                                <p className="text-th-accent-primary font-medium text-sm mb-2">Try Example Data</p>
-                                <p className="text-xs text-th-text-muted mb-3">
-                                    See how Game Insights works with sample datasets - no upload required
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                    {sampleDatasets.map((dataset) => (
-                                        <button
-                                            key={dataset.id}
-                                            onClick={() => handleTryExampleData(dataset.id)}
-                                            className="px-3 py-1.5 text-xs bg-th-bg-elevated/50 hover:bg-th-bg-elevated text-th-text-secondary hover:text-th-text-primary rounded-lg border border-th-border-subtle hover:border-th-accent-primary/30 transition-all"
-                                            title={dataset.description}
-                                        >
-                                            {dataset.name}
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="mt-3 pt-3 border-t border-th-border-subtle">
-                                    <p className="text-xs text-th-text-muted mb-2 flex items-center gap-1">
-                                        <Download className="w-3 h-3" />
-                                        Or download comprehensive sample CSVs (700-850 rows each):
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {[
-                                            { name: 'Puzzle Game', file: 'puzzle_game_analytics.csv' },
-                                            { name: 'Idle Clicker', file: 'idle_clicker_analytics.csv' },
-                                            { name: 'Battle Royale', file: 'battle_royale_analytics.csv' },
-                                            { name: 'Gacha RPG', file: 'gacha_rpg_analytics.csv' },
-                                            { name: 'Match3 Meta', file: 'match3_meta_analytics.csv' },
-                                        ].map((sample) => (
-                                            <a
-                                                key={sample.file}
-                                                href={`/sample-data/${sample.file}`}
-                                                download={sample.file}
-                                                className="px-2 py-1 text-xs bg-th-bg-elevated/30 hover:bg-th-bg-elevated/50 text-th-text-muted hover:text-th-text-secondary rounded border border-th-border-subtle hover:border-th-border transition-all flex items-center gap-1"
-                                            >
-                                                <Download className="w-3 h-3" />
-                                                {sample.name}
-                                            </a>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
+                    <UploadSampleDataSection onTryExampleData={handleTryExampleData} />
                 )}
             </AnimatePresence>
 
             {/* API Key Warning */}
             <AnimatePresence>
-                {!apiKey && step !== 'complete' && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="relative bg-th-warning-muted rounded-2xl p-4 border border-th-warning/20 overflow-hidden"
-                    >
-                        <div className="relative flex items-start gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-th-warning-muted border border-th-warning/30 flex items-center justify-center flex-shrink-0">
-                                <AlertTriangle className="w-4 h-4 text-th-warning" />
-                            </div>
-                            <div>
-                                <p className="text-th-warning font-medium">No API key configured</p>
-                                <p className="text-sm text-th-text-secondary mt-1">
-                                    Add your OpenAI API key in{' '}
-                                    <a href="/settings" className="text-th-accent-primary hover:text-th-accent-primary-hover transition-colors">
-                                        Settings
-                                    </a>{' '}
-                                    for better column detection. Without it, we'll use pattern matching only.
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
+                {!apiKey && step !== 'complete' && <UploadApiKeyNotice apiKey={apiKey} />}
             </AnimatePresence>
 
             {/* Progress Steps */}
@@ -457,42 +239,7 @@ export function UploadPage() {
 
             {/* Step-specific hints */}
             <AnimatePresence>
-                {showHints && step !== 'complete' && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="overflow-hidden"
-                    >
-                        <div className="bg-th-bg-elevated/30 rounded-xl p-4 border border-th-border-subtle">
-                            <button
-                                onClick={() => setShowHints(!showHints)}
-                                className="flex items-center justify-between w-full text-left"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <Info className="w-4 h-4 text-th-accent-primary" />
-                                    <span className="text-sm font-medium text-th-text-secondary">{stepHints[step].title}</span>
-                                </div>
-                                {showHints ? (
-                                    <ChevronUp className="w-4 h-4 text-th-text-muted" />
-                                ) : (
-                                    <ChevronDown className="w-4 h-4 text-th-text-muted" />
-                                )}
-                            </button>
-                            <motion.ul
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="mt-3 space-y-2 pl-6"
-                            >
-                                {stepHints[step].hints.map((hint, index) => (
-                                    <li key={index} className="text-xs text-th-text-muted list-disc">
-                                        {hint}
-                                    </li>
-                                ))}
-                            </motion.ul>
-                        </div>
-                    </motion.div>
-                )}
+                <UploadStepHintsSection step={step} showHints={showHints} onToggle={() => setShowHints(!showHints)} />
             </AnimatePresence>
 
             {/* Content based on step */}
@@ -596,7 +343,7 @@ export function UploadPage() {
 
                         {/* Analysis progress indicators */}
                         <div className="mt-6 flex flex-wrap justify-center gap-2">
-                            {stepHints.analyzing.hints.map((hint, i) => (
+                            {UPLOAD_STEP_HINTS.analyzing.hints.map((hint, i) => (
                                 <motion.span
                                     key={i}
                                     initial={{ opacity: 0, scale: 0.8 }}

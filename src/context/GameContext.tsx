@@ -4,9 +4,10 @@
  * Phase 1: Core Data Integration
  */
 
-import { createContext, useContext, useState, useEffect, ReactNode, useCallback, useMemo } from 'react';
+import { useState, useEffect, type ReactNode, useCallback, useMemo } from 'react';
 import { GameCategory } from '../types';
 import { useData } from './DataContext';
+import { createRequiredContext } from './internal/contextUtils';
 
 interface GameContextType {
     selectedGame: GameCategory;
@@ -15,7 +16,7 @@ interface GameContextType {
     setAutoSync: (enabled: boolean) => void;
 }
 
-const GameContext = createContext<GameContextType | undefined>(undefined);
+const [GameContext, useRequiredGameContext] = createRequiredContext<GameContextType>('useGame', 'GameProvider');
 
 export function GameProvider({ children }: { children: ReactNode }) {
     const [selectedGame, setSelectedGame] = useState<GameCategory>('puzzle');
@@ -26,13 +27,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (!isAutoSynced) return;
 
-        if (activeGameData?.type && activeGameData.type !== 'custom') {
-            const gameType = activeGameData.type as GameCategory;
-            if (gameType !== selectedGame) {
-                setSelectedGame(gameType);
-            }
-        }
-    }, [activeGameData, isAutoSynced]); // eslint-disable-line react-hooks/exhaustive-deps
+        const gameType = activeGameData?.type;
+        if (!gameType || gameType === 'custom') return;
+
+        setSelectedGame((current) => (current === gameType ? current : (gameType as GameCategory)));
+    }, [activeGameData, isAutoSynced]);
 
     // Wrapped setter that disables auto-sync on manual selection
     const handleSetSelectedGame = useCallback((game: GameCategory) => {
@@ -58,9 +57,5 @@ export function GameProvider({ children }: { children: ReactNode }) {
 }
 
 export function useGame() {
-    const context = useContext(GameContext);
-    if (!context) {
-        throw new Error('useGame must be used within a GameProvider');
-    }
-    return context;
+    return useRequiredGameContext();
 }

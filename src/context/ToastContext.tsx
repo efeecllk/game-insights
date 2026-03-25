@@ -3,9 +3,10 @@
  * Phase 8: Toast notification provider with queue management
  */
 
-import { createContext, useContext, useState, useCallback, ReactNode, useMemo } from 'react';
+import { useState, useCallback, type ReactNode, useMemo } from 'react';
 import { ToastContainer, ToastType, ToastProps } from '../components/Toast';
 import { parseError, ParsedError, RecoveryAction } from '../lib/errorHandler';
+import { createRequiredContext } from './internal/contextUtils';
 
 // ============================================================================
 // Types
@@ -43,7 +44,24 @@ interface ToastContextType {
 // Context
 // ============================================================================
 
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+const [ToastContext, useRequiredToastContext] = createRequiredContext<ToastContextType>('useToast', 'ToastProvider');
+
+function generateToastId() {
+    return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+function createToast(options: ToastOptions, id: string, onDismiss: (id: string) => void): ToastProps {
+    return {
+        id,
+        type: options.type || 'info',
+        title: options.title,
+        message: options.message,
+        duration: options.duration ?? 5000,
+        dismissible: options.dismissible ?? true,
+        action: options.action,
+        onDismiss,
+    };
+}
 
 // ============================================================================
 // Provider
@@ -62,9 +80,6 @@ export function ToastProvider({
 }: ToastProviderProps) {
     const [toasts, setToasts] = useState<ToastProps[]>([]);
 
-    // Generate unique ID
-    const generateId = () => `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-
     // Dismiss a single toast
     const dismiss = useCallback((id: string) => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -77,23 +92,11 @@ export function ToastProvider({
 
     // Add a new toast
     const addToast = useCallback((options: ToastOptions): string => {
-        const id = generateId();
-
-        const newToast: ToastProps = {
-            id,
-            type: options.type || 'info',
-            title: options.title,
-            message: options.message,
-            duration: options.duration ?? 5000,
-            dismissible: options.dismissible ?? true,
-            action: options.action,
-            onDismiss: dismiss,
-        };
+        const id = generateToastId();
 
         setToasts((prev) => {
-            // Remove oldest if at max
             const updated = prev.length >= maxToasts ? prev.slice(1) : prev;
-            return [...updated, newToast];
+            return [...updated, createToast(options, id, dismiss)];
         });
 
         return id;
@@ -168,11 +171,7 @@ export function ToastProvider({
 // ============================================================================
 
 export function useToast() {
-    const context = useContext(ToastContext);
-    if (!context) {
-        throw new Error('useToast must be used within a ToastProvider');
-    }
-    return context;
+    return useRequiredToastContext();
 }
 
 export default ToastProvider;

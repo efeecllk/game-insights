@@ -9,9 +9,6 @@
 
 import { useState, useMemo } from 'react';
 import {
-    FileText,
-    FileSpreadsheet,
-    Database,
     AlertCircle,
     CheckCircle,
     Loader2,
@@ -22,6 +19,7 @@ import {
 } from 'lucide-react';
 import type { FileFormat, FolderImportProgress, ColumnCompatibility } from '../../lib/importers';
 import type { MergeStrategy } from '../../lib/importers/folderImporter';
+import { formatFileSize, getFileFormatColor, getFileFormatIcon } from '../../features/upload/uploadFormats';
 
 interface FilePreview {
     name: string;
@@ -40,48 +38,6 @@ interface FolderUploadPreviewProps {
     onMergeStrategyChange: (strategy: MergeStrategy) => void;
     onImport: () => void;
     onCancel: () => void;
-}
-
-function formatFileSize(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function getFormatIcon(format: FileFormat) {
-    switch (format) {
-        case 'csv':
-        case 'tsv':
-            return FileSpreadsheet;
-        case 'xlsx':
-        case 'xls':
-            return FileSpreadsheet;
-        case 'json':
-        case 'ndjson':
-            return FileText;
-        case 'sqlite':
-            return Database;
-        default:
-            return FileText;
-    }
-}
-
-function getFormatColor(format: FileFormat): string {
-    switch (format) {
-        case 'csv':
-        case 'tsv':
-            return 'text-th-accent-primary';
-        case 'xlsx':
-        case 'xls':
-            return 'text-th-accent-primary';
-        case 'json':
-        case 'ndjson':
-            return 'text-th-warning';
-        case 'sqlite':
-            return 'text-th-chart-5';
-        default:
-            return 'text-th-text-muted';
-    }
 }
 
 export function FolderUploadPreview({
@@ -140,13 +96,13 @@ export function FolderUploadPreview({
             {/* Format Summary */}
             <div className="flex flex-wrap gap-2">
                 {Object.entries(formatSummary).map(([format, count]) => {
-                    const Icon = getFormatIcon(format as FileFormat);
+                    const Icon = getFileFormatIcon(format as FileFormat);
                     return (
                         <div
                             key={format}
                             className="flex items-center gap-2 px-3 py-1.5 bg-th-bg-elevated rounded-lg text-sm"
                         >
-                            <Icon className={`w-4 h-4 ${getFormatColor(format as FileFormat)}`} />
+                            <Icon className={`w-4 h-4 ${getFileFormatColor(format as FileFormat)}`} />
                             <span className="text-th-text-secondary">
                                 {count} {format.toUpperCase()}
                             </span>
@@ -263,7 +219,7 @@ export function FolderUploadPreview({
                 <div className="text-sm font-medium text-th-text-secondary mb-2">Files</div>
                 <div className="max-h-60 overflow-y-auto space-y-1 pr-2">
                     {displayedFiles.map((file, index) => {
-                        const Icon = getFormatIcon(file.format);
+                        const Icon = getFileFormatIcon(file.format);
                         const isProcessing = progress && index === progress.currentIndex;
                         const isComplete = progress && index < progress.completedFiles;
 
@@ -280,10 +236,10 @@ export function FolderUploadPreview({
                                     ) : isComplete ? (
                                         <CheckCircle className="w-4 h-4 text-th-success" />
                                     ) : (
-                                        <Icon className={`w-4 h-4 ${getFormatColor(file.format)}`} />
+                                <Icon className={`w-4 h-4 ${getFileFormatColor(file.format)}`} />
                                     )
                                 ) : (
-                                    <Icon className={`w-4 h-4 ${getFormatColor(file.format)}`} />
+                                    <Icon className={`w-4 h-4 ${getFileFormatColor(file.format)}`} />
                                 )}
                                 <span className="flex-1 text-sm text-th-text-secondary truncate">
                                     {file.name}
